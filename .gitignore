@@ -3,12 +3,13 @@
 .venv/
 .env
 data/
-tmp/
-__pycache__/
-*.py[cod]
 .pytest_cache/
+__pycache__/
+tmp/
+*.py[cod]
+staticfiles/
 .coverage
 htmlcov/
-staticfiles/
 playwright-report/
 test-results/
+pytest-cache-files-*/

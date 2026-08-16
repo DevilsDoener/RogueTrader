@@ -1,0 +1,20 @@
+services:
+  portal:
+    build: .
+    ports:
+      - "${APP_BIND_ADDRESS:-127.0.0.1}:8000:8000"
+    environment:
+      DATABASE_PATH: /data/db.sqlite3
+      WIKI_CONTENT_ROOT: /content/wiki
+      WIKI_CONTENT_ALLOWLIST: ${WIKI_CONTENT_ALLOWLIST:-.md,.markdown}
+      SHEET_SOURCE_PDF: ${SHEET_SOURCE_PDF:-/content/wiki/character-sheet.pdf}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://127.0.0.1:8000}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-development-only-secret-key}
+      DJANGO_DEBUG: "false"
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-127.0.0.1,localhost}
+    volumes:
+      - portal-data:/data
+      - ./:/content/wiki:ro
+
+volumes:
+  portal-data:

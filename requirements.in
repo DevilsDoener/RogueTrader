@@ -1,0 +1,9 @@
+Django>=5.2,<5.3
+argon2-cffi>=23,<26
+bleach>=6,<7
+gunicorn>=23,<24
+markdown-it-py>=3,<5
+Pillow>=11,<13
+pytest>=8,<10
+pytest-django>=4,<6
+playwright>=1.50,<2
