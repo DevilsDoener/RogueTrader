@@ -1,0 +1,14 @@
+.worktrees/
+.superpowers/
+.venv/
+.env
+data/
+tmp/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+staticfiles/
+playwright-report/
+test-results/
