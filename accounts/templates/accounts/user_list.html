@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<body>
+  <h1>Portal accounts</h1>
+  <a href="{% url 'accounts:admin_user_create' %}">Create account</a>
+  <ul>
+    {% for user in users %}
+      <li>{{ user.username }} — {% if user.is_active %}active{% else %}inactive{% endif %}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
