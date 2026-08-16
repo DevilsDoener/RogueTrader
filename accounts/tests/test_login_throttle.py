@@ -52,3 +52,16 @@ def test_unknown_and_wrong_password_logins_have_same_error(client, user_factory)
 
     assert "Invalid username or password." in unknown.content.decode()
     assert unknown.context["form"].non_field_errors() == wrong_password.context["form"].non_field_errors()
+
+
+@pytest.mark.django_db
+def test_too_long_unknown_username_uses_the_generic_login_error(client, user_factory):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+
+    too_long = client.post(login_url, {"username": "x" * 151, "password": "wrong"})
+    wrong_password = client.post(login_url, {"username": "crew", "password": "wrong"})
+
+    assert too_long.status_code == 200
+    assert too_long.context["form"].errors.get("username") is None
+    assert too_long.context["form"].non_field_errors() == wrong_password.context["form"].non_field_errors()

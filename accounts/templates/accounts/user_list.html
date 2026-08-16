@@ -5,7 +5,15 @@
   <a href="{% url 'accounts:admin_user_create' %}">Create account</a>
   <ul>
     {% for user in users %}
-      <li>{{ user.username }} — {% if user.is_active %}active{% else %}inactive{% endif %}</li>
+      <li>
+        {{ user.username }} — {% if user.is_active %}active{% else %}inactive{% endif %}
+        <a href="{% url 'accounts:admin_user_edit' user.pk %}">Edit</a>
+        <a href="{% url 'accounts:admin_user_reset_password' user.pk %}">Reset password</a>
+        <form method="post" action="{% if user.is_active %}{% url 'accounts:admin_user_deactivate' user.pk %}{% else %}{% url 'accounts:admin_user_reactivate' user.pk %}{% endif %}">
+          {% csrf_token %}
+          <button type="submit">{% if user.is_active %}Deactivate{% else %}Reactivate{% endif %}</button>
+        </form>
+      </li>
     {% endfor %}
   </ul>
 </body>

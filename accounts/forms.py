@@ -1,13 +1,12 @@
 from django import forms
-from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 
 from .models import User
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=User._meta.get_field("username").max_length)
-    password = forms.CharField(strip=False, widget=forms.PasswordInput)
+    username = forms.CharField(required=False)
+    password = forms.CharField(required=False, strip=False, widget=forms.PasswordInput)
 
 
 class ManagedUserCreateForm(forms.Form):

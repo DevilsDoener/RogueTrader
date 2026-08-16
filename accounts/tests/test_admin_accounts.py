@@ -145,3 +145,55 @@ def test_normal_user_cannot_mutate_accounts_with_post(
     assert target.username == "crew-member"
     assert target.is_active is True
     assert target.password == original_password
+
+
+@pytest.mark.django_db
+def test_account_list_exposes_all_management_actions_with_csrf(client, portal_admin, user_factory):
+    crew_member = user_factory(username="crew-member")
+    client.force_login(portal_admin)
+
+    response = client.get(reverse("accounts:admin_user_list"))
+
+    content = response.content.decode()
+    assert reverse("accounts:admin_user_edit", kwargs={"pk": crew_member.pk}) in content
+    assert reverse("accounts:admin_user_deactivate", kwargs={"pk": crew_member.pk}) in content
+    assert reverse("accounts:admin_user_reset_password", kwargs={"pk": crew_member.pk}) in content
+    assert 'method="post"' in content
+    assert 'name="csrfmiddlewaretoken"' in content
+
+    crew_member.is_active = False
+    crew_member.save(update_fields=["is_active"])
+    inactive_content = client.get(reverse("accounts:admin_user_list")).content.decode()
+    assert reverse("accounts:admin_user_reactivate", kwargs={"pk": crew_member.pk}) in inactive_content
+
+
+@pytest.mark.django_db
+def test_portal_admin_can_complete_management_flows_over_http(client, portal_admin, user_factory):
+    crew_member = user_factory(username="crew-member")
+    client.force_login(portal_admin)
+
+    edit = client.post(
+        reverse("accounts:admin_user_edit", kwargs={"pk": crew_member.pk}),
+        {"username": "renamed-crew", "is_active": "on"},
+    )
+    deactivate = client.post(
+        reverse("accounts:admin_user_deactivate", kwargs={"pk": crew_member.pk})
+    )
+    crew_member.refresh_from_db()
+    reactivate = client.post(
+        reverse("accounts:admin_user_reactivate", kwargs={"pk": crew_member.pk})
+    )
+    reset = client.post(
+        reverse("accounts:admin_user_reset_password", kwargs={"pk": crew_member.pk}),
+        {"temporary_password": "Replacement-Password-42!"},
+    )
+
+    crew_member.refresh_from_db()
+    assert edit.status_code == 302
+    assert deactivate.status_code == 302
+    assert reactivate.status_code == 302
+    assert reset.status_code == 302
+    assert crew_member.username == "renamed-crew"
+    assert crew_member.is_active is True
+    assert crew_member.must_change_password is True
+    assert crew_member.check_password("Replacement-Password-42!")
