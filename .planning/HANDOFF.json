@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-08-16T04:26:45+02:00",
+  "phase": "rogue-trader-portal-implementation",
+  "phase_name": "Rogue Trader Portal Implementation",
+  "phase_dir": ".planning",
+  "plan": 1,
+  "task": 3,
+  "total_tasks": 11,
+  "status": "paused",
+  "completed_tasks": [
+    {
+      "id": 1,
+      "name": "Project foundation, dependency lock, and container health",
+      "status": "done",
+      "commit": "d62be7b"
+    },
+    {
+      "id": 2,
+      "name": "Users, password lifecycle, and admin account management",
+      "status": "done",
+      "commit": "fe409bf"
+    },
+    {
+      "id": 3,
+      "name": "Markdown wiki rendering, navigation, and search",
+      "status": "interrupted",
+      "progress": "Only untracked RED tests exist under wiki/tests; no implementation, commit, or review."
+    }
+  ],
+  "remaining_tasks": [
+    {"id": 3, "name": "Markdown wiki rendering, navigation, and search", "status": "not_completed"},
+    {"id": 4, "name": "Original sheet assets and coordinate schemas", "status": "not_started"},
+    {"id": 5, "name": "Sheet persistence and field-level concurrency", "status": "not_started"},
+    {"id": 6, "name": "Character CRUD and read-only admin visibility", "status": "not_started"},
+    {"id": 7, "name": "Pixel-aligned interactive character sheet viewer", "status": "not_started"},
+    {"id": 8, "name": "Shared ship sheet and audit history", "status": "not_started"},
+    {"id": 9, "name": "Brücken-Hybrid shell and dashboard", "status": "not_started"},
+    {"id": 10, "name": "Production security and Proxmox operations", "status": "not_started"},
+    {"id": 11, "name": "Full end-to-end and visual verification", "status": "not_started"}
+  ],
+  "blockers": [
+    {
+      "description": "Task 3 was interrupted by user before implementation commit and review.",
+      "type": "human_action",
+      "workaround": "Resume only when the user requests it; reuse the untracked RED tests."
+    }
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {
+      "action": "Explicitly request resumption before any further implementation.",
+      "context": "The user ordered Task 3 and all subsequent work stopped.",
+      "blocking": true
+    }
+  ],
+  "decisions": [
+    {"decision": "Use a Django monolith with SQLite.", "rationale": "Compact self-hosting on Proxmox.", "phase": "design"},
+    {"decision": "Keep Markdown as read-only content source.", "rationale": "Existing files remain authoritative.", "phase": "design"},
+    {"decision": "Accounts are admin-created with no self-registration.", "rationale": "Private game group and public internet exposure.", "phase": "design"},
+    {"decision": "Characters are private to owners; admins have read-only visibility across owners.", "rationale": "Requested access model.", "phase": "design"},
+    {"decision": "One shared ship is editable by all authenticated users.", "rationale": "Requested shared campaign asset with future multi-ship expansion.", "phase": "design"},
+    {"decision": "Render PDF pages 401-403 exactly with coordinate overlays.", "rationale": "The user requested the original sheet artwork with only printed controls interactive.", "phase": "design"},
+    {"decision": "Use field-level optimistic concurrency.", "rationale": "Merge different fields and prevent silent same-field overwrites.", "phase": "design"}
+  ],
+  "uncommitted_files": [
+    "wiki/tests/test_content.py",
+    "wiki/tests/test_markdown.py",
+    "wiki/tests/test_search.py",
+    "wiki/tests/test_views.py"
+  ],
+  "next_action": "After explicit user approval, resume Task 3 from base fe409bf using the existing task brief and untracked RED tests; complete implementation, full tests, commit, independent review, and ledger update before Task 4.",
+  "context_notes": "Task 1 and Task 2 are committed and review-clean after one fix round each. Git Bash must be used for SDD scripts in this Windows worktree; WSL cannot resolve the worktree gitdir. Docker is stopped and no async jobs are running."
+}
