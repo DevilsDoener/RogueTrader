@@ -1,0 +1,4329 @@
+{
+  "page_id": "character-page-1",
+  "image": {
+    "width": 2444,
+    "height": 3250
+  },
+  "fields": [
+    {
+      "id": "c1_character_name",
+      "kind": "text",
+      "x": 13.0115,
+      "y": 5.4769,
+      "width": 33.0196,
+      "height": 1.0769,
+      "max_length": 80,
+      "label": "Character Name"
+    },
+    {
+      "id": "c1_player_name",
+      "kind": "text",
+      "x": 49.018,
+      "y": 5.4769,
+      "width": 39.689,
+      "height": 1.0769,
+      "max_length": 80,
+      "label": "Player Name"
+    },
+    {
+      "id": "c1_career_path",
+      "kind": "text",
+      "x": 10.0245,
+      "y": 7.6923,
+      "width": 27.6596,
+      "height": 1.0154,
+      "max_length": 60,
+      "label": "Career Path"
+    },
+    {
+      "id": "c1_rank",
+      "kind": "text",
+      "x": 42.3486,
+      "y": 7.6923,
+      "width": 4.0098,
+      "height": 1.0154,
+      "max_length": 20,
+      "label": "Rank"
+    },
+    {
+      "id": "c1_home_world",
+      "kind": "text",
+      "x": 54.0098,
+      "y": 7.6923,
+      "width": 11.7021,
+      "height": 1.0154,
+      "max_length": 40,
+      "label": "Home World"
+    },
+    {
+      "id": "c1_motivation",
+      "kind": "text",
+      "x": 72.3813,
+      "y": 7.6923,
+      "width": 16.3257,
+      "height": 1.0154,
+      "max_length": 40,
+      "label": "Motivation"
+    },
+    {
+      "id": "c1_description_line_1",
+      "kind": "text",
+      "x": 14.3208,
+      "y": 9.8462,
+      "width": 74.3863,
+      "height": 0.9846,
+      "max_length": 100,
+      "label": "Description"
+    },
+    {
+      "id": "c1_description_line_2",
+      "kind": "text",
+      "x": 1.3502,
+      "y": 11.8462,
+      "width": 87.3568,
+      "height": 0.9846,
+      "max_length": 100,
+      "label": "Description (cont.)"
+    },
+    {
+      "id": "c1_ws_value",
+      "kind": "text",
+      "x": 1.3093,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "WS value"
+    },
+    {
+      "id": "c1_bs_value",
+      "kind": "text",
+      "x": 11.8658,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "BS value"
+    },
+    {
+      "id": "c1_s_value",
+      "kind": "text",
+      "x": 22.4223,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "S value"
+    },
+    {
+      "id": "c1_t_value",
+      "kind": "text",
+      "x": 32.9787,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "T value"
+    },
+    {
+      "id": "c1_ag_value",
+      "kind": "text",
+      "x": 43.5352,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "AG value"
+    },
+    {
+      "id": "c1_int_value",
+      "kind": "text",
+      "x": 54.0917,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "INT value"
+    },
+    {
+      "id": "c1_per_value",
+      "kind": "text",
+      "x": 64.6481,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "PER value"
+    },
+    {
+      "id": "c1_wp_value",
+      "kind": "text",
+      "x": 75.2046,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "WP value"
+    },
+    {
+      "id": "c1_fel_value",
+      "kind": "text",
+      "x": 85.761,
+      "y": 19.3538,
+      "width": 9.7791,
+      "height": 4.3692,
+      "max_length": 3,
+      "label": "FEL value"
+    },
+    {
+      "id": "c1_ws_adv_1",
+      "kind": "checkbox",
+      "x": 2.2095,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WS advance 1"
+    },
+    {
+      "id": "c1_ws_adv_2",
+      "kind": "checkbox",
+      "x": 3.3142,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WS advance 2"
+    },
+    {
+      "id": "c1_ws_adv_3",
+      "kind": "checkbox",
+      "x": 4.419,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WS advance 3"
+    },
+    {
+      "id": "c1_ws_adv_4",
+      "kind": "checkbox",
+      "x": 5.5237,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WS advance 4"
+    },
+    {
+      "id": "c1_bs_adv_1",
+      "kind": "checkbox",
+      "x": 12.766,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "BS advance 1"
+    },
+    {
+      "id": "c1_bs_adv_2",
+      "kind": "checkbox",
+      "x": 13.8707,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "BS advance 2"
+    },
+    {
+      "id": "c1_bs_adv_3",
+      "kind": "checkbox",
+      "x": 14.9755,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "BS advance 3"
+    },
+    {
+      "id": "c1_bs_adv_4",
+      "kind": "checkbox",
+      "x": 16.0802,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "BS advance 4"
+    },
+    {
+      "id": "c1_s_adv_1",
+      "kind": "checkbox",
+      "x": 23.3224,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "S advance 1"
+    },
+    {
+      "id": "c1_s_adv_2",
+      "kind": "checkbox",
+      "x": 24.4272,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "S advance 2"
+    },
+    {
+      "id": "c1_s_adv_3",
+      "kind": "checkbox",
+      "x": 25.5319,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "S advance 3"
+    },
+    {
+      "id": "c1_s_adv_4",
+      "kind": "checkbox",
+      "x": 26.6367,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "S advance 4"
+    },
+    {
+      "id": "c1_t_adv_1",
+      "kind": "checkbox",
+      "x": 33.8789,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "T advance 1"
+    },
+    {
+      "id": "c1_t_adv_2",
+      "kind": "checkbox",
+      "x": 34.9836,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "T advance 2"
+    },
+    {
+      "id": "c1_t_adv_3",
+      "kind": "checkbox",
+      "x": 36.0884,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "T advance 3"
+    },
+    {
+      "id": "c1_t_adv_4",
+      "kind": "checkbox",
+      "x": 37.1931,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "T advance 4"
+    },
+    {
+      "id": "c1_ag_adv_1",
+      "kind": "checkbox",
+      "x": 44.4354,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "AG advance 1"
+    },
+    {
+      "id": "c1_ag_adv_2",
+      "kind": "checkbox",
+      "x": 45.5401,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "AG advance 2"
+    },
+    {
+      "id": "c1_ag_adv_3",
+      "kind": "checkbox",
+      "x": 46.6448,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "AG advance 3"
+    },
+    {
+      "id": "c1_ag_adv_4",
+      "kind": "checkbox",
+      "x": 47.7496,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "AG advance 4"
+    },
+    {
+      "id": "c1_int_adv_1",
+      "kind": "checkbox",
+      "x": 54.9918,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "INT advance 1"
+    },
+    {
+      "id": "c1_int_adv_2",
+      "kind": "checkbox",
+      "x": 56.0966,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "INT advance 2"
+    },
+    {
+      "id": "c1_int_adv_3",
+      "kind": "checkbox",
+      "x": 57.2013,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "INT advance 3"
+    },
+    {
+      "id": "c1_int_adv_4",
+      "kind": "checkbox",
+      "x": 58.3061,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "INT advance 4"
+    },
+    {
+      "id": "c1_per_adv_1",
+      "kind": "checkbox",
+      "x": 65.5483,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "PER advance 1"
+    },
+    {
+      "id": "c1_per_adv_2",
+      "kind": "checkbox",
+      "x": 66.653,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "PER advance 2"
+    },
+    {
+      "id": "c1_per_adv_3",
+      "kind": "checkbox",
+      "x": 67.7578,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "PER advance 3"
+    },
+    {
+      "id": "c1_per_adv_4",
+      "kind": "checkbox",
+      "x": 68.8625,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "PER advance 4"
+    },
+    {
+      "id": "c1_wp_adv_1",
+      "kind": "checkbox",
+      "x": 76.1047,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WP advance 1"
+    },
+    {
+      "id": "c1_wp_adv_2",
+      "kind": "checkbox",
+      "x": 77.2095,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WP advance 2"
+    },
+    {
+      "id": "c1_wp_adv_3",
+      "kind": "checkbox",
+      "x": 78.3142,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WP advance 3"
+    },
+    {
+      "id": "c1_wp_adv_4",
+      "kind": "checkbox",
+      "x": 79.419,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "WP advance 4"
+    },
+    {
+      "id": "c1_fel_adv_1",
+      "kind": "checkbox",
+      "x": 86.6612,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "FEL advance 1"
+    },
+    {
+      "id": "c1_fel_adv_2",
+      "kind": "checkbox",
+      "x": 87.766,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "FEL advance 2"
+    },
+    {
+      "id": "c1_fel_adv_3",
+      "kind": "checkbox",
+      "x": 88.8707,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "FEL advance 3"
+    },
+    {
+      "id": "c1_fel_adv_4",
+      "kind": "checkbox",
+      "x": 89.9755,
+      "y": 24.2154,
+      "width": 0.5319,
+      "height": 0.4,
+      "max_length": 1,
+      "label": "FEL advance 4"
+    },
+    {
+      "id": "c1_skill_acrobatics_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 31.4154,
+      "width": 1.7594,
+      "height": 1.7846,
+      "max_length": 1,
+      "label": "acrobatics basic"
+    },
+    {
+      "id": "c1_skill_acrobatics_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 31.4154,
+      "width": 1.6367,
+      "height": 1.7846,
+      "max_length": 1,
+      "label": "acrobatics trained"
+    },
+    {
+      "id": "c1_skill_acrobatics_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 31.4154,
+      "width": 1.9231,
+      "height": 1.7846,
+      "max_length": 1,
+      "label": "acrobatics plus10"
+    },
+    {
+      "id": "c1_skill_acrobatics_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 31.4154,
+      "width": 1.7185,
+      "height": 1.7846,
+      "max_length": 1,
+      "label": "acrobatics plus20"
+    },
+    {
+      "id": "c1_skill_acrobatics_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 31.4154,
+      "width": 3.1097,
+      "height": 1.7846,
+      "max_length": 1,
+      "label": "acrobatics bonus"
+    },
+    {
+      "id": "c1_skill_awareness_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 33.2,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "awareness basic"
+    },
+    {
+      "id": "c1_skill_awareness_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 33.2,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "awareness trained"
+    },
+    {
+      "id": "c1_skill_awareness_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 33.2,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "awareness plus10"
+    },
+    {
+      "id": "c1_skill_awareness_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 33.2,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "awareness plus20"
+    },
+    {
+      "id": "c1_skill_awareness_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 33.2,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "awareness bonus"
+    },
+    {
+      "id": "c1_skill_barter_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 34.6154,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "barter basic"
+    },
+    {
+      "id": "c1_skill_barter_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 34.6154,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "barter trained"
+    },
+    {
+      "id": "c1_skill_barter_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 34.6154,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "barter plus10"
+    },
+    {
+      "id": "c1_skill_barter_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 34.6154,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "barter plus20"
+    },
+    {
+      "id": "c1_skill_barter_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 34.6154,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "barter bonus"
+    },
+    {
+      "id": "c1_skill_blather_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 36.0308,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "blather basic"
+    },
+    {
+      "id": "c1_skill_blather_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 36.0308,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "blather trained"
+    },
+    {
+      "id": "c1_skill_blather_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 36.0308,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "blather plus10"
+    },
+    {
+      "id": "c1_skill_blather_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 36.0308,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "blather plus20"
+    },
+    {
+      "id": "c1_skill_blather_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 36.0308,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "blather bonus"
+    },
+    {
+      "id": "c1_skill_carouse_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 37.4154,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "carouse basic"
+    },
+    {
+      "id": "c1_skill_carouse_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 37.4154,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "carouse trained"
+    },
+    {
+      "id": "c1_skill_carouse_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 37.4154,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "carouse plus10"
+    },
+    {
+      "id": "c1_skill_carouse_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 37.4154,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "carouse plus20"
+    },
+    {
+      "id": "c1_skill_carouse_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 37.4154,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "carouse bonus"
+    },
+    {
+      "id": "c1_skill_charm_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 38.8,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "charm basic"
+    },
+    {
+      "id": "c1_skill_charm_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 38.8,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "charm trained"
+    },
+    {
+      "id": "c1_skill_charm_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 38.8,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "charm plus10"
+    },
+    {
+      "id": "c1_skill_charm_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 38.8,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "charm plus20"
+    },
+    {
+      "id": "c1_skill_charm_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 38.8,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "charm bonus"
+    },
+    {
+      "id": "c1_skill_chem_use_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 40.2154,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "chem_use basic"
+    },
+    {
+      "id": "c1_skill_chem_use_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 40.2154,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "chem_use trained"
+    },
+    {
+      "id": "c1_skill_chem_use_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 40.2154,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "chem_use plus10"
+    },
+    {
+      "id": "c1_skill_chem_use_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 40.2154,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "chem_use plus20"
+    },
+    {
+      "id": "c1_skill_chem_use_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 40.2154,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "chem_use bonus"
+    },
+    {
+      "id": "c1_skill_ciphers_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 41.6308,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "ciphers basic"
+    },
+    {
+      "id": "c1_skill_ciphers_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 41.6308,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "ciphers trained"
+    },
+    {
+      "id": "c1_skill_ciphers_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 41.6308,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "ciphers plus10"
+    },
+    {
+      "id": "c1_skill_ciphers_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 41.6308,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "ciphers plus20"
+    },
+    {
+      "id": "c1_skill_ciphers_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 41.6308,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "ciphers bonus"
+    },
+    {
+      "id": "c1_skill_climb_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 43.0462,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "climb basic"
+    },
+    {
+      "id": "c1_skill_climb_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 43.0462,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "climb trained"
+    },
+    {
+      "id": "c1_skill_climb_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 43.0462,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "climb plus10"
+    },
+    {
+      "id": "c1_skill_climb_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 43.0462,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "climb plus20"
+    },
+    {
+      "id": "c1_skill_climb_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 43.0462,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "climb bonus"
+    },
+    {
+      "id": "c1_skill_command_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 44.4308,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "command basic"
+    },
+    {
+      "id": "c1_skill_command_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 44.4308,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "command trained"
+    },
+    {
+      "id": "c1_skill_command_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 44.4308,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "command plus10"
+    },
+    {
+      "id": "c1_skill_command_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 44.4308,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "command plus20"
+    },
+    {
+      "id": "c1_skill_command_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 44.4308,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "command bonus"
+    },
+    {
+      "id": "c1_skill_commerce_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 45.8462,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "commerce basic"
+    },
+    {
+      "id": "c1_skill_commerce_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 45.8462,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "commerce trained"
+    },
+    {
+      "id": "c1_skill_commerce_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 45.8462,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "commerce plus10"
+    },
+    {
+      "id": "c1_skill_commerce_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 45.8462,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "commerce plus20"
+    },
+    {
+      "id": "c1_skill_commerce_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 45.8462,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "commerce bonus"
+    },
+    {
+      "id": "c1_skill_common_lore_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 47.2615,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "common_lore basic"
+    },
+    {
+      "id": "c1_skill_common_lore_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 47.2615,
+      "width": 1.6367,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "common_lore trained"
+    },
+    {
+      "id": "c1_skill_common_lore_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 47.2615,
+      "width": 1.9231,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "common_lore plus10"
+    },
+    {
+      "id": "c1_skill_common_lore_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 47.2615,
+      "width": 1.7185,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "common_lore plus20"
+    },
+    {
+      "id": "c1_skill_common_lore_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 47.2615,
+      "width": 3.1097,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "common_lore bonus"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_1_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 48.7385,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_1 basic"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_1_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 48.7385,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_1 trained"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_1_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 48.7385,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_1 plus10"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_1_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 48.7385,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_1 plus20"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_1_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 48.7385,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_1 bonus"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_2_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 50.1231,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "common_lore_custom_2 basic"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_2_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 50.1231,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "common_lore_custom_2 trained"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_2_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 50.1231,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "common_lore_custom_2 plus10"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_2_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 50.1231,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "common_lore_custom_2 plus20"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_2_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 50.1231,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "common_lore_custom_2 bonus"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_3_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 51.5385,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_3 basic"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_3_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 51.5385,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_3 trained"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_3_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 51.5385,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_3 plus10"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_3_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 51.5385,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_3 plus20"
+    },
+    {
+      "id": "c1_skill_common_lore_custom_3_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 51.5385,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "common_lore_custom_3 bonus"
+    },
+    {
+      "id": "c1_skill_concealment_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 52.9231,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "concealment basic"
+    },
+    {
+      "id": "c1_skill_concealment_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 52.9231,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "concealment trained"
+    },
+    {
+      "id": "c1_skill_concealment_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 52.9231,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "concealment plus10"
+    },
+    {
+      "id": "c1_skill_concealment_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 52.9231,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "concealment plus20"
+    },
+    {
+      "id": "c1_skill_concealment_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 52.9231,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "concealment bonus"
+    },
+    {
+      "id": "c1_skill_contortionist_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 54.3385,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "contortionist basic"
+    },
+    {
+      "id": "c1_skill_contortionist_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 54.3385,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "contortionist trained"
+    },
+    {
+      "id": "c1_skill_contortionist_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 54.3385,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "contortionist plus10"
+    },
+    {
+      "id": "c1_skill_contortionist_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 54.3385,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "contortionist plus20"
+    },
+    {
+      "id": "c1_skill_contortionist_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 54.3385,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "contortionist bonus"
+    },
+    {
+      "id": "c1_skill_deceive_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 55.7231,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "deceive basic"
+    },
+    {
+      "id": "c1_skill_deceive_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 55.7231,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "deceive trained"
+    },
+    {
+      "id": "c1_skill_deceive_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 55.7231,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "deceive plus10"
+    },
+    {
+      "id": "c1_skill_deceive_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 55.7231,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "deceive plus20"
+    },
+    {
+      "id": "c1_skill_deceive_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 55.7231,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "deceive bonus"
+    },
+    {
+      "id": "c1_skill_demolition_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 57.1385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "demolition basic"
+    },
+    {
+      "id": "c1_skill_demolition_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 57.1385,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "demolition trained"
+    },
+    {
+      "id": "c1_skill_demolition_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 57.1385,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "demolition plus10"
+    },
+    {
+      "id": "c1_skill_demolition_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 57.1385,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "demolition plus20"
+    },
+    {
+      "id": "c1_skill_demolition_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 57.1385,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "demolition bonus"
+    },
+    {
+      "id": "c1_skill_disguise_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 58.5538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "disguise basic"
+    },
+    {
+      "id": "c1_skill_disguise_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 58.5538,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "disguise trained"
+    },
+    {
+      "id": "c1_skill_disguise_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 58.5538,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "disguise plus10"
+    },
+    {
+      "id": "c1_skill_disguise_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 58.5538,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "disguise plus20"
+    },
+    {
+      "id": "c1_skill_disguise_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 58.5538,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "disguise bonus"
+    },
+    {
+      "id": "c1_skill_dodge_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 59.9692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "dodge basic"
+    },
+    {
+      "id": "c1_skill_dodge_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 59.9692,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "dodge trained"
+    },
+    {
+      "id": "c1_skill_dodge_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 59.9692,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "dodge plus10"
+    },
+    {
+      "id": "c1_skill_dodge_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 59.9692,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "dodge plus20"
+    },
+    {
+      "id": "c1_skill_dodge_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 59.9692,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "dodge bonus"
+    },
+    {
+      "id": "c1_skill_drive_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 61.3846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "drive basic"
+    },
+    {
+      "id": "c1_skill_drive_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 61.3846,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "drive trained"
+    },
+    {
+      "id": "c1_skill_drive_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 61.3846,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "drive plus10"
+    },
+    {
+      "id": "c1_skill_drive_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 61.3846,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "drive plus20"
+    },
+    {
+      "id": "c1_skill_drive_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 61.3846,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "drive bonus"
+    },
+    {
+      "id": "c1_skill_evaluate_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 62.8,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "evaluate basic"
+    },
+    {
+      "id": "c1_skill_evaluate_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 62.8,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "evaluate trained"
+    },
+    {
+      "id": "c1_skill_evaluate_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 62.8,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "evaluate plus10"
+    },
+    {
+      "id": "c1_skill_evaluate_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 62.8,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "evaluate plus20"
+    },
+    {
+      "id": "c1_skill_evaluate_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 62.8,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "evaluate bonus"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 64.2154,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore basic"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 64.2154,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore trained"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 64.2154,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore plus10"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 64.2154,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore plus20"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 64.2154,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore bonus"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_1_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 65.6308,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_1 basic"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_1_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 65.6308,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_1 trained"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_1_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 65.6308,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_1 plus10"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_1_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 65.6308,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_1 plus20"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_1_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 65.6308,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_1 bonus"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_2_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 67.0154,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_2 basic"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_2_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 67.0154,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_2 trained"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_2_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 67.0154,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_2 plus10"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_2_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 67.0154,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_2 plus20"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_2_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 67.0154,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_2 bonus"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_3_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 68.4308,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_3 basic"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_3_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 68.4308,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_3 trained"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_3_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 68.4308,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_3 plus10"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_3_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 68.4308,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_3 plus20"
+    },
+    {
+      "id": "c1_skill_forbidden_lore_custom_3_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 68.4308,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "forbidden_lore_custom_3 bonus"
+    },
+    {
+      "id": "c1_skill_gamble_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 69.8154,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "gamble basic"
+    },
+    {
+      "id": "c1_skill_gamble_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 69.8154,
+      "width": 1.6367,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "gamble trained"
+    },
+    {
+      "id": "c1_skill_gamble_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 69.8154,
+      "width": 1.9231,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "gamble plus10"
+    },
+    {
+      "id": "c1_skill_gamble_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 69.8154,
+      "width": 1.7185,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "gamble plus20"
+    },
+    {
+      "id": "c1_skill_gamble_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 69.8154,
+      "width": 3.1097,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "gamble bonus"
+    },
+    {
+      "id": "c1_skill_inquiry_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 71.2,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "inquiry basic"
+    },
+    {
+      "id": "c1_skill_inquiry_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 71.2,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "inquiry trained"
+    },
+    {
+      "id": "c1_skill_inquiry_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 71.2,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "inquiry plus10"
+    },
+    {
+      "id": "c1_skill_inquiry_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 71.2,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "inquiry plus20"
+    },
+    {
+      "id": "c1_skill_inquiry_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 71.2,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "inquiry bonus"
+    },
+    {
+      "id": "c1_skill_interrogation_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 72.6154,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "interrogation basic"
+    },
+    {
+      "id": "c1_skill_interrogation_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 72.6154,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "interrogation trained"
+    },
+    {
+      "id": "c1_skill_interrogation_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 72.6154,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "interrogation plus10"
+    },
+    {
+      "id": "c1_skill_interrogation_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 72.6154,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "interrogation plus20"
+    },
+    {
+      "id": "c1_skill_interrogation_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 72.6154,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "interrogation bonus"
+    },
+    {
+      "id": "c1_skill_intimidate_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 74.0308,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "intimidate basic"
+    },
+    {
+      "id": "c1_skill_intimidate_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 74.0308,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "intimidate trained"
+    },
+    {
+      "id": "c1_skill_intimidate_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 74.0308,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "intimidate plus10"
+    },
+    {
+      "id": "c1_skill_intimidate_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 74.0308,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "intimidate plus20"
+    },
+    {
+      "id": "c1_skill_intimidate_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 74.0308,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "intimidate bonus"
+    },
+    {
+      "id": "c1_skill_invocation_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 75.4462,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "invocation basic"
+    },
+    {
+      "id": "c1_skill_invocation_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 75.4462,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "invocation trained"
+    },
+    {
+      "id": "c1_skill_invocation_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 75.4462,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "invocation plus10"
+    },
+    {
+      "id": "c1_skill_invocation_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 75.4462,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "invocation plus20"
+    },
+    {
+      "id": "c1_skill_invocation_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 75.4462,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "invocation bonus"
+    },
+    {
+      "id": "c1_skill_left_custom_33_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 76.8615,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "left_custom_33 basic"
+    },
+    {
+      "id": "c1_skill_left_custom_33_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 76.8615,
+      "width": 1.6367,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "left_custom_33 trained"
+    },
+    {
+      "id": "c1_skill_left_custom_33_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 76.8615,
+      "width": 1.9231,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "left_custom_33 plus10"
+    },
+    {
+      "id": "c1_skill_left_custom_33_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 76.8615,
+      "width": 1.7185,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "left_custom_33 plus20"
+    },
+    {
+      "id": "c1_skill_left_custom_33_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 76.8615,
+      "width": 3.1097,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "left_custom_33 bonus"
+    },
+    {
+      "id": "c1_skill_left_custom_34_basic",
+      "kind": "checkbox",
+      "x": 20.3355,
+      "y": 78.3077,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "left_custom_34 basic"
+    },
+    {
+      "id": "c1_skill_left_custom_34_trained",
+      "kind": "checkbox",
+      "x": 22.9951,
+      "y": 78.3077,
+      "width": 1.6367,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "left_custom_34 trained"
+    },
+    {
+      "id": "c1_skill_left_custom_34_plus10",
+      "kind": "checkbox",
+      "x": 25.4501,
+      "y": 78.3077,
+      "width": 1.9231,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "left_custom_34 plus10"
+    },
+    {
+      "id": "c1_skill_left_custom_34_plus20",
+      "kind": "checkbox",
+      "x": 28.1506,
+      "y": 78.3077,
+      "width": 1.7185,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "left_custom_34 plus20"
+    },
+    {
+      "id": "c1_skill_left_custom_34_bonus",
+      "kind": "checkbox",
+      "x": 31.0147,
+      "y": 78.3077,
+      "width": 3.1097,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "left_custom_34 bonus"
+    },
+    {
+      "id": "c1_skill_lip_reading_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 31.9692,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "lip_reading basic"
+    },
+    {
+      "id": "c1_skill_lip_reading_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 31.9692,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "lip_reading trained"
+    },
+    {
+      "id": "c1_skill_lip_reading_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 31.9692,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "lip_reading plus10"
+    },
+    {
+      "id": "c1_skill_lip_reading_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 31.9692,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "lip_reading plus20"
+    },
+    {
+      "id": "c1_skill_lip_reading_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 31.9692,
+      "width": 3.2733,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "lip_reading bonus"
+    },
+    {
+      "id": "c1_skill_literacy_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 33.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "literacy basic"
+    },
+    {
+      "id": "c1_skill_literacy_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 33.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "literacy trained"
+    },
+    {
+      "id": "c1_skill_literacy_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 33.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "literacy plus10"
+    },
+    {
+      "id": "c1_skill_literacy_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 33.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "literacy plus20"
+    },
+    {
+      "id": "c1_skill_literacy_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 33.3538,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "literacy bonus"
+    },
+    {
+      "id": "c1_skill_logic_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 34.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "logic basic"
+    },
+    {
+      "id": "c1_skill_logic_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 34.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "logic trained"
+    },
+    {
+      "id": "c1_skill_logic_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 34.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "logic plus10"
+    },
+    {
+      "id": "c1_skill_logic_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 34.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "logic plus20"
+    },
+    {
+      "id": "c1_skill_logic_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 34.7692,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "logic bonus"
+    },
+    {
+      "id": "c1_skill_midicae_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 36.1846,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "midicae basic"
+    },
+    {
+      "id": "c1_skill_midicae_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 36.1846,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "midicae trained"
+    },
+    {
+      "id": "c1_skill_midicae_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 36.1846,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "midicae plus10"
+    },
+    {
+      "id": "c1_skill_midicae_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 36.1846,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "midicae plus20"
+    },
+    {
+      "id": "c1_skill_midicae_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 36.1846,
+      "width": 3.2733,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "midicae bonus"
+    },
+    {
+      "id": "c1_skill_navigation_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 37.5692,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "navigation basic"
+    },
+    {
+      "id": "c1_skill_navigation_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 37.5692,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "navigation trained"
+    },
+    {
+      "id": "c1_skill_navigation_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 37.5692,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "navigation plus10"
+    },
+    {
+      "id": "c1_skill_navigation_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 37.5692,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "navigation plus20"
+    },
+    {
+      "id": "c1_skill_navigation_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 37.5692,
+      "width": 3.2733,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "navigation bonus"
+    },
+    {
+      "id": "c1_skill_performer_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 38.9231,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "performer basic"
+    },
+    {
+      "id": "c1_skill_performer_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 38.9231,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "performer trained"
+    },
+    {
+      "id": "c1_skill_performer_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 38.9231,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "performer plus10"
+    },
+    {
+      "id": "c1_skill_performer_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 38.9231,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "performer plus20"
+    },
+    {
+      "id": "c1_skill_performer_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 38.9231,
+      "width": 3.2733,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "performer bonus"
+    },
+    {
+      "id": "c1_skill_performer_custom_1_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 40.4,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "performer_custom_1 basic"
+    },
+    {
+      "id": "c1_skill_performer_custom_1_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 40.4,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "performer_custom_1 trained"
+    },
+    {
+      "id": "c1_skill_performer_custom_1_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 40.4,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "performer_custom_1 plus10"
+    },
+    {
+      "id": "c1_skill_performer_custom_1_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 40.4,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "performer_custom_1 plus20"
+    },
+    {
+      "id": "c1_skill_performer_custom_1_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 40.4,
+      "width": 3.2733,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "performer_custom_1 bonus"
+    },
+    {
+      "id": "c1_skill_performer_custom_2_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 41.7846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "performer_custom_2 basic"
+    },
+    {
+      "id": "c1_skill_performer_custom_2_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 41.7846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "performer_custom_2 trained"
+    },
+    {
+      "id": "c1_skill_performer_custom_2_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 41.7846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "performer_custom_2 plus10"
+    },
+    {
+      "id": "c1_skill_performer_custom_2_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 41.7846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "performer_custom_2 plus20"
+    },
+    {
+      "id": "c1_skill_performer_custom_2_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 41.7846,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "performer_custom_2 bonus"
+    },
+    {
+      "id": "c1_skill_pilot_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 43.2,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "pilot basic"
+    },
+    {
+      "id": "c1_skill_pilot_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 43.2,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "pilot trained"
+    },
+    {
+      "id": "c1_skill_pilot_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 43.2,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "pilot plus10"
+    },
+    {
+      "id": "c1_skill_pilot_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 43.2,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "pilot plus20"
+    },
+    {
+      "id": "c1_skill_pilot_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 43.2,
+      "width": 3.2733,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "pilot bonus"
+    },
+    {
+      "id": "c1_skill_pilot_custom_1_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 44.5846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "pilot_custom_1 basic"
+    },
+    {
+      "id": "c1_skill_pilot_custom_1_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 44.5846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "pilot_custom_1 trained"
+    },
+    {
+      "id": "c1_skill_pilot_custom_1_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 44.5846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "pilot_custom_1 plus10"
+    },
+    {
+      "id": "c1_skill_pilot_custom_1_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 44.5846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "pilot_custom_1 plus20"
+    },
+    {
+      "id": "c1_skill_pilot_custom_1_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 44.5846,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "pilot_custom_1 bonus"
+    },
+    {
+      "id": "c1_skill_pilot_custom_2_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 46.0,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "pilot_custom_2 basic"
+    },
+    {
+      "id": "c1_skill_pilot_custom_2_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 46.0,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "pilot_custom_2 trained"
+    },
+    {
+      "id": "c1_skill_pilot_custom_2_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 46.0,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "pilot_custom_2 plus10"
+    },
+    {
+      "id": "c1_skill_pilot_custom_2_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 46.0,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "pilot_custom_2 plus20"
+    },
+    {
+      "id": "c1_skill_pilot_custom_2_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 46.0,
+      "width": 3.2733,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "pilot_custom_2 bonus"
+    },
+    {
+      "id": "c1_skill_psyniscience_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 47.4462,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "psyniscience basic"
+    },
+    {
+      "id": "c1_skill_psyniscience_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 47.4462,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "psyniscience trained"
+    },
+    {
+      "id": "c1_skill_psyniscience_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 47.4462,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "psyniscience plus10"
+    },
+    {
+      "id": "c1_skill_psyniscience_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 47.4462,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "psyniscience plus20"
+    },
+    {
+      "id": "c1_skill_psyniscience_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 47.4462,
+      "width": 3.2733,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "psyniscience bonus"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 48.7692,
+      "width": 1.7594,
+      "height": 1.5385,
+      "max_length": 1,
+      "label": "scholastic_lore basic"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 48.7692,
+      "width": 1.7594,
+      "height": 1.5385,
+      "max_length": 1,
+      "label": "scholastic_lore trained"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 48.7692,
+      "width": 1.7594,
+      "height": 1.5385,
+      "max_length": 1,
+      "label": "scholastic_lore plus10"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 48.7692,
+      "width": 1.7594,
+      "height": 1.5385,
+      "max_length": 1,
+      "label": "scholastic_lore plus20"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 48.7692,
+      "width": 3.2733,
+      "height": 1.5385,
+      "max_length": 1,
+      "label": "scholastic_lore bonus"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_1_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 50.3077,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_1 basic"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_1_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 50.3077,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_1 trained"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_1_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 50.3077,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_1 plus10"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_1_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 50.3077,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_1 plus20"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_1_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 50.3077,
+      "width": 3.2733,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_1 bonus"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_2_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 51.6615,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_2 basic"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_2_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 51.6615,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_2 trained"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_2_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 51.6615,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_2 plus10"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_2_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 51.6615,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_2 plus20"
+    },
+    {
+      "id": "c1_skill_scholastic_lore_custom_2_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 51.6615,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scholastic_lore_custom_2 bonus"
+    },
+    {
+      "id": "c1_skill_scrutiny_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 53.0769,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scrutiny basic"
+    },
+    {
+      "id": "c1_skill_scrutiny_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 53.0769,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scrutiny trained"
+    },
+    {
+      "id": "c1_skill_scrutiny_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 53.0769,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scrutiny plus10"
+    },
+    {
+      "id": "c1_skill_scrutiny_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 53.0769,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scrutiny plus20"
+    },
+    {
+      "id": "c1_skill_scrutiny_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 53.0769,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "scrutiny bonus"
+    },
+    {
+      "id": "c1_skill_search_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 54.4923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "search basic"
+    },
+    {
+      "id": "c1_skill_search_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 54.4923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "search trained"
+    },
+    {
+      "id": "c1_skill_search_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 54.4923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "search plus10"
+    },
+    {
+      "id": "c1_skill_search_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 54.4923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "search plus20"
+    },
+    {
+      "id": "c1_skill_search_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 54.4923,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "search bonus"
+    },
+    {
+      "id": "c1_skill_secret_tongue_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 55.9077,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "secret_tongue basic"
+    },
+    {
+      "id": "c1_skill_secret_tongue_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 55.9077,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "secret_tongue trained"
+    },
+    {
+      "id": "c1_skill_secret_tongue_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 55.9077,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "secret_tongue plus10"
+    },
+    {
+      "id": "c1_skill_secret_tongue_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 55.9077,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "secret_tongue plus20"
+    },
+    {
+      "id": "c1_skill_secret_tongue_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 55.9077,
+      "width": 3.2733,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "secret_tongue bonus"
+    },
+    {
+      "id": "c1_skill_security_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 57.2923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "security basic"
+    },
+    {
+      "id": "c1_skill_security_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 57.2923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "security trained"
+    },
+    {
+      "id": "c1_skill_security_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 57.2923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "security plus10"
+    },
+    {
+      "id": "c1_skill_security_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 57.2923,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "security plus20"
+    },
+    {
+      "id": "c1_skill_security_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 57.2923,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "security bonus"
+    },
+    {
+      "id": "c1_skill_shadowing_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 58.7077,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "shadowing basic"
+    },
+    {
+      "id": "c1_skill_shadowing_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 58.7077,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "shadowing trained"
+    },
+    {
+      "id": "c1_skill_shadowing_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 58.7077,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "shadowing plus10"
+    },
+    {
+      "id": "c1_skill_shadowing_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 58.7077,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "shadowing plus20"
+    },
+    {
+      "id": "c1_skill_shadowing_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 58.7077,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "shadowing bonus"
+    },
+    {
+      "id": "c1_skill_silent_move_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 60.1231,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "silent_move basic"
+    },
+    {
+      "id": "c1_skill_silent_move_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 60.1231,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "silent_move trained"
+    },
+    {
+      "id": "c1_skill_silent_move_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 60.1231,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "silent_move plus10"
+    },
+    {
+      "id": "c1_skill_silent_move_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 60.1231,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "silent_move plus20"
+    },
+    {
+      "id": "c1_skill_silent_move_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 60.1231,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "silent_move bonus"
+    },
+    {
+      "id": "c1_skill_sleight_of_hand_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 61.5385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "sleight_of_hand basic"
+    },
+    {
+      "id": "c1_skill_sleight_of_hand_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 61.5385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "sleight_of_hand trained"
+    },
+    {
+      "id": "c1_skill_sleight_of_hand_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 61.5385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "sleight_of_hand plus10"
+    },
+    {
+      "id": "c1_skill_sleight_of_hand_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 61.5385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "sleight_of_hand plus20"
+    },
+    {
+      "id": "c1_skill_sleight_of_hand_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 61.5385,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "sleight_of_hand bonus"
+    },
+    {
+      "id": "c1_skill_speak_language_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 62.9538,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "speak_language basic"
+    },
+    {
+      "id": "c1_skill_speak_language_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 62.9538,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "speak_language trained"
+    },
+    {
+      "id": "c1_skill_speak_language_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 62.9538,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "speak_language plus10"
+    },
+    {
+      "id": "c1_skill_speak_language_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 62.9538,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "speak_language plus20"
+    },
+    {
+      "id": "c1_skill_speak_language_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 62.9538,
+      "width": 3.2733,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "speak_language bonus"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_1_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 64.4,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "speak_language_custom_1 basic"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_1_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 64.4,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "speak_language_custom_1 trained"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_1_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 64.4,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "speak_language_custom_1 plus10"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_1_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 64.4,
+      "width": 1.7594,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "speak_language_custom_1 plus20"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_1_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 64.4,
+      "width": 3.2733,
+      "height": 1.3538,
+      "max_length": 1,
+      "label": "speak_language_custom_1 bonus"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_2_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 65.7538,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "speak_language_custom_2 basic"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_2_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 65.7538,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "speak_language_custom_2 trained"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_2_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 65.7538,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "speak_language_custom_2 plus10"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_2_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 65.7538,
+      "width": 1.7594,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "speak_language_custom_2 plus20"
+    },
+    {
+      "id": "c1_skill_speak_language_custom_2_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 65.7538,
+      "width": 3.2733,
+      "height": 1.4769,
+      "max_length": 1,
+      "label": "speak_language_custom_2 bonus"
+    },
+    {
+      "id": "c1_skill_survival_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 67.2308,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "survival basic"
+    },
+    {
+      "id": "c1_skill_survival_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 67.2308,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "survival trained"
+    },
+    {
+      "id": "c1_skill_survival_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 67.2308,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "survival plus10"
+    },
+    {
+      "id": "c1_skill_survival_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 67.2308,
+      "width": 1.7594,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "survival plus20"
+    },
+    {
+      "id": "c1_skill_survival_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 67.2308,
+      "width": 3.2733,
+      "height": 1.3231,
+      "max_length": 1,
+      "label": "survival bonus"
+    },
+    {
+      "id": "c1_skill_swim_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 68.5538,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "swim basic"
+    },
+    {
+      "id": "c1_skill_swim_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 68.5538,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "swim trained"
+    },
+    {
+      "id": "c1_skill_swim_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 68.5538,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "swim plus10"
+    },
+    {
+      "id": "c1_skill_swim_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 68.5538,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "swim plus20"
+    },
+    {
+      "id": "c1_skill_swim_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 68.5538,
+      "width": 3.2733,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "swim bonus"
+    },
+    {
+      "id": "c1_skill_tech_use_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 69.9385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tech_use basic"
+    },
+    {
+      "id": "c1_skill_tech_use_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 69.9385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tech_use trained"
+    },
+    {
+      "id": "c1_skill_tech_use_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 69.9385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tech_use plus10"
+    },
+    {
+      "id": "c1_skill_tech_use_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 69.9385,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tech_use plus20"
+    },
+    {
+      "id": "c1_skill_tech_use_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 69.9385,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tech_use bonus"
+    },
+    {
+      "id": "c1_skill_tracking_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 71.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tracking basic"
+    },
+    {
+      "id": "c1_skill_tracking_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 71.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tracking trained"
+    },
+    {
+      "id": "c1_skill_tracking_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 71.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tracking plus10"
+    },
+    {
+      "id": "c1_skill_tracking_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 71.3538,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tracking plus20"
+    },
+    {
+      "id": "c1_skill_tracking_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 71.3538,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "tracking bonus"
+    },
+    {
+      "id": "c1_skill_trade_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 72.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "trade basic"
+    },
+    {
+      "id": "c1_skill_trade_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 72.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "trade trained"
+    },
+    {
+      "id": "c1_skill_trade_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 72.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "trade plus10"
+    },
+    {
+      "id": "c1_skill_trade_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 72.7692,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "trade plus20"
+    },
+    {
+      "id": "c1_skill_trade_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 72.7692,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "trade bonus"
+    },
+    {
+      "id": "c1_skill_wrangling_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 74.1846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "wrangling basic"
+    },
+    {
+      "id": "c1_skill_wrangling_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 74.1846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "wrangling trained"
+    },
+    {
+      "id": "c1_skill_wrangling_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 74.1846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "wrangling plus10"
+    },
+    {
+      "id": "c1_skill_wrangling_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 74.1846,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "wrangling plus20"
+    },
+    {
+      "id": "c1_skill_wrangling_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 74.1846,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "wrangling bonus"
+    },
+    {
+      "id": "c1_skill_right_custom_32_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 75.6,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "right_custom_32 basic"
+    },
+    {
+      "id": "c1_skill_right_custom_32_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 75.6,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "right_custom_32 trained"
+    },
+    {
+      "id": "c1_skill_right_custom_32_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 75.6,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "right_custom_32 plus10"
+    },
+    {
+      "id": "c1_skill_right_custom_32_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 75.6,
+      "width": 1.7594,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "right_custom_32 plus20"
+    },
+    {
+      "id": "c1_skill_right_custom_32_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 75.6,
+      "width": 3.2733,
+      "height": 1.3846,
+      "max_length": 1,
+      "label": "right_custom_32 bonus"
+    },
+    {
+      "id": "c1_skill_right_custom_33_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 76.9846,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "right_custom_33 basic"
+    },
+    {
+      "id": "c1_skill_right_custom_33_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 76.9846,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "right_custom_33 trained"
+    },
+    {
+      "id": "c1_skill_right_custom_33_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 76.9846,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "right_custom_33 plus10"
+    },
+    {
+      "id": "c1_skill_right_custom_33_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 76.9846,
+      "width": 1.7594,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "right_custom_33 plus20"
+    },
+    {
+      "id": "c1_skill_right_custom_33_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 76.9846,
+      "width": 3.2733,
+      "height": 1.4462,
+      "max_length": 1,
+      "label": "right_custom_33 bonus"
+    },
+    {
+      "id": "c1_skill_right_custom_34_basic",
+      "kind": "checkbox",
+      "x": 79.5827,
+      "y": 78.4308,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "right_custom_34 basic"
+    },
+    {
+      "id": "c1_skill_right_custom_34_trained",
+      "kind": "checkbox",
+      "x": 82.2422,
+      "y": 78.4308,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "right_custom_34 trained"
+    },
+    {
+      "id": "c1_skill_right_custom_34_plus10",
+      "kind": "checkbox",
+      "x": 84.8609,
+      "y": 78.4308,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "right_custom_34 plus10"
+    },
+    {
+      "id": "c1_skill_right_custom_34_plus20",
+      "kind": "checkbox",
+      "x": 87.5205,
+      "y": 78.4308,
+      "width": 1.7594,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "right_custom_34 plus20"
+    },
+    {
+      "id": "c1_skill_right_custom_34_bonus",
+      "kind": "checkbox",
+      "x": 90.2209,
+      "y": 78.4308,
+      "width": 3.2733,
+      "height": 1.4154,
+      "max_length": 1,
+      "label": "right_custom_34 bonus"
+    },
+    {
+      "id": "c1_talent_1",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 31.0769,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 1"
+    },
+    {
+      "id": "c1_talent_2",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 33.0154,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 2"
+    },
+    {
+      "id": "c1_talent_3",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 34.9538,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 3"
+    },
+    {
+      "id": "c1_talent_4",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 36.8923,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 4"
+    },
+    {
+      "id": "c1_talent_5",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 38.8308,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 5"
+    },
+    {
+      "id": "c1_talent_6",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 40.7692,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 6"
+    },
+    {
+      "id": "c1_talent_7",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 42.7077,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 7"
+    },
+    {
+      "id": "c1_talent_8",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 44.6462,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 8"
+    },
+    {
+      "id": "c1_talent_9",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 46.5846,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 9"
+    },
+    {
+      "id": "c1_talent_10",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 48.5231,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 10"
+    },
+    {
+      "id": "c1_talent_11",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 50.4615,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 11"
+    },
+    {
+      "id": "c1_talent_12",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 52.4,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Talent/Trait line 12"
+    },
+    {
+      "id": "c1_special_ability_1",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 66.6154,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Special ability line 1"
+    },
+    {
+      "id": "c1_special_ability_2",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 68.5538,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Special ability line 2"
+    },
+    {
+      "id": "c1_special_ability_3",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 70.4923,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Special ability line 3"
+    },
+    {
+      "id": "c1_special_ability_4",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 72.4308,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Special ability line 4"
+    },
+    {
+      "id": "c1_special_ability_5",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 74.3692,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Special ability line 5"
+    },
+    {
+      "id": "c1_psychic_discipline_1",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 78.3077,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Psychic discipline line 1"
+    },
+    {
+      "id": "c1_psychic_discipline_2",
+      "kind": "text",
+      "x": 38.4615,
+      "y": 80.2462,
+      "width": 20.4583,
+      "height": 0.8615,
+      "max_length": 60,
+      "label": "Psychic discipline line 2"
+    },
+    {
+      "id": "c1_psychic_power_1",
+      "kind": "text",
+      "x": 32.7332,
+      "y": 83.0769,
+      "width": 20.0491,
+      "height": 0.8,
+      "max_length": 60,
+      "label": "Psychic power 1 name"
+    },
+    {
+      "id": "c1_psychic_sustain_1",
+      "kind": "text",
+      "x": 54.419,
+      "y": 83.0769,
+      "width": 4.5008,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 1 sustain"
+    },
+    {
+      "id": "c1_psychic_range_1",
+      "kind": "text",
+      "x": 59.7381,
+      "y": 83.0769,
+      "width": 4.0917,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 1 range"
+    },
+    {
+      "id": "c1_psychic_power_2",
+      "kind": "text",
+      "x": 32.7332,
+      "y": 84.8615,
+      "width": 20.0491,
+      "height": 0.8,
+      "max_length": 60,
+      "label": "Psychic power 2 name"
+    },
+    {
+      "id": "c1_psychic_sustain_2",
+      "kind": "text",
+      "x": 54.419,
+      "y": 84.8615,
+      "width": 4.5008,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 2 sustain"
+    },
+    {
+      "id": "c1_psychic_range_2",
+      "kind": "text",
+      "x": 59.7381,
+      "y": 84.8615,
+      "width": 4.0917,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 2 range"
+    },
+    {
+      "id": "c1_psychic_power_3",
+      "kind": "text",
+      "x": 32.7332,
+      "y": 86.6462,
+      "width": 20.0491,
+      "height": 0.8,
+      "max_length": 60,
+      "label": "Psychic power 3 name"
+    },
+    {
+      "id": "c1_psychic_sustain_3",
+      "kind": "text",
+      "x": 54.419,
+      "y": 86.6462,
+      "width": 4.5008,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 3 sustain"
+    },
+    {
+      "id": "c1_psychic_range_3",
+      "kind": "text",
+      "x": 59.7381,
+      "y": 86.6462,
+      "width": 4.0917,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 3 range"
+    },
+    {
+      "id": "c1_psychic_power_4",
+      "kind": "text",
+      "x": 32.7332,
+      "y": 88.4308,
+      "width": 20.0491,
+      "height": 0.8,
+      "max_length": 60,
+      "label": "Psychic power 4 name"
+    },
+    {
+      "id": "c1_psychic_sustain_4",
+      "kind": "text",
+      "x": 54.419,
+      "y": 88.4308,
+      "width": 4.5008,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 4 sustain"
+    },
+    {
+      "id": "c1_psychic_range_4",
+      "kind": "text",
+      "x": 59.7381,
+      "y": 88.4308,
+      "width": 4.0917,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 4 range"
+    },
+    {
+      "id": "c1_psychic_power_5",
+      "kind": "text",
+      "x": 32.7332,
+      "y": 90.2154,
+      "width": 20.0491,
+      "height": 0.8,
+      "max_length": 60,
+      "label": "Psychic power 5 name"
+    },
+    {
+      "id": "c1_psychic_sustain_5",
+      "kind": "text",
+      "x": 54.419,
+      "y": 90.2154,
+      "width": 4.5008,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 5 sustain"
+    },
+    {
+      "id": "c1_psychic_range_5",
+      "kind": "text",
+      "x": 59.7381,
+      "y": 90.2154,
+      "width": 4.0917,
+      "height": 0.8,
+      "max_length": 10,
+      "label": "Psychic power 5 range"
+    },
+    {
+      "id": "c1_xp_to_spend",
+      "kind": "text",
+      "x": 7.9787,
+      "y": 91.2308,
+      "width": 7.365,
+      "height": 1.6923,
+      "max_length": 6,
+      "label": "XP to Spend"
+    },
+    {
+      "id": "c1_xp_total_spent",
+      "kind": "text",
+      "x": 19.6399,
+      "y": 91.2308,
+      "width": 7.365,
+      "height": 1.6923,
+      "max_length": 6,
+      "label": "Total XP Spent"
+    },
+    {
+      "id": "c1_profit_factor_starting",
+      "kind": "text",
+      "x": 68.3306,
+      "y": 91.0769,
+      "width": 15.5483,
+      "height": 0.9231,
+      "max_length": 10,
+      "label": "Profit Factor starting"
+    },
+    {
+      "id": "c1_profit_factor_current",
+      "kind": "text",
+      "x": 68.3306,
+      "y": 92.4615,
+      "width": 15.5483,
+      "height": 0.9231,
+      "max_length": 10,
+      "label": "Profit Factor current"
+    },
+    {
+      "id": "c1_profit_factor_misfortunes",
+      "kind": "text",
+      "x": 68.3306,
+      "y": 93.8462,
+      "width": 15.5483,
+      "height": 0.9231,
+      "max_length": 10,
+      "label": "Profit Factor misfortunes"
+    }
+  ]
+}

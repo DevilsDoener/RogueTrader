@@ -2,7 +2,7 @@
 .superpowers/
 .venv/
 .env
-data/
+/data/
 .pytest_cache/
 __pycache__/
 tmp/

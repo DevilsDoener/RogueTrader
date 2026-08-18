@@ -1,0 +1,1639 @@
+{
+  "page_id": "character-page-2",
+  "image": {
+    "width": 2484,
+    "height": 3246
+  },
+  "fields": [
+    {
+      "id": "c2_movement_half_move",
+      "kind": "text",
+      "x": 17.0692,
+      "y": 9.8891,
+      "width": 9.6618,
+      "height": 2.5878,
+      "max_length": 6,
+      "label": "half move"
+    },
+    {
+      "id": "c2_movement_full_move",
+      "kind": "text",
+      "x": 28.1804,
+      "y": 9.8891,
+      "width": 9.6618,
+      "height": 2.5878,
+      "max_length": 6,
+      "label": "full move"
+    },
+    {
+      "id": "c2_movement_charge",
+      "kind": "text",
+      "x": 39.2512,
+      "y": 9.8891,
+      "width": 9.6618,
+      "height": 2.5878,
+      "max_length": 6,
+      "label": "charge"
+    },
+    {
+      "id": "c2_movement_run",
+      "kind": "text",
+      "x": 50.5636,
+      "y": 9.8891,
+      "width": 9.6618,
+      "height": 2.5878,
+      "max_length": 6,
+      "label": "run"
+    },
+    {
+      "id": "c2_movement_base_leap",
+      "kind": "text",
+      "x": 61.8357,
+      "y": 9.8891,
+      "width": 9.6618,
+      "height": 2.5878,
+      "max_length": 6,
+      "label": "base leap"
+    },
+    {
+      "id": "c2_movement_base_jump",
+      "kind": "text",
+      "x": 73.0274,
+      "y": 9.8891,
+      "width": 9.6618,
+      "height": 2.5878,
+      "max_length": 6,
+      "label": "base jump"
+    },
+    {
+      "id": "c2_ws_value",
+      "kind": "text",
+      "x": 4.5089,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "WS value"
+    },
+    {
+      "id": "c2_bs_value",
+      "kind": "text",
+      "x": 14.8551,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "BS value"
+    },
+    {
+      "id": "c2_s_value",
+      "kind": "text",
+      "x": 25.2013,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "S value"
+    },
+    {
+      "id": "c2_t_value",
+      "kind": "text",
+      "x": 35.5475,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "T value"
+    },
+    {
+      "id": "c2_ag_value",
+      "kind": "text",
+      "x": 45.8937,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "AG value"
+    },
+    {
+      "id": "c2_int_value",
+      "kind": "text",
+      "x": 56.2399,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "INT value"
+    },
+    {
+      "id": "c2_per_value",
+      "kind": "text",
+      "x": 66.5862,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "PER value"
+    },
+    {
+      "id": "c2_wp_value",
+      "kind": "text",
+      "x": 76.9324,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "WP value"
+    },
+    {
+      "id": "c2_fel_value",
+      "kind": "text",
+      "x": 87.2786,
+      "y": 16.6359,
+      "width": 9.5411,
+      "height": 2.403,
+      "max_length": 3,
+      "label": "FEL value"
+    },
+    {
+      "id": "c2_ws_adv_1",
+      "kind": "checkbox",
+      "x": 5.3945,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WS advance 1"
+    },
+    {
+      "id": "c2_ws_adv_2",
+      "kind": "checkbox",
+      "x": 6.4815,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WS advance 2"
+    },
+    {
+      "id": "c2_ws_adv_3",
+      "kind": "checkbox",
+      "x": 7.5684,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WS advance 3"
+    },
+    {
+      "id": "c2_ws_adv_4",
+      "kind": "checkbox",
+      "x": 8.6554,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WS advance 4"
+    },
+    {
+      "id": "c2_bs_adv_1",
+      "kind": "checkbox",
+      "x": 15.7407,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "BS advance 1"
+    },
+    {
+      "id": "c2_bs_adv_2",
+      "kind": "checkbox",
+      "x": 16.8277,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "BS advance 2"
+    },
+    {
+      "id": "c2_bs_adv_3",
+      "kind": "checkbox",
+      "x": 17.9147,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "BS advance 3"
+    },
+    {
+      "id": "c2_bs_adv_4",
+      "kind": "checkbox",
+      "x": 19.0016,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "BS advance 4"
+    },
+    {
+      "id": "c2_s_adv_1",
+      "kind": "checkbox",
+      "x": 26.087,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "S advance 1"
+    },
+    {
+      "id": "c2_s_adv_2",
+      "kind": "checkbox",
+      "x": 27.1739,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "S advance 2"
+    },
+    {
+      "id": "c2_s_adv_3",
+      "kind": "checkbox",
+      "x": 28.2609,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "S advance 3"
+    },
+    {
+      "id": "c2_s_adv_4",
+      "kind": "checkbox",
+      "x": 29.3478,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "S advance 4"
+    },
+    {
+      "id": "c2_t_adv_1",
+      "kind": "checkbox",
+      "x": 36.4332,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "T advance 1"
+    },
+    {
+      "id": "c2_t_adv_2",
+      "kind": "checkbox",
+      "x": 37.5201,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "T advance 2"
+    },
+    {
+      "id": "c2_t_adv_3",
+      "kind": "checkbox",
+      "x": 38.6071,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "T advance 3"
+    },
+    {
+      "id": "c2_t_adv_4",
+      "kind": "checkbox",
+      "x": 39.694,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "T advance 4"
+    },
+    {
+      "id": "c2_ag_adv_1",
+      "kind": "checkbox",
+      "x": 46.7794,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "AG advance 1"
+    },
+    {
+      "id": "c2_ag_adv_2",
+      "kind": "checkbox",
+      "x": 47.8663,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "AG advance 2"
+    },
+    {
+      "id": "c2_ag_adv_3",
+      "kind": "checkbox",
+      "x": 48.9533,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "AG advance 3"
+    },
+    {
+      "id": "c2_ag_adv_4",
+      "kind": "checkbox",
+      "x": 50.0403,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "AG advance 4"
+    },
+    {
+      "id": "c2_int_adv_1",
+      "kind": "checkbox",
+      "x": 57.1256,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "INT advance 1"
+    },
+    {
+      "id": "c2_int_adv_2",
+      "kind": "checkbox",
+      "x": 58.2126,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "INT advance 2"
+    },
+    {
+      "id": "c2_int_adv_3",
+      "kind": "checkbox",
+      "x": 59.2995,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "INT advance 3"
+    },
+    {
+      "id": "c2_int_adv_4",
+      "kind": "checkbox",
+      "x": 60.3865,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "INT advance 4"
+    },
+    {
+      "id": "c2_per_adv_1",
+      "kind": "checkbox",
+      "x": 67.4718,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "PER advance 1"
+    },
+    {
+      "id": "c2_per_adv_2",
+      "kind": "checkbox",
+      "x": 68.5588,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "PER advance 2"
+    },
+    {
+      "id": "c2_per_adv_3",
+      "kind": "checkbox",
+      "x": 69.6457,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "PER advance 3"
+    },
+    {
+      "id": "c2_per_adv_4",
+      "kind": "checkbox",
+      "x": 70.7327,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "PER advance 4"
+    },
+    {
+      "id": "c2_wp_adv_1",
+      "kind": "checkbox",
+      "x": 77.818,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WP advance 1"
+    },
+    {
+      "id": "c2_wp_adv_2",
+      "kind": "checkbox",
+      "x": 78.905,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WP advance 2"
+    },
+    {
+      "id": "c2_wp_adv_3",
+      "kind": "checkbox",
+      "x": 79.9919,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WP advance 3"
+    },
+    {
+      "id": "c2_wp_adv_4",
+      "kind": "checkbox",
+      "x": 81.0789,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "WP advance 4"
+    },
+    {
+      "id": "c2_fel_adv_1",
+      "kind": "checkbox",
+      "x": 88.1643,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "FEL advance 1"
+    },
+    {
+      "id": "c2_fel_adv_2",
+      "kind": "checkbox",
+      "x": 89.2512,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "FEL advance 2"
+    },
+    {
+      "id": "c2_fel_adv_3",
+      "kind": "checkbox",
+      "x": 90.3382,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "FEL advance 3"
+    },
+    {
+      "id": "c2_fel_adv_4",
+      "kind": "checkbox",
+      "x": 91.4251,
+      "y": 19.4085,
+      "width": 0.5233,
+      "height": 0.4005,
+      "max_length": 1,
+      "label": "FEL advance 4"
+    },
+    {
+      "id": "c2_weapon_1_name",
+      "kind": "text",
+      "x": 6.6425,
+      "y": 30.0678,
+      "width": 42.6731,
+      "height": 0.801,
+      "max_length": 60,
+      "label": "Weapon 1 name"
+    },
+    {
+      "id": "c2_weapon_1_class",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 31.5157,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 20,
+      "label": "Weapon 1 class"
+    },
+    {
+      "id": "c2_weapon_1_damage",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 31.5157,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 1 damage"
+    },
+    {
+      "id": "c2_weapon_1_type",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 31.5157,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 1 type"
+    },
+    {
+      "id": "c2_weapon_1_pen",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 31.5157,
+      "width": 6.2399,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 1 pen"
+    },
+    {
+      "id": "c2_weapon_1_range",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 33.1485,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 1 range"
+    },
+    {
+      "id": "c2_weapon_1_rof",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 33.1485,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 1 ROF"
+    },
+    {
+      "id": "c2_weapon_1_clip",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 33.1485,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 1 clip"
+    },
+    {
+      "id": "c2_weapon_1_reload",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 33.1485,
+      "width": 12.4799,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 1 reload"
+    },
+    {
+      "id": "c2_weapon_1_special_rules",
+      "kind": "text",
+      "x": 9.2593,
+      "y": 34.658,
+      "width": 40.0564,
+      "height": 0.801,
+      "max_length": 100,
+      "label": "Weapon 1 special rules"
+    },
+    {
+      "id": "c2_weapon_2_name",
+      "kind": "text",
+      "x": 6.6425,
+      "y": 39.4331,
+      "width": 42.6731,
+      "height": 0.801,
+      "max_length": 60,
+      "label": "Weapon 2 name"
+    },
+    {
+      "id": "c2_weapon_2_class",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 40.8811,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 20,
+      "label": "Weapon 2 class"
+    },
+    {
+      "id": "c2_weapon_2_damage",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 40.8811,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 2 damage"
+    },
+    {
+      "id": "c2_weapon_2_type",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 40.8811,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 2 type"
+    },
+    {
+      "id": "c2_weapon_2_pen",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 40.8811,
+      "width": 6.2399,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 2 pen"
+    },
+    {
+      "id": "c2_weapon_2_range",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 42.5139,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 2 range"
+    },
+    {
+      "id": "c2_weapon_2_rof",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 42.5139,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 2 ROF"
+    },
+    {
+      "id": "c2_weapon_2_clip",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 42.5139,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 2 clip"
+    },
+    {
+      "id": "c2_weapon_2_reload",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 42.5139,
+      "width": 12.4799,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 2 reload"
+    },
+    {
+      "id": "c2_weapon_2_special_rules",
+      "kind": "text",
+      "x": 9.2593,
+      "y": 44.0234,
+      "width": 40.0564,
+      "height": 0.801,
+      "max_length": 100,
+      "label": "Weapon 2 special rules"
+    },
+    {
+      "id": "c2_weapon_3_name",
+      "kind": "text",
+      "x": 6.6425,
+      "y": 48.7985,
+      "width": 42.6731,
+      "height": 0.801,
+      "max_length": 60,
+      "label": "Weapon 3 name"
+    },
+    {
+      "id": "c2_weapon_3_class",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 50.2465,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 20,
+      "label": "Weapon 3 class"
+    },
+    {
+      "id": "c2_weapon_3_damage",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 50.2465,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 3 damage"
+    },
+    {
+      "id": "c2_weapon_3_type",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 50.2465,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 3 type"
+    },
+    {
+      "id": "c2_weapon_3_pen",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 50.2465,
+      "width": 6.2399,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 3 pen"
+    },
+    {
+      "id": "c2_weapon_3_range",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 51.8792,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 3 range"
+    },
+    {
+      "id": "c2_weapon_3_rof",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 51.8792,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 3 ROF"
+    },
+    {
+      "id": "c2_weapon_3_clip",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 51.8792,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 3 clip"
+    },
+    {
+      "id": "c2_weapon_3_reload",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 51.8792,
+      "width": 12.4799,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 3 reload"
+    },
+    {
+      "id": "c2_weapon_3_special_rules",
+      "kind": "text",
+      "x": 9.2593,
+      "y": 53.3888,
+      "width": 40.0564,
+      "height": 0.801,
+      "max_length": 100,
+      "label": "Weapon 3 special rules"
+    },
+    {
+      "id": "c2_weapon_4_name",
+      "kind": "text",
+      "x": 6.6425,
+      "y": 58.1639,
+      "width": 42.6731,
+      "height": 0.801,
+      "max_length": 60,
+      "label": "Weapon 4 name"
+    },
+    {
+      "id": "c2_weapon_4_class",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 59.6118,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 20,
+      "label": "Weapon 4 class"
+    },
+    {
+      "id": "c2_weapon_4_damage",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 59.6118,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 4 damage"
+    },
+    {
+      "id": "c2_weapon_4_type",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 59.6118,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 4 type"
+    },
+    {
+      "id": "c2_weapon_4_pen",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 59.6118,
+      "width": 6.2399,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 4 pen"
+    },
+    {
+      "id": "c2_weapon_4_range",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 61.2446,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 4 range"
+    },
+    {
+      "id": "c2_weapon_4_rof",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 61.2446,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 4 ROF"
+    },
+    {
+      "id": "c2_weapon_4_clip",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 61.2446,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 4 clip"
+    },
+    {
+      "id": "c2_weapon_4_reload",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 61.2446,
+      "width": 12.4799,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 4 reload"
+    },
+    {
+      "id": "c2_weapon_4_special_rules",
+      "kind": "text",
+      "x": 9.2593,
+      "y": 62.7542,
+      "width": 40.0564,
+      "height": 0.801,
+      "max_length": 100,
+      "label": "Weapon 4 special rules"
+    },
+    {
+      "id": "c2_weapon_5_name",
+      "kind": "text",
+      "x": 6.6425,
+      "y": 67.5293,
+      "width": 42.6731,
+      "height": 0.801,
+      "max_length": 60,
+      "label": "Weapon 5 name"
+    },
+    {
+      "id": "c2_weapon_5_class",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 68.9772,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 20,
+      "label": "Weapon 5 class"
+    },
+    {
+      "id": "c2_weapon_5_damage",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 68.9772,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 5 damage"
+    },
+    {
+      "id": "c2_weapon_5_type",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 68.9772,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 5 type"
+    },
+    {
+      "id": "c2_weapon_5_pen",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 68.9772,
+      "width": 6.2399,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 5 pen"
+    },
+    {
+      "id": "c2_weapon_5_range",
+      "kind": "text",
+      "x": 5.8374,
+      "y": 70.61,
+      "width": 12.2786,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 5 range"
+    },
+    {
+      "id": "c2_weapon_5_rof",
+      "kind": "text",
+      "x": 18.5185,
+      "y": 70.61,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 5 ROF"
+    },
+    {
+      "id": "c2_weapon_5_clip",
+      "kind": "text",
+      "x": 23.1481,
+      "y": 70.61,
+      "width": 4.2271,
+      "height": 0.801,
+      "max_length": 8,
+      "label": "Weapon 5 clip"
+    },
+    {
+      "id": "c2_weapon_5_reload",
+      "kind": "text",
+      "x": 27.7778,
+      "y": 70.61,
+      "width": 12.4799,
+      "height": 0.801,
+      "max_length": 12,
+      "label": "Weapon 5 reload"
+    },
+    {
+      "id": "c2_weapon_5_special_rules",
+      "kind": "text",
+      "x": 9.2593,
+      "y": 72.1195,
+      "width": 40.0564,
+      "height": 0.801,
+      "max_length": 100,
+      "label": "Weapon 5 special rules"
+    },
+    {
+      "id": "c2_gear_1",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 27.6956,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 1"
+    },
+    {
+      "id": "c2_gear_2",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 28.8355,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 2"
+    },
+    {
+      "id": "c2_gear_3",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 29.9754,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 3"
+    },
+    {
+      "id": "c2_gear_4",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 31.1152,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 4"
+    },
+    {
+      "id": "c2_gear_5",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 32.2551,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 5"
+    },
+    {
+      "id": "c2_gear_6",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 33.3949,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 6"
+    },
+    {
+      "id": "c2_gear_7",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 34.5348,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 7"
+    },
+    {
+      "id": "c2_gear_8",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 35.6747,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 8"
+    },
+    {
+      "id": "c2_gear_9",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 36.8145,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 9"
+    },
+    {
+      "id": "c2_gear_10",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 37.9544,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 10"
+    },
+    {
+      "id": "c2_gear_11",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 39.0943,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 11"
+    },
+    {
+      "id": "c2_gear_12",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 40.2341,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 12"
+    },
+    {
+      "id": "c2_gear_13",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 41.374,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 13"
+    },
+    {
+      "id": "c2_gear_14",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 42.5139,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 14"
+    },
+    {
+      "id": "c2_gear_15",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 43.6537,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 15"
+    },
+    {
+      "id": "c2_gear_16",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 44.7936,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 16"
+    },
+    {
+      "id": "c2_gear_17",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 45.9335,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 17"
+    },
+    {
+      "id": "c2_gear_18",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 47.0733,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 18"
+    },
+    {
+      "id": "c2_gear_19",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 48.2132,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 19"
+    },
+    {
+      "id": "c2_gear_20",
+      "kind": "text",
+      "x": 55.9581,
+      "y": 49.353,
+      "width": 19.686,
+      "height": 0.9242,
+      "max_length": 60,
+      "label": "Gear line 20"
+    },
+    {
+      "id": "c2_acquisition_1",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 27.6956,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 1"
+    },
+    {
+      "id": "c2_acquisition_2",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 28.8047,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 2"
+    },
+    {
+      "id": "c2_acquisition_3",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 29.9137,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 3"
+    },
+    {
+      "id": "c2_acquisition_4",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 31.0228,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 4"
+    },
+    {
+      "id": "c2_acquisition_5",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 32.1319,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 5"
+    },
+    {
+      "id": "c2_acquisition_6",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 33.2409,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 6"
+    },
+    {
+      "id": "c2_acquisition_7",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 34.35,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 7"
+    },
+    {
+      "id": "c2_acquisition_8",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 35.459,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 8"
+    },
+    {
+      "id": "c2_acquisition_9",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 36.5681,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 9"
+    },
+    {
+      "id": "c2_acquisition_10",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 37.6771,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 10"
+    },
+    {
+      "id": "c2_acquisition_11",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 38.7862,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 11"
+    },
+    {
+      "id": "c2_acquisition_12",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 39.8953,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 12"
+    },
+    {
+      "id": "c2_acquisition_13",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 41.0043,
+      "width": 18.599,
+      "height": 0.8934,
+      "max_length": 60,
+      "label": "Acquisition line 13"
+    },
+    {
+      "id": "c2_mutation_1",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 53.3888,
+      "width": 18.599,
+      "height": 0.8318,
+      "max_length": 60,
+      "label": "Mutation line 1"
+    },
+    {
+      "id": "c2_mutation_2",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 54.4362,
+      "width": 18.599,
+      "height": 0.8318,
+      "max_length": 60,
+      "label": "Mutation line 2"
+    },
+    {
+      "id": "c2_mutation_3",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 55.4837,
+      "width": 18.599,
+      "height": 0.8318,
+      "max_length": 60,
+      "label": "Mutation line 3"
+    },
+    {
+      "id": "c2_mutation_4",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 56.5311,
+      "width": 18.599,
+      "height": 0.8318,
+      "max_length": 60,
+      "label": "Mutation line 4"
+    },
+    {
+      "id": "c2_mutation_5",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 57.5786,
+      "width": 18.599,
+      "height": 0.8318,
+      "max_length": 60,
+      "label": "Mutation line 5"
+    },
+    {
+      "id": "c2_mutation_6",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 58.626,
+      "width": 18.599,
+      "height": 0.8318,
+      "max_length": 60,
+      "label": "Mutation line 6"
+    },
+    {
+      "id": "c2_mutation_7",
+      "kind": "text",
+      "x": 79.2271,
+      "y": 59.6734,
+      "width": 18.599,
+      "height": 0.8318,
+      "max_length": 60,
+      "label": "Mutation line 7"
+    },
+    {
+      "id": "c2_corruption_current_points",
+      "kind": "text",
+      "x": 62.6006,
+      "y": 67.1288,
+      "width": 17.3108,
+      "height": 0.8626,
+      "max_length": 20,
+      "label": "Corruption current_points"
+    },
+    {
+      "id": "c2_corruption_degree",
+      "kind": "text",
+      "x": 62.6006,
+      "y": 68.2686,
+      "width": 17.3108,
+      "height": 0.8626,
+      "max_length": 20,
+      "label": "Corruption degree"
+    },
+    {
+      "id": "c2_corruption_malignancies",
+      "kind": "text",
+      "x": 62.6006,
+      "y": 69.4085,
+      "width": 17.3108,
+      "height": 0.8626,
+      "max_length": 20,
+      "label": "Corruption malignancies"
+    },
+    {
+      "id": "c2_wounds_total",
+      "kind": "text",
+      "x": 84.1385,
+      "y": 67.1288,
+      "width": 13.6876,
+      "height": 0.8626,
+      "max_length": 6,
+      "label": "Wounds total"
+    },
+    {
+      "id": "c2_wounds_current",
+      "kind": "text",
+      "x": 84.1385,
+      "y": 68.2686,
+      "width": 13.6876,
+      "height": 0.8626,
+      "max_length": 6,
+      "label": "Wounds current"
+    },
+    {
+      "id": "c2_wounds_critical_damage",
+      "kind": "text",
+      "x": 84.1385,
+      "y": 69.4085,
+      "width": 13.6876,
+      "height": 0.8626,
+      "max_length": 6,
+      "label": "Wounds critical_damage"
+    },
+    {
+      "id": "c2_wounds_fatigue",
+      "kind": "text",
+      "x": 84.1385,
+      "y": 70.5484,
+      "width": 13.6876,
+      "height": 0.8626,
+      "max_length": 6,
+      "label": "Wounds fatigue"
+    },
+    {
+      "id": "c2_insanity_current_points",
+      "kind": "text",
+      "x": 84.1385,
+      "y": 74.8614,
+      "width": 13.6876,
+      "height": 0.8626,
+      "max_length": 20,
+      "label": "Insanity current_points"
+    },
+    {
+      "id": "c2_insanity_degree",
+      "kind": "text",
+      "x": 84.1385,
+      "y": 76.0012,
+      "width": 13.6876,
+      "height": 0.8626,
+      "max_length": 20,
+      "label": "Insanity degree"
+    },
+    {
+      "id": "c2_insanity_disorders",
+      "kind": "text",
+      "x": 84.1385,
+      "y": 77.1411,
+      "width": 13.6876,
+      "height": 0.8626,
+      "max_length": 20,
+      "label": "Insanity disorders"
+    },
+    {
+      "id": "c2_armour_head_type",
+      "kind": "text",
+      "x": 61.7955,
+      "y": 77.2643,
+      "width": 5.4348,
+      "height": 0.6161,
+      "max_length": 20,
+      "label": "Armour head type"
+    },
+    {
+      "id": "c2_armour_right_arm_type",
+      "kind": "text",
+      "x": 49.9195,
+      "y": 84.0419,
+      "width": 5.4348,
+      "height": 0.6161,
+      "max_length": 20,
+      "label": "Armour right_arm type"
+    },
+    {
+      "id": "c2_armour_left_arm_type",
+      "kind": "text",
+      "x": 72.0612,
+      "y": 84.0419,
+      "width": 5.4348,
+      "height": 0.6161,
+      "max_length": 20,
+      "label": "Armour left_arm type"
+    },
+    {
+      "id": "c2_armour_body_type",
+      "kind": "text",
+      "x": 61.7955,
+      "y": 90.7579,
+      "width": 5.4348,
+      "height": 0.6161,
+      "max_length": 20,
+      "label": "Armour body type"
+    },
+    {
+      "id": "c2_armour_right_leg_type",
+      "kind": "text",
+      "x": 49.9195,
+      "y": 97.1349,
+      "width": 5.4348,
+      "height": 0.6161,
+      "max_length": 20,
+      "label": "Armour right_leg type"
+    },
+    {
+      "id": "c2_armour_left_leg_type",
+      "kind": "text",
+      "x": 72.0612,
+      "y": 97.1349,
+      "width": 5.4348,
+      "height": 0.6161,
+      "max_length": 20,
+      "label": "Armour left_leg type"
+    },
+    {
+      "id": "c2_armour_weight",
+      "kind": "text",
+      "x": 81.723,
+      "y": 85.9519,
+      "width": 10.0644,
+      "height": 1.8484,
+      "max_length": 6,
+      "label": "Armour Weight"
+    },
+    {
+      "id": "c2_lifting_lift",
+      "kind": "text",
+      "x": 13.0837,
+      "y": 87.3383,
+      "width": 9.8631,
+      "height": 2.7726,
+      "max_length": 8,
+      "label": "Lifting lift"
+    },
+    {
+      "id": "c2_lifting_carry",
+      "kind": "text",
+      "x": 24.7585,
+      "y": 87.3383,
+      "width": 9.4605,
+      "height": 2.7726,
+      "max_length": 8,
+      "label": "Lifting carry"
+    },
+    {
+      "id": "c2_lifting_push",
+      "kind": "text",
+      "x": 36.4332,
+      "y": 87.3383,
+      "width": 9.6618,
+      "height": 2.7726,
+      "max_length": 8,
+      "label": "Lifting push"
+    },
+    {
+      "id": "c2_fate_points_total",
+      "kind": "text",
+      "x": 18.9211,
+      "y": 94.732,
+      "width": 9.6618,
+      "height": 2.7726,
+      "max_length": 4,
+      "label": "Fate Points Total"
+    },
+    {
+      "id": "c2_fate_points_current",
+      "kind": "text",
+      "x": 30.5958,
+      "y": 94.732,
+      "width": 9.4605,
+      "height": 2.7726,
+      "max_length": 4,
+      "label": "Fate Points Current"
+    }
+  ]
+}
