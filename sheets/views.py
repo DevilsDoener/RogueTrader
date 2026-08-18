@@ -1,14 +1,16 @@
 """Owner-scoped character CRUD and separate read-only admin viewing.
 
-Every owner-facing lookup starts from ``CharacterSheet.objects.filter(owner=request.user)``
-so a character owned by someone else is indistinguishable from one that
-doesn't exist (404), matching the permission model in ``sheets/permissions.py``.
+Every owner-facing lookup starts from ``_owned_characters(request.user)`` (a thin
+wrapper over ``CharacterSheet.objects.filter(owner=...)``) so a character owned by
+someone else is indistinguishable from one that doesn't exist (404), matching the
+permission model in ``sheets/permissions.py``.
 The admin routes are entirely separate views/URLs -- they are never reused for
 owner mutation -- and only ever render the sheet read-only.
 """
 from __future__ import annotations
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.templatetags.static import static
 from django.views import View
@@ -21,9 +23,20 @@ from .services import delete_character
 #: The two schema pages rendered by the sheet viewer for a character.
 CHARACTER_PAGE_IDS: tuple[str, ...] = ("character-page-1", "character-page-2")
 
+#: Shared page template for both the owner and admin detail views; it includes
+#: the ``_sheet_viewer.html`` fragment and toggles destructive actions on
+#: ``read_only``.
+DETAIL_TEMPLATE_NAME = "sheets/character_detail.html"
+
+
+def _owned_characters(user) -> QuerySet[CharacterSheet]:
+    """The single owner-scoped queryset every owner-facing lookup starts from."""
+    return CharacterSheet.objects.filter(owner=user)
+
 
 def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> dict:
-    """Build the context consumed by ``sheets/_sheet_viewer.html``.
+    """Build the context consumed by ``sheets/character_detail.html`` (which
+    itself includes ``sheets/_sheet_viewer.html``).
 
     This stub renders both background pages with disabled overlay inputs;
     Task 7 extends the same include with editing/save behaviour.
@@ -48,14 +61,12 @@ class CharacterListCreateView(LoginRequiredMixin, View):
 
     template_name = "sheets/character_list.html"
 
-    def _owned_characters(self, request):
-        return CharacterSheet.objects.filter(owner=request.user).order_by("display_name")
-
     def get(self, request):
+        characters = _owned_characters(request.user).order_by("display_name")
         return render(
             request,
             self.template_name,
-            {"characters": self._owned_characters(request), "form": CharacterCreateForm()},
+            {"characters": characters, "form": CharacterCreateForm()},
         )
 
     def post(self, request):
@@ -65,21 +76,20 @@ class CharacterListCreateView(LoginRequiredMixin, View):
             character.owner = request.user
             character.save()
             return redirect("sheets:character_detail", pk=character.pk)
+        characters = _owned_characters(request.user).order_by("display_name")
         return render(
             request,
             self.template_name,
-            {"characters": self._owned_characters(request), "form": form},
+            {"characters": characters, "form": form},
         )
 
 
 class CharacterDetailView(LoginRequiredMixin, View):
     """``GET /characters/<uuid>/`` -- read/write viewer for the caller's own character."""
 
-    template_name = "sheets/_sheet_viewer.html"
-
     def get(self, request, pk):
-        character = get_object_or_404(CharacterSheet.objects.filter(owner=request.user), pk=pk)
-        return render(request, self.template_name, _character_viewer_context(character, read_only=False))
+        character = get_object_or_404(_owned_characters(request.user), pk=pk)
+        return render(request, DETAIL_TEMPLATE_NAME, _character_viewer_context(character, read_only=False))
 
 
 class CharacterDeleteView(LoginRequiredMixin, View):
@@ -92,11 +102,11 @@ class CharacterDeleteView(LoginRequiredMixin, View):
     template_name = "sheets/character_confirm_delete.html"
 
     def get(self, request, pk):
-        character = get_object_or_404(CharacterSheet.objects.filter(owner=request.user), pk=pk)
+        character = get_object_or_404(_owned_characters(request.user), pk=pk)
         return render(request, self.template_name, {"character": character})
 
     def post(self, request, pk):
-        character = get_object_or_404(CharacterSheet.objects.filter(owner=request.user), pk=pk)
+        character = get_object_or_404(_owned_characters(request.user), pk=pk)
         delete_character(sheet_id=character.pk, actor=request.user)
         return redirect("sheets:character_list")
 
@@ -127,8 +137,6 @@ class AdminCharacterDetailView(PortalAdminRequiredMixin, View):
     mutate or delete, has no save URLs, and always renders ``read_only=True``.
     """
 
-    template_name = "sheets/_sheet_viewer.html"
-
     def get(self, request, pk):
         character = get_object_or_404(CharacterSheet, pk=pk)
-        return render(request, self.template_name, _character_viewer_context(character, read_only=True))
+        return render(request, DETAIL_TEMPLATE_NAME, _character_viewer_context(character, read_only=True))

@@ -111,3 +111,14 @@ def test_delete_via_get_shows_confirmation_and_does_not_delete(client, user_fact
     response = client.get(f"/characters/{character.id}/delete/")
     assert response.status_code == 200
     assert CharacterSheet.objects.filter(pk=character.id).exists()
+
+
+@pytest.mark.django_db
+def test_get_on_another_users_delete_confirmation_is_not_found(client, user_factory, character_factory):
+    owner = user_factory()
+    other = user_factory()
+    character = character_factory(owner=other, display_name="Hidden")
+    client.force_login(owner)
+    response = client.get(f"/characters/{character.id}/delete/")
+    assert response.status_code == 404
+    assert CharacterSheet.objects.filter(pk=character.id).exists()

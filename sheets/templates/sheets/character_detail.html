@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<body>
+  <h1>{{ character.display_name }}</h1>
+
+  {% if not read_only %}
+    <p><a href="{% url 'sheets:character_list' %}">Back to characters</a></p>
+  {% else %}
+    <p><a href="{% url 'sheets:admin_character_list' %}">Back to all characters</a></p>
+  {% endif %}
+
+  {% include "sheets/_sheet_viewer.html" %}
+
+  {% if not read_only %}
+    <p><a href="{% url 'sheets:character_delete' character.pk %}">Delete character</a></p>
+  {% endif %}
+</body>
+</html>

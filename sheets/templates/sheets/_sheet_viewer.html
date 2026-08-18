@@ -1,48 +1,33 @@
 {% load static sheets_extras %}
-<!doctype html>
-<html lang="en">
-<body>
-  <h1>{{ character.display_name }}</h1>
-
-  {% if not read_only %}
-    <p><a href="{% url 'sheets:character_list' %}">Back to characters</a></p>
-  {% endif %}
-
-  {% for page in pages %}
-    <section class="sheet-page" data-page-id="{{ page.page_id }}">
-      <div class="sheet-page-canvas" style="position: relative; width: 100%; max-width: {{ page.width }}px;">
-        <img src="{{ page.image_url }}" alt="{{ page.page_id }}" style="width: 100%; display: block;">
-        {% for field in page.fields %}
-          <div
-            class="sheet-field"
-            style="position: absolute; left: {{ field.x }}%; top: {{ field.y }}%; width: {{ field.width }}%; height: {{ field.height }}%;"
-          >
-            {% if field.kind == "checkbox" %}
-              <input
-                type="checkbox"
-                name="{{ field.id }}"
-                aria-label="{{ field.label }}"
-                disabled
-                {% if character.values|get_item:field.id %}checked{% endif %}
-              >
-            {% else %}
-              <input
-                type="text"
-                name="{{ field.id }}"
-                aria-label="{{ field.label }}"
-                value="{{ character.values|get_item:field.id|default_if_none:'' }}"
-                maxlength="{{ field.max_length }}"
-                disabled
-              >
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-    </section>
-  {% endfor %}
-
-  {% if not read_only %}
-    <p><a href="{% url 'sheets:character_delete' character.pk %}">Delete character</a></p>
-  {% endif %}
-</body>
-</html>
+{% for page in pages %}
+  <section class="sheet-page" data-page-id="{{ page.page_id }}">
+    <div class="sheet-page-canvas" style="position: relative; width: 100%; max-width: {{ page.width }}px;">
+      <img src="{{ page.image_url }}" alt="{{ page.page_id }}" style="width: 100%; display: block;">
+      {% for field in page.fields %}
+        <div
+          class="sheet-field"
+          style="position: absolute; left: {{ field.x }}%; top: {{ field.y }}%; width: {{ field.width }}%; height: {{ field.height }}%;"
+        >
+          {% if field.kind == "checkbox" %}
+            <input
+              type="checkbox"
+              name="{{ field.id }}"
+              aria-label="{{ field.label }}"
+              disabled
+              {% if character.values|get_item:field.id %}checked{% endif %}
+            >
+          {% else %}
+            <input
+              type="text"
+              name="{{ field.id }}"
+              aria-label="{{ field.label }}"
+              value="{{ character.values|get_item:field.id|default_if_none:'' }}"
+              maxlength="{{ field.max_length }}"
+              disabled
+            >
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endfor %}
