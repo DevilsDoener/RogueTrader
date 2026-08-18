@@ -7,6 +7,7 @@
     <h1>Anmelden</h1>
     <form method="post">
       {% csrf_token %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
       {{ form.non_field_errors }}
       {{ form.as_p }}
       <button type="submit" class="button-primary">Anmelden</button>

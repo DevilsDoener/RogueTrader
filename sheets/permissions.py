@@ -8,8 +8,6 @@ Rules (see the design spec):
 """
 from __future__ import annotations
 
-from django.db.models import QuerySet
-
 from .models import CharacterSheet
 
 
@@ -21,13 +19,6 @@ def can_view_character(user, character: CharacterSheet) -> bool:
 
 def can_mutate_character(user, character: CharacterSheet) -> bool:
     return character.owner_id == getattr(user, "id", None)
-
-
-def visible_characters(user, queryset: QuerySet[CharacterSheet]) -> QuerySet[CharacterSheet]:
-    """Restrict ``queryset`` to the characters ``user`` is allowed to view."""
-    if user.can_view_all_characters():
-        return queryset
-    return queryset.filter(owner=user)
 
 
 def can_view_ship(user) -> bool:

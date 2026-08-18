@@ -131,7 +131,51 @@ def test_compose_does_not_supply_a_fallback_for_allowed_hosts():
 
 
 def test_allowed_hosts_is_explicit_in_production(production_settings):
-    assert production_settings.ALLOWED_HOSTS == ["portal.example.com"]
+    # 127.0.0.1/localhost are always appended (see settings.py) so the
+    # container HEALTHCHECK and the docs/operations.md manual smoke test
+    # (both of which hit /healthz/ over loopback with a "Host:
+    # 127.0.0.1:8000" header) never trip DisallowedHost, without an
+    # operator having to remember to add loopback to
+    # DJANGO_ALLOWED_HOSTS themselves.
+    assert production_settings.ALLOWED_HOSTS == [
+        "portal.example.com",
+        "127.0.0.1",
+        "localhost",
+    ]
+
+
+def test_allowed_hosts_does_not_duplicate_an_operator_supplied_loopback_host(
+    settings_from_env,
+):
+    settings = settings_from_env(
+        **{**PRODUCTION_ENV, "DJANGO_ALLOWED_HOSTS": "portal.example.com,127.0.0.1"}
+    )
+    assert settings.ALLOWED_HOSTS == ["portal.example.com", "127.0.0.1", "localhost"]
+
+
+@pytest.mark.django_db
+def test_healthcheck_over_plain_http_on_loopback_succeeds_in_production(
+    production_settings, settings, client
+):
+    # Regression guard for the container HEALTHCHECK and the manual smoke
+    # test in docs/operations.md: a plain-HTTP request to /healthz/ on
+    # 127.0.0.1 must neither be redirected to HTTPS (SECURE_SSL_REDIRECT is
+    # True in production) nor rejected as DisallowedHost, even though
+    # DJANGO_ALLOWED_HOSTS is set to the real public hostname only.
+    #
+    # This applies the same production-shaped values ``production_settings``
+    # computed to the *live* settings object (via pytest-django's
+    # ``settings`` fixture) rather than the freshly reloaded module, because
+    # a real HTTP request must be dispatched through the actual configured
+    # Django app (URLconf, middleware) to prove the healthcheck path works
+    # end-to-end, not just that the raw attribute values look right.
+    settings.ALLOWED_HOSTS = production_settings.ALLOWED_HOSTS
+    settings.SECURE_SSL_REDIRECT = production_settings.SECURE_SSL_REDIRECT
+    settings.SECURE_REDIRECT_EXEMPT = production_settings.SECURE_REDIRECT_EXEMPT
+
+    response = client.get("/healthz/", SERVER_NAME="127.0.0.1")
+
+    assert response.status_code == 200
 
 
 def test_https_security_is_enabled_in_production(production_settings):
@@ -146,6 +190,19 @@ def test_https_security_is_enabled_in_production(production_settings):
 
 def test_csrf_trusted_origins_derive_from_public_base_url(production_settings):
     assert production_settings.CSRF_TRUSTED_ORIGINS == ["https://portal.example.com"]
+
+
+def test_csrf_trusted_origins_strips_a_trailing_slash_from_public_base_url(
+    settings_from_env,
+):
+    # .env.example/docs/operations.md show PUBLIC_BASE_URL without a
+    # trailing slash, but Django's CSRF origin matching requires an origin
+    # with no path component -- an operator who adds one anyway must still
+    # get a working trusted origin, not every POST silently 403ing.
+    settings = settings_from_env(
+        **{**PRODUCTION_ENV, "PUBLIC_BASE_URL": "https://portal.example.com/"}
+    )
+    assert settings.CSRF_TRUSTED_ORIGINS == ["https://portal.example.com"]
 
 
 def test_hsts_is_enabled_only_when_flag_is_set(settings_from_env):

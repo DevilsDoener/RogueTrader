@@ -157,7 +157,7 @@ def test_complete_portal_journey(page, second_page, live_server, settings, ship_
     # thing a production container does by mounting the book read-only and
     # letting WikiConfig.ready() parse it on boot.
     original_repository = get_repository()
-    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR
+    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
     settings.WIKI_CONTENT_ALLOWLIST = [WIKI_CHAPTER_FILE]
     set_repository_for_tests(WikiRepository.load())
 
@@ -255,13 +255,16 @@ def _run_journey(page, second_page, live_server, ship_sheet):
     login_via_browser(page, live_server, username=user_a_username, password=USER_A_NEW_PASSWORD)
 
     # ---- Step 7: both accounts edit the shared ship, on different fields.
-    # A dedicated ShipSheet row (rather than /ship/'s redirect-to-the-single-
-    # active-ship) keeps this deterministic regardless of whether an
-    # earlier test in the same run left the migration-seeded ship in place.
-    ship_url = f"{live_server.url}/ships/{ship_sheet.id}/"
-    page.goto(ship_url)
+    # Navigate via the real "/ship/" redirect route (not a direct ship UUID
+    # URL) so this journey actually exercises the redirect a real user
+    # follows -- ship_sheet is the migration-seeded ship (see
+    # tests/e2e/conftest.py), the same single active ship a production
+    # deployment has, so the redirect always resolves to it unambiguously.
+    page.goto(f"{live_server.url}/ship/")
     page.wait_for_selector('[data-field-id="ship_name"]')
-    second_page.goto(ship_url)
+    ship_url = page.url
+    assert ship_url == f"{live_server.url}/ships/{ship_sheet.id}/"
+    second_page.goto(f"{live_server.url}/ship/")
     second_page.wait_for_selector('[data-field-id="ship_speed"]')
 
     _set_text_field(page, "ship_name", "Rosinante")

@@ -63,6 +63,26 @@ def test_non_admin_forbidden_from_admin_character_detail(client, user_factory, c
 
 
 @pytest.mark.django_db
+def test_anonymous_visitor_redirected_to_login_from_admin_character_list(client):
+    # Anonymous visitors must be redirected to login, like every other
+    # authenticated route in the app -- not given a bare 403.
+    response = client.get("/portal-admin/characters/")
+    assert response.status_code == 302
+    assert response.url == "/account/login/?next=/portal-admin/characters/"
+
+
+@pytest.mark.django_db
+def test_anonymous_visitor_redirected_to_login_from_admin_character_detail(
+    client, character_factory
+):
+    sheet = character_factory(display_name="Visible")
+    url = f"/portal-admin/characters/{sheet.id}/"
+    response = client.get(url)
+    assert response.status_code == 302
+    assert response.url == f"/account/login/?next={url}"
+
+
+@pytest.mark.django_db
 def test_admin_detail_omits_destructive_actions(client, admin_user, character_factory):
     sheet = character_factory(display_name="Visible")
     client.force_login(admin_user)

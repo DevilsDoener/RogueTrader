@@ -35,11 +35,12 @@ Copy-Item .env.example .env   # then edit values for your machine
 ```
 
 The wiki reads its chapters from `WIKI_CONTENT_ROOT` (an allow-listed set
-of the repository's own `NN-Chapter-Name.md` files, see
+of `NN-Chapter-Name.md` files under `content/`, see
 `WIKI_CONTENT_ALLOWLIST` in `.env.example`) rather than from any database
-table, so pointing `WIKI_CONTENT_ROOT` at a checkout of this repository is
-enough for local development. In the Docker deployment this directory is
-instead mounted read-only into the container (see `compose.yaml` and
+table, so pointing `WIKI_CONTENT_ROOT` at this checkout's `content/`
+directory is enough for local development. In the Docker deployment only
+that same `content/` directory (never the whole repository) is mounted
+read-only into the container, at `/content/wiki` (see `compose.yaml` and
 `docs/operations.md`).
 
 Every account is admin-created (`bootstrap_admin` creates the first one);

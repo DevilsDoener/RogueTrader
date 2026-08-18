@@ -187,7 +187,21 @@ def character_factory(user_factory):
 
 @pytest.fixture
 def ship_sheet(transactional_db):
-    return ShipSheet.objects.create(display_name="Gemeinsames Schiff")
+    """Returns the migration-seeded shared ship rather than creating a
+    second, rival active row (see the identical fixture and comment in
+    ``sheets/tests/conftest.py``).
+
+    Falls back to creating one if it's missing: unlike the plain ``db``
+    fixture used elsewhere (wrapped in a rolled-back transaction),
+    ``transactional_db`` flushes the database between tests without
+    re-running data migrations, so the very first flush in a session
+    deletes the row the ``0002_seed_shared_ship`` migration created --
+    this keeps every test in this module able to rely on "the" active ship
+    existing, matching what a real deployment always has.
+    """
+    return ShipSheet.objects.filter(is_active=True).first() or ShipSheet.objects.create(
+        display_name="Gemeinsames Schiff", is_active=True
+    )
 
 
 def login_via_browser(page, live_server, *, username, password=DEFAULT_PASSWORD):

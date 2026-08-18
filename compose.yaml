@@ -19,7 +19,11 @@ services:
       ENABLE_HSTS: ${ENABLE_HSTS:-0}
     volumes:
       - portal-data:/data
-      - ./:/content/wiki:ro
+      # Only the wiki's Markdown chapters are mounted -- never the whole
+      # repository checkout. Mounting "./" here would also expose .env
+      # (DJANGO_SECRET_KEY), the full .git history, the dev SQLite database
+      # under data/, and scripts/ read-only inside the container.
+      - ./content:/content/wiki:ro
 
 volumes:
   portal-data:

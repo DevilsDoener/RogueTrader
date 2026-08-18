@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import json
 
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.http import Http404, JsonResponse
@@ -19,6 +19,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.templatetags.static import static
 from django.urls import reverse
 from django.views import View
+
+from core.mixins import PortalAdminRequiredMixin
 
 from .forms import CharacterCreateForm
 from .models import CharacterSheet, SheetChange, ShipSheet
@@ -57,8 +59,9 @@ def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> 
     """Build the context consumed by ``sheets/character_detail.html`` (which
     itself includes ``sheets/_sheet_viewer.html``).
 
-    This stub renders both background pages with disabled overlay inputs;
-    Task 7 extends the same include with editing/save behaviour.
+    Renders both background pages with overlay inputs; when ``read_only``
+    is false those inputs are live and backed by the interactive
+    autosave/conflict-resolution behaviour in ``sheet-viewer.js`` (Task 7).
     """
     pages = []
     for page_id in CHARACTER_PAGE_IDS:
@@ -222,13 +225,6 @@ class CharacterDeleteView(LoginRequiredMixin, View):
         character = get_object_or_404(_owned_characters(request.user), pk=pk)
         delete_character(sheet_id=character.pk, actor=request.user)
         return redirect("sheets:character_list")
-
-
-class PortalAdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
-    raise_exception = True
-
-    def test_func(self):
-        return self.request.user.is_portal_admin
 
 
 class AdminCharacterListView(PortalAdminRequiredMixin, View):

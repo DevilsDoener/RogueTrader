@@ -7,12 +7,18 @@ pages (character-page-1, character-page-2, ship-page):
    with no data entered, ``.sheet-canvas`` at fit-page zoom must render as
    (almost) exactly the extracted background image from Task 4
    (``sheets/static/sheets/images/*.webp``). Idle text inputs have no
-   border/background/visible caret and idle checkboxes are the browser's
-   native (tiny) control, so the only expected differences from the source
-   asset are resampling/compression noise -- never a shifted field, an
-   extra visible box, or wrong ship-page rotation. Each render is also
-   saved to ``tests/visual/<page>.png`` for manual inspection per the
-   brief's Step 2.
+   border/background/visible caret, and an idle checkbox has native
+   rendering suppressed entirely (``appearance: none``, see
+   ``sheet-viewer.css``) so it paints no chrome of its own either -- the
+   only expected differences from the source asset are resampling/
+   compression noise, never a shifted field, an extra visible box, or wrong
+   ship-page rotation. Each render is also saved to ``tests/visual/
+   <page>.png`` for manual inspection per the brief's Step 2.
+   ``test_checked_checkbox_matches_extracted_background_at_fit_page``
+   covers the complementary ``:checked { appearance: auto }`` branch (the
+   browser's native, pixel-exact tick/accent-color rendering), including
+   once through the read-only admin viewer, where the checkbox is also
+   ``disabled``.
 
 2. **Geometry containment** (``test_field_rectangles_stay_within_canvas_*``):
    with a test-only debug-overlay class enabled, every schema field
@@ -23,7 +29,7 @@ pages (character-page-1, character-page-2, ship-page):
    and Task 9), so in addition to the blanket "every field stays inside
    the canvas" assertion, one checkbox field per page has its *exact*
    proportional position (not just "in bounds") asserted against the
-   schema at every zoom level.
+   schema at every zoom level, in both its unchecked and checked state.
 """
 from __future__ import annotations
 
@@ -82,12 +88,26 @@ def _field(schema: dict, field_id: str) -> dict:
     return next(f for f in schema["fields"] if f["id"] == field_id)
 
 
-def _open_sheet(page, live_server, *, owner, character_factory, ship_sheet, page_id, page_index):
+def _open_sheet(
+    page, live_server, *, owner, character_factory, ship_sheet, page_id, page_index,
+    checked_field_id=None, admin_user=None,
+):
+    """Opens a sheet, optionally pre-marking ``checked_field_id`` and/or
+    opening it through the read-only admin viewer instead of the owner's
+    own view (``admin_user`` -- character pages only, there is no separate
+    admin route for the ship)."""
     if page_id == "ship-page":
+        if checked_field_id:
+            ship_sheet.values = {**ship_sheet.values, checked_field_id: True}
+            ship_sheet.save(update_fields=["values"])
         page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
     else:
-        character = character_factory(owner=owner)
-        page.goto(f"{live_server.url}/characters/{character.id}/")
+        values = {checked_field_id: True} if checked_field_id else {}
+        character = character_factory(owner=owner, values=values)
+        if admin_user is not None:
+            page.goto(f"{live_server.url}/portal-admin/characters/{character.id}/")
+        else:
+            page.goto(f"{live_server.url}/characters/{character.id}/")
     page.wait_for_selector(".sheet-canvas")
     if page_index:
         page.click(f'.sheet-page-tab[data-page-index="{page_index}"]')
@@ -187,6 +207,99 @@ def test_blank_sheet_matches_extracted_background_at_fit_page(
     _assert_matches_background(
         screenshot, BACKGROUND_DIR / f"{page_id}.webp", save_as=f"{page_id}.png"
     )
+
+
+@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
+def test_checked_checkbox_matches_extracted_background_at_fit_page(
+    page, live_server, owner, character_factory, ship_sheet,
+    page_id, page_index, checkbox_field_id, viewport,
+):
+    """Exercises ``.sheet-checkbox:checked { appearance: auto }`` (never
+    rendered by the blank-sheet fidelity check above): one schema checkbox
+    is pre-marked, so the canvas must still match the extracted background
+    almost exactly everywhere except that one small control, where the
+    browser's native tick/accent-color rendering is expected and does not
+    count as "added chrome"."""
+    page.set_viewport_size(viewport)
+    login_via_browser(page, live_server, username=owner.username)
+    _open_sheet(
+        page, live_server,
+        owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
+        page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
+    )
+    page.click("#fit-page")
+    page.wait_for_timeout(50)
+
+    checkbox = page.locator(f'[data-field-id="{checkbox_field_id}"]')
+    assert checkbox.is_checked()
+
+    canvas = page.locator(".sheet-page:not([hidden]) .sheet-canvas")
+    screenshot = canvas.screenshot()
+
+    # One tiny checked control out of a full page moves the whole-canvas
+    # mean diff only marginally, so the same blank-sheet tolerance still
+    # applies -- if it didn't, that would itself mean the checked state is
+    # painting something far bigger than a single tick/accent-color box.
+    _assert_matches_background(
+        screenshot, BACKGROUND_DIR / f"{page_id}.webp", save_as=f"{page_id}-checked.png"
+    )
+
+
+@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
+def test_checked_checkbox_position_unchanged_at_fit_page(
+    page, live_server, owner, character_factory, ship_sheet,
+    page_id, page_index, checkbox_field_id, viewport,
+):
+    """Checking a box must never itself move or resize it -- toggling
+    ``appearance`` between ``none`` and ``auto`` on ``:checked`` (see
+    ``sheet-viewer.css``) changes native rendering, not layout."""
+    page.set_viewport_size(viewport)
+    login_via_browser(page, live_server, username=owner.username)
+    _open_sheet(
+        page, live_server,
+        owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
+        page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
+    )
+    page.click("#fit-page")
+    page.wait_for_timeout(50)
+
+    _assert_checkbox_position(page, page_id, checkbox_field_id, "checked, fit-page")
+
+
+@pytest.mark.parametrize(
+    "page_id, page_index, checkbox_field_id, viewport",
+    [p for p in PAGES if p[0] != "ship-page"],  # no separate admin route for the ship
+)
+def test_admin_read_only_view_renders_checked_checkbox_within_canvas(
+    page, live_server, owner, character_factory, ship_sheet, portal_admin,
+    page_id, page_index, checkbox_field_id, viewport,
+):
+    """The read-only admin viewer (``/portal-admin/characters/<uuid>/``) has
+    never been opened by this suite before. Its checkbox inputs are also
+    ``disabled`` (see ``sheets/character_detail.html``), and Chromium visibly
+    dims a disabled ``:checked`` control's ``accent-color`` -- grey instead
+    of the gold used everywhere else. That dimming is standard, deliberate
+    browser behaviour for disabled controls (a real accessibility signal,
+    not a bug to fix here), so this only asserts geometry stays correct,
+    not pixel color -- geometry is what would actually break if the shared
+    ``_sheet_viewer.html`` fragment ever diverged between the owner and
+    admin views."""
+    page.set_viewport_size(viewport)
+    login_via_browser(page, live_server, username=portal_admin.username)
+    _open_sheet(
+        page, live_server,
+        owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
+        page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
+        admin_user=portal_admin,
+    )
+    page.click("#fit-page")
+    page.wait_for_timeout(50)
+
+    checkbox = page.locator(f'[data-field-id="{checkbox_field_id}"]')
+    assert checkbox.is_checked()
+    assert checkbox.is_disabled()
+
+    _assert_checkbox_position(page, page_id, checkbox_field_id, "admin read-only view")
 
 
 @pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)

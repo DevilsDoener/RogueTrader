@@ -68,6 +68,18 @@ if not DEBUG and not _allowed_hosts_env:
     )
 ALLOWED_HOSTS = (_allowed_hosts_env or "127.0.0.1,localhost").split(",")
 
+# Loopback addresses are always accepted, in addition to whatever the
+# operator configures above -- the container's own HEALTHCHECK (and the
+# documented manual smoke test in docs/operations.md) hit
+# http://127.0.0.1:8000/healthz/ directly, with a "Host: 127.0.0.1:8000"
+# header that would otherwise trip DisallowedHost once DJANGO_ALLOWED_HOSTS
+# is set to the real public hostname. This grants nothing an external
+# attacker can reach: these are loopback-only addresses that are only
+# reachable from inside the container/host itself.
+for _loopback_host in ("127.0.0.1", "localhost"):
+    if _loopback_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_loopback_host)
+
 PUBLIC_BASE_URL = os.environ.get("PUBLIC_BASE_URL", "http://127.0.0.1:8000")
 APP_BIND_ADDRESS = os.environ.get("APP_BIND_ADDRESS", "127.0.0.1")
 
@@ -77,8 +89,13 @@ APP_BIND_ADDRESS = os.environ.get("APP_BIND_ADDRESS", "127.0.0.1")
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # CSRF_TRUSTED_ORIGINS must include the scheme (e.g. "https://example.com"),
-# which PUBLIC_BASE_URL already carries.
-CSRF_TRUSTED_ORIGINS = [PUBLIC_BASE_URL]
+# which PUBLIC_BASE_URL already carries. Trailing slashes are stripped --
+# Django requires an origin with no path component, and both
+# .env.example/docs/operations.md show PUBLIC_BASE_URL without one, but an
+# operator who adds one anyway (e.g. "https://example.com/") would
+# otherwise silently produce a CSRF_TRUSTED_ORIGINS entry Django never
+# matches against the request's Origin header, making every POST 403.
+CSRF_TRUSTED_ORIGINS = [PUBLIC_BASE_URL.rstrip("/")]
 
 # Clickjacking / MIME-sniffing protections apply regardless of DEBUG -- they
 # do not interfere with local development.
@@ -90,6 +107,13 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = not DEBUG
+
+# The health-check endpoint is polled in plain HTTP over loopback -- by the
+# Dockerfile's own HEALTHCHECK and by the manual smoke test in
+# docs/operations.md -- so it must never be bounced to HTTPS the way every
+# other view is. This is safe to exempt unconditionally: /healthz/ requires
+# no login and returns no sheet content, only a liveness/DB status flag.
+SECURE_REDIRECT_EXEMPT = [r"^healthz/$"]
 
 # HTTP Strict Transport Security is opt-in via ENABLE_HSTS=1 so it can only
 # be turned on once the reverse proxy is confirmed to serve HTTPS correctly
@@ -156,6 +180,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -241,6 +266,29 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Nothing else in front of this app serves static files (no nginx/CDN --
+# see docs/operations.md, the reverse proxy only forwards to the portal),
+# so WhiteNoise serves portal.css/portal.js/sheet-viewer.{css,js} and the
+# three sheet background .webp images directly from the app process in
+# production, with cache-busting hashed filenames and gzip/brotli
+# compression via the manifest storage backend below. The manifest
+# (staticfiles.json) only exists once `collectstatic` has run (the
+# Dockerfile does this at image build time), so local development/tests
+# -- which never run `collectstatic` -- keep using Django's plain
+# staticfiles storage instead of erroring on a missing manifest entry.
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

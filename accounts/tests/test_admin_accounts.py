@@ -33,6 +33,32 @@ def test_normal_user_gets_forbidden_from_every_portal_admin_route(
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize(
+    "route_name, kwargs",
+    [
+        ("accounts:admin_user_list", {}),
+        ("accounts:admin_user_create", {}),
+        ("accounts:admin_user_edit", {"pk": 1}),
+        ("accounts:admin_user_deactivate", {"pk": 1}),
+        ("accounts:admin_user_reactivate", {"pk": 1}),
+        ("accounts:admin_user_reset_password", {"pk": 1}),
+    ],
+)
+def test_anonymous_visitor_is_redirected_to_login_from_every_portal_admin_route(
+    client, route_name, kwargs
+):
+    # Anonymous (not-logged-in) visitors must be redirected to login, like
+    # every other authenticated route in the app -- not given a bare 403,
+    # which PortalAdminRequiredMixin used to do regardless of auth state.
+    url = reverse(route_name, kwargs=kwargs)
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == f"/account/login/?next={url}"
+
+
+@pytest.mark.django_db
 def test_portal_admin_can_create_managed_user(client, portal_admin):
     client.force_login(portal_admin)
 

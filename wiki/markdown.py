@@ -7,13 +7,17 @@ unsafe link protocols. Safety is enforced in one place, deliberately:
 - ``markdown-it-py`` is configured with ``html`` disabled, so raw HTML in the
   source is treated as literal text (auto-escaped on render), and its own
   link-destination validator is overridden to always accept (see
-  ``_build_parser``) so that link/image syntax always parses into real
-  ``<a>``/``<img>`` tags instead of silently falling back to literal bracket
-  text for "unsafe-looking" URLs.
+  ``_build_parser``) so that link syntax always parses into a real ``<a>``
+  tag instead of silently falling back to literal bracket text for
+  "unsafe-looking" URLs.
 - Bleach then cleans the rendered HTML against a small allowlist of
   tags/attributes/protocols. This is the *only* layer that decides which
   link protocols are permitted, so the rule stays in one auditable place
   instead of being split between two libraries with different opinions.
+  ``img`` is deliberately not in ``ALLOWED_TAGS`` below -- image syntax is
+  parsed the same permissive way as links (see ``_build_parser``), but
+  Bleach then strips the resulting ``<img>`` tag entirely, so Markdown
+  image syntax currently renders as nothing rather than a picture.
 """
 from __future__ import annotations
 

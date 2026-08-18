@@ -26,11 +26,10 @@ def assert_not_contains(response, text):
 
 @pytest.mark.django_db
 def test_ship_redirect_sends_to_the_active_ship(client, user_factory, ship_sheet):
-    # A data migration (Task 5) already seeds one active ship, so the
-    # ship_sheet fixture's row is a *second* active ship in the test
-    # database -- deactivate the others so "the" active ship is
-    # unambiguous, matching the v1 invariant of exactly one.
-    ShipSheet.objects.exclude(pk=ship_sheet.pk).update(is_active=False)
+    # ship_sheet is the single active ship the 0002_seed_shared_ship data
+    # migration already seeded (see sheets/tests/conftest.py), so "the"
+    # active ship is unambiguous without deactivating anything else,
+    # matching the v1 invariant of exactly one.
     client.force_login(user_factory())
     response = client.get("/ship/")
     assert response.status_code == 302

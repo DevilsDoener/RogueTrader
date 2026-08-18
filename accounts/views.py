@@ -6,7 +6,6 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404, redirect, render
@@ -15,6 +14,8 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 from django.views import View
 from django.views.generic import ListView
+
+from core.mixins import PortalAdminRequiredMixin
 
 from .forms import LoginForm, ManagedUserCreateForm, ManagedUserForm, TemporaryPasswordForm
 from .models import LoginThrottle, User
@@ -75,6 +76,10 @@ def _record_login_failure(key_hash: str, now) -> None:
 
 def login_view(request):
     form = LoginForm(request.POST or None)
+    # ``next`` arrives as a GET query param on the initial redirect from
+    # LoginRequiredMixin (see LOGIN_URL); the template below round-trips it
+    # as a hidden POST field so it survives the form submission too.
+    next_url = request.POST.get("next") or request.GET.get("next", "")
     if request.method == "POST" and form.is_valid():
         key_hash = _throttle_key(request, form.cleaned_data["username"])
         now = timezone.now()
@@ -100,7 +105,7 @@ def login_view(request):
                 ):
                     redirect_to = "dashboard"
                 return redirect(redirect_to)
-    return render(request, "accounts/login.html", {"form": form})
+    return render(request, "accounts/login.html", {"form": form, "next": next_url})
 
 
 @require_POST
@@ -119,13 +124,6 @@ def change_required(request):
         update_session_auth_hash(request, user)
         return redirect("dashboard")
     return render(request, "accounts/force_password_change.html", {"form": form})
-
-
-class PortalAdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
-    raise_exception = True
-
-    def test_func(self):
-        return self.request.user.is_portal_admin
 
 
 class PortalAdminUserListView(PortalAdminRequiredMixin, ListView):

@@ -61,5 +61,17 @@ def character_factory(user_factory):
 
 
 @pytest.fixture
-def ship_sheet():
-    return ShipSheet.objects.create(display_name="Gemeinsames Schiff")
+def ship_sheet(db):
+    """The single shared ship every authenticated user may edit.
+
+    Returns the migration-seeded ship (see
+    ``sheets/migrations/0002_seed_shared_ship.py``) rather than creating a
+    second, rival active ship -- a real deployment only ever has the one
+    the migration created, so tests exercising "the" active ship should
+    exercise that same row. Falls back to creating one only if a previous
+    test already deleted every ship (e.g. via ``ShipSheet.objects.all()
+    .delete()``), so this fixture never raises ``DoesNotExist``.
+    """
+    return ShipSheet.objects.filter(is_active=True).first() or ShipSheet.objects.create(
+        display_name="Gemeinsames Schiff", is_active=True
+    )

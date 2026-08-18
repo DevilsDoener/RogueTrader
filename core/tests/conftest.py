@@ -46,4 +46,9 @@ def character_factory(user_factory):
 
 @pytest.fixture
 def ship_sheet(db):
-    return ShipSheet.objects.create(display_name="Gemeinsames Schiff", is_active=True)
+    """Returns the migration-seeded shared ship rather than creating a
+    second, rival active row (see the identical fixture and comment in
+    ``sheets/tests/conftest.py``)."""
+    return ShipSheet.objects.filter(is_active=True).first() or ShipSheet.objects.create(
+        display_name="Gemeinsames Schiff", is_active=True
+    )

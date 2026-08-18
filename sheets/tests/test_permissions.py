@@ -1,7 +1,7 @@
 import pytest
 
 from sheets.models import CharacterSheet
-from sheets.permissions import can_mutate_character, can_view_character, visible_characters
+from sheets.permissions import can_mutate_character, can_view_character
 from sheets.services import (
     SheetNotFound,
     delete_character,
@@ -81,15 +81,3 @@ def test_every_user_can_patch_the_shared_ship(ship_sheet, owner, other_user, por
             base_version=index,
         )
         assert result.version == index + 1
-
-
-@pytest.mark.django_db
-def test_visible_characters_filters_by_ownership(owner, other_user, portal_admin):
-    mine = CharacterSheet.objects.create(owner=owner, display_name="Mine")
-    theirs = CharacterSheet.objects.create(owner=other_user, display_name="Theirs")
-
-    owner_visible = set(visible_characters(owner, CharacterSheet.objects.all()))
-    assert owner_visible == {mine}
-
-    admin_visible = set(visible_characters(portal_admin, CharacterSheet.objects.all()))
-    assert admin_visible == {mine, theirs}
