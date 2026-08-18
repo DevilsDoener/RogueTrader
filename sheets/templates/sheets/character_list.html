@@ -1,17 +1,20 @@
-<!doctype html>
-<html lang="en">
-<body>
-  <h1>Your characters</h1>
-  <ul>
+{% extends "base.html" %}
+
+{% block title %}Charaktere &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>Deine Charaktere</h1>
+  <ul class="plain-list">
     {% for character in characters %}
       <li>
-        <a href="{% url 'sheets:character_detail' character.pk %}">{{ character.display_name }}</a>
-        <a href="{% url 'sheets:character_delete' character.pk %}">Delete</a>
+        <a href="{% url 'sheets:character_detail' character.pk %}">{{ character.display_name|default:"Unbenannter Charakter" }}</a>
+        <a href="{% url 'sheets:character_delete' character.pk %}">L&ouml;schen</a>
       </li>
     {% empty %}
-      <li>No characters yet.</li>
+      <li>Noch keine Charaktere vorhanden.</li>
     {% endfor %}
   </ul>
-  {% include "sheets/character_create.html" %}
-</body>
-</html>
+  <div class="form-card" id="create-character">
+    {% include "sheets/character_create.html" %}
+  </div>
+{% endblock %}

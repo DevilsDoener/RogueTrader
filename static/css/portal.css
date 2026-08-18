@@ -1,0 +1,840 @@
+/*
+ * Rogue Trader Portal -- "Bruecken-Hybrid" visual system.
+ *
+ * Direction: a dark blue-green command-deck shell with restrained
+ * brass/gold accents, wrapping neutral console surfaces for navigation and
+ * chrome, and a warm parchment surface reserved for long-form wiki reading.
+ * This file styles the shell (topbar, nav, dashboard, forms, tables,
+ * wiki article surface) -- it MUST NOT reach into `.sheet-viewer-root`'s
+ * internal geometry (`.sheet-canvas`, `.sheet-field`, `.sheet-viewport`,
+ * etc; see sheets/static/sheets/sheet-viewer.css), which keeps the
+ * character/ship sheet's pixel-aligned pan/zoom coordinate system
+ * independent of any global layout change.
+ */
+
+/* ---------------------------------------------------------------------
+   Tokens
+   --------------------------------------------------------------------- */
+
+:root {
+  --rt-bg: #0a1815;
+  --rt-bg-elevated: #0f211c;
+  --rt-panel: #143029;
+  --rt-panel-raised: #1a3b32;
+  --rt-border: #2b4b41;
+  --rt-border-strong: #3c6357;
+
+  --rt-gold: #b08d57;
+  --rt-gold-bright: #dcb877;
+  --rt-gold-dim: #7a6440;
+
+  --rt-text: #e9e4d5;
+  --rt-text-muted: #a7bab2;
+  --rt-text-on-gold: #1b140a;
+
+  --rt-parchment: #f3ead5;
+  --rt-parchment-raised: #faf4e6;
+  --rt-parchment-ink: #2a241c;
+  --rt-parchment-border: #cdbb92;
+
+  --rt-danger: #b3543f;
+  --rt-danger-bright: #d97a63;
+  --rt-focus: #eccb84;
+
+  --rt-radius: 3px;
+  --rt-radius-lg: 6px;
+
+  --rt-font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman", serif;
+  --rt-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --rt-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --rt-topbar-height: 3.5rem;
+  --rt-nav-width: 15.5rem;
+  --rt-transition-fast: 150ms ease;
+  --rt-transition: 220ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Reset & base
+   --------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--rt-bg);
+  color: var(--rt-text);
+  font-family: var(--rt-font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--rt-gold-bright);
+}
+
+a:hover {
+  color: var(--rt-gold);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--rt-font-display);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--rt-text);
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--rt-focus);
+  outline-offset: 2px;
+  border-radius: var(--rt-radius);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 1rem;
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  background: var(--rt-gold-bright);
+  color: var(--rt-text-on-gold);
+  font-weight: 600;
+  border-radius: var(--rt-radius);
+  transition: top var(--rt-transition-fast);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ---------------------------------------------------------------------
+   Buttons & form controls (shared across shell chrome and content forms)
+   --------------------------------------------------------------------- */
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--rt-border-strong);
+  border-radius: var(--rt-radius);
+  background: var(--rt-panel-raised);
+  color: var(--rt-text);
+  cursor: pointer;
+  transition: background var(--rt-transition-fast), border-color var(--rt-transition-fast);
+}
+
+button:hover,
+.button:hover {
+  border-color: var(--rt-gold);
+}
+
+button[type="submit"],
+.button-primary {
+  background: var(--rt-gold);
+  border-color: var(--rt-gold);
+  color: var(--rt-text-on-gold);
+  font-weight: 600;
+}
+
+button[type="submit"]:hover,
+.button-primary:hover {
+  background: var(--rt-gold-bright);
+  border-color: var(--rt-gold-bright);
+}
+
+.link-button {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--rt-text-muted);
+}
+
+.link-button:hover {
+  color: var(--rt-gold-bright);
+  border-color: var(--rt-border);
+}
+
+/* :not(.sheet-input) keeps every one of these generic form rules out of
+   the character/ship sheet overlay -- its inputs are absolutely
+   positioned as a percentage of `.sheet-canvas` (see
+   sheets/static/sheets/sheet-viewer.css) and must keep their own 100%
+   width/height sizing untouched by any global chrome styling here. */
+input[type="text"]:not(.sheet-input),
+input[type="search"]:not(.sheet-input),
+input[type="password"]:not(.sheet-input),
+input[type="email"]:not(.sheet-input),
+textarea,
+select {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-border-strong);
+  border-radius: var(--rt-radius);
+  color: var(--rt-text);
+}
+
+input[type="checkbox"]:not(.sheet-checkbox) {
+  width: 1.5rem;
+  height: 1.5rem;
+  accent-color: var(--rt-gold);
+}
+
+form p {
+  margin: 0 0 1rem;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  color: var(--rt-text-muted);
+}
+
+/* ---------------------------------------------------------------------
+   Shell layout: topbar + fixed left nav + content
+   --------------------------------------------------------------------- */
+
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--rt-nav-width) 1fr;
+  grid-template-rows: var(--rt-topbar-height) 1fr;
+  grid-template-areas:
+    "topbar topbar"
+    "nav content";
+  min-height: 100vh;
+}
+
+.topbar {
+  grid-area: topbar;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+  background: var(--rt-bg-elevated);
+  border-bottom: 1px solid var(--rt-border);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.28rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 1.4rem;
+  height: 2px;
+  background: var(--rt-text);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--rt-font-display);
+  font-size: 1.15rem;
+  color: var(--rt-gold-bright);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand:hover {
+  color: var(--rt-gold-bright);
+}
+
+.brand-mark {
+  font-size: 1.3rem;
+}
+
+.topbar-search {
+  display: flex;
+  flex: 1 1 auto;
+  max-width: 26rem;
+  gap: 0.4rem;
+}
+
+.topbar-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.topbar-account {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.topbar-username {
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.85rem;
+}
+
+.nav-scrim {
+  display: none;
+}
+
+.primary-nav {
+  grid-area: nav;
+  background: var(--rt-panel);
+  border-right: 1px solid var(--rt-border);
+  padding: 1.25rem 0.75rem;
+  overflow-y: auto;
+}
+
+.primary-nav ul {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.primary-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border-radius: var(--rt-radius);
+  color: var(--rt-text);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: background var(--rt-transition-fast), border-color var(--rt-transition-fast);
+}
+
+.primary-nav a:hover {
+  background: var(--rt-panel-raised);
+  color: var(--rt-gold-bright);
+}
+
+.primary-nav a[aria-current="page"] {
+  background: var(--rt-panel-raised);
+  border-left-color: var(--rt-gold);
+  color: var(--rt-gold-bright);
+  font-weight: 600;
+}
+
+.nav-section-label {
+  margin: 1rem 0.9rem 0.4rem;
+  font-family: var(--rt-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rt-text-muted);
+}
+
+.content {
+  grid-area: content;
+  padding: 2rem clamp(1rem, 3vw, 3rem);
+  max-width: 72rem;
+}
+
+.content-bare {
+  max-width: 28rem;
+  margin: 3rem auto;
+  padding: 0 1.25rem;
+}
+
+/* A page that hosts the sheet pan/zoom viewer needs full-bleed width so the
+   viewport can use all available horizontal space; the viewer's own
+   internal geometry is untouched, only the outer padding changes. */
+.page-sheet .content {
+  max-width: none;
+  padding: 1.25rem clamp(0.75rem, 2vw, 1.5rem);
+}
+
+/* ---------------------------------------------------------------------
+   Messages
+   --------------------------------------------------------------------- */
+
+.messages {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.message {
+  padding: 0.75rem 1rem;
+  border-radius: var(--rt-radius);
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+}
+
+.message-error {
+  border-color: var(--rt-danger);
+  color: var(--rt-danger-bright);
+}
+
+/* ---------------------------------------------------------------------
+   Auth / bare pages (login, forced password change)
+   --------------------------------------------------------------------- */
+
+.auth-card {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+}
+
+.auth-card h1 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+/* ---------------------------------------------------------------------
+   Dashboard: the "double command center"
+   --------------------------------------------------------------------- */
+
+.dashboard-hero {
+  margin-bottom: 2rem;
+}
+
+.dashboard-hero h1 {
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  margin: 0 0 0.4rem;
+}
+
+.dashboard-hero p {
+  color: var(--rt-text-muted);
+  max-width: 42rem;
+  margin: 0 0 1.25rem;
+}
+
+.dashboard-search {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 34rem;
+}
+
+.dashboard-search input {
+  flex: 1 1 auto;
+}
+
+.command-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1.25rem;
+}
+
+.command-panel {
+  position: relative;
+  padding: 1.5rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+}
+
+/* Signature element: the two primary command panels (wiki, characters) get
+   a brass corner bracket -- a restrained nod to console-plating rather than
+   a full ornamental border. */
+.command-panel--primary::before,
+.command-panel--primary::after {
+  content: "";
+  position: absolute;
+  top: 0.6rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-top: 2px solid var(--rt-gold);
+  pointer-events: none;
+}
+
+.command-panel--primary::before {
+  left: 0.6rem;
+  border-left: 2px solid var(--rt-gold);
+}
+
+.command-panel--primary::after {
+  right: 0.6rem;
+  border-right: 2px solid var(--rt-gold);
+}
+
+.command-panel h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.command-panel-eyebrow {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--rt-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rt-gold);
+}
+
+.entry-list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.entry-list a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0 0.6rem;
+  border-radius: var(--rt-radius);
+  text-decoration: none;
+  color: var(--rt-text);
+}
+
+.entry-list a:hover {
+  background: var(--rt-panel-raised);
+  color: var(--rt-gold-bright);
+}
+
+.entry-meta {
+  font-family: var(--rt-font-mono);
+  font-size: 0.78rem;
+  color: var(--rt-text-muted);
+  white-space: nowrap;
+}
+
+.command-panel-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rt-border);
+}
+
+.empty-state {
+  padding: 1rem 0;
+  color: var(--rt-text-muted);
+}
+
+.empty-state p {
+  margin: 0 0 0.75rem;
+}
+
+/* ---------------------------------------------------------------------
+   Generic content: lists, tables, cards used by accounts/sheets templates
+   --------------------------------------------------------------------- */
+
+.content h1 {
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  margin-top: 0;
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.plain-list {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.plain-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+  overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--rt-border);
+}
+
+.data-table th {
+  background: var(--rt-bg-elevated);
+  color: var(--rt-text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.form-card {
+  max-width: 32rem;
+  padding: 1.5rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+}
+
+/* ---------------------------------------------------------------------
+   Wiki: parchment-neutral reading surface for long chapters
+   --------------------------------------------------------------------- */
+
+.wiki-search-form {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 30rem;
+  margin-bottom: 1.5rem;
+}
+
+.wiki-search-form input {
+  flex: 1 1 auto;
+}
+
+.wiki-toc {
+  margin-bottom: 1.5rem;
+}
+
+.wiki-article {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  background: var(--rt-parchment);
+  color: var(--rt-parchment-ink);
+  border: 1px solid var(--rt-parchment-border);
+  border-radius: var(--rt-radius-lg);
+}
+
+.wiki-article a {
+  color: #7a4a1f;
+}
+
+.wiki-article h1,
+.wiki-article h2,
+.wiki-article h3 {
+  color: var(--rt-parchment-ink);
+}
+
+.wiki-section-nav {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+}
+
+.wiki-section-nav ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.wiki-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wiki-results li {
+  padding: 1rem 1.25rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+}
+
+/* ---------------------------------------------------------------------
+   Sheet pages: chrome around Task 7's viewer only.
+   The `.sheet-viewer-root`, `.sheet-toolbar`, `.sheet-viewport`,
+   `.sheet-canvas*`, `.sheet-field`, `.sheet-input` selectors and everything
+   under them are intentionally left untouched here -- they live entirely
+   in sheets/static/sheets/sheet-viewer.css.
+   --------------------------------------------------------------------- */
+
+.sheet-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sheet-page-header h1 {
+  margin: 0;
+}
+
+.sheet-viewer-frame {
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------
+   Responsive: below 800px the primary nav becomes a disclosure drawer
+   --------------------------------------------------------------------- */
+
+@media (max-width: 799.98px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "topbar"
+      "content";
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .topbar-search {
+    display: none;
+  }
+
+  .topbar-username {
+    display: none;
+  }
+
+  .primary-nav {
+    /* Reset the desktop "nav" named grid-area: at this breakpoint
+       `grid-template-areas` on `.app-shell` no longer declares a "nav"
+       area, and leaving this item assigned to an undefined named area
+       makes some engines synthesize an extra implicit grid track wide
+       enough for the (now fixed-position, off-canvas) nav content --
+       silently stretching the whole shell wider than the viewport. */
+    grid-area: auto;
+    position: fixed;
+    inset: var(--rt-topbar-height) auto 0 0;
+    width: min(80vw, 18rem);
+    z-index: 60;
+    transform: translateX(-100%);
+    transition: transform var(--rt-transition);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .app-shell.nav-open .primary-nav {
+    transform: translateX(0);
+  }
+
+  .nav-scrim {
+    display: block;
+    position: fixed;
+    inset: var(--rt-topbar-height) 0 0 0;
+    background: rgba(4, 10, 8, 0.55);
+    z-index: 50;
+  }
+
+  .content {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Flex children default to a content-based minimum width, so without
+     this the topbar's own minimum content size (toggle + brand + account
+     form, none of which wrap) can exceed a narrow viewport and force the
+     single grid column -- and the whole shell -- wider than the screen. */
+  .topbar {
+    min-width: 0;
+  }
+
+  .brand {
+    min-width: 0;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 800px) {
+  .nav-toggle {
+    display: none !important;
+  }
+}
+
+/* Narrow phones: the full wordmark plus the toggle and account controls no
+   longer fit on one row, so the topbar keeps only the brand mark. */
+@media (max-width: 479.98px) {
+  .brand-name {
+    display: none;
+  }
+
+  .topbar-account form button {
+    padding: 0.5rem 0.65rem;
+  }
+}

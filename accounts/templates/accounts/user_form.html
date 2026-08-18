@@ -1,12 +1,15 @@
-<!doctype html>
-<html lang="en">
-<body>
-  <h1>Account</h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-  </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Konto &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>Konto</h1>
+  <div class="form-card">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {{ form.as_p }}
+      <button type="submit" class="button-primary">Speichern</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,20 +1,23 @@
-<!doctype html>
-<html lang="en">
-<body>
-  <h1>Portal accounts</h1>
-  <a href="{% url 'accounts:admin_user_create' %}">Create account</a>
-  <ul>
+{% extends "base.html" %}
+
+{% block title %}Portal-Konten &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>Portal-Konten</h1>
+  <div class="page-actions">
+    <a class="button button-primary" href="{% url 'accounts:admin_user_create' %}">Konto anlegen</a>
+  </div>
+  <ul class="plain-list">
     {% for user in users %}
       <li>
-        {{ user.username }} — {% if user.is_active %}active{% else %}inactive{% endif %}
-        <a href="{% url 'accounts:admin_user_edit' user.pk %}">Edit</a>
-        <a href="{% url 'accounts:admin_user_reset_password' user.pk %}">Reset password</a>
+        <span>{{ user.username }} &mdash; {% if user.is_active %}aktiv{% else %}inaktiv{% endif %}</span>
+        <a href="{% url 'accounts:admin_user_edit' user.pk %}">Bearbeiten</a>
+        <a href="{% url 'accounts:admin_user_reset_password' user.pk %}">Passwort zur&uuml;cksetzen</a>
         <form method="post" action="{% if user.is_active %}{% url 'accounts:admin_user_deactivate' user.pk %}{% else %}{% url 'accounts:admin_user_reactivate' user.pk %}{% endif %}">
           {% csrf_token %}
-          <button type="submit">{% if user.is_active %}Deactivate{% else %}Reactivate{% endif %}</button>
+          <button type="submit">{% if user.is_active %}Deaktivieren{% else %}Reaktivieren{% endif %}</button>
         </form>
       </li>
     {% endfor %}
   </ul>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Kommandobr&uuml;cke &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <section class="dashboard-hero" aria-labelledby="dashboard-heading">
+    <h1 id="dashboard-heading">Kommandobr&uuml;cke</h1>
+    <p>Durchsuche das Regelwerk oder spring direkt zu deinen Charakteren und dem gemeinsamen Schiff.</p>
+    <form class="dashboard-search" method="get" action="{% url 'wiki:search' %}" role="search">
+      <label for="dashboard-search-input" class="sr-only">Wiki durchsuchen</label>
+      <input
+        id="dashboard-search-input"
+        type="search"
+        name="q"
+        placeholder="Suche im Regelwerk&hellip;"
+        autocomplete="off"
+      >
+      <button type="submit" class="button-primary">Suchen</button>
+    </form>
+  </section>
+
+  <div class="command-grid">
+    <section class="command-panel command-panel--primary" aria-labelledby="wiki-panel-heading">
+      <span class="command-panel-eyebrow">Regelwerk</span>
+      <h2 id="wiki-panel-heading">Wiki</h2>
+      {% if chapters %}
+        <ul class="entry-list">
+          {% for chapter in chapters %}
+            <li><a href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="empty-state">
+          <p>Es sind noch keine Kapitel verf&uuml;gbar.</p>
+        </div>
+      {% endif %}
+      <div class="command-panel-footer">
+        <a href="{% url 'wiki:index' %}">Zum vollst&auml;ndigen Wiki</a>
+      </div>
+    </section>
+
+    <section class="command-panel command-panel--primary" aria-labelledby="characters-panel-heading">
+      <span class="command-panel-eyebrow">Deine Crew</span>
+      <h2 id="characters-panel-heading">Charaktere</h2>
+      {% if characters %}
+        <ul class="entry-list">
+          {% for character in characters %}
+            <li>
+              <a href="{% url 'sheets:character_detail' character.pk %}">
+                <span>{{ character.display_name|default:"Unbenannter Charakter" }}</span>
+                <span class="entry-meta">{{ character.updated_at|date:"d.m.Y H:i" }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="command-panel-footer">
+          <a href="{% url 'sheets:character_list' %}">Alle Charaktere ansehen</a>
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <p>Du hast noch keinen Charakter angelegt.</p>
+          <a class="button button-primary" href="{% url 'sheets:character_list' %}">Ersten Charakter erstellen</a>
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="command-panel" aria-labelledby="ship-panel-heading">
+      <span class="command-panel-eyebrow">Gemeinsames Schiff</span>
+      <h2 id="ship-panel-heading">Schiff</h2>
+      {% if ship %}
+        <ul class="entry-list">
+          <li>
+            <a href="{% url 'sheets:ship_detail' ship.pk %}">
+              <span>{{ ship.display_name }}</span>
+            </a>
+          </li>
+        </ul>
+        <div class="command-panel-footer">
+          <a href="{% url 'sheets:ship_history' ship.pk %}">Verlauf ansehen</a>
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <p>Es ist noch kein Schiff konfiguriert.</p>
+        </div>
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}

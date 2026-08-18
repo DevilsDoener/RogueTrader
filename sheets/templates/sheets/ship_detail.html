@@ -1,44 +1,49 @@
-<!doctype html>
+{% extends "base.html" %}
 {% load static %}
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>{{ ship.display_name }}</title>
+
+{% block title %}{{ ship.display_name }} &ndash; Rogue Trader Portal{% endblock %}
+{% block body_class %}page-sheet{% endblock %}
+{% block extra_head %}
   <link rel="stylesheet" href="{% static 'sheets/sheet-viewer.css' %}">
-</head>
-<body>
-  <h1>{{ ship.display_name }}</h1>
+{% endblock %}
 
-  <p><a href="{% url 'sheets:ship_history' ship.pk %}">Verlauf</a></p>
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>{{ ship.display_name }}</h1>
+    <a href="{% url 'sheets:ship_history' ship.pk %}">Verlauf</a>
+  </div>
 
-  <div
-    id="sheet-viewer-root"
-    class="sheet-viewer-root"
-    data-read-only="false"
-    data-user-id="{{ user.id }}"
-    data-sheet-id="{{ ship.id }}"
-    data-field-url-template="{{ field_update_url_template }}"
-  >
-    <div class="sheet-toolbar">
-      <div class="sheet-toolbar-pages" id="sheet-page-tabs">
-        {% for page in pages %}
-          <button type="button" class="sheet-page-tab" data-page-index="{{ forloop.counter0 }}">Page {{ forloop.counter }}</button>
-        {% endfor %}
+  <div class="sheet-viewer-frame">
+    <div
+      id="sheet-viewer-root"
+      class="sheet-viewer-root"
+      data-read-only="false"
+      data-user-id="{{ user.id }}"
+      data-sheet-id="{{ ship.id }}"
+      data-field-url-template="{{ field_update_url_template }}"
+    >
+      <div class="sheet-toolbar">
+        <div class="sheet-toolbar-pages" id="sheet-page-tabs">
+          {% for page in pages %}
+            <button type="button" class="sheet-page-tab" data-page-index="{{ forloop.counter0 }}">Seite {{ forloop.counter }}</button>
+          {% endfor %}
+        </div>
+        <div class="sheet-toolbar-zoom">
+          <button type="button" id="zoom-out" aria-label="Verkleinern">-</button>
+          <button type="button" id="zoom-in" aria-label="Vergr&ouml;&szlig;ern">+</button>
+          <button type="button" id="fit-width">Breite einpassen</button>
+          <button type="button" id="fit-page">Seite einpassen</button>
+        </div>
+        <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
       </div>
-      <div class="sheet-toolbar-zoom">
-        <button type="button" id="zoom-out" aria-label="Zoom out">-</button>
-        <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
-        <button type="button" id="fit-width">Fit width</button>
-        <button type="button" id="fit-page">Fit page</button>
-      </div>
-      <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
+
+      {% include "sheets/_sheet_viewer.html" %}
     </div>
-
-    {% include "sheets/_sheet_viewer.html" %}
   </div>
 
   {% csrf_token %}
+{% endblock %}
 
+{% block extra_scripts %}
   <script src="{% static 'sheets/sheet-viewer.js' %}" defer></script>
-</body>
-</html>
+{% endblock %}

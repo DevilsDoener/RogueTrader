@@ -1,26 +1,29 @@
-<!doctype html>
-<html lang="en">
-<body>
-  <h1>All characters</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Owner</th>
-        <th>Display name</th>
-        <th>Updated</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for character in characters %}
+{% extends "base.html" %}
+
+{% block title %}Alle Charaktere &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>Alle Charaktere</h1>
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
         <tr>
-          <td>{{ character.owner.username }}</td>
-          <td><a href="{% url 'sheets:admin_character_detail' character.pk %}">{{ character.display_name }}</a></td>
-          <td>{{ character.updated_at }}</td>
+          <th>Besitzer</th>
+          <th>Name</th>
+          <th>Aktualisiert</th>
         </tr>
-      {% empty %}
-        <tr><td colspan="3">No characters yet.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</body>
-</html>
+      </thead>
+      <tbody>
+        {% for character in characters %}
+          <tr>
+            <td>{{ character.owner.username }}</td>
+            <td><a href="{% url 'sheets:admin_character_detail' character.pk %}">{{ character.display_name }}</a></td>
+            <td>{{ character.updated_at }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="3">Noch keine Charaktere vorhanden.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
