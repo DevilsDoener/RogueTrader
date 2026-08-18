@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="de">
+<body>
+  <h1>Wiki</h1>
+  <form method="get" action="{% url 'wiki:search' %}">
+    <input type="text" name="q" placeholder="Suche">
+    <button type="submit">Suchen</button>
+  </form>
+  <ul>
+    {% for chapter in chapters %}
+      <li><a href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.title }}</a></li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

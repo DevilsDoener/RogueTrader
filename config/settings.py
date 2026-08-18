@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'core',
+    'wiki',
 ]
 
 MIDDLEWARE = [
@@ -142,11 +143,42 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "accounts.User"
 
+LOGIN_URL = "/account/login/"
+
 WIKI_CONTENT_ROOT = Path(os.environ.get("WIKI_CONTENT_ROOT", "/content/wiki"))
+
+# Ordered, explicit filenames (not extensions) allowed to be loaded as wiki
+# chapters. Anything not listed here -- e.g. the project's own progress log
+# -- is excluded even if it lives under WIKI_CONTENT_ROOT.
+WIKI_DEFAULT_CONTENT_ALLOWLIST = (
+    "00-Foreword.md",
+    "00-Inhaltsverzeichnis-und-Einleitung.md",
+    "01-Charaktererschaffung.md",
+    "02-Karrierewege.md",
+    "03-Skills.md",
+    "04-Talents.md",
+    "05-Armoury.md",
+    "06-Psychic-Powers.md",
+    "07-Navigator-Powers.md",
+    "08-Starships.md",
+    "09-Playing-The-Game.md",
+    "10-The-Game-Master.md",
+    "11-The-Imperium.md",
+    "12-Rogue-Traders.md",
+    "13-The-Koronus-Expanse.md",
+    "14-Adversaries-and-Aliens.md",
+    "14-Allies-Enemies-and-Rivals.md",
+    "14-Mutations.md",
+    "14-Traits.md",
+    "15-Into-The-Maw.md",
+    "16-Index.md",
+)
 WIKI_CONTENT_ALLOWLIST = tuple(
-    extension.strip()
-    for extension in os.environ.get("WIKI_CONTENT_ALLOWLIST", ".md,.markdown").split(",")
-    if extension.strip()
+    filename.strip()
+    for filename in os.environ.get(
+        "WIKI_CONTENT_ALLOWLIST", ",".join(WIKI_DEFAULT_CONTENT_ALLOWLIST)
+    ).split(",")
+    if filename.strip()
 )
 SHEET_SOURCE_PDF = Path(
     os.environ.get("SHEET_SOURCE_PDF", BASE_DIR / "data" / "character-sheet.pdf")

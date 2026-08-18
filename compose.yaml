@@ -6,7 +6,7 @@ services:
     environment:
       DATABASE_PATH: /data/db.sqlite3
       WIKI_CONTENT_ROOT: /content/wiki
-      WIKI_CONTENT_ALLOWLIST: ${WIKI_CONTENT_ALLOWLIST:-.md,.markdown}
+      WIKI_CONTENT_ALLOWLIST: ${WIKI_CONTENT_ALLOWLIST:-00-Foreword.md,00-Inhaltsverzeichnis-und-Einleitung.md,01-Charaktererschaffung.md,02-Karrierewege.md,03-Skills.md,04-Talents.md,05-Armoury.md,06-Psychic-Powers.md,07-Navigator-Powers.md,08-Starships.md,09-Playing-The-Game.md,10-The-Game-Master.md,11-The-Imperium.md,12-Rogue-Traders.md,13-The-Koronus-Expanse.md,14-Adversaries-and-Aliens.md,14-Allies-Enemies-and-Rivals.md,14-Mutations.md,14-Traits.md,15-Into-The-Maw.md,16-Index.md}
       SHEET_SOURCE_PDF: ${SHEET_SOURCE_PDF:-/content/wiki/character-sheet.pdf}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://127.0.0.1:8000}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}

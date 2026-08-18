@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+<body>
+  <h1>Suche</h1>
+  <form method="get" action="{% url 'wiki:search' %}">
+    <input type="text" name="q" value="{{ query }}">
+    <button type="submit">Suchen</button>
+  </form>
+
+  {% if query %}
+    <p>{{ results|length }} Treffer für "{{ query }}"</p>
+  {% endif %}
+
+  <ul>
+    {% for result in results %}
+      <li>
+        <a href="{% url 'wiki:chapter' result.chapter_slug %}#{{ result.section_id }}">{{ result.chapter_title }} &ndash; {{ result.title }}</a>
+        <p>{{ result.snippet|safe }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

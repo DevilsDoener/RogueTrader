@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+<body>
+  <nav>
+    <a href="{% url 'wiki:index' %}">Wiki</a>
+    <ul>
+      {% for other in chapters %}
+        <li><a href="{% url 'wiki:chapter' other.slug %}">{{ other.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <article>
+    <h1>{{ chapter.title }}</h1>
+
+    {% if chapter.sections %}
+      <nav aria-label="Sections">
+        <ul>
+          {% for section in chapter.sections %}
+            <li><a href="#{{ section.id }}">{{ section.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      {% for section in chapter.sections %}
+        <section id="{{ section.id }}">
+          {% if section.id != chapter.slug %}
+            <h2>{{ section.title }}</h2>
+          {% endif %}
+          {{ section.html|safe }}
+        </section>
+      {% endfor %}
+    {% else %}
+      <p>{{ placeholder_text }}</p>
+    {% endif %}
+  </article>
+</body>
+</html>
