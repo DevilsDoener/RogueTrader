@@ -50,8 +50,13 @@ def _make_snippet(plain_text: str, terms: Sequence[str]) -> str:
     if match_start is None:
         return html.escape(plain_text[:SNIPPET_MAX_LENGTH])
 
-    start = max(0, match_start - SNIPPET_RADIUS)
-    end = min(len(plain_text), match_end + SNIPPET_RADIUS)
+    # Keep the whole window (prefix + match + suffix) within
+    # SNIPPET_MAX_LENGTH regardless of how long the matched term itself is,
+    # rather than always padding by a fixed radius on each side.
+    context_budget = max(0, SNIPPET_MAX_LENGTH - (match_end - match_start))
+    radius = min(SNIPPET_RADIUS, context_budget // 2)
+    start = max(0, match_start - radius)
+    end = min(len(plain_text), match_end + radius)
     prefix = html.escape(plain_text[start:match_start])
     matched = html.escape(plain_text[match_start:match_end])
     suffix = html.escape(plain_text[match_end:end])

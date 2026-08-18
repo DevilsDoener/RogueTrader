@@ -23,6 +23,7 @@ from .search import SearchIndex, build_search_index
 logger = logging.getLogger(__name__)
 
 _HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
+_FENCE_RE = re.compile(r"^\s*(```|~~~)")
 
 _plain_text_parser = MarkdownIt("gfm-like", {"html": False, "linkify": False, "typographer": False})
 
@@ -36,6 +37,12 @@ class WikiSection:
     plain_text: str
     html: str
     ordinal: int
+    # True for the single implicit section built from the content between the
+    # H1 title and the first H2 heading (see `_split_into_sections`). Its
+    # title always equals the chapter title, so templates use this flag --
+    # not string comparison between `id` and `chapter_slug`, which only
+    # coincide by accident -- to avoid rendering a redundant heading.
+    is_intro: bool = False
 
 
 @dataclass(frozen=True)
@@ -75,18 +82,27 @@ def _split_into_sections(lines: List[str]) -> List[Tuple[Optional[str], List[str
     The first entry (heading_text is None) is the chapter's own front matter
     -- any content between the H1 title and the first H2 heading. Every
     subsequent entry corresponds to one H2 heading.
+
+    Lines inside a fenced code block (delimited by ``` or ~~~) are never
+    treated as heading boundaries, even if they happen to start with "## ".
     """
     sections: List[Tuple[Optional[str], List[str]]] = []
     current_heading: Optional[str] = None
     current_lines: List[str] = []
+    in_fence = False
     for line in lines:
-        match = _HEADING_RE.match(line)
-        if match and len(match.group(1)) == 2:
-            sections.append((current_heading, current_lines))
-            current_heading = match.group(2)
-            current_lines = []
-        else:
+        if _FENCE_RE.match(line):
+            in_fence = not in_fence
             current_lines.append(line)
+            continue
+        if not in_fence:
+            match = _HEADING_RE.match(line)
+            if match and len(match.group(1)) == 2:
+                sections.append((current_heading, current_lines))
+                current_heading = match.group(2)
+                current_lines = []
+                continue
+        current_lines.append(line)
     sections.append((current_heading, current_lines))
     return sections
 
@@ -130,7 +146,8 @@ def _parse_chapter(
         section_markdown = "\n".join(section_lines)
         plain_text = _extract_plain_text(section_markdown)
 
-        if heading_text is None:
+        is_intro = heading_text is None
+        if is_intro:
             if not plain_text.strip():
                 continue
             section_title = title
@@ -148,6 +165,7 @@ def _parse_chapter(
                 plain_text=plain_text,
                 html=section_html,
                 ordinal=section_ordinal,
+                is_intro=is_intro,
             )
         )
         section_ordinal += 1

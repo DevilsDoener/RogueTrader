@@ -23,7 +23,7 @@
 
       {% for section in chapter.sections %}
         <section id="{{ section.id }}">
-          {% if section.id != chapter.slug %}
+          {% if not section.is_intro %}
             <h2>{{ section.title }}</h2>
           {% endif %}
           {{ section.html|safe }}
