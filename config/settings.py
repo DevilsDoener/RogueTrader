@@ -14,6 +14,8 @@ import os
 import secrets
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,14 +27,116 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() == "true"
 
+# Placeholder/example secrets that must never reach a production deployment.
+# ".env.example" ships one of these on purpose so an operator who forgets to
+# change it gets a hard failure instead of a silently insecure site.
+_WEAK_SECRET_KEYS = {
+    "change-me",
+    "changeme",
+    "secret",
+    "insecure",
+    "replace-with-a-long-random-secret",
+}
+_MINIMUM_PRODUCTION_SECRET_LENGTH = 32
+
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 if not SECRET_KEY:
     if DEBUG:
         SECRET_KEY = secrets.token_urlsafe(50)
     else:
-        raise RuntimeError("DJANGO_SECRET_KEY must be set when DJANGO_DEBUG is false")
+        raise ImproperlyConfigured(
+            "DJANGO_SECRET_KEY must be set when DJANGO_DEBUG is false"
+        )
+elif not DEBUG:
+    _normalized_secret = SECRET_KEY.strip().lower()
+    if (
+        _normalized_secret in _WEAK_SECRET_KEYS
+        or _normalized_secret.startswith("django-insecure-")
+        or len(SECRET_KEY) < _MINIMUM_PRODUCTION_SECRET_LENGTH
+    ):
+        raise ImproperlyConfigured(
+            "DJANGO_SECRET_KEY must be a strong, non-default secret "
+            "(at least 32 characters) when DJANGO_DEBUG is false"
+        )
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+# ALLOWED_HOSTS must be provided explicitly in production. The
+# 127.0.0.1/localhost fallback below is only safe for local development.
+_allowed_hosts_env = os.environ.get("DJANGO_ALLOWED_HOSTS")
+if not DEBUG and not _allowed_hosts_env:
+    raise ImproperlyConfigured(
+        "DJANGO_ALLOWED_HOSTS must be set explicitly when DJANGO_DEBUG is false"
+    )
+ALLOWED_HOSTS = (_allowed_hosts_env or "127.0.0.1,localhost").split(",")
+
+PUBLIC_BASE_URL = os.environ.get("PUBLIC_BASE_URL", "http://127.0.0.1:8000")
+APP_BIND_ADDRESS = os.environ.get("APP_BIND_ADDRESS", "127.0.0.1")
+
+# The portal always sits behind a reverse proxy that terminates TLS and
+# forwards the original scheme via X-Forwarded-Proto, so Django needs to
+# trust that header to know a request was actually secure.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# CSRF_TRUSTED_ORIGINS must include the scheme (e.g. "https://example.com"),
+# which PUBLIC_BASE_URL already carries.
+CSRF_TRUSTED_ORIGINS = [PUBLIC_BASE_URL]
+
+# Clickjacking / MIME-sniffing protections apply regardless of DEBUG -- they
+# do not interfere with local development.
+X_FRAME_OPTIONS = "DENY"
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Cookie/transport security is only forced on in production so that plain
+# HTTP development (DJANGO_DEBUG=1, no TLS-terminating proxy) keeps working.
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG
+
+# HTTP Strict Transport Security is opt-in via ENABLE_HSTS=1 so it can only
+# be turned on once the reverse proxy is confirmed to serve HTTPS correctly
+# -- an incorrect HSTS header cannot be easily undone by clients.
+ENABLE_HSTS = os.environ.get("ENABLE_HSTS", "0") == "1"
+if ENABLE_HSTS:
+    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+
+# Technical errors are logged; nothing here logs request bodies, so
+# passwords, session values, and sheet content are never captured.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default": {
+            "format": "%(asctime)s %(levelname)s %(name)s %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "default",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "django.security": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+    },
+}
 
 
 # Application definition
@@ -185,5 +289,3 @@ WIKI_CONTENT_ALLOWLIST = tuple(
 SHEET_SOURCE_PDF = Path(
     os.environ.get("SHEET_SOURCE_PDF", BASE_DIR / "data" / "character-sheet.pdf")
 )
-PUBLIC_BASE_URL = os.environ.get("PUBLIC_BASE_URL", "http://127.0.0.1:8000")
-APP_BIND_ADDRESS = os.environ.get("APP_BIND_ADDRESS", "127.0.0.1")

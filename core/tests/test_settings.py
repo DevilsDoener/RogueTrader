@@ -31,7 +31,8 @@ def test_production_settings_require_an_explicit_secret_key():
 def test_production_settings_accept_an_explicit_secret_key():
     result = import_settings(
         DJANGO_DEBUG="false",
-        DJANGO_SECRET_KEY="test-only-secret-key",
+        DJANGO_SECRET_KEY="test-only-secret-key-that-is-long-enough-1234",
+        DJANGO_ALLOWED_HOSTS="portal.example.com",
     )
 
     assert result.returncode == 0

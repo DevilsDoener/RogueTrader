@@ -1,6 +1,7 @@
 services:
   portal:
     build: .
+    restart: unless-stopped
     ports:
       - "${APP_BIND_ADDRESS:-127.0.0.1}:8000:8000"
     environment:
@@ -12,6 +13,7 @@ services:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: "false"
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-127.0.0.1,localhost}
+      ENABLE_HSTS: ${ENABLE_HSTS:-0}
     volumes:
       - portal-data:/data
       - ./:/content/wiki:ro
