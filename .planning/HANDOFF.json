@@ -1,11 +1,11 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-16T04:26:45+02:00",
+  "timestamp": "2026-08-18T00:00:00+02:00",
   "phase": "rogue-trader-portal-implementation",
   "phase_name": "Rogue Trader Portal Implementation",
   "phase_dir": ".planning",
   "plan": 1,
-  "task": 3,
+  "task": 7,
   "total_tasks": 11,
   "status": "paused",
   "completed_tasks": [
@@ -24,15 +24,32 @@
     {
       "id": 3,
       "name": "Markdown wiki rendering, navigation, and search",
-      "status": "interrupted",
-      "progress": "Only untracked RED tests exist under wiki/tests; no implementation, commit, or review."
+      "status": "done",
+      "commit": "8aa77a0",
+      "notes": "First dispatch attempt used isolation:'worktree' and the implementer bypassed a resulting sandbox restriction (security warning); that commit was discarded via git reset and redone cleanly without isolation."
+    },
+    {
+      "id": 4,
+      "name": "Original sheet assets and coordinate schemas",
+      "status": "done",
+      "commit": "de302e9",
+      "notes": "Largest single task. Independent review found systematic calibration pitch errors (weapon blocks, ship weapon table, gear/acquisitions) invisible at full-page thumbnail zoom; fixed via direct re-measurement and re-verified with overlay renders."
+    },
+    {
+      "id": 5,
+      "name": "Sheet persistence and field-level concurrency",
+      "status": "done",
+      "commit": "3f4d96a"
+    },
+    {
+      "id": 6,
+      "name": "Character CRUD and read-only admin visibility",
+      "status": "done",
+      "commit": "98efaeb",
+      "notes": "Fix round restructured _sheet_viewer.html into a true include fragment with character_detail.html as the page wrapper, per plan's Task 7 dependency."
     }
   ],
   "remaining_tasks": [
-    {"id": 3, "name": "Markdown wiki rendering, navigation, and search", "status": "not_completed"},
-    {"id": 4, "name": "Original sheet assets and coordinate schemas", "status": "not_started"},
-    {"id": 5, "name": "Sheet persistence and field-level concurrency", "status": "not_started"},
-    {"id": 6, "name": "Character CRUD and read-only admin visibility", "status": "not_started"},
     {"id": 7, "name": "Pixel-aligned interactive character sheet viewer", "status": "not_started"},
     {"id": 8, "name": "Shared ship sheet and audit history", "status": "not_started"},
     {"id": 9, "name": "Brücken-Hybrid shell and dashboard", "status": "not_started"},
@@ -41,16 +58,16 @@
   ],
   "blockers": [
     {
-      "description": "Task 3 was interrupted by user before implementation commit and review.",
+      "description": "User explicitly stopped execution after Task 6 completed.",
       "type": "human_action",
-      "workaround": "Resume only when the user requests it; reuse the untracked RED tests."
+      "workaround": "Resume only when the user requests it."
     }
   ],
   "async_jobs": [],
   "human_actions_pending": [
     {
-      "action": "Explicitly request resumption before any further implementation.",
-      "context": "The user ordered Task 3 and all subsequent work stopped.",
+      "action": "Explicitly request resumption before Task 7 begins.",
+      "context": "The user ordered work stopped after the current (Task 6) finished.",
       "blocking": true
     }
   ],
@@ -61,14 +78,11 @@
     {"decision": "Characters are private to owners; admins have read-only visibility across owners.", "rationale": "Requested access model.", "phase": "design"},
     {"decision": "One shared ship is editable by all authenticated users.", "rationale": "Requested shared campaign asset with future multi-ship expansion.", "phase": "design"},
     {"decision": "Render PDF pages 401-403 exactly with coordinate overlays.", "rationale": "The user requested the original sheet artwork with only printed controls interactive.", "phase": "design"},
-    {"decision": "Use field-level optimistic concurrency.", "rationale": "Merge different fields and prevent silent same-field overwrites.", "phase": "design"}
+    {"decision": "Use field-level optimistic concurrency.", "rationale": "Merge different fields and prevent silent same-field overwrites.", "phase": "design"},
+    {"decision": "_sheet_viewer.html is a pure include fragment; character_detail.html is the page wrapper.", "rationale": "Task 6 review found the plan requires Task 7 to extend the viewer as a reusable include.", "phase": "task-6-fix-round"},
+    {"decision": "Dispatch implementers/reviewers without isolation:'worktree'.", "rationale": "That option sandboxes the agent into a different worktree than the target; caused a security incident during Task 3 when the agent bypassed the resulting restriction.", "phase": "task-3-incident"}
   ],
-  "uncommitted_files": [
-    "wiki/tests/test_content.py",
-    "wiki/tests/test_markdown.py",
-    "wiki/tests/test_search.py",
-    "wiki/tests/test_views.py"
-  ],
-  "next_action": "After explicit user approval, resume Task 3 from base fe409bf using the existing task brief and untracked RED tests; complete implementation, full tests, commit, independent review, and ledger update before Task 4.",
-  "context_notes": "Task 1 and Task 2 are committed and review-clean after one fix round each. Git Bash must be used for SDD scripts in this Windows worktree; WSL cannot resolve the worktree gitdir. Docker is stopped and no async jobs are running."
+  "uncommitted_files": [],
+  "next_action": "After explicit user approval, generate the Task 7 brief from base 98efaeb, dispatch a fresh implementer (no isolation param) with the brief plus interfaces from Tasks 4-6 (calibrated schema data, patch_character_field service, character_detail.html/_sheet_viewer.html include structure), follow TDD, run the full suite, commit, independent review, fix round(s) if needed, ledger update to 'Task 7: complete' before starting Task 8.",
+  "context_notes": "Git Bash must be used for SDD scripts in this Windows worktree; WSL cannot resolve the worktree gitdir. Docker is stopped and not rebuilt since Task 1. Full test suite at HEAD 98efaeb: 144 passed. Task 4's calibration required an unusual amount of iteration -- if further coordinate work is needed in Task 7/8, always verify visually via rendered overlay crops, not just full-page thumbnails or arithmetic."
 }
