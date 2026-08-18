@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<body>
+  <h1>Your characters</h1>
+  <ul>
+    {% for character in characters %}
+      <li>
+        <a href="{% url 'sheets:character_detail' character.pk %}">{{ character.display_name }}</a>
+        <a href="{% url 'sheets:character_delete' character.pk %}">Delete</a>
+      </li>
+    {% empty %}
+      <li>No characters yet.</li>
+    {% endfor %}
+  </ul>
+  {% include "sheets/character_create.html" %}
+</body>
+</html>
