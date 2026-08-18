@@ -115,6 +115,25 @@
   height: 100%;
   margin: 0;
   accent-color: var(--sheet-gold);
+  /* An idle (unchecked) checkbox must add no visible chrome over the
+     printed checkbox/marking-circle artwork underneath it -- but Chromium's
+     native *unchecked* control, stretched to fill a whole schema box via
+     the width/height:100% above, paints as a large solid filled square
+     rather than a small border (this is what test_visual_regression.py's
+     background-fidelity check caught). Suppressing native rendering only
+     while unchecked removes that chrome; re-enabling it on :checked below
+     keeps the previously-verified pixel-exact native tick+accent-color
+     rendering for the checked state (see Task 9's checkbox-geometry
+     verification in progress.md) completely unchanged. */
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+}
+
+.sheet-checkbox:checked {
+  appearance: auto;
+  -webkit-appearance: auto;
 }
 
 .sheet-conflict-panel {
@@ -140,4 +159,20 @@
   width: 100%;
   margin-top: 0.25rem;
   cursor: pointer;
+}
+
+/* Test-only overlay: outlines every schema field rectangle so a human
+   reviewer (or tests/e2e/test_visual_regression.py's overlay-bounds check)
+   can see exactly where each printed control's clickable/typeable area
+   sits relative to the background artwork underneath it. No template ever
+   applies ".sheet-viewer-debug" -- it is only ever added at runtime via
+   page.evaluate() from a test. */
+.sheet-viewer-debug .sheet-field {
+  outline: 1px solid rgba(220, 20, 20, 0.85);
+  background: rgba(220, 20, 20, 0.12);
+}
+
+.sheet-viewer-debug .sheet-field:has(.sheet-checkbox) {
+  outline-color: rgba(20, 110, 220, 0.9);
+  background: rgba(20, 110, 220, 0.18);
 }
