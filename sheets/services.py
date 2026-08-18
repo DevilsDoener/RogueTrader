@@ -17,7 +17,12 @@ from django.utils import timezone
 
 from . import schema
 from .models import CharacterSheet, ShipSheet, SheetChange
-from .permissions import can_mutate_character, can_view_character
+from .permissions import (
+    can_mutate_character,
+    can_mutate_ship,
+    can_view_character,
+    can_view_ship,
+)
 
 __all__ = [
     "PatchResult",
@@ -27,6 +32,7 @@ __all__ = [
     "patch_character_field",
     "patch_ship_field",
     "get_character_for_view",
+    "get_ship_for_view",
     "delete_character",
 ]
 
@@ -119,6 +125,92 @@ def get_character_for_view(*, sheet_id: uuid.UUID, actor) -> CharacterSheet:
     return sheet
 
 
+def get_ship_for_view(*, sheet_id: uuid.UUID, actor) -> ShipSheet:
+    """Fetch a ship sheet for reading. Every authenticated user may view it."""
+    try:
+        sheet = ShipSheet.objects.get(pk=sheet_id)
+    except ShipSheet.DoesNotExist as exc:
+        raise SheetNotFound(f"No ship sheet {sheet_id}") from exc
+
+    if not can_view_ship(actor):
+        raise SheetNotFound(f"No ship sheet {sheet_id}")
+
+    return sheet
+
+
+def _apply_field_patch(
+    sheet,
+    *,
+    actor,
+    field_id: str,
+    value,
+    base_version: int,
+    validate,
+    audit_kwargs: dict,
+    on_value_applied=None,
+) -> PatchResult:
+    """Shared fetch-locked-sheet -> version-compare -> conflict -> mutate ->
+    audit sequence used by both :func:`patch_character_field` and
+    :func:`patch_ship_field`.
+
+    ``sheet`` must already have been fetched with ``select_for_update()``
+    inside an active transaction, and any permission check must already have
+    passed -- this helper only owns the concurrency-critical part that is
+    identical for both sheet types. ``validate`` raises
+    :class:`FieldValidationError` for an unknown/invalid field. ``audit_kwargs``
+    supplies the ``character=``/``ship=`` foreign key pair for the
+    :class:`~sheets.models.SheetChange` record. ``on_value_applied``, if
+    given, runs *after* the conflict check passes but *before* saving, so a
+    caller can apply model-specific side effects (e.g. syncing
+    ``CharacterSheet.display_name``) exactly once, only on a successful
+    write -- it returns any extra field names that need to be added to
+    ``update_fields``.
+    """
+    validate(field_id, value)
+
+    current_version = sheet.field_versions.get(field_id, 0)
+    old_value = sheet.values.get(field_id)
+    if current_version != base_version:
+        raise FieldConflict(
+            field_id=field_id,
+            submitted_value=value,
+            current_value=old_value,
+            current_version=current_version,
+        )
+
+    sheet.version += 1
+    sheet.values[field_id] = value
+    sheet.field_versions[field_id] = sheet.version
+    update_fields = ["values", "field_versions", "version"]
+    if on_value_applied is not None:
+        update_fields.extend(on_value_applied(sheet, field_id, value) or [])
+    sheet.save(update_fields=update_fields)
+
+    SheetChange.objects.create(
+        actor=actor,
+        field_id=field_id,
+        old_value=old_value,
+        new_value=value,
+        resulting_version=sheet.version,
+        **audit_kwargs,
+    )
+
+    saved_at = getattr(sheet, "updated_at", None) or timezone.now()
+
+    return PatchResult(field_id=field_id, value=value, version=sheet.version, saved_at=saved_at)
+
+
+def _sync_character_display_name(sheet: CharacterSheet, field_id: str, value) -> list[str]:
+    """``on_value_applied`` callback: keep ``display_name`` in sync with the
+    ``c1_character_name`` field, only once the write has actually happened.
+    """
+    extra_fields = ["updated_at"]
+    if field_id == _CHARACTER_NAME_FIELD_ID:
+        sheet.display_name = value
+        extra_fields.append("display_name")
+    return extra_fields
+
+
 @transaction.atomic
 def patch_character_field(
     *, sheet_id: uuid.UUID, actor, field_id: str, value, base_version: int
@@ -138,39 +230,15 @@ def patch_character_field(
     if not can_mutate_character(actor, sheet):
         raise SheetNotFound(f"No character sheet {sheet_id}")
 
-    _validate_character_field(field_id, value)
-
-    current_version = sheet.field_versions.get(field_id, 0)
-    old_value = sheet.values.get(field_id)
-    if current_version != base_version:
-        raise FieldConflict(
-            field_id=field_id,
-            submitted_value=value,
-            current_value=old_value,
-            current_version=current_version,
-        )
-
-    sheet.version += 1
-    sheet.values[field_id] = value
-    sheet.field_versions[field_id] = sheet.version
-    update_fields = ["values", "field_versions", "version", "updated_at"]
-    if field_id == _CHARACTER_NAME_FIELD_ID:
-        sheet.display_name = value
-        update_fields.append("display_name")
-    sheet.save(update_fields=update_fields)
-
-    SheetChange.objects.create(
-        character=sheet,
-        ship=None,
+    return _apply_field_patch(
+        sheet,
         actor=actor,
         field_id=field_id,
-        old_value=old_value,
-        new_value=value,
-        resulting_version=sheet.version,
-    )
-
-    return PatchResult(
-        field_id=field_id, value=value, version=sheet.version, saved_at=sheet.updated_at
+        value=value,
+        base_version=base_version,
+        validate=_validate_character_field,
+        audit_kwargs={"character": sheet, "ship": None},
+        on_value_applied=_sync_character_display_name,
     )
 
 
@@ -183,36 +251,22 @@ def patch_ship_field(
     except ShipSheet.DoesNotExist as exc:
         raise SheetNotFound(f"No ship sheet {sheet_id}") from exc
 
-    _validate_ship_field(field_id, value)
+    # Every authenticated user may mutate the shared ship -- there is no
+    # ownership concept for it -- but the check is still made explicit
+    # (rather than skipped) so the permission rule stays visible here and
+    # doesn't silently rot if ship access ever needs restricting.
+    if not can_mutate_ship(actor):
+        raise SheetNotFound(f"No ship sheet {sheet_id}")
 
-    current_version = sheet.field_versions.get(field_id, 0)
-    old_value = sheet.values.get(field_id)
-    if current_version != base_version:
-        raise FieldConflict(
-            field_id=field_id,
-            submitted_value=value,
-            current_value=old_value,
-            current_version=current_version,
-        )
-
-    sheet.version += 1
-    sheet.values[field_id] = value
-    sheet.field_versions[field_id] = sheet.version
-    sheet.save(update_fields=["values", "field_versions", "version"])
-
-    saved_at = timezone.now()
-
-    SheetChange.objects.create(
-        character=None,
-        ship=sheet,
+    return _apply_field_patch(
+        sheet,
         actor=actor,
         field_id=field_id,
-        old_value=old_value,
-        new_value=value,
-        resulting_version=sheet.version,
+        value=value,
+        base_version=base_version,
+        validate=_validate_ship_field,
+        audit_kwargs={"character": None, "ship": sheet},
     )
-
-    return PatchResult(field_id=field_id, value=value, version=sheet.version, saved_at=saved_at)
 
 
 @transaction.atomic

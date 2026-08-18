@@ -1,3 +1,5 @@
+import uuid
+
 import pytest
 
 from sheets.models import SheetChange
@@ -5,9 +7,34 @@ from sheets.services import (
     FieldConflict,
     FieldValidationError,
     PatchResult,
+    SheetNotFound,
     patch_character_field,
     patch_ship_field,
 )
+
+
+@pytest.mark.django_db(transaction=True)
+def test_patch_character_field_raises_sheet_not_found_for_nonexistent_id(owner):
+    with pytest.raises(SheetNotFound):
+        patch_character_field(
+            sheet_id=uuid.uuid4(),
+            actor=owner,
+            field_id="c1_character_name",
+            value="Lucian",
+            base_version=0,
+        )
+
+
+@pytest.mark.django_db(transaction=True)
+def test_patch_ship_field_raises_sheet_not_found_for_nonexistent_id(owner):
+    with pytest.raises(SheetNotFound):
+        patch_ship_field(
+            sheet_id=uuid.uuid4(),
+            actor=owner,
+            field_id="ship_name",
+            value="The Emissary",
+            base_version=0,
+        )
 
 
 @pytest.mark.django_db(transaction=True)

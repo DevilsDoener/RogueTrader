@@ -30,11 +30,11 @@ def visible_characters(user, queryset: QuerySet[CharacterSheet]) -> QuerySet[Cha
     return queryset.filter(owner=user)
 
 
-def can_view_ship() -> bool:
+def can_view_ship(user) -> bool:
     """Every authenticated user may view the shared ship sheet."""
-    return True
+    return bool(getattr(user, "is_authenticated", False))
 
 
-def can_mutate_ship() -> bool:
+def can_mutate_ship(user) -> bool:
     """Every authenticated user may mutate the shared ship sheet."""
-    return True
+    return bool(getattr(user, "is_authenticated", False))
