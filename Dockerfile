@@ -16,7 +16,25 @@ COPY --chown=app:app . .
 RUN mkdir -p /app/staticfiles /data && chown app:app /app/staticfiles /data
 
 USER app
-RUN python manage.py collectstatic --noinput
+
+# collectstatic must run under the same production-shaped settings the
+# container runs under at request time: config/settings.py only selects
+# whitenoise's CompressedManifestStaticFilesStorage (and collectstatic only
+# writes the staticfiles.json manifest it needs) when DJANGO_DEBUG=false,
+# but DJANGO_DEBUG defaults to "true" when unset. Without this, the build
+# silently ran collectstatic in dev-shaped mode, never produced the
+# manifest, and the runtime (where compose.yaml sets DJANGO_DEBUG=false)
+# would then select the manifest backend against a manifest that doesn't
+# exist.
+#
+# These are set inline on this RUN command only (not via ENV), so they
+# never persist into the final image's environment: they cannot shadow the
+# real DJANGO_SECRET_KEY/DJANGO_ALLOWED_HOSTS/DJANGO_DEBUG that compose.yaml
+# and .env supply to the container at runtime.
+RUN DJANGO_DEBUG=false \
+    DJANGO_SECRET_KEY=docker-build-collectstatic-placeholder-not-for-runtime-use \
+    DJANGO_ALLOWED_HOSTS=localhost \
+    python manage.py collectstatic --noinput
 
 EXPOSE 8000
 VOLUME ["/data"]

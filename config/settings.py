@@ -290,6 +290,22 @@ STORAGES = {
     },
 }
 
+# Defense in depth for the scenario the comment above is guarding against:
+# if the staticfiles.json manifest is ever missing at runtime anyway (a
+# build step that forgot to run collectstatic under production-shaped
+# settings, a wiped/never-populated STATIC_ROOT volume, a future regression
+# in the Dockerfile, ...), WhiteNoise's manifest lookup must degrade to a
+# missing/404-able static asset rather than hard-crash every single page
+# render with `ValueError: Missing staticfiles manifest entry for '...'`
+# raised out of the `{% static %}` template tag. With manifest_strict=True
+# (the default), a fully absent manifest file is *not* itself an error --
+# ManifestFilesMixin.read_manifest() treats FileNotFoundError as "empty
+# manifest" -- but every subsequent stored_name() lookup then finds no
+# entry and raises. Setting this False makes it fall back to hashing the
+# requested file's on-disk contents instead of raising; this is a no-op
+# whenever the manifest is present and complete (the normal case).
+WHITENOISE_MANIFEST_STRICT = False
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

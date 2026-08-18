@@ -242,3 +242,62 @@ def test_development_defaults_remain_usable_when_debug_is_enabled(settings_from_
     # are required for local development.
     assert dev_settings.SECRET_KEY
     assert dev_settings.ALLOWED_HOSTS == ["127.0.0.1", "localhost"]
+    # Local dev/tests never run `collectstatic`, so there is no
+    # staticfiles.json manifest on disk -- must stay on plain storage, not
+    # the WhiteNoise manifest backend that would need one.
+    assert (
+        dev_settings.STORAGES["staticfiles"]["BACKEND"]
+        == "django.contrib.staticfiles.storage.StaticFilesStorage"
+    )
+
+
+def test_production_uses_the_whitenoise_manifest_backend_for_staticfiles(
+    production_settings,
+):
+    # Regression guard for the Dockerfile bug where `collectstatic` ran
+    # without DJANGO_DEBUG=false at build time: it silently produced no
+    # staticfiles.json manifest, so the production runtime (DEBUG=false,
+    # selecting this same backend) crashed every page render with
+    # `ValueError: Missing staticfiles manifest entry for ...` out of
+    # `{% static %}`. This only asserts the backend selection; the
+    # manifest-missing fail-safe itself is covered separately below.
+    assert (
+        production_settings.STORAGES["staticfiles"]["BACKEND"]
+        == "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    )
+
+
+def test_whitenoise_manifest_strict_mode_is_disabled(production_settings):
+    # Defense in depth for the same bug class: even if a staticfiles.json
+    # manifest is ever missing or incomplete at runtime for some reason
+    # collectstatic running correctly doesn't fully rule out (a wiped
+    # STATIC_ROOT volume, a future Dockerfile regression, ...), WhiteNoise
+    # must degrade gracefully instead of hard-crashing every page. See the
+    # WHITENOISE_MANIFEST_STRICT comment in config/settings.py.
+    assert production_settings.WHITENOISE_MANIFEST_STRICT is False
+
+
+def test_missing_staticfiles_manifest_does_not_crash_static_lookups(tmp_path):
+    # Functional proof of the fail-safe above: point WhiteNoise's manifest
+    # storage backend at a directory that has never had `collectstatic`
+    # run against it (no staticfiles.json at all -- the exact state the
+    # Dockerfile bug left STATIC_ROOT in) and confirm resolving a static
+    # file's stored name degrades instead of raising.
+    from whitenoise.storage import CompressedManifestStaticFilesStorage
+
+    (tmp_path / "portal.css").write_text("body { color: red; }")
+
+    storage = CompressedManifestStaticFilesStorage(
+        location=str(tmp_path), base_url="/static/"
+    )
+    # A wholly absent manifest file loads as "no entries", not an error.
+    assert storage.hashed_files == {}
+
+    # With manifest_strict=True (WhiteNoise/Django's default), this call
+    # raises `ValueError: Missing staticfiles manifest entry for
+    # 'portal.css'`. WHITENOISE_MANIFEST_STRICT=False (config/settings.py)
+    # makes the storage pick this setting up in __init__, so it must
+    # instead fall back to hashing the file's actual on-disk contents.
+    assert storage.manifest_strict is False
+    name = storage.stored_name("portal.css")
+    assert name != "portal.css"
