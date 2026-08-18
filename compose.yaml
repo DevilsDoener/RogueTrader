@@ -12,7 +12,10 @@ services:
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://127.0.0.1:8000}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: "false"
-      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-127.0.0.1,localhost}
+      # No fallback here on purpose: config/settings.py hard-fails startup
+      # when this is absent under DJANGO_DEBUG=false. A default here would
+      # silently defeat that check for the docker compose deployment path.
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
       ENABLE_HSTS: ${ENABLE_HSTS:-0}
     volumes:
       - portal-data:/data

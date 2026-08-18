@@ -10,11 +10,13 @@ started) keeps pointing at consistent state.
 
 import importlib
 import sys
+from pathlib import Path
 
 import pytest
 from django.core.exceptions import ImproperlyConfigured
 
 SETTINGS_MODULE = "config.settings"
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 # Every environment variable config/settings.py reads that affects the
 # behaviour under test here. Cleared before each reload so leftover values
@@ -107,6 +109,25 @@ def test_production_requires_explicit_allowed_hosts(settings_from_env):
     del env["DJANGO_ALLOWED_HOSTS"]
     with pytest.raises(ImproperlyConfigured):
         settings_from_env(**env)
+
+
+def test_production_rejects_a_blank_allowed_hosts_value(settings_from_env):
+    # docker compose substitutes an unset ${DJANGO_ALLOWED_HOSTS} (no
+    # default in compose.yaml) as an empty string, not as a missing
+    # variable -- confirm that still trips the same check.
+    with pytest.raises(ImproperlyConfigured):
+        settings_from_env(**{**PRODUCTION_ENV, "DJANGO_ALLOWED_HOSTS": ""})
+
+
+def test_compose_does_not_supply_a_fallback_for_allowed_hosts():
+    # Regression guard: compose.yaml must NOT default DJANGO_ALLOWED_HOSTS
+    # to anything (e.g. "${DJANGO_ALLOWED_HOSTS:-127.0.0.1,localhost}"),
+    # or an operator who forgets to set it in .env would silently get a
+    # running container instead of the startup failure config/settings.py
+    # is supposed to guarantee in production.
+    compose_text = (REPO_ROOT / "compose.yaml").read_text(encoding="utf-8")
+    assert "DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}" in compose_text
+    assert "DJANGO_ALLOWED_HOSTS:-" not in compose_text
 
 
 def test_allowed_hosts_is_explicit_in_production(production_settings):
