@@ -91,6 +91,53 @@ fit-width.
 
 ## Manual acceptance checklist
 
+> ### ⚠️ MUST DO FIRST: re-verify the checkboxes by eye
+>
+> **Before this portal is used for a real game session, a human must sit
+> down with both character pages and the ship page and check every single
+> printed checkbox and marking circle against its overlay control.**
+>
+> This is not routine caution — checkbox rendering broke **four separate
+> times** during development, each time in a different way, and each time
+> it was invisible to the test suite that was green at that moment:
+>
+> 1. **Coordinate calibration** (Task 4) — whole regions of checkboxes were
+>    mapped to the wrong printed rows because of a wrong row-pitch constant.
+>    Two rounds of fixes were needed. All structural tests passed throughout.
+> 2. **Global CSS leak** (Task 9) — a generic `input[type=checkbox]` rule in
+>    the new site-wide stylesheet resized every sheet checkbox, breaking the
+>    pixel geometry.
+> 3. **Idle appearance** (Task 11) — unchecked checkboxes rendered as large
+>    solid grey squares covering the printed artwork, because Chromium's
+>    native unchecked control fills a box stretched to the schema
+>    rectangle's size.
+> 4. **Missing coverage** (final review) — the *checked* state and the
+>    admin read-only view had no visual test at all, on any page.
+>
+> All four are fixed and now have automated coverage. But the pattern is
+> clear: this is the part of the system where "the tests are green" has
+> repeatedly failed to mean "it looks right on the page". The automated
+> checks verify position and idle appearance; they cannot tell you that a
+> control sits on *the checkbox a player expects to tick*.
+>
+> **What to actually check**, per page (1, 2, ship), at 100% zoom and again
+> zoomed in:
+> - Every printed circle/square has exactly one control on it — none missed,
+>   none doubled up, none shifted to a neighbour.
+> - Ticking a box marks *that* box, not the one above/below/beside it.
+> - An unticked box adds no visible chrome — the printed artwork looks
+>   exactly as it does with the overlay disabled.
+> - The dense repeating grids deserve the most scrutiny: the Skills table's
+>   Basic/Trained/+10%/+20% columns, the 4-pip "Adv. Taken" rows under each
+>   characteristic, and the ship's weapon-table location circles
+>   (Dorsal/Prow/Keel/Port/Starboard). These were all placed from measured
+>   grid pitches — one wrong constant silently shifts an entire block.
+>
+> The advance-pips and the ship's location circles are additionally flagged
+> as *medium confidence* in the Task 4 report: unlike the large grids, they
+> were positioned by visual estimate rather than by projection-profile
+> measurement.
+
 Some of the design spec's acceptance criteria need a human (and, for two
 items, a physical smartphone) rather than a browser automation script.
 Items marked **automated** are already covered by the Playwright suite
