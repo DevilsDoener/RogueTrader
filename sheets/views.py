@@ -9,16 +9,26 @@ owner mutation -- and only ever render the sheet read-only.
 """
 from __future__ import annotations
 
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import QuerySet
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.templatetags.static import static
+from django.urls import reverse
 from django.views import View
 
 from .forms import CharacterCreateForm
 from .models import CharacterSheet
 from .schema import load_schema
-from .services import delete_character
+from .services import (
+    FieldConflict,
+    FieldValidationError,
+    SheetNotFound,
+    delete_character,
+    patch_character_field,
+)
 
 #: The two schema pages rendered by the sheet viewer for a character.
 CHARACTER_PAGE_IDS: tuple[str, ...] = ("character-page-1", "character-page-2")
@@ -53,7 +63,20 @@ def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> 
                 "fields": page_schema.fields,
             }
         )
-    return {"character": character, "read_only": read_only, "pages": pages}
+    field_update_url_template = None
+    if not read_only:
+        # A single reversed URL with a placeholder field id, filled in
+        # client-side per field -- keeps the URL structure defined in one
+        # place (urls.py) instead of duplicated in JS.
+        field_update_url_template = reverse(
+            "sheets:character_field_update", args=[character.pk, "__FIELD_ID__"]
+        )
+    return {
+        "character": character,
+        "read_only": read_only,
+        "pages": pages,
+        "field_update_url_template": field_update_url_template,
+    }
 
 
 class CharacterListCreateView(LoginRequiredMixin, View):
@@ -90,6 +113,74 @@ class CharacterDetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
         character = get_object_or_404(_owned_characters(request.user), pk=pk)
         return render(request, DETAIL_TEMPLATE_NAME, _character_viewer_context(character, read_only=False))
+
+
+class CharacterFieldUpdateView(LoginRequiredMixin, View):
+    """``POST /characters/<uuid>/fields/<field_id>/`` -- strict JSON autosave endpoint.
+
+    A thin HTTP wrapper around :func:`sheets.services.patch_character_field`:
+    all concurrency, permission, and validation logic lives there. This view
+    only parses/validates the JSON envelope and translates the service's
+    exceptions to the response contract (200/409/422/404) -- it never
+    reveals whether a sheet it can't mutate even exists. Only ``POST`` is
+    accepted (``View`` returns 405 for anything else since no other handler
+    is defined); the request must be ``application/json`` with exactly
+    ``value`` and an integer ``base_version``. CSRF protection is enforced
+    globally by ``CsrfViewMiddleware``.
+    """
+
+    def post(self, request, pk, field_id):
+        if request.content_type != "application/json":
+            return JsonResponse(
+                {"error": "Content-Type must be application/json"}, status=400
+            )
+
+        try:
+            payload = json.loads(request.body.decode("utf-8") or "null")
+        except (ValueError, UnicodeDecodeError):
+            return JsonResponse({"error": "Malformed JSON body"}, status=400)
+
+        if not isinstance(payload, dict) or set(payload.keys()) != {"value", "base_version"}:
+            return JsonResponse(
+                {"error": "Body must contain exactly 'value' and 'base_version'"},
+                status=400,
+            )
+
+        base_version = payload["base_version"]
+        if not isinstance(base_version, int) or isinstance(base_version, bool):
+            return JsonResponse({"error": "base_version must be an integer"}, status=400)
+
+        try:
+            result = patch_character_field(
+                sheet_id=pk,
+                actor=request.user,
+                field_id=field_id,
+                value=payload["value"],
+                base_version=base_version,
+            )
+        except SheetNotFound as exc:
+            raise Http404() from exc
+        except FieldValidationError as exc:
+            return JsonResponse({"field_id": exc.field_id, "error": exc.message}, status=422)
+        except FieldConflict as exc:
+            return JsonResponse(
+                {
+                    "field_id": exc.field_id,
+                    "submitted_value": exc.submitted_value,
+                    "current_value": exc.current_value,
+                    "current_version": exc.current_version,
+                },
+                status=409,
+            )
+
+        return JsonResponse(
+            {
+                "field_id": result.field_id,
+                "value": result.value,
+                "version": result.version,
+                "saved_at": result.saved_at.isoformat(),
+            }
+        )
 
 
 class CharacterDeleteView(LoginRequiredMixin, View):

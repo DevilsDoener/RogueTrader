@@ -1,0 +1,143 @@
+/* Styles for the pixel-aligned character sheet viewer. The sheet geometry
+   itself never reflows -- .sheet-canvas keeps the background image's
+   intrinsic aspect ratio and every overlay field is positioned as a
+   percentage of it, so panning/zooming (via a transform on
+   .sheet-canvas-wrapper) scales the image and its overlays together. */
+
+.sheet-viewer-root {
+  --sheet-gold: #b08d57;
+  --sheet-toolbar-bg: #1c1c1c;
+  --sheet-toolbar-fg: #eee;
+}
+
+.sheet-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.75rem;
+  background: var(--sheet-toolbar-bg);
+  color: var(--sheet-toolbar-fg);
+}
+
+.sheet-toolbar button {
+  cursor: pointer;
+}
+
+.sheet-toolbar-pages,
+.sheet-toolbar-zoom {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.sheet-page-tab.active {
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: var(--sheet-gold);
+}
+
+.sheet-toolbar-status {
+  margin-left: auto;
+  font-size: 0.9rem;
+  min-width: 6rem;
+  text-align: right;
+}
+
+.sheet-viewport {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 80vh;
+  min-height: 320px;
+  touch-action: none;
+  background: #333;
+  cursor: grab;
+}
+
+.sheet-viewport.dragging {
+  cursor: grabbing;
+}
+
+.sheet-canvas-wrapper {
+  transform-origin: top left;
+  width: 100%;
+  will-change: transform;
+}
+
+.sheet-page[hidden] {
+  display: none;
+}
+
+.sheet-canvas {
+  position: relative;
+  width: 100%;
+}
+
+.sheet-background {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.sheet-field {
+  position: absolute;
+}
+
+.sheet-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: transparent;
+  font-family: inherit;
+  font-size: 0.65rem;
+  line-height: 1.1;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.sheet-text.has-value {
+  color: #111;
+}
+
+.sheet-input:focus-visible,
+.sheet-input:focus {
+  outline: 2px solid var(--sheet-gold);
+  outline-offset: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.sheet-checkbox {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  accent-color: var(--sheet-gold);
+}
+
+.sheet-conflict-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  min-width: 13rem;
+  background: #fff;
+  color: #111;
+  border: 1px solid #999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  padding: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sheet-conflict-message {
+  margin: 0 0 0.5rem;
+}
+
+.sheet-conflict-panel button {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  cursor: pointer;
+}

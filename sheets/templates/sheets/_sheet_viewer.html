@@ -1,33 +1,52 @@
 {% load static sheets_extras %}
-{% for page in pages %}
-  <section class="sheet-page" data-page-id="{{ page.page_id }}">
-    <div class="sheet-page-canvas" style="position: relative; width: 100%; max-width: {{ page.width }}px;">
-      <img src="{{ page.image_url }}" alt="{{ page.page_id }}" style="width: 100%; display: block;">
-      {% for field in page.fields %}
-        <div
-          class="sheet-field"
-          style="position: absolute; left: {{ field.x }}%; top: {{ field.y }}%; width: {{ field.width }}%; height: {{ field.height }}%;"
-        >
-          {% if field.kind == "checkbox" %}
-            <input
-              type="checkbox"
-              name="{{ field.id }}"
-              aria-label="{{ field.label }}"
-              disabled
-              {% if character.values|get_item:field.id %}checked{% endif %}
+{# Bare include fragment (no <!doctype>/<html>/<body>) rendering both
+   character sheet pages. Fields render from the schema in declared order,
+   never from stored DB keys -- unknown stored keys are simply never looked
+   up. The owning page (character_detail.html) wraps this in a pan/zoom
+   viewport and wires up autosave via sheet-viewer.js; when read_only is
+   true every input stays disabled and sheet-viewer.js never attaches
+   listeners to it, so the admin view issues no field requests at all. #}
+<div class="sheet-viewport" id="sheet-viewport">
+  <div class="sheet-canvas-wrapper" id="sheet-canvas-wrapper">
+    {% for page in pages %}
+      <section class="sheet-page" data-page-id="{{ page.page_id }}" data-page-index="{{ forloop.counter0 }}" {% if not forloop.first %}hidden{% endif %}>
+        <div class="sheet-canvas" style="aspect-ratio: {{ page.width }} / {{ page.height }};">
+          <img class="sheet-background" src="{{ page.image_url }}" alt="{{ page.page_id }}" draggable="false">
+          {% for field in page.fields %}
+            <div
+              class="sheet-field"
+              style="left: {{ field.x }}%; top: {{ field.y }}%; width: {{ field.width }}%; height: {{ field.height }}%;"
             >
-          {% else %}
-            <input
-              type="text"
-              name="{{ field.id }}"
-              aria-label="{{ field.label }}"
-              value="{{ character.values|get_item:field.id|default_if_none:'' }}"
-              maxlength="{{ field.max_length }}"
-              disabled
-            >
-          {% endif %}
+              {% if field.kind == "checkbox" %}
+                <input
+                  type="checkbox"
+                  class="sheet-input sheet-checkbox"
+                  name="{{ field.id }}"
+                  data-field-id="{{ field.id }}"
+                  data-kind="checkbox"
+                  data-version="{{ character.field_versions|get_item:field.id|default:0 }}"
+                  aria-label="{{ field.label }}"
+                  {% if character.values|get_item:field.id %}checked{% endif %}
+                  {% if read_only %}disabled{% endif %}
+                >
+              {% else %}
+                <input
+                  type="text"
+                  class="sheet-input sheet-text"
+                  name="{{ field.id }}"
+                  data-field-id="{{ field.id }}"
+                  data-kind="text"
+                  data-version="{{ character.field_versions|get_item:field.id|default:0 }}"
+                  aria-label="{{ field.label }}"
+                  value="{{ character.values|get_item:field.id|default_if_none:'' }}"
+                  maxlength="{{ field.max_length }}"
+                  {% if read_only %}disabled{% endif %}
+                >
+              {% endif %}
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  </section>
-{% endfor %}
+      </section>
+    {% endfor %}
+  </div>
+</div>

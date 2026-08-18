@@ -7,6 +7,11 @@ app_name = "sheets"
 urlpatterns = [
     path("characters/", views.CharacterListCreateView.as_view(), name="character_list"),
     path("characters/<uuid:pk>/", views.CharacterDetailView.as_view(), name="character_detail"),
+    path(
+        "characters/<uuid:pk>/fields/<str:field_id>/",
+        views.CharacterFieldUpdateView.as_view(),
+        name="character_field_update",
+    ),
     path("characters/<uuid:pk>/delete/", views.CharacterDeleteView.as_view(), name="character_delete"),
     path(
         "portal-admin/characters/",
