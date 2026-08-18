@@ -1,0 +1,79 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Verlauf: {{ ship.display_name }}</title>
+</head>
+<body>
+  <h1>Verlauf: {{ ship.display_name }}</h1>
+  <p><a href="{% url 'sheets:ship_detail' ship.pk %}">Zurück zum Schiff</a></p>
+
+  {# Deliberately metadata-only: timestamp, actor, and field label. The
+     old/new values are never rendered here -- only ShipHistoryDetailView,
+     fetched one row at a time on expand, ever exposes them. #}
+  <table id="ship-history-table">
+    <thead>
+      <tr>
+        <th>Zeitpunkt</th>
+        <th>Nutzer</th>
+        <th>Feld</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr class="ship-history-row" data-change-id="{{ row.change.id }}">
+          <td>{{ row.change.changed_at }}</td>
+          <td>{{ row.change.actor.username|default:"—" }}</td>
+          <td>{{ row.field_label }}</td>
+          <td>
+            <button type="button" class="ship-history-expand" data-detail-url="{{ row.detail_url }}">
+              Details
+            </button>
+          </td>
+        </tr>
+        <tr class="ship-history-detail-row" hidden>
+          <td colspan="4"></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">Keine Änderungen bisher.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <nav class="ship-history-pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">Vorherige</a>
+    {% endif %}
+    <span>Seite {{ page_obj.number }} von {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Nächste</a>
+    {% endif %}
+  </nav>
+
+  <script>
+    // Expand-on-demand: old/new values are only ever fetched (from an
+    // authenticated route) once a user explicitly opens a row -- they are
+    // never present in the initial page load.
+    document.querySelectorAll(".ship-history-expand").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var row = button.closest("tr");
+        var detailRow = row.nextElementSibling;
+        if (!detailRow) return;
+        if (!detailRow.hidden) {
+          detailRow.hidden = true;
+          return;
+        }
+        var cell = detailRow.querySelector("td");
+        fetch(button.dataset.detailUrl, { credentials: "same-origin" })
+          .then(function (response) { return response.text(); })
+          .then(function (html) {
+            cell.innerHTML = html;
+            detailRow.hidden = false;
+          });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -29,7 +29,7 @@ import uuid
 import pytest
 from playwright.sync_api import sync_playwright
 
-from sheets.models import CharacterSheet
+from sheets.models import CharacterSheet, ShipSheet
 
 DEFAULT_PASSWORD = "Valid-Password-42!"
 
@@ -136,6 +136,16 @@ def page(_playwright_worker):
 
 
 @pytest.fixture
+def second_page(_playwright_worker):
+    """A second, independent browser context (separate cookies/session) so
+    two different logged-in users can be driven concurrently against the
+    same live server -- used by the shared-ship concurrency tests."""
+    context, pg = _playwright_worker.new_page()
+    yield pg
+    _playwright_worker.close_context(context)
+
+
+@pytest.fixture
 def user_factory(transactional_db):
     def create_user(**attributes):
         from django.contrib.auth import get_user_model
@@ -173,6 +183,11 @@ def character_factory(user_factory):
         return CharacterSheet.objects.create(owner=owner, display_name=display_name, **attributes)
 
     return create_character
+
+
+@pytest.fixture
+def ship_sheet(transactional_db):
+    return ShipSheet.objects.create(display_name="Gemeinsames Schiff")
 
 
 def login_via_browser(page, live_server, *, username, password=DEFAULT_PASSWORD):

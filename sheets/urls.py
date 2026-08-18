@@ -23,4 +23,21 @@ urlpatterns = [
         views.AdminCharacterDetailView.as_view(),
         name="admin_character_detail",
     ),
+    path("ship/", views.ShipRedirectView.as_view(), name="ship_redirect"),
+    path("ships/<uuid:pk>/", views.ShipDetailView.as_view(), name="ship_detail"),
+    path(
+        "ships/<uuid:pk>/fields/<str:field_id>/",
+        views.ShipFieldUpdateView.as_view(),
+        name="ship_field_update",
+    ),
+    path(
+        "ships/<uuid:pk>/history/",
+        views.ShipHistoryListView.as_view(),
+        name="ship_history",
+    ),
+    path(
+        "ships/<uuid:pk>/history/<int:change_id>/",
+        views.ShipHistoryDetailView.as_view(),
+        name="ship_history_detail",
+    ),
 ]

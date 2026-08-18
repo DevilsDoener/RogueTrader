@@ -1,0 +1,44 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ ship.display_name }}</title>
+  <link rel="stylesheet" href="{% static 'sheets/sheet-viewer.css' %}">
+</head>
+<body>
+  <h1>{{ ship.display_name }}</h1>
+
+  <p><a href="{% url 'sheets:ship_history' ship.pk %}">Verlauf</a></p>
+
+  <div
+    id="sheet-viewer-root"
+    class="sheet-viewer-root"
+    data-read-only="false"
+    data-user-id="{{ user.id }}"
+    data-sheet-id="{{ ship.id }}"
+    data-field-url-template="{{ field_update_url_template }}"
+  >
+    <div class="sheet-toolbar">
+      <div class="sheet-toolbar-pages" id="sheet-page-tabs">
+        {% for page in pages %}
+          <button type="button" class="sheet-page-tab" data-page-index="{{ forloop.counter0 }}">Page {{ forloop.counter }}</button>
+        {% endfor %}
+      </div>
+      <div class="sheet-toolbar-zoom">
+        <button type="button" id="zoom-out" aria-label="Zoom out">-</button>
+        <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+        <button type="button" id="fit-width">Fit width</button>
+        <button type="button" id="fit-page">Fit page</button>
+      </div>
+      <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
+    </div>
+
+    {% include "sheets/_sheet_viewer.html" %}
+  </div>
+
+  {% csrf_token %}
+
+  <script src="{% static 'sheets/sheet-viewer.js' %}" defer></script>
+</body>
+</html>
