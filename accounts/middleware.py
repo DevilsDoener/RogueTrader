@@ -13,6 +13,7 @@ class ForcePasswordChangeMiddleware:
             change_required_url,
             reverse("accounts:login"),
             reverse("accounts:logout"),
+            reverse("root"),
         }
         if (
             user.is_authenticated
