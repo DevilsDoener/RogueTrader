@@ -38,6 +38,34 @@ def test_tab_order_follows_schema_order(page, live_server, owner, character_fact
     assert active_field_id == "c1_player_name"
 
 
+@pytest.mark.parametrize(
+    ("starting_field_id", "expected_next_field_id", "retired_field_id"),
+    [
+        ("c2_gear_22", "c2_acquisition_1", "c2_gear_23"),
+        ("c2_acquisition_14", "c2_mutation_1", "c2_acquisition_15"),
+    ],
+)
+def test_page_2_dom_tab_boundaries_skip_retired_duplicate_fields(
+    page,
+    live_server,
+    owner,
+    character_factory,
+    starting_field_id,
+    expected_next_field_id,
+    retired_field_id,
+):
+    character = character_factory(owner=owner)
+    login_via_browser(page, live_server, username=owner.username)
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+    page.click('.sheet-page-tab[data-page-index="1"]')
+
+    page.focus(f'[data-field-id="{starting_field_id}"]')
+    page.keyboard.press("Tab")
+
+    assert page.evaluate("document.activeElement.dataset.fieldId") == expected_next_field_id
+    assert page.locator(f'[data-field-id="{retired_field_id}"]').count() == 0
+
+
 def test_internal_template_comment_is_not_visible(
     page, live_server, owner, character_factory
 ):
