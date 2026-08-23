@@ -1230,10 +1230,20 @@
       "kind": "text",
       "x": 52.0934,
       "y": 58.8108,
-      "width": 21.1353,
+      "width": 10.5475,
       "height": 1.0474,
       "max_length": 60,
       "label": "Gear line 22"
+    },
+    {
+      "id": "c2_gear_23",
+      "kind": "text",
+      "x": 62.6409,
+      "y": 58.8108,
+      "width": 10.5878,
+      "height": 1.0474,
+      "max_length": 60,
+      "label": "Gear line 23"
     },
     {
       "id": "c2_acquisition_1",
@@ -1370,10 +1380,20 @@
       "kind": "text",
       "x": 74.6377,
       "y": 47.597,
-      "width": 21.095,
+      "width": 10.5475,
       "height": 1.0474,
       "max_length": 60,
       "label": "Acquisition line 14"
+    },
+    {
+      "id": "c2_acquisition_15",
+      "kind": "text",
+      "x": 85.1852,
+      "y": 47.597,
+      "width": 10.5475,
+      "height": 1.0474,
+      "max_length": 60,
+      "label": "Acquisition line 15"
     },
     {
       "id": "c2_mutation_1",

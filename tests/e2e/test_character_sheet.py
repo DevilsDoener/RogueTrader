@@ -39,20 +39,19 @@ def test_tab_order_follows_schema_order(page, live_server, owner, character_fact
 
 
 @pytest.mark.parametrize(
-    ("starting_field_id", "expected_next_field_id", "retired_field_id"),
+    ("starting_field_id", "expected_next_field_id"),
     [
-        ("c2_gear_22", "c2_acquisition_1", "c2_gear_23"),
-        ("c2_acquisition_14", "c2_mutation_1", "c2_acquisition_15"),
+        ("c2_gear_22", "c2_gear_23"),
+        ("c2_acquisition_14", "c2_acquisition_15"),
     ],
 )
-def test_page_2_dom_tab_boundaries_skip_retired_duplicate_fields(
+def test_page_2_split_line_fields_are_direct_dom_tab_neighbours(
     page,
     live_server,
     owner,
     character_factory,
     starting_field_id,
     expected_next_field_id,
-    retired_field_id,
 ):
     character = character_factory(owner=owner)
     login_via_browser(page, live_server, username=owner.username)
@@ -63,7 +62,45 @@ def test_page_2_dom_tab_boundaries_skip_retired_duplicate_fields(
     page.keyboard.press("Tab")
 
     assert page.evaluate("document.activeElement.dataset.fieldId") == expected_next_field_id
-    assert page.locator(f'[data-field-id="{retired_field_id}"]').count() == 0
+
+
+def test_split_line_values_remain_independently_visible_and_editable(
+    page, live_server, owner, character_factory
+):
+    initial_values = {
+        "c2_gear_22": "existing gear 22",
+        "c2_gear_23": "legacy gear 23",
+        "c2_acquisition_14": "existing acquisition 14",
+        "c2_acquisition_15": "legacy acquisition 15",
+    }
+    character = character_factory(owner=owner, values=initial_values)
+    login_via_browser(page, live_server, username=owner.username)
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+    page.click('.sheet-page-tab[data-page-index="1"]')
+
+    for field_id, expected_value in initial_values.items():
+        field = page.locator(f'[data-field-id="{field_id}"]')
+        assert field.is_editable()
+        assert field.input_value() == expected_value
+
+    edited_values = {
+        "c2_gear_23": "edited gear 23",
+        "c2_acquisition_15": "edited acquisition 15",
+    }
+    for field_id, edited_value in edited_values.items():
+        field = page.locator(f'[data-field-id="{field_id}"]')
+        field.fill(edited_value)
+        field.blur()
+        page.wait_for_function(
+            "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
+            timeout=5000,
+        )
+
+    page.reload()
+    page.click('.sheet-page-tab[data-page-index="1"]')
+    expected_after_reload = initial_values | edited_values
+    for field_id, expected_value in expected_after_reload.items():
+        assert page.input_value(f'[data-field-id="{field_id}"]') == expected_value
 
 
 def test_internal_template_comment_is_not_visible(

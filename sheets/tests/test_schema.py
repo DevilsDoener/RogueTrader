@@ -375,19 +375,17 @@ class TestLoadSchema:
                     34,
                 )
 
-    def test_page_2_lists_have_one_field_per_printed_input_line(
+    def test_page_2_list_fields_cover_printed_lines_and_preserve_legacy_ids(
         self, character_page_2_schema
     ):
         field_ids = {field.id for field in character_page_2_schema.fields}
-        assert {f"c2_gear_{index}" for index in range(1, 23)} <= field_ids
-        assert {f"c2_acquisition_{index}" for index in range(1, 15)} <= field_ids
+        assert {f"c2_gear_{index}" for index in range(1, 24)} <= field_ids
+        assert {f"c2_acquisition_{index}" for index in range(1, 16)} <= field_ids
         assert {f"c2_mutation_{index}" for index in range(1, 7)} <= field_ids
-        assert "c2_gear_23" not in field_ids
-        assert "c2_acquisition_15" not in field_ids
 
         for prefix, count, expected_x, expected_width in (
-            ("gear", 22, 1294, 525),
-            ("acquisition", 14, 1854, 524),
+            ("gear", 21, 1294, 525),
+            ("acquisition", 13, 1854, 524),
             ("mutation", 6, 1849, 524),
         ):
             for index in range(1, count + 1):
@@ -395,6 +393,38 @@ class TestLoadSchema:
                     character_page_2_schema, f"c2_{prefix}_{index}"
                 )
                 assert (x, width) == (expected_x, expected_width)
+
+        split_rectangles = {
+            "c2_gear_22": (1294, 1909, 262, 34),
+            "c2_gear_23": (1556, 1909, 263, 34),
+            "c2_acquisition_14": (1854, 1545, 262, 34),
+            "c2_acquisition_15": (2116, 1545, 262, 34),
+        }
+        for field_id, expected_rect in split_rectangles.items():
+            assert _field_rect_in_source_pixels(
+                character_page_2_schema, field_id
+            ) == expected_rect
+
+        ordered_ids = [field.id for field in character_page_2_schema.fields]
+        gear_index = ordered_ids.index("c2_gear_22")
+        acquisition_index = ordered_ids.index("c2_acquisition_14")
+        assert ordered_ids[gear_index : gear_index + 3] == [
+            "c2_gear_22",
+            "c2_gear_23",
+            "c2_acquisition_1",
+        ]
+        assert ordered_ids[acquisition_index : acquisition_index + 3] == [
+            "c2_acquisition_14",
+            "c2_acquisition_15",
+            "c2_mutation_1",
+        ]
+
+    def test_character_pages_retain_all_581_interactive_fields(
+        self, character_page_1_schema, character_page_2_schema
+    ):
+        assert len(character_page_1_schema.fields) == 414
+        assert len(character_page_2_schema.fields) == 167
+        assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 581
 
     @pytest.mark.parametrize(
         ("field_id", "expected_x", "expected_width"),
