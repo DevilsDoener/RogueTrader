@@ -12,7 +12,7 @@
 <div class="sheet-viewport" id="sheet-viewport">
   <div class="sheet-canvas-wrapper" id="sheet-canvas-wrapper">
     {% for page in pages %}
-      <section class="sheet-page" data-page-id="{{ page.page_id }}" data-page-index="{{ forloop.counter0 }}" {% if not forloop.first %}hidden{% endif %}>
+      <section class="sheet-page" data-page-id="{{ page.page_id }}">
         <div class="sheet-canvas" style="aspect-ratio: {{ page.width }} / {{ page.height }};">
           <img class="sheet-background" src="{{ page.image_url }}" alt="{{ page.page_id }}" draggable="false">
           {% for field in page.fields %}

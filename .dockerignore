@@ -9,5 +9,6 @@ tmp
 .superpowers
 data
 staticfiles
+tests/visual
 *.py[cod]
 docs

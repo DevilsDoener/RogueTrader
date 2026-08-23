@@ -1,4 +1,4 @@
-/* Page tabs, field autosave, and conflict resolution for the responsive sheet
+/* Field autosave and conflict resolution for the responsive sheet
  * viewer. This file is loaded on both the owner's editable
  * view and the portal admin's read-only view; the `data-read-only`
  * attribute on #sheet-viewer-root gates all of the autosave wiring so the
@@ -16,67 +16,10 @@
   }
 
   const readOnly = root.dataset.readOnly === "true";
-  const userId = root.dataset.userId || "anonymous";
-  const sheetId = root.dataset.sheetId || "unknown";
   const fieldUrlTemplate = root.dataset.fieldUrlTemplate || "";
 
-  const pages = Array.from(root.querySelectorAll(".sheet-page"));
-  const pageTabs = Array.from(root.querySelectorAll(".sheet-page-tab"));
   const statusEl = document.getElementById("sheet-save-status");
-
-  const storageKeyPrefix = "sheets:viewer:" + userId + ":" + sheetId + ":";
-
-  const state = {
-    pageIndex: 0,
-  };
   const conflictPanels = new Map();
-
-  function loadStoredState() {
-    const storedPage = parseInt(localStorage.getItem(storageKeyPrefix + "page"), 10);
-    if (!Number.isNaN(storedPage) && storedPage >= 0 && storedPage < pages.length) {
-      state.pageIndex = storedPage;
-    }
-  }
-
-  function persistState() {
-    try {
-      localStorage.setItem(storageKeyPrefix + "page", String(state.pageIndex));
-    } catch (err) {
-      // localStorage may be unavailable (private browsing, quota); the
-      // viewer still works, it just won't remember the page next visit.
-    }
-  }
-
-  function showPage(index) {
-    conflictPanels.forEach((_entry, input) => closeConflictPanel(input));
-    pages.forEach((page, i) => {
-      if (i === index) {
-        page.removeAttribute("hidden");
-      } else {
-        page.setAttribute("hidden", "");
-      }
-    });
-    pageTabs.forEach((tab, i) => {
-      const active = i === index;
-      tab.classList.toggle("active", active);
-      tab.setAttribute("aria-current", active ? "true" : "false");
-    });
-    state.pageIndex = index;
-    persistState();
-  }
-
-  pageTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const index = parseInt(tab.dataset.pageIndex, 10);
-      if (!Number.isNaN(index)) {
-        showPage(index);
-      }
-    });
-  });
-
-
-  loadStoredState();
-  showPage(state.pageIndex);
 
   function updateHasValue(input) {
     if (input.type === "checkbox") return;
@@ -86,8 +29,8 @@
   root.querySelectorAll(".sheet-text").forEach(updateHasValue);
 
   if (readOnly) {
-    // Admin view: page tabs above still work for reading, but no autosave
-    // wiring is attached below, so no field request is ever made.
+    // Admin view: no autosave wiring is attached below, so no field request
+    // is ever made.
     return;
   }
 

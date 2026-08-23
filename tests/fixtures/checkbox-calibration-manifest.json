@@ -1,0 +1,22 @@
+{
+  "reviewed_on": "2026-08-23",
+  "method": "Original-resolution contact crops visually checked against printed marking surfaces; production schemas are not read by the renderer.",
+  "rectangle_reference": {
+    "path": "tests/fixtures/checkbox-rectangles.json",
+    "sha256": "3993cfa6744fa49f2ef3ae6a84c0cdbeeb3ae2d9a5edb5ac895db46334e55ee5"
+  },
+  "sources": {
+    "character-page-1": {
+      "path": "sheets/static/sheets/images/character-page-1.webp",
+      "sha256": "218e11ae4062f0621d6b213daadfbfe2e7fb1c259aac6a01fe5c5dfb14a18990"
+    },
+    "character-page-2": {
+      "path": "sheets/static/sheets/images/character-page-2.webp",
+      "sha256": "86396b384e6ab35398a261cd7cc0565cfe16aca089f1c67b39e7b8251406e77f"
+    },
+    "ship-page": {
+      "path": "sheets/static/sheets/images/ship-page.webp",
+      "sha256": "5fb502334362b418149330061b9f82076b1ba8474e11c82ae3a055ecbba7d2d2"
+    }
+  }
+}

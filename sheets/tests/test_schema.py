@@ -11,7 +11,9 @@ mapped yet.
 from __future__ import annotations
 
 import hashlib
+import json
 from decimal import Decimal
+from pathlib import Path
 
 import pytest
 
@@ -553,6 +555,61 @@ class TestLoadSchema:
             field_spec.width,
             field_spec.height,
         ) == tuple(Decimal(value) for value in expected_geometry)
+
+    def test_all_424_checkbox_rectangles_match_independent_pixel_reference(self):
+        reference_path = (
+            Path(__file__).resolve().parents[2]
+            / "tests"
+            / "fixtures"
+            / "checkbox-rectangles.json"
+        )
+        reference = json.loads(reference_path.read_text(encoding="utf-8"))
+        expected_counts = {
+            "character-page-1": 351,
+            "character-page-2": 36,
+            "ship-page": 37,
+        }
+
+        assert {page_id: len(rectangles) for page_id, rectangles in reference.items()} == (
+            expected_counts
+        )
+        assert sum(expected_counts.values()) == 424
+
+        for page_id, expected_rectangles in reference.items():
+            schema = load_schema(page_id)
+            checkboxes = [field for field in schema.fields if field.kind == "checkbox"]
+            assert [field.id for field in checkboxes] == list(expected_rectangles)
+
+            for field in checkboxes:
+                actual_left = round(field.x * schema.image_width / 100)
+                actual_top = round(field.y * schema.image_height / 100)
+                actual_right = round((field.x + field.width) * schema.image_width / 100)
+                actual_bottom = round((field.y + field.height) * schema.image_height / 100)
+                expected = expected_rectangles[field.id]
+                actual = (actual_left, actual_top, actual_right, actual_bottom)
+
+                for edge_name, actual_edge, expected_edge in zip(
+                    ("left", "top", "right", "bottom"),
+                    actual,
+                    expected,
+                    strict=True,
+                ):
+                    assert abs(actual_edge - expected_edge) <= 2, (
+                        f"{page_id}/{field.id} {edge_name}: "
+                        f"schema={actual_edge}px reference={expected_edge}px"
+                    )
+
+    def test_checkbox_calibration_artifacts_match_reviewed_source_hashes(self):
+        root = Path(__file__).resolve().parents[2]
+        manifest = json.loads(
+            (root / "tests" / "fixtures" / "checkbox-calibration-manifest.json")
+            .read_text(encoding="utf-8")
+        )
+
+        artifacts = [manifest["rectangle_reference"], *manifest["sources"].values()]
+        for artifact in artifacts:
+            digest = hashlib.sha256((root / artifact["path"]).read_bytes()).hexdigest()
+            assert digest == artifact["sha256"], artifact["path"]
 
     @pytest.mark.parametrize(
         ("page_id", "field_id", "expected_geometry"),

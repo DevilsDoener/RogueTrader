@@ -83,7 +83,6 @@ def test_page_2_split_line_fields_are_direct_dom_tab_neighbours(
     character = character_factory(owner=owner)
     login_via_browser(page, live_server, username=owner.username)
     page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.click('.sheet-page-tab[data-page-index="1"]')
 
     page.focus(f'[data-field-id="{starting_field_id}"]')
     page.keyboard.press("Tab")
@@ -103,7 +102,6 @@ def test_split_line_values_remain_independently_visible_and_editable(
     character = character_factory(owner=owner, values=initial_values)
     login_via_browser(page, live_server, username=owner.username)
     page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.click('.sheet-page-tab[data-page-index="1"]')
 
     for field_id, expected_value in initial_values.items():
         field = page.locator(f'[data-field-id="{field_id}"]')
@@ -124,7 +122,6 @@ def test_split_line_values_remain_independently_visible_and_editable(
         )
 
     page.reload()
-    page.click('.sheet-page-tab[data-page-index="1"]')
     expected_after_reload = initial_values | edited_values
     for field_id, expected_value in expected_after_reload.items():
         assert page.input_value(f'[data-field-id="{field_id}"]') == expected_value
@@ -141,8 +138,8 @@ def test_internal_template_comment_is_not_visible(
 
 
 @pytest.mark.parametrize(
-    ("page_id", "page_index"),
-    (("character-page-1", 0), ("character-page-2", 1)),
+    "page_id",
+    ("character-page-1", "character-page-2"),
 )
 @pytest.mark.parametrize(("viewport_name", "viewport"), DESKTOP_GEOMETRY_VIEWPORTS)
 def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
@@ -151,7 +148,6 @@ def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
     owner,
     character_factory,
     page_id,
-    page_index,
     viewport_name,
     viewport,
 ):
@@ -161,8 +157,6 @@ def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
     page.set_viewport_size(viewport)
     page.goto(f"{live_server.url}/characters/{character.id}/")
     page.wait_for_selector('[data-field-id="c1_character_name"]')
-    if page_index:
-        page.click(f'.sheet-page-tab[data-page-index="{page_index}"]')
 
     rendered = page.locator(
         f'.sheet-page[data-page-id="{page_id}"] .sheet-input'
@@ -214,9 +208,7 @@ def test_filled_character_text_line_boxes_scale_and_fit_at_desktop_widths(
     measurements = {}
     for viewport in DESKTOP_TEXT_VIEWPORTS:
         page.set_viewport_size(viewport)
-        page.click('.sheet-page-tab[data-page-index="0"]')
         page_1 = _filled_text_metrics(page, "c1_rank")
-        page.click('.sheet-page-tab[data-page-index="1"]')
         page_2 = _filled_text_metrics(page, "c2_wounds_critical_damage")
         measurements[viewport["width"]] = {
             "c1_rank": page_1,
@@ -292,12 +284,12 @@ def test_viewer_uses_document_scroll_without_zoom_or_pan(
         """
     () => {
       const viewport = document.querySelector('.sheet-viewport');
-      const canvas = document.querySelector('.sheet-page:not([hidden]) .sheet-canvas');
+      const canvas = document.querySelector('.sheet-page .sheet-canvas');
       const viewportRect = viewport.getBoundingClientRect();
       const canvasRect = canvas.getBoundingClientRect();
       const style = getComputedStyle(viewport);
       return {
-        heightDifference: Math.abs(viewportRect.height - canvasRect.height),
+        containsMoreThanOneCanvas: viewportRect.height > canvasRect.height,
         overflowY: style.overflowY,
         transform: getComputedStyle(document.querySelector('.sheet-canvas-wrapper')).transform,
         documentScrollable: document.documentElement.scrollHeight > window.innerHeight,
@@ -306,7 +298,7 @@ def test_viewer_uses_document_scroll_without_zoom_or_pan(
     """
     )
 
-    assert geometry["heightDifference"] <= 1
+    assert geometry["containsMoreThanOneCanvas"]
     assert geometry["overflowY"] == "visible"
     assert geometry["transform"] == "none"
     assert geometry["documentScrollable"]
@@ -317,24 +309,6 @@ def test_viewer_uses_document_scroll_without_zoom_or_pan(
     page.evaluate("window.scrollTo(0, 0)")
     page.mouse.wheel(0, 500)
     page.wait_for_function("window.scrollY > 0")
-
-
-def test_page_index_persists_without_zoom_state(page, live_server, owner, character_factory):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.evaluate("localStorage.clear()")
-    page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.wait_for_selector('[data-field-id="c1_character_name"]')
-
-    page.click('.sheet-page-tab[data-page-index="1"]')
-    page.reload()
-    page.wait_for_selector('.sheet-page[data-page-index="1"]:not([hidden])')
-
-    assert page.locator('.sheet-page-tab[data-page-index="1"]').get_attribute("aria-current") == "true"
-    page_key = f"sheets:viewer:{owner.id}:{character.id}:page"
-    zoom_key = f"sheets:viewer:{owner.id}:{character.id}:zoom"
-    assert page.evaluate("key => localStorage.getItem(key)", page_key) == "1"
-    assert page.evaluate("key => localStorage.getItem(key)", zoom_key) is None
 
 
 def test_foreign_user_receives_404(page, live_server, owner, other_user, character_factory):
@@ -403,7 +377,6 @@ def test_page_2_edge_conflicts_are_fully_visible_and_resolvable_on_desktop(
     login_via_browser(page, live_server, username=owner.username)
     page.set_viewport_size(viewport)
     page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.click('.sheet-page-tab[data-page-index="1"]')
     field = page.locator(f'[data-field-id="{field_id}"]')
     field.scroll_into_view_if_needed()
 
@@ -477,7 +450,6 @@ def test_page_2_edge_conflicts_are_fully_visible_and_resolvable_on_desktop(
         assert field.input_value() == remote_value
         assert panel.count() == 0
         page.reload()
-        page.click('.sheet-page-tab[data-page-index="1"]')
         assert page.input_value(f'[data-field-id="{field_id}"]') == remote_value
     else:
         panel.locator(".sheet-conflict-retry-mine").click()
@@ -486,5 +458,4 @@ def test_page_2_edge_conflicts_are_fully_visible_and_resolvable_on_desktop(
             timeout=5000,
         )
         page.reload()
-        page.click('.sheet-page-tab[data-page-index="1"]')
         assert page.input_value(f'[data-field-id="{field_id}"]') == local_value

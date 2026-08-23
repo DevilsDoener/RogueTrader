@@ -15,8 +15,7 @@ pages (character-page-1, character-page-2, ship-page):
    ship-page rotation. Each render is also saved to ``tests/visual/
    <page>.png`` for manual inspection per the brief's Step 2.
    ``test_checked_checkbox_matches_extracted_background``
-   covers the complementary ``:checked { appearance: auto }`` branch (the
-   browser's native, pixel-exact tick/accent-color rendering), including
+   covers the complementary transparent golden SVG tick, including
    once through the read-only admin viewer, where the checkbox is also
    ``disabled``.
 
@@ -66,9 +65,9 @@ MAX_MEAN_CHANNEL_DIFF = 12.0
 # capacity boxes on the ship page; general pitch errors on both character
 # pages -- see progress.md).
 PAGES = [
-    ("character-page-1", 0, "c1_ws_adv_1", {"width": 1400, "height": 1800}),
-    ("character-page-2", 1, "c2_ws_adv_1", {"width": 1400, "height": 1800}),
-    ("ship-page", 0, "ship_weapon_capacity_dorsal", {"width": 1800, "height": 1300}),
+    ("character-page-1", "c1_ws_adv_1", {"width": 1400, "height": 1800}),
+    ("character-page-2", "c2_ws_adv_1", {"width": 1400, "height": 1800}),
+    ("ship-page", "ship_weapon_capacity_dorsal", {"width": 1800, "height": 1300}),
 ]
 
 DESKTOP_VIEWPORTS = [
@@ -93,7 +92,7 @@ def _field(schema: dict, field_id: str) -> dict:
 
 
 def _open_sheet(
-    page, live_server, *, owner, character_factory, ship_sheet, page_id, page_index,
+    page, live_server, *, owner, character_factory, ship_sheet, page_id,
     checked_field_id=None, admin_user=None,
 ):
     """Opens a sheet, optionally pre-marking ``checked_field_id`` and/or
@@ -113,9 +112,6 @@ def _open_sheet(
         else:
             page.goto(f"{live_server.url}/characters/{character.id}/")
     page.wait_for_selector(".sheet-canvas")
-    if page_index:
-        page.click(f'.sheet-page-tab[data-page-index="{page_index}"]')
-        page.wait_for_timeout(30)
 
 
 def _enable_debug_overlay(page):
@@ -124,30 +120,29 @@ def _enable_debug_overlay(page):
     )
 
 
-def _all_fields_within_canvas(page) -> bool:
+def _all_fields_within_canvas(page, page_id) -> bool:
     return page.evaluate(
-        """(eps) => {
-          const canvas = document.querySelector('.sheet-page:not([hidden]) .sheet-canvas');
+        """([pageId, eps]) => {
+          const page = document.querySelector('.sheet-page[data-page-id="' + pageId + '"]');
+          const canvas = page.querySelector('.sheet-canvas');
           const c = canvas.getBoundingClientRect();
-          const fields = Array.from(
-            document.querySelectorAll('.sheet-page:not([hidden]) .sheet-field')
-          );
+          const fields = Array.from(page.querySelectorAll('.sheet-field'));
           return fields.length > 0 && fields.every((field) => {
             const r = field.getBoundingClientRect();
             return r.left >= c.left - eps && r.top >= c.top - eps &&
                    r.right <= c.right + eps && r.bottom <= c.bottom + eps;
           });
         }""",
-        BOUNDS_EPS_PX,
+        [page_id, BOUNDS_EPS_PX],
     )
 
 
 def _measure_field(page, field_id: str) -> dict:
     return page.evaluate(
         """([fieldId, eps]) => {
-          const canvas = document.querySelector('.sheet-page:not([hidden]) .sheet-canvas');
           const input = document.querySelector('[data-field-id="' + fieldId + '"]');
           const field = input.closest('.sheet-field');
+          const canvas = input.closest('.sheet-canvas');
           const c = canvas.getBoundingClientRect();
           const f = field.getBoundingClientRect();
           return {
@@ -190,19 +185,19 @@ def _assert_matches_background(screenshot_bytes: bytes, background_path: Path, *
     )
 
 
-@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
+@pytest.mark.parametrize("page_id, checkbox_field_id, viewport", PAGES)
 def test_blank_sheet_matches_extracted_background(
     page, live_server, owner, character_factory, ship_sheet,
-    page_id, page_index, checkbox_field_id, viewport,
+    page_id, checkbox_field_id, viewport,
 ):
     page.set_viewport_size(viewport)
     login_via_browser(page, live_server, username=owner.username)
     _open_sheet(
         page, live_server,
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
-        page_id=page_id, page_index=page_index,
+        page_id=page_id,
     )
-    canvas = page.locator(".sheet-page:not([hidden]) .sheet-canvas")
+    canvas = page.locator(f'.sheet-page[data-page-id="{page_id}"] .sheet-canvas')
     screenshot = canvas.screenshot()
 
     _assert_matches_background(
@@ -210,28 +205,24 @@ def test_blank_sheet_matches_extracted_background(
     )
 
 
-@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
+@pytest.mark.parametrize("page_id, checkbox_field_id, viewport", PAGES)
 def test_checked_checkbox_matches_extracted_background(
     page, live_server, owner, character_factory, ship_sheet,
-    page_id, page_index, checkbox_field_id, viewport,
+    page_id, checkbox_field_id, viewport,
 ):
-    """Exercises ``.sheet-checkbox:checked { appearance: auto }`` (never
-    rendered by the blank-sheet fidelity check above): one schema checkbox
-    is pre-marked, so the canvas must still match the extracted background
-    almost exactly everywhere except that one small control, where the
-    browser's native tick/accent-color rendering is expected and does not
-    count as "added chrome"."""
+    """A checked schema field adds only one small transparent golden tick,
+    so the rest of the canvas must continue to match the source artwork."""
     page.set_viewport_size(viewport)
     login_via_browser(page, live_server, username=owner.username)
     _open_sheet(
         page, live_server,
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
-        page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
+        page_id=page_id, checked_field_id=checkbox_field_id,
     )
     checkbox = page.locator(f'[data-field-id="{checkbox_field_id}"]')
     assert checkbox.is_checked()
 
-    canvas = page.locator(".sheet-page:not([hidden]) .sheet-canvas")
+    canvas = page.locator(f'.sheet-page[data-page-id="{page_id}"] .sheet-canvas')
     screenshot = canvas.screenshot()
 
     # One tiny checked control out of a full page moves the whole-canvas
@@ -243,31 +234,29 @@ def test_checked_checkbox_matches_extracted_background(
     )
 
 
-@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
+@pytest.mark.parametrize("page_id, checkbox_field_id, viewport", PAGES)
 def test_checked_checkbox_position_unchanged_at_desktop_width(
     page, live_server, owner, character_factory, ship_sheet,
-    page_id, page_index, checkbox_field_id, viewport,
+    page_id, checkbox_field_id, viewport,
 ):
-    """Checking a box must never itself move or resize it -- toggling
-    ``appearance`` between ``none`` and ``auto`` on ``:checked`` (see
-    ``sheet-viewer.css``) changes native rendering, not layout."""
+    """Adding the custom tick must never move or resize its checkbox."""
     page.set_viewport_size(viewport)
     login_via_browser(page, live_server, username=owner.username)
     _open_sheet(
         page, live_server,
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
-        page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
+        page_id=page_id, checked_field_id=checkbox_field_id,
     )
     _assert_checkbox_position(page, page_id, checkbox_field_id, "checked, desktop")
 
 
 @pytest.mark.parametrize(
-    "page_id, page_index, checkbox_field_id, viewport",
+    "page_id, checkbox_field_id, viewport",
     [p for p in PAGES if p[0] != "ship-page"],  # no separate admin route for the ship
 )
 def test_admin_read_only_view_renders_checked_checkbox_within_canvas(
     page, live_server, owner, character_factory, ship_sheet, portal_admin,
-    page_id, page_index, checkbox_field_id, viewport,
+    page_id, checkbox_field_id, viewport,
 ):
     """The read-only admin viewer (``/portal-admin/characters/<uuid>/``) has
     never been opened by this suite before. Its checkbox inputs are also
@@ -284,7 +273,7 @@ def test_admin_read_only_view_renders_checked_checkbox_within_canvas(
     _open_sheet(
         page, live_server,
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
-        page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
+        page_id=page_id, checked_field_id=checkbox_field_id,
         admin_user=portal_admin,
     )
     checkbox = page.locator(f'[data-field-id="{checkbox_field_id}"]')
@@ -294,22 +283,75 @@ def test_admin_read_only_view_renders_checked_checkbox_within_canvas(
     _assert_checkbox_position(page, page_id, checkbox_field_id, "admin read-only view")
 
 
-@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, unused_viewport", PAGES)
+@pytest.mark.parametrize("page_id, checkbox_field_id, unused_viewport", PAGES)
 @pytest.mark.parametrize("viewport_name, viewport", DESKTOP_VIEWPORTS)
 def test_field_rectangles_stay_within_desktop_canvas(
     page, live_server, owner, character_factory, ship_sheet,
-    page_id, page_index, checkbox_field_id, unused_viewport, viewport_name, viewport,
+    page_id, checkbox_field_id, unused_viewport, viewport_name, viewport,
 ):
     page.set_viewport_size(viewport)
     login_via_browser(page, live_server, username=owner.username)
     _open_sheet(
         page, live_server,
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
-        page_id=page_id, page_index=page_index,
+        page_id=page_id,
     )
     _enable_debug_overlay(page)
 
-    assert _all_fields_within_canvas(page), (
+    assert _all_fields_within_canvas(page, page_id), (
         f"{page_id} at {viewport_name} width: a field rectangle left the canvas bounds"
     )
     _assert_checkbox_position(page, page_id, checkbox_field_id, viewport_name)
+
+
+def test_populated_reference_sections_are_captured_for_visual_review(
+    page, live_server, owner, character_factory, ship_sheet
+):
+    character_values = {
+        "c1_character_name": "Abel Gerrit",
+        "c1_rank": "4",
+        "c1_ws_value": "42",
+        "c1_talent_1": "Peer (Imperial Navy)",
+        "c1_special_ability_1": "Exceptional Leader",
+        "c1_profit_factor_current": "38",
+        "c2_weapon_1_name": "Sunsear Laser Battery",
+        "c2_weapon_1_class": "Ship",
+        "c2_weapon_1_damage": "1d10+2",
+        "c2_gear_1": "Void suit",
+        "c2_acquisition_1": "Best-craftsmanship auspex",
+        "c2_corruption_current_points": "3",
+        "c2_wounds_current": "14",
+        "c2_armour_head_type": "Flak",
+    }
+    character = character_factory(owner=owner, values=character_values)
+    login_via_browser(page, live_server, username=owner.username)
+    page.set_viewport_size({"width": 1440, "height": 900})
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+    page.wait_for_selector('[data-field-id="c1_character_name"]')
+
+    VISUAL_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    for page_id in ("character-page-1", "character-page-2"):
+        screenshot = page.locator(
+            f'.sheet-page[data-page-id="{page_id}"] .sheet-canvas'
+        ).screenshot()
+        (VISUAL_OUTPUT_DIR / f"{page_id}-filled.png").write_bytes(screenshot)
+
+    ship_sheet.values = {
+        **ship_sheet.values,
+        "ship_name": "His Divine Right",
+        "ship_class": "Sword-class Frigate",
+        "ship_speed": "7",
+        "ship_essential_component_1": "Jovian-pattern Class 2 Drive",
+        "ship_hull_integrity_current": "31",
+        "ship_crew_percent_current": "92",
+        "ship_morale_current": "88",
+        "ship_weapon_1_name": "Sunsear Laser Battery",
+        "ship_weapon_1_damage": "1d10+2",
+    }
+    ship_sheet.save(update_fields=["values"])
+    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
+    page.wait_for_selector('[data-field-id="ship_name"]')
+    screenshot = page.locator(
+        '.sheet-page[data-page-id="ship-page"] .sheet-canvas'
+    ).screenshot()
+    (VISUAL_OUTPUT_DIR / "ship-page-filled.png").write_bytes(screenshot)

@@ -1,0 +1,24 @@
+{
+  "references": [
+    {
+      "page_id": "character-page-1",
+      "label": "Character Name",
+      "source_width": 2444,
+      "glyph_height": 26
+    },
+    {
+      "page_id": "character-page-2",
+      "label": "Name",
+      "source_width": 2484,
+      "glyph_height": 26
+    },
+    {
+      "page_id": "ship-page",
+      "label": "Name",
+      "source_width": 3238,
+      "glyph_height": 23
+    }
+  ],
+  "selected_cqw": 1.53,
+  "measurement": "Dark connected-component glyph bounds in isolated source-image label crops"
+}

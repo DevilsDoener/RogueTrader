@@ -19,21 +19,6 @@
   color: var(--sheet-toolbar-fg);
 }
 
-.sheet-toolbar button {
-  cursor: pointer;
-}
-
-.sheet-toolbar-pages {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.sheet-page-tab.active {
-  font-weight: bold;
-  text-decoration: underline;
-  text-decoration-color: var(--sheet-gold);
-}
-
 .sheet-toolbar-status {
   margin-left: auto;
   font-size: 0.9rem;
@@ -51,13 +36,14 @@
   width: 100%;
 }
 
-.sheet-page[hidden] {
-  display: none;
+.sheet-page + .sheet-page {
+  margin-top: 2rem;
 }
 
 .sheet-canvas {
   position: relative;
   width: 100%;
+  container-type: inline-size;
 }
 
 .sheet-background {
@@ -73,32 +59,24 @@
 }
 
 .sheet-input {
-  width: 100%;
-  height: 100%;
   border: none;
   background: transparent;
   color: transparent;
-  font-family: inherit;
-  font-size: 0.65rem;
-  line-height: 1.1;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.53cqw;
+  line-height: 0.7;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-/* At desktop widths the whole source page still scales with the available
-   canvas width. Use each schema field's rendered height as the text metric so
-   a line box shrinks with that canvas instead of being clipped by a fixed rem
-   size. The viewer is supported for desktop widths from 1024px. */
-@media (min-width: 1024px) {
-  .sheet-field {
-    container-type: size;
-  }
-
-  .sheet-input {
-    font-size: min(0.65rem, 70cqh);
-    line-height: 1;
-  }
+.sheet-text {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: min(1.15em, 100%);
 }
 
 .sheet-text.has-value {
@@ -109,7 +87,7 @@
 .sheet-input:focus {
   outline: 2px solid var(--sheet-gold);
   outline-offset: 1px;
-  background: rgba(255, 255, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.35);
 }
 
 .sheet-checkbox {
@@ -117,25 +95,21 @@
   height: 100%;
   margin: 0;
   accent-color: var(--sheet-gold);
-  /* An idle (unchecked) checkbox must add no visible chrome over the
-     printed checkbox/marking-circle artwork underneath it -- but Chromium's
-     native *unchecked* control, stretched to fill a whole schema box via
-     the width/height:100% above, paints as a large solid filled square
-     rather than a small border (this is what test_visual_regression.py's
-     background-fidelity check caught). Suppressing native rendering only
-     while unchecked removes that chrome; re-enabling it on :checked below
-     keeps the previously-verified pixel-exact native tick+accent-color
-     rendering for the checked state (see Task 9's checkbox-geometry
-     verification in progress.md) completely unchanged. */
+  /* The printed box/circle remains the only border. Native checkbox chrome
+     is always suppressed; checked inputs add only the inset SVG tick below. */
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
   border: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70% 70%;
 }
 
 .sheet-checkbox:checked {
-  appearance: auto;
-  -webkit-appearance: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3.5 10.5 8 15l8.5-11' fill='none' stroke='%23b08d57' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 .sheet-conflict-panel {
