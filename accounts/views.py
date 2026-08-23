@@ -1,11 +1,12 @@
 import hashlib
 import hmac
+import logging
 from datetime import timedelta
+from ipaddress import ip_address
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404, redirect, render
@@ -17,7 +18,13 @@ from django.views.generic import ListView
 
 from core.mixins import PortalAdminRequiredMixin
 
-from .forms import LoginForm, ManagedUserCreateForm, ManagedUserForm, TemporaryPasswordForm
+from .forms import (
+    LoginForm,
+    ManagedUserCreateForm,
+    ManagedUserForm,
+    RequiredPasswordChangeForm,
+    TemporaryPasswordForm,
+)
 from .models import LoginThrottle, User
 from .services import (
     create_managed_user,
@@ -29,13 +36,36 @@ from .services import (
 GENERIC_LOGIN_ERROR = "Invalid username or password."
 THROTTLE_WINDOW = timedelta(minutes=15)
 THROTTLE_LIMIT = 5
+audit_logger = logging.getLogger("accounts.audit")
+
+
+def _client_source_address(request) -> str:
+    forwarded_address = request.META.get("HTTP_X_REAL_IP")
+    try:
+        return str(ip_address(forwarded_address))
+    except (TypeError, ValueError):
+        pass
+
+    try:
+        return str(ip_address(request.META.get("REMOTE_ADDR")))
+    except (TypeError, ValueError):
+        return "unknown"
 
 
 def _throttle_key(request, username: str) -> str:
     normalized_identifier = username.strip().casefold()
-    source_ip = request.META.get("REMOTE_ADDR", "")
+    source_ip = _client_source_address(request)
     message = f"{normalized_identifier}\x00{source_ip}".encode()
     return hmac.new(settings.SECRET_KEY.encode(), message, hashlib.sha256).hexdigest()
+
+
+def _log_login_event(event_kind: str, *, username: str, source_ip: str) -> None:
+    audit_logger.info(
+        "%s username=%r source_ip=%s",
+        event_kind,
+        username,
+        source_ip,
+    )
 
 
 def _is_blocked(key_hash: str, now) -> bool:
@@ -81,22 +111,39 @@ def login_view(request):
     # as a hidden POST field so it survives the form submission too.
     next_url = request.POST.get("next") or request.GET.get("next", "")
     if request.method == "POST" and form.is_valid():
-        key_hash = _throttle_key(request, form.cleaned_data["username"])
+        username = form.cleaned_data["username"]
+        source_ip = _client_source_address(request)
+        key_hash = _throttle_key(request, username)
         now = timezone.now()
         if _is_blocked(key_hash, now):
+            _log_login_event(
+                "login_throttle_blocked",
+                username=username,
+                source_ip=source_ip,
+            )
             form.add_error(None, GENERIC_LOGIN_ERROR)
         else:
             user = authenticate(
                 request,
-                username=form.cleaned_data["username"],
+                username=username,
                 password=form.cleaned_data["password"],
             )
             if user is None:
                 _record_login_failure(key_hash, now)
+                _log_login_event(
+                    "login_failure",
+                    username=username,
+                    source_ip=source_ip,
+                )
                 form.add_error(None, GENERIC_LOGIN_ERROR)
             else:
                 LoginThrottle.objects.filter(key_hash=key_hash).delete()
                 login(request, user)
+                _log_login_event(
+                    "login_success",
+                    username=user.get_username(),
+                    source_ip=source_ip,
+                )
                 redirect_to = request.POST.get("next")
                 if not url_has_allowed_host_and_scheme(
                     redirect_to,
@@ -116,7 +163,7 @@ def logout_view(request):
 
 @login_required
 def change_required(request):
-    form = PasswordChangeForm(request.user, request.POST or None)
+    form = RequiredPasswordChangeForm(request.user, request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()
         user.must_change_password = False

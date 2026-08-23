@@ -36,6 +36,29 @@ def test_changing_temporary_password_restores_access(client, user_factory):
 
 
 @pytest.mark.django_db
+def test_required_change_rejects_current_temporary_password(client, user_factory):
+    temporary_password = "Temp-Only-42!"
+    user = user_factory(password=temporary_password, must_change_password=True)
+    assert client.login(username=user.username, password=temporary_password)
+
+    response = client.post(
+        reverse("accounts:change_required"),
+        {
+            "old_password": temporary_password,
+            "new_password1": temporary_password,
+            "new_password2": temporary_password,
+        },
+    )
+
+    user.refresh_from_db()
+    assert response.status_code == 200
+    assert "different from your current password" in response.content.decode()
+    assert user.must_change_password is True
+    assert user.check_password(temporary_password)
+    assert client.get("/dashboard/").url == reverse("accounts:change_required")
+
+
+@pytest.mark.django_db
 def test_inactive_user_cannot_keep_using_session(client, user_factory):
     user = user_factory(password="Valid-Password-42!")
     client.force_login(user)

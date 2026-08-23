@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.password_validation import validate_password
 
 from .models import User
@@ -7,6 +8,16 @@ from .models import User
 class LoginForm(forms.Form):
     username = forms.CharField(required=False)
     password = forms.CharField(required=False, strip=False, widget=forms.PasswordInput)
+
+
+class RequiredPasswordChangeForm(PasswordChangeForm):
+    def clean_new_password1(self):
+        password = self.cleaned_data["new_password1"]
+        if self.user.check_password(password):
+            raise forms.ValidationError(
+                "Your new password must be different from your current password."
+            )
+        return password
 
 
 class ManagedUserCreateForm(forms.Form):

@@ -28,11 +28,18 @@ any page is interactive.
 py -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 .\.venv\Scripts\python -m playwright install chromium
-Copy-Item .env.example .env   # then edit values for your machine
+$env:WIKI_CONTENT_ROOT = (Resolve-Path .\content).Path
 .\.venv\Scripts\python manage.py migrate
 .\.venv\Scripts\python manage.py bootstrap_admin --username <admin-username>
 .\.venv\Scripts\python manage.py runserver
 ```
+
+These direct `manage.py` commands do not read `.env`; the
+`WIKI_CONTENT_ROOT` process variable above is the minimal local setting
+needed to load the bundled wiki chapters instead of showing an empty wiki.
+`.env` is consumed by Docker Compose only. For a Compose deployment, copy
+`.env.example` to `.env`, edit its deployment values, and follow
+[`docs/operations.md`](docs/operations.md).
 
 The wiki reads its chapters from `WIKI_CONTENT_ROOT` (an allow-listed set
 of `NN-Chapter-Name.md` files under `content/`, see
@@ -71,10 +78,10 @@ docker compose config
 # Full clean-container round trip (requires a running Docker daemon).
 docker compose build --no-cache
 docker compose up -d
-docker compose exec web python manage.py migrate --check
-docker compose exec web python manage.py check --deploy
+docker compose exec portal python manage.py migrate --check
+docker compose exec portal python manage.py check --deploy
 Invoke-RestMethod http://127.0.0.1:8000/healthz/
-docker compose logs --no-color web
+docker compose logs --no-color portal
 ```
 
 `tests/e2e/test_complete_journey.py` drives one continuous, real end-to-end

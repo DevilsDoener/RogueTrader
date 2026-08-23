@@ -28,6 +28,72 @@ def test_login_blocks_after_five_failures_and_uses_generic_error(client, user_fa
 
 
 @pytest.mark.django_db
+def test_valid_x_real_ip_addresses_have_independent_username_throttles(
+    client, user_factory
+):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+    proxy_address = "10.0.0.5"
+
+    for _ in range(5):
+        client.post(
+            login_url,
+            {"username": "crew", "password": "wrong"},
+            REMOTE_ADDR=proxy_address,
+            HTTP_X_REAL_IP="192.0.2.10",
+        )
+
+    response = client.post(
+        login_url,
+        {"username": "crew", "password": "Correct-Password-42!"},
+        REMOTE_ADDR=proxy_address,
+        HTTP_X_REAL_IP="192.0.2.11",
+    )
+
+    assert response.status_code == 302
+    assert response.url == "/dashboard/"
+    assert LoginThrottle.objects.count() == 1
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "untrusted_header",
+    ["not-an-ip", "192.0.2.10, 198.51.100.20"],
+)
+def test_invalid_x_real_ip_falls_back_to_remote_address(
+    client, user_factory, untrusted_header
+):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+    proxy_address = "10.0.0.5"
+
+    for _ in range(4):
+        client.post(
+            login_url,
+            {"username": "crew", "password": "wrong"},
+            REMOTE_ADDR=proxy_address,
+            HTTP_X_REAL_IP=untrusted_header,
+        )
+    client.post(
+        login_url,
+        {"username": "crew", "password": "wrong"},
+        REMOTE_ADDR=proxy_address,
+    )
+
+    response = client.post(
+        login_url,
+        {"username": "crew", "password": "Correct-Password-42!"},
+        REMOTE_ADDR=proxy_address,
+    )
+
+    assert response.status_code == 200
+    assert "Invalid username or password." in response.content.decode()
+    throttle = LoginThrottle.objects.get()
+    assert throttle.failure_count == 5
+    assert throttle.blocked_until > timezone.now()
+
+
+@pytest.mark.django_db
 def test_successful_login_resets_failure_count(client, user_factory):
     user_factory(username="crew", password="Correct-Password-42!")
     login_url = reverse("accounts:login")

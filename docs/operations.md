@@ -34,9 +34,10 @@ through the proxy.
 
 ## 2. Required proxy headers
 
-The reverse proxy MUST forward two things on every request, or the portal
+The reverse proxy MUST forward three things on every request, or the portal
 will misbehave (wrong CSRF validation, wrong `request.build_absolute_uri`
-results, or infinite HTTPS redirect loops):
+results, infinite HTTPS redirect loops, or all clients sharing one login
+throttle):
 
 - **`Host`**: the original hostname the browser requested (e.g.
   `rogue-trader.example.com`), unmodified. Do not have the proxy rewrite
@@ -48,6 +49,13 @@ results, or infinite HTTPS redirect loops):
   request is secure. Never expose the portal's port directly to anything
   that isn't this trusted proxy, or a client could forge this header and
   bypass HTTPS enforcement.
+- **`X-Real-IP`**: the single client address seen by the trusted reverse
+  proxy. The proxy MUST overwrite this header from its actual peer address;
+  it must never append to or preserve a browser-supplied value. The portal
+  accepts exactly one valid IPv4 or IPv6 address, normalizes it for login
+  throttling and audit logs, and falls back to the direct proxy peer address
+  when the header is missing or invalid. It deliberately does not parse a
+  comma-separated forwarding chain.
 
 Example nginx proxy fragment:
 
@@ -56,6 +64,7 @@ location / {
     proxy_pass http://127.0.0.1:8000;  # or the guest's private address
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
 }
 ```
 
@@ -231,11 +240,13 @@ docker compose logs --no-color -f portal
 
 `config/settings.py` configures `django.request` (technical errors) and
 `django.security` (security-relevant middleware events) to log to the
-container's console, which `docker compose logs` captures. Login attempts
-and account-management actions are logged by the application; by design,
-none of this logging ever includes passwords, session values, or sheet
-content — only what's needed to diagnose a problem (timestamps, usernames,
-request paths, exception messages).
+container's console, which `docker compose logs` captures. The dedicated
+`accounts.audit` logger records login success, login failure, throttle blocks,
+and managed-account create, update, deactivate, reactivate, and password-reset
+actions. Those records contain only the event kind, relevant username(s), and
+the normalized client source address for login events. Passwords, password
+fields, session identifiers/cookies, CSRF tokens, character or ship field
+values, and sheet contents are never logged.
 
 ## 10. Restart after Markdown edits
 
