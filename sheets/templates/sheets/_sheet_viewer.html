@@ -1,5 +1,5 @@
 {% load static sheets_extras %}
-{# Bare include fragment (no <!doctype>/<html>/<body>) rendering the pages of
+{% comment %}Bare include fragment (no <!doctype>/<html>/<body>) rendering the pages of
    any sheet (character or ship). Fields render from the schema in declared
    order, never from stored DB keys -- unknown stored keys are simply never
    looked up. The context must supply a generic ``sheet`` variable (the
@@ -8,7 +8,7 @@
    responsive document content and wires up autosave via sheet-viewer.js; when
    read_only is true every input stays disabled and sheet-viewer.js never
    attaches listeners to it, so the admin view issues no field requests at
-   all. #}
+   all.{% endcomment %}
 <div class="sheet-viewport" id="sheet-viewport">
   <div class="sheet-canvas-wrapper" id="sheet-canvas-wrapper">
     {% for page in pages %}

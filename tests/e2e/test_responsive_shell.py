@@ -113,6 +113,35 @@ def test_nav_drawer_toggle_is_labelled_and_toggles_aria_expanded(
     assert toggle.get_attribute("aria-expanded") == "false"
 
 
+def test_hidden_mobile_nav_scrim_cannot_cover_or_intercept_page_content(
+    page, live_server, owner
+):
+    login_via_browser(page, live_server, username=owner.username)
+    page.set_viewport_size({"width": 390, "height": 844})
+    page.goto(f"{live_server.url}/dashboard/")
+
+    toggle = page.locator("#nav-toggle")
+    scrim = page.locator("#nav-scrim")
+    hidden_style = scrim.evaluate(
+        "element => ({display: getComputedStyle(element).display, "
+        "pointerEvents: getComputedStyle(element).pointerEvents})"
+    )
+    assert scrim.get_attribute("hidden") is not None
+    assert hidden_style == {"display": "none", "pointerEvents": "none"}
+    assert not scrim.is_visible()
+
+    toggle.click()
+    assert scrim.get_attribute("hidden") is None
+    assert scrim.is_visible()
+    assert scrim.evaluate("element => getComputedStyle(element).pointerEvents") == "auto"
+
+    # The drawer itself intentionally sits above the scrim on the left;
+    # click the exposed scrim area at the right edge of this 390px viewport.
+    page.mouse.click(380, 100)
+    assert toggle.get_attribute("aria-expanded") == "false"
+    assert scrim.get_attribute("hidden") is not None
+
+
 def test_primary_nav_is_always_visible_on_desktop(page, live_server, owner):
     login_via_browser(page, live_server, username=owner.username)
     page.set_viewport_size({"width": 1440, "height": 900})

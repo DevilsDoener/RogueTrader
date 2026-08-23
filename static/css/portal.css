@@ -338,6 +338,11 @@ label {
   display: none;
 }
 
+.nav-scrim[hidden] {
+  display: none;
+  pointer-events: none;
+}
+
 .primary-nav {
   grid-area: nav;
   background: var(--rt-panel);

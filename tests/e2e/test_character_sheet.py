@@ -9,11 +9,18 @@ from __future__ import annotations
 
 import pytest
 
+from sheets.schema import load_schema
 from sheets.services import patch_character_field
 
 from .conftest import login_via_browser
 
 pytestmark = pytest.mark.django_db(transaction=True)
+
+RESPONSIVE_VIEWPORTS = [
+    ("desktop", {"width": 1440, "height": 900}),
+    ("tablet", {"width": 768, "height": 1024}),
+    ("mobile", {"width": 390, "height": 844}),
+]
 
 
 def test_tab_order_follows_schema_order(page, live_server, owner, character_factory):
@@ -29,6 +36,76 @@ def test_tab_order_follows_schema_order(page, live_server, owner, character_fact
     page.keyboard.press("Tab")
     active_field_id = page.evaluate("document.activeElement.dataset.fieldId")
     assert active_field_id == "c1_player_name"
+
+
+def test_internal_template_comment_is_not_visible(
+    page, live_server, owner, character_factory
+):
+    character = character_factory(owner=owner)
+    login_via_browser(page, live_server, username=owner.username)
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+
+    assert page.get_by_text("Bare include fragment", exact=False).count() == 0
+
+
+@pytest.mark.parametrize(
+    ("page_id", "page_index"),
+    (("character-page-1", 0), ("character-page-2", 1)),
+)
+@pytest.mark.parametrize(("viewport_name", "viewport"), RESPONSIVE_VIEWPORTS)
+def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
+    page,
+    live_server,
+    owner,
+    character_factory,
+    page_id,
+    page_index,
+    viewport_name,
+    viewport,
+):
+    schema = load_schema(page_id)
+    character = character_factory(owner=owner)
+    login_via_browser(page, live_server, username=owner.username)
+    page.set_viewport_size(viewport)
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+    page.wait_for_selector('[data-field-id="c1_character_name"]')
+    if page_index:
+        page.click(f'.sheet-page-tab[data-page-index="{page_index}"]')
+
+    rendered = page.locator(
+        f'.sheet-page[data-page-id="{page_id}"] .sheet-input'
+    ).evaluate_all(
+        """(inputs) => inputs.map((input) => {
+          const field = input.closest('.sheet-field');
+          const canvas = input.closest('.sheet-canvas');
+          const f = field.getBoundingClientRect();
+          const c = canvas.getBoundingClientRect();
+          return {
+            id: input.dataset.fieldId,
+            label: input.getAttribute('aria-label'),
+            kind: input.dataset.kind,
+            tabIndex: input.tabIndex,
+            x: (f.left - c.left) / c.width,
+            y: (f.top - c.top) / c.height,
+            width: f.width / c.width,
+            height: f.height / c.height,
+            clipped: f.left < c.left - 0.75 || f.top < c.top - 0.75 ||
+                     f.right > c.right + 0.75 || f.bottom > c.bottom + 0.75,
+          };
+        })"""
+    )
+
+    assert [field["id"] for field in rendered] == [field.id for field in schema.fields]
+    for field_spec, actual in zip(schema.fields, rendered, strict=True):
+        context = f"{page_id}/{field_spec.id} at {viewport_name}"
+        assert actual["label"] == field_spec.label, context
+        assert actual["kind"] == field_spec.kind, context
+        assert actual["tabIndex"] == 0, context
+        assert not actual["clipped"], context
+        assert actual["x"] == pytest.approx(float(field_spec.x / 100), abs=0.001), context
+        assert actual["y"] == pytest.approx(float(field_spec.y / 100), abs=0.001), context
+        assert actual["width"] == pytest.approx(float(field_spec.width / 100), abs=0.001), context
+        assert actual["height"] == pytest.approx(float(field_spec.height / 100), abs=0.001), context
 
 
 def test_text_field_survives_reload(page, live_server, owner, character_factory):

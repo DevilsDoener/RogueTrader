@@ -54,7 +54,7 @@ VISUAL_OUTPUT_DIR = REPO_ROOT / "tests" / "visual"
 # screenshot should differ from the source asset only by resampling/AA
 # edge noise around the sheet's dense fine print and rule lines (measured
 # 5.4-8.9 across the three real pages, worst on character-page-1 with its
-# 376 checkboxes) -- never a shifted field block, wrong ship-page
+# 387 character checkboxes) -- never a shifted field block, wrong ship-page
 # rotation, or a control painting visible chrome of its own (an earlier,
 # now-fixed version of .sheet-checkbox failed this at a mean diff of ~21
 # by rendering idle native checkboxes as solid filled squares).

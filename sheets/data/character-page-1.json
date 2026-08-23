@@ -8,9 +8,9 @@
     {
       "id": "c1_character_name",
       "kind": "text",
-      "x": 13.0115,
+      "x": 18.617,
       "y": 5.8769,
-      "width": 33.0196,
+      "width": 29.0507,
       "height": 1.0462,
       "max_length": 80,
       "label": "Character Name"
@@ -18,9 +18,9 @@
     {
       "id": "c1_player_name",
       "kind": "text",
-      "x": 49.018,
+      "x": 59.1244,
       "y": 5.9385,
-      "width": 39.689,
+      "width": 29.4599,
       "height": 1.0462,
       "max_length": 80,
       "label": "Player Name"
@@ -28,9 +28,9 @@
     {
       "id": "c1_career_path",
       "kind": "text",
-      "x": 10.0245,
+      "x": 16.7758,
       "y": 8.1538,
-      "width": 27.6596,
+      "width": 21.6858,
       "height": 1.0462,
       "max_length": 60,
       "label": "Career Path"
@@ -38,9 +38,9 @@
     {
       "id": "c1_rank",
       "kind": "text",
-      "x": 42.3486,
+      "x": 45.0082,
       "y": 8.2154,
-      "width": 4.0098,
+      "width": 2.6596,
       "height": 1.0462,
       "max_length": 20,
       "label": "Rank"
@@ -48,9 +48,9 @@
     {
       "id": "c1_home_world",
       "kind": "text",
-      "x": 54.0098,
+      "x": 60.9656,
       "y": 8.2462,
-      "width": 11.7021,
+      "width": 7.5696,
       "height": 1.0462,
       "max_length": 40,
       "label": "Home World"
@@ -58,9 +58,9 @@
     {
       "id": "c1_motivation",
       "kind": "text",
-      "x": 72.3813,
+      "x": 78.3552,
       "y": 8.2462,
-      "width": 16.3257,
+      "width": 10.2291,
       "height": 1.0462,
       "max_length": 40,
       "label": "Motivation"
@@ -4118,9 +4118,9 @@
     {
       "id": "c1_profit_factor_starting",
       "kind": "text",
-      "x": 68.3306,
-      "y": 87.5077,
-      "width": 15.5483,
+      "x": 71.1948,
+      "y": 86.1538,
+      "width": 14.5254,
       "height": 1.0462,
       "max_length": 10,
       "label": "Profit Factor starting"
@@ -4128,9 +4128,9 @@
     {
       "id": "c1_profit_factor_current",
       "kind": "text",
-      "x": 68.3306,
-      "y": 88.9231,
-      "width": 15.5483,
+      "x": 69.9673,
+      "y": 87.5692,
+      "width": 15.7529,
       "height": 1.0462,
       "max_length": 10,
       "label": "Profit Factor current"
@@ -4138,9 +4138,9 @@
     {
       "id": "c1_profit_factor_misfortunes",
       "kind": "text",
-      "x": 68.3306,
-      "y": 90.3385,
-      "width": 15.5483,
+      "x": 74.0589,
+      "y": 88.9846,
+      "width": 11.6612,
       "height": 1.0462,
       "max_length": 10,
       "label": "Profit Factor misfortunes"

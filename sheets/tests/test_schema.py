@@ -44,6 +44,25 @@ def _base_payload(**overrides):
     return payload
 
 
+def _field_rect_in_source_pixels(schema: SheetSchema, field_id: str) -> tuple[int, int, int, int]:
+    field_spec = next(field for field in schema.fields if field.id == field_id)
+    return (
+        round(field_spec.x * schema.image_width / 100),
+        round(field_spec.y * schema.image_height / 100),
+        round(field_spec.width * schema.image_width / 100),
+        round(field_spec.height * schema.image_height / 100),
+    )
+
+
+def _rectangles_overlap(first: FieldSpec, second: FieldSpec) -> bool:
+    return (
+        first.x < second.x + second.width
+        and second.x < first.x + first.width
+        and first.y < second.y + second.height
+        and second.y < first.y + first.height
+    )
+
+
 @pytest.fixture(params=KNOWN_PAGE_IDS)
 def known_page_schema(request) -> SheetSchema:
     return load_schema(request.param)
@@ -285,6 +304,145 @@ class TestLoadSchema:
     def test_image_dimensions_are_positive(self, known_page_schema):
         assert known_page_schema.image_width > 0
         assert known_page_schema.image_height > 0
+
+    @pytest.mark.parametrize(
+        ("field_id", "expected_rect"),
+        [
+            ("c1_character_name", (455, 191, 710, 34)),
+            ("c1_player_name", (1445, 193, 720, 34)),
+            ("c1_career_path", (410, 265, 530, 34)),
+            ("c1_rank", (1100, 267, 65, 34)),
+            ("c1_home_world", (1490, 268, 185, 34)),
+            ("c1_motivation", (1915, 268, 250, 34)),
+            ("c1_profit_factor_starting", (1740, 2800, 355, 34)),
+            ("c1_profit_factor_current", (1710, 2846, 385, 34)),
+            ("c1_profit_factor_misfortunes", (1810, 2892, 285, 34)),
+        ],
+    )
+    def test_page_1_text_fields_cover_only_the_printed_input_lines(
+        self, character_page_1_schema, field_id, expected_rect
+    ):
+        assert _field_rect_in_source_pixels(character_page_1_schema, field_id) == expected_rect
+
+    def test_page_2_weapon_fields_follow_the_printed_input_lines(
+        self, character_page_2_schema
+    ):
+        expected = {
+            1: {
+                "name": (219, 925, 1203), "class": (209, 975, 441),
+                "damage": (579, 975, 788), "type": (875, 975, 1002),
+                "pen": (1071, 975, 1198), "range": (227, 1025, 439),
+                "rof": (524, 1025, 735), "clip": (811, 1025, 940),
+                "reload": (1058, 1025, 1186), "special_rules": (126, 1125, 1193),
+            },
+            2: {
+                "name": (218, 1309, 1201), "class": (207, 1359, 439),
+                "damage": (576, 1359, 787), "type": (874, 1359, 1001),
+                "pen": (1069, 1359, 1197), "range": (225, 1409, 436),
+                "rof": (523, 1409, 734), "clip": (811, 1409, 938),
+                "reload": (1057, 1409, 1184), "special_rules": (124, 1509, 1191),
+            },
+            3: {
+                "name": (217, 1692, 1199), "class": (206, 1742, 438),
+                "damage": (575, 1743, 786), "type": (873, 1743, 1000),
+                "pen": (1067, 1744, 1195), "range": (225, 1792, 436),
+                "rof": (521, 1793, 733), "clip": (809, 1794, 937),
+                "reload": (1055, 1794, 1183), "special_rules": (123, 1893, 1189),
+            },
+            4: {
+                "name": (216, 2076, 1199), "class": (205, 2124, 436),
+                "damage": (573, 2126, 785), "type": (871, 2126, 998),
+                "pen": (1065, 2126, 1193), "range": (223, 2175, 435),
+                "rof": (519, 2176, 731), "clip": (807, 2176, 935),
+                "reload": (1053, 2176, 1181), "special_rules": (122, 2278, 1187),
+            },
+            5: {
+                "name": (214, 2460, 1197), "class": (203, 2510, 434),
+                "damage": (571, 2510, 782), "type": (869, 2510, 996),
+                "pen": (1063, 2510, 1191), "range": (221, 2560, 433),
+                "rof": (517, 2560, 729), "clip": (805, 2560, 932),
+                "reload": (1051, 2560, 1179), "special_rules": (118, 2660, 1185),
+            },
+        }
+
+        for weapon, fields in expected.items():
+            for suffix, (left, line_y, right) in fields.items():
+                field_id = f"c2_weapon_{weapon}_{suffix}"
+                assert _field_rect_in_source_pixels(character_page_2_schema, field_id) == (
+                    left,
+                    line_y - 36,
+                    right - left,
+                    34,
+                )
+
+    def test_page_2_lists_have_one_field_per_printed_input_line(
+        self, character_page_2_schema
+    ):
+        field_ids = {field.id for field in character_page_2_schema.fields}
+        assert {f"c2_gear_{index}" for index in range(1, 23)} <= field_ids
+        assert {f"c2_acquisition_{index}" for index in range(1, 15)} <= field_ids
+        assert {f"c2_mutation_{index}" for index in range(1, 7)} <= field_ids
+        assert "c2_gear_23" not in field_ids
+        assert "c2_acquisition_15" not in field_ids
+
+        for prefix, count, expected_x, expected_width in (
+            ("gear", 22, 1294, 525),
+            ("acquisition", 14, 1854, 524),
+            ("mutation", 6, 1849, 524),
+        ):
+            for index in range(1, count + 1):
+                x, _y, width, _height = _field_rect_in_source_pixels(
+                    character_page_2_schema, f"c2_{prefix}_{index}"
+                )
+                assert (x, width) == (expected_x, expected_width)
+
+    @pytest.mark.parametrize(
+        ("field_id", "expected_x", "expected_width"),
+        [
+            ("c2_corruption_current_points", 1545, 255),
+            ("c2_corruption_degree", 1405, 395),
+            ("c2_corruption_malignancies", 1520, 280),
+            ("c2_wounds_total", 2040, 310),
+            ("c2_wounds_current", 2055, 295),
+            ("c2_wounds_critical_damage", 2225, 125),
+            ("c2_wounds_fatigue", 2045, 305),
+            ("c2_insanity_current_points", 2175, 175),
+            ("c2_insanity_degree", 2040, 310),
+            ("c2_insanity_disorders", 2095, 255),
+            ("c2_armour_head_type", 1645, 200),
+            ("c2_armour_right_arm_type", 1345, 220),
+            ("c2_armour_left_arm_type", 1895, 220),
+            ("c2_armour_body_type", 1645, 200),
+            ("c2_armour_right_leg_type", 1345, 220),
+            ("c2_armour_left_leg_type", 1895, 220),
+        ],
+    )
+    def test_page_2_right_column_fields_start_after_their_printed_labels(
+        self, character_page_2_schema, field_id, expected_x, expected_width
+    ):
+        x, _y, width, _height = _field_rect_in_source_pixels(character_page_2_schema, field_id)
+        assert (x, width) == (expected_x, expected_width)
+
+    def test_armour_weight_field_covers_its_printed_input_box(
+        self, character_page_2_schema
+    ):
+        assert _field_rect_in_source_pixels(character_page_2_schema, "c2_armour_weight") == (
+            2005,
+            2855,
+            230,
+            80,
+        )
+
+    @pytest.mark.parametrize("page_id", ("character-page-1", "character-page-2"))
+    def test_character_fields_do_not_overlap(self, page_id):
+        schema = load_schema(page_id)
+        overlaps = [
+            (first.id, second.id)
+            for index, first in enumerate(schema.fields)
+            for second in schema.fields[index + 1 :]
+            if _rectangles_overlap(first, second)
+        ]
+        assert overlaps == []
 
     def test_page_2_retains_every_printed_characteristic_advancement_circle(
         self, character_page_2_schema
