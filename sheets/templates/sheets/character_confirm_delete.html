@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Charakter l&ouml;schen &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>{{ character.display_name|default:"Charakter" }} l&ouml;schen?</h1>
+  <p>Dies kann nicht r&uuml;ckg&auml;ngig gemacht werden.</p>
+  <form method="post" class="page-actions">
+    {% csrf_token %}
+    <button type="submit" class="button-primary">L&ouml;schen best&auml;tigen</button>
+  </form>
+  <a href="{% url 'sheets:character_list' %}">Abbrechen</a>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block html_lang %}de{% endblock %}
+{% block title %}Wiki &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>Wiki</h1>
+  <form class="wiki-search-form" method="get" action="{% url 'wiki:search' %}" role="search">
+    <label for="wiki-index-search-input" class="sr-only">Suche</label>
+    <input id="wiki-index-search-input" type="search" name="q" placeholder="Suche">
+    <button type="submit" class="button-primary">Suchen</button>
+  </form>
+  <ul class="entry-list">
+    {% for chapter in chapters %}
+      <li><a href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

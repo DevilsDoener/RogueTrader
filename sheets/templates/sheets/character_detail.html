@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ character.display_name|default:"Charakter" }} &ndash; Rogue Trader Portal{% endblock %}
+{% block body_class %}page-sheet{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'sheets/sheet-viewer.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>{{ character.display_name|default:"Charakter" }}</h1>
+    {% if not read_only %}
+      <a href="{% url 'sheets:character_list' %}">&larr; Zur&uuml;ck zu deinen Charakteren</a>
+    {% else %}
+      <a href="{% url 'sheets:admin_character_list' %}">&larr; Zur&uuml;ck zu allen Charakteren</a>
+    {% endif %}
+  </div>
+
+  <div class="sheet-viewer-frame">
+    <div
+      id="sheet-viewer-root"
+      class="sheet-viewer-root"
+      data-read-only="{% if read_only %}true{% else %}false{% endif %}"
+      data-user-id="{{ user.id }}"
+      data-sheet-id="{{ character.id }}"
+      {% if field_update_url_template %}data-field-url-template="{{ field_update_url_template }}"{% endif %}
+    >
+      <div class="sheet-toolbar">
+        <div class="sheet-toolbar-pages" id="sheet-page-tabs">
+          {% for page in pages %}
+            <button type="button" class="sheet-page-tab" data-page-index="{{ forloop.counter0 }}">Seite {{ forloop.counter }}</button>
+          {% endfor %}
+        </div>
+        <div class="sheet-toolbar-zoom">
+          <button type="button" id="zoom-out" aria-label="Verkleinern">-</button>
+          <button type="button" id="zoom-in" aria-label="Vergr&ouml;&szlig;ern">+</button>
+          <button type="button" id="fit-width">Breite einpassen</button>
+          <button type="button" id="fit-page">Seite einpassen</button>
+        </div>
+        {% if not read_only %}
+          <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
+        {% endif %}
+      </div>
+
+      {% include "sheets/_sheet_viewer.html" %}
+    </div>
+  </div>
+
+  {% if not read_only %}
+    {% csrf_token %}
+    <p><a href="{% url 'sheets:character_delete' character.pk %}">Charakter l&ouml;schen</a></p>
+  {% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'sheets/sheet-viewer.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Verlauf: {{ ship.display_name }} &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>Verlauf: {{ ship.display_name }}</h1>
+    <a href="{% url 'sheets:ship_detail' ship.pk %}">&larr; Zur&uuml;ck zum Schiff</a>
+  </div>
+
+  {# Deliberately metadata-only: timestamp, actor, and field label. The
+     old/new values are never rendered here -- only ShipHistoryDetailView,
+     fetched one row at a time on expand, ever exposes them. #}
+  <div class="table-scroll">
+    <table class="data-table" id="ship-history-table">
+      <thead>
+        <tr>
+          <th>Zeitpunkt</th>
+          <th>Nutzer</th>
+          <th>Feld</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr class="ship-history-row" data-change-id="{{ row.change.id }}">
+            <td>{{ row.change.changed_at }}</td>
+            <td>{{ row.change.actor.username|default:"—" }}</td>
+            <td>{{ row.field_label }}</td>
+            <td>
+              <button type="button" class="ship-history-expand" data-detail-url="{{ row.detail_url }}">
+                Details
+              </button>
+            </td>
+          </tr>
+          <tr class="ship-history-detail-row" hidden>
+            <td colspan="4"></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Keine &Auml;nderungen bisher.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <nav class="ship-history-pagination" aria-label="Seiten">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">Vorherige</a>
+    {% endif %}
+    <span>Seite {{ page_obj.number }} von {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">N&auml;chste</a>
+    {% endif %}
+  </nav>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script>
+    // Expand-on-demand: old/new values are only ever fetched (from an
+    // authenticated route) once a user explicitly opens a row -- they are
+    // never present in the initial page load.
+    document.querySelectorAll(".ship-history-expand").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var row = button.closest("tr");
+        var detailRow = row.nextElementSibling;
+        if (!detailRow) return;
+        if (!detailRow.hidden) {
+          detailRow.hidden = true;
+          return;
+        }
+        var cell = detailRow.querySelector("td");
+        fetch(button.dataset.detailUrl, { credentials: "same-origin" })
+          .then(function (response) { return response.text(); })
+          .then(function (html) {
+            cell.innerHTML = html;
+            detailRow.hidden = false;
+          });
+      });
+    });
+  </script>
+{% endblock %}

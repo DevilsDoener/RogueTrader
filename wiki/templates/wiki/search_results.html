@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block html_lang %}de{% endblock %}
+{% block title %}Suche &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>Suche</h1>
+  <form class="wiki-search-form" method="get" action="{% url 'wiki:search' %}" role="search">
+    <label for="wiki-search-input" class="sr-only">Suche</label>
+    <input id="wiki-search-input" type="search" name="q" value="{{ query }}">
+    <button type="submit" class="button-primary">Suchen</button>
+  </form>
+
+  {% if query %}
+    <p>{{ results|length }} Treffer f&uuml;r &bdquo;{{ query }}&ldquo;</p>
+  {% endif %}
+
+  <ul class="wiki-results">
+    {% for result in results %}
+      <li>
+        <a href="{% url 'wiki:chapter' result.chapter_slug %}#{{ result.section_id }}">{{ result.chapter_title }} &ndash; {{ result.title }}</a>
+        <p>{{ result.snippet|safe }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

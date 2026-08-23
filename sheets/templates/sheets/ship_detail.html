@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ ship.display_name }} &ndash; Rogue Trader Portal{% endblock %}
+{% block body_class %}page-sheet{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'sheets/sheet-viewer.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>{{ ship.display_name }}</h1>
+    <a href="{% url 'sheets:ship_history' ship.pk %}">Verlauf</a>
+  </div>
+
+  <div class="sheet-viewer-frame">
+    <div
+      id="sheet-viewer-root"
+      class="sheet-viewer-root"
+      data-read-only="false"
+      data-user-id="{{ user.id }}"
+      data-sheet-id="{{ ship.id }}"
+      data-field-url-template="{{ field_update_url_template }}"
+    >
+      <div class="sheet-toolbar">
+        <div class="sheet-toolbar-pages" id="sheet-page-tabs">
+          {% for page in pages %}
+            <button type="button" class="sheet-page-tab" data-page-index="{{ forloop.counter0 }}">Seite {{ forloop.counter }}</button>
+          {% endfor %}
+        </div>
+        <div class="sheet-toolbar-zoom">
+          <button type="button" id="zoom-out" aria-label="Verkleinern">-</button>
+          <button type="button" id="zoom-in" aria-label="Vergr&ouml;&szlig;ern">+</button>
+          <button type="button" id="fit-width">Breite einpassen</button>
+          <button type="button" id="fit-page">Seite einpassen</button>
+        </div>
+        <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
+      </div>
+
+      {% include "sheets/_sheet_viewer.html" %}
+    </div>
+  </div>
+
+  {% csrf_token %}
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'sheets/sheet-viewer.js' %}" defer></script>
+{% endblock %}

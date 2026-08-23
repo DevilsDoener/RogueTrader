@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block html_lang %}de{% endblock %}
+{% block title %}{{ chapter.title }} &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <nav class="wiki-toc" aria-label="Kapitel">
+    <a href="{% url 'wiki:index' %}">&larr; Wiki</a>
+    <ul class="entry-list">
+      {% for other in chapters %}
+        <li><a href="{% url 'wiki:chapter' other.slug %}" {% if other.slug == chapter.slug %}aria-current="page"{% endif %}>{{ other.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <article class="wiki-article">
+    <h1>{{ chapter.title }}</h1>
+
+    {% if chapter.sections %}
+      <nav class="wiki-section-nav" aria-label="Abschnitte">
+        <strong>Abschnitte</strong>
+        <ul>
+          {% for section in chapter.sections %}
+            <li><a href="#{{ section.id }}">{{ section.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      {% for section in chapter.sections %}
+        <section id="{{ section.id }}">
+          {% if not section.is_intro %}
+            <h2>{{ section.title }}</h2>
+          {% endif %}
+          {{ section.html|safe }}
+        </section>
+      {% endfor %}
+    {% else %}
+      <p>{{ placeholder_text }}</p>
+    {% endif %}
+  </article>
+{% endblock %}

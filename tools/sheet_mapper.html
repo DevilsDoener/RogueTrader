@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sheet Field Mapper (local authoring tool)</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #14161c;
+    --panel: #1c1f27;
+    --panel-border: #333846;
+    --text: #e7e9ee;
+    --muted: #9aa1b1;
+    --accent: #5fb0ff;
+    --text-field: rgba(95, 176, 255, 0.28);
+    --text-field-border: #5fb0ff;
+    --checkbox-field: rgba(255, 176, 64, 0.30);
+    --checkbox-field-border: #ffb040;
+    --selected-border: #ff5f7a;
+    --danger: #ff5f7a;
+    --ok: #52d17a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  #sidebar {
+    width: 340px;
+    min-width: 340px;
+    background: var(--panel);
+    border-right: 1px solid var(--panel-border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 12px;
+    gap: 10px;
+  }
+  #sidebar h1 { font-size: 15px; margin: 0 0 4px; }
+  #sidebar h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 12px 0 4px; }
+  .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 2px; }
+  input[type=text], input[type=number], select, textarea {
+    background: #0f1116;
+    border: 1px solid var(--panel-border);
+    color: var(--text);
+    border-radius: 4px;
+    padding: 5px 7px;
+    font-size: 13px;
+    width: 100%;
+  }
+  button {
+    background: #262b38;
+    border: 1px solid var(--panel-border);
+    color: var(--text);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  button:hover { background: #313848; }
+  button.primary { background: var(--accent); color: #05131f; border-color: var(--accent); font-weight: 600; }
+  button.danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px;
+    padding: 6px 8px;
+    border: 1px solid var(--panel-border);
+    border-radius: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .field-row.selected { border-color: var(--selected-border); }
+  .field-row .id { font-weight: 600; }
+  .field-row .meta { color: var(--muted); }
+  #fieldList { max-height: 30vh; overflow-y: auto; }
+  #canvasWrap {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    background: #0a0b0e repeating-conic-gradient(#111319 0% 25%, #0a0b0e 0% 50%) 50% / 24px 24px;
+  }
+  #stage {
+    position: relative;
+    transform-origin: top left;
+  }
+  #bgImage { display: block; user-select: none; -webkit-user-drag: none; }
+  .overlay {
+    position: absolute;
+    border: 2px solid var(--text-field-border);
+    background: var(--text-field);
+    box-sizing: border-box;
+  }
+  .overlay.checkbox { border-color: var(--checkbox-field-border); background: var(--checkbox-field); }
+  .overlay.selected { border-color: var(--selected-border); box-shadow: 0 0 0 1px var(--selected-border); }
+  .overlay .tag {
+    position: absolute;
+    top: -18px;
+    left: -2px;
+    font-size: 10px;
+    background: #000a;
+    color: #fff;
+    padding: 1px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .handle {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    background: var(--selected-border);
+    border-radius: 2px;
+    right: -5px;
+    bottom: -5px;
+    cursor: nwse-resize;
+  }
+  #topbar {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 5;
+    display: flex;
+    gap: 6px;
+    background: #000000aa;
+    padding: 6px;
+    border-radius: 6px;
+  }
+  #topbar select, #topbar button { font-size: 12px; }
+  #status { font-size: 11px; color: var(--muted); white-space: pre-wrap; }
+  .hint { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .pill { display: inline-block; padding: 1px 6px; border-radius: 8px; font-size: 10px; }
+  .pill.text { background: var(--text-field-border); color: #05131f; }
+  .pill.checkbox { background: var(--checkbox-field-border); color: #05131f; }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h1>Sheet Field Mapper</h1>
+  <p class="hint">
+    Local authoring tool only — not served by Django. Load one extracted
+    background image, draw one rectangle per printed field, and export the
+    JSON schema consumed by <code>SheetSchema.from_dict</code>.
+  </p>
+
+  <h2>1. Load image</h2>
+  <input type="file" id="imageInput" accept="image/*">
+  <div class="row">
+    <label style="flex:1">Page ID
+      <input type="text" id="pageIdInput" placeholder="character-page-1">
+    </label>
+  </div>
+
+  <h2>2. View</h2>
+  <div class="row">
+    <button id="zoom100">100%</button>
+    <button id="zoom150">150%</button>
+    <button id="zoomFit">Fit width</button>
+  </div>
+  <div class="row">
+    <label style="flex:1">Zoom %
+      <input type="number" id="zoomInput" value="100" min="10" max="400" step="5">
+    </label>
+  </div>
+
+  <h2>3. Selected field</h2>
+  <div id="fieldEditor">
+    <label>ID (stable, e.g. c1_character_name)
+      <input type="text" id="fId">
+    </label>
+    <label>Kind
+      <select id="fKind">
+        <option value="text">text</option>
+        <option value="checkbox">checkbox</option>
+      </select>
+    </label>
+    <label>Label
+      <input type="text" id="fLabel">
+    </label>
+    <label>Max length
+      <input type="number" id="fMaxLength" min="1" value="80">
+    </label>
+    <div class="row">
+      <label style="flex:1">x %<input type="number" id="fX" step="0.05"></label>
+      <label style="flex:1">y %<input type="number" id="fY" step="0.05"></label>
+    </div>
+    <div class="row">
+      <label style="flex:1">w %<input type="number" id="fWidth" step="0.05"></label>
+      <label style="flex:1">h %<input type="number" id="fHeight" step="0.05"></label>
+    </div>
+    <div class="row">
+      <button id="deleteField" class="danger">Delete field</button>
+    </div>
+    <p class="hint">Draw a new box by dragging on the image. Click a box to
+      select it. Arrow keys nudge the selected box by 0.05% of the image
+      dimension; Shift+Arrow resizes it by the same increment.</p>
+  </div>
+
+  <h2>4. Fields (<span id="fieldCount">0</span>)</h2>
+  <div id="fieldList"></div>
+
+  <h2>5. Export</h2>
+  <div class="row">
+    <button id="exportJson" class="primary">Export JSON</button>
+    <button id="importJson">Import JSON</button>
+  </div>
+  <div id="status"></div>
+</div>
+
+<div id="canvasWrap">
+  <div id="topbar">
+    <span class="hint" id="imageInfo">No image loaded</span>
+  </div>
+  <div id="stage">
+    <img id="bgImage" draggable="false">
+    <div id="overlayLayer"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /** @typedef {{id:string, kind:"text"|"checkbox", x:number, y:number, width:number, height:number, max_length:number, label:string}} FieldRecord */
+
+  /** @type {FieldRecord[]} */
+  let fields = [];
+  let selectedIndex = -1;
+  let imageNaturalWidth = 0;
+  let imageNaturalHeight = 0;
+  let zoom = 1;
+
+  const NUDGE_STEP = 0.05; // percent, per brief's "0.05% increments"
+
+  const bgImage = document.getElementById("bgImage");
+  const stage = document.getElementById("stage");
+  const overlayLayer = document.getElementById("overlayLayer");
+  const canvasWrap = document.getElementById("canvasWrap");
+  const imageInfo = document.getElementById("imageInfo");
+  const statusEl = document.getElementById("status");
+  const fieldListEl = document.getElementById("fieldList");
+  const fieldCountEl = document.getElementById("fieldCount");
+  const pageIdInput = document.getElementById("pageIdInput");
+  const zoomInput = document.getElementById("zoomInput");
+
+  const fId = document.getElementById("fId");
+  const fKind = document.getElementById("fKind");
+  const fLabel = document.getElementById("fLabel");
+  const fMaxLength = document.getElementById("fMaxLength");
+  const fX = document.getElementById("fX");
+  const fY = document.getElementById("fY");
+  const fWidth = document.getElementById("fWidth");
+  const fHeight = document.getElementById("fHeight");
+
+  function setStatus(message, isError) {
+    statusEl.textContent = message;
+    statusEl.style.color = isError ? "var(--danger)" : "var(--ok)";
+  }
+
+  function round4(value) {
+    return Math.round(value * 10000) / 10000;
+  }
+
+  // ---- Image loading -------------------------------------------------
+
+  document.getElementById("imageInput").addEventListener("change", (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    bgImage.onload = () => {
+      imageNaturalWidth = bgImage.naturalWidth;
+      imageNaturalHeight = bgImage.naturalHeight;
+      imageInfo.textContent = `${file.name} — ${imageNaturalWidth}x${imageNaturalHeight}`;
+      applyZoom();
+      renderAll();
+      URL.revokeObjectURL(url);
+    };
+    bgImage.src = url;
+    if (!pageIdInput.value) {
+      const stem = file.name.replace(/\.[^.]+$/, "");
+      pageIdInput.value = stem;
+    }
+  });
+
+  function applyZoom() {
+    stage.style.width = imageNaturalWidth * zoom + "px";
+    stage.style.height = imageNaturalHeight * zoom + "px";
+    bgImage.style.width = imageNaturalWidth * zoom + "px";
+    bgImage.style.height = imageNaturalHeight * zoom + "px";
+  }
+
+  document.getElementById("zoom100").addEventListener("click", () => setZoom(1));
+  document.getElementById("zoom150").addEventListener("click", () => setZoom(1.5));
+  document.getElementById("zoomFit").addEventListener("click", () => {
+    if (!imageNaturalWidth) return;
+    const available = canvasWrap.clientWidth - 24;
+    setZoom(Math.max(0.1, available / imageNaturalWidth));
+  });
+  zoomInput.addEventListener("change", () => {
+    const pct = parseFloat(zoomInput.value);
+    if (!isNaN(pct) && pct > 0) setZoom(pct / 100);
+  });
+
+  function setZoom(newZoom) {
+    zoom = newZoom;
+    zoomInput.value = Math.round(zoom * 100);
+    applyZoom();
+    renderAll();
+  }
+
+  // ---- Field list / editor -------------------------------------------
+
+  function renderAll() {
+    renderOverlays();
+    renderFieldList();
+    renderEditor();
+  }
+
+  function renderOverlays() {
+    overlayLayer.innerHTML = "";
+    fields.forEach((field, index) => {
+      const div = document.createElement("div");
+      div.className = "overlay" + (field.kind === "checkbox" ? " checkbox" : "") + (index === selectedIndex ? " selected" : "");
+      div.style.left = (field.x / 100 * imageNaturalWidth * zoom) + "px";
+      div.style.top = (field.y / 100 * imageNaturalHeight * zoom) + "px";
+      div.style.width = (field.width / 100 * imageNaturalWidth * zoom) + "px";
+      div.style.height = (field.height / 100 * imageNaturalHeight * zoom) + "px";
+
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = field.id || "(unnamed)";
+      div.appendChild(tag);
+
+      div.addEventListener("mousedown", (event) => {
+        event.stopPropagation();
+        selectField(index);
+        startDragMove(event, index);
+      });
+
+      if (index === selectedIndex) {
+        const handle = document.createElement("div");
+        handle.className = "handle";
+        handle.addEventListener("mousedown", (event) => {
+          event.stopPropagation();
+          startDragResize(event, index);
+        });
+        div.appendChild(handle);
+      }
+
+      overlayLayer.appendChild(div);
+    });
+  }
+
+  function renderFieldList() {
+    fieldListEl.innerHTML = "";
+    fieldCountEl.textContent = String(fields.length);
+    fields.forEach((field, index) => {
+      const row = document.createElement("div");
+      row.className = "field-row" + (index === selectedIndex ? " selected" : "");
+      row.innerHTML = `
+        <div>
+          <div class="id">${escapeHtml(field.id || "(unnamed)")}
+            <span class="pill ${field.kind}">${field.kind}</span>
+          </div>
+          <div class="meta">${field.label ? escapeHtml(field.label) : "(no label)"}</div>
+        </div>`;
+      row.addEventListener("click", () => selectField(index));
+      fieldListEl.appendChild(row);
+    });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function renderEditor() {
+    const field = fields[selectedIndex];
+    const disabled = !field;
+    [fId, fKind, fLabel, fMaxLength, fX, fY, fWidth, fHeight].forEach((el) => (el.disabled = disabled));
+    if (!field) {
+      fId.value = fLabel.value = "";
+      fMaxLength.value = 80;
+      fX.value = fY.value = fWidth.value = fHeight.value = "";
+      return;
+    }
+    fId.value = field.id;
+    fKind.value = field.kind;
+    fLabel.value = field.label;
+    fMaxLength.value = field.max_length;
+    fX.value = field.x;
+    fY.value = field.y;
+    fWidth.value = field.width;
+    fHeight.value = field.height;
+  }
+
+  function selectField(index) {
+    selectedIndex = index;
+    renderAll();
+  }
+
+  [fId, fKind, fLabel].forEach((el) =>
+    el.addEventListener("input", () => {
+      const field = fields[selectedIndex];
+      if (!field) return;
+      field.id = fId.value.trim();
+      field.kind = fKind.value;
+      field.label = fLabel.value;
+      renderAll();
+    })
+  );
+
+  fMaxLength.addEventListener("input", () => {
+    const field = fields[selectedIndex];
+    if (!field) return;
+    field.max_length = parseInt(fMaxLength.value, 10) || 1;
+  });
+
+  [
+    [fX, "x"],
+    [fY, "y"],
+    [fWidth, "width"],
+    [fHeight, "height"],
+  ].forEach(([el, key]) =>
+    el.addEventListener("change", () => {
+      const field = fields[selectedIndex];
+      if (!field) return;
+      const value = parseFloat(el.value);
+      if (!isNaN(value)) field[key] = round4(value);
+      renderAll();
+    })
+  );
+
+  document.getElementById("deleteField").addEventListener("click", () => {
+    if (selectedIndex < 0) return;
+    fields.splice(selectedIndex, 1);
+    selectedIndex = -1;
+    renderAll();
+  });
+
+  // ---- Drawing new rectangles -----------------------------------------
+
+  let drawing = null;
+
+  overlayLayer.addEventListener("mousedown", (event) => {
+    // Only start a new rectangle when clicking empty canvas space, not an
+    // existing overlay (those stop propagation themselves).
+    if (!imageNaturalWidth) return;
+    const rect = stage.getBoundingClientRect();
+    const startX = event.clientX - rect.left;
+    const startY = event.clientY - rect.top;
+    drawing = { startX, startY };
+
+    const previewIndex = fields.length;
+    fields.push({
+      id: "",
+      kind: "text",
+      x: pxToPercentX(startX),
+      y: pxToPercentY(startY),
+      width: 0,
+      height: 0,
+      max_length: 80,
+      label: "",
+    });
+    selectedIndex = previewIndex;
+    renderAll();
+  });
+
+  function pxToPercentX(px) {
+    return round4((px / zoom) / imageNaturalWidth * 100);
+  }
+  function pxToPercentY(px) {
+    return round4((px / zoom) / imageNaturalHeight * 100);
+  }
+
+  window.addEventListener("mousemove", (event) => {
+    if (!drawing) return;
+    const rect = stage.getBoundingClientRect();
+    const curX = event.clientX - rect.left;
+    const curY = event.clientY - rect.top;
+    const field = fields[selectedIndex];
+    if (!field) return;
+    const x0 = Math.min(drawing.startX, curX);
+    const y0 = Math.min(drawing.startY, curY);
+    const x1 = Math.max(drawing.startX, curX);
+    const y1 = Math.max(drawing.startY, curY);
+    field.x = pxToPercentX(x0);
+    field.y = pxToPercentY(y0);
+    field.width = round4(pxToPercentX(x1) - pxToPercentX(x0));
+    field.height = round4(pxToPercentY(y1) - pxToPercentY(y0));
+    renderOverlays();
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!drawing) return;
+    drawing = null;
+    const field = fields[selectedIndex];
+    if (field && (field.width <= 0 || field.height <= 0)) {
+      // Degenerate box (a click with no drag) -- discard it.
+      fields.splice(selectedIndex, 1);
+      selectedIndex = -1;
+    }
+    renderAll();
+  });
+
+  // ---- Moving / resizing existing rectangles --------------------------
+
+  function startDragMove(event, index) {
+    const field = fields[index];
+    const startClientX = event.clientX;
+    const startClientY = event.clientY;
+    const originX = field.x;
+    const originY = field.y;
+
+    function onMove(moveEvent) {
+      const dxPercent = ((moveEvent.clientX - startClientX) / zoom) / imageNaturalWidth * 100;
+      const dyPercent = ((moveEvent.clientY - startClientY) / zoom) / imageNaturalHeight * 100;
+      field.x = round4(Math.max(0, originX + dxPercent));
+      field.y = round4(Math.max(0, originY + dyPercent));
+      renderOverlays();
+    }
+    function onUp() {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      renderAll();
+    }
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  }
+
+  function startDragResize(event, index) {
+    const field = fields[index];
+    const startClientX = event.clientX;
+    const startClientY = event.clientY;
+    const originWidth = field.width;
+    const originHeight = field.height;
+
+    function onMove(moveEvent) {
+      const dxPercent = ((moveEvent.clientX - startClientX) / zoom) / imageNaturalWidth * 100;
+      const dyPercent = ((moveEvent.clientY - startClientY) / zoom) / imageNaturalHeight * 100;
+      field.width = round4(Math.max(0.1, originWidth + dxPercent));
+      field.height = round4(Math.max(0.1, originHeight + dyPercent));
+      renderOverlays();
+    }
+    function onUp() {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      renderAll();
+    }
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  }
+
+  // ---- Keyboard nudging -------------------------------------------------
+
+  window.addEventListener("keydown", (event) => {
+    if (selectedIndex < 0) return;
+    const field = fields[selectedIndex];
+    if (!field) return;
+    const isArrow = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key);
+    if (!isArrow) return;
+    // Don't hijack arrow keys while the user is editing a text input.
+    const activeTag = document.activeElement && document.activeElement.tagName;
+    if (activeTag === "INPUT" || activeTag === "TEXTAREA" || activeTag === "SELECT") return;
+
+    event.preventDefault();
+    const resizing = event.shiftKey;
+    if (event.key === "ArrowUp") {
+      if (resizing) field.height = round4(Math.max(0.05, field.height - NUDGE_STEP));
+      else field.y = round4(Math.max(0, field.y - NUDGE_STEP));
+    } else if (event.key === "ArrowDown") {
+      if (resizing) field.height = round4(field.height + NUDGE_STEP);
+      else field.y = round4(field.y + NUDGE_STEP);
+    } else if (event.key === "ArrowLeft") {
+      if (resizing) field.width = round4(Math.max(0.05, field.width - NUDGE_STEP));
+      else field.x = round4(Math.max(0, field.x - NUDGE_STEP));
+    } else if (event.key === "ArrowRight") {
+      if (resizing) field.width = round4(field.width + NUDGE_STEP);
+      else field.x = round4(field.x + NUDGE_STEP);
+    }
+    renderAll();
+  });
+
+  // ---- Validation -------------------------------------------------------
+
+  function validateForExport() {
+    const errors = [];
+    const pageId = pageIdInput.value.trim();
+    if (!pageId) errors.push("Page ID is required.");
+    if (!imageNaturalWidth || !imageNaturalHeight) errors.push("No image loaded.");
+
+    const seenIds = new Set();
+    fields.forEach((field, index) => {
+      const label = `Field #${index + 1} (${field.id || "unnamed"})`;
+      if (!field.id) errors.push(`${label}: id is required.`);
+      else if (seenIds.has(field.id)) errors.push(`${label}: duplicate id.`);
+      seenIds.add(field.id);
+
+      if (!["text", "checkbox"].includes(field.kind)) errors.push(`${label}: kind must be text or checkbox.`);
+      if (!field.label) errors.push(`${label}: label is required.`);
+      if (!(field.max_length > 0)) errors.push(`${label}: max_length must be positive.`);
+      if (!(field.width > 0) || !(field.height > 0)) errors.push(`${label}: width/height must be positive.`);
+      if (field.x < 0 || field.x >= 100) errors.push(`${label}: x out of bounds.`);
+      if (field.y < 0 || field.y >= 100) errors.push(`${label}: y out of bounds.`);
+      if (field.x + field.width > 100) errors.push(`${label}: extends past right edge.`);
+      if (field.y + field.height > 100) errors.push(`${label}: extends past bottom edge.`);
+    });
+
+    return errors;
+  }
+
+  // ---- Export / import ----------------------------------------------------
+
+  document.getElementById("exportJson").addEventListener("click", () => {
+    const errors = validateForExport();
+    if (errors.length) {
+      setStatus("Cannot export:\n- " + errors.join("\n- "), true);
+      return;
+    }
+    const payload = {
+      page_id: pageIdInput.value.trim(),
+      image: { width: imageNaturalWidth, height: imageNaturalHeight },
+      fields: fields.map((field) => ({
+        id: field.id,
+        kind: field.kind,
+        x: field.x,
+        y: field.y,
+        width: field.width,
+        height: field.height,
+        max_length: field.max_length,
+        label: field.label,
+      })),
+    };
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${payload.page_id || "sheet"}.json`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(url);
+    setStatus(`Exported ${fields.length} fields for ${payload.page_id}.`, false);
+  });
+
+  document.getElementById("importJson").addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+    input.addEventListener("change", () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const payload = JSON.parse(String(reader.result));
+          pageIdInput.value = payload.page_id || "";
+          fields = (payload.fields || []).map((field) => ({
+            id: field.id || "",
+            kind: field.kind === "checkbox" ? "checkbox" : "text",
+            x: round4(Number(field.x) || 0),
+            y: round4(Number(field.y) || 0),
+            width: round4(Number(field.width) || 0),
+            height: round4(Number(field.height) || 0),
+            max_length: Number(field.max_length) || 1,
+            label: field.label || "",
+          }));
+          selectedIndex = fields.length ? 0 : -1;
+          renderAll();
+          setStatus(`Imported ${fields.length} fields.`, false);
+        } catch (error) {
+          setStatus("Failed to import JSON: " + error.message, true);
+        }
+      };
+      reader.readAsText(file);
+    });
+    input.click();
+  });
+})();
+</script>
+</body>
+</html>
