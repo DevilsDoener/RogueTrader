@@ -1,11 +1,11 @@
-# Kapitel I: Character Creation (Charaktererschaffung)
+# Chapter I: Character Creation
 
-> Quelle: Rogue Trader Core Rulebook, Kapitel I, Buchseiten 12–34 (PDF-Seiten 16–38).
-> Alle Angaben ausschließlich aus dem Regelbuch.
+> Source: Rogue Trader Core Rulebook, Chapter I, book pages 12–34 (PDF pages 16–38).
+> All information taken exclusively from the rulebook.
 
-## Ablauf (7 Stufen)
+## Sequence (7 Stages)
 
-| Stage | Inhalt | Buchseite |
+| Stage | Content | Book Page |
 |---|---|---|
 | 1 | Generate Characteristics | 14 |
 | 2 | The Origin Path | 15 |
@@ -15,41 +15,41 @@
 | 6 | Select Equipment | 34 |
 | 7 | Play Rogue Trader | 34 |
 
-Benötigt: 2W10 (2d10), Charakterbogen, Bleistift, Radiergummi.
-Der Spielercharakter wird im Buch durchgängig **"Explorer"** genannt.
+Required: 2d10, character sheet, pencil, eraser.
+Throughout the book, the player character is called an **"Explorer"**.
 
 ---
 
 ## Stage 1: Generate Characteristics
 
-Neun Characteristics, Skala 0–100:
+Nine Characteristics, scale 0–100:
 
-| Kürzel | Name | Bedeutung |
+| Abbr. | Name | Meaning |
 |---|---|---|
-| WS | Weapon Skill | Nahkampf (Fäuste, Messer, Kettenschwerter) |
-| BS | Ballistic Skill | Treffsicherheit mit Fernkampfwaffen |
-| S | Strength | Körperkraft |
-| T | Toughness | Wegstecken von Verletzungen, Gift, Umwelt, Krankheit |
-| Ag | Agility | Schnelligkeit, Reflexe, Haltung |
-| Int | Intelligence | Verstand, Wissen, logisches Denken |
-| Per | Perception | Wahrnehmung, Schärfe der Sinne |
-| WP | Willpower | Standhaftigkeit gegen Schrecken |
-| Fel | Fellowship | Umgang mit anderen: täuschen, betören, gewinnen |
+| WS | Weapon Skill | Melee combat (fists, knives, chainswords) |
+| BS | Ballistic Skill | Accuracy with ranged weapons |
+| S | Strength | Physical power |
+| T | Toughness | Withstanding injury, poison, environment, disease |
+| Ag | Agility | Speed, reflexes, poise |
+| Int | Intelligence | Mind, knowledge, logical thought |
+| Per | Perception | Awareness, sharpness of the senses |
+| WP | Willpower | Steadfastness against fear |
+| Fel | Fellowship | Dealing with others: deceiving, charming, winning them over |
 
-**Characteristic Bonus** = Zehnerstelle des Wertes (z. B. Strength 41 → SB 4).
-Wird bei Tests mit variablem Ergebnis genutzt (Erfolgsgrad, Schaden usw.).
+**Characteristic Bonus** = the tens digit of the value (e.g. Strength 41 → SB 4).
+Used for tests with a variable result (Degree of Success, damage, etc.).
 
-### Würfelmethode
-Für jede Characteristic einzeln: **2d10 + 25**.
-Ein Ergebnis nach Wahl darf **einmal neu gewürfelt** werden — das neue Ergebnis muss behalten werden, auch wenn es schlechter ist.
-Einzelne Characteristics können später durch Stage 2 (Origin Path) verändert werden.
+### Rolling Method
+For each Characteristic individually: **2d10 + 25**.
+One result of the player's choice may be **rerolled once** — the new result must be kept, even if it is worse.
+Individual Characteristics may later be modified by Stage 2 (Origin Path).
 
-### Alternative (GM-Option „Allocating Points")
-Jede Characteristic startet auf 25; der Spieler verteilt zusätzlich **100 Punkte**, maximal **+20** auf eine einzelne Characteristic. Ergibt leicht überdurchschnittliche Charaktere.
+### Alternative (GM option "Allocating Points")
+Each Characteristic starts at 25; the player additionally distributes **100 points**, with a maximum of **+20** on any single Characteristic. Produces slightly above-average characters.
 
-### Beispielwerte aus Buchseite 14
+### Example Values from Book Page 14
 
-| Characteristic | 2d10 | Gesamt nach +25 | Bonus |
+| Characteristic | 2d10 | Total after +25 | Bonus |
 |---|---:|---:|---:|
 | Weapon Skill | 11 | 36 | 3 |
 | Ballistic Skill | 8 | 33 | 3 |
@@ -65,19 +65,19 @@ Jede Characteristic startet auf 25; der Spieler verteilt zusätzlich **100 Punkt
 
 ## Stage 2: The Origin Path
 
-Ein Raster aus sechs Zeilen. Man wählt von oben nach unten **oder** von unten nach oben. Die Wahl der Startzeile ist frei; jede weitere Wahl muss **direkt darunter/darüber oder benachbart** liegen. Feld­auswahlen am Rand einer Zeile haben oft nur zwei Anschlussmöglichkeiten.
+A grid of six rows. You choose from top to bottom **or** from bottom to top. The choice of starting row is free; every further choice must lie **directly below/above or adjacent** to the previous one. Choices at the edge of a row often have only two possible connections.
 
-Die Auswahlen werden mit Linien verbunden = der „Origin Path". Der Bogen wird anschließend an den nächsten Spieler weitergegeben.
+The choices are connected with lines to form the "Origin Path." The sheet is then passed to the next player.
 
-**Intersections:** Treffen sich zwei oder mehr Origin Paths auf demselben Feld, entsteht eine Intersection = gemeinsame Vorgeschichte der Charaktere. Liefert Aufhänger für Plot, gemeinsame Feinde/Verbündete.
+**Intersections:** If two or more Origin Paths meet on the same box, an Intersection results — a shared history for the characters. This provides hooks for plots, shared enemies/allies.
 
-**GM-Optionen:** erfahrene Spieler dürfen nicht-benachbarte Felder wählen; oder eine Zeile wird als „free choice row" für die ganze Gruppe freigegeben; oder Origin Paths werden direkt beim GM abgegeben.
+**GM options:** experienced players may choose non-adjacent boxes; or a row may be opened as a "free choice row" for the whole group; or Origin Paths may be submitted directly to the GM.
 
-**Doppelte Ergebnisse:** Erhält man denselben Skill mehrfach aus verschiedenen Quellen → **Skill Mastery** (S. 74). Erhält man dasselbe Talent mehrfach → man darf das überzählige Talent gegen **Talented (choose one)** eintauschen.
+**Duplicate results:** If you gain the same Skill more than once from different sources → **Skill Mastery** (p. 74). If you gain the same Talent more than once, you may exchange the extra Talent for **Talented (choose one)**.
 
-### Origin Path Chart (Buchseite 16)
+### Origin Path Chart (Book Page 16)
 
-| Zeile | Optionen (in Chart-Reihenfolge) |
+| Row | Options (in chart order) |
 |---|---|
 | **Home World** | Death World · Void Born · Forge World · Hive World · Imperial World · Noble Born |
 | **Birthright** | Scavenger · Scapegrace · Stubjack · Child of the Creed · Savant · Vaunted |
@@ -93,63 +93,63 @@ Die Auswahlen werden mit Linien verbunden = der „Origin Path". Der Bogen wird 
 ### Death World
 - **Characteristic Modifiers:** +5 Strength, +5 Toughness, −5 Willpower, −5 Fellowship
 - **Starting Skills:** Survival
-- **Hardened:** Wahl eines Talents: Jaded **oder** Resistance (Poisons)
+- **Hardened:** Choice of one Talent: Jaded **or** Resistance (Poisons)
 - **If It Bleeds, I Can Kill It:** Melee Weapon Training (Primitive)
-- **Paranoid:** −10 auf alle Interaction Skill Tests in formellem Umfeld
-- **Survivor:** +10 auf Tests gegen Pinning und Shock
+- **Paranoid:** −10 on all Interaction Skill Tests in formal settings
+- **Survivor:** +10 on tests against Pinning and Shock
 - **Starting Wounds:** Toughness Bonus ×2 + 1d5+2
 - **Starting Fate Points:** 1d10 → 1–5: 2 FP; 6–10: 3 FP
 
 ### Void Born
 - **Characteristic Modifiers:** −5 Strength, +5 Willpower
 - **Starting Skills:** Speak Language (Ship Dialect)
-- **Charmed:** Beim Ausgeben (nicht Verbrennen) eines Fate Points 1d10 würfeln; bei natürlicher 9 geht der Fate Point nicht verloren
-- **Ill-omened:** −5 auf alle Fellowship Tests im Umgang mit Nicht-Void-Born-Menschen; zieht negative Aufmerksamkeit auf sich
-- **Shipwise:** Navigation (Stellar) (Int) und Pilot (Spacecraft) (Ag) gelten als ungelernte **Basic** Skills statt Advanced
-- **Void Accustomed:** immun gegen Raumreisekrankheit; Null-/Niedrigschwerkraft ist kein Difficult Terrain
+- **Charmed:** When spending (not burning) a Fate Point, roll 1d10; on a natural 9 the Fate Point is not lost
+- **Ill-omened:** −5 on all Fellowship Tests when dealing with non-Void-Born humans; attracts negative attention
+- **Shipwise:** Navigation (Stellar) (Int) and Pilot (Spacecraft) (Ag) count as untrained **Basic** Skills instead of Advanced
+- **Void Accustomed:** immune to space-sickness; zero/low gravity is not Difficult Terrain
 - **Starting Wounds:** Toughness Bonus ×2 + 1d5
 - **Starting Fate Points:** 1d10 → 1–5: 3 FP; 6–10: 4 FP
 
 ### Forge World
 - **Characteristic Modifiers:** −5 Weapon Skill, +5 Intelligence
-- **Starting Skills:** Common Lore (Tech) (Int) und Common Lore (Machine Cult) (Int) als ungelernte Basic Skills
+- **Starting Skills:** Common Lore (Tech) (Int) and Common Lore (Machine Cult) (Int) as untrained Basic Skills
 - **Credo Omnissiah:** Technical Knock Talent
-- **Fit For Purpose:** eine Characteristic nach Wahl **+3**
-- **Stranger to the Cult:** −10 auf Tests zu Wissen über den Imperial Creed; −5 auf Fellowship Tests im formellen Umgang mit der Ecclesiarchy
+- **Fit For Purpose:** one Characteristic of choice **+3**
+- **Stranger to the Cult:** −10 on tests concerning knowledge of the Imperial Creed; −5 on Fellowship Tests in formal dealings with the Ecclesiarchy
 - **Starting Wounds:** Toughness Bonus ×2 + 1d5+1
 - **Starting Fate Points:** 1d10 → 1–5: 2 FP; 6–9: 3 FP; 10: 4 FP
 
 ### Hive World
 - **Characteristic Modifiers:** −5 Toughness, +5 Fellowship
-- **Starting Skills:** Speak Language (Hive Dialect) (Int) als ungelernter Basic Skill
-- **Accustomed to Crowds:** Menschenmengen sind kein Difficult Terrain; kein Malus auf den Agility Test beim Rennen/Chargen durch dichte Mengen
-- **Caves of Steel:** Tech-Use (Int) als ungelernter Basic Skill
-- **Hivebound:** −10 auf alle Survival (Int) Tests; außerhalb einer „proper hab" (ohne Fertigwaren, feste Decken, Strom) −5 auf alle Intelligence Tests
-- **Wary:** +1 auf Initiative-Würfe
+- **Starting Skills:** Speak Language (Hive Dialect) (Int) as an untrained Basic Skill
+- **Accustomed to Crowds:** crowds are not Difficult Terrain; no penalty on the Agility Test when running/charging through dense crowds
+- **Caves of Steel:** Tech-Use (Int) as an untrained Basic Skill
+- **Hivebound:** −10 on all Survival (Int) Tests; outside a "proper hab" (without manufactured goods, solid ceilings, power) −5 on all Intelligence Tests
+- **Wary:** +1 on Initiative rolls
 - **Starting Wounds:** Toughness Bonus ×2 + 1d5+1
 - **Starting Fate Points:** 1d10 → 1–5: 2 FP; 6–8: 3 FP; 9–10: 4 FP
 
 ### Imperial World
 - **Characteristic Modifiers:** +3 Willpower
-- **Blessed Ignorance:** −5 auf Forbidden Lore (Int) Tests
-- **Hagiography:** Common Lore (Imperial Creed) (Int), Common Lore (Imperium) (Int), Common Lore (War) (Int) als ungelernte Basic Skills
-- **Liturgical Familiarity:** Literacy (Int) und Speak Language (High Gothic) (Int) als ungelernte Basic Skills
+- **Blessed Ignorance:** −5 on Forbidden Lore (Int) Tests
+- **Hagiography:** Common Lore (Imperial Creed) (Int), Common Lore (Imperium) (Int), Common Lore (War) (Int) as untrained Basic Skills
+- **Liturgical Familiarity:** Literacy (Int) and Speak Language (High Gothic) (Int) as untrained Basic Skills
 - **Starting Wounds:** Toughness Bonus ×2 + 1d5
 - **Starting Fate Points:** 1d10 → 1–8: 3 FP; 9–10: 4 FP
 
 ### Noble Born
 - **Characteristic Modifiers:** −5 Willpower, +5 Fellowship
-- **Starting Skills:** Literacy (Int), Speak Language (High Gothic) (Int), Speak Language (Low Gothic) (Int) als ungelernte Basic Skills
-- **Etiquette:** +10 auf Interaction Skill Tests im Umgang mit hoher Autorität und in formellen Situationen
-- **Legacy of Wealth:** **+1** auf den Start-Profit-Factor der Gruppe
-- **Supremely Connected:** Peer (Nobility) Talent; zusätzlich ein weiteres Peer aus: Academics, Adeptus Mechanicus, Administratum, Astropaths, Ecclesiarchy, Government, Mercantile, Military, Underworld
-- **Vendetta:** mächtige Feinde (Details von Spieler und GM festzulegen)
+- **Starting Skills:** Literacy (Int), Speak Language (High Gothic) (Int), Speak Language (Low Gothic) (Int) as untrained Basic Skills
+- **Etiquette:** +10 on Interaction Skill Tests when dealing with high authority and in formal situations
+- **Legacy of Wealth:** **+1** to the group's starting Profit Factor
+- **Supremely Connected:** Peer (Nobility) Talent; plus one further Peer from: Academics, Adeptus Mechanicus, Administratum, Astropaths, Ecclesiarchy, Government, Mercantile, Military, Underworld
+- **Vendetta:** powerful enemies (details to be set by player and GM)
 - **Starting Wounds:** Toughness Bonus ×2 + 1d5
 - **Starting Fate Points:** 1d10 → 1–3: 2 FP; 4–9: 3 FP; 10: 4 FP
 
-### Table 1-1: Suggested Home Worlds (Empfehlung, keine Pflicht)
+### Table 1-1: Suggested Home Worlds (recommendation, not mandatory)
 
-| Career | Empfohlene Home Worlds |
+| Career | Recommended Home Worlds |
 |---|---|
 | Arch-militant | Death World, Forge World, Hive World, Void Born |
 | Astropath Transcendent | Hive World, Imperial World, Void Born |
@@ -160,146 +160,146 @@ Die Auswahlen werden mit Linien verbunden = der „Origin Path". Der Bogen wird 
 | Seneschal | Hive World, Imperial World, Noble Born, Void Born |
 | Void-master | Forge World, Hive World, Noble Born, Void Born |
 
-> Ausdrücklich: es gibt **keine** harten Beschränkungen, welcher Home World welche Career wählen darf. Der GM hat das letzte Wort.
+> Explicitly: there are **no** hard restrictions on which Home World may choose which Career. The GM has the final word.
 
 ---
 
 ## Birthright
 
-| Option | Effekt |
+| Option | Effect |
 |---|---|
-| **Scavenger** | Unremarkable **oder** Resistance (Fear) Talent; +3 auf Willpower **oder** Agility (Wahl); dazu 1d5 Corruption Points **oder** 1d5 Insanity Points (Wahl) |
-| **Scapegrace** | Sleight of Hand als trainierter Basic Skill; +3 auf Intelligence **oder** Perception; dazu 1d5 Corruption **oder** 1d5 Insanity Points |
-| **Stubjack** | Quick Draw Talent; Intimidate als trainierter Basic Skill; +5 auf Weapon Skill **oder** Ballistic Skill; −5 Fellowship **und** 1d5 Insanity Points |
-| **Child of the Creed** | Unshakeable Faith Talent; +3 Willpower **oder** +3 Fellowship; −3 Weapon Skill |
-| **Savant** | Logic (Int) als trainierter Basic Skill **oder** Peer (Academic) Talent; +3 Intelligence **oder** +3 Fellowship; −3 Toughness |
-| **Vaunted** | Decadence Talent; +3 Agility **oder** Fellowship; −3 Perception und 1d5 Corruption Points |
+| **Scavenger** | Unremarkable **or** Resistance (Fear) Talent; +3 on Willpower **or** Agility (choice); plus 1d5 Corruption Points **or** 1d5 Insanity Points (choice) |
+| **Scapegrace** | Sleight of Hand as a trained Basic Skill; +3 on Intelligence **or** Perception; plus 1d5 Corruption **or** 1d5 Insanity Points |
+| **Stubjack** | Quick Draw Talent; Intimidate as a trained Basic Skill; +5 on Weapon Skill **or** Ballistic Skill; −5 Fellowship **and** 1d5 Insanity Points |
+| **Child of the Creed** | Unshakeable Faith Talent; +3 Willpower **or** +3 Fellowship; −3 Weapon Skill |
+| **Savant** | Logic (Int) as a trained Basic Skill **or** Peer (Academic) Talent; +3 Intelligence **or** +3 Fellowship; −3 Toughness |
+| **Vaunted** | Decadence Talent; +3 Agility **or** Fellowship; −3 Perception and 1d5 Corruption Points |
 
 ---
 
 ## Lure of the Void
 
-Jede Option bietet **drei Unterwahlen**; genau eine wird gewählt.
+Each option offers **three sub-choices**; exactly one is chosen.
 
 ### Tainted
-- **Mutant:** einmal auf Table 14-3: Mutations (S. 369) würfeln. Optional 200 xp ausgeben, um statt des Wurfs ein Ergebnis aus dem Bereich **01–75** frei zu wählen.
-- **Insane:** −3 Fellowship **oder** −1 Fate Point (Wahl); +3 Toughness; Peer (The Insane) Talent; 2d10 Insanity Points.
-- **Deviant Philosophy:** +3 Willpower und Enemy (Ecclesiarchy) Talent.
+- **Mutant:** roll once on Table 14-3: Mutations (p. 369). Optionally spend 200 xp to freely choose a result in the range **01–75** instead of rolling.
+- **Insane:** −3 Fellowship **or** −1 Fate Point (choice); +3 Toughness; Peer (The Insane) Talent; 2d10 Insanity Points.
+- **Deviant Philosophy:** +3 Willpower and Enemy (Ecclesiarchy) Talent.
 
 ### Criminal
-- **Wanted Fugitive:** Enemy (Adeptus Arbites) und Peer (Underworld) Talent.
-- **Hunted by a Crime Baron:** +3 Perception und Enemy (Underworld) Talent.
-- **Judged and Found Wanting:** −5 Fellowship; ein Bionic/Implantat in poor-Craftsmanship (200 xp Upgrade auf common, insgesamt 300 xp auf good).
+- **Wanted Fugitive:** Enemy (Adeptus Arbites) and Peer (Underworld) Talent.
+- **Hunted by a Crime Baron:** +3 Perception and Enemy (Underworld) Talent.
+- **Judged and Found Wanting:** −5 Fellowship; a Bionic/implant of poor Craftsmanship (200 xp to upgrade to common, 300 xp total to upgrade to good).
 
 ### Renegade
-- **Recidivist:** Enemy (Adeptus Arbites) und Resistance (Interrogation) Talent; Concealment als trainierter Basic Skill.
-- **Free-thinker:** +3 Intelligence **oder** +3 Perception; −3 Willpower; Enemy (Ecclesiarchy) Talent.
-- **Dark Visionary:** 1d5+1 Corruption Points **oder** 1d5+1 Insanity Points; dafür Dark Soul Talent und Forbidden Lore (choose one) als trainierter Basic Skill.
+- **Recidivist:** Enemy (Adeptus Arbites) and Resistance (Interrogation) Talent; Concealment as a trained Basic Skill.
+- **Free-thinker:** +3 Intelligence **or** +3 Perception; −3 Willpower; Enemy (Ecclesiarchy) Talent.
+- **Dark Visionary:** 1d5+1 Corruption Points **or** 1d5+1 Insanity Points; in exchange, Dark Soul Talent and Forbidden Lore (choose one) as a trained Basic Skill.
 
 ### Duty Bound
-- **Duty to the Throne:** +3 Willpower und (bei erfüllter Voraussetzung WP 40) Armour of Contempt Talent; −10 auf Interaction Skill Tests gegenüber allem außerhalb des Imperiums (Aliens, Verräter).
-- **Duty to Humanity:** +3 Perception **oder** +3 Intelligence; −1 auf den Start-Profit-Factor der Gruppe.
-- **Duty to Your Dynasty:** Rival (Rogue Trader family) Talent; −3 Toughness; **+1** auf den Start-Profit-Factor der Gruppe.
+- **Duty to the Throne:** +3 Willpower and (if the prerequisite WP 40 is met) Armour of Contempt Talent; −10 on Interaction Skill Tests toward anything outside the Imperium (aliens, traitors).
+- **Duty to Humanity:** +3 Perception **or** +3 Intelligence; −1 to the group's starting Profit Factor.
+- **Duty to Your Dynasty:** Rival (Rogue Trader family) Talent; −3 Toughness; **+1** to the group's starting Profit Factor.
 
 ### Zealot
-- **Blessed Scars:** +10 auf Intimidate Tests, −10 auf Charm Tests; ein Bionic in poor-Craftsmanship (200 xp → common, 300 xp gesamt → good).
-- **Unnerving Clarity:** +5 Willpower; dazu −5 Fellowship **oder** 1d10 Insanity Points (Wahl).
-- **Favoured of the Faithful:** +5 Fellowship und Peer (Ecclesiarchy) Talent; −5 Toughness.
+- **Blessed Scars:** +10 on Intimidate Tests, −10 on Charm Tests; a Bionic of poor Craftsmanship (200 xp → common, 300 xp total → good).
+- **Unnerving Clarity:** +5 Willpower; plus −5 Fellowship **or** 1d10 Insanity Points (choice).
+- **Favoured of the Faithful:** +5 Fellowship and Peer (Ecclesiarchy) Talent; −5 Toughness.
 
 ### Chosen by Destiny
-- **Seeker of Truth:** Foresight Talent und Enemy (Academics oder Ecclesiarchy) Talent; −3 Willpower.
-- **Xenophile:** +10 auf Fellowship Tests im Umgang mit fremden Rassen/Kulturen; −5 auf Willpower Tests im Zusammenhang mit Alien-Artefakten und Alien-Psi-Kräften.
-- **Fated for Greatness:** **+1 Fate Point**; dafür 1d10+1 Insanity Points.
+- **Seeker of Truth:** Foresight Talent and Enemy (Academics or Ecclesiarchy) Talent; −3 Willpower.
+- **Xenophile:** +10 on Fellowship Tests when dealing with alien races/cultures; −5 on Willpower Tests involving alien artefacts and alien psychic powers.
+- **Fated for Greatness:** **+1 Fate Point**; in exchange, 1d10+1 Insanity Points.
 
 ---
 
 ## Trials and Travails
 
-Anders als bei Lure of the Void werden hier **alle** genannten Traits einer Option erhalten.
+Unlike Lure of the Void, here you receive **all** the traits listed for an option.
 
 ### The Hand of War
-- **The Ashes of War:** ein Weapon Training Talent nach Wahl **oder** Leap Up Talent; dazu Hatred Talent gegen den Feind aus der eigenen Vergangenheit. Wahl aus: Orks, Eldar, Mutanten, Chaosanbeter, Imperial Guard, Imperial Navy, Void Pirates.
-- **The Face of the Enemy:** kein freiwilliger Umgang mit dem Erzfeind außer im Notfall, sonst −10 auf alle Fellowship Tests in diesen Kontakten; bei Provokation gewalttätige Reaktion (Willpower Test zur Abwendung möglich).
+- **The Ashes of War:** one Weapon Training Talent of choice **or** Leap Up Talent; plus a Hatred Talent against the enemy from your own past. Choose from: Orks, Eldar, mutants, Chaos worshippers, Imperial Guard, Imperial Navy, void pirates.
+- **The Face of the Enemy:** no voluntary dealings with the archenemy except in an emergency, otherwise −10 on all Fellowship Tests in such contacts; violent reaction when provoked (a Willpower Test can avert this).
 
 ### Press-Ganged
-- **Unwilling Accomplice:** ein einzelner Skill nach Wahl (ohne Voraussetzungen); zusätzlich entweder ein weiterer Common Lore Skill oder Steigerung eines vorhandenen Common Lore Skills um eine Stufe.
-- **Jealous Freedom:** gewalttätige Reaktion auf drohende Gefangenschaft/Freiheitsverlust (Willpower Test zur Abwendung möglich).
+- **Unwilling Accomplice:** a single Skill of choice (without prerequisites); additionally either a further Common Lore Skill or an increase of one level to an existing Common Lore Skill.
+- **Jealous Freedom:** violent reaction to threatened captivity/loss of freedom (a Willpower Test can avert this).
 
 ### Calamity
-- **Inured to Adversity:** Light Sleeper Talent und Hardy **oder** Nerves of Steel Talent (Wahl).
-- **Echo of Hard Times:** −1 auf den Start-Profit-Factor der Gruppe.
+- **Inured to Adversity:** Light Sleeper Talent and Hardy **or** Nerves of Steel Talent (choice).
+- **Echo of Hard Times:** −1 to the group's starting Profit Factor.
 
 ### Ship-lorn
-- **Against All Odds:** Survival Skill (oder Steigerung um eine Stufe, falls vorhanden) **oder** Dark Soul Talent. Zusätzlich: beim Einsatz eines Fate Points zur Wundheilung (S. 233) darf neu gewürfelt werden, das zweite Ergebnis muss akzeptiert werden.
-- **Ill-starred:** Start-Fate-Points dauerhaft **−1**; −5 auf Fellowship Tests gegenüber Void Born, Rogue Tradern und anderen Voidfarern, sofern diese den Ruf kennen.
+- **Against All Odds:** Survival Skill (or an increase of one level, if already possessed) **or** Dark Soul Talent. Additionally: when spending a Fate Point to heal Wounds (p. 233), you may reroll, and the second result must be accepted.
+- **Ill-starred:** Starting Fate Points permanently **−1**; −5 on Fellowship Tests toward Void Born, Rogue Traders, and other void-farers, provided they know the reputation.
 
 ### Dark Voyage
-- **Things Man Was Not Meant to Know:** ein Forbidden Lore Skill passend zur Erfahrung (oder Steigerung eines vorhandenen um eine Stufe) **oder** Resistance (Fear) Talent.
+- **Things Man Was Not Meant to Know:** a Forbidden Lore Skill fitting the experience (or an increase of one level to an existing one) **or** Resistance (Fear) Talent.
 - **Marked by Darkness:** 1d5 Insanity Points.
 
 ### High Vendetta
-- **Blood Will Have Blood:** Die Hard **oder** Paranoia Talent (Wahl); Inquiry Skill (oder Steigerung um eine Stufe).
-- **Brook No Insult:** duldet keine ernsthafte Beleidigung, antwortet mit Gewalt (Willpower Test zur Abwendung möglich).
+- **Blood Will Have Blood:** Die Hard **or** Paranoia Talent (choice); Inquiry Skill (or an increase of one level).
+- **Brook No Insult:** tolerates no serious insult, responds with violence (a Willpower Test can avert this).
 
 ---
 
 ## Motivation
 
-| Option | Effekt |
+| Option | Effect |
 |---|---|
 | **Endurance** | +1 Wound |
 | **Fortune** | +1 Fate Point |
 | **Vengeance** | Hatred (choose one) Talent |
-| **Renown** | Air of Authority **oder** Peer (choose one) Talent |
-| **Pride** | Ein Heirloom Item (Table 1-2) **oder** +3 Toughness |
-| **Prestige** | Talented (choose one) **oder** Peer (choose one) Talent |
+| **Renown** | Air of Authority **or** Peer (choose one) Talent |
+| **Pride** | An Heirloom Item (Table 1-2) **or** +3 Toughness |
+| **Prestige** | Talented (choose one) **or** Peer (choose one) Talent |
 
 ### Table 1-2: Heirloom Items (1d100)
 
-| Wurf | Gegenstand |
+| Roll | Item |
 |---|---|
-| 01–20 | **Archeotech Laspistol** — Waffe unbekannter Herkunft und großen Alters; ein Best-Craftsmanship Archeotech-Laspistol |
-| 21–40 | **Angevin Era Chainsword** — antike Klinge mit Crusade-Reinheitssiegeln und Kill-Marks; ein Best-Craftsmanship Chainsword |
-| 41–60 | **Ancestral Seal** — +10 % auf alle Interaction Skill Tests, wenn das Siegel gezeigt wird und man mit imperialen Bürgern oder Organisationen zu tun hat |
-| 61–80 | **Saint-blessed Carapace Armour** — ein Best-Craftsmanship Carapace-Rüstungsset |
-| 81–00 | **Reliquary of Saint Drusus** — +20 % auf alle Interaction Skill Tests, wenn das Reliquiar gezeigt wird und man mit Angehörigen des Ministorum zu tun hat |
+| 01–20 | **Archeotech Laspistol** — a weapon of unknown origin and great antiquity; a best-Craftsmanship archeotech laspistol |
+| 21–40 | **Angevin Era Chainsword** — an ancient blade bearing Crusade purity seals and kill-marks; a best-Craftsmanship chainsword |
+| 41–60 | **Ancestral Seal** — +10% on all Interaction Skill Tests when the seal is displayed and dealing with Imperial citizens or organisations |
+| 61–80 | **Saint-blessed Carapace Armour** — a best-Craftsmanship set of carapace armour |
+| 81–00 | **Reliquary of Saint Drusus** — +20% on all Interaction Skill Tests when the reliquary is displayed and dealing with members of the Ministorum |
 
 ---
 
 ## Career
 
-Acht Career Paths: **Arch-militant, Astropath Transcendent, Explorator, Missionary, Navigator, Rogue Trader, Seneschal, Void-master**. Details in Kapitel II (S. 36).
+Eight Career Paths: **Arch-militant, Astropath Transcendent, Explorator, Missionary, Navigator, Rogue Trader, Seneschal, Void-master**. Details in Chapter II (p. 36).
 
 ---
 
 ## Stage 3: Spend Experience Points
 
-- Jeder Charakter beginnt mit **4.500 xp**, die als bereits ausgegeben gelten (repräsentieren Characteristics, Origin Path, Skills und Fähigkeiten des Startzustands). Diese 4.500 xp werden **nicht** wirklich verteilt.
-- Zusätzlich stehen **500 xp** frei zur Verfügung: Characteristics steigern, Skills erwerben/verbessern, Talents kaufen.
-- Nach dem Ausgeben der 500 xp beträgt das Gesamt-xp des Charakters **5.000**.
-- Das ausgegebene xp bestimmt den **Rank** innerhalb des Career Path.
-- Auch das Movement wird in dieser Stufe notiert.
+- Every character begins with **4,500 xp**, which is considered already spent (representing the Characteristics, Origin Path, Skills, and abilities of the starting state). This 4,500 xp is **not** actually allocated.
+- An additional **500 xp** is freely available: to raise Characteristics, acquire/improve Skills, buy Talents.
+- After spending the 500 xp, the character's total xp is **5,000**.
+- The xp spent determines the **Rank** within the Career Path.
+- Movement is also noted at this stage.
 
-### Verhältnis zu Dark Heresy
-- Beide Spiele nutzen dieselbe Kernmechanik und dasselbe Universum.
-- Ein Rank-1-Rogue-Trader-Charakter entspricht in etwa einem Dark-Heresy-Charakter mit 5.000 ausgegebenen xp.
-- Passend: Dark-Heresy-Charaktere mit 5.000–5.500 xp treten einer startenden Rogue-Trader-Gruppe bei; ein Rank-2-Rogue-Trader passt zu Dark-Heresy-Akolythen mit 6.500–7.000 xp.
-- Ein Rogue-Trader-Charakter in einer Dark-Heresy-Kampagne sollte mindestens **1.000 Thrones Einkommen pro Monat** haben. Nicht-Crew-Mitglieder (Passagiere) erhalten weiter ihr monatliches Einkommen und nur nach GM-Ermessen Profit Factor.
+### Relationship to Dark Heresy
+- Both games use the same core mechanics and the same universe.
+- A Rank 1 Rogue Trader character corresponds roughly to a Dark Heresy character with 5,000 xp spent.
+- Correspondingly: Dark Heresy characters with 5,000–5,500 xp join a starting Rogue Trader group; a Rank 2 Rogue Trader corresponds to Dark Heresy Acolytes with 6,500–7,000 xp.
+- A Rogue Trader character in a Dark Heresy campaign should have at least **1,000 Thrones income per month**. Non-crew members (passengers) continue to receive their monthly income and gain Profit Factor only at the GM's discretion.
 
 ---
 
 ## Stage 4: Giving Characters Life
 
-Ausgestaltung von Aussehen, Vergangenheit, Temperament, Überzeugungen.
+Development of appearance, past, temperament, beliefs.
 
-**Name (S. 31):** Fünf Namenstypen — Primitive (kurz und brutal), Low Gothic
-(abgeschliffenes High Gothic), High Gothic (autoritär, ernst), Archaic (uralt,
-Heilige und Helden), Informal (Spitznamen, erworben durch Taten). Namen dürfen frei
-gewählt oder mit 1d100 bestimmt werden.
+**Name (p. 31):** Five name types — Primitive (short and brutal), Low Gothic
+(worn-down High Gothic), High Gothic (authoritative, solemn), Archaic (ancient,
+saints and heroes), Informal (nicknames, earned through deeds). Names may be freely
+chosen or determined with 1d100.
 
 ### Table 1-3: Example Male Names
 
-| Wurf | Primitive | Low | High | Archaic | Informal |
+| Roll | Primitive | Low | High | Archaic | Informal |
 |---|---|---|---|---|---|
 | 01–06 | Artho | Aubray | Alessaunder | Aestaban | Alt |
 | 07–12 | Bron | Cort | Aphesius | Casmirre | Blade |
@@ -316,11 +316,11 @@ gewählt oder mit 1d100 bestimmt werden.
 | 73–78 | Thale | Vorgar | Tristan | Torian | Stubbs |
 | 79–84 | Vir | Ysarille | Victris | Vendigroth | Torque |
 | 85–90 | Ziel | Zacharie | Xanator | Yorke | Veche |
-| 91–00 | Auf Table 1-4 neu würfeln | – | – | – | – |
+| 91–00 | Reroll on Table 1-4 | – | – | – | – |
 
 ### Table 1-4: Example Female Names
 
-| Wurf | Primitive | Low | High | Archaic | Informal |
+| Roll | Primitive | Low | High | Archaic | Informal |
 |---|---|---|---|---|---|
 | 01–06 | Attie | Barbaretta | Anarette | Anastasia | Astra |
 | 07–12 | Besse | Cynthia | Carnelia | Cymbry | Blur |
@@ -337,89 +337,101 @@ gewählt oder mit 1d100 bestimmt werden.
 | 73–78 | Unna | Shandra | Winter | Undynne | Val |
 | 79–84 | Vyn | Tanda | Yolande | Victrix | Xandra |
 | 85–90 | Yasha | Zolla | Zimora | Zephyr | Zelle |
-| 91–00 | Auf Table 1-3 neu würfeln | – | – | – | – |
+| 91–00 | Reroll on Table 1-3 | – | – | – | – |
 
-> Hinweis zum Originaldruck: Die beiden letzten Tabellenzeilen verweisen im Satz auf
-> „Table 1-11“ beziehungsweise „Table 1-10“. Gemeint sind erkennbar die direkt
-> gegenüberstehenden Tables 1-4 und 1-3; diese Zuordnung wird hier verwendet.
+> Note on the original print: the last two table rows refer in the printed text to
+> "Table 1-11" and "Table 1-10" respectively. These clearly mean the directly
+> facing Tables 1-4 and 1-3; that mapping is used here.
 
-### Nature (S. 32–33)
+### Nature (pp. 32–33)
 
-Die Ausgestaltung wird durch sechs Leitfragen strukturiert:
+The development is structured by six guiding questions:
 
-1. **What Is Your Demeanour?** Persönlichkeit und typische Reaktion auf Druck.
-   Vorgeschlagene Temperamente:
-   - **Bilious:** misstrauisch, bitter und zornig, zugleich wachsam.
-   - **Cardinal:** sucht Ausgleich, ringt aber mit schnellen wichtigen Entscheidungen.
-   - **Choleric:** aktiv und bestimmend, leicht zu provozieren.
-   - **Fixed:** solide, unbeugsam und von festen Ansichten.
-   - **Melancholic:** nachdenklich, introvertiert und zu Schwermut neigend.
-   - **Mutable:** unberechenbar, undiszipliniert, rebellisch.
-   - **Phlegmatic:** praktisch und vorsichtig, ernst und zurückhaltend.
-   - **Sanguine:** selbstbewusst und optimistisch, mitunter launisch.
-   - **Supine:** loyal, ergeben und leicht zu führen.
-2. **Why Are You a Leader Aboard a Rogue Trader Vessel?** Herkunft der eigenen
-   Führungsrolle: Zufall, Gunst, planvoller Aufstieg, angeworbene Begabung, erkaufte
-   Stellung, Flucht oder persönliches Interesse an der Mission.
-3. **Why Does the Koronus Expanse Call to You?** Beweggrund für die Reise in die
-   Expanse, etwa Reichtum, Pflicht, Flucht, Rache, verbotene Geheimnisse oder Wissen.
-4. **What Will You Sacrifice?** Grenzen des Preises für Sieg: Gesundheit, Gliedmaßen,
-   Verstand, Gefährten, Glaube oder Seele.
-5. **What Is Your Ambition?** Antrieb zu großen Taten, etwa Macht, Reichtum,
-   Gottesdienst, Ruhm, Buße oder die Heilung eigener Mutationen.
-6. **What Are Your Hatreds?** Hass als Antrieb gegen Terror, Xenos, Rivalen,
-   Verräter, persönliche Feinde oder eigenes Versagen.
+1. **What Is Your Demeanour?** Personality and typical reaction to pressure.
+   Suggested temperaments:
+   - **Bilious:** suspicious, bitter and wrathful, yet watchful.
+   - **Cardinal:** seeks balance, but struggles with quick, important decisions.
+   - **Choleric:** active and commanding, easily provoked.
+   - **Fixed:** solid, unyielding, and set in his views.
+   - **Melancholic:** thoughtful, introverted, and prone to gloom.
+   - **Mutable:** unpredictable, undisciplined, rebellious.
+   - **Phlegmatic:** practical and cautious, serious and reserved.
+   - **Sanguine:** confident and optimistic, sometimes moody.
+   - **Supine:** loyal, devoted, and easily led.
+2. **Why Are You a Leader Aboard a Rogue Trader Vessel?** Origin of one's own
+   leadership role: chance, favour, deliberate rise, recruited talent, purchased
+   position, escape, or personal interest in the mission.
+3. **Why Does the Koronus Expanse Call to You?** Motive for the journey into the
+   Expanse, such as wealth, duty, escape, revenge, forbidden secrets, or knowledge.
+4. **What Will You Sacrifice?** Limits on the price of victory: health, limbs,
+   sanity, companions, faith, or soul.
+5. **What Is Your Ambition?** Drive toward great deeds, such as power, wealth,
+   service to the God-Emperor, fame, penance, or curing one's own mutations.
+6. **What Are Your Hatreds?** Hatred as a driving force against terror, xenos,
+   rivals, traitors, personal enemies, or one's own failure.
 
 ---
 
 ## Stage 5: Profit Factor and Ship Points
 
-Wurf **1d10** auf Table 1-5. Der GM darf auch einfach wählen oder einen Spieler würfeln lassen.
+Roll **1d10** on Table 1-5. The GM may also simply choose, or have a player roll.
 
 ### Table 1-5: Starting Profit Factor and Ship Points
 
-| Wurf | Profit Factor | Ship Points | Beschreibung |
+| Roll | Profit Factor | Ship Points | Description |
 |---|---|---|---|
-| 1 | 60 | 30 | Kein mächtiges Schiff, aber große Ressourcen |
-| 2–3 | 50 | 40 | Gutes Schiff und volle Kasse |
-| 4–7 | 40 | 50 | Frische, neue Dynastie auf der galaktischen Bühne |
-| 8–9 | 30 | 60 | Dynastie im Niedergang, die sich noch erholen könnte |
-| 10 | 20 | 70 | Einst große Dynastie, heute nur noch ein Schimmer |
+| 1 | 60 | 30 | Although the dynasty does not command a powerful starship, it possesses great resources |
+| 2–3 | 50 | 40 | A good ship and a wealthy purse promise great things for this dynasty |
+| 4–7 | 40 | 50 | The Rogue Trader dynasty is a fresh, new player on the galactic stage, garnering attention both fair and foul |
+| 8–9 | 30 | 60 | A dynasty whose power is on the wane, but may yet recover |
+| 10 | 20 | 70 | The Rogue Trader dynasty was once a great and powerful flame, now only a glimmer of its former glory |
 
-**Profit Factor** misst Prestige und Wert des Warrant of Trade — Vermögen, Kontakte, Investitionen. Details S. 270.
-Einzelne Origin-Path-Wahlen verändern den Start-Profit-Factor direkt (Noble Born +1, Duty to Your Dynasty +1, Duty to Humanity −1, Echo of Hard Times −1).
+**Profit Factor** measures the prestige and value of the Warrant of Trade — wealth, contacts, investments. Details p. 270.
+Individual Origin Path choices change the starting Profit Factor directly (Noble Born +1, Duty to Your Dynasty +1, Duty to Humanity −1, Echo of Hard Times −1).
 
-**Ship Points** werden für ein individuell gebautes Schiff oder ein Quick-Start-Schiff ausgegeben (Kapitel VIII). **Nicht ausgegebene Ship Points werden 1:1 dem Profit Factor der Gruppe zugeschlagen.**
+**Ship Points** are spent on an individually built ship or a Quick-Start ship (Chapter VIII). **Unspent Ship Points are added 1:1 to the group's Profit Factor.**
 
 ---
 
 ## Stage 6: Select Equipment
 
-- Jeder Charakter darf mit dem **Profit Factor der Gruppe** **eine Acquisition** (S. 272) für einen einzelnen Gegenstand aus Kapitel V: Armoury machen, mit **Acquisition Modifier +0**.
-- Optional (GM-Ermessen): beliebig viele Gegenstände von **common Availability** und **common Craftsmanship**. Für Anfängergruppen nicht empfohlen (zeitaufwändig).
+- Every character may make **one Acquisition** (p. 272) using the **group's Profit Factor** for a single item from Chapter V: Armoury, with an **Acquisition Modifier of +0**.
+- Optional (at the GM's discretion): any number of items of **common Availability** and **common Craftsmanship**. Not recommended for beginner groups (time-consuming).
 
 ---
 
-## Seitenabdeckung und Gegencheck
+## Page Coverage and Cross-check
 
-| PDF | Buch | Erfasster Inhalt |
+| PDF | Book | Content Captured |
 |---:|---:|---|
-| 16 | 12 | Kapitelauftakt, Rolle der Explorers, Creating Your Explorer |
-| 17 | 13 | Stages 1–7, 500-xp-Hinweis |
-| 18 | 14 | Characteristics, Bonuses, Würfelmethode, Beispiel, Punktverteilung |
-| 19 | 15 | Origin-Path-Regeln, Intersections, GM-Optionen, doppelte Skills/Talents |
-| 20 | 16 | vollständiger Origin Path Chart |
+| 16 | 12 | Chapter opener, role of the Explorers, Creating Your Explorer |
+| 17 | 13 | Stages 1–7, 500-xp note |
+| 18 | 14 | Characteristics, Bonuses, rolling method, example, point allocation |
+| 19 | 15 | Origin Path rules, Intersections, GM options, duplicate Skills/Talents |
+| 20 | 16 | complete Origin Path Chart |
 | 21–27 | 17–23 | Death World, Void Born, Forge World, Hive World, Imperial World, Noble Born |
-| 28 | 24 | Noble Born, Table 1-1, Beginn Birthright |
-| 29 | 25 | restliche Birthrights, Beginn Lure of the Void |
-| 30–31 | 26–27 | alle Lure-of-the-Void-Auswahlen, Beginn Trials and Travails |
-| 32–33 | 28–29 | alle Trials and Travails, alle Motivations |
+| 28 | 24 | Noble Born, Table 1-1, start of Birthright |
+| 29 | 25 | remaining Birthrights, start of Lure of the Void |
+| 30–31 | 26–27 | all Lure-of-the-Void choices, start of Trials and Travails |
+| 32–33 | 28–29 | all Trials and Travails, all Motivations |
 | 34 | 30 | Table 1-2, Career, Starting Experience, Stage 4 |
-| 35 | 31 | Namenstypen, Tables 1-3 und 1-4 vollständig |
-| 36–37 | 32–33 | alle sechs Nature-Leitfragen, Table 1-5, Profit Factor |
-| 38 | 34 | Ship Points, Stage 6, Dark-Heresy-Kompatibilität |
+| 35 | 31 | name types, Tables 1-3 and 1-4 in full |
+| 36–37 | 32–33 | all six Nature guiding questions, Table 1-5, Profit Factor |
+| 38 | 34 | Ship Points, Stage 6, Dark Heresy compatibility |
 
-Gegencheck am 16.08.2026: **PDF 16–38 = 23/23 Seiten** einzeln am Scanbild
-kontrolliert. Sämtliche Tables 1-1 bis 1-5 sowie die unnummerierte Beispieltabelle auf
-Buchseite 14 sind erfasst. Korrigiert/ergänzt wurden die vollständigen Namenstabellen,
-alle Nature-Leitfragen und der eindeutige Mutations-Auswahlbereich 01–75.
+Cross-check on 16.08.2026: **PDF 16–38 = 23/23 pages** individually checked against the
+scanned image. All Tables 1-1 through 1-5 as well as the unnumbered example table on
+book page 14 are captured. The complete name tables, all Nature guiding questions, and
+the exact Mutations selection range 01–75 were corrected/completed.
+
+---
+
+## Status
+
+Re-verified against page images on 2026-08-18 for the English conversion. Spot-checked
+pages: 020 (Origin Path Chart), 034 (Table 1-2: Heirloom Items, Starting Experience text),
+037 (Table 1-5: Starting Profit Factor and Ship Points, Ambition/Hatreds text). All
+numeric values and table contents matched the existing (previously German) transcription
+exactly — **no discrepancies found**. Full content translated to English prose while
+preserving all rules, values, and tables 1:1; book page citations retained (translated
+"S." → "p."). Chapter I (PDF 16–38, book pages 12–34) is complete and image-verified.

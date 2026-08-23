@@ -1,100 +1,100 @@
-# Kapitel II: Career Paths (Karrierewege)
+# Chapter II: Career Paths
 
-> Quelle: Rogue Trader Core Rulebook, Kapitel II, Buchseiten 35–72 (PDF-Seiten 39–76).
+> Source: Rogue Trader Core Rulebook, Chapter II, book pages 35–72 (PDF pages 39–76).
 
-## Grundlagen
+## Basics
 
-Der Career Path wird im Rahmen der Charaktererschaffung über den Origin Path festgelegt (S. 15).
-Jeder Career-Path-Abschnitt enthält: **Description**, **Rank Chart**, **Characteristic Advance Scheme**, **Rank Advance Scheme**.
+The Career Path is fixed during character creation via the Origin Path (p. 15).
+Each Career Path section contains: **Description**, **Rank Chart**, **Characteristic Advance Scheme**, **Rank Advance Scheme**.
 
 ### Table 2-1: Careers
 
-| Career | Beschreibung | Seite |
+| Career | Description | Page |
 |---|---|---|
-| Arch-militant | Krieger ohnegleichen, Anführer von Soldaten | 44 |
-| Astropath Transcendent | Kommunikatoren des Imperiums, seelengebundene Psioniker | 48 |
-| Explorator | Meister der Maschinen, Sucher alter Technologie | 52 |
-| Missionary | Botschafter des Wortes des Imperators, Heiler und Anführer | 56 |
-| Navigator | Mutanten, Piloten des Warp | 60 |
-| Rogue Trader | Meister der Raumschiffe, Anführer, Diplomaten, Schurken | 40 |
-| Seneschal | Hüter geheimen Wissens, subtile Ermittler | 64 |
-| Void-master | Piloten, Kanoniere und Meister des Raums | 68 |
+| Arch-militant | Warrior without equal, leader of soldiers | 44 |
+| Astropath Transcendent | Communicators of the Imperium, soul-bound psykers | 48 |
+| Explorator | Master of machines, seeker of ancient technology | 52 |
+| Missionary | Ambassador of the Emperor's word, healer and leader | 56 |
+| Navigator | Mutants, pilots of the warp | 60 |
+| Rogue Trader | Master of starships, leader, diplomat, rogue | 40 |
+| Seneschal | Keeper of secret knowledge, subtle investigator | 64 |
+| Void-master | Pilot, gunner and master of the void | 68 |
 
-### Drei Arten von Verbesserungen (Advances)
-- **Characteristic Advance** — erhöht die Rohwerte
-- **Rank Increase** — öffnet neue Ausbildungsmöglichkeiten
-- **Skill or Talent Advance** — neue Skills oder Talents
+### Three Types of Advances
+- **Characteristic Advance** — increases the raw stats
+- **Rank Increase** — opens new training opportunities
+- **Skill or Talent Advance** — new Skills or Talents
 
 ### Characteristic Advance
-Jeder gekaufte Characteristic Advance gibt **+5** auf die Characteristic. Vier Stufen, die **in dieser Reihenfolge** durchlaufen werden müssen:
+Every Characteristic Advance purchased grants **+5** to the Characteristic. There are four tiers that **must be taken in this order**:
 
-1. **Simple** — kleine Entfaltung des Potenzials
-2. **Intermediate** — deutliche Verbesserung
-3. **Trained** — aktive, gezielte Arbeit an der eigenen Fähigkeit
-4. **Expert** — Grenze der natürlichen Fähigkeiten
+1. **Simple** — a small unfolding of potential
+2. **Intermediate** — a marked improvement
+3. **Trained** — active, focused work on one's own ability
+4. **Expert** — the limit of natural ability
 
-Die Kosten sind **kumulativ**: Für +10 zahlt man Simple **und** Intermediate (nicht nur die Intermediate-Kosten).
-*Beispiel:* Willpower 34 → Simple (250 xp) → 39 → Intermediate (500 xp) → 44. Gesamt 750 xp.
+Costs are **cumulative**: for +10 you pay for Simple **and** Intermediate (not just the Intermediate cost).
+*Example:* Willpower 34 â†’ Simple (250 xp) â†’ 39 â†’ Intermediate (500 xp) â†’ 44. Total 750 xp.
 
 ### Ranks
-- Der Rank ergibt sich **aus dem insgesamt ausgegebenen xp**.
-- Man darf Advances aus **jedem Rank Advancement Scheme kaufen, den man aktuell besitzt oder früher besessen hat**.
-- Manche höheren Ranks haben Prerequisites (Skills, Characteristic-Werte, vorherige Ranks).
-- Ist man für zwei oder mehr Ranks gleichzeitig qualifiziert, muss man sich entscheiden.
-- Rank-Steigerungen erfolgen **immer nach** dem Kauf eines Advance.
-- **Alle** Careers benötigen dieselbe xp-Menge für einen Rank-Aufstieg.
+- Rank is determined **by total xp spent**.
+- You may purchase Advances from **any Rank Advancement Scheme you currently hold or have held previously**.
+- Some higher Ranks have Prerequisites (Skills, Characteristic values, previous Ranks).
+- If you qualify for two or more Ranks at once, you must choose one.
+- Rank increases **always** happen **after** purchasing an Advance.
+- **All** Careers require the same amount of xp to advance a Rank.
 
 ### Table 2-2: Ranks
 
 | Rank | XP Level |
 |---|---|
-| 1 | 5.000–6.999 |
-| 2 | 7.000–9.999 |
-| 3 | 10.000–12.999 |
-| 4 | 13.000–16.999 |
-| 5 | 17.000–20.999 |
-| 6 | 21.000–24.999 |
-| 7 | 25.000–29.999 |
-| 8 | 30.000–34.999 |
+| 1 | 5,000–6,999 |
+| 2 | 7,000–9,999 |
+| 3 | 10,000–12,999 |
+| 4 | 13,000–16,999 |
+| 5 | 17,000–20,999 |
+| 6 | 21,000–24,999 |
+| 7 | 25,000–29,999 |
+| 8 | 30,000–34,999 |
 
-### Kauf eines Advance
-1. GM fragen, ob der Advance verfügbar ist (der GM darf Skills/Talents einschränken).
-2. Kosten vom aktuellen xp-Vorrat abziehen.
-3. Advance im Charakterbogen notieren.
-4. Änderungen an Characteristics, Skills, Talents, Traits anwenden.
-5. Ausgegebenes xp zum Gesamt-xp addieren.
+### Purchasing an Advance
+1. Ask the GM whether the Advance is available (the GM may restrict Skills/Talents).
+2. Deduct the cost from the current xp pool.
+3. Note the Advance on the character sheet.
+4. Apply the changes to Characteristics, Skills, Talents, Traits.
+5. Add the spent xp to the total xp.
 
-**Multiplikatoren:** Advances mit `(x2)`, `(x3)` usw. dürfen auf diesem Rank mehrfach gekauft werden, höchstens so oft wie der Multiplikator angibt.
+**Multipliers:** Advances marked `(x2)`, `(x3)`, etc. may be purchased multiple times at this Rank, up to the number given by the multiplier.
 
-**Prerequisites:** Alle gelisteten Voraussetzungen müssen erfüllt sein. Im Zweifel entscheidet der GM, der Voraussetzungen auch ändern oder aufheben darf.
+**Prerequisites:** All listed prerequisites must be met. In case of doubt, the GM decides and may also change or waive prerequisites.
 
-### Planungsgröße
-Pro Spielsitzung sind bei vernünftigem Erfolg und gutem Rollenspiel etwa **500 xp** zu erwarten.
+### Planning Guideline
+About **500 xp** per game session can be expected with reasonable success and good roleplaying.
 
 ### Elite Advances
-Skills/Talents außerhalb des eigenen Advancement Scheme. **Grundkosten 500 xp**, vom GM anpassbar. Für eine Anfrage braucht man:
-- eine logische Begründung („Ich war drei Monate auf Lucien's Breath, also ergibt Trade (Miner) Sinn"),
-- eine In-Character-Erklärung des Erwerbs,
-- ein Angebot, wie viele xp man zahlen will.
+Skills/Talents outside one's own Advancement Scheme. **Base cost 500 xp**, adjustable by the GM. A request requires:
+- a logical justification ("I spent three months on Lucien's Breath, so Trade (Miner) makes sense"),
+- an in-character explanation of how it was acquired,
+- an offer of how many xp the player is willing to pay.
 
-Der GM kann ablehnen, mehr verlangen oder Tests fordern. Elite Advances können auch Belohnung für Abenteuer sein — teils mit Nebenwirkungen wie Corruption oder Insanity Points.
+The GM may refuse, demand more, or require tests. Elite Advances can also be a reward for adventures — sometimes with side effects such as Corruption or Insanity Points.
 
-### Eigene Career Paths
-Ausdrücklich erlaubt: gemeinsam mit dem GM ein ausgewogenes, sinnvolles Advance Scheme entwickeln; die neue Career muss zur Gruppe passen.
+### Custom Career Paths
+Explicitly permitted: developing a balanced, sensible Advance Scheme together with the GM; the new Career must fit the group.
 
-### Abschluss aller Ranks
-Wer den obersten Rank seiner Career erreicht, hat den Career Path abgeschlossen und den Rahmen von Rogue Trader verlassen — Kreuzzüge anführen, Flottenhandel lenken, Lord-Governor eines Subsektors werden usw.
+### Completing All Ranks
+Anyone who reaches the top Rank of their Career has completed the Career Path and stepped beyond the scope of Rogue Trader — leading crusades, directing fleet trade, becoming Lord-Governor of a subsector, and so on.
 
 ---
 
 # Rogue Trader
 
-Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Imperiums zu handeln, zu erkunden und im Namen des Gott-Imperators Krieg zu führen. Kommt aus einer alten Dynastie oder aus jüngeren, dynamischen Familien (Adeptus Terra, Imperial Navy, Imperial Guard). Er ist über allem **frei**. Er ist auf Verbündete angewiesen und muss Menschen und ihre Motive einschätzen können. Rogue Trader legen großen Wert auf beste persönliche Waffen und Ausrüstung; keiner ist je unbewaffnet.
+Bearer of a sacred Warrant that empowers them to trade, explore and wage war beyond the borders of the Imperium in the name of the God-Emperor. Comes from an old dynasty or from younger, dynamic families (Adeptus Terra, Imperial Navy, Imperial Guard). Above all, they are **free**. They depend on allies and must be able to judge people and their motives. Rogue Traders place great value on the finest personal weapons and equipment; none is ever unarmed.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Command (Fel), Commerce (Fel), Charm (Fel), Common Lore (Imperium) (Int), Evaluate (Int), Literacy (Int), Scholastic Lore (Astromancy) (Int), Speak Language (High Gothic, Low Gothic) (Int)
 - **Starting Talents:** Air of Authority, Pistol Weapon Training (Universal), Melee Weapon Training (Universal)
-- **Starting Gear:** Best-Craftsmanship Laspistol **oder** good-Craftsmanship Hand Cannon **oder** common-Craftsmanship Plasma Pistol. Best-Craftsmanship Mono-sword **oder** common-Craftsmanship Power Sword. Micro-bead, Void Suit, Set feiner Kleidung, Xeno-Pelt-Umhang, best-Craftsmanship Enforcer Light Carapace **oder** Storm Trooper Carapace.
+- **Starting Gear:** Best-Craftsmanship Laspistol **or** good-Craftsmanship Hand Cannon **or** common-Craftsmanship Plasma Pistol. Best-Craftsmanship Mono-sword **or** common-Craftsmanship Power Sword. Micro-bead, Void Suit, set of fine clothing, xeno-pelt cloak, best-Craftsmanship Enforcer Light Carapace **or** Storm Trooper Carapace.
 
 ### Rogue Trader Characteristic Advances
 
@@ -112,7 +112,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 1 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Command | 100 | Skill | |
@@ -137,7 +137,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 2 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Barter | 200 | Skill | |
 | Blather | 200 | Skill | |
@@ -163,7 +163,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 3 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics | 200 | Skill | |
 | Charm +20 | 200 | Skill | Charm +10 |
@@ -188,7 +188,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 4 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +10 | 200 | Skill | Awareness |
 | Climb | 200 | Skill | |
@@ -213,7 +213,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 5 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +20 | 200 | Skill | Awareness +10 |
 | Barter +10 | 200 | Skill | Barter |
@@ -238,7 +238,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 6 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Barter +20 | 200 | Skill | Barter +10 |
 | Blather +20 | 200 | Skill | Blather +10 |
@@ -263,7 +263,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 7 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics +10 | 200 | Skill | Acrobatics |
 | Climb +10 | 200 | Skill | Climb |
@@ -288,7 +288,7 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 ### Rank 8 Rogue Trader Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics +20 | 200 | Skill | Acrobatics +10 |
 | Climb +20 | 200 | Skill | Climb +10 |
@@ -315,12 +315,12 @@ Träger eines heiligen Warrant, der ihn ermächtigt, jenseits der Grenzen des Im
 
 # Arch-militant
 
-Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sondern eine Berufung ist. Viele dienten in der Imperial Guard und überlebten Schlachten, die ihr ganzes Regiment auslöschten; andere stammen von Todeswelten oder sind Überlebende furchtbarer Katastrophen. Der Arch-militant ist Experte in jeder Form des Kampfes — es gibt keine Waffe, mit der er nicht töten oder die er nicht im Feld zerlegen und wieder zusammenbauen könnte. Dazu kommt eine angeborene Gabe, Gefahr zu spüren und die Handlungen des Feindes vorherzusehen. Kaum ein Rogue Trader betritt eine fremde Welt ohne einen oder zwei schwer bewaffnete Arch-militants.
+Warriors for whom a life of bloodshed and war is no death sentence but a calling. Many served in the Imperial Guard and survived battles that wiped out their entire regiment; others hail from death worlds or are survivors of terrible catastrophes. The Arch-militant is an expert in every form of combat — there is no weapon they cannot kill with, nor one they could not strip down and reassemble in the field. Added to this is an innate gift for sensing danger and predicting the enemy's actions. Hardly any Rogue Trader sets foot on an alien world without one or two heavily armed Arch-militants.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Common Lore (War) (Int), Dodge (Ag), Intimidate (S), Scholastic Lore (Tactica Imperialis) (Int), Secret Tongue (Military) (Int), Speak Language (Low Gothic) (Int)
 - **Starting Talents:** Basic Weapon Training (Universal), Pistol Weapon Training (Universal), Melee Weapon Training (Universal), Thrown Weapon Training (Universal), Sound Constitution
-- **Starting Gear:** Good-Craftsmanship Hellgun **oder** best-Craftsmanship Hunting Rifle **oder** zwei Bolt Pistols; dazu eine good-Craftsmanship primitive Nahkampfwaffe nach Wahl mit Mono-Upgrade. Micro-bead, Void Suit, Enforcer Light Carapace Armour, Bolt-Shell-Andenken, Medikit, Handschellen. Data-Slate voller ausgeschriebener Kopfgelder **oder** Arms Coffer **oder** 3 Dosen Stimm.
+- **Starting Gear:** Good-Craftsmanship Hellgun **or** best-Craftsmanship Hunting Rifle **or** two Bolt Pistols; plus a good-Craftsmanship primitive melee weapon of choice with a Mono upgrade. Micro-bead, Void Suit, Enforcer Light Carapace Armour, spent bolt-shell keepsake, Medikit, manacles. Data-slate full of outstanding bounties **or** Arms Coffer **or** 3 doses of Stimm.
 
 ### Arch-militant Characteristic Advances
 
@@ -338,7 +338,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 1 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Common Lore (Imperial Guard) | 100 | Skill | |
@@ -363,7 +363,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 2 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics | 200 | Skill | |
 | Awareness +10 | 200 | Skill | Awareness |
@@ -388,7 +388,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 3 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics +10 | 200 | Skill | Acrobatics |
 | Awareness +20 | 200 | Skill | Awareness +10 |
@@ -413,7 +413,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 4 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics +20 | 200 | Skill | Acrobatics +10 |
 | Carouse | 200 | Skill | |
@@ -438,7 +438,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 5 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Carouse +10 | 200 | Skill | Carouse |
 | Climb | 200 | Skill | |
@@ -463,7 +463,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 6 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Concealment +20 | 200 | Skill | Concealment +10 |
 | Contortionist | 200 | Skill | |
@@ -488,7 +488,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 7 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Contortionist +10 | 200 | Skill | Contortionist |
 | Forbidden Lore (Pirates) +20 | 200 | Skill | Forbidden Lore (Pirates) +10 |
@@ -513,7 +513,7 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 ### Rank 8 Arch-militant Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Contortionist +20 | 200 | Skill | Contortionist +10 |
 | Search +20 | 200 | Skill | Search +10 |
@@ -540,14 +540,14 @@ Krieger, für die ein Leben aus Blutvergießen und Krieg kein Todesurteil, sonde
 
 # Astropath Transcendent
 
-Ein Psioniker, dessen Kräfte und Wesen vom Licht des Gott-Imperators berührt wurden und der eine Kommunikations-Lebenslinie über die Weiten des Raums spannen kann; seine Seele ist gegen die Verderbnis des Warp gepanzert. Jedes Jahr werden Millionen Psioniker im Imperium geboren, eingesammelt von den Black Ships der Adeptus Astra Telepathica. Die meisten befeuern den Astronomican. Die Auserwählten durchlaufen das **Soul Binding** — ein Ritual, das tötet, in den Wahnsinn treibt oder auf ewig an den Imperator bindet. Es überlastet die Sinnesorgane fast völlig: die Astropathen sind **blind**, viele verlieren zusätzlich Geruchs-, Tast- oder Hörsinn.
+A psyker whose powers and very being were touched by the light of the God-Emperor, capable of stretching a communication lifeline across the vast reaches of space; their soul is armoured against the corruption of the warp. Every year millions of psykers are born throughout the Imperium, gathered up by the Black Ships of the Adeptus Astra Telepathica. Most go on to fuel the Astronomican. The chosen few undergo the **Soul Binding** — a ritual that kills, drives mad, or binds one to the Emperor forever. It overloads the sensory organs almost completely: Astropaths are **blind**, and many additionally lose their sense of smell, touch, or hearing.
 
-Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewusstesten dienen an der Seite von Rogue Tradern und senden ihre Gedanken weit über die Reiche der Menschheit hinaus. Wer diese Strapazen erträgt, erhält den Titel **Astropath Transcendent**. Meist ist nur ein Astropath pro Schiff stationiert — er ist die einzige Möglichkeit interstellarer Kommunikation und damit ein hochgeschätztes Mitglied des inneren Zirkels.
+Few rise above their duties; the strongest and most self-assured serve alongside Rogue Traders and cast their thoughts far beyond the realms of humanity. Those who endure these hardships earn the title **Astropath Transcendent**. Usually only one Astropath is stationed per ship — they are the sole means of interstellar communication and thus a highly prized member of the inner circle.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Awareness (Per), Common Lore (Adeptus Astra Telepathica) (Int), Forbidden Lore (Psykers) (Int), Invocation (WP), Psyniscience (Per), Scholastic Lore (Cryptology) (Int), Speak Language (High Gothic, Low Gothic) (Int)
 - **Starting Talents:** Pistol Weapon Training (Universal), Heightened Senses (Sound), **Psy Rating 2**
-- **Starting Gear:** Best-Craftsmanship Laspistol **oder** best-Craftsmanship Stub Automatic. Best-Craftsmanship Mono-sword **oder** common-Craftsmanship Shock Staff. Guard Flak Armour. Charm, Void Suit, Micro-bead, Psy-Focus.
+- **Starting Gear:** Best-Craftsmanship Laspistol **or** best-Craftsmanship Stub Automatic. Best-Craftsmanship Mono-sword **or** common-Craftsmanship Shock Staff. Guard Flak Armour. Charm, Void Suit, Micro-bead, Psy-Focus.
 
 ### Astropath Transcendent Characteristic Advances
 
@@ -565,7 +565,7 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 ### Rank 1 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Ciphers (Astropath Sign) | 100 | Skill | |
@@ -590,7 +590,7 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 ### Rank 2 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +10 | 200 | Skill | Awareness |
 | Ciphers (Astropath Sign) +10 | 200 | Skill | Ciphers (Astropath Sign) |
@@ -615,7 +615,7 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 ### Rank 3 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +20 | 200 | Skill | Awareness +10 |
 | Ciphers (Astropath Sign) +10 | 200 | Skill | Ciphers (Astropath Sign) |
@@ -640,7 +640,7 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 ### Rank 4 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Blather | 200 | Skill | |
 | Ciphers (Astropath Sign) +20 | 200 | Skill | Ciphers (Astropath Sign) +10 |
@@ -665,7 +665,7 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 ### Rank 5 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Charm | 200 | Skill | |
 | Common Lore (Imperial Guard) +20 | 200 | Skill | Common Lore (Imperial Guard) +10 |
@@ -685,12 +685,12 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 | Unshakeable Faith | 200 | Talent | |
 | Psychic Technique (x2) | 300 | Talent | |
 | Infused Knowledge | 500 | Talent | Int 40 |
-| Warp Sense | 500 | Talent | Navigator oder Psy Rating, Psyniscience Skill, Per 30 |
+| Warp Sense | 500 | Talent | Navigator or Psy Rating, Psyniscience Skill, Per 30 |
 | Favoured by the Warp | 500 | Talent | WP 35 |
 
 ### Rank 6 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Charm +10 | 200 | Skill | Charm |
 | Command | 200 | Skill | |
@@ -715,7 +715,7 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 ### Rank 7 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Blather +10 | 200 | Skill | Blather |
 | Charm +20 | 200 | Skill | Charm +10 |
@@ -740,7 +740,7 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 ### Rank 8 Astropath Transcendent Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Blather +20 | 200 | Skill | Blather +10 |
 | Chem-Use +10 | 200 | Skill | Chem-Use |
@@ -767,15 +767,15 @@ Wenige steigen über ihre Pflichten hinaus; die stärksten und selbstbewussteste
 
 # Explorator
 
-Teils Abenteurer, teils Krieger, teils Abgesandter des Maschinenkults von Mars: Explorators sind bionisch augmentierte Tech-Priester des Adeptus Mechanicus. Ihre Aufgabe ist es, in die Tiefen des Unbekannten zu reisen und die Asche der Vergangenheit zum Ruhm des Omnissiah zu bergen — unentdeckte Daten, vergessene Archeotech-Horte, unbekannte Lebensformen. Improvisation und Anpassung gelten unter Anhängern des Omnissiah als Gipfel der Hybris; nur das Wiedererlernen alten Wissens führt zurück zu den Höhen des Dark Age of Technology.
+Part adventurer, part warrior, part envoy of the Machine Cult of Mars: Explorators are bionically augmented tech-priests of the Adeptus Mechanicus. Their task is to travel into the depths of the unknown and recover the ashes of the past for the glory of the Omnissiah — undiscovered data, forgotten archeotech caches, unknown life forms. Improvisation and adaptation are seen by followers of the Omnissiah as the height of hubris; only the relearning of ancient knowledge leads back to the heights of the Dark Age of Technology.
 
-Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschinenkults und werden von manchen Tech-Adepten als zweifelhafte Außenseiter betrachtet. Sie sind am ehesten proskribierter Alien-Technologie ausgesetzt; manche verfallen Xenos-Dogmen, warp-verdrehtem Engramm-Code oder dem Wahnsinn. Ein Explorator bringt einem Rogue Trader esoterisches Wissen und arkanes technisches Können — und nicht selten einiges an Feuerkraft.
+Explorators are more independent and curious than other followers of the Machine Cult and are regarded by some tech-adepts as dubious outsiders. They are the most likely to be exposed to proscribed alien technology; some fall prey to xenos dogma, warp-twisted engram code, or madness. An Explorator brings a Rogue Trader esoteric knowledge and arcane technical skill — and not infrequently a fair amount of firepower.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Common Lore (Machine Cult, Tech) (Int), Forbidden Lore (Archeotech, Adeptus Mechanicus) (Int), Literacy (Int), Logic (Int), Speak Language (Explorator Binary, Low Gothic, Techna-lingua) (Int), Tech-Use (Int), Trade (Technomat) (Int)
-- **Starting Trait:** Mechanicus Implants (S. 366)
+- **Starting Trait:** Mechanicus Implants (p. 366)
 - **Starting Talents:** Basic Weapon Training (Universal), Melee Weapon Training (Universal), Logis Implant
-- **Starting Gear:** Boltgun **oder** best-Craftsmanship Lasgun **oder** good-Craftsmanship Hellgun; best-Craftsmanship Shock Staff **oder** good-Craftsmanship Power Axe; Enforcer Light Carapace, Multikey, Void Suit, Injector, heilige Salben (Sacred Unguents), Micro-bead, Combi-Tool, Dataslate. Der Explorator besitzt und kontrolliert außerdem **einen Servo-Skull-Familiar** (S. 375).
+- **Starting Gear:** Boltgun **or** best-Craftsmanship Lasgun **or** good-Craftsmanship Hellgun; best-Craftsmanship Shock Staff **or** good-Craftsmanship Power Axe; Enforcer Light Carapace, Multikey, Void Suit, Injector, Sacred Unguents, Micro-bead, Combi-Tool, Dataslate. The Explorator also owns and controls **a Servo-skull Familiar** (p. 375).
 
 ### Explorator Characteristic Advances
 
@@ -793,7 +793,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 1 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Common Lore (Machine Cult) | 100 | Skill | |
@@ -818,7 +818,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 2 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +10 | 200 | Skill | Awareness |
 | Common Lore (Machine Cult) +10 | 200 | Skill | Common Lore (Machine Cult) |
@@ -843,7 +843,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 3 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Chem-Use | 200 | Skill | |
 | Common Lore (Koronus Expanse) | 200 | Skill | |
@@ -868,7 +868,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 4 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Chem-Use +10 | 200 | Skill | Chem-Use |
 | Common Lore (Imperial Guard) | 200 | Skill | |
@@ -893,7 +893,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 5 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Chem-Use +20 | 200 | Skill | Chem-Use +10 |
 | Common Lore (Imperial Guard) +10 | 200 | Skill | Common Lore (Imperial Guard) |
@@ -918,7 +918,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 6 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Common Lore (Imperial Guard) +20 | 200 | Skill | Common Lore (Imperial Guard) +10 |
 | Common Lore (Imperial Navy) +10 | 200 | Skill | Common Lore (Imperial Navy) |
@@ -943,7 +943,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 7 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +20 | 200 | Skill | Awareness +10 |
 | Command | 200 | Skill | |
@@ -968,7 +968,7 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 ### Rank 8 Explorator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Command +10 | 200 | Skill | Command |
 | Common Lore (Rogue Traders) +10 | 200 | Skill | Common Lore (Rogue Traders) |
@@ -995,14 +995,14 @@ Explorators sind unabhängiger und neugieriger als andere Anhänger des Maschine
 
 # Missionary
 
-Die Adepten der Ecclesiarchy pflegen und erzwingen den Glauben auf den Welten des Imperiums; die Abteilung **Missionarus Galaxia** trägt das Wort der Imperialen Wahrheit zu jenen, die es noch nicht kennen. Der Missionary ist ein wandelnder Tempel, teils heiliger Krieger, teils Politiker und nötigenfalls Richter, Geschworener und Henker. Seine Mission: die Lehren der Ecclesiarchy weit über die Grenzen des Imperiums zu tragen und verlorene menschliche Welten zu bekehren — mit Worten, Kugeln oder List.
+The adepts of the Ecclesiarchy nurture and enforce the faith across the worlds of the Imperium; the **Missionarus Galaxia** branch carries the word of the Imperial Truth to those who do not yet know it. The Missionary is a walking temple, part holy warrior, part politician, and when necessary judge, jury, and executioner. Their mission: to carry the teachings of the Ecclesiarchy far beyond the borders of the Imperium and to convert lost human worlds — with words, bullets, or cunning.
 
-Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige Kulte prüfen, Parallelen zwischen lokalen Gottheiten und imperialen Heiligen suchen und dabei nach dem Makel der Ruinous Powers forschen. Ihre wahre Kunst ist zu erkennen, wann Bekehrung sinnlos ist und etwas weit Finstereres im Glauben der Einheimischen steckt — dann raten sie ohne Zögern zur Auslöschung aus dem Orbit. Als Agenten des Ministorum ist ihr Rat für einen Rogue Trader nicht leichtfertig zu ignorieren. Viele dienen als geistliche Galionsfiguren oder Beichtväter der Flotte.
+Missionaries are frequently attached to Rogue Traders. They must examine alien cults, look for parallels between local deities and Imperial saints, and, while doing so, search for the taint of the Ruinous Powers. Their true skill lies in recognising when conversion is pointless and something far darker lurks within the natives' faith — in which case they recommend orbital annihilation without hesitation. As agents of the Ministorum, their counsel is not one a Rogue Trader can lightly ignore. Many serve as spiritual figureheads or confessors of the fleet.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Common Lore (Imperial Creed, Imperium) (Int), Forbidden Lore (Heresy) (Int), Medicae (Int), Scholastic Lore (Imperial Creed) (Int), Speak Language (High Gothic, Low Gothic) (Int)
 - **Starting Talents:** Basic Weapon Training (Universal), Melee Weapon Training (Universal), **Pure Faith**, Unshakeable Faith
-- **Starting Gear:** Good-Craftsmanship Chainsword **oder** best-Craftsmanship Staff; good-Craftsmanship Flamer **oder** best-Craftsmanship Lasgun; best-Craftsmanship Guard Flak Armour, Ecclesiarchal Robes, Aquila-Anhänger, Sepulchre, Weihrauchfass und Weihrauch, Micro-bead.
+- **Starting Gear:** Good-Craftsmanship Chainsword **or** best-Craftsmanship Staff; good-Craftsmanship Flamer **or** best-Craftsmanship Lasgun; best-Craftsmanship Guard Flak Armour, Ecclesiarchal Robes, Aquila pendant, Sepulchre, censer and incense, Micro-bead.
 
 ### Missionary Characteristic Advances
 
@@ -1020,7 +1020,7 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 ### Rank 1 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Charm | 100 | Skill | |
@@ -1045,7 +1045,7 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 ### Rank 2 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +10 | 200 | Skill | Awareness |
 | Blather | 200 | Skill | |
@@ -1070,7 +1070,7 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 ### Rank 3 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +20 | 200 | Skill | Awareness +10 |
 | Blather +10 | 200 | Skill | Blather |
@@ -1095,7 +1095,7 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 ### Rank 4 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Blather +20 | 200 | Skill | Blather +10 |
 | Climb +10 | 200 | Skill | Climb |
@@ -1120,7 +1120,7 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 ### Rank 5 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Chem-Use | 200 | Skill | |
 | Climb +20 | 200 | Skill | Climb +10 |
@@ -1145,7 +1145,7 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 ### Rank 6 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Chem-Use +10 | 200 | Skill | Chem-Use |
 | Common Lore (Ecclesiarchy) +20 | 200 | Skill | Common Lore (Ecclesiarchy) +10 |
@@ -1162,13 +1162,13 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 | Hatred (Criminals) | 200 | Talent | |
 | Peer (Ecclesiarchy) | 200 | Talent | Fel 30 |
 | Sound Constitution (x2) | 200 | Talent | |
-| Blessed Radiance | 500 | Talent | Pure Faith; Divine Ministration, The Emperor Protects **oder** Wrath of the Righteous |
+| Blessed Radiance | 500 | Talent | Pure Faith; Divine Ministration, The Emperor Protects **or** Wrath of the Righteous |
 | Fearless | 500 | Talent | |
 | Master Chirurgeon | 500 | Talent | Medicae +10 |
 
 ### Rank 7 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Chem-Use +20 | 200 | Skill | Chem-Use +10 |
 | Command +10 | 200 | Skill | Command |
@@ -1192,7 +1192,7 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 ### Rank 8 Missionary Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Command +20 | 200 | Skill | Command +10 |
 | Drive (Ground Vehicle) +10 | 200 | Skill | Drive (Ground Vehicle) |
@@ -1219,18 +1219,18 @@ Missionare werden häufig zu Rogue Tradern abgestellt. Sie müssen fremdartige K
 
 # Navigator
 
-Ohne das Navigator-Gen gäbe es kein Imperium der Menschheit. Ohne Navigator ist ein Schiff auf Warpsprünge von wenigen Lichtjahren beschränkt, und selbst dann muss die Kalibrierung von riesigen Cogitator-Bänken vorgenommen werden — kleinste Fehler sind für Schiff und Besatzung tödlich.
+Without the Navigator gene there would be no Imperium of Man. Without a Navigator, a ship is limited to warp jumps of a few light years, and even then the calibration of vast cogitator banks must be carried out — the smallest error is deadly for ship and crew alike.
 
-Der Navigator ist Spross eines der großen Navigator-Clans; diese Blutlinien sollen älter sein als das Imperium selbst oder eine direkte Schöpfung des Gott-Imperators. Dank seines **Warp Eye** (dritten Auges) durchdringt er den Schleier zwischen Materium und Immaterium und steuert das Schiff mithilfe des **Astronomican**, des vom Imperator geschmiedeten Leuchtfeuers auf Terra.
+The Navigator is a scion of one of the great Navigator Houses; these bloodlines are said to be older than the Imperium itself, or a direct creation of the God-Emperor. Thanks to their **Warp Eye** (third eye), they pierce the veil between the Materium and the Immaterium and steer the ship with the aid of the **Astronomican**, the beacon on Terra forged by the Emperor.
 
-Jeder Navigator nimmt den Warp subjektiv wahr — als sturmzerrissenen Wald, tobende See, Sandsturmwüste oder wandernde Nachtstadt. Mit wachsender Erfahrung verblasst die Abstraktion; erfahrene Navigatoren betrachten den wahren Warp in einem polarisierten Zustand, gefiltert durch ihr drittes Auge.
+Every Navigator perceives the warp subjectively — as a storm-torn forest, a raging sea, a sandstorm-swept desert, or a wandering city of night. As experience grows, the abstraction fades; veteran Navigators behold the true warp in a polarised state, filtered through their third eye.
 
-Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, mutieren und werden schließlich zu Gefangenen der lebenserhaltenden Maschinerie ihres Sanctums. Junge Navigatoren dagegen genießen Rang und Reichtum und suchen oft den Dienst auf einem Rogue-Trader-Schiff. Verliert ein Schiff jenseits der Grenzen seinen Navigator, ist es — und jeder an Bord — verloren.
+The price: Navigators who serve long enough decay physically, go mad, mutate, and eventually become prisoners of the life-sustaining machinery of their sanctum. Young Navigators, by contrast, enjoy rank and wealth and often seek service aboard a Rogue Trader's ship. If a ship beyond the borders loses its Navigator, it — and everyone aboard — is lost.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Common Lore (Navis Nobilite) (Int), Forbidden Lore (Navigators, Warp) (Int), Literacy (Int), Navigation (Stellar, Warp) (Int), Psyniscience (Per), Scholastic Lore (Astromancy) (Int), Speak Language (High Gothic, Low Gothic) (Int)
 - **Starting Talents:** **Navigator**, Pistol Weapon Training (Universal)
-- **Starting Gear:** Best-Craftsmanship Hellpistol **oder** good-Craftsmanship Hand Cannon, best-Craftsmanship Metal Staff, best-Craftsmanship Xeno-Mesh Armour, Emperor's-Tarot-Deck, Seidenkopftuch, Nobilite-Roben, Charm, Micro-bead.
+- **Starting Gear:** Best-Craftsmanship Hellpistol **or** good-Craftsmanship Hand Cannon, best-Craftsmanship Metal Staff, best-Craftsmanship Xeno-Mesh Armour, Emperor's Tarot deck, silk headscarf, nobilite robes, Charm, Micro-bead.
 
 ### Navigator Characteristic Advances
 
@@ -1248,7 +1248,7 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 ### Rank 1 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Ciphers (Nobilite Family) | 100 | Skill | |
@@ -1273,7 +1273,7 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 ### Rank 2 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +10 | 200 | Skill | Awareness |
 | Common Lore (Navis Nobilite) +10 | 200 | Skill | Common Lore (Navis Nobilite) |
@@ -1294,11 +1294,11 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 | Navigator Power | 200 | Talent | |
 | Resistance (Psychic Techniques) | 200 | Talent | |
 | Sound Constitution (x2) | 200 | Talent | |
-| Warp Sense | 500 | Talent | Navigator oder Psy Rating, Psyniscience Skill, Per 30 |
+| Warp Sense | 500 | Talent | Navigator or Psy Rating, Psyniscience Skill, Per 30 |
 
 ### Rank 3 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +20 | 200 | Skill | Awareness +10 |
 | Common Lore (Navis Nobilite) +20 | 200 | Skill | Common Lore (Navis Nobilite) +10 |
@@ -1323,7 +1323,7 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 ### Rank 4 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Command | 200 | Skill | |
 | Contortionist +10 | 200 | Skill | Contortionist |
@@ -1348,7 +1348,7 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 ### Rank 5 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Command +10 | 200 | Skill | Command |
 | Common Lore (Koronus Expanse) | 200 | Skill | |
@@ -1373,7 +1373,7 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 ### Rank 6 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Command +20 | 200 | Skill | Command +10 |
 | Common Lore (Imperium) | 200 | Skill | |
@@ -1398,7 +1398,7 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 ### Rank 7 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Common Lore (Imperium) +10 | 200 | Skill | Common Lore (Imperium) |
 | Common Lore (Koronus Expanse) +20 | 200 | Skill | Common Lore (Koronus Expanse) +10 |
@@ -1423,7 +1423,7 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 ### Rank 8 Navigator Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Common Lore (Imperium) +20 | 200 | Skill | Common Lore (Imperium) +10 |
 | Pilot (Space Craft) +20 | 200 | Skill | Pilot (Space Craft) +10 |
@@ -1450,16 +1450,16 @@ Der Preis: lange dienende Navigatoren verfallen körperlich, werden wahnsinnig, 
 
 # Seneschal
 
-Meister der Zeremonien, des Geldes und Handels, der Logistik, der Emissäre, der Flüsterer und Spione: der Seneschal ist die leise sprechende Person in jedem Trader House, der man mit Beklommenheit begegnet. Die Mechanismen von Handel und Hausangelegenheiten laufen nicht von selbst — es sind die Hände des Seneschal an den Zahnrädern.
+Master of ceremonies, of money and trade, of logistics, of emissaries, of whisperers and spies: the Seneschal is the quiet-spoken figure in every Trader House whom one approaches with unease. The mechanisms of trade and household affairs do not run by themselves — it is the Seneschal's hands upon the gears.
 
-Nur wenige Rogue Trader beherrschen die Details des Handels so wie ihr Seneschal. Sein wertvollstes Talent ist die unfehlbare Fähigkeit, den feinsten Grad an Risiko in jedem Handelsvorhaben abzuschätzen und ihn zu neutralisieren. Viele unterhalten ein streng kontrolliertes Netz aus Kontakten und Spionen; binnen Stunden nach Ankunft in einem bekannten Hafen kennen sie die lokalen Handelsbedingungen vollständig.
+Few Rogue Traders master the details of trade as well as their Seneschal. Their most valuable talent is the unfailing ability to gauge the finest degree of risk in any trade venture and to neutralise it. Many maintain a tightly controlled network of contacts and spies; within hours of arriving at a familiar port, they know the local trade conditions inside and out.
 
-Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wissen, das sie nicht selbst bestätigen können. Viele sind Meister der Verkleidung und Doppelzüngigkeit — in der Rolle des „grey man" beobachten sie unbemerkt am Rande, während die Großen ihre Geschäfte betreiben. Weiser Ratgeber, Profitmakler und Spion in einem.
+Most Seneschals favour a "hands-on" approach and trust no knowledge they cannot verify themselves. Many are masters of disguise and duplicity — playing the "grey man," they watch unnoticed from the sidelines while the great and powerful conduct their business. Wise counsellor, broker of profit, and spy, all in one.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Barter (Fel), Commerce (Fel), Common Lore (Underworld) (Int), Deceive (Fel), Evaluate (Int), Forbidden Lore (Archeotech) (Int), Inquiry (Fel), Literacy (Int), Speak Language (Low Gothic, Trader's Cant) (Int)
 - **Starting Talents:** Basic Weapon Training (Universal), Pistol Weapon Training (Universal)
-- **Starting Gear:** Best-Craftsmanship Hellpistol **oder** common-Craftsmanship Inferno Pistol; best-Craftsmanship Hellgun **oder** common-Craftsmanship Boltgun. Xeno-Mesh Armour. Autoquill, Dataslate, Micro-bead, Multikey, zwei Sets Roben, Synskin, Chrono, Cameleoline-Umhang.
+- **Starting Gear:** Best-Craftsmanship Hellpistol **or** common-Craftsmanship Inferno Pistol; best-Craftsmanship Hellgun **or** common-Craftsmanship Boltgun. Xeno-Mesh Armour. Autoquill, Dataslate, Micro-bead, Multikey, two sets of robes, Synskin, chrono, cameleoline cloak.
 
 ### Seneschal Characteristic Advances
 
@@ -1477,7 +1477,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 1 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Barter | 100 | Skill | |
@@ -1502,7 +1502,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 2 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics | 200 | Skill | |
 | Barter +10 | 200 | Skill | Barter |
@@ -1527,7 +1527,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 3 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +10 | 200 | Skill | Awareness |
 | Barter +20 | 200 | Skill | Barter +10 |
@@ -1552,7 +1552,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 4 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Charm +10 | 200 | Skill | Charm |
 | Chem-Use | 200 | Skill | |
@@ -1577,7 +1577,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 5 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Ciphers (Mercenary Cant) | 200 | Skill | |
 | Common Lore (Administratum) | 200 | Skill | |
@@ -1602,7 +1602,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 6 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Common Lore (Adeptus Arbites) | 200 | Skill | |
 | Concealment +20 | 200 | Skill | Concealment +10 |
@@ -1627,7 +1627,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 7 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics +10 | 200 | Skill | Acrobatics |
 | Blather +10 | 200 | Skill | Blather |
@@ -1652,7 +1652,7 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 ### Rank 8 Seneschal Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Acrobatics +20 | 200 | Skill | Acrobatics +10 |
 | Awareness +20 | 200 | Skill | Awareness +10 |
@@ -1679,14 +1679,14 @@ Die meisten Seneschals bevorzugen einen „hands on"-Ansatz und trauen keinem Wi
 
 # Void-master
 
-„Void-master" (oder -mistress) bezeichnet jemanden, der eine oder mehrere der geheimnisvollen Künste des Raumschiffbetriebs meisterhaft beherrscht. Ein Void-master kennt jeden Zoll seines Schiffes; die kalte Berührung der luftlosen Leere schreckt ihn nicht, denn er hat die Schrecken des Raums unzählige Male überstanden. In Charakter und Haltung sind sie so verschieden wie die Schiffe, auf denen sie dienten: strenge Offiziere feinster Marine-Blutlinien, geborene Händler und Schurken der Chartist-Schiffe, Schmuggler, Plünderer, sogar Piraten. Eint sie alle: vollendetes Können und der hohe Preis und Respekt, den ihre Dienste einbringen.
+"Void-master" (or -mistress) describes someone who has mastered one or more of the mysterious arts of starship operation. A Void-master knows every inch of their ship; the cold touch of the airless void does not frighten them, for they have survived the horrors of space countless times. In character and bearing they are as varied as the ships they served on: strict officers of the finest naval bloodlines, born traders and rogues of the Chartist ships, smugglers, raiders, even pirates. What unites them all: consummate skill and the high price and respect their services command.
 
-Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich durch besonderes Talent hervorgehoben haben. Der Void-master kann Steuermann, Meisterkanonier oder Wärter der Schiffssensoren sein; in jeder Position kontrolliert er die Systeme des Schiffes wie eine Verlängerung seines eigenen Körpers, und in der Krise hängt das Überleben des Schiffs an seinen Fähigkeiten.
+Void-masters are a rare breed even among voidfarers — one must have distinguished oneself through exceptional talent. A Void-master may be a helmsman, master gunner, or keeper of the ship's sensors; in every role they control the ship's systems as though they were an extension of their own body, and in a crisis the ship's survival hangs on their skill.
 
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Common Lore (Imperial Navy, War) (Int), Forbidden Lore (Xenos) (Int), Navigation (Stellar) (Int), Pilot (Space Craft, Flyers) (Ag), Scholastic Lore (Astromancy) (Int), Speak Language (Low Gothic) (Int)
 - **Starting Talents:** Pistol Weapon Training (Universal), Melee Weapon Training (Universal), Nerves of Steel
-- **Starting Gear:** Best-Craftsmanship Mono-sword **oder** common-Craftsmanship Power Sword; best-Craftsmanship Hand Cannon **oder** common-Craftsmanship Bolt Pistol. Guard Flak Armour. Micro-bead, Void Suit, gesegnetes Schiffs-Token, Re-breather, Imperial-Navy-Uniform **oder** Bettlermantel, 2 Flaschen Amasec, Pict-Recorder, Vox-Caster.
+- **Starting Gear:** Best-Craftsmanship Mono-sword **or** common-Craftsmanship Power Sword; best-Craftsmanship Hand Cannon **or** common-Craftsmanship Bolt Pistol. Guard Flak Armour. Micro-bead, Void Suit, blessed ship's token, re-breather, Imperial Navy uniform **or** beggar's coat, 2 bottles of Amasec, pict-recorder, vox-caster.
 
 ### Void-master Characteristic Advances
 
@@ -1704,7 +1704,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 1 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness | 100 | Skill | |
 | Common Lore (Imperial Navy) | 100 | Skill | |
@@ -1729,7 +1729,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 2 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Command | 200 | Skill | |
 | Common Lore (Koronus Expanse) | 200 | Skill | |
@@ -1754,7 +1754,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 3 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +10 | 200 | Skill | Awareness |
 | Charm | 200 | Skill | |
@@ -1779,7 +1779,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 4 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Climb | 200 | Skill | |
 | Command +20 | 200 | Skill | Command +10 |
@@ -1804,7 +1804,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 5 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Awareness +20 | 200 | Skill | Awareness +10 |
 | Common Lore (Imperial Navy) +10 | 200 | Skill | Common Lore (Imperial Navy) |
@@ -1829,7 +1829,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 6 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Common Lore (Imperial Navy) +20 | 200 | Skill | Common Lore (Imperial Navy) +10 |
 | Common Lore (Koronus Expanse) +10 | 200 | Skill | Common Lore (Koronus Expanse) |
@@ -1854,7 +1854,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 7 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Charm +10 | 200 | Skill | Charm |
 | Common Lore (Adeptus Arbites) +10 | 200 | Skill | Common Lore (Adeptus Arbites) |
@@ -1879,7 +1879,7 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ### Rank 8 Void-master Advances
 
-| Advance | Kosten | Typ | Voraussetzung |
+| Advance | Cost | Type | Prerequisite |
 |---|---|---|---|
 | Charm +20 | 200 | Skill | Charm +10 |
 | Common Lore (Adeptus Arbites) +20 | 200 | Skill | Common Lore (Adeptus Arbites) +10 |
@@ -1904,60 +1904,66 @@ Void-masters sind selbst unter Voidfarern eine seltene Zunft — man muss sich d
 
 ---
 
-# Special Abilities (Buchseite 72)
+# Special Abilities (book page 72)
 
-Jede Career besitzt zusätzlich eine einzigartige Sonderfähigkeit.
+Each Career additionally possesses a unique special ability.
 
 ### Rogue Trader — Exceptional Leader
-Als **Free Action einmal pro Runde** darf der Rogue Trader einem Verbündeten, den er sieht und der ihn hören kann, **+10 %** auf einen beliebigen Test gewähren.
+As a **Free Action once per round**, the Rogue Trader may grant an ally they can see and who can hear them **+10%** on any test.
 
 ### Arch-militant — Weapon Master
-Wahl **einer einzigen** Waffenklasse. Mit einer Waffe dieser Klasse erhält der Arch-militant im Kampf **+10 % auf den Trefferwurf, +2 Schaden und +2 Initiative**.
+Choose **a single** weapon class. With a weapon of that class, the Arch-militant gains **+10% to the hit roll, +2 damage, and +2 Initiative** in combat.
 
 ### Astropath Transcendent
-- **Soul-Bound to the Emperor:** +20 auf Willpower beim Widerstand gegen Possession, bei jedem opposed Willpower Test gegen einen Dämon und bei jedem Willpower Test gegen Talent, Psychic Power, Sonderfähigkeit oder Effekt dämonischen Ursprungs. Beim Wurf auf der **Perils of the Warp**-Tabelle wird ein zusätzlicher d10 geworfen und ein beliebiger d10 zugunsten des günstigeren Ergebnisses verworfen.
-- **Psychic Powers:** Beginnt mit Zugriff auf Techniken der **Telepathic Discipline**, mit der Technik **Astral Telepathy** (S. 162) und zwei weiteren Techniken der Telepathic Discipline. Start-**Psy Rating 2**.
-- **See Without Eyes:** Blind, nimmt aber ohne physische Sinne wahr. Funktional behandelt, als könne er normal sehen (inkl. Farben, Begrenzung durch Wände). Effekte, die das Sehvermögen angreifen (Blendgranaten, Cameleoline), wirken **nicht**. Kann **Untouchables** (S. 156) überhaupt nicht wahrnehmen.
+- **Soul-Bound to the Emperor:** +20 to Willpower when resisting Possession, on any opposed Willpower Test against a daemon, and on any Willpower Test against a Talent, Psychic Power, special ability, or effect of daemonic origin. When rolling on the **Perils of the Warp** table, an additional d10 is rolled and any d10 is discarded in favour of the more favourable result.
+- **Psychic Powers:** Begins with access to techniques of the **Telepathic Discipline**, with the technique **Astral Telepathy** (p. 162) and two further techniques of the Telepathic Discipline. Starting **Psy Rating 2**.
+- **See Without Eyes:** Blind, but perceives without physical senses. Functionally treated as though they could see normally (including colours, blocked by walls). Effects that target vision (flash grenades, cameleoline) have **no** effect. Cannot perceive **Untouchables** (p. 156) at all.
 
 ### Explorator — Explorator Implants
-Beginnt mit dem Trait **Mechanicus Implants** (S. 366) und darf bis zu **zwei zusätzliche** bionische Implantate in common-Craftsmanship wählen (S. 147). Für **200 xp** darf die Craftsmanship eines Implantats um eine Stufe erhöht werden (common → good). Maximal **zweimal** (common → good → best), und nur **bei der Charaktererschaffung**.
+Begins with the Trait **Mechanicus Implants** (p. 366) and may choose up to **two additional** bionic implants of common Craftsmanship (p. 147). For **200 xp**, the Craftsmanship of an implant may be raised by one tier (common â†’ good). Maximum **twice** (common â†’ good â†’ best), and only **during character creation**.
 
 ### Missionary — Pure Faith
-Beginnt mit dem Talent **Pure Faith** (Details S. 104).
+Begins with the Talent **Pure Faith** (details p. 104).
 
 ### Navigator
-- **Warp Eye:** Beginnt mit der Navigator Power **Lidless Stare** (Kapitel VII) und wählt entweder eine zusätzliche Power oder verbessert eine bestehende. Weitere Powers über den Advance **Navigator Power**.
-- **The Boons of Lineage:** Der Navigator stammt aus einer Lineage, die Vorteile und Eigenheiten verleiht: **Nomadic Houses, Magisterial Houses, Shrouded Houses, Renegade Houses** (Details S. 176–178).
-- **Navigator Mutations:** Beginnt mit einer Anzahl Navigator-Mutationen, bestimmt durch die Art seiner Lineage.
+- **Warp Eye:** Begins with the Navigator Power **Lidless Stare** (Chapter VII) and chooses either an additional Power or improves an existing one. Further Powers are gained via the **Navigator Power** Advance.
+- **The Boons of Lineage:** The Navigator hails from a Lineage that grants advantages and quirks: **Nomadic Houses, Magisterial Houses, Shrouded Houses, Renegade Houses** (details p. 176–178).
+- **Navigator Mutations:** Begins with a number of Navigator mutations, determined by the nature of their Lineage.
 
 ### Seneschal — Seeker of Lore
-Darf einen **Fate Point** ausgeben, um einen beliebigen **Ciphers-, Lore- oder Logic-Test** automatisch zu bestehen; der Test wird dabei in der minimal nötigen Zeit abgeschlossen. Zusätzlich: **+1 Degree of Success** auf jeden erfolgreichen **Commerce-, Inquiry- oder Evaluate-Test**.
+May spend a **Fate Point** to automatically succeed at any **Ciphers, Lore, or Logic Test**; the test is completed in the minimum time necessary. In addition: **+1 Degree of Success** on any successful **Commerce, Inquiry, or Evaluate Test**.
 
-### Void-master — eine Wahl aus:
-- **Mastery of Space:** darf alle fehlgeschlagenen Tests bei **Manoeuvre Actions** (S. 212) an Bord eines Raumschiffs wiederholen.
-- **Mastery of Gunnery:** darf alle fehlgeschlagenen Tests bei **Shooting Actions** (S. 215) an Bord eines Starships wiederholen.
-- **Mastery of Augurs:** darf alle fehlgeschlagenen Tests zur **Detection** an Bord eines Starships wiederholen.
-- **Mastery of Small Craft:** darf alle fehlgeschlagenen **Pilot Tests** mit Small Craft (Shuttles, Heavy Lifters, Guncutters, Starfighter, Bomber usw.) wiederholen.
+### Void-master — a choice of:
+- **Mastery of Space:** may reroll any failed tests on **Manoeuvre Actions** (p. 212) aboard a starship.
+- **Mastery of Gunnery:** may reroll any failed tests on **Shooting Actions** (p. 215) aboard a starship.
+- **Mastery of Augurs:** may reroll any failed tests for **Detection** aboard a starship.
+- **Mastery of Small Craft:** may reroll any failed **Pilot Tests** with Small Craft (Shuttles, Heavy Lifters, Guncutters, Starfighters, Bombers, etc.).
 
 ---
 
-## Seiteninventar und Gegencheck
+## Page Inventory and Cross-Check
 
-| PDF-Seiten | Buchseiten | Inhalt | Kontrolle |
+| PDF Pages | Book Pages | Content | Check |
 |---|---:|---|---|
-| 39 | 35 | Kapitel-II-Trenntitel | visuell geprüft |
-| 40–43 | 36–39 | Career- und Advance-Grundregeln, Tables 2-1 und 2-2, Elite Advances | visuell geprüft |
-| 44–47 | 40–43 | Rogue Trader: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 48–51 | 44–47 | Arch-militant: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 52–55 | 48–51 | Astropath Transcendent: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 56–59 | 52–55 | Explorator: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 60–63 | 56–59 | Missionary: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 64–67 | 60–63 | Navigator: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 68–71 | 64–67 | Seneschal: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 72–75 | 68–71 | Void-master: Beschreibung, Startdaten, Characteristics, Ranks 1–8 | visuell geprüft |
-| 76 | 72 | Special Abilities aller acht Careers | visuell geprüft |
+| 39 | 35 | Chapter II divider title | visually checked |
+| 40–43 | 36–39 | Career and Advance base rules, Tables 2-1 and 2-2, Elite Advances | visually checked |
+| 44–47 | 40–43 | Rogue Trader: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 48–51 | 44–47 | Arch-militant: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 52–55 | 48–51 | Astropath Transcendent: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 56–59 | 52–55 | Explorator: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 60–63 | 56–59 | Missionary: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 64–67 | 60–63 | Navigator: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 68–71 | 64–67 | Seneschal: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 72–75 | 68–71 | Void-master: description, starting data, Characteristics, Ranks 1–8 | visually checked |
+| 76 | 72 | Special Abilities of all eight Careers | visually checked |
 
-**Gegencheck-Abdeckung:** PDF 39–76 = **38/38 Seiten**. Alle acht
-Characteristic-Advance-Tabellen, alle 64 Rank-Tabellen, Startdaten und Special
-Abilities wurden mit den Scanbildern abgeglichen. PDF-Seite 77 ist die
-Kapitel-III-Trenntitelseite und gehört zum folgenden Seiteninventar.
+**Cross-check coverage:** PDF 39–76 = **38/38 pages**. All eight
+Characteristic Advance tables, all 64 Rank tables, starting data, and Special
+Abilities were cross-checked against the scanned page images. PDF page 77 is
+the Chapter III divider title page and belongs to the following page inventory.
+
+## Status
+
+- **Full transcription complete:** This file has been fully translated into English. All German prose (headers, career flavor text, rule explanations, table column headers, gear descriptions) has been converted to natural English; all skill, talent, and characteristic names were already in English and were left unchanged to match the character sheet.
+- **Chapter scope:** Rogue Trader Core Rulebook, Chapter II ("Career Paths"), PDF pages 39–76 / book pages 35–72. Covers all eight careers: Rogue Trader, Arch-militant, Astropath Transcendent, Explorator, Missionary, Navigator, Seneschal, Void-master — each with flavor text, Characteristic Advance cost table, Rank 1–8 Advance tables, Starting Skills/Talents/Gear, and Special Abilities.
+- **Image verification:** All eight Characteristic Advance tables and all 64 Rank Advance tables (8 careers × 8 ranks), plus all Starting Skills/Talents/Gear blocks and the Special Abilities section, were spot-checked directly against the scanned page images (`page045_0.jpg` through `page076_0.jpg`). **No numeric or content discrepancies were found** — every Cost, Type, and Prerequisite value in the file matches the source scans exactly.
