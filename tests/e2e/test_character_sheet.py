@@ -16,10 +16,9 @@ from .conftest import login_via_browser
 
 pytestmark = pytest.mark.django_db(transaction=True)
 
-RESPONSIVE_VIEWPORTS = [
-    ("desktop", {"width": 1440, "height": 900}),
-    ("tablet", {"width": 768, "height": 1024}),
-    ("mobile", {"width": 390, "height": 844}),
+DESKTOP_GEOMETRY_VIEWPORTS = [
+    ("desktop-minimum", {"width": 1024, "height": 768}),
+    ("desktop-wide", {"width": 1440, "height": 900}),
 ]
 
 DESKTOP_TEXT_VIEWPORTS = [
@@ -145,7 +144,7 @@ def test_internal_template_comment_is_not_visible(
     ("page_id", "page_index"),
     (("character-page-1", 0), ("character-page-2", 1)),
 )
-@pytest.mark.parametrize(("viewport_name", "viewport"), RESPONSIVE_VIEWPORTS)
+@pytest.mark.parametrize(("viewport_name", "viewport"), DESKTOP_GEOMETRY_VIEWPORTS)
 def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
     page,
     live_server,
@@ -282,7 +281,7 @@ def test_viewer_uses_document_scroll_without_zoom_or_pan(
     character = character_factory(owner=owner)
     login_via_browser(page, live_server, username=owner.username)
     page.evaluate("localStorage.clear()")
-    page.set_viewport_size({"width": 768, "height": 600})
+    page.set_viewport_size({"width": 1024, "height": 768})
     page.goto(f"{live_server.url}/characters/{character.id}/")
     page.wait_for_selector('[data-field-id="c1_character_name"]')
 
@@ -297,19 +296,10 @@ def test_viewer_uses_document_scroll_without_zoom_or_pan(
       const viewportRect = viewport.getBoundingClientRect();
       const canvasRect = canvas.getBoundingClientRect();
       const style = getComputedStyle(viewport);
-      const pinch = new WheelEvent('wheel', {
-        bubbles: true,
-        cancelable: true,
-        ctrlKey: true,
-        deltaY: -100,
-      });
-      const pinchWasNotCancelled = viewport.dispatchEvent(pinch);
       return {
         heightDifference: Math.abs(viewportRect.height - canvasRect.height),
         overflowY: style.overflowY,
-        touchAction: style.touchAction,
         transform: getComputedStyle(document.querySelector('.sheet-canvas-wrapper')).transform,
-        pinchWasNotCancelled,
         documentScrollable: document.documentElement.scrollHeight > window.innerHeight,
       };
     }
@@ -318,9 +308,7 @@ def test_viewer_uses_document_scroll_without_zoom_or_pan(
 
     assert geometry["heightDifference"] <= 1
     assert geometry["overflowY"] == "visible"
-    assert geometry["touchAction"] == "auto"
     assert geometry["transform"] == "none"
-    assert geometry["pinchWasNotCancelled"]
     assert geometry["documentScrollable"]
 
     zoom_key = f"sheets:viewer:{owner.id}:{character.id}:zoom"

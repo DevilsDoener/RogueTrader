@@ -17,7 +17,7 @@
 - The first release creates exactly one shared ship while retaining a multi-ship database model.
 - PDF pages 401 and 402 are the character sheet backgrounds; page 403 is the ship background and must be normalized to landscape orientation.
 - Only printed text lines/value boxes and printed checkboxes/marking circles are interactive. All other original artwork remains inert.
-- The sheet geometry never reflows. Small screens use pan and zoom.
+- The application supports desktop browsers from 1024 px; sheet geometry never reflows.
 - Markdown files remain read-only source files and are reindexed after a container restart.
 - Raw HTML from Markdown is never executed.
 - Use field-level optimistic concurrency; never silently overwrite a same-field conflict.
@@ -431,7 +431,7 @@ Run:
 
 Map every printed blank line and rectangular value box as `text`. Map every printed small square and advance circle as `checkbox`. Use stable prefixes `c1_`, `c2_`, and `ship_`; use semantic suffixes such as `c1_character_name`, `c1_ws_value`, `c1_acrobatics_basic`, `c2_weapon_1_name`, `c2_wounds_current`, `ship_name`, `ship_weapon_1_damage`, and `ship_location_port_1`. Do not map labels, headings, artwork, borders, or table separators.
 
-Perform four passes per page in the mapper: top-to-bottom text fields, top-to-bottom checkboxes, keyboard order, and overlay alignment at 100%, 150%, and fit-width. Export JSON only after every printed control has exactly one overlay and no overlay extends beyond its printed region.
+Perform four passes per page in the mapper: top-to-bottom text fields, top-to-bottom checkboxes, keyboard order, and overlay alignment at the supported desktop widths. Export JSON only after every printed control has exactly one overlay and no overlay extends beyond its printed region.
 
 - [ ] **Step 5: Implement `sheets/schema.py` and validate exported data**
 
@@ -565,7 +565,7 @@ git commit -m "feat: persist sheets with field-level conflict protection"
 **Interfaces:**
 - Produces routes `GET/POST /characters/`, `GET /characters/<uuid>/`, `POST /characters/<uuid>/delete/`.
 - Produces `GET /portal-admin/characters/` and read-only `GET /portal-admin/characters/<uuid>/`.
-- Produces the initial read-only `sheets/_sheet_viewer.html`, rendering both background pages and disabled schema-driven overlays. Task 7 extends this same include with editing and pan/zoom behavior.
+- Produces the initial read-only `sheets/_sheet_viewer.html`, rendering both background pages and disabled schema-driven overlays. Task 7 extends this same include with editing and document-scroll behavior.
 
 - [ ] **Step 1: Write failing character isolation tests**
 
@@ -615,7 +615,7 @@ git commit -m "feat: add isolated character management and admin viewing"
 
 ---
 
-### Task 7: Pixel-Aligned Sheet Viewer, Pan/Zoom, Autosave, and Conflict UI
+### Task 7: Pixel-Aligned Desktop Sheet Viewer, Autosave, and Conflict UI
 
 **Files:**
 - Modify: `sheets/templates/sheets/_sheet_viewer.html`
@@ -667,7 +667,7 @@ The template iterates schema fields in declared order and renders native `<input
 
 - [ ] **Step 4: Implement the viewer geometry and controls**
 
-The page image and overlay share one positioned `.sheet-canvas` with the image's intrinsic aspect ratio. CSS inputs are transparent at rest, dark-text only when they contain text, and gain a thin gold focus ring. The viewport supports pointer drag, wheel/pinch zoom from 50% to 300%, fit-width, fit-page, and page tabs. Store page and zoom under `localStorage` keys scoped by user ID and sheet ID.
+The page image and overlay share one positioned `.sheet-canvas` with the image's intrinsic aspect ratio. CSS inputs are transparent at rest, dark-text only when they contain text, and gain a thin gold focus ring. The canvas uses the available desktop content width and the document scrolls vertically. Store the active page under a `localStorage` key scoped by user ID and sheet ID.
 
 - [ ] **Step 5: Implement autosave and conflict resolution**
 
@@ -675,7 +675,7 @@ Text inputs save 600 ms after the last input and on blur; checkboxes save immedi
 
 - [ ] **Step 6: Add Playwright interaction tests**
 
-Test keyboard tab order follows schema order, a text field survives reload, checkbox state survives reload, zoom does not change proportional alignment, foreign users receive 404, disabled admin view emits no field requests, and simulated same-field conflict displays both choices.
+Test keyboard tab order follows schema order, a text field survives reload, checkbox state survives reload, proportional alignment remains stable at supported desktop widths, foreign users receive 404, disabled admin view emits no field requests, and simulated same-field conflict displays both choices.
 
 - [ ] **Step 7: Run focused tests and commit**
 
@@ -767,11 +767,11 @@ Fetch at most the five most recently updated owned characters, the active ship, 
 
 - [ ] **Step 3: Implement the approved visual system**
 
-Define a dark blue-green shell, brass/gold active states, readable parchment-neutral content surfaces for long wiki pages, restrained borders, and system font fallbacks. Desktop uses fixed left navigation and compact top bar; below 800 px navigation becomes a disclosure drawer. Do not change sheet canvas geometry inside its pan/zoom viewport.
+Define a dark blue-green desktop shell, brass/gold active states, readable parchment-neutral content surfaces for long wiki pages, restrained borders, and system font fallbacks. Desktop uses fixed left navigation and a compact top bar. Do not change sheet canvas geometry.
 
-- [ ] **Step 4: Add accessibility and responsive checks**
+- [ ] **Step 4: Add accessibility and desktop layout checks**
 
-Provide skip link, visible focus, semantic landmarks, 44 px minimum touch targets outside the coordinate-constrained sheets, labelled drawer controls, reduced-motion behavior, and contrast-compliant text. Use Playwright at 1440x900, 768x1024, and 390x844 to assert no page-level horizontal overflow; the sheet viewport may pan internally.
+Provide a skip link, visible focus, semantic landmarks, reduced-motion behavior, and contrast-compliant text. Use Playwright at 1024x768 and 1440x900 to assert no page-level horizontal overflow.
 
 - [ ] **Step 5: Run tests and commit**
 
@@ -858,7 +858,7 @@ Automate: bootstrap admin; create two users with temporary passwords; force both
 
 - [ ] **Step 2: Add deterministic visual checks**
 
-For each sheet page, load blank data at fit-page and capture only `.sheet-canvas`. Compare with its extracted background at a small antialiasing tolerance so idle transparent controls add no visible chrome. Enable a test-only overlay debug class and assert every schema rectangle remains inside the canvas at 50%, 100%, 150%, 300%, and mobile fit-width. Inspect the latest screenshots manually for clipped inputs, shifted fields, unreadable entered text, or incorrect ship rotation.
+For each sheet page, load blank data and capture only `.sheet-canvas`. Compare with its extracted background at a small antialiasing tolerance so idle transparent controls add no visible chrome. Enable a test-only overlay debug class and assert every schema rectangle remains inside the canvas at 1024x768 and 1440x900. Inspect the latest screenshots manually for clipped inputs, shifted fields, unreadable entered text, or incorrect ship rotation.
 
 - [ ] **Step 3: Run the complete local suite**
 
@@ -884,7 +884,7 @@ Expected: healthy container, no pending migration, no secret values or sheet con
 
 - [ ] **Step 5: Complete manual visual and recovery acceptance**
 
-Use the checklist from the design spec on desktop and smartphone. Confirm every printed line/value box and checkbox/circle has exactly one aligned control, every non-input element is inert, page 403 reads upright in landscape, pan/zoom is usable, and the shared conflict dialog behaves correctly. Execute one backup and restore rehearsal against disposable test data.
+Use the checklist from the design spec on supported desktop browsers. Confirm every printed line/value box and checkbox/circle has exactly one aligned control, every non-input element is inert, page 403 reads upright in landscape, normal document scrolling works, and the shared conflict dialog behaves correctly. Execute one backup and restore rehearsal against disposable test data.
 
 - [ ] **Step 6: Document the release and commit**
 

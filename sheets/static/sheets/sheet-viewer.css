@@ -89,7 +89,7 @@
 /* At desktop widths the whole source page still scales with the available
    canvas width. Use each schema field's rendered height as the text metric so
    a line box shrinks with that canvas instead of being clipped by a fixed rem
-   size. Tablet/mobile behavior remains outside this desktop contract. */
+   size. The viewer is supported for desktop widths from 1024px. */
 @media (min-width: 1024px) {
   .sheet-field {
     container-type: size;

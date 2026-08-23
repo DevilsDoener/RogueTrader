@@ -20,16 +20,16 @@ pages (character-page-1, character-page-2, ship-page):
    once through the read-only admin viewer, where the checkbox is also
    ``disabled``.
 
-2. **Geometry containment** (``test_field_rectangles_stay_within_responsive_canvas``):
+2. **Geometry containment** (``test_field_rectangles_stay_within_desktop_canvas``):
    with a test-only debug-overlay class enabled, every schema field
    rectangle's actual rendered position must stay inside ``.sheet-canvas``
-   at desktop, tablet, and mobile widths. Checkboxes have
+   at the minimum and wide supported desktop widths. Checkboxes have
    specifically been a source of calibration bugs on this project (see
    ``.superpowers/sdd/2026-08-16-rogue-trader-portal/progress.md``, Task 4
    and Task 9), so in addition to the blanket "every field stays inside
    the canvas" assertion, one checkbox field per page has its *exact*
    proportional position (not just "in bounds") asserted against the
-   schema at every responsive width, in both its unchecked and checked state.
+   schema at each desktop width, in both its unchecked and checked state.
 """
 from __future__ import annotations
 
@@ -71,10 +71,9 @@ PAGES = [
     ("ship-page", 0, "ship_weapon_capacity_dorsal", {"width": 1800, "height": 1300}),
 ]
 
-RESPONSIVE_VIEWPORTS = [
-    ("desktop", {"width": 1440, "height": 900}),
-    ("tablet", {"width": 768, "height": 1024}),
-    ("mobile", {"width": 390, "height": 844}),
+DESKTOP_VIEWPORTS = [
+    ("desktop-minimum", {"width": 1024, "height": 768}),
+    ("desktop-wide", {"width": 1440, "height": 900}),
 ]
 
 # Rounding/subpixel slack only -- large enough to absorb browser subpixel
@@ -245,7 +244,7 @@ def test_checked_checkbox_matches_extracted_background(
 
 
 @pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
-def test_checked_checkbox_position_unchanged_at_responsive_width(
+def test_checked_checkbox_position_unchanged_at_desktop_width(
     page, live_server, owner, character_factory, ship_sheet,
     page_id, page_index, checkbox_field_id, viewport,
 ):
@@ -259,7 +258,7 @@ def test_checked_checkbox_position_unchanged_at_responsive_width(
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
         page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
     )
-    _assert_checkbox_position(page, page_id, checkbox_field_id, "checked, responsive")
+    _assert_checkbox_position(page, page_id, checkbox_field_id, "checked, desktop")
 
 
 @pytest.mark.parametrize(
@@ -296,8 +295,8 @@ def test_admin_read_only_view_renders_checked_checkbox_within_canvas(
 
 
 @pytest.mark.parametrize("page_id, page_index, checkbox_field_id, unused_viewport", PAGES)
-@pytest.mark.parametrize("viewport_name, viewport", RESPONSIVE_VIEWPORTS)
-def test_field_rectangles_stay_within_responsive_canvas(
+@pytest.mark.parametrize("viewport_name, viewport", DESKTOP_VIEWPORTS)
+def test_field_rectangles_stay_within_desktop_canvas(
     page, live_server, owner, character_factory, ship_sheet,
     page_id, page_index, checkbox_field_id, unused_viewport, viewport_name, viewport,
 ):

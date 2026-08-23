@@ -2,7 +2,6 @@
 <html lang="{% block html_lang %}de{% endblock %}">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Rogue Trader Portal{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/portal.css' %}">
   {% block extra_head %}{% endblock %}
@@ -13,19 +12,6 @@
   {% if user.is_authenticated and not user.must_change_password %}
     <div class="app-shell">
       <header class="topbar">
-        <button
-          type="button"
-          class="nav-toggle"
-          id="nav-toggle"
-          aria-expanded="false"
-          aria-controls="primary-nav"
-          aria-label="Navigation ein-/ausblenden"
-        >
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-        </button>
-
         <a class="brand" href="{% url 'dashboard' %}">
           <span class="brand-mark" aria-hidden="true">&#9875;</span>
           <span class="brand-name">Rogue&nbsp;Trader&nbsp;Portal</span>
@@ -51,8 +37,6 @@
           </form>
         </div>
       </header>
-
-      <div class="nav-scrim" id="nav-scrim" hidden></div>
 
       <nav class="primary-nav" id="primary-nav" aria-label="Hauptnavigation">
         <ul>
@@ -112,7 +96,6 @@
     </main>
   {% endif %}
 
-  <script src="{% static 'js/portal.js' %}" defer></script>
   {% block extra_scripts %}{% endblock %}
 </body>
 </html>

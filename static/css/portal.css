@@ -270,25 +270,6 @@ label {
   border-bottom: 1px solid var(--rt-border);
 }
 
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.28rem;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  background: transparent;
-  border: 1px solid transparent;
-}
-
-.nav-toggle-bar {
-  display: block;
-  width: 1.4rem;
-  height: 2px;
-  background: var(--rt-text);
-}
-
 .brand {
   display: flex;
   align-items: center;
@@ -332,15 +313,6 @@ label {
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
   font-size: 0.85rem;
-}
-
-.nav-scrim {
-  display: none;
-}
-
-.nav-scrim[hidden] {
-  display: none;
-  pointer-events: none;
 }
 
 .primary-nav {
@@ -753,93 +725,4 @@ label {
   border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius-lg);
   overflow: hidden;
-}
-
-/* ---------------------------------------------------------------------
-   Responsive: below 800px the primary nav becomes a disclosure drawer
-   --------------------------------------------------------------------- */
-
-@media (max-width: 799.98px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "topbar"
-      "content";
-  }
-
-  .nav-toggle {
-    display: inline-flex;
-  }
-
-  .topbar-search {
-    display: none;
-  }
-
-  .topbar-username {
-    display: none;
-  }
-
-  .primary-nav {
-    /* Reset the desktop "nav" named grid-area: at this breakpoint
-       `grid-template-areas` on `.app-shell` no longer declares a "nav"
-       area, and leaving this item assigned to an undefined named area
-       makes some engines synthesize an extra implicit grid track wide
-       enough for the (now fixed-position, off-canvas) nav content --
-       silently stretching the whole shell wider than the viewport. */
-    grid-area: auto;
-    position: fixed;
-    inset: var(--rt-topbar-height) auto 0 0;
-    width: min(80vw, 18rem);
-    z-index: 60;
-    transform: translateX(-100%);
-    transition: transform var(--rt-transition);
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
-  }
-
-  .app-shell.nav-open .primary-nav {
-    transform: translateX(0);
-  }
-
-  .nav-scrim {
-    display: block;
-    position: fixed;
-    inset: var(--rt-topbar-height) 0 0 0;
-    background: rgba(4, 10, 8, 0.55);
-    z-index: 50;
-  }
-
-  .content {
-    padding: 1.5rem 1rem;
-  }
-
-  /* Flex children default to a content-based minimum width, so without
-     this the topbar's own minimum content size (toggle + brand + account
-     form, none of which wrap) can exceed a narrow viewport and force the
-     single grid column -- and the whole shell -- wider than the screen. */
-  .topbar {
-    min-width: 0;
-  }
-
-  .brand {
-    min-width: 0;
-    overflow: hidden;
-  }
-}
-
-@media (min-width: 800px) {
-  .nav-toggle {
-    display: none !important;
-  }
-}
-
-/* Narrow phones: the full wordmark plus the toggle and account controls no
-   longer fit on one row, so the topbar keeps only the brand mark. */
-@media (max-width: 479.98px) {
-  .brand-name {
-    display: none;
-  }
-
-  .topbar-account form button {
-    padding: 0.5rem 0.65rem;
-  }
 }

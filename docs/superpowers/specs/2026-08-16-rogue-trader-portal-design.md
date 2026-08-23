@@ -15,7 +15,7 @@ Die Anwendung ist für eine private Spielrunde auf einem Proxmox-Server ausgeleg
 - Beim Start liest die Anwendung die explizit konfigurierten Inhaltsdateien ein, zerlegt sie anhand ihrer Überschriften in Abschnitte und erzeugt einen In-Memory-Suchindex. Änderungen an Markdown-Dateien werden nach einem Container-Neustart sichtbar.
 - Arbeitsdateien wie `00-FORTSCHRITT.md`, OCR-Rohtexte, Pläne und temporäre Dateien werden nicht indexiert. Die zulässigen Wiki-Dateien werden über eine geordnete Allowlist konfiguriert.
 - Die PDF-Seiten 401 und 402 bilden die beiden Charakterseiten; PDF-Seite 403 bildet den Raumschiffbogen. Sie werden einmalig in hochauflösende, webtaugliche Hintergrundbilder extrahiert. Seite 403 wird für die Darstellung ins Querformat gedreht. Der vollständige PDF-Inhalt wird nicht an Browser ausgeliefert.
-- Eine versionierte Feldschema-Datei definiert pro Bogen und Feld eine stabile ID, den Typ `text` oder `checkbox` sowie Position und Größe als prozentuale Koordinaten relativ zur Originalseite. Dadurch bleiben Hintergrund und Eingaben bei jeder Zoomstufe deckungsgleich.
+- Eine versionierte Feldschema-Datei definiert pro Bogen und Feld eine stabile ID, den Typ `text` oder `checkbox` sowie Position und Größe als prozentuale Koordinaten relativ zur Originalseite. Dadurch bleiben Hintergrund und Eingaben bei jeder unterstützten Desktopbreite deckungsgleich.
 
 ## Konten und Berechtigungen
 
@@ -74,9 +74,9 @@ Textfelder werden nach kurzer Eingabepause oder beim Verlassen des Feldes gespei
 - Visuelle Richtung: **Brücken-Hybrid** mit dunklem Blaugrün, Messing- und Goldakzenten, klaren Konsolenflächen und zurückhaltender Rogue-Trader-Atmosphäre.
 - Startseite: **Doppelte Kommandozentrale** mit globaler Suche sowie gleichwertigen Einstiegen in Lexikon und eigene Charaktere.
 - Desktop: feste linke Hauptnavigation und kompakte Kopfleiste mit Suche, aktivem Charakter und Kontomenü.
-- Die Originalbögen erscheinen in einem neutralen Arbeitsbereich mit Umschaltung zwischen Seite 1, Seite 2 und Raumschiff. Eine kompakte Werkzeugleiste enthält ausschließlich Seitenwahl, Zoom, Anpassung an Breite beziehungsweise Seite und Speicherstatus.
-- Auf kleinen Bildschirmen bleibt die Originalgeometrie erhalten. Der Nutzer zoomt und verschiebt den Bogen; Felder werden nicht umsortiert und es gibt keine abweichende mobile Formularansicht.
-- Die Anwendung merkt sich die zuletzt verwendete Seite und Zoomstufe pro Nutzer und Bogen.
+- Die Originalbögen erscheinen in einem neutralen Arbeitsbereich mit Umschaltung zwischen Seite 1, Seite 2 und Raumschiff. Eine kompakte Werkzeugleiste enthält ausschließlich Seitenwahl und Speicherstatus.
+- Die Webanwendung unterstützt Desktop-Browser ab 1024 px. Die Originalgeometrie bleibt erhalten; Felder werden nicht umsortiert.
+- Die Anwendung merkt sich die zuletzt verwendete Seite pro Nutzer und Bogen.
 - Admins sehen zusätzlich Kontoverwaltung und eine schreibgeschützte Liste aller Charaktere; normale Nutzer sehen diese Navigation nicht.
 
 ## Betrieb und Sicherheit
@@ -109,7 +109,7 @@ Automatisierte Tests prüfen:
 - Anlage, Bearbeitung, Löschung und parallele Änderung eigener Charaktere
 - Rechte und Änderungsprotokoll des gemeinsamen Raumschiffbogens
 - Feldschema-Validierung, Typen, Längenlimits und Zurückweisung unbekannter Feld-IDs
-- pixelgenaue Zuordnung der Overlay-Felder bei mehreren Zoomstufen
+- pixelgenaue Zuordnung der Overlay-Felder bei unterstützten Desktopbreiten
 - visuelle Regression der zwei Charakterseiten und des gedrehten Raumschiffbogens gegenüber den extrahierten Originalseiten
 - Markdown-Rendering, stabile Abschnittsanker, Allowlist und fehlerhafte Kapitel
 - Volltextsuche, Gewichtung und direkte Trefferlinks
@@ -123,7 +123,7 @@ Die manuelle Abnahme umfasst:
 3. Als Admin alle Charaktere ansehen und erfolglose Änderungs- beziehungsweise Löschversuche bestätigen.
 4. Mit beiden Konten den gemeinsamen Raumschiffbogen bearbeiten, Protokollierung und Konfliktanzeige prüfen.
 5. Wiki-Kapitel, Abschnittsnavigation und Suche prüfen.
-6. Deckungsgleichheit aller interaktiven Linien, Wertefelder, Kästchen und Kreise auf Desktop und Smartphone sowie bei mehreren Zoomstufen prüfen.
+6. Deckungsgleichheit aller interaktiven Linien, Wertefelder, Kästchen und Kreise bei unterstützten Desktopbreiten prüfen.
 7. Container neu erstellen und Persistenz von Konten, Charakter- und Raumschiffdaten bestätigen.
 8. Backup wiederherstellen und die Anwendung mit den wiederhergestellten Daten starten.
 
@@ -132,7 +132,7 @@ Die manuelle Abnahme umfasst:
 - kein öffentlicher oder anonymer Zugriff
 - keine Selbstregistrierung, E-Mail-Einladungen oder E-Mail-Passwortwiederherstellung
 - kein geführter oder automatisch regelvalidierter Charaktergenerator
-- keine alternative, neu gestaltete oder responsive Formularansicht für Charakter- und Raumschiffbögen
+- keine alternative Formularansicht für Charakter- und Raumschiffbögen
 - keine Bearbeitung der Markdown-Wissensdatenbank im Browser
 - keine Live-Cursor oder gleichzeitige Echtzeitdarstellung fremder Eingaben; Konflikte werden beim Speichern erkannt
 - kein PDF-Export und keine externe API

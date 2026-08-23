@@ -101,8 +101,8 @@ real HTTP server. `tests/e2e/test_visual_regression.py` compares each
 sheet page's rendered canvas against its extracted background image
 (`tests/visual/*.png` are the latest captured renders) and checks that
 every schema field -- checkboxes specifically included -- stays correctly
-positioned inside the width-responsive canvas at representative desktop,
-tablet, and mobile viewport sizes. The viewer has no zoom, fit, or pan mode:
+positioned inside the width-responsive canvas at the minimum and wide
+supported desktop sizes. The viewer has no zoom, fit, or pan mode:
 each page uses the available content width and the document itself scrolls
 vertically.
 
@@ -172,16 +172,15 @@ by a person.
    audit history and the same-field conflict dialog.
 5. **[automated]** Browse a wiki chapter's section navigation and confirm
    search finds it.
-6. **[manual, physical-device acceptance]** On an actual desktop browser
-   and an actual smartphone (not just a resized desktop window -- real
-   touch input and real device pixel ratio matter here): confirm every
+6. **[manual, desktop acceptance]** In supported desktop browsers at widths
+   from 1024 px: confirm every
    printed line, value box, and checkbox/marking circle has exactly one
    aligned control sitting on it, that every other mark on the page
    (borders, decorative art, static labels) is inert (does not respond to
-   click/tap/focus), that the ship page reads upright in landscape, and
+   click or focus), that the ship page reads upright in landscape, and
    that normal vertical scrolling feels natural and no page creates
    horizontal document overflow. There are deliberately no viewer zoom,
-   fit, pinch-zoom, or pan controls.
+   fit, or pan controls.
 7. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
    isolated Compose project with a disposable volume was rebuilt from a
    clean image and forcibly recreated; account, character, and ship data
