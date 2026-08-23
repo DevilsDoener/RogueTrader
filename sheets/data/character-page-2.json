@@ -18,20 +18,20 @@
     {
       "id": "c2_movement_full_move",
       "kind": "text",
-      "x": 28.1804,
-      "y": 11.029,
-      "width": 9.6618,
-      "height": 1.0474,
+      "x": 28.5829,
+      "y": 9.3654,
+      "width": 9.2593,
+      "height": 2.7726,
       "max_length": 6,
       "label": "full move"
     },
     {
       "id": "c2_movement_charge",
       "kind": "text",
-      "x": 39.2512,
-      "y": 11.029,
-      "width": 9.6618,
-      "height": 1.0474,
+      "x": 40.0966,
+      "y": 9.3654,
+      "width": 9.3398,
+      "height": 2.7726,
       "max_length": 6,
       "label": "charge"
     },
@@ -58,10 +58,10 @@
     {
       "id": "c2_movement_base_jump",
       "kind": "text",
-      "x": 73.0274,
-      "y": 11.1522,
-      "width": 9.6618,
-      "height": 1.0474,
+      "x": 74.7987,
+      "y": 9.4886,
+      "width": 9.2995,
+      "height": 2.7726,
       "max_length": 6,
       "label": "base jump"
     },

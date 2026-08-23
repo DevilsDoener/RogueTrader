@@ -341,3 +341,66 @@ class TestLoadSchema:
             field_spec.width,
             field_spec.height,
         ) == tuple(Decimal(value) for value in expected_geometry)
+
+    @pytest.mark.parametrize(
+        ("page_id", "field_id", "expected_geometry"),
+        [
+            (
+                "character-page-1",
+                "c1_ws_value",
+                ("1.3093", "19.3538", "9.7791", "4.3692"),
+            ),
+            (
+                "character-page-1",
+                "c1_s_value",
+                ("22.4223", "19.3846", "9.7791", "4.3077"),
+            ),
+            (
+                "character-page-1",
+                "c1_int_value",
+                ("54.0917", "19.5385", "9.7791", "4.2769"),
+            ),
+            (
+                "character-page-1",
+                "c1_per_value",
+                ("64.6481", "19.5385", "9.7791", "4.2769"),
+            ),
+            (
+                "character-page-1",
+                "c1_wp_value",
+                ("75.2046", "19.5385", "9.7791", "4.2769"),
+            ),
+            (
+                "character-page-1",
+                "c1_fel_value",
+                ("85.7610", "19.5385", "9.7791", "4.2769"),
+            ),
+            (
+                "character-page-2",
+                "c2_movement_full_move",
+                ("28.5829", "9.3654", "9.2593", "2.7726"),
+            ),
+            (
+                "character-page-2",
+                "c2_movement_charge",
+                ("40.0966", "9.3654", "9.3398", "2.7726"),
+            ),
+            (
+                "character-page-2",
+                "c2_movement_base_jump",
+                ("74.7987", "9.4886", "9.2995", "2.7726"),
+            ),
+        ],
+    )
+    def test_representative_text_box_geometry_matches_original_artwork(
+        self, page_id, field_id, expected_geometry
+    ):
+        schema = load_schema(page_id)
+        field_spec = next(field for field in schema.fields if field.id == field_id)
+
+        assert (
+            field_spec.x,
+            field_spec.y,
+            field_spec.width,
+            field_spec.height,
+        ) == tuple(Decimal(value) for value in expected_geometry)
