@@ -14,6 +14,11 @@ from .conftest import login_via_browser
 
 pytestmark = pytest.mark.django_db(transaction=True)
 
+DESKTOP_TEXT_VIEWPORTS = [
+    {"width": 1024, "height": 768},
+    {"width": 1440, "height": 900},
+]
+
 
 def _wait_saved(page):
     page.wait_for_function(
@@ -39,6 +44,55 @@ def test_ship_viewer_has_no_zoom_controls_or_transform(
 
     zoom_key = f"sheets:viewer:{user.id}:{ship_sheet.id}:zoom"
     assert page.evaluate("key => localStorage.getItem(key)", zoom_key) is None
+
+
+def test_filled_ship_text_line_box_scales_and_fits_at_desktop_widths(
+    page, live_server, user_factory, ship_sheet
+):
+    user = user_factory()
+    ship_sheet.values = {"ship_weapon_1_damage": "9"}
+    ship_sheet.save(update_fields=["values"])
+    login_via_browser(page, live_server, username=user.username)
+    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
+
+    measurements = {}
+    for viewport in DESKTOP_TEXT_VIEWPORTS:
+        page.set_viewport_size(viewport)
+        measurements[viewport["width"]] = page.locator(
+            '[data-field-id="ship_weapon_1_damage"]'
+        ).evaluate(
+            """(input) => {
+              const style = getComputedStyle(input);
+              const rect = input.getBoundingClientRect();
+              const px = (value) => Number.parseFloat(value) || 0;
+              return {
+                value: input.value,
+                color: style.color,
+                fontSize: px(style.fontSize),
+                lineHeight: px(style.lineHeight),
+                contentHeight: rect.height
+                  - px(style.paddingTop) - px(style.paddingBottom)
+                  - px(style.borderTopWidth) - px(style.borderBottomWidth),
+                clientHeight: input.clientHeight,
+                scrollHeight: input.scrollHeight,
+                canvasWidth: input.closest('.sheet-canvas').getBoundingClientRect().width,
+              };
+            }"""
+        )
+
+    for viewport_width, metrics in measurements.items():
+        context = f"ship_weapon_1_damage at desktop width {viewport_width}px"
+        assert metrics["value"] == "9", context
+        assert metrics["color"] != "rgba(0, 0, 0, 0)", context
+        assert metrics["lineHeight"] <= metrics["contentHeight"] + 0.5, context
+        assert metrics["scrollHeight"] <= metrics["clientHeight"] + 1, context
+
+    narrow = measurements[1024]
+    wide = measurements[1440]
+    assert narrow["fontSize"] < wide["fontSize"]
+    assert wide["fontSize"] / narrow["fontSize"] == pytest.approx(
+        wide["canvasWidth"] / narrow["canvasWidth"], rel=0.15
+    )
 
 
 def test_different_field_edits_from_two_browsers_merge(

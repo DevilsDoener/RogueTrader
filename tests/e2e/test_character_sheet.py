@@ -22,6 +22,34 @@ RESPONSIVE_VIEWPORTS = [
     ("mobile", {"width": 390, "height": 844}),
 ]
 
+DESKTOP_TEXT_VIEWPORTS = [
+    {"width": 1024, "height": 768},
+    {"width": 1440, "height": 900},
+]
+
+
+def _filled_text_metrics(page, field_id):
+    return page.locator(f'[data-field-id="{field_id}"]').evaluate(
+        """(input) => {
+          const style = getComputedStyle(input);
+          const rect = input.getBoundingClientRect();
+          const px = (value) => Number.parseFloat(value) || 0;
+          return {
+            value: input.value,
+            color: style.color,
+            fontSize: px(style.fontSize),
+            lineHeight: px(style.lineHeight),
+            inputHeight: rect.height,
+            contentHeight: rect.height
+              - px(style.paddingTop) - px(style.paddingBottom)
+              - px(style.borderTopWidth) - px(style.borderBottomWidth),
+            clientHeight: input.clientHeight,
+            scrollHeight: input.scrollHeight,
+            canvasWidth: input.closest('.sheet-canvas').getBoundingClientRect().width,
+          };
+        }"""
+    )
+
 
 def test_tab_order_follows_schema_order(page, live_server, owner, character_factory):
     character = character_factory(owner=owner)
@@ -173,6 +201,46 @@ def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
         assert actual["height"] == pytest.approx(float(field_spec.height / 100), abs=0.001), context
 
 
+def test_filled_character_text_line_boxes_scale_and_fit_at_desktop_widths(
+    page, live_server, owner, character_factory
+):
+    field_values = {
+        "c1_rank": "R9",
+        "c2_wounds_critical_damage": "99",
+    }
+    character = character_factory(owner=owner, values=field_values)
+    login_via_browser(page, live_server, username=owner.username)
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+
+    measurements = {}
+    for viewport in DESKTOP_TEXT_VIEWPORTS:
+        page.set_viewport_size(viewport)
+        page.click('.sheet-page-tab[data-page-index="0"]')
+        page_1 = _filled_text_metrics(page, "c1_rank")
+        page.click('.sheet-page-tab[data-page-index="1"]')
+        page_2 = _filled_text_metrics(page, "c2_wounds_critical_damage")
+        measurements[viewport["width"]] = {
+            "c1_rank": page_1,
+            "c2_wounds_critical_damage": page_2,
+        }
+
+    for viewport_width, fields in measurements.items():
+        for field_id, metrics in fields.items():
+            context = f"{field_id} at desktop width {viewport_width}px"
+            assert metrics["value"] == field_values[field_id], context
+            assert metrics["color"] != "rgba(0, 0, 0, 0)", context
+            assert metrics["lineHeight"] <= metrics["contentHeight"] + 0.5, context
+            assert metrics["scrollHeight"] <= metrics["clientHeight"] + 1, context
+
+    for field_id in field_values:
+        narrow = measurements[1024][field_id]
+        wide = measurements[1440][field_id]
+        assert narrow["fontSize"] < wide["fontSize"], field_id
+        assert wide["fontSize"] / narrow["fontSize"] == pytest.approx(
+            wide["canvasWidth"] / narrow["canvasWidth"], rel=0.15
+        ), field_id
+
+
 def test_text_field_survives_reload(page, live_server, owner, character_factory):
     character = character_factory(owner=owner)
     login_via_browser(page, live_server, username=owner.username)
@@ -313,29 +381,122 @@ def test_disabled_admin_view_emits_no_field_requests(
     assert field_requests == []
 
 
-def test_simulated_same_field_conflict_shows_both_choices(
-    page, live_server, owner, character_factory
+@pytest.mark.parametrize(
+    ("viewport", "field_id", "remote_value", "local_value", "resolution"),
+    [
+        (
+            {"width": 1440, "height": 900},
+            "c2_wounds_critical_damage",
+            "12",
+            "7",
+            "take-current",
+        ),
+        (
+            {"width": 1024, "height": 768},
+            "c2_fate_points_current",
+            "3",
+            "2",
+            "retry-mine",
+        ),
+    ],
+)
+def test_page_2_edge_conflicts_are_fully_visible_and_resolvable_on_desktop(
+    page,
+    live_server,
+    owner,
+    character_factory,
+    viewport,
+    field_id,
+    remote_value,
+    local_value,
+    resolution,
 ):
     character = character_factory(owner=owner)
     login_via_browser(page, live_server, username=owner.username)
+    page.set_viewport_size(viewport)
     page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.wait_for_selector('[data-field-id="c1_character_name"]')
+    page.click('.sheet-page-tab[data-page-index="1"]')
+    field = page.locator(f'[data-field-id="{field_id}"]')
+    field.scroll_into_view_if_needed()
 
     # Simulate a second user's concurrent write landing between page load
     # and this browser's save: the client still thinks base_version is 0.
     patch_character_field(
         sheet_id=character.id,
         actor=owner,
-        field_id="c1_character_name",
-        value="Someone Else",
+        field_id=field_id,
+        value=remote_value,
         base_version=0,
     )
 
-    field = page.locator('[data-field-id="c1_character_name"]')
-    field.fill("My Local Edit")
+    field.fill(local_value)
     field.blur()
 
     panel = page.locator(".sheet-conflict-panel")
     panel.wait_for(timeout=5000)
-    assert panel.locator("text=Aktuellen Wert übernehmen").count() == 1
-    assert panel.locator("text=Meinen Wert erneut speichern").count() == 1
+    geometry = panel.evaluate(
+        """(panel) => {
+          const rect = panel.getBoundingClientRect();
+          const buttons = Array.from(panel.querySelectorAll('button')).map((button) => {
+            const buttonRect = button.getBoundingClientRect();
+            return {
+              left: buttonRect.left,
+              top: buttonRect.top,
+              right: buttonRect.right,
+              bottom: buttonRect.bottom,
+            };
+          });
+          const inset = 2;
+          const corners = [
+            [rect.left + inset, rect.top + inset],
+            [rect.right - inset, rect.top + inset],
+            [rect.left + inset, rect.bottom - inset],
+            [rect.right - inset, rect.bottom - inset],
+          ];
+          return {
+            left: rect.left,
+            top: rect.top,
+            right: rect.right,
+            bottom: rect.bottom,
+            viewportWidth: window.innerWidth,
+            viewportHeight: window.innerHeight,
+            documentWidth: document.documentElement.scrollWidth,
+            clientWidth: document.documentElement.clientWidth,
+            buttons,
+            paintedCorners: corners.every(([x, y]) => {
+              const hit = document.elementFromPoint(x, y);
+              return hit && (hit === panel || panel.contains(hit));
+            }),
+          };
+        }"""
+    )
+
+    assert geometry["left"] >= 0
+    assert geometry["top"] >= 0
+    assert geometry["right"] <= geometry["viewportWidth"]
+    assert geometry["bottom"] <= geometry["viewportHeight"]
+    assert geometry["paintedCorners"]
+    assert geometry["documentWidth"] <= geometry["clientWidth"] + 1
+    assert len(geometry["buttons"]) == 2
+    for button in geometry["buttons"]:
+        assert button["left"] >= geometry["left"]
+        assert button["top"] >= geometry["top"]
+        assert button["right"] <= geometry["right"]
+        assert button["bottom"] <= geometry["bottom"]
+
+    if resolution == "take-current":
+        panel.locator(".sheet-conflict-take-current").click()
+        assert field.input_value() == remote_value
+        assert panel.count() == 0
+        page.reload()
+        page.click('.sheet-page-tab[data-page-index="1"]')
+        assert page.input_value(f'[data-field-id="{field_id}"]') == remote_value
+    else:
+        panel.locator(".sheet-conflict-retry-mine").click()
+        page.wait_for_function(
+            "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
+            timeout=5000,
+        )
+        page.reload()
+        page.click('.sheet-page-tab[data-page-index="1"]')
+        assert page.input_value(f'[data-field-id="{field_id}"]') == local_value

@@ -19,8 +19,16 @@ rotated to landscape for display; the two character pages keep their
 original portrait orientation. `sheets/data/*.json` defines, per page, the
 stable field IDs, `text`/`checkbox` types, and each field's position/size
 as percentages of that page's original image so overlays stay
-pixel-aligned with the artwork at every zoom level. No other artwork on
+pixel-aligned with the artwork at every rendered canvas width. No other artwork on
 any page is interactive.
+
+All 581 character-field IDs are persistent data keys and stay in their
+declared order. Character page 2 has one deliberate compatibility exception:
+`c2_gear_22`/`c2_gear_23` and
+`c2_acquisition_14`/`c2_acquisition_15` each split the final printed line
+into two adjacent, non-overlapping halves. This preserves both independently
+stored values without a migration even though the artwork provides only one
+line for each pair.
 
 ## Local setup
 
@@ -93,8 +101,10 @@ real HTTP server. `tests/e2e/test_visual_regression.py` compares each
 sheet page's rendered canvas against its extracted background image
 (`tests/visual/*.png` are the latest captured renders) and checks that
 every schema field -- checkboxes specifically included -- stays correctly
-positioned inside the canvas at 50%/100%/150%/300% zoom and at mobile
-fit-width.
+positioned inside the width-responsive canvas at representative desktop,
+tablet, and mobile viewport sizes. The viewer has no zoom, fit, or pan mode:
+each page uses the available content width and the document itself scrolls
+vertically.
 
 ## Manual acceptance checklist
 
@@ -127,8 +137,8 @@ fit-width.
 > checks verify position and idle appearance; they cannot tell you that a
 > control sits on *the checkbox a player expects to tick*.
 >
-> **What to actually check**, per page (1, 2, ship), at 100% zoom and again
-> zoomed in:
+> **What to actually check**, per page (1, 2, ship), at representative wide
+> and narrow content widths while scrolling the document vertically:
 > - Every printed circle/square has exactly one control on it — none missed,
 >   none doubled up, none shifted to a neighbour.
 > - Ticking a box marks *that* box, not the one above/below/beside it.
@@ -169,7 +179,9 @@ by a person.
    aligned control sitting on it, that every other mark on the page
    (borders, decorative art, static labels) is inert (does not respond to
    click/tap/focus), that the ship page reads upright in landscape, and
-   that pinch-zoom/pan feels natural rather than janky.
+   that normal vertical scrolling feels natural and no page creates
+   horizontal document overflow. There are deliberately no viewer zoom,
+   fit, pinch-zoom, or pan controls.
 7. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
    isolated Compose project with a disposable volume was rebuilt from a
    clean image and forcibly recreated; account, character, and ship data

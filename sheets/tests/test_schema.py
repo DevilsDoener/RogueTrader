@@ -10,6 +10,7 @@ mapped yet.
 """
 from __future__ import annotations
 
+import hashlib
 from decimal import Decimal
 
 import pytest
@@ -425,6 +426,29 @@ class TestLoadSchema:
         assert len(character_page_1_schema.fields) == 414
         assert len(character_page_2_schema.fields) == 167
         assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 581
+
+    @pytest.mark.parametrize(
+        ("page_id", "expected_digest"),
+        [
+            (
+                "character-page-1",
+                "e6ffc01e4b9fa4a64137ce33787a5a0aa857fba6051672fd3956427366fbff94",
+            ),
+            (
+                "character-page-2",
+                "cabc51abf3728676861ebcc3c31040f0abdfcea19d72e470013a727371067cc2",
+            ),
+        ],
+    )
+    def test_character_field_ids_kinds_and_order_match_the_persisted_contract(
+        self, page_id, expected_digest
+    ):
+        schema = load_schema(page_id)
+        contract = "".join(
+            f"{field.id}\t{field.kind}\n" for field in schema.fields
+        ).encode("utf-8")
+
+        assert hashlib.sha256(contract).hexdigest() == expected_digest
 
     @pytest.mark.parametrize(
         ("field_id", "expected_x", "expected_width"),

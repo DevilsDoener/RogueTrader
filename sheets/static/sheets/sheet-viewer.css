@@ -86,6 +86,21 @@
   box-sizing: border-box;
 }
 
+/* At desktop widths the whole source page still scales with the available
+   canvas width. Use each schema field's rendered height as the text metric so
+   a line box shrinks with that canvas instead of being clipped by a fixed rem
+   size. Tablet/mobile behavior remains outside this desktop contract. */
+@media (min-width: 1024px) {
+  .sheet-field {
+    container-type: size;
+  }
+
+  .sheet-input {
+    font-size: min(0.65rem, 70cqh);
+    line-height: 1;
+  }
+}
+
 .sheet-text.has-value {
   color: #111;
 }
@@ -124,11 +139,15 @@
 }
 
 .sheet-conflict-panel {
-  position: absolute;
-  top: 100%;
+  position: fixed;
+  top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 1000;
   min-width: 13rem;
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  box-sizing: border-box;
   background: #fff;
   color: #111;
   border: 1px solid #999;

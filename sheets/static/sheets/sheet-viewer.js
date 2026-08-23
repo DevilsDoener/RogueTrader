@@ -29,6 +29,7 @@
   const state = {
     pageIndex: 0,
   };
+  const conflictPanels = new Map();
 
   function loadStoredState() {
     const storedPage = parseInt(localStorage.getItem(storageKeyPrefix + "page"), 10);
@@ -47,6 +48,7 @@
   }
 
   function showPage(index) {
+    conflictPanels.forEach((_entry, input) => closeConflictPanel(input));
     pages.forEach((page, i) => {
       if (i === index) {
         page.removeAttribute("hidden");
@@ -119,9 +121,41 @@
   }
 
   function closeConflictPanel(input) {
-    const wrapper = input.closest(".sheet-field");
-    const panel = wrapper && wrapper.querySelector(".sheet-conflict-panel");
-    if (panel) panel.remove();
+    const entry = conflictPanels.get(input);
+    if (!entry) return;
+    window.removeEventListener("resize", entry.reposition);
+    window.removeEventListener("scroll", entry.reposition, true);
+    entry.panel.remove();
+    conflictPanels.delete(input);
+  }
+
+  function positionConflictPanel(input, panel) {
+    const viewportPadding = 8;
+    const anchorGap = 4;
+    const anchor = input.getBoundingClientRect();
+    const panelRect = panel.getBoundingClientRect();
+    const maxLeft = Math.max(viewportPadding, window.innerWidth - panelRect.width - viewportPadding);
+    const maxTop = Math.max(viewportPadding, window.innerHeight - panelRect.height - viewportPadding);
+
+    let left = anchor.left;
+    if (left + panelRect.width > window.innerWidth - viewportPadding) {
+      left = anchor.right - panelRect.width;
+    }
+    left = Math.min(Math.max(left, viewportPadding), maxLeft);
+
+    const below = anchor.bottom + anchorGap;
+    const above = anchor.top - panelRect.height - anchorGap;
+    let top;
+    if (below + panelRect.height <= window.innerHeight - viewportPadding) {
+      top = below;
+    } else if (above >= viewportPadding) {
+      top = above;
+    } else {
+      top = Math.min(Math.max(below, viewportPadding), maxTop);
+    }
+
+    panel.style.left = Math.round(left) + "px";
+    panel.style.top = Math.round(top) + "px";
   }
 
   function showConflictPanel(input, conflict) {
@@ -166,7 +200,15 @@
 
     panel.appendChild(takeCurrentBtn);
     panel.appendChild(retryMineBtn);
-    wrapper.appendChild(panel);
+    panel.style.visibility = "hidden";
+    document.body.appendChild(panel);
+
+    const reposition = () => positionConflictPanel(input, panel);
+    conflictPanels.set(input, { panel: panel, reposition: reposition });
+    window.addEventListener("resize", reposition);
+    window.addEventListener("scroll", reposition, true);
+    reposition();
+    panel.style.visibility = "visible";
   }
 
   function readValue(input) {

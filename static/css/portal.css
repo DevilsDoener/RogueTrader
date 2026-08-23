@@ -8,7 +8,7 @@
  * wiki article surface) -- it MUST NOT reach into `.sheet-viewer-root`'s
  * internal geometry (`.sheet-canvas`, `.sheet-field`, `.sheet-viewport`,
  * etc; see sheets/static/sheets/sheet-viewer.css), which keeps the
- * character/ship sheet's pixel-aligned pan/zoom coordinate system
+ * character/ship sheet's pixel-aligned, width-responsive scroll layout
  * independent of any global layout change.
  */
 
@@ -405,9 +405,9 @@ label {
   padding: 0 1.25rem;
 }
 
-/* A page that hosts the sheet pan/zoom viewer needs full-bleed width so the
-   viewport can use all available horizontal space; the viewer's own
-   internal geometry is untouched, only the outer padding changes. */
+/* A page that hosts the responsive, scroll-only sheet viewer needs full-bleed
+   width so its canvas can use all available horizontal space; the viewer's
+   own internal geometry is untouched, only the outer padding changes. */
 .page-sheet .content {
   max-width: none;
   padding: 1.25rem clamp(0.75rem, 2vw, 1.5rem);
