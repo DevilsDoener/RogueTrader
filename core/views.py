@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.db import connection
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from sheets.models import CharacterSheet, ShipSheet
 from wiki.content import get_repository
@@ -9,6 +9,12 @@ from wiki.content import get_repository
 #: The dashboard's "your characters" panel only ever shows a short,
 #: recency-ordered slice -- the full roster lives at ``sheets:character_list``.
 DASHBOARD_CHARACTER_LIMIT = 5
+
+
+def root(request):
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+    return redirect("accounts:login")
 
 
 def health(request):
