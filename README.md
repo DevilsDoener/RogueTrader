@@ -162,17 +162,17 @@ checklist (`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`,
    (borders, decorative art, static labels) is inert (does not respond to
    click/tap/focus), that the ship page reads upright in landscape, and
    that pinch-zoom/pan feels natural rather than janky.
-7. **[manual]** Recreate the container from a clean image
-   (`docker compose build --no-cache && docker compose up -d`) and confirm
-   accounts, character data, and ship data all survived -- this
-   specifically exercises the real Docker/SQLite-volume persistence path
-   that an in-process test cannot.
-8. **[manual]** Run one backup-and-restore rehearsal against disposable
-   test data with `scripts/backup.ps1` / `scripts/restore.ps1` (see
-   `docs/operations.md`, sections 7-8) and confirm the application starts
-   normally against the restored database.
+7. **[verified 2026-08-23]** Clean-container persistence rehearsal: an
+   isolated Compose project with a disposable volume was rebuilt from a
+   clean image and forcibly recreated; account, character, and ship data
+   remained intact. On a fresh volume, follow the documented explicit
+   `manage.py migrate` step after first boot/deploy before using the app.
+8. **[verified 2026-08-23]** Backup-and-restore rehearsal: against
+   disposable test data, `scripts/backup.ps1` created a manifest and passed
+   SQLite integrity checking; `scripts/restore.ps1` restored the expected
+   pre-backup state and the application data passed integrity checking.
 
-Items 7 and 8 need a real Docker daemon, which was not available in the
-environment this suite was last verified in -- see the operations guide
-and the Task 11 acceptance report for exactly what was and wasn't
-verified there.
+The 2026-08-23 rehearsal used an isolated Compose project and disposable
+volume; the existing port-8000 container and its data were not touched.
+Production deployments still require the documented explicit migration step
+after first boot/deploy.
