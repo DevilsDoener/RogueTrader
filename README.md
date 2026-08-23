@@ -138,12 +138,13 @@ fit-width.
 > were positioned by visual estimate rather than by projection-profile
 > measurement.
 
-Some of the design spec's acceptance criteria need a human (and, for two
-items, a physical smartphone) rather than a browser automation script.
-Items marked **automated** are already covered by the Playwright suite
-above and are listed here only for completeness against the spec's
-checklist (`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`,
-"Tests und Abnahme"); items marked **manual** genuinely require a person.
+The acceptance checklist has three explicit categories. Items marked
+**automated** are covered by the Playwright suite above and are listed here
+only for completeness against the spec's checklist
+(`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`, "Tests
+und Abnahme"). Items marked **verified-host** were rehearsed on a real
+Docker host. Items marked **manual** still require physical-device acceptance
+by a person.
 
 1. **[automated]** Bootstrap an admin and create two normal accounts.
 2. **[automated]** Create multiple characters on both accounts and confirm
@@ -154,7 +155,7 @@ checklist (`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`,
    audit history and the same-field conflict dialog.
 5. **[automated]** Browse a wiki chapter's section navigation and confirm
    search finds it.
-6. **[manual, physical device recommended]** On an actual desktop browser
+6. **[manual, physical-device acceptance]** On an actual desktop browser
    and an actual smartphone (not just a resized desktop window -- real
    touch input and real device pixel ratio matter here): confirm every
    printed line, value box, and checkbox/marking circle has exactly one
@@ -162,12 +163,12 @@ checklist (`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`,
    (borders, decorative art, static labels) is inert (does not respond to
    click/tap/focus), that the ship page reads upright in landscape, and
    that pinch-zoom/pan feels natural rather than janky.
-7. **[verified 2026-08-23]** Clean-container persistence rehearsal: an
+7. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
    isolated Compose project with a disposable volume was rebuilt from a
    clean image and forcibly recreated; account, character, and ship data
    remained intact. On a fresh volume, follow the documented explicit
    `manage.py migrate` step after first boot/deploy before using the app.
-8. **[verified 2026-08-23]** Backup-and-restore rehearsal: against
+8. **[verified-host, 2026-08-23]** Backup-and-restore rehearsal: against
    disposable test data, `scripts/backup.ps1` created a manifest and passed
    SQLite integrity checking; `scripts/restore.ps1` restored the expected
    pre-backup state and the application data passed integrity checking.
