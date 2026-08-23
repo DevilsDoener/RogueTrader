@@ -130,6 +130,11 @@ def test_compose_does_not_supply_a_fallback_for_allowed_hosts():
     assert "DJANGO_ALLOWED_HOSTS:-" not in compose_text
 
 
+def test_compose_allows_explicit_debug_override_for_local_preview():
+    compose_text = (REPO_ROOT / "compose.yaml").read_text(encoding="utf-8")
+    assert "DJANGO_DEBUG: ${DJANGO_DEBUG:-false}" in compose_text
+
+
 def test_allowed_hosts_is_explicit_in_production(production_settings):
     # 127.0.0.1/localhost are always appended (see settings.py) so the
     # container HEALTHCHECK and the docs/operations.md manual smoke test

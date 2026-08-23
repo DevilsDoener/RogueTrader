@@ -11,7 +11,7 @@ services:
       SHEET_SOURCE_PDF: ${SHEET_SOURCE_PDF:-/content/wiki/character-sheet.pdf}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://127.0.0.1:8000}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      DJANGO_DEBUG: "false"
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-false}
       # No fallback here on purpose: config/settings.py hard-fails startup
       # when this is absent under DJANGO_DEBUG=false. A default here would
       # silently defeat that check for the docker compose deployment path.
