@@ -1,12 +1,11 @@
 """Playwright checks for the shared shell's accessibility and responsive
-behaviour (Task 9, Step 4): no page-level horizontal overflow at the three
-required viewports, a working skip link, visible keyboard focus, and a
-labelled, keyboard-operable navigation drawer below the 800px breakpoint.
+behaviour: no page-level horizontal overflow at the three required
+viewports, a working skip link, visible keyboard focus, and a labelled,
+keyboard-operable navigation drawer below the 800px breakpoint.
 
-The character sheet's own pan/zoom viewport (`.sheet-viewport`) is exempt
-from the overflow check -- it may legitimately be wider than the visible
-viewport since the user pans/zooms it; only the outer *document* must never
-need horizontal scrolling.
+Character and ship sheets are ordinary responsive document content, so
+their full canvases must also remain inside the page width without a
+pan/zoom overflow exemption.
 """
 from __future__ import annotations
 
@@ -67,8 +66,19 @@ def test_character_sheet_page_has_no_horizontal_overflow(
     page.goto(f"{live_server.url}/characters/{character.id}/")
     page.wait_for_selector('[data-field-id="c1_character_name"]')
 
-    # The sheet viewport itself may need internal panning -- only the
-    # surrounding document must never grow a horizontal scrollbar.
+    _assert_no_page_level_horizontal_overflow(page)
+
+
+@pytest.mark.parametrize("name, width, height", VIEWPORTS)
+def test_ship_sheet_page_has_no_horizontal_overflow(
+    page, live_server, owner, ship_sheet, name, width, height
+):
+    login_via_browser(page, live_server, username=owner.username)
+    page.set_viewport_size({"width": width, "height": height})
+
+    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
+    page.wait_for_selector('[data-field-id="ship_name"]')
+
     _assert_no_page_level_horizontal_overflow(page)
 
 

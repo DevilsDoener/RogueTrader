@@ -1,5 +1,5 @@
-/* Pan/zoom viewer controls, field autosave, and conflict resolution for the
- * character sheet viewer. This file is loaded on both the owner's editable
+/* Page tabs, field autosave, and conflict resolution for the responsive sheet
+ * viewer. This file is loaded on both the owner's editable
  * view and the portal admin's read-only view; the `data-read-only`
  * attribute on #sheet-viewer-root gates all of the autosave wiring so the
  * admin view never issues a single field request.
@@ -20,52 +20,30 @@
   const sheetId = root.dataset.sheetId || "unknown";
   const fieldUrlTemplate = root.dataset.fieldUrlTemplate || "";
 
-  const viewport = root.querySelector(".sheet-viewport");
-  const canvasWrapper = root.querySelector(".sheet-canvas-wrapper");
   const pages = Array.from(root.querySelectorAll(".sheet-page"));
   const pageTabs = Array.from(root.querySelectorAll(".sheet-page-tab"));
   const statusEl = document.getElementById("sheet-save-status");
 
-  const ZOOM_MIN = 0.5;
-  const ZOOM_MAX = 3;
   const storageKeyPrefix = "sheets:viewer:" + userId + ":" + sheetId + ":";
 
   const state = {
     pageIndex: 0,
-    zoom: 1,
-    panX: 0,
-    panY: 0,
   };
-
-  function clampZoom(zoom) {
-    return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoom));
-  }
 
   function loadStoredState() {
     const storedPage = parseInt(localStorage.getItem(storageKeyPrefix + "page"), 10);
-    const storedZoom = parseFloat(localStorage.getItem(storageKeyPrefix + "zoom"));
     if (!Number.isNaN(storedPage) && storedPage >= 0 && storedPage < pages.length) {
       state.pageIndex = storedPage;
-    }
-    if (!Number.isNaN(storedZoom)) {
-      state.zoom = clampZoom(storedZoom);
     }
   }
 
   function persistState() {
     try {
       localStorage.setItem(storageKeyPrefix + "page", String(state.pageIndex));
-      localStorage.setItem(storageKeyPrefix + "zoom", String(state.zoom));
     } catch (err) {
       // localStorage may be unavailable (private browsing, quota); the
-      // viewer still works, it just won't remember page/zoom next visit.
+      // viewer still works, it just won't remember the page next visit.
     }
-  }
-
-  function applyTransform() {
-    if (!canvasWrapper) return;
-    canvasWrapper.style.transform =
-      "translate(" + state.panX + "px, " + state.panY + "px) scale(" + state.zoom + ")";
   }
 
   function showPage(index) {
@@ -94,103 +72,9 @@
     });
   });
 
-  function setZoom(zoom) {
-    state.zoom = clampZoom(zoom);
-    applyTransform();
-    persistState();
-  }
-
-  const zoomInBtn = document.getElementById("zoom-in");
-  const zoomOutBtn = document.getElementById("zoom-out");
-  const fitWidthBtn = document.getElementById("fit-width");
-  const fitPageBtn = document.getElementById("fit-page");
-
-  if (zoomInBtn) zoomInBtn.addEventListener("click", () => setZoom(state.zoom + 0.1));
-  if (zoomOutBtn) zoomOutBtn.addEventListener("click", () => setZoom(state.zoom - 0.1));
-
-  function currentCanvas() {
-    const page = pages[state.pageIndex];
-    return page ? page.querySelector(".sheet-canvas") : null;
-  }
-
-  function resetPan() {
-    state.panX = 0;
-    state.panY = 0;
-  }
-
-  function fitWidth() {
-    if (!viewport) return;
-    const canvas = currentCanvas();
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const naturalWidth = rect.width / state.zoom;
-    if (naturalWidth <= 0) return;
-    resetPan();
-    setZoom(viewport.clientWidth / naturalWidth);
-  }
-
-  function fitPage() {
-    if (!viewport) return;
-    const canvas = currentCanvas();
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const naturalWidth = rect.width / state.zoom;
-    const naturalHeight = rect.height / state.zoom;
-    if (naturalWidth <= 0 || naturalHeight <= 0) return;
-    resetPan();
-    setZoom(
-      Math.min(viewport.clientWidth / naturalWidth, viewport.clientHeight / naturalHeight)
-    );
-  }
-
-  if (fitWidthBtn) fitWidthBtn.addEventListener("click", fitWidth);
-  if (fitPageBtn) fitPageBtn.addEventListener("click", fitPage);
-
-  if (viewport) {
-    // Wheel/pinch zoom. Trackpad pinch gestures are reported by browsers as
-    // wheel events with ctrlKey set; a plain scroll wheel is left alone so
-    // the viewport can still be scrolled by whatever contains it.
-    viewport.addEventListener(
-      "wheel",
-      (event) => {
-        if (!event.ctrlKey && !event.metaKey) return;
-        event.preventDefault();
-        setZoom(state.zoom - event.deltaY * 0.01);
-      },
-      { passive: false }
-    );
-
-    // Pointer-drag panning.
-    let dragging = false;
-    let lastX = 0;
-    let lastY = 0;
-
-    viewport.addEventListener("pointerdown", (event) => {
-      if (event.target.closest(".sheet-input")) return;
-      dragging = true;
-      lastX = event.clientX;
-      lastY = event.clientY;
-      viewport.classList.add("dragging");
-    });
-    window.addEventListener("pointermove", (event) => {
-      if (!dragging) return;
-      state.panX += event.clientX - lastX;
-      state.panY += event.clientY - lastY;
-      lastX = event.clientX;
-      lastY = event.clientY;
-      applyTransform();
-    });
-    window.addEventListener("pointerup", () => {
-      if (!dragging) return;
-      dragging = false;
-      viewport.classList.remove("dragging");
-      persistState();
-    });
-  }
 
   loadStoredState();
   showPage(state.pageIndex);
-  applyTransform();
 
   function updateHasValue(input) {
     if (input.type === "checkbox") return;
@@ -200,8 +84,8 @@
   root.querySelectorAll(".sheet-text").forEach(updateHasValue);
 
   if (readOnly) {
-    // Admin view: geometry/pan/zoom above still works for reading, but no
-    // autosave wiring is attached below, so no field request is ever made.
+    // Admin view: page tabs above still work for reading, but no autosave
+    // wiring is attached below, so no field request is ever made.
     return;
   }
 

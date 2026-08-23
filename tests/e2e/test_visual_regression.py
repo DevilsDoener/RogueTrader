@@ -4,7 +4,7 @@ Two independent guarantees are checked here, for each of the three sheet
 pages (character-page-1, character-page-2, ship-page):
 
 1. **Pixel fidelity** (``test_blank_sheet_matches_extracted_background``):
-   with no data entered, ``.sheet-canvas`` at fit-page zoom must render as
+   with no data entered, the responsive ``.sheet-canvas`` must render as
    (almost) exactly the extracted background image from Task 4
    (``sheets/static/sheets/images/*.webp``). Idle text inputs have no
    border/background/visible caret, and an idle checkbox has native
@@ -14,22 +14,22 @@ pages (character-page-1, character-page-2, ship-page):
    compression noise, never a shifted field, an extra visible box, or wrong
    ship-page rotation. Each render is also saved to ``tests/visual/
    <page>.png`` for manual inspection per the brief's Step 2.
-   ``test_checked_checkbox_matches_extracted_background_at_fit_page``
+   ``test_checked_checkbox_matches_extracted_background``
    covers the complementary ``:checked { appearance: auto }`` branch (the
    browser's native, pixel-exact tick/accent-color rendering), including
    once through the read-only admin viewer, where the checkbox is also
    ``disabled``.
 
-2. **Geometry containment** (``test_field_rectangles_stay_within_canvas_*``):
+2. **Geometry containment** (``test_field_rectangles_stay_within_responsive_canvas``):
    with a test-only debug-overlay class enabled, every schema field
    rectangle's actual rendered position must stay inside ``.sheet-canvas``
-   at 50%, 100%, 150%, 300% zoom and at mobile fit-width. Checkboxes have
+   at desktop, tablet, and mobile widths. Checkboxes have
    specifically been a source of calibration bugs on this project (see
    ``.superpowers/sdd/2026-08-16-rogue-trader-portal/progress.md``, Task 4
    and Task 9), so in addition to the blanket "every field stays inside
    the canvas" assertion, one checkbox field per page has its *exact*
    proportional position (not just "in bounds") asserted against the
-   schema at every zoom level, in both its unchecked and checked state.
+   schema at every responsive width, in both its unchecked and checked state.
 """
 from __future__ import annotations
 
@@ -70,7 +70,11 @@ PAGES = [
     ("ship-page", 0, "ship_weapon_capacity_dorsal", {"width": 1800, "height": 1300}),
 ]
 
-ZOOM_LEVELS = [0.5, 1.0, 1.5, 3.0]
+RESPONSIVE_VIEWPORTS = [
+    ("desktop", {"width": 1440, "height": 900}),
+    ("tablet", {"width": 768, "height": 1024}),
+    ("mobile", {"width": 390, "height": 844}),
+]
 
 # Rounding/subpixel slack only -- large enough to absorb browser subpixel
 # layout rounding, small enough that a real one-row/one-column calibration
@@ -187,7 +191,7 @@ def _assert_matches_background(screenshot_bytes: bytes, background_path: Path, *
 
 
 @pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
-def test_blank_sheet_matches_extracted_background_at_fit_page(
+def test_blank_sheet_matches_extracted_background(
     page, live_server, owner, character_factory, ship_sheet,
     page_id, page_index, checkbox_field_id, viewport,
 ):
@@ -198,9 +202,6 @@ def test_blank_sheet_matches_extracted_background_at_fit_page(
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
         page_id=page_id, page_index=page_index,
     )
-    page.click("#fit-page")
-    page.wait_for_timeout(50)
-
     canvas = page.locator(".sheet-page:not([hidden]) .sheet-canvas")
     screenshot = canvas.screenshot()
 
@@ -210,7 +211,7 @@ def test_blank_sheet_matches_extracted_background_at_fit_page(
 
 
 @pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
-def test_checked_checkbox_matches_extracted_background_at_fit_page(
+def test_checked_checkbox_matches_extracted_background(
     page, live_server, owner, character_factory, ship_sheet,
     page_id, page_index, checkbox_field_id, viewport,
 ):
@@ -227,9 +228,6 @@ def test_checked_checkbox_matches_extracted_background_at_fit_page(
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
         page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
     )
-    page.click("#fit-page")
-    page.wait_for_timeout(50)
-
     checkbox = page.locator(f'[data-field-id="{checkbox_field_id}"]')
     assert checkbox.is_checked()
 
@@ -246,7 +244,7 @@ def test_checked_checkbox_matches_extracted_background_at_fit_page(
 
 
 @pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
-def test_checked_checkbox_position_unchanged_at_fit_page(
+def test_checked_checkbox_position_unchanged_at_responsive_width(
     page, live_server, owner, character_factory, ship_sheet,
     page_id, page_index, checkbox_field_id, viewport,
 ):
@@ -260,10 +258,7 @@ def test_checked_checkbox_position_unchanged_at_fit_page(
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
         page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
     )
-    page.click("#fit-page")
-    page.wait_for_timeout(50)
-
-    _assert_checkbox_position(page, page_id, checkbox_field_id, "checked, fit-page")
+    _assert_checkbox_position(page, page_id, checkbox_field_id, "checked, responsive")
 
 
 @pytest.mark.parametrize(
@@ -292,9 +287,6 @@ def test_admin_read_only_view_renders_checked_checkbox_within_canvas(
         page_id=page_id, page_index=page_index, checked_field_id=checkbox_field_id,
         admin_user=portal_admin,
     )
-    page.click("#fit-page")
-    page.wait_for_timeout(50)
-
     checkbox = page.locator(f'[data-field-id="{checkbox_field_id}"]')
     assert checkbox.is_checked()
     assert checkbox.is_disabled()
@@ -302,63 +294,22 @@ def test_admin_read_only_view_renders_checked_checkbox_within_canvas(
     _assert_checkbox_position(page, page_id, checkbox_field_id, "admin read-only view")
 
 
-@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
-@pytest.mark.parametrize("zoom", ZOOM_LEVELS)
-def test_field_rectangles_stay_within_canvas_at_zoom_level(
+@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, unused_viewport", PAGES)
+@pytest.mark.parametrize("viewport_name, viewport", RESPONSIVE_VIEWPORTS)
+def test_field_rectangles_stay_within_responsive_canvas(
     page, live_server, owner, character_factory, ship_sheet,
-    page_id, page_index, checkbox_field_id, viewport, zoom,
+    page_id, page_index, checkbox_field_id, unused_viewport, viewport_name, viewport,
 ):
-    page.set_viewport_size({"width": 1200, "height": 1000})
+    page.set_viewport_size(viewport)
     login_via_browser(page, live_server, username=owner.username)
     _open_sheet(
         page, live_server,
         owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
         page_id=page_id, page_index=page_index,
     )
-    # Clicking the page tab (above, inside _open_sheet) already persisted
-    # the active page index to localStorage via showPage()/persistState();
-    # overwrite just the zoom key and reload so the viewer boots directly
-    # at the requested zoom on the requested page -- exercising the same
-    # ZOOM_MIN/ZOOM_MAX-clamped code path a real user's pinch-zoom does.
-    user_id, sheet_id = page.evaluate(
-        "() => { const r = document.getElementById('sheet-viewer-root'); "
-        "return [r.dataset.userId, r.dataset.sheetId]; }"
-    )
-    storage_key = f"sheets:viewer:{user_id}:{sheet_id}:zoom"
-    page.evaluate("([k, v]) => localStorage.setItem(k, v)", [storage_key, str(zoom)])
-    page.reload()
-    # Both pages' ".sheet-canvas" elements exist in the DOM (only one is
-    # ever unhidden) -- a bare ".sheet-canvas" selector can resolve to the
-    # *other*, permanently-hidden page and hang waiting for it to become
-    # visible, so this must stay scoped to the currently-shown page.
-    page.wait_for_selector(".sheet-page:not([hidden]) .sheet-canvas")
-
     _enable_debug_overlay(page)
 
     assert _all_fields_within_canvas(page), (
-        f"{page_id} at {int(zoom * 100)}% zoom: a field rectangle left the canvas bounds"
+        f"{page_id} at {viewport_name} width: a field rectangle left the canvas bounds"
     )
-    _assert_checkbox_position(page, page_id, checkbox_field_id, f"{int(zoom * 100)}% zoom")
-
-
-@pytest.mark.parametrize("page_id, page_index, checkbox_field_id, viewport", PAGES)
-def test_field_rectangles_stay_within_canvas_at_mobile_fit_width(
-    page, live_server, owner, character_factory, ship_sheet,
-    page_id, page_index, checkbox_field_id, viewport,
-):
-    page.set_viewport_size({"width": 390, "height": 844})
-    login_via_browser(page, live_server, username=owner.username)
-    _open_sheet(
-        page, live_server,
-        owner=owner, character_factory=character_factory, ship_sheet=ship_sheet,
-        page_id=page_id, page_index=page_index,
-    )
-    page.click("#fit-width")
-    page.wait_for_timeout(50)
-
-    _enable_debug_overlay(page)
-
-    assert _all_fields_within_canvas(page), (
-        f"{page_id} at mobile fit-width: a field rectangle left the canvas bounds"
-    )
-    _assert_checkbox_position(page, page_id, checkbox_field_id, "mobile fit-width")
+    _assert_checkbox_position(page, page_id, checkbox_field_id, viewport_name)

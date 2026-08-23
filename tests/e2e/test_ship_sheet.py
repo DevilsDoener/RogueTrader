@@ -22,6 +22,25 @@ def _wait_saved(page):
     )
 
 
+def test_ship_viewer_has_no_zoom_controls_or_transform(
+    page, live_server, user_factory, ship_sheet
+):
+    user = user_factory()
+    login_via_browser(page, live_server, username=user.username)
+    page.evaluate("localStorage.clear()")
+    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
+    page.wait_for_selector('[data-field-id="ship_name"]')
+
+    assert page.locator(".sheet-toolbar-zoom").count() == 0
+    assert page.locator("#zoom-in, #zoom-out, #fit-width, #fit-page").count() == 0
+    assert page.evaluate(
+        "getComputedStyle(document.querySelector('.sheet-canvas-wrapper')).transform"
+    ) == "none"
+
+    zoom_key = f"sheets:viewer:{user.id}:{ship_sheet.id}:zoom"
+    assert page.evaluate("key => localStorage.getItem(key)", zoom_key) is None
+
+
 def test_different_field_edits_from_two_browsers_merge(
     page, second_page, live_server, user_factory, ship_sheet
 ):

@@ -33,7 +33,7 @@ could plausibly break this app:
 * Nothing may be cached only in the browser: after step 9 we clear the
   browser context's cookies *and* ``localStorage`` on both sessions --
   this destroys the Django session id, the "must change password" bypass,
-  and the sheet viewer's remembered page/zoom -- and log back in from
+  and the sheet viewer's remembered page index -- and log back in from
   scratch, exactly as a returning user would after a server bounce.
 * Nothing may be cached only in the wiki app's process-wide singleton: we
   explicitly rebuild ``wiki.content.WikiRepository`` from disk again (the

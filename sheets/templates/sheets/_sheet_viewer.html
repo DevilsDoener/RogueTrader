@@ -4,8 +4,8 @@
    order, never from stored DB keys -- unknown stored keys are simply never
    looked up. The context must supply a generic ``sheet`` variable (the
    CharacterSheet or ShipSheet instance) alongside ``pages``/``read_only``.
-   The owning page (character_detail.html / ship_detail.html) wraps this in a
-   pan/zoom viewport and wires up autosave via sheet-viewer.js; when
+   The owning page (character_detail.html / ship_detail.html) renders this as
+   responsive document content and wires up autosave via sheet-viewer.js; when
    read_only is true every input stays disabled and sheet-viewer.js never
    attaches listeners to it, so the admin view issues no field requests at
    all. #}

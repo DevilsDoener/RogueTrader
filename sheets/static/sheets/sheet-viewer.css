@@ -1,8 +1,7 @@
-/* Styles for the pixel-aligned character sheet viewer. The sheet geometry
-   itself never reflows -- .sheet-canvas keeps the background image's
-   intrinsic aspect ratio and every overlay field is positioned as a
-   percentage of it, so panning/zooming (via a transform on
-   .sheet-canvas-wrapper) scales the image and its overlays together. */
+/* Styles for the pixel-aligned responsive sheet viewer. .sheet-canvas keeps
+   the background image's intrinsic aspect ratio and every overlay field is
+   positioned as a percentage of it, so the image and fields resize together
+   while the full page remains in normal document flow. */
 
 .sheet-viewer-root {
   --sheet-gold: #b08d57;
@@ -24,8 +23,7 @@
   cursor: pointer;
 }
 
-.sheet-toolbar-pages,
-.sheet-toolbar-zoom {
+.sheet-toolbar-pages {
   display: flex;
   gap: 0.25rem;
 }
@@ -45,23 +43,12 @@
 
 .sheet-viewport {
   position: relative;
-  overflow: hidden;
   width: 100%;
-  height: 80vh;
-  min-height: 320px;
-  touch-action: none;
   background: #333;
-  cursor: grab;
-}
-
-.sheet-viewport.dragging {
-  cursor: grabbing;
 }
 
 .sheet-canvas-wrapper {
-  transform-origin: top left;
   width: 100%;
-  will-change: transform;
 }
 
 .sheet-page[hidden] {

@@ -66,35 +66,77 @@ def test_checkbox_field_survives_reload(page, live_server, owner, character_fact
     assert page.is_checked('[data-field-id="c1_ws_adv_1"]')
 
 
-def test_zoom_does_not_change_proportional_alignment(page, live_server, owner, character_factory):
+def test_viewer_uses_document_scroll_without_zoom_or_pan(
+    page, live_server, owner, character_factory
+):
     character = character_factory(owner=owner)
     login_via_browser(page, live_server, username=owner.username)
+    page.evaluate("localStorage.clear()")
+    page.set_viewport_size({"width": 768, "height": 600})
     page.goto(f"{live_server.url}/characters/{character.id}/")
     page.wait_for_selector('[data-field-id="c1_character_name"]')
 
-    measure = """
+    assert page.locator(".sheet-toolbar-zoom").count() == 0
+    assert page.locator("#zoom-in, #zoom-out, #fit-width, #fit-page").count() == 0
+
+    geometry = page.evaluate(
+        """
     () => {
+      const viewport = document.querySelector('.sheet-viewport');
       const canvas = document.querySelector('.sheet-page:not([hidden]) .sheet-canvas');
-      const field = document.querySelector('[data-field-id="c1_character_name"]').closest('.sheet-field');
+      const viewportRect = viewport.getBoundingClientRect();
       const canvasRect = canvas.getBoundingClientRect();
-      const fieldRect = field.getBoundingClientRect();
+      const style = getComputedStyle(viewport);
+      const pinch = new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        ctrlKey: true,
+        deltaY: -100,
+      });
+      const pinchWasNotCancelled = viewport.dispatchEvent(pinch);
       return {
-        x: (fieldRect.left - canvasRect.left) / canvasRect.width,
-        y: (fieldRect.top - canvasRect.top) / canvasRect.height,
-        w: fieldRect.width / canvasRect.width,
-        h: fieldRect.height / canvasRect.height,
+        heightDifference: Math.abs(viewportRect.height - canvasRect.height),
+        overflowY: style.overflowY,
+        touchAction: style.touchAction,
+        transform: getComputedStyle(document.querySelector('.sheet-canvas-wrapper')).transform,
+        pinchWasNotCancelled,
+        documentScrollable: document.documentElement.scrollHeight > window.innerHeight,
       };
     }
     """
-    before = page.evaluate(measure)
+    )
 
-    for _ in range(3):
-        page.click("#zoom-in")
+    assert geometry["heightDifference"] <= 1
+    assert geometry["overflowY"] == "visible"
+    assert geometry["touchAction"] == "auto"
+    assert geometry["transform"] == "none"
+    assert geometry["pinchWasNotCancelled"]
+    assert geometry["documentScrollable"]
 
-    after = page.evaluate(measure)
+    zoom_key = f"sheets:viewer:{owner.id}:{character.id}:zoom"
+    assert page.evaluate("key => localStorage.getItem(key)", zoom_key) is None
 
-    for key in ("x", "y", "w", "h"):
-        assert before[key] == pytest.approx(after[key], abs=0.002), key
+    page.evaluate("window.scrollTo(0, 0)")
+    page.mouse.wheel(0, 500)
+    page.wait_for_function("window.scrollY > 0")
+
+
+def test_page_index_persists_without_zoom_state(page, live_server, owner, character_factory):
+    character = character_factory(owner=owner)
+    login_via_browser(page, live_server, username=owner.username)
+    page.evaluate("localStorage.clear()")
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+    page.wait_for_selector('[data-field-id="c1_character_name"]')
+
+    page.click('.sheet-page-tab[data-page-index="1"]')
+    page.reload()
+    page.wait_for_selector('.sheet-page[data-page-index="1"]:not([hidden])')
+
+    assert page.locator('.sheet-page-tab[data-page-index="1"]').get_attribute("aria-current") == "true"
+    page_key = f"sheets:viewer:{owner.id}:{character.id}:page"
+    zoom_key = f"sheets:viewer:{owner.id}:{character.id}:zoom"
+    assert page.evaluate("key => localStorage.getItem(key)", page_key) == "1"
+    assert page.evaluate("key => localStorage.getItem(key)", zoom_key) is None
 
 
 def test_foreign_user_receives_404(page, live_server, owner, other_user, character_factory):
