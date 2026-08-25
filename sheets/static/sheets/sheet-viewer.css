@@ -26,6 +26,35 @@
   text-align: right;
 }
 
+.sheet-zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sheet-zoom-controls button {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--sheet-gold);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--sheet-toolbar-fg);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sheet-zoom-controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.sheet-zoom-level {
+  min-width: 3.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
 .sheet-viewport {
   position: relative;
   width: 100%;
@@ -33,7 +62,9 @@
 }
 
 .sheet-canvas-wrapper {
-  width: 100%;
+  --sheet-zoom: 1;
+  width: calc(var(--sheet-zoom) * 100%);
+  margin-inline: auto;
 }
 
 .sheet-page + .sheet-page {

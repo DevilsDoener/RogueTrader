@@ -24,22 +24,27 @@
       data-read-only="{% if read_only %}true{% else %}false{% endif %}"
       {% if field_update_url_template %}data-field-url-template="{{ field_update_url_template }}"{% endif %}
     >
-      {% if not read_only %}
-        <div class="sheet-toolbar">
-          <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
+      <div class="sheet-toolbar">
+        <div class="sheet-zoom-controls" role="group" aria-label="Zoom">
+          <button type="button" class="sheet-zoom-out" aria-label="Verkleinern">&minus;</button>
+          <span class="sheet-zoom-level" id="sheet-zoom-level">100%</span>
+          <button type="button" class="sheet-zoom-in" aria-label="Vergr&ouml;&szlig;ern">+</button>
         </div>
-      {% endif %}
+        {% if not read_only %}
+          <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
+        {% endif %}
+      </div>
 
       {% include "sheets/_sheet_viewer.html" %}
     </div>
   </div>
 
   {% if not read_only %}
-    {% csrf_token %}
-    <p><a href="{% url 'sheets:character_delete' character.pk %}">Charakter l&ouml;schen</a></p>
+    <p><a class="button button-danger" href="{% url 'sheets:character_delete' character.pk %}">Charakter l&ouml;schen</a></p>
   {% endif %}
 {% endblock %}
 
 {% block extra_scripts %}
   <script src="{% static 'sheets/sheet-viewer.js' %}" defer></script>
+  <script src="{% static 'sheets/sheet-zoom.js' %}" defer></script>
 {% endblock %}
