@@ -15,7 +15,7 @@ pages (character-page-1, character-page-2, ship-page):
    ship-page rotation. Each render is also saved to ``tests/visual/
    <page>.png`` for manual inspection per the brief's Step 2.
    ``test_checked_checkbox_matches_extracted_background``
-   covers the complementary transparent golden SVG tick, including
+   covers the complementary inset black-block SVG fill, including
    once through the read-only admin viewer, where the checkbox is also
    ``disabled``.
 
@@ -210,7 +210,7 @@ def test_checked_checkbox_matches_extracted_background(
     page, live_server, owner, character_factory, ship_sheet,
     page_id, checkbox_field_id, viewport,
 ):
-    """A checked schema field adds only one small transparent golden tick,
+    """A checked schema field adds only one small inset black block,
     so the rest of the canvas must continue to match the source artwork."""
     page.set_viewport_size(viewport)
     login_via_browser(page, live_server, username=owner.username)

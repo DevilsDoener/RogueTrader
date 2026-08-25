@@ -27,6 +27,16 @@ the overlay. No group exceeded the two-pixel-per-edge tolerance, so this
 review required no schema-coordinate corrections. Consequently there are no
 corrected groups requiring separate before/after plates.
 
+`sheets/tests/test_schema.py::test_all_424_checkbox_rectangles_match_independent_pixel_reference`
+tightened this to a 0px-per-edge tolerance on 2026-08-25 (re-verified,
+including all 72 "Adv. Taken" pips on both character pages): every schema
+checkbox rect already matched the independent reference exactly, so no
+coordinate changes were needed to pass at 0px.
+
+Checked checkboxes render as a solid black inset block (`.sheet-checkbox:checked`
+in `sheet-viewer.css`), not a golden tick -- same 70%-centered inset, same
+position, only the fill changed.
+
 ## Typography
 
 `tests/fixtures/font-calibration.json` records dark connected-component glyph

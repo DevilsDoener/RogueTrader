@@ -311,7 +311,7 @@ def test_rendered_times_glyph_height_matches_the_normalized_source_median(
         ("ship-page", "ship_weapon_capacity_dorsal"),
     ),
 )
-def test_checked_checkbox_renders_only_an_inset_transparent_golden_tick(
+def test_checked_checkbox_renders_only_an_inset_black_block(
     page,
     live_server,
     owner,
@@ -384,16 +384,14 @@ def test_checked_checkbox_renders_only_an_inset_transparent_golden_tick(
         border_mask.putpixel((checked.width - 1, y), 255)
     assert ImageChops.multiply(delta_mask, border_mask).getbbox() is None, field_id
 
-    gold_pixels = [
+    black_pixels = [
         (x, y)
         for y in range(checked.height)
         for x in range(checked.width)
-        if (lambda rgb: rgb[0] > rgb[1] > rgb[2] and rgb[0] - rgb[2] >= 35)(
-            checked.getpixel((x, y))
-        )
+        if (lambda rgb: max(rgb) <= 40)(checked.getpixel((x, y)))
     ]
-    assert gold_pixels, field_id
-    assert min(x for x, _y in gold_pixels) >= 1, field_id
-    assert min(y for _x, y in gold_pixels) >= 1, field_id
-    assert max(x for x, _y in gold_pixels) <= checked.width - 2, field_id
-    assert max(y for _x, y in gold_pixels) <= checked.height - 2, field_id
+    assert black_pixels, field_id
+    assert min(x for x, _y in black_pixels) >= 1, field_id
+    assert min(y for _x, y in black_pixels) >= 1, field_id
+    assert max(x for x, _y in black_pixels) <= checked.width - 2, field_id
+    assert max(y for _x, y in black_pixels) <= checked.height - 2, field_id

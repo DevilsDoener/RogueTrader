@@ -598,7 +598,7 @@ class TestLoadSchema:
                     expected,
                     strict=True,
                 ):
-                    assert abs(actual_edge - expected_edge) <= 2, (
+                    assert abs(actual_edge - expected_edge) <= 0, (
                         f"{page_id}/{field.id} {edge_name}: "
                         f"schema={actual_edge}px reference={expected_edge}px"
                     )
