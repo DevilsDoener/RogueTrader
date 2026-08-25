@@ -78,10 +78,10 @@
     {
       "id": "c1_description_line_2",
       "kind": "text",
-      "x": 1.3502,
-      "y": 11.8462,
-      "width": 87.3568,
-      "height": 0.9846,
+      "x": 7.6514,
+      "y": 12.9538,
+      "width": 81.0557,
+      "height": 1.0462,
       "max_length": 100,
       "label": "Description (cont.)"
     },
