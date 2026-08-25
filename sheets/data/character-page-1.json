@@ -8,9 +8,9 @@
     {
       "id": "c1_character_name",
       "kind": "text",
-      "x": 18.617,
+      "x": 19.8527,
       "y": 5.8769,
-      "width": 29.0507,
+      "width": 27.815,
       "height": 1.0462,
       "max_length": 80,
       "label": "Character Name"
@@ -68,9 +68,9 @@
     {
       "id": "c1_description_line_1",
       "kind": "text",
-      "x": 14.3208,
+      "x": 16.572,
       "y": 10.6154,
-      "width": 74.3863,
+      "width": 72.1351,
       "height": 1.0462,
       "max_length": 100,
       "label": "Description"
@@ -110,7 +110,7 @@
       "kind": "text",
       "x": 22.4223,
       "y": 19.3846,
-      "width": 9.7791,
+      "width": 4.886,
       "height": 4.3077,
       "max_length": 3,
       "label": "S value"
@@ -120,7 +120,7 @@
       "kind": "text",
       "x": 32.9787,
       "y": 19.5077,
-      "width": 9.2062,
+      "width": 4.8128,
       "height": 4.2154,
       "max_length": 3,
       "label": "T value"
@@ -130,7 +130,7 @@
       "kind": "text",
       "x": 43.4534,
       "y": 19.5077,
-      "width": 9.2471,
+      "width": 4.8121,
       "height": 4.2769,
       "max_length": 3,
       "label": "AG value"
@@ -140,7 +140,7 @@
       "kind": "text",
       "x": 54.0917,
       "y": 19.5385,
-      "width": 9.7791,
+      "width": 4.7223,
       "height": 4.2769,
       "max_length": 3,
       "label": "INT value"
@@ -150,7 +150,7 @@
       "kind": "text",
       "x": 64.6481,
       "y": 19.5385,
-      "width": 9.7791,
+      "width": 4.6406,
       "height": 4.2769,
       "max_length": 3,
       "label": "PER value"
@@ -160,7 +160,7 @@
       "kind": "text",
       "x": 75.2046,
       "y": 19.5385,
-      "width": 9.7791,
+      "width": 4.5587,
       "height": 4.2769,
       "max_length": 3,
       "label": "WP value"
@@ -170,7 +170,7 @@
       "kind": "text",
       "x": 85.761,
       "y": 19.5385,
-      "width": 9.7791,
+      "width": 4.5588,
       "height": 4.2769,
       "max_length": 3,
       "label": "FEL value"

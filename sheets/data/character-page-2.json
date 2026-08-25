@@ -90,7 +90,7 @@
       "kind": "text",
       "x": 25.2818,
       "y": 17.5909,
-      "width": 9.1385,
+      "width": 4.8146,
       "height": 4.2514,
       "max_length": 3,
       "label": "S value"
@@ -100,7 +100,7 @@
       "kind": "text",
       "x": 35.6683,
       "y": 17.6217,
-      "width": 9.0982,
+      "width": 4.7347,
       "height": 4.2206,
       "max_length": 3,
       "label": "T value"
@@ -110,7 +110,7 @@
       "kind": "text",
       "x": 45.9742,
       "y": 17.6217,
-      "width": 9.0982,
+      "width": 4.7347,
       "height": 4.2514,
       "max_length": 3,
       "label": "AG value"
@@ -120,7 +120,7 @@
       "kind": "text",
       "x": 56.3205,
       "y": 17.6525,
-      "width": 9.1385,
+      "width": 4.7743,
       "height": 4.2514,
       "max_length": 3,
       "label": "INT value"
@@ -130,7 +130,7 @@
       "kind": "text",
       "x": 66.6667,
       "y": 17.7141,
-      "width": 9.0982,
+      "width": 4.7347,
       "height": 4.2514,
       "max_length": 3,
       "label": "PER value"
@@ -140,7 +140,7 @@
       "kind": "text",
       "x": 76.9726,
       "y": 17.7449,
-      "width": 9.0982,
+      "width": 4.775,
       "height": 4.2822,
       "max_length": 3,
       "label": "WP value"
@@ -150,7 +150,7 @@
       "kind": "text",
       "x": 87.2786,
       "y": 17.7757,
-      "width": 9.1787,
+      "width": 4.8543,
       "height": 4.2514,
       "max_length": 3,
       "label": "FEL value"

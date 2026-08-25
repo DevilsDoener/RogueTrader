@@ -311,7 +311,11 @@ class TestLoadSchema:
     @pytest.mark.parametrize(
         ("field_id", "expected_rect"),
         [
-            ("c1_character_name", (455, 191, 710, 34)),
+            # Widened left inset (2026-08-25 field-calibration fix): the box
+            # previously started 15-26px inside the printed "CHARACTER
+            # NAME" label's own ink, causing typed values to visually
+            # overlap the label's trailing glyphs.
+            ("c1_character_name", (485, 191, 680, 34)),
             ("c1_player_name", (1445, 193, 720, 34)),
             ("c1_career_path", (410, 265, 530, 34)),
             ("c1_rank", (1100, 267, 65, 34)),
@@ -619,30 +623,34 @@ class TestLoadSchema:
                 "c1_ws_value",
                 ("1.3093", "19.3538", "9.7791", "4.3692"),
             ),
+            # Narrowed widths (2026-08-25 field-calibration fix): these
+            # characteristic-value boxes previously spanned the full
+            # printed box including its bonus circle, so multi-digit
+            # values rendered underneath the circle graphic.
             (
                 "character-page-1",
                 "c1_s_value",
-                ("22.4223", "19.3846", "9.7791", "4.3077"),
+                ("22.4223", "19.3846", "4.886", "4.3077"),
             ),
             (
                 "character-page-1",
                 "c1_int_value",
-                ("54.0917", "19.5385", "9.7791", "4.2769"),
+                ("54.0917", "19.5385", "4.7223", "4.2769"),
             ),
             (
                 "character-page-1",
                 "c1_per_value",
-                ("64.6481", "19.5385", "9.7791", "4.2769"),
+                ("64.6481", "19.5385", "4.6406", "4.2769"),
             ),
             (
                 "character-page-1",
                 "c1_wp_value",
-                ("75.2046", "19.5385", "9.7791", "4.2769"),
+                ("75.2046", "19.5385", "4.5587", "4.2769"),
             ),
             (
                 "character-page-1",
                 "c1_fel_value",
-                ("85.7610", "19.5385", "9.7791", "4.2769"),
+                ("85.7610", "19.5385", "4.5588", "4.2769"),
             ),
             (
                 "character-page-2",

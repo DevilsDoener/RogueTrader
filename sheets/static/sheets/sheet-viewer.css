@@ -108,6 +108,12 @@
   left: 0;
   width: 100%;
   height: min(1.15em, 100%);
+  /* Field rects are calibrated flush against the printed box's outer
+     border; without this inset, typed text starts exactly on that border
+     line instead of inside it. Proportional (cqw, tied to the same
+     container as font-size) so it scales identically at every zoom level. */
+  padding-left: 0.2cqw;
+  box-sizing: border-box;
 }
 
 .sheet-text.has-value {
