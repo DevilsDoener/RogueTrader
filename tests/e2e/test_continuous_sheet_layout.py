@@ -430,7 +430,7 @@ def test_checked_checkbox_renders_an_inset_x(
         ("character-page-2", "c2_ws_adv_1"),
     ),
 )
-def test_checked_advancement_pip_renders_an_inset_cross(
+def test_checked_advancement_pip_renders_a_round_fill(
     page, live_server, owner, character_factory, page_id, field_id
 ):
     page.set_viewport_size({"width": 1440, "height": 900})
@@ -455,9 +455,9 @@ def test_checked_advancement_pip_renders_an_inset_cross(
     )
     assert pip.is_checked()
     assert style["appearance"] == "none"
-    assert style["backgroundSize"] == "70% 70%"
-    assert style["diagonalCross"] is True
-    assert style["filledCircle"] is False
+    assert style["backgroundSize"] == "100% 100%"
+    assert style["diagonalCross"] is False
+    assert style["filledCircle"] is True
 
     checked = Image.open(io.BytesIO(pip.screenshot())).convert("RGB")
     pip.evaluate("el => { el.checked = false; }")
@@ -471,8 +471,7 @@ def test_checked_advancement_pip_renders_an_inset_cross(
     assert delta_bbox is not None, field_id
     left, top, right, bottom = delta_bbox
     w, h = checked.width, checked.height
-    # The cross stays inset within the printed circle and leaves its corners clear.
-    assert left >= 1 and top >= 1, field_id
-    assert right <= w - 1 and bottom <= h - 1, field_id
+    # A round fill spans the printed circle but leaves its corners clear.
+    assert (right - left) + 1 >= w * 0.85 and (bottom - top) + 1 >= h * 0.85, field_id
     for corner in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)):
         assert max(checked.getpixel(corner)) > 60, (field_id, corner)
