@@ -1,5 +1,12 @@
 # Beispiel-Prompt für eine neue Session (Charakterseite 2)
 
+> **Überholt und archiviert.** Dieser Beispiel-Prompt stammt aus der
+> Kalibrierung von Charakterseite 2 und ist nicht mehr aktuell: Layouts werden
+> heute in `sheets/layouts/*.json` gepflegt, die Darstellung über
+> `text_style`/`checkbox_style` gesteuert, und die genannten Feldzahlen sind
+> überholt. Verbindlich sind `AGENTS.md` und
+> `docs/charakterbogen-feld-anforderungen.md`.
+
 Diesen Text in einer neuen Session als erste Nachricht mitgeben:
 
 ---

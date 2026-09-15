@@ -1,5 +1,10 @@
 # Maintainable sheet layouts
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 Approved direction: preserve the original artwork and calibrated rendering while
 introducing sections, reusable field templates and explicit presentation metadata.
 

@@ -1,12 +1,44 @@
 # Sheet calibration record
 
-## Layout authoring (2026-09-14)
+How the sheet overlay is calibrated, plus a dated record of past calibration
+rounds. Field conventions live in
+[charakterbogen-feld-anforderungen.md](charakterbogen-feld-anforderungen.md);
+the layout format lives in [sheet-layout.md](sheet-layout.md).
 
-Edit `sheets/layouts/*.json` and run `python -m sheets.layout` to regenerate
-the flat schemas in `sheets/data/`. Section origins and reusable slot defaults
-preserve the calibrated page coordinates. `python -m sheets.layout --check`
-and the layout tests catch stale generated files. See [sheet-layout.md](sheet-layout.md)
-for coordinates, overrides and explicit text/checkbox presentation styles.
+> **Counts are not documented here.** The number of fields, checkboxes and
+> measured rectangles changes with every calibration round. The authoritative
+> sources are the generated schemas (`sheets/data/*.json`), the measured
+> fixtures under `tests/fixtures/`, the SHA manifest, and the pinned
+> expectations in `sheets/tests/test_schema.py`. Read them with the check
+> commands below rather than trusting a number in prose. Dated entries in the
+> lower half of this file keep the numbers that were true on their date.
+
+## Check commands
+
+```bash
+.venv/Scripts/python.exe -m sheets.layout --check
+```
+
+```bash
+.venv/Scripts/python.exe -m pytest -q sheets/tests
+```
+
+```bash
+.venv/Scripts/python.exe -m pytest -q
+```
+
+The first verifies that `sheets/data/` is in sync with `sheets/layouts/`
+(exit 1 = stale, 2 = invalid source). The second runs the schema contract,
+layout and field-calibration tests that hold the current counts and geometry
+pins. The third adds the browser and visual-regression checks.
+
+## Layout authoring
+
+Edit `sheets/layouts/*.json` and run `.venv/Scripts/python.exe -m sheets.layout`
+to regenerate the flat schemas in `sheets/data/`. Section origins and reusable
+slot defaults preserve the calibrated page coordinates. `--check` and the layout
+tests catch stale generated files. See [sheet-layout.md](sheet-layout.md) for
+coordinates, overrides and explicit text/checkbox presentation styles.
 
 ## Rendering model (scaling)
 
@@ -33,51 +65,50 @@ calibrated layer is scaled to the screen:
   that need a rendered ("what the user sees") size multiply a computed length
   by it; `getBoundingClientRect` already returns post-transform pixels.
 
-## Checkbox rectangles
+## Checkbox and text-line rectangles
 
-The authoritative review fixture is
-`tests/fixtures/checkbox-rectangles.json`. It records source-pixel
-`[left, top, right, bottom]` edges for all 424 printed marking surfaces:
+The authoritative review fixture is `tests/fixtures/checkbox-rectangles.json`.
+It records source-pixel `[left, top, right, bottom]` edges for every printed
+marking surface, keyed by page and then by field ID -- so the per-page counts
+and the field order are read from the fixture itself, never from prose.
+`tests/fixtures/text-line-rectangles.json` does the same for the measured
+printed text lines.
 
-- character page 1: 351 (36 characteristic circles, 315 skill cells)
-- character page 2: 36 characteristic circles
-- ship page: 37 (9 capacity boxes, 8 weapon-type circles, 20 location circles)
-
-`tools/render_checkbox_contacts.py` reads this fixture and the three original
-WebP assets, but never the production schemas. It creates full-page overlays
-and original-pixel contact crops in `tests/visual/checkbox-contacts/`.
+`tools/render_checkbox_contacts.py` reads the checkbox fixture and the three
+original WebP assets, but never the production schemas. It creates full-page
+overlays and original-pixel contact crops in `tests/visual/checkbox-contacts/`.
+`tools/render_field_coverage.py` draws the full field coverage map over the
+original artwork.
 
 `tests/fixtures/checkbox-calibration-manifest.json` pins the SHA-256 digest
-of that rectangle fixture and each original WebP. Both the schema test and
+of the rectangle fixture and each original WebP. Both the schema test and
 the contact renderer reject changed calibration inputs until they have been
 reviewed and the manifest is deliberately updated. This makes the static
 reference and its three source images auditable independently of schema
-loading.
+loading. The schema test compares every schema checkbox rect against that
+reference at a **0 px per-edge tolerance** (tightened from 2 px on
+2026-08-25).
 
-The 2026-08-23 review checked every crop. Rectangles consistently cover the
-free marking surface while leaving the printed circle or box border outside
-the overlay. No group exceeded the two-pixel-per-edge tolerance, so this
-review required no schema-coordinate corrections. Consequently there are no
-corrected groups requiring separate before/after plates.
+> Note: the repo uses `core.autocrlf=true` and HEAD stores the fixture with
+> LF, but the manifest records the **CRLF** digest. Keep that convention when
+> re-touching the fixture.
 
-`sheets/tests/test_schema.py::test_all_424_checkbox_rectangles_match_independent_pixel_reference`
-tightened this to a 0px-per-edge tolerance on 2026-08-25 (re-verified,
-including all 72 "Adv. Taken" pips on both character pages): every schema
-checkbox rect already matched the independent reference exactly, so no
-coordinate changes were needed to pass at 0px.
+## Checked-state appearance
 
-Checked checkboxes render as a solid black inset block (`.sheet-checkbox:checked`
-in `sheet-viewer.css`), not a golden tick -- same 70%-centered inset, same
-position, only the fill changed.
+A checked `square` checkbox renders a **black X** (inset SVG at 70 %, centred);
+a checked `pip` renders a **filled black circle** covering the whole field box.
+Unchecked controls draw nothing at all -- native checkbox chrome is suppressed
+in `sheet-viewer.css`, so the printed artwork looks exactly as it does without
+the overlay. The printed box or circle stays the only border.
 
 ## Typography
 
 `tests/fixtures/font-calibration.json` records dark connected-component glyph
 heights from isolated normal-label crops in the original artwork:
 
-- character page 1, “Character Name”: 26 px on a 2444 px canvas
-- character page 2, “Name”: 26 px on a 2484 px canvas
-- ship page, “Name”: 23 px on a 3238 px canvas
+- character page 1, "Character Name": 26 px on a 2444 px canvas
+- character page 2, "Name": 26 px on a 2484 px canvas
+- ship page, "Name": 23 px on a 3238 px canvas
 
 The median normalized visible-glyph size is 1.047% of canvas width. Testing
 started at the requested `1cqw`, whose rendered Times New Roman glyphs were
@@ -85,12 +116,24 @@ about one third too small. The final shared CSS size is `1.53cqw`; browser
 pixel-difference measurements put its visible glyph height within two
 original pixels of the normalized source median on all three pages.
 
-## Characteristic value boxes
+Ship text fields additionally shrink their font until the full current value
+fits the printed area, and return to the base size for shorter values.
+
+---
+
+# Dated calibration record
+
+The sections below are **history**. They state what was true on their date and
+are deliberately not updated; where they conflict with the sections above or
+with the code, the code wins.
+
+## Characteristic value boxes (2026-08-26 / 2026-08-27)
 
 Owner convention (`docs/charakterbogen-feld-anforderungen.md`): every
 characteristic value box spans the **full** printed box (like WS/BS), with
-the value **centred** (`align: "center"`), rather than the older layout that
-kept the field clear of the printed bonus circle in the box's left half.
+the value **centred**, rather than the older layout that kept the field clear
+of the printed bonus circle in the box's left half. (Centring was expressed as
+`align: "center"` at the time; today it is `text_style: "characteristic"`.)
 
 - Character page 1 was widened to full box on 2026-08-26.
 - Character page 2 followed on 2026-08-27: `c2_s_value` … `c2_fel_value`
@@ -103,8 +146,8 @@ kept the field clear of the printed bonus circle in the box's left half.
 
 ## Page 2 field additions & value-box centring (2026-08-28)
 
-Owner review of the page-2 coverage map added 8 text fields (167 → 175) so
-every printed writable line carries a field (full-line length):
+Owner review of the page-2 coverage map added 8 text fields (167 → 175 at the
+time) so every printed writable line carries a field (full-line length):
 
 - **Weapon "Special Rules" — two lines each.** Every weapon block has two
   printed rule lines. The existing field sat on the lower (continuation) line
@@ -118,31 +161,31 @@ every printed writable line carries a field (full-line length):
   `c2_insanity_disorders_2`.
 
 The value boxes with **no printed line** (page-2 movement ×6, lifting ×3,
-fate ×2) were switched to `align: "center"` so their single value centres in
-the box like the characteristics (they keep the normal font size; the
-`2.6cqw` rule is scoped to `*_value` only). Page 2 now has 20 centred fields;
-`_all_text_metrics` (e2e) excludes all `.sheet-text--center` fields, so the
-shared bottom-anchored line-text contract now covers 202 character fields.
+fate ×2) were switched to centred text so their single value centres in the
+box like the characteristics (they keep the normal font size).
+`_all_text_metrics` (e2e) excludes all `.sheet-text--center` fields.
 
 **Adv.-Taken pips levelled.** Owner asked for a flat pip row; the printed pips
-drift ~8px down left-to-right, so all 36 page-2 `*_adv_*` were set to a common
+drift ~8px down left-to-right, so all page-2 `*_adv_*` were set to a common
 `y=22.7357` (top=738/bottom=753 px, the drift-range midpoint, worst case ~4px
 off a printed circle). Fixture `checkbox-rectangles.json` + manifest SHA and
 the `c2_ws_adv_1` geometry pin were updated to match.
+*(Superseded on 2026-09-14 — see below.)*
 
 **Full-line coverage review (owner emphasis).** Every page-2 text field must
 span the whole printed line — from just after its label to the line end /
-section edge — not sit short. Audit found two groups starting too far right:
+section edge — not sit short. The audit found two groups starting too far right:
+
 - **Wounds + Insanity** value fields began ~65–105px right of their labels,
   leaving the front of each printed line bare. Moved left to start just after
   the label (same right edge at x=2350px), covering the full line.
 - **Armour TYPE** fields began ~30–64px after "TYPE:" and overshot the box's
   right border. Repositioned to start just after "TYPE:" and end at the box's
   inner right edge (full line within each location box).
+
 Weapon sub-fields, gear/acquisitions/mutations, corruption and the added
 continuation lines already reached their line ends. Pinned expectations in
 `test_page_2_right_column_fields_start_after_their_printed_labels` updated.
-
 
 ## 2026-09-14: Ausrichtung an der tatsächlichen Vorlage
 
@@ -159,8 +202,16 @@ letzte Zeile entfällt. Bestehende IDs und Werte bleiben erhalten.
 Essential-Component-Zeile sind zusätzlich beschreibbar. Die neuen Felder werden
 an die bestehende Schema-Reihenfolge angehängt, um deren Vertrag zu erhalten.
 
-Feldzahlen: Charakterseite 1: 490, Charakterseite 2: 175, Schiff: 86.
-Gemessene Textrechtecke: `tests/fixtures/text-line-rectangles.json`.
+Feldzahlen an diesem Tag: Charakterseite 1: 490, Charakterseite 2: 175,
+Schiff: 86. Gemessene Textrechtecke: `tests/fixtures/text-line-rectangles.json`.
 Checkbox-Referenz und SHA-Manifest sind auf die vermessenen Rechtecke aktualisiert.
-`tools/render_field_coverage.py` erstellt Abdeckungskarten direkt über der
-Originalgrafik; `tools/render_checkbox_contacts.py` erstellt 424 Detailausschnitte.
+
+## 2026-08-23 / 2026-08-25: Checkbox-Kontaktprüfung
+
+Die Prüfung vom 2026-08-23 kontrollierte jeden Ausschnitt. Die Rechtecke deckten
+durchgehend die freie Markierungsfläche ab und ließen den gedruckten Kreis- bzw.
+Kastenrand außerhalb des Overlays. Keine Gruppe überschritt die damalige Toleranz
+von zwei Pixeln pro Kante, daher waren keine Schema-Korrekturen nötig und es gibt
+keine Vorher/Nachher-Tafeln. Am 2026-08-25 wurde auf 0 px pro Kante verschärft
+(inklusive aller "Adv. Taken"-Pips beider Charakterseiten); auch dabei waren
+keine Koordinatenänderungen nötig.

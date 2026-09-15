@@ -1,5 +1,10 @@
 # Rogue-Trader Portal Implementation Plan
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build a Dockerized, publicly deployable Django portal that serves the existing Markdown knowledge base, isolates private two-page character sheets per user, and provides one shared editable starship sheet using pixel-aligned overlays on the original PDF artwork.

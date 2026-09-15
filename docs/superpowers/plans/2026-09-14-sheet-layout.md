@@ -1,5 +1,10 @@
 # Sheet Layout Implementation Plan
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 > Execute inline using executing-plans; the user authorized the recommended change.
 
 **Goal:** Make the existing sheet layout maintainable without changing its appearance.

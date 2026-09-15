@@ -5,9 +5,24 @@ read-only Markdown wiki of the rulebook, isolated per-user character
 sheets, and one shared ship sheet, all rendered as pixel-aligned overlays
 on the original character-sheet artwork.
 
-- **Design spec:** [`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`](docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md)
-- **Implementation plan:** [`docs/superpowers/plans/2026-08-16-rogue-trader-portal.md`](docs/superpowers/plans/2026-08-16-rogue-trader-portal.md)
-- **Operations guide (Proxmox deployment, backups, restores, account recovery):** [`docs/operations.md`](docs/operations.md)
+## Documentation
+
+Start at **[`AGENTS.md`](AGENTS.md)** — the binding entry point. It defines the
+document precedence, who owns which subject, and the test duties. The active
+subject documents are:
+
+- **Sheet field & overlay conventions:** [`docs/charakterbogen-feld-anforderungen.md`](docs/charakterbogen-feld-anforderungen.md)
+- **Layout format (sections, templates, coordinates):** [`docs/sheet-layout.md`](docs/sheet-layout.md)
+- **Calibration, fixtures, manifest:** [`docs/sheet-calibration.md`](docs/sheet-calibration.md)
+- **Shared characteristics:** [`docs/characteristic-sync.md`](docs/characteristic-sync.md)
+- **Computed movement fields:** [`docs/movement-calculation.md`](docs/movement-calculation.md)
+- **Open skill-checkbox mapping:** [`docs/checkbox-row-mapping.md`](docs/checkbox-row-mapping.md)
+- **Operations (Proxmox deployment, backups, restores, account recovery):** [`docs/operations.md`](docs/operations.md)
+
+The original design spec
+([`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`](docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md))
+and the implementation plans under `docs/superpowers/plans/` are **history**:
+useful for *why* a decision was made, never authoritative for what is true now.
 
 ## Background assets
 
@@ -16,19 +31,45 @@ on the original character-sheet artwork.
 the user's source character-sheet PDF (pages 401 and 402 for the two
 character-sheet pages, page 403 for the ship sheet). The ship page is
 rotated to landscape for display; the two character pages keep their
-original portrait orientation. `sheets/data/*.json` defines, per page, the
-stable field IDs, `text`/`checkbox` types, and each field's position/size
-as percentages of that page's original image so overlays stay
-pixel-aligned with the artwork at every rendered canvas width. No other artwork on
-any page is interactive.
+original portrait orientation. No other artwork on any page is interactive.
 
-All 581 character-field IDs are persistent data keys and stay in their
-declared order. Character page 2 has one deliberate compatibility exception:
-`c2_gear_22`/`c2_gear_23` and
-`c2_acquisition_14`/`c2_acquisition_15` each split the final printed line
-into two adjacent, non-overlapping halves. This preserves both independently
-stored values without a migration even though the artwork provides only one
-line for each pair.
+The editable layout source is `sheets/layouts/*.json`;
+`.venv/Scripts/python.exe -m sheets.layout` compiles it into the flat
+`sheets/data/*.json` schemas the application, the calibration tests and the
+tools read. Those schemas define, per page, the stable field IDs, the
+`text`/`checkbox` types, each field's position and size as percentages of that
+page's original image, and the explicit presentation metadata — so overlays
+stay pixel-aligned with the artwork at every zoom level and canvas width. The
+schemas and the pinned expectations in `sheets/tests/` are the only source of
+truth for how many fields exist and where they sit; never a number in prose.
+
+Field IDs are persistent data keys and stay in their declared order. Moving or
+restyling a field is free; renaming its `id` requires a dedicated data
+migration.
+
+## Sheet viewer behaviour
+
+- **Zoom:** the toolbar offers 30 %–100 % in 10 % steps (default 100 %,
+  remembered per browser). The level is combined with fit-to-column-width into
+  a single `transform: scale()` on `.sheet-canvas`, so the artwork and every
+  field move as one unit and cannot drift apart. There is no pan mode; pages
+  scroll with the document. Without JavaScript the canvas falls back to a
+  fluid full-width render.
+- **Checked state:** square checkboxes draw a black X, advance pips and the
+  ship's round weapon markings draw a filled black circle. An unchecked
+  control draws nothing — the printed sheet looks untouched.
+- **Shared characteristics:** the nine characteristic values and their advance
+  pips are one field across character pages 1 and 2. An edit shows up on the
+  other page immediately and is saved atomically with the same field version.
+- **Computed movement:** Half Move is the only input; Full Move (×2),
+  Charge (×3) and Run (×6) are read-only, previewed live in the browser and
+  written server-side in one transaction. Direct API writes to the results are
+  rejected.
+- **Numeric fields:** the ship's resource/capacity fields and the character
+  values accept only empty input or non-negative integers.
+- **Concurrency:** every field edit is versioned; a conflicting edit opens the
+  conflict panel instead of overwriting. Every ship-sheet mutation is recorded
+  in an append-only audit log.
 
 ## Local setup
 
@@ -72,7 +113,13 @@ layout.
 ```powershell
 # Full automated suite: unit, integration, end-to-end (Playwright/Chromium),
 # and deterministic visual-regression tests.
-.\.venv\Scripts\python -m pytest -v
+.\.venv\Scripts\python -m pytest -q
+
+# Single app while iterating (accounts | core | sheets | wiki).
+.\.venv\Scripts\python -m pytest -q sheets/tests
+
+# Generated schemas are in sync with the layout sources.
+.\.venv\Scripts\python -m sheets.layout --check
 
 # Production-shaped Django deployment check (run with DJANGO_DEBUG=false
 # and the other production env vars from .env.example set).
@@ -92,6 +139,11 @@ Invoke-RestMethod http://127.0.0.1:8000/healthz/
 docker compose logs --no-color portal
 ```
 
+Per-app suites live in `accounts/tests/`, `core/tests/`, `sheets/tests/` and
+`wiki/tests/`; the browser tests live in `tests/e2e/` and their captured
+baselines in `tests/visual/`. Run the app you touched while iterating and the
+full suite before a build, a push, or calling the work done.
+
 `tests/e2e/test_complete_journey.py` drives one continuous, real end-to-end
 session (bootstrap admin, create and force-change two users' passwords,
 private characters, mutual invisibility, read-only admin visibility,
@@ -101,10 +153,8 @@ real HTTP server. `tests/e2e/test_visual_regression.py` compares each
 sheet page's rendered canvas against its extracted background image
 (`tests/visual/*.png` are the latest captured renders) and checks that
 every schema field -- checkboxes specifically included -- stays correctly
-positioned inside the width-responsive canvas at the minimum and wide
-supported desktop sizes. The viewer has no zoom, fit, or pan mode:
-each page uses the available content width and the document itself scrolls
-vertically.
+positioned inside the scaled canvas at the minimum and wide supported
+desktop sizes. `tests/e2e/test_sheet_zoom.py` covers the zoom controller.
 
 ## Manual acceptance checklist
 
@@ -118,17 +168,17 @@ vertically.
 > times** during development, each time in a different way, and each time
 > it was invisible to the test suite that was green at that moment:
 >
-> 1. **Coordinate calibration** (Task 4) — whole regions of checkboxes were
+> 1. **Coordinate calibration** — whole regions of checkboxes were
 >    mapped to the wrong printed rows because of a wrong row-pitch constant.
 >    Two rounds of fixes were needed. All structural tests passed throughout.
-> 2. **Global CSS leak** (Task 9) — a generic `input[type=checkbox]` rule in
+> 2. **Global CSS leak** — a generic `input[type=checkbox]` rule in
 >    the new site-wide stylesheet resized every sheet checkbox, breaking the
 >    pixel geometry.
-> 3. **Idle appearance** (Task 11) — unchecked checkboxes rendered as large
+> 3. **Idle appearance** — unchecked checkboxes rendered as large
 >    solid grey squares covering the printed artwork, because Chromium's
 >    native unchecked control fills a box stretched to the schema
 >    rectangle's size.
-> 4. **Missing coverage** (final review) — the *checked* state and the
+> 4. **Missing coverage** — the *checked* state and the
 >    admin read-only view had no visual test at all, on any page.
 >
 > All four are fixed and now have automated coverage. But the pattern is
@@ -138,7 +188,8 @@ vertically.
 > control sits on *the checkbox a player expects to tick*.
 >
 > **What to actually check**, per page (1, 2, ship), at representative wide
-> and narrow content widths while scrolling the document vertically:
+> and narrow content widths and at several zoom levels while scrolling the
+> document vertically:
 > - Every printed circle/square has exactly one control on it — none missed,
 >   none doubled up, none shifted to a neighbour.
 > - Ticking a box marks *that* box, not the one above/below/beside it.
@@ -150,18 +201,15 @@ vertically.
 >   (Dorsal/Prow/Keel/Port/Starboard). These were all placed from measured
 >   grid pitches — one wrong constant silently shifts an entire block.
 >
-> The advance-pips and the ship's location circles are additionally flagged
-> as *medium confidence* in the Task 4 report: unlike the large grids, they
-> were positioned by visual estimate rather than by projection-profile
-> measurement.
+> Note that some persistent skill-checkbox IDs are known to name the wrong
+> printed row; that is a deliberate open data question, not a geometry bug.
+> See [`docs/checkbox-row-mapping.md`](docs/checkbox-row-mapping.md) before
+> reporting it.
 
 The acceptance checklist has three explicit categories. Items marked
-**automated** are covered by the Playwright suite above and are listed here
-only for completeness against the spec's checklist
-(`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`, "Tests
-und Abnahme"). Items marked **verified-host** were rehearsed on a real
-Docker host. Items marked **manual** still require physical-device acceptance
-by a person.
+**automated** are covered by the Playwright suite above. Items marked
+**verified-host** were rehearsed on a real Docker host. Items marked **manual**
+still require physical-device acceptance by a person.
 
 1. **[automated]** Bootstrap an admin and create two normal accounts.
 2. **[automated]** Create multiple characters on both accounts and confirm
@@ -173,14 +221,13 @@ by a person.
 5. **[automated]** Browse a wiki chapter's section navigation and confirm
    search finds it.
 6. **[manual, desktop acceptance]** In supported desktop browsers at widths
-   from 1024 px: confirm every
+   from 1024 px, and across the 30–100 % zoom range: confirm every
    printed line, value box, and checkbox/marking circle has exactly one
    aligned control sitting on it, that every other mark on the page
    (borders, decorative art, static labels) is inert (does not respond to
    click or focus), that the ship page reads upright in landscape, and
    that normal vertical scrolling feels natural and no page creates
-   horizontal document overflow. There are deliberately no viewer zoom,
-   fit, or pan controls.
+   horizontal document overflow.
 7. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
    isolated Compose project with a disposable volume was rebuilt from a
    clean image and forcibly recreated; account, character, and ship data

@@ -1,0 +1,32 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$input_json = [Console]::In.ReadToEnd() | ConvertFrom-Json\n$path = $input_json.tool_input.file_path\nif ($path -and ($path -match '(^|[\\\\/])\\.env$') -and ($path -notmatch '\\.env\\.example$')) {\n  $output = @{ hookSpecificOutput = @{ hookEventName = 'PreToolUse'; permissionDecision = 'deny'; permissionDecisionReason = '.env manuell bearbeiten -- nicht ueber Claude.' } }\n  $output | ConvertTo-Json -Depth 5 -Compress\n}",
+            "timeout": 15,
+            "statusMessage": "Checking for .env edit..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$input_json = [Console]::In.ReadToEnd() | ConvertFrom-Json\n$path = $input_json.tool_input.file_path\nif (-not $path) { exit 0 }\n$norm = $path -replace '/', '\\'\nif ($norm -notmatch '\\.py$') { exit 0 }\nif ($norm -match '\\\\(tmp|\\.venv|\\.worktrees|graphify-out|staticfiles|__pycache__|migrations)\\\\') { exit 0 }\nif ($norm -match '\\\\(accounts|core|sheets|wiki)\\\\') { $app = $Matches[1] } else { exit 0 }\nSet-Location 'C:\\Prv\\pnp\\RogueTraider\\Character sheet\\Wissensdatenbank'\n& '.venv\\Scripts\\python.exe' -m pytest -q \"$app/tests\" 2>&1 | Out-String",
+            "timeout": 120,
+            "statusMessage": "Running affected app tests..."
+          }
+        ]
+      }
+    ]
+  }
+}
