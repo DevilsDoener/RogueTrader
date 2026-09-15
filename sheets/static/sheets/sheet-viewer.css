@@ -198,15 +198,21 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M2 2L18 18M18 2L2 18' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
-/* "Adv. Taken" advancement pips are printed as small circles (four per
-   characteristic). When ticked they get a round black fill covering the whole
-   pip, instead of the inset X used for the square skill cells. */
+/* Printed pips keep their circular outline. Ship pips use a round black fill;
+   the advancement pips on both character pages override that fill with the
+   same inset X used by the other checked fields. */
 .sheet-checkbox.sheet-checkbox--pip {
   background-size: 100% 100%;
 }
 
 .sheet-checkbox.sheet-checkbox--pip:checked {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23000'/%3E%3C/svg%3E");
+}
+
+.sheet-page[data-page-id="character-page-1"] .sheet-checkbox--pip:checked,
+.sheet-page[data-page-id="character-page-2"] .sheet-checkbox--pip:checked {
+  background-size: 70% 70%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M2 2L18 18M18 2L2 18' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .sheet-conflict-panel {
