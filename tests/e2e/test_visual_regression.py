@@ -67,7 +67,7 @@ MAX_MEAN_CHANNEL_DIFF = 12.0
 PAGES = [
     ("character-page-1", "c1_ws_adv_1", {"width": 1400, "height": 1800}),
     ("character-page-2", "c2_ws_adv_1", {"width": 1400, "height": 1800}),
-    ("ship-page", "ship_weapon_capacity_dorsal", {"width": 1800, "height": 1300}),
+    ("ship-page", "ship_weapon_1_location_dorsal", {"width": 1800, "height": 1300}),
 ]
 
 DESKTOP_VIEWPORTS = [

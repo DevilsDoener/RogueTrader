@@ -27,6 +27,23 @@ def _wait_saved(page):
     )
 
 
+def _wait_for_fit(page):
+    # The viewer re-fits the canvas to the column via JS on resize (one event
+    # tick). When a test changes the viewport after load and measures at once,
+    # wait for the re-fit: at 100% zoom a fitted canvas's rendered width equals
+    # the column (wrapper) width.
+    page.wait_for_function(
+        """() => {
+          const wr = document.getElementById('sheet-canvas-wrapper');
+          const cs = document.querySelectorAll('.sheet-page .sheet-canvas');
+          if (!wr || !cs.length) return false;
+          return [...cs].every(
+            (c) => Math.abs(c.getBoundingClientRect().width - wr.clientWidth) <= 1
+          );
+        }"""
+    )
+
+
 def test_ship_viewer_has_no_zoom_controls_or_transform(
     page, live_server, user_factory, ship_sheet
 ):
@@ -58,24 +75,35 @@ def test_filled_ship_text_line_box_scales_and_fits_at_desktop_widths(
     measurements = {}
     for viewport in DESKTOP_TEXT_VIEWPORTS:
         page.set_viewport_size(viewport)
+        _wait_for_fit(page)
         measurements[viewport["width"]] = page.locator(
             '[data-field-id="ship_weapon_1_damage"]'
         ).evaluate(
             """(input) => {
               const style = getComputedStyle(input);
-              const rect = input.getBoundingClientRect();
+              const canvas = input.closest('.sheet-canvas');
+              const scale = Number.parseFloat(
+                getComputedStyle(canvas).getPropertyValue('--sheet-scale')
+              ) || 1;
               const px = (value) => Number.parseFloat(value) || 0;
+              const rect = input.getBoundingClientRect();
               return {
                 value: input.value,
                 color: style.color,
-                fontSize: px(style.fontSize),
-                lineHeight: px(style.lineHeight),
+                // "Does the text fit its box": rendered line height vs rendered
+                // content box (the computed line-height is scaled by the canvas
+                // transform into the same rendered space as the rect).
+                renderedLineHeight: px(style.lineHeight) * scale,
                 contentHeight: rect.height
                   - px(style.paddingTop) - px(style.paddingBottom)
                   - px(style.borderTopWidth) - px(style.borderBottomWidth),
                 clientHeight: input.clientHeight,
                 scrollHeight: input.scrollHeight,
-                canvasWidth: input.closest('.sheet-canvas').getBoundingClientRect().width,
+                // "Does the text scale with the sheet": rendered text scales
+                // with rendered canvas width via the single transform.
+                scale: scale,
+                renderedFont: px(style.fontSize) * scale,
+                canvasWidth: canvas.getBoundingClientRect().width,
               };
             }"""
         )
@@ -84,13 +112,15 @@ def test_filled_ship_text_line_box_scales_and_fits_at_desktop_widths(
         context = f"ship_weapon_1_damage at desktop width {viewport_width}px"
         assert metrics["value"] == "9", context
         assert metrics["color"] != "rgba(0, 0, 0, 0)", context
-        assert metrics["lineHeight"] <= metrics["contentHeight"] + 0.5, context
+        # Text fits inside its box (rendered space).
+        assert metrics["renderedLineHeight"] <= metrics["contentHeight"] + 0.5, context
         assert metrics["scrollHeight"] <= metrics["clientHeight"] + 1, context
 
     narrow = measurements[1024]
     wide = measurements[1440]
-    assert narrow["fontSize"] < wide["fontSize"]
-    assert wide["fontSize"] / narrow["fontSize"] == pytest.approx(
+    # The single canvas transform scales the rendered text with the sheet.
+    assert narrow["renderedFont"] < wide["renderedFont"]
+    assert wide["renderedFont"] / narrow["renderedFont"] == pytest.approx(
         wide["canvasWidth"] / narrow["canvasWidth"], rel=0.15
     )
 

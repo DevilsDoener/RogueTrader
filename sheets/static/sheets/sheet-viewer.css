@@ -1,7 +1,19 @@
-/* Styles for the pixel-aligned responsive sheet viewer. .sheet-canvas keeps
-   the background image's intrinsic aspect ratio and every overlay field is
-   positioned as a percentage of it, so the image and fields resize together
-   while the full page remains in normal document flow. */
+/* Styles for the pixel-aligned sheet viewer.
+
+   Two rendering modes:
+
+   1. Fallback (no JS, or before sheet-zoom.js runs): .sheet-canvas is a fluid
+      width:100% box with the image's aspect-ratio; every field is positioned as
+      a percentage of it. This renders correctly on its own.
+
+   2. Scaled mode (sheet-zoom.js adds .is-scaled to .sheet-viewer-root): the
+      canvas is pinned to the image's intrinsic pixel size and the ENTIRE layer
+      (background + every field, text and checkbox) is scaled by a single
+      `transform: scale(var(--sheet-scale))`. Because one transform moves
+      everything as a unit, fields cannot drift relative to the artwork on zoom
+      or at any width. .sheet-page reserves the scaled layout box (its px size is
+      set inline by the JS); the transform lives on .sheet-canvas, never on
+      .sheet-canvas-wrapper, so the wrapper stays transform:none. */
 
 .sheet-viewer-root {
   --sheet-gold: #b08d57;
@@ -62,8 +74,7 @@
 }
 
 .sheet-canvas-wrapper {
-  --sheet-zoom: 1;
-  width: calc(var(--sheet-zoom) * 100%);
+  width: 100%;
   margin-inline: auto;
 }
 
@@ -75,6 +86,25 @@
   position: relative;
   width: 100%;
   container-type: inline-size;
+}
+
+/* Scaled mode (JS-enabled): one transform scales the whole calibrated layer.
+   .sheet-page becomes the sizing box that reserves the on-screen (scaled) area
+   -- its px width/height are written inline by sheet-zoom.js. The canvas is
+   pinned to its natural px size (also inline) and scaled down/into that box. */
+.sheet-viewer-root.is-scaled .sheet-page {
+  position: relative;
+  overflow: hidden;
+  margin-inline: auto;
+}
+
+.sheet-viewer-root.is-scaled .sheet-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* width/height are pinned to the natural px size inline by the JS. */
+  transform-origin: top left;
+  transform: scale(var(--sheet-scale, 1));
 }
 
 .sheet-background {
@@ -120,6 +150,25 @@
   color: #111;
 }
 
+/* Centred value fields (characteristic boxes, experience totals): fill the
+   whole field box and centre the value horizontally and vertically, instead
+   of sitting bottom-left on a printed line. Enabled per field via the schema
+   `align: "center"` property. */
+.sheet-text--center {
+  top: 0;
+  height: 100%;
+  padding-left: 0;
+  text-align: center;
+  line-height: normal;
+}
+
+/* Characteristic value boxes hold only a single two-digit number, so give them
+   a noticeably larger size than the standard line-height text fields. Scoped to
+   explicit characteristic style so experience totals stay normal. */
+.sheet-text--center.sheet-text--characteristic {
+  font-size: 2.6cqw;
+}
+
 .sheet-input:focus-visible,
 .sheet-input:focus {
   outline: 2px solid var(--sheet-gold);
@@ -146,7 +195,18 @@
 .sheet-checkbox:checked {
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect width='20' height='20' fill='%23000'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M2 2L18 18M18 2L2 18' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* "Adv. Taken" advancement pips are printed as small circles (four per
+   characteristic). When ticked they get a round black fill covering the whole
+   pip, instead of the inset X used for the square skill cells. */
+.sheet-checkbox.sheet-checkbox--pip {
+  background-size: 100% 100%;
+}
+
+.sheet-checkbox.sheet-checkbox--pip:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23000'/%3E%3C/svg%3E");
 }
 
 .sheet-conflict-panel {
@@ -193,3 +253,8 @@
   outline-color: rgba(20, 110, 220, 0.9);
   background: rgba(20, 110, 220, 0.18);
 }
+
+/* Hit labels expand only interaction; the original circle is still painted
+   by the unchanged input. Source-pixel padding scales with the canvas. */
+.sheet-pip-hit { position: absolute; cursor: pointer; z-index: 0; }
+.sheet-field:has(.sheet-pip-hit) > .sheet-checkbox { position: relative; z-index: 1; }

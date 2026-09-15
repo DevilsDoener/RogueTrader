@@ -1,0 +1,1387 @@
+{
+  "page_id": "ship-page",
+  "image": {
+    "width": 3238,
+    "height": 2484
+  },
+  "templates": {
+    "weapon": {
+      "type_macro_battery": {
+        "kind": "checkbox",
+        "x": 0.0,
+        "y": 0.1207,
+        "width": 0.4632,
+        "height": 0.6039,
+        "max_length": 1,
+        "checkbox_style": "square"
+      },
+      "type_lance": {
+        "kind": "checkbox",
+        "x": 0.0309,
+        "y": 1.1272,
+        "width": 0.4324,
+        "height": 0.6441,
+        "max_length": 1,
+        "checkbox_style": "square"
+      },
+      "name": {
+        "kind": "text",
+        "x": 0.0618,
+        "y": 0.2415,
+        "width": 30.3891,
+        "height": 1.3688,
+        "max_length": 60,
+        "text_style": "line"
+      },
+      "strength": {
+        "kind": "text",
+        "x": 32.6127,
+        "y": 0.2818,
+        "width": 2.1618,
+        "height": 1.3688,
+        "max_length": 6,
+        "text_style": "line"
+      },
+      "crit_rating": {
+        "kind": "text",
+        "x": 37.3996,
+        "y": 0.2415,
+        "width": 2.1618,
+        "height": 1.3688,
+        "max_length": 6,
+        "text_style": "line"
+      },
+      "damage": {
+        "kind": "text",
+        "x": 42.1865,
+        "y": 0.2415,
+        "width": 2.1618,
+        "height": 1.3688,
+        "max_length": 12,
+        "text_style": "line"
+      },
+      "range": {
+        "kind": "text",
+        "x": 47.4676,
+        "y": 0.0,
+        "width": 2.4089,
+        "height": 1.6908,
+        "max_length": 6,
+        "text_style": "line"
+      },
+      "location_dorsal": {
+        "kind": "checkbox",
+        "x": 54.4472,
+        "y": 0.4831,
+        "width": 0.4941,
+        "height": 0.6441,
+        "max_length": 1,
+        "checkbox_style": "square"
+      },
+      "location_prow": {
+        "kind": "checkbox",
+        "x": 58.2458,
+        "y": 0.4831,
+        "width": 0.4941,
+        "height": 0.6441,
+        "max_length": 1,
+        "checkbox_style": "square"
+      },
+      "location_keel": {
+        "kind": "checkbox",
+        "x": 61.9827,
+        "y": 0.4831,
+        "width": 0.4632,
+        "height": 0.6441,
+        "max_length": 1,
+        "checkbox_style": "square"
+      },
+      "location_port": {
+        "kind": "checkbox",
+        "x": 65.7196,
+        "y": 0.4831,
+        "width": 0.4632,
+        "height": 0.6039,
+        "max_length": 1,
+        "checkbox_style": "square"
+      },
+      "location_starboard": {
+        "kind": "checkbox",
+        "x": 69.4873,
+        "y": 0.4831,
+        "width": 0.4632,
+        "height": 0.5636,
+        "max_length": 1,
+        "checkbox_style": "square"
+      }
+    }
+  },
+  "sections": [
+    {
+      "id": "ship_name",
+      "origin": [
+        15.7505,
+        7.6087
+      ],
+      "fields": [
+        {
+          "id": "ship_name",
+          "kind": "text",
+          "x": 0.9265,
+          "y": 0.0,
+          "width": 26.9302,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Name",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_class",
+      "origin": [
+        15.4416,
+        10.6683
+      ],
+      "fields": [
+        {
+          "id": "ship_class",
+          "kind": "text",
+          "x": 1.2971,
+          "y": 0.0,
+          "width": 11.6739,
+          "height": 1.3688,
+          "max_length": 30,
+          "label": "Class",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_hull",
+      "origin": [
+        29.0303,
+        10.628
+      ],
+      "fields": [
+        {
+          "id": "ship_hull",
+          "kind": "text",
+          "x": 2.625,
+          "y": 0.0,
+          "width": 11.9518,
+          "height": 1.3688,
+          "max_length": 30,
+          "label": "Hull",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_speed",
+      "origin": [
+        15.7505,
+        13.6473
+      ],
+      "fields": [
+        {
+          "id": "ship_speed",
+          "kind": "text",
+          "x": 1.2353,
+          "y": 0.0,
+          "width": 26.6214,
+          "height": 1.3688,
+          "max_length": 10,
+          "label": "Speed",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_manoeuvrability",
+      "origin": [
+        19.4565,
+        16.6667
+      ],
+      "fields": [
+        {
+          "id": "ship_manoeuvrability",
+          "kind": "text",
+          "x": 3.953,
+          "y": 0.0,
+          "width": 20.1977,
+          "height": 1.3688,
+          "max_length": 10,
+          "label": "Manoeuvrability",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_detection",
+      "origin": [
+        16.3681,
+        19.686
+      ],
+      "fields": [
+        {
+          "id": "ship_detection",
+          "kind": "text",
+          "x": 3.0266,
+          "y": 0.0,
+          "width": 24.2125,
+          "height": 1.3688,
+          "max_length": 10,
+          "label": "Detection",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_essential",
+      "origin": [
+        12.3533,
+        27.0531
+      ],
+      "fields": [
+        {
+          "id": "ship_essential_component_1",
+          "kind": "text",
+          "x": 1.1427,
+          "y": 0.0,
+          "width": 30.5127,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Essential component 1",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_essential_component_2",
+          "kind": "text",
+          "x": 1.1427,
+          "y": 2.5363,
+          "width": 30.5127,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Essential component 2",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_essential_component_3",
+          "kind": "text",
+          "x": 1.1427,
+          "y": 5.0322,
+          "width": 30.5127,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Essential component 3",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_essential_component_4",
+          "kind": "text",
+          "x": 1.1427,
+          "y": 10.0645,
+          "width": 30.5127,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Essential component 4",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_essential_component_5",
+          "kind": "text",
+          "x": 1.1427,
+          "y": 13.0838,
+          "width": 30.5127,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Essential component 5",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_essential_component_6",
+          "kind": "text",
+          "x": 1.1427,
+          "y": 16.1031,
+          "width": 30.5127,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Essential component 6",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_supplemental",
+      "origin": [
+        12.3533,
+        50.7246
+      ],
+      "fields": [
+        {
+          "id": "ship_supplemental_component_1",
+          "kind": "text",
+          "x": 1.2353,
+          "y": 0.0,
+          "width": 30.4509,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Supplemental component 1",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_supplemental_component_2",
+          "kind": "text",
+          "x": 1.2353,
+          "y": 2.5363,
+          "width": 30.4509,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Supplemental component 2",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_supplemental_component_3",
+          "kind": "text",
+          "x": 1.2353,
+          "y": 5.0322,
+          "width": 30.4509,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Supplemental component 3",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_supplemental_component_4",
+          "kind": "text",
+          "x": 1.2353,
+          "y": 7.5282,
+          "width": 30.4509,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Supplemental component 4",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_supplemental_component_5",
+          "kind": "text",
+          "x": 1.2353,
+          "y": 10.0644,
+          "width": 30.4509,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Supplemental component 5",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_complication",
+      "origin": [
+        12.3533,
+        68.8405
+      ],
+      "fields": [
+        {
+          "id": "ship_complication_1",
+          "kind": "text",
+          "x": 1.2662,
+          "y": 0.0001,
+          "width": 30.4509,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Complications/Past History 1",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_complication_2",
+          "kind": "text",
+          "x": 1.2662,
+          "y": 2.5363,
+          "width": 30.4509,
+          "height": 1.3688,
+          "max_length": 60,
+          "label": "Complications/Past History 2",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_turret",
+      "origin": [
+        57.5973,
+        7.4074
+      ],
+      "fields": [
+        {
+          "id": "ship_turret_rating",
+          "kind": "text",
+          "x": 1.9456,
+          "y": 0.0,
+          "width": 26.0037,
+          "height": 1.3688,
+          "max_length": 10,
+          "label": "Turret Rating",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_shields",
+      "origin": [
+        55.1266,
+        10.4267
+      ],
+      "fields": [
+        {
+          "id": "ship_shields",
+          "kind": "text",
+          "x": 0.8956,
+          "y": 0.0,
+          "width": 29.5244,
+          "height": 1.3688,
+          "max_length": 10,
+          "label": "Shields",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_armour",
+      "origin": [
+        55.4355,
+        13.4461
+      ],
+      "fields": [
+        {
+          "id": "ship_armour",
+          "kind": "text",
+          "x": 0.8956,
+          "y": 0.0,
+          "width": 29.2156,
+          "height": 1.3688,
+          "max_length": 10,
+          "label": "Armour",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_hull-2",
+      "origin": [
+        57.7517,
+        16.4251
+      ],
+      "fields": [
+        {
+          "id": "ship_hull_integrity_total",
+          "kind": "text",
+          "x": 2.7795,
+          "y": 0.0805,
+          "width": 11.118,
+          "height": 1.3688,
+          "max_length": 6,
+          "label": "Hull Integrity Total",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_hull_integrity_current",
+          "kind": "text",
+          "x": 13.8975,
+          "y": 0.0,
+          "width": 13.8975,
+          "height": 1.3688,
+          "max_length": 6,
+          "label": "Hull Integrity Current",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_space",
+      "origin": [
+        62.5077,
+        24.3559
+      ],
+      "fields": [
+        {
+          "id": "ship_space_available",
+          "kind": "text",
+          "x": -0.0926,
+          "y": -0.1208,
+          "width": 2.5633,
+          "height": 1.8921,
+          "max_length": 4,
+          "label": "Space Available",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
+          "id": "ship_space_used",
+          "kind": "text",
+          "x": -0.0926,
+          "y": 2.2947,
+          "width": 2.5633,
+          "height": 1.8519,
+          "max_length": 4,
+          "label": "Space Used",
+          "text_style": "center",
+          "input_mode": "numeric"
+        }
+      ]
+    },
+    {
+      "id": "ship_power",
+      "origin": [
+        81.2847,
+        24.2351
+      ],
+      "fields": [
+        {
+          "id": "ship_power_available",
+          "kind": "text",
+          "x": -0.0617,
+          "y": -0.0805,
+          "width": 2.5942,
+          "height": 1.8921,
+          "max_length": 4,
+          "label": "Power Available",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
+          "id": "ship_power_used",
+          "kind": "text",
+          "x": -0.0617,
+          "y": 2.3349,
+          "width": 2.5942,
+          "height": 1.8519,
+          "max_length": 4,
+          "label": "Power Used",
+          "text_style": "center",
+          "input_mode": "numeric"
+        }
+      ]
+    },
+    {
+      "id": "ship_weapon",
+      "origin": [
+        64.2372,
+        31.8841
+      ],
+      "fields": [
+        {
+          "id": "ship_weapon_capacity_dorsal",
+          "kind": "text",
+          "x": -0.0618,
+          "y": -0.0403,
+          "width": 2.5633,
+          "height": 1.8921,
+          "max_length": 4,
+          "label": "Weapon Capacity Dorsal",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
+          "id": "ship_weapon_capacity_prow",
+          "kind": "text",
+          "x": 6.9796,
+          "y": -0.0806,
+          "width": 2.5942,
+          "height": 1.8921,
+          "max_length": 4,
+          "label": "Weapon Capacity Prow",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
+          "id": "ship_weapon_capacity_keel",
+          "kind": "text",
+          "x": 14.021,
+          "y": -0.0806,
+          "width": 2.5633,
+          "height": 1.8519,
+          "max_length": 4,
+          "label": "Weapon Capacity Keel",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
+          "id": "ship_weapon_capacity_port",
+          "kind": "text",
+          "x": -0.0618,
+          "y": 2.818,
+          "width": 2.5942,
+          "height": 1.8519,
+          "max_length": 4,
+          "label": "Weapon Capacity Port",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
+          "id": "ship_weapon_capacity_starboard",
+          "kind": "text",
+          "x": 7.0105,
+          "y": 2.7777,
+          "width": 2.5633,
+          "height": 1.8921,
+          "max_length": 4,
+          "label": "Weapon Capacity Starboard",
+          "text_style": "center",
+          "input_mode": "numeric"
+        }
+      ]
+    },
+    {
+      "id": "ship_crew",
+      "origin": [
+        58.6782,
+        40.2174
+      ],
+      "fields": [
+        {
+          "id": "ship_crew_percent_max",
+          "kind": "text",
+          "x": -0.5559,
+          "y": 0.0402,
+          "width": 6.1149,
+          "height": 1.3688,
+          "max_length": 4,
+          "label": "Crew % Maximum",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_crew_percent_current",
+          "kind": "text",
+          "x": 7.3502,
+          "y": 0.0,
+          "width": 6.1149,
+          "height": 1.3688,
+          "max_length": 4,
+          "label": "Crew % Current",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_morale",
+      "origin": [
+        58.6782,
+        43.3575
+      ],
+      "fields": [
+        {
+          "id": "ship_morale_max",
+          "kind": "text",
+          "x": -0.5559,
+          "y": 0.0402,
+          "width": 6.1149,
+          "height": 1.3688,
+          "max_length": 4,
+          "label": "Morale Maximum",
+          "text_style": "line"
+        },
+        {
+          "id": "ship_morale_current",
+          "kind": "text",
+          "x": 7.3502,
+          "y": 0.0,
+          "width": 6.1149,
+          "height": 1.3688,
+          "max_length": 4,
+          "label": "Morale Current",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "ship_weapon_1",
+      "origin": [
+        16.399,
+        80.3543
+      ],
+      "fields": [
+        {
+          "slot": "type_macro_battery",
+          "id": "ship_weapon_1_type_macro_battery",
+          "label": "Weapon 1 type: Macro Battery",
+          "x": -0.0618,
+          "y": 0.0,
+          "width": 0.5868,
+          "height": 0.8454,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "type_lance",
+          "id": "ship_weapon_1_type_lance",
+          "label": "Weapon 1 type: Lance",
+          "x": -0.0309,
+          "y": 1.0467,
+          "width": 0.5868,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "name",
+          "id": "ship_weapon_1_name",
+          "label": "Weapon 1 name",
+          "x": 0.803,
+          "y": 0.2415,
+          "width": 30.5435,
+          "height": 1.3688
+        },
+        {
+          "slot": "strength",
+          "id": "ship_weapon_1_strength",
+          "label": "Weapon 1 strength",
+          "x": 33.2304,
+          "y": 0.0805,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "crit_rating",
+          "id": "ship_weapon_1_crit_rating",
+          "label": "Weapon 1 crit_rating",
+          "x": 38.0173,
+          "y": 0.0402,
+          "width": 2.4089,
+          "height": 1.6506
+        },
+        {
+          "slot": "damage",
+          "id": "ship_weapon_1_damage",
+          "label": "Weapon 1 damage",
+          "x": 42.7733,
+          "y": 0.0,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "range",
+          "id": "ship_weapon_1_range",
+          "label": "Weapon 1 range",
+          "x": 47.4676,
+          "y": 0.0,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "location_dorsal",
+          "id": "ship_weapon_1_location_dorsal",
+          "label": "Weapon 1 location dorsal",
+          "x": 54.3854,
+          "y": 0.4025,
+          "width": 0.6177,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_prow",
+          "id": "ship_weapon_1_location_prow",
+          "label": "Weapon 1 location prow",
+          "x": 58.1532,
+          "y": 0.4025,
+          "width": 0.6177,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_keel",
+          "id": "ship_weapon_1_location_keel",
+          "label": "Weapon 1 location keel",
+          "x": 61.8901,
+          "y": 0.4025,
+          "width": 0.6177,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_port",
+          "id": "ship_weapon_1_location_port",
+          "label": "Weapon 1 location port",
+          "x": 65.6269,
+          "y": 0.4025,
+          "width": 0.6485,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_starboard",
+          "id": "ship_weapon_1_location_starboard",
+          "label": "Weapon 1 location starboard",
+          "x": 69.3947,
+          "y": 0.3623,
+          "width": 0.6177,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "ship_weapon_2",
+      "origin": [
+        16.4299,
+        82.8502
+      ],
+      "fields": [
+        {
+          "slot": "type_macro_battery",
+          "id": "ship_weapon_2_type_macro_battery",
+          "label": "Weapon 2 type: Macro Battery",
+          "y": 0.0806,
+          "height": 0.8052,
+          "x": -0.0618,
+          "width": 0.6177,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "type_lance",
+          "id": "ship_weapon_2_type_lance",
+          "label": "Weapon 2 type: Lance",
+          "x": -0.0618,
+          "y": 1.087,
+          "width": 0.6177,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "name",
+          "id": "ship_weapon_2_name",
+          "label": "Weapon 2 name",
+          "x": 0.7721,
+          "y": 0.2416,
+          "width": 30.5435,
+          "height": 1.3688
+        },
+        {
+          "slot": "strength",
+          "id": "ship_weapon_2_strength",
+          "label": "Weapon 2 strength",
+          "x": 33.1995,
+          "y": 0.0806,
+          "width": 2.4398,
+          "height": 1.6908
+        },
+        {
+          "slot": "crit_rating",
+          "id": "ship_weapon_2_crit_rating",
+          "label": "Weapon 2 crit_rating",
+          "x": 37.9864,
+          "y": 0.0806,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "damage",
+          "id": "ship_weapon_2_damage",
+          "label": "Weapon 2 damage",
+          "x": 42.7424,
+          "y": 0.0403,
+          "width": 2.4089,
+          "height": 1.6506
+        },
+        {
+          "slot": "range",
+          "id": "ship_weapon_2_range",
+          "label": "Weapon 2 range",
+          "x": 47.4367,
+          "width": 2.4707,
+          "y": 0.0,
+          "height": 1.6908
+        },
+        {
+          "slot": "location_dorsal",
+          "id": "ship_weapon_2_location_dorsal",
+          "label": "Weapon 2 location dorsal",
+          "width": 0.6177,
+          "x": 54.3854,
+          "y": 0.4026,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_prow",
+          "id": "ship_weapon_2_location_prow",
+          "label": "Weapon 2 location prow",
+          "x": 58.1532,
+          "y": 0.3624,
+          "height": 0.8052,
+          "width": 0.5868,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_keel",
+          "id": "ship_weapon_2_location_keel",
+          "label": "Weapon 2 location keel",
+          "x": 61.8592,
+          "height": 0.8052,
+          "y": 0.3624,
+          "width": 0.6485,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_port",
+          "id": "ship_weapon_2_location_port",
+          "label": "Weapon 2 location port",
+          "y": 0.3221,
+          "x": 65.6269,
+          "width": 0.6485,
+          "height": 0.8454,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_starboard",
+          "id": "ship_weapon_2_location_starboard",
+          "label": "Weapon 2 location starboard",
+          "x": 69.3638,
+          "y": 0.3221,
+          "height": 0.8052,
+          "width": 0.6485,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "ship_weapon_3",
+      "origin": [
+        16.4299,
+        85.5878
+      ],
+      "fields": [
+        {
+          "slot": "type_macro_battery",
+          "id": "ship_weapon_3_type_macro_battery",
+          "label": "Weapon 3 type: Macro Battery",
+          "y": -0.0806,
+          "height": 0.8052,
+          "x": -0.0618,
+          "width": 0.6177,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "type_lance",
+          "id": "ship_weapon_3_type_lance",
+          "label": "Weapon 3 type: Lance",
+          "x": -0.0618,
+          "y": 0.8856,
+          "width": 0.6177,
+          "height": 0.8454,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "name",
+          "id": "ship_weapon_3_name",
+          "label": "Weapon 3 name",
+          "x": 0.7721,
+          "y": 0.0402,
+          "width": 30.5435,
+          "height": 1.3688
+        },
+        {
+          "slot": "strength",
+          "id": "ship_weapon_3_strength",
+          "label": "Weapon 3 strength",
+          "x": 33.2304,
+          "y": -0.1611,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "crit_rating",
+          "id": "ship_weapon_3_crit_rating",
+          "label": "Weapon 3 crit_rating",
+          "x": 37.9864,
+          "y": -0.1611,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "damage",
+          "id": "ship_weapon_3_damage",
+          "label": "Weapon 3 damage",
+          "x": 42.7424,
+          "y": -0.1611,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "range",
+          "id": "ship_weapon_3_range",
+          "label": "Weapon 3 range",
+          "x": 47.4676,
+          "width": 2.4398,
+          "height": 1.6908,
+          "y": -0.2013
+        },
+        {
+          "slot": "location_dorsal",
+          "id": "ship_weapon_3_location_dorsal",
+          "label": "Weapon 3 location dorsal",
+          "x": 54.4163,
+          "y": 0.1207,
+          "width": 0.6177,
+          "height": 0.8454,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_prow",
+          "id": "ship_weapon_3_location_prow",
+          "label": "Weapon 3 location prow",
+          "x": 58.1841,
+          "y": 0.0805,
+          "height": 0.8454,
+          "width": 0.6177,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_keel",
+          "id": "ship_weapon_3_location_keel",
+          "label": "Weapon 3 location keel",
+          "x": 61.8901,
+          "y": 0.0805,
+          "width": 0.6177,
+          "height": 0.8454,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_port",
+          "id": "ship_weapon_3_location_port",
+          "label": "Weapon 3 location port",
+          "y": 0.0805,
+          "width": 0.6177,
+          "height": 0.8454,
+          "x": 65.6578,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_starboard",
+          "id": "ship_weapon_3_location_starboard",
+          "label": "Weapon 3 location starboard",
+          "x": 69.3947,
+          "y": 0.0805,
+          "width": 0.6485,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "ship_weapon_4",
+      "origin": [
+        16.4299,
+        88.1643
+      ],
+      "fields": [
+        {
+          "slot": "type_macro_battery",
+          "id": "ship_weapon_4_type_macro_battery",
+          "label": "Weapon 4 type: Macro Battery",
+          "y": -0.1208,
+          "width": 0.6177,
+          "height": 0.8052,
+          "x": -0.0618,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "type_lance",
+          "id": "ship_weapon_4_type_lance",
+          "label": "Weapon 4 type: Lance",
+          "x": -0.0618,
+          "y": 0.8856,
+          "width": 0.6177,
+          "height": 0.8052,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            160,
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "slot": "name",
+          "id": "ship_weapon_4_name",
+          "label": "Weapon 4 name",
+          "x": 0.7721,
+          "y": 0.0,
+          "width": 30.5435,
+          "height": 1.3688
+        },
+        {
+          "slot": "strength",
+          "id": "ship_weapon_4_strength",
+          "label": "Weapon 4 strength",
+          "x": 33.2304,
+          "y": -0.1611,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "crit_rating",
+          "id": "ship_weapon_4_crit_rating",
+          "label": "Weapon 4 crit_rating",
+          "x": 37.9864,
+          "y": -0.2013,
+          "width": 2.4398,
+          "height": 1.6908
+        },
+        {
+          "slot": "damage",
+          "id": "ship_weapon_4_damage",
+          "label": "Weapon 4 damage",
+          "x": 42.7424,
+          "y": -0.2416,
+          "width": 2.4089,
+          "height": 1.6908
+        },
+        {
+          "slot": "range",
+          "id": "ship_weapon_4_range",
+          "label": "Weapon 4 range",
+          "x": 47.4676,
+          "width": 2.4398,
+          "height": 1.6908,
+          "y": -0.2416
+        },
+        {
+          "slot": "location_dorsal",
+          "id": "ship_weapon_4_location_dorsal",
+          "label": "Weapon 4 location dorsal",
+          "x": 54.4163,
+          "y": 0.0,
+          "height": 0.8454,
+          "width": 0.6177,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_prow",
+          "id": "ship_weapon_4_location_prow",
+          "label": "Weapon 4 location prow",
+          "y": 0.0,
+          "height": 0.8454,
+          "x": 58.1841,
+          "width": 0.6485,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_keel",
+          "id": "ship_weapon_4_location_keel",
+          "label": "Weapon 4 location keel",
+          "y": 0.0,
+          "height": 0.8454,
+          "x": 61.9209,
+          "width": 0.6177,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_port",
+          "id": "ship_weapon_4_location_port",
+          "label": "Weapon 4 location port",
+          "y": 0.0,
+          "width": 0.6177,
+          "height": 0.8052,
+          "x": 65.6578,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        },
+        {
+          "slot": "location_starboard",
+          "id": "ship_weapon_4_location_starboard",
+          "label": "Weapon 4 location starboard",
+          "y": 0.0,
+          "width": 0.6177,
+          "height": 0.8052,
+          "x": 69.4256,
+          "checkbox_style": "pip",
+          "hit_padding": [
+            40,
+            16,
+            40,
+            16
+          ]
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "essential-missing-line",
+      "origin": [
+        0,
+        0
+      ],
+      "fields": [
+        {
+          "id": "ship_essential_component_7",
+          "kind": "text",
+          "label": "Essential component (fourth printed line)",
+          "max_length": 60,
+          "text_style": "line",
+          "x": 13.496,
+          "y": 34.6216,
+          "width": 30.5127,
+          "height": 1.3688
+        }
+      ]
+    }
+  ]
+}

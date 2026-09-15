@@ -198,6 +198,36 @@ button[type="submit"]:hover,
   border-color: var(--rt-gold-bright);
 }
 
+/* Specificity note: must beat button[type="submit"]'s gold default, so
+   this repeats the [type="submit"] qualifier rather than relying on
+   source order. */
+.button-danger,
+button[type="submit"].button-danger {
+  background: var(--rt-danger);
+  border-color: var(--rt-danger);
+  color: var(--rt-text);
+  font-weight: 600;
+}
+
+.button-danger:hover,
+button[type="submit"].button-danger:hover {
+  background: var(--rt-danger-bright);
+  border-color: var(--rt-danger-bright);
+}
+
+button:disabled,
+.button:disabled,
+button[aria-disabled="true"],
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+button:disabled:hover,
+.button:disabled:hover {
+  border-color: var(--rt-border-strong);
+}
+
 .link-button {
   min-height: 2.75rem;
   padding: 0.5rem 0.75rem;
@@ -244,6 +274,28 @@ label {
   display: inline-block;
   margin-bottom: 0.25rem;
   color: var(--rt-text-muted);
+}
+
+/* Django's default form.as_p / non_field_errors rendering: both emit a
+   plain <ul class="errorlist">, which had no rule here and rendered as
+   near-invisible default-color text on the dark theme. */
+.errorlist {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(179, 84, 63, 0.15);
+  border: 1px solid var(--rt-danger);
+  border-radius: var(--rt-radius);
+  color: var(--rt-danger-bright);
+  font-size: 0.9rem;
+}
+
+.errorlist li {
+  margin: 0;
+}
+
+.errorlist li + li {
+  margin-top: 0.25rem;
 }
 
 /* ---------------------------------------------------------------------
@@ -426,6 +478,81 @@ label {
   margin-top: 0;
   font-size: 1.4rem;
 }
+
+/* Password setup: a quiet, single-column form within the existing auth shell. */
+.password-change-page .content-bare {
+  width: 100%;
+  max-width: 38rem;
+  padding: 2.5rem 1.25rem;
+  margin-inline: auto;
+}
+
+.password-card {
+  margin-top: 0;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border-top: 2px solid var(--rt-gold);
+  background: linear-gradient(145deg, var(--rt-panel), var(--rt-bg-elevated));
+}
+
+.password-card-header { margin-bottom: 2rem; }
+
+.password-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius-lg);
+  color: var(--rt-gold-bright);
+}
+
+.password-eyebrow {
+  margin: 0 0 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rt-gold-bright);
+}
+
+.password-card h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.65rem, 3vw, 2rem);
+}
+
+.password-intro {
+  margin: 0;
+  color: var(--rt-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.password-form { display: grid; gap: 1.5rem; }
+.password-field { display: grid; gap: 0.5rem; min-width: 0; }
+.password-field label { margin: 0; color: var(--rt-text); font-size: 0.9rem; font-weight: 600; }
+.password-field input { width: 100%; min-width: 0; min-height: 3rem; }
+.password-field input[aria-invalid="true"] { border-color: var(--rt-danger-bright); }
+.password-field .errorlist { margin: 0; }
+
+.password-rules {
+  margin-top: 0.25rem;
+  padding: 0.9rem 1rem;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--rt-text-muted);
+}
+
+.password-rules p { margin: 0 0 0.4rem; color: var(--rt-text); font-weight: 600; }
+.password-rules ul { margin: 0; padding-left: 1.1rem; }
+.password-rules li + li { margin-top: 0.25rem; }
+.password-rules li::marker { color: var(--rt-gold); }
+.password-field .password-hint { margin: 0; font-size: 0.8rem; color: var(--rt-text-muted); }
+.password-submit { width: 100%; min-height: 3rem; justify-content: space-between; }
 
 /* ---------------------------------------------------------------------
    Dashboard: the "double command center"
@@ -725,4 +852,37 @@ label {
   border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius-lg);
   overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------
+   Pagination (ship history and any future paged list)
+   --------------------------------------------------------------------- */
+
+.ship-history-pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.ship-history-pagination a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--rt-border-strong);
+  border-radius: var(--rt-radius);
+  text-decoration: none;
+  color: var(--rt-text);
+}
+
+.ship-history-pagination a:hover {
+  border-color: var(--rt-gold);
+  color: var(--rt-gold-bright);
+}
+
+.ship-history-pagination span {
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.85rem;
 }

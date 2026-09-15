@@ -147,8 +147,8 @@ def main():
                     items[offset : offset + MAX_ITEMS_PER_CONTACT],
                 )
 
-    if rendered != 424:
-        raise SystemExit(f"expected 424 checkbox crops, rendered {rendered}")
+    if rendered != 352:
+        raise SystemExit(f"expected 352 checkbox crops, rendered {rendered}")
     print(f"Rendered {rendered} checkbox crops to {OUTPUT_DIR}")
 
 

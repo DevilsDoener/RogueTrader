@@ -3,9 +3,10 @@
 Complements ``test_schema.py`` (structural schema validation) and
 ``test_assets.py`` (image sanity) with checks tying specific field rects to
 the actual pixels of the background artwork they sit on top of. These guard
-against the two calibration-drift failure modes found in a manual review:
-a field starting on top of its own printed label, and a characteristic
-value field extending underneath its bonus circle graphic.
+against calibration-drift failure modes found in manual review: a field
+starting on top of its own printed label, and a characteristic value field
+narrowing back off the full printed box (owner wants the value box to span
+the whole box, matching WS/BS, per ``docs/charakterbogen-feld-anforderungen.md``).
 """
 from __future__ import annotations
 
@@ -28,16 +29,12 @@ LABEL_ADJACENT_FIELDS = (
     ("character-page-1", "c1_description_line_1"),
 )
 
-# Characteristic value fields with a printed bonus circle occupying the
-# right half of their historical (pre-fix) box width.
-CIRCLE_VALUE_FIELDS = (
-    ("character-page-1", "c1_s_value"),
-    ("character-page-1", "c1_t_value"),
-    ("character-page-1", "c1_ag_value"),
-    ("character-page-1", "c1_int_value"),
-    ("character-page-1", "c1_per_value"),
-    ("character-page-1", "c1_wp_value"),
-    ("character-page-1", "c1_fel_value"),
+# Characteristic value fields whose printed box contains a bonus circle in
+# its left half. Both character pages now widen these to span the FULL printed
+# box (matching WS/BS), deliberately covering the circle -- owner request
+# (page 1: 2026-08-26; page 2: 2026-08-27). The guard below asserts they stay
+# widened rather than narrowing back off the box.
+FULL_BOX_VALUE_FIELDS = (
     ("character-page-2", "c2_s_value"),
     ("character-page-2", "c2_t_value"),
     ("character-page-2", "c2_ag_value"),
@@ -84,33 +81,17 @@ def test_field_does_not_start_on_top_of_its_own_label(page_id, field_id):
     )
 
 
-@pytest.mark.parametrize("page_id, field_id", CIRCLE_VALUE_FIELDS)
-def test_characteristic_value_field_stays_clear_of_bonus_circle(page_id, field_id):
+@pytest.mark.parametrize("page_id, field_id", FULL_BOX_VALUE_FIELDS)
+def test_characteristic_value_field_covers_full_box(page_id, field_id):
     field = _field(page_id, field_id)
-    im = _open_grayscale(page_id)
-    w, h = im.size
+    reference = _field(page_id, "c2_ws_value")
 
-    # The circle sits to the right of the field; probe a generous box
-    # spanning from the field's right edge out to well past where the
-    # circle is known to start, and confirm the field's own right edge
-    # is comfortably left of that circle's leftmost dark boundary pixel.
-    right_edge_px = w * (float(field.x) + float(field.width)) / 100.0
-    y_px = int(h * (float(field.y) + float(field.height) / 2) / 100.0)
-    probe_start_px = int(w * float(field.x) / 100.0)
-    probe_end_px = min(w - 1, int(right_edge_px) + 80)
-
-    circle_edge_px = None
-    prev = None
-    for x in range(probe_start_px, probe_end_px + 1):
-        value = im.getpixel((x, y_px))
-        if prev is not None and abs(value - prev) > 15 and x > probe_start_px + 5:
-            circle_edge_px = x
-            break
-        prev = value
-
-    assert circle_edge_px is not None, f"{field_id}: could not locate the bonus circle boundary"
-    assert right_edge_px <= circle_edge_px, (
-        f"{field_id}: field right edge ({right_edge_px:.1f}px) extends past the "
-        f"bonus circle boundary ({circle_edge_px}px) -- typed digits would render "
-        f"underneath the circle graphic"
+    # WS has no bonus circle, so its value box is the reference "full box"
+    # width. The circle-bearing characteristics must span essentially the same
+    # width (owner request) rather than the old ~half-box, clear-of-circle
+    # layout. Allow a small tolerance for the per-box printed-border spacing.
+    assert float(field.width) >= float(reference.width) - 0.3, (
+        f"{field_id}: width {field.width}% is narrower than the full "
+        f"characteristic box (WS reference {reference.width}%) -- the value "
+        f"box no longer spans the whole printed box"
     )

@@ -1,0 +1,2070 @@
+{
+  "page_id": "character-page-2",
+  "image": {
+    "width": 2484,
+    "height": 3246
+  },
+  "templates": {
+    "characteristic": {
+      "value": {
+        "kind": "text",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 9.1787,
+        "height": 4.313,
+        "max_length": 3,
+        "align": "center",
+        "text_style": "characteristic"
+      },
+      "adv_1": {
+        "kind": "checkbox",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 0.6039,
+        "height": 0.4621,
+        "max_length": 1,
+        "checkbox_style": "pip"
+      },
+      "adv_2": {
+        "kind": "checkbox",
+        "x": 1.0467,
+        "y": 0.0,
+        "width": 0.6039,
+        "height": 0.4621,
+        "max_length": 1,
+        "checkbox_style": "pip"
+      },
+      "adv_3": {
+        "kind": "checkbox",
+        "x": 2.0934,
+        "y": 0.0,
+        "width": 0.6039,
+        "height": 0.4621,
+        "max_length": 1,
+        "checkbox_style": "pip"
+      },
+      "adv_4": {
+        "kind": "checkbox",
+        "x": 3.0999,
+        "y": 0.0,
+        "width": 0.6039,
+        "height": 0.4621,
+        "max_length": 1,
+        "checkbox_style": "pip"
+      }
+    },
+    "weapon": {
+      "name": {
+        "kind": "text",
+        "x": 3.7439,
+        "y": 0.0,
+        "width": 39.6135,
+        "height": 1.0474,
+        "max_length": 60,
+        "text_style": "line"
+      },
+      "class": {
+        "kind": "text",
+        "x": 3.3413,
+        "y": 1.5403,
+        "width": 9.3398,
+        "height": 1.0474,
+        "max_length": 20,
+        "text_style": "line"
+      },
+      "damage": {
+        "kind": "text",
+        "x": 18.2367,
+        "y": 1.5403,
+        "width": 8.4138,
+        "height": 1.0474,
+        "max_length": 12,
+        "text_style": "line"
+      },
+      "type": {
+        "kind": "text",
+        "x": 30.1529,
+        "y": 1.5403,
+        "width": 5.1127,
+        "height": 1.0474,
+        "max_length": 12,
+        "text_style": "line"
+      },
+      "pen": {
+        "kind": "text",
+        "x": 38.0434,
+        "y": 1.5403,
+        "width": 5.1127,
+        "height": 1.0474,
+        "max_length": 8,
+        "text_style": "line"
+      },
+      "range": {
+        "kind": "text",
+        "x": 4.066,
+        "y": 3.0807,
+        "width": 8.5346,
+        "height": 1.0474,
+        "max_length": 12,
+        "text_style": "line"
+      },
+      "rof": {
+        "kind": "text",
+        "x": 16.0225,
+        "y": 3.0807,
+        "width": 8.4944,
+        "height": 1.0474,
+        "max_length": 12,
+        "text_style": "line"
+      },
+      "clip": {
+        "kind": "text",
+        "x": 27.5765,
+        "y": 3.0807,
+        "width": 5.1932,
+        "height": 1.0474,
+        "max_length": 8,
+        "text_style": "line"
+      },
+      "reload": {
+        "kind": "text",
+        "x": 37.5201,
+        "y": 3.0807,
+        "width": 5.153,
+        "height": 1.0474,
+        "max_length": 12,
+        "text_style": "line"
+      },
+      "special_rules_1": {
+        "kind": "text",
+        "x": 8.6236,
+        "y": 4.621,
+        "width": 34.3313,
+        "height": 1.0474,
+        "max_length": 100,
+        "text_style": "line"
+      },
+      "special_rules_2": {
+        "kind": "text",
+        "x": 0.0,
+        "y": 6.1614,
+        "width": 42.9549,
+        "height": 1.0474,
+        "max_length": 100,
+        "text_style": "line"
+      }
+    }
+  },
+  "sections": [
+    {
+      "id": "c2_movement",
+      "origin": [
+        17.1095,
+        9.3654
+      ],
+      "fields": [
+        {
+          "id": "c2_movement_half_move",
+          "kind": "text",
+          "x": 0.0,
+          "y": 0.0,
+          "width": 9.219,
+          "height": 2.7726,
+          "max_length": 6,
+          "label": "half move",
+          "align": "center",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
+          "id": "c2_movement_full_move",
+          "kind": "text",
+          "x": 11.4734,
+          "y": 0.0,
+          "width": 9.2593,
+          "height": 2.7726,
+          "max_length": 7,
+          "label": "full move",
+          "align": "center",
+          "text_style": "center",
+          "read_only": true,
+          "input_mode": "numeric"
+        },
+        {
+          "id": "c2_movement_charge",
+          "kind": "text",
+          "x": 22.9871,
+          "y": 0.0,
+          "width": 9.3398,
+          "height": 2.7726,
+          "max_length": 7,
+          "label": "charge",
+          "align": "center",
+          "text_style": "center",
+          "read_only": true,
+          "input_mode": "numeric"
+        },
+        {
+          "id": "c2_movement_run",
+          "kind": "text",
+          "x": 34.6216,
+          "y": 0.0,
+          "width": 9.219,
+          "height": 2.8343,
+          "max_length": 7,
+          "label": "run",
+          "align": "center",
+          "text_style": "center",
+          "read_only": true,
+          "input_mode": "numeric"
+        },
+        {
+          "id": "c2_movement_base_leap",
+          "kind": "text",
+          "x": 46.1755,
+          "y": 0.0924,
+          "width": 9.1787,
+          "height": 2.7726,
+          "max_length": 6,
+          "label": "base leap",
+          "align": "center",
+          "text_style": "center"
+        },
+        {
+          "id": "c2_movement_base_jump",
+          "kind": "text",
+          "x": 57.6892,
+          "y": 0.1232,
+          "width": 9.2995,
+          "height": 2.7726,
+          "max_length": 6,
+          "label": "base jump",
+          "align": "center",
+          "text_style": "center"
+        }
+      ]
+    },
+    {
+      "id": "c2_ws",
+      "origin": [
+        4.5894,
+        17.5293
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_ws_value",
+          "label": "WS value"
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_bs",
+      "origin": [
+        14.8953,
+        17.5601
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_bs_value",
+          "label": "BS value",
+          "width": 9.219,
+          "height": 4.2822
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_s",
+      "origin": [
+        25.2818,
+        17.5909
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_s_value",
+          "label": "S value",
+          "width": 9.1591,
+          "height": 4.2514
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_t",
+      "origin": [
+        35.6683,
+        17.6217
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_t_value",
+          "label": "T value",
+          "width": 9.0987,
+          "height": 4.2206
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_ag",
+      "origin": [
+        45.9742,
+        17.6217
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_ag_value",
+          "label": "AG value",
+          "width": 9.139,
+          "height": 4.2514
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_int",
+      "origin": [
+        56.3205,
+        17.6525
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_int_value",
+          "label": "INT value",
+          "width": 9.139,
+          "height": 4.2514
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_per",
+      "origin": [
+        66.6667,
+        17.7141
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_per_value",
+          "label": "PER value",
+          "width": 9.0987,
+          "height": 4.2514
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_wp",
+      "origin": [
+        76.9726,
+        17.7449
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_wp_value",
+          "label": "WP value",
+          "width": 9.1592,
+          "height": 4.2822
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_fel",
+      "origin": [
+        87.2786,
+        17.7757
+      ],
+      "fields": [
+        {
+          "slot": "value",
+          "id": "c2_fel_value",
+          "label": "FEL value",
+          "width": 9.1994,
+          "height": 4.2514
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_ws-2",
+      "origin": [
+        4.9919,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_ws_adv_1",
+          "label": "WS advance 1",
+          "x": -0.0805,
+          "y": -0.1849,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_ws_adv_2",
+          "label": "WS advance 2",
+          "x": 0.926,
+          "y": -0.1849,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_ws_adv_3",
+          "label": "WS advance 3",
+          "x": 1.9727,
+          "y": -0.1541,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_ws_adv_4",
+          "label": "WS advance 4",
+          "x": 3.0194,
+          "y": -0.1541,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_bs-2",
+      "origin": [
+        15.3382,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_bs_adv_1",
+          "label": "BS advance 1",
+          "x": -0.0806,
+          "y": -0.1541,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_bs_adv_2",
+          "label": "BS advance 2",
+          "x": 0.9661,
+          "y": -0.1541,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_bs_adv_3",
+          "label": "BS advance 3",
+          "x": 1.9726,
+          "y": -0.1541,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_bs_adv_4",
+          "label": "BS advance 4",
+          "x": 3.0193,
+          "y": -0.1541,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_s-2",
+      "origin": [
+        25.6844,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_s_adv_1",
+          "label": "S advance 1",
+          "x": -0.1208,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_s_adv_2",
+          "label": "S advance 2",
+          "x": 0.9259,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_s_adv_3",
+          "label": "S advance 3",
+          "x": 1.9726,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_s_adv_4",
+          "label": "S advance 4",
+          "x": 3.0193,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_t-2",
+      "origin": [
+        36.0306,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_t_adv_1",
+          "label": "T advance 1",
+          "x": -0.0805,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_t_adv_2",
+          "label": "T advance 2",
+          "x": 0.9259,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_t_adv_3",
+          "label": "T advance 3",
+          "x": 1.9726,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_t_adv_4",
+          "label": "T advance 4",
+          "x": 3.0193,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_ag-2",
+      "origin": [
+        46.3768,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_ag_adv_1",
+          "label": "AG advance 1",
+          "x": -0.1208,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_ag_adv_2",
+          "label": "AG advance 2",
+          "x": 0.9259,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_ag_adv_3",
+          "label": "AG advance 3",
+          "x": 1.9726,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_ag_adv_4",
+          "label": "AG advance 4",
+          "x": 3.0193,
+          "y": -0.1233,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_int-2",
+      "origin": [
+        56.723,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_int_adv_1",
+          "label": "INT advance 1",
+          "x": -0.0805,
+          "y": -0.0924,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_int_adv_2",
+          "label": "INT advance 2",
+          "x": 0.926,
+          "y": -0.0924,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_int_adv_3",
+          "label": "INT advance 3",
+          "x": 1.9727,
+          "y": -0.0924,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_int_adv_4",
+          "label": "INT advance 4",
+          "x": 3.0194,
+          "y": -0.0616,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_per-2",
+      "origin": [
+        67.0692,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_per_adv_1",
+          "label": "PER advance 1",
+          "x": -0.1207,
+          "y": -0.0616,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_per_adv_2",
+          "label": "PER advance 2",
+          "x": 0.926,
+          "y": -0.0308,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_per_adv_3",
+          "label": "PER advance 3",
+          "x": 1.9727,
+          "y": -0.0308,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_per_adv_4",
+          "label": "PER advance 4",
+          "x": 2.9791,
+          "y": -0.0308,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_wp-2",
+      "origin": [
+        77.4155,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_wp_adv_1",
+          "label": "WP advance 1",
+          "x": -0.1208,
+          "y": 0.0,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_wp_adv_2",
+          "label": "WP advance 2",
+          "x": 0.9259,
+          "y": 0.0,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_wp_adv_3",
+          "label": "WP advance 3",
+          "x": 1.9726,
+          "y": 0.0,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_wp_adv_4",
+          "label": "WP advance 4",
+          "x": 2.979,
+          "y": 0.0,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_fel-2",
+      "origin": [
+        87.7214,
+        22.7357
+      ],
+      "fields": [
+        {
+          "slot": "adv_1",
+          "id": "c2_fel_adv_1",
+          "label": "FEL advance 1",
+          "x": -0.0805,
+          "y": 0.0616,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_2",
+          "id": "c2_fel_adv_2",
+          "label": "FEL advance 2",
+          "x": 0.9662,
+          "y": 0.0616,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_3",
+          "id": "c2_fel_adv_3",
+          "label": "FEL advance 3",
+          "x": 1.9726,
+          "y": 0.0616,
+          "width": 0.8454,
+          "height": 0.647
+        },
+        {
+          "slot": "adv_4",
+          "id": "c2_fel_adv_4",
+          "label": "FEL advance 4",
+          "x": 3.0193,
+          "y": 0.0616,
+          "width": 0.8454,
+          "height": 0.647
+        }
+      ],
+      "template": "characteristic"
+    },
+    {
+      "id": "c2_weapon_1",
+      "origin": [
+        5.0725,
+        27.3876
+      ],
+      "fields": [
+        {
+          "slot": "name",
+          "id": "c2_weapon_1_name",
+          "label": "Weapon 1 name"
+        },
+        {
+          "slot": "class",
+          "id": "c2_weapon_1_class",
+          "label": "Weapon 1 class"
+        },
+        {
+          "slot": "damage",
+          "id": "c2_weapon_1_damage",
+          "label": "Weapon 1 damage"
+        },
+        {
+          "slot": "type",
+          "id": "c2_weapon_1_type",
+          "label": "Weapon 1 type"
+        },
+        {
+          "slot": "pen",
+          "id": "c2_weapon_1_pen",
+          "label": "Weapon 1 pen"
+        },
+        {
+          "slot": "range",
+          "id": "c2_weapon_1_range",
+          "label": "Weapon 1 range"
+        },
+        {
+          "slot": "rof",
+          "id": "c2_weapon_1_rof",
+          "label": "Weapon 1 ROF"
+        },
+        {
+          "slot": "clip",
+          "id": "c2_weapon_1_clip",
+          "label": "Weapon 1 clip"
+        },
+        {
+          "slot": "reload",
+          "id": "c2_weapon_1_reload",
+          "label": "Weapon 1 reload"
+        },
+        {
+          "slot": "special_rules_1",
+          "id": "c2_weapon_1_special_rules_1",
+          "label": "Weapon 1 special rules line 1"
+        },
+        {
+          "slot": "special_rules_2",
+          "id": "c2_weapon_1_special_rules_2",
+          "label": "Weapon 1 special rules line 2"
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "c2_weapon_2",
+      "origin": [
+        4.9919,
+        39.2175
+      ],
+      "fields": [
+        {
+          "slot": "name",
+          "id": "c2_weapon_2_name",
+          "label": "Weapon 2 name",
+          "x": 3.7843,
+          "width": 39.5733
+        },
+        {
+          "slot": "class",
+          "id": "c2_weapon_2_class",
+          "label": "Weapon 2 class",
+          "x": 3.3414,
+          "y": 1.5404
+        },
+        {
+          "slot": "damage",
+          "id": "c2_weapon_2_damage",
+          "label": "Weapon 2 damage",
+          "x": 18.1965,
+          "y": 1.5404,
+          "width": 8.4944
+        },
+        {
+          "slot": "type",
+          "id": "c2_weapon_2_type",
+          "label": "Weapon 2 type",
+          "x": 30.1933,
+          "y": 1.5404
+        },
+        {
+          "slot": "pen",
+          "id": "c2_weapon_2_pen",
+          "label": "Weapon 2 pen",
+          "x": 38.0435,
+          "y": 1.5404,
+          "width": 5.153
+        },
+        {
+          "slot": "range",
+          "id": "c2_weapon_2_range",
+          "label": "Weapon 2 range",
+          "x": 4.0661,
+          "width": 8.4944
+        },
+        {
+          "slot": "rof",
+          "id": "c2_weapon_2_rof",
+          "label": "Weapon 2 ROF",
+          "x": 16.0629
+        },
+        {
+          "slot": "clip",
+          "id": "c2_weapon_2_clip",
+          "label": "Weapon 2 clip",
+          "x": 27.6571,
+          "width": 5.1127
+        },
+        {
+          "slot": "reload",
+          "id": "c2_weapon_2_reload",
+          "label": "Weapon 2 reload",
+          "x": 37.5604,
+          "width": 5.1127
+        },
+        {
+          "slot": "special_rules_1",
+          "id": "c2_weapon_2_special_rules_1",
+          "label": "Weapon 2 special rules line 1"
+        },
+        {
+          "slot": "special_rules_2",
+          "id": "c2_weapon_2_special_rules_2",
+          "label": "Weapon 2 special rules line 2"
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "c2_weapon_3",
+      "origin": [
+        4.9517,
+        51.0166
+      ],
+      "fields": [
+        {
+          "slot": "name",
+          "id": "c2_weapon_3_name",
+          "label": "Weapon 3 name",
+          "x": 3.7842,
+          "width": 39.533
+        },
+        {
+          "slot": "class",
+          "id": "c2_weapon_3_class",
+          "label": "Weapon 3 class",
+          "x": 3.3414,
+          "y": 1.5404
+        },
+        {
+          "slot": "damage",
+          "id": "c2_weapon_3_damage",
+          "label": "Weapon 3 damage",
+          "x": 18.1964,
+          "y": 1.5712,
+          "width": 8.4944
+        },
+        {
+          "slot": "type",
+          "id": "c2_weapon_3_type",
+          "label": "Weapon 3 type",
+          "x": 30.1932,
+          "y": 1.5712
+        },
+        {
+          "slot": "pen",
+          "id": "c2_weapon_3_pen",
+          "label": "Weapon 3 pen",
+          "x": 38.0032,
+          "y": 1.602,
+          "width": 5.153
+        },
+        {
+          "slot": "range",
+          "id": "c2_weapon_3_range",
+          "label": "Weapon 3 range",
+          "x": 4.1063,
+          "y": 3.0808,
+          "width": 8.4944
+        },
+        {
+          "slot": "rof",
+          "id": "c2_weapon_3_rof",
+          "label": "Weapon 3 ROF",
+          "y": 3.1116,
+          "width": 8.5346
+        },
+        {
+          "slot": "clip",
+          "id": "c2_weapon_3_clip",
+          "label": "Weapon 3 clip",
+          "x": 27.6167,
+          "y": 3.1424,
+          "width": 5.153
+        },
+        {
+          "slot": "reload",
+          "id": "c2_weapon_3_reload",
+          "label": "Weapon 3 reload",
+          "y": 3.1424
+        },
+        {
+          "slot": "special_rules_1",
+          "id": "c2_weapon_3_special_rules_1",
+          "label": "Weapon 3 special rules line 1",
+          "x": 8.5833,
+          "y": 4.6519,
+          "width": 34.3314
+        },
+        {
+          "slot": "special_rules_2",
+          "id": "c2_weapon_3_special_rules_2",
+          "label": "Weapon 3 special rules line 2",
+          "y": 6.1923,
+          "width": 42.9147
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "c2_weapon_4",
+      "origin": [
+        4.9114,
+        62.8466
+      ],
+      "fields": [
+        {
+          "slot": "name",
+          "id": "c2_weapon_4_name",
+          "label": "Weapon 4 name",
+          "x": 3.7843,
+          "width": 39.5733
+        },
+        {
+          "slot": "class",
+          "id": "c2_weapon_4_class",
+          "label": "Weapon 4 class",
+          "x": 3.3414,
+          "y": 1.4787,
+          "width": 9.2995
+        },
+        {
+          "slot": "damage",
+          "id": "c2_weapon_4_damage",
+          "label": "Weapon 4 damage",
+          "x": 18.1562,
+          "width": 8.5346
+        },
+        {
+          "slot": "type",
+          "id": "c2_weapon_4_type",
+          "label": "Weapon 4 type",
+          "x": 30.153
+        },
+        {
+          "slot": "pen",
+          "id": "c2_weapon_4_pen",
+          "label": "Weapon 4 pen",
+          "x": 37.963,
+          "width": 5.153
+        },
+        {
+          "slot": "range",
+          "id": "c2_weapon_4_range",
+          "label": "Weapon 4 range",
+          "x": 4.0661,
+          "y": 3.0499
+        },
+        {
+          "slot": "rof",
+          "id": "c2_weapon_4_rof",
+          "label": "Weapon 4 ROF",
+          "x": 15.9823,
+          "width": 8.5346
+        },
+        {
+          "slot": "clip",
+          "id": "c2_weapon_4_clip",
+          "label": "Weapon 4 clip",
+          "width": 5.153
+        },
+        {
+          "slot": "reload",
+          "id": "c2_weapon_4_reload",
+          "label": "Weapon 4 reload",
+          "x": 37.4799
+        },
+        {
+          "slot": "special_rules_1",
+          "id": "c2_weapon_4_special_rules_1",
+          "label": "Weapon 4 special rules line 1",
+          "x": 8.5431,
+          "y": 4.6826
+        },
+        {
+          "slot": "special_rules_2",
+          "id": "c2_weapon_4_special_rules_2",
+          "label": "Weapon 4 special rules line 2",
+          "y": 6.223,
+          "width": 42.8744
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "c2_weapon_5",
+      "origin": [
+        4.7504,
+        74.6765
+      ],
+      "fields": [
+        {
+          "slot": "name",
+          "id": "c2_weapon_5_name",
+          "label": "Weapon 5 name",
+          "x": 3.8647,
+          "width": 39.5733
+        },
+        {
+          "slot": "class",
+          "id": "c2_weapon_5_class",
+          "label": "Weapon 5 class",
+          "x": 3.4219,
+          "y": 1.5404,
+          "width": 9.2995
+        },
+        {
+          "slot": "damage",
+          "id": "c2_weapon_5_damage",
+          "label": "Weapon 5 damage",
+          "y": 1.5404,
+          "width": 8.4944
+        },
+        {
+          "slot": "type",
+          "id": "c2_weapon_5_type",
+          "label": "Weapon 5 type",
+          "x": 30.2335,
+          "y": 1.5404
+        },
+        {
+          "slot": "pen",
+          "id": "c2_weapon_5_pen",
+          "label": "Weapon 5 pen",
+          "x": 38.0435,
+          "y": 1.5404,
+          "width": 5.153
+        },
+        {
+          "slot": "range",
+          "id": "c2_weapon_5_range",
+          "label": "Weapon 5 range",
+          "x": 4.1465
+        },
+        {
+          "slot": "rof",
+          "id": "c2_weapon_5_rof",
+          "label": "Weapon 5 ROF",
+          "x": 16.0628,
+          "width": 8.5346
+        },
+        {
+          "slot": "clip",
+          "id": "c2_weapon_5_clip",
+          "label": "Weapon 5 clip",
+          "x": 27.657,
+          "width": 5.1127
+        },
+        {
+          "slot": "reload",
+          "id": "c2_weapon_5_reload",
+          "label": "Weapon 5 reload",
+          "x": 37.5604
+        },
+        {
+          "slot": "special_rules_1",
+          "id": "c2_weapon_5_special_rules_1",
+          "label": "Weapon 5 special rules line 1",
+          "x": 8.6639,
+          "y": 4.6211,
+          "width": 34.291
+        },
+        {
+          "slot": "special_rules_2",
+          "id": "c2_weapon_5_special_rules_2",
+          "label": "Weapon 5 special rules line 2",
+          "y": 6.1615
+        }
+      ],
+      "template": "weapon"
+    },
+    {
+      "id": "c2_gear",
+      "origin": [
+        52.0934,
+        29.1128
+      ],
+      "fields": [
+        {
+          "id": "c2_gear_1",
+          "kind": "text",
+          "x": 0.0,
+          "y": -1.4172,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 1",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_2",
+          "kind": "text",
+          "x": 0.0,
+          "y": 0.0,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 2",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_3",
+          "kind": "text",
+          "x": 0.0,
+          "y": 1.4171,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 3",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_4",
+          "kind": "text",
+          "x": 0.0,
+          "y": 2.8342,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 4",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_5",
+          "kind": "text",
+          "x": 0.0,
+          "y": 4.2205,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 5",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_6",
+          "kind": "text",
+          "x": 0.0,
+          "y": 5.6377,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 6",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_7",
+          "kind": "text",
+          "x": 0.0,
+          "y": 7.0856,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 7",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_8",
+          "kind": "text",
+          "x": 0.0,
+          "y": 8.5027,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 8",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_9",
+          "kind": "text",
+          "x": 0.0,
+          "y": 9.9199,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 9",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_10",
+          "kind": "text",
+          "x": 0.0,
+          "y": 11.337,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 10",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_11",
+          "kind": "text",
+          "x": 0.0,
+          "y": 12.7541,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 11",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_12",
+          "kind": "text",
+          "x": 0.0,
+          "y": 14.1712,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 12",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_13",
+          "kind": "text",
+          "x": 0.0,
+          "y": 15.5576,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 13",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_14",
+          "kind": "text",
+          "x": 0.0,
+          "y": 16.9747,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 14",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_15",
+          "kind": "text",
+          "x": 0.0,
+          "y": 18.361,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 15",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_16",
+          "kind": "text",
+          "x": 0.0,
+          "y": 19.7781,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 16",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_17",
+          "kind": "text",
+          "x": 0.0,
+          "y": 21.1953,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 17",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_18",
+          "kind": "text",
+          "x": 0.0,
+          "y": 22.6124,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 18",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_19",
+          "kind": "text",
+          "x": 0.0,
+          "y": 24.0603,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 19",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_20",
+          "kind": "text",
+          "x": 0.0,
+          "y": 25.4775,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 20",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_21",
+          "kind": "text",
+          "x": 0.0,
+          "y": 26.8946,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 21",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_22",
+          "kind": "text",
+          "x": 0.0,
+          "y": 28.2809,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 22",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_gear_23",
+          "kind": "text",
+          "x": 0.0,
+          "y": 29.698,
+          "width": 21.1353,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Gear line 23",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "c2_acquisition",
+      "origin": [
+        74.6377,
+        29.236
+      ],
+      "fields": [
+        {
+          "id": "c2_acquisition_1",
+          "kind": "text",
+          "x": 0.0,
+          "y": -1.4171,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 1",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_2",
+          "kind": "text",
+          "x": 0.0,
+          "y": 0.0,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 2",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_3",
+          "kind": "text",
+          "x": 0.0,
+          "y": 1.4171,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 3",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_4",
+          "kind": "text",
+          "x": 0.0,
+          "y": 2.8034,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 4",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_5",
+          "kind": "text",
+          "x": 0.0,
+          "y": 4.1898,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 5",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_6",
+          "kind": "text",
+          "x": 0.0,
+          "y": 5.6069,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 6",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_7",
+          "kind": "text",
+          "x": 0.0,
+          "y": 7.0548,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 7",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_8",
+          "kind": "text",
+          "x": 0.0,
+          "y": 8.4719,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 8",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_9",
+          "kind": "text",
+          "x": 0.0,
+          "y": 9.9199,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 9",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_10",
+          "kind": "text",
+          "x": 0.0,
+          "y": 11.3062,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 10",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_11",
+          "kind": "text",
+          "x": 0.0,
+          "y": 12.7233,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 11",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_12",
+          "kind": "text",
+          "x": 0.0,
+          "y": 14.1405,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 12",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_13",
+          "kind": "text",
+          "x": 0.0,
+          "y": 15.5576,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 13",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_14",
+          "kind": "text",
+          "x": 0.0,
+          "y": 16.9439,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 14",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_acquisition_15",
+          "kind": "text",
+          "x": 0.0,
+          "y": 18.361,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Acquisition line 15",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "c2_mutation",
+      "origin": [
+        74.4364,
+        51.8176
+      ],
+      "fields": [
+        {
+          "id": "c2_mutation_1",
+          "kind": "text",
+          "x": 0.0,
+          "y": 0.0,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Mutation line 1",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_mutation_2",
+          "kind": "text",
+          "x": 0.0,
+          "y": 1.4172,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Mutation line 2",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_mutation_3",
+          "kind": "text",
+          "x": 0.0,
+          "y": 2.8651,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Mutation line 3",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_mutation_4",
+          "kind": "text",
+          "x": 0.0,
+          "y": 4.2822,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Mutation line 4",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_mutation_5",
+          "kind": "text",
+          "x": 0.0,
+          "y": 5.6993,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Mutation line 5",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_mutation_6",
+          "kind": "text",
+          "x": 0.0,
+          "y": 7.0549,
+          "width": 21.095,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Mutation line 6",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "c2_corruption",
+      "origin": [
+        52.1337,
+        63.6168
+      ],
+      "fields": [
+        {
+          "id": "c2_corruption_current_points",
+          "kind": "text",
+          "x": 10.0644,
+          "y": 0.0,
+          "width": 10.2657,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Corruption current_points",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_corruption_degree",
+          "kind": "text",
+          "x": 4.4283,
+          "y": 1.4171,
+          "width": 15.9018,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Corruption degree",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_corruption_malignancies",
+          "kind": "text",
+          "x": 9.0579,
+          "y": 2.8342,
+          "width": 11.2721,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Corruption malignancies",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_corruption_malignancies_2",
+          "kind": "text",
+          "x": 0.0,
+          "y": 4.2822,
+          "width": 20.33,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Corruption malignancies line 2",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_corruption_malignancies_3",
+          "kind": "text",
+          "x": 0.0402,
+          "y": 5.6993,
+          "width": 20.2898,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Corruption malignancies line 3",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "c2_wounds",
+      "origin": [
+        78.3011,
+        63.7092
+      ],
+      "fields": [
+        {
+          "id": "c2_wounds_total",
+          "kind": "text",
+          "x": 0.0,
+          "y": 0.0,
+          "width": 16.3044,
+          "height": 1.0474,
+          "max_length": 6,
+          "label": "Wounds total",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_wounds_current",
+          "kind": "text",
+          "x": 1.4896,
+          "y": 1.4171,
+          "width": 14.8148,
+          "height": 1.0474,
+          "max_length": 6,
+          "label": "Wounds current",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_wounds_critical_damage",
+          "kind": "text",
+          "x": 7.0451,
+          "y": 2.865,
+          "width": 9.2593,
+          "height": 1.0474,
+          "max_length": 6,
+          "label": "Wounds critical_damage",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_wounds_fatigue",
+          "kind": "text",
+          "x": 1.3688,
+          "y": 4.2514,
+          "width": 14.9356,
+          "height": 1.0474,
+          "max_length": 6,
+          "label": "Wounds fatigue",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "c2_insanity",
+      "origin": [
+        79.5089,
+        72.4584
+      ],
+      "fields": [
+        {
+          "id": "c2_insanity_current_points",
+          "kind": "text",
+          "x": 4.7906,
+          "y": 0.0,
+          "width": 10.306,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Insanity current_points",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_insanity_degree",
+          "kind": "text",
+          "x": 0.0,
+          "y": 1.4171,
+          "width": 15.0966,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Insanity degree",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_insanity_disorders",
+          "kind": "text",
+          "x": 1.5297,
+          "y": 2.8343,
+          "width": 13.5668,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Insanity disorders",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_insanity_disorders_2",
+          "kind": "text",
+          "x": -5.1128,
+          "y": 4.2514,
+          "width": 20.2093,
+          "height": 1.0474,
+          "max_length": 60,
+          "label": "Insanity disorders line 2",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "c2_armour",
+      "origin": [
+        53.14,
+        76.8638
+      ],
+      "fields": [
+        {
+          "id": "c2_armour_head_type",
+          "kind": "text",
+          "x": 11.755,
+          "y": 0.0,
+          "width": 8.173,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Armour head type",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_armour_right_arm_type",
+          "kind": "text",
+          "x": 0.0,
+          "y": 6.716,
+          "width": 8.575,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Armour right_arm type",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_armour_left_arm_type",
+          "kind": "text",
+          "x": 22.544,
+          "y": 6.7776,
+          "width": 8.172,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Armour left_arm type",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_armour_body_type",
+          "kind": "text",
+          "x": 11.111,
+          "y": 13.4319,
+          "width": 8.736,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Armour body type",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_armour_right_leg_type",
+          "kind": "text",
+          "x": 0.322,
+          "y": 20.1479,
+          "width": 8.172,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Armour right_leg type",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_armour_left_leg_type",
+          "kind": "text",
+          "x": 22.464,
+          "y": 20.2095,
+          "width": 8.172,
+          "height": 1.0474,
+          "max_length": 20,
+          "label": "Armour left_leg type",
+          "text_style": "line"
+        },
+        {
+          "id": "c2_armour_weight",
+          "kind": "text",
+          "x": 27.5766,
+          "y": 11.0906,
+          "width": 9.2593,
+          "height": 2.4646,
+          "max_length": 6,
+          "label": "Armour Weight",
+          "text_style": "line"
+        }
+      ]
+    },
+    {
+      "id": "c2_lifting",
+      "origin": [
+        13.4863,
+        87.5231
+      ],
+      "fields": [
+        {
+          "id": "c2_lifting_lift",
+          "kind": "text",
+          "x": 0.0,
+          "y": 0.0,
+          "width": 9.219,
+          "height": 2.7726,
+          "max_length": 8,
+          "label": "Lifting lift",
+          "align": "center",
+          "text_style": "center"
+        },
+        {
+          "id": "c2_lifting_carry",
+          "kind": "text",
+          "x": 11.5137,
+          "y": 0.0,
+          "width": 9.219,
+          "height": 2.7726,
+          "max_length": 8,
+          "label": "Lifting carry",
+          "align": "center",
+          "text_style": "center"
+        },
+        {
+          "id": "c2_lifting_push",
+          "kind": "text",
+          "x": 23.0676,
+          "y": 0.0,
+          "width": 9.1787,
+          "height": 2.7726,
+          "max_length": 8,
+          "label": "Lifting push",
+          "align": "center",
+          "text_style": "center"
+        }
+      ]
+    },
+    {
+      "id": "c2_fate",
+      "origin": [
+        19.2029,
+        94.6087
+      ],
+      "fields": [
+        {
+          "id": "c2_fate_points_total",
+          "kind": "text",
+          "x": 0.0,
+          "y": 0.0,
+          "width": 9.219,
+          "height": 2.8035,
+          "max_length": 4,
+          "label": "Fate Points Total",
+          "align": "center",
+          "text_style": "center"
+        },
+        {
+          "id": "c2_fate_points_current",
+          "kind": "text",
+          "x": 11.5539,
+          "y": 0.0,
+          "width": 9.1787,
+          "height": 2.8035,
+          "max_length": 4,
+          "label": "Fate Points Current",
+          "align": "center",
+          "text_style": "center"
+        }
+      ]
+    }
+  ]
+}

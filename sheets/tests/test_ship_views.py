@@ -182,12 +182,12 @@ def test_ship_history_detail_renders_booleans_in_german(client, user_factory, sh
     patch_ship_field(
         sheet_id=ship_sheet.id,
         actor=user,
-        field_id="ship_space_available",
+        field_id="ship_weapon_1_location_dorsal",
         value=True,
         base_version=0,
     )
     client.force_login(user)
-    change = ship_sheet.changes.get(field_id="ship_space_available")
+    change = ship_sheet.changes.get(field_id="ship_weapon_1_location_dorsal")
     response = client.get(f"/ships/{ship_sheet.id}/history/{change.id}/")
     assert_contains(response, "markiert")
 

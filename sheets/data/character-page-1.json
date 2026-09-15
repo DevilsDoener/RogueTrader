@@ -8,62 +8,68 @@
     {
       "id": "c1_character_name",
       "kind": "text",
-      "x": 19.8527,
+      "x": 20.0491,
       "y": 5.8769,
-      "width": 27.815,
+      "width": 27.6187,
       "height": 1.0462,
       "max_length": 80,
-      "label": "Character Name"
+      "label": "Character Name",
+      "text_style": "line"
     },
     {
       "id": "c1_player_name",
       "kind": "text",
-      "x": 59.1244,
+      "x": 58.5106,
       "y": 5.9385,
-      "width": 29.4599,
+      "width": 30.1964,
       "height": 1.0462,
       "max_length": 80,
-      "label": "Player Name"
+      "label": "Player Name",
+      "text_style": "line"
     },
     {
       "id": "c1_career_path",
       "kind": "text",
       "x": 16.7758,
       "y": 8.1538,
-      "width": 21.6858,
+      "width": 21.3584,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Career Path"
+      "label": "Career Path",
+      "text_style": "line"
     },
     {
       "id": "c1_rank",
       "kind": "text",
-      "x": 45.0082,
+      "x": 42.5532,
       "y": 8.2154,
-      "width": 2.6596,
+      "width": 5.1146,
       "height": 1.0462,
       "max_length": 20,
-      "label": "Rank"
+      "label": "Rank",
+      "text_style": "line"
     },
     {
       "id": "c1_home_world",
       "kind": "text",
-      "x": 60.9656,
+      "x": 58.7152,
       "y": 8.2462,
-      "width": 7.5696,
+      "width": 8.1833,
       "height": 1.0462,
       "max_length": 40,
-      "label": "Home World"
+      "label": "Home World",
+      "text_style": "line"
     },
     {
       "id": "c1_motivation",
       "kind": "text",
-      "x": 78.3552,
+      "x": 75.9002,
       "y": 8.2462,
-      "width": 10.2291,
+      "width": 12.8069,
       "height": 1.0462,
       "max_length": 40,
-      "label": "Motivation"
+      "label": "Motivation",
+      "text_style": "line"
     },
     {
       "id": "c1_description_line_1",
@@ -73,7 +79,8 @@
       "width": 72.1351,
       "height": 1.0462,
       "max_length": 100,
-      "label": "Description"
+      "label": "Description",
+      "text_style": "line"
     },
     {
       "id": "c1_description_line_2",
@@ -83,456 +90,511 @@
       "width": 81.0557,
       "height": 1.0462,
       "max_length": 100,
-      "label": "Description (cont.)"
+      "label": "Description (cont.)",
+      "text_style": "line"
     },
     {
-      "id": "c1_ws_value",
       "kind": "text",
       "x": 1.3093,
       "y": 19.3538,
       "width": 9.7791,
       "height": 4.3692,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_ws_value",
       "label": "WS value"
     },
     {
-      "id": "c1_bs_value",
       "kind": "text",
       "x": 11.9067,
       "y": 19.3538,
       "width": 9.329,
       "height": 4.3077,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_bs_value",
       "label": "BS value"
     },
     {
-      "id": "c1_s_value",
       "kind": "text",
       "x": 22.4223,
       "y": 19.3846,
-      "width": 4.886,
+      "width": 9.8199,
       "height": 4.3077,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_s_value",
       "label": "S value"
     },
     {
-      "id": "c1_t_value",
       "kind": "text",
       "x": 32.9787,
       "y": 19.5077,
-      "width": 4.8128,
+      "width": 9.7382,
       "height": 4.2154,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_t_value",
       "label": "T value"
     },
     {
-      "id": "c1_ag_value",
       "kind": "text",
       "x": 43.4534,
       "y": 19.5077,
-      "width": 4.8121,
+      "width": 9.9018,
       "height": 4.2769,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_ag_value",
       "label": "AG value"
     },
     {
-      "id": "c1_int_value",
       "kind": "text",
       "x": 54.0917,
       "y": 19.5385,
-      "width": 4.7223,
+      "width": 9.8199,
       "height": 4.2769,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_int_value",
       "label": "INT value"
     },
     {
-      "id": "c1_per_value",
       "kind": "text",
       "x": 64.6481,
       "y": 19.5385,
-      "width": 4.6406,
+      "width": 9.82,
       "height": 4.2769,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_per_value",
       "label": "PER value"
     },
     {
-      "id": "c1_wp_value",
       "kind": "text",
       "x": 75.2046,
       "y": 19.5385,
-      "width": 4.5587,
+      "width": 9.8199,
       "height": 4.2769,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_wp_value",
       "label": "WP value"
     },
     {
-      "id": "c1_fel_value",
       "kind": "text",
       "x": 85.761,
       "y": 19.5385,
-      "width": 4.5588,
+      "width": 9.7791,
       "height": 4.2769,
       "max_length": 3,
+      "align": "center",
+      "text_style": "characteristic",
+      "id": "c1_fel_value",
       "label": "FEL value"
     },
     {
-      "id": "c1_ws_adv_1",
       "kind": "checkbox",
-      "x": 1.8617,
-      "y": 24.4923,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 1.7185,
+      "y": 24.4,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ws_adv_1",
       "label": "WS advance 1"
     },
     {
-      "id": "c1_ws_adv_2",
       "kind": "checkbox",
-      "x": 2.9051,
-      "y": 24.4615,
-      "width": 0.6137,
-      "height": 0.4923,
+      "x": 2.7823,
+      "y": 24.3692,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ws_adv_2",
       "label": "WS advance 2"
     },
     {
-      "id": "c1_ws_adv_3",
       "kind": "checkbox",
-      "x": 3.928,
-      "y": 24.4923,
-      "width": 0.6547,
-      "height": 0.4308,
+      "x": 3.8462,
+      "y": 24.3692,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ws_adv_3",
       "label": "WS advance 3"
     },
     {
-      "id": "c1_ws_adv_4",
       "kind": "checkbox",
-      "x": 4.9918,
-      "y": 24.4923,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 4.8691,
+      "y": 24.3692,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ws_adv_4",
       "label": "WS advance 4"
     },
     {
-      "id": "c1_bs_adv_1",
       "kind": "checkbox",
-      "x": 12.3568,
-      "y": 24.4615,
-      "width": 0.6137,
-      "height": 0.4615,
+      "x": 12.234,
+      "y": 24.3692,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_bs_adv_1",
       "label": "BS advance 1"
     },
     {
-      "id": "c1_bs_adv_2",
       "kind": "checkbox",
-      "x": 13.4206,
-      "y": 24.4615,
-      "width": 0.6137,
-      "height": 0.4615,
+      "x": 13.2979,
+      "y": 24.3692,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_bs_adv_2",
       "label": "BS advance 2"
     },
     {
-      "id": "c1_bs_adv_3",
       "kind": "checkbox",
-      "x": 14.4435,
-      "y": 24.4615,
-      "width": 0.6137,
-      "height": 0.4615,
+      "x": 14.3208,
+      "y": 24.3692,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_bs_adv_3",
       "label": "BS advance 3"
     },
     {
-      "id": "c1_bs_adv_4",
       "kind": "checkbox",
-      "x": 15.5074,
-      "y": 24.4923,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 15.3846,
+      "y": 24.3692,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_bs_adv_4",
       "label": "BS advance 4"
     },
     {
-      "id": "c1_s_adv_1",
       "kind": "checkbox",
-      "x": 22.8314,
-      "y": 24.4923,
-      "width": 0.6137,
-      "height": 0.4923,
+      "x": 22.7087,
+      "y": 24.4,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_s_adv_1",
       "label": "S advance 1"
     },
     {
-      "id": "c1_s_adv_2",
       "kind": "checkbox",
-      "x": 23.8953,
-      "y": 24.4923,
-      "width": 0.6547,
-      "height": 0.4923,
+      "x": 23.7725,
+      "y": 24.4,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_s_adv_2",
       "label": "S advance 2"
     },
     {
-      "id": "c1_s_adv_3",
       "kind": "checkbox",
-      "x": 24.9591,
-      "y": 24.4923,
-      "width": 0.6137,
-      "height": 0.4923,
+      "x": 24.8363,
+      "y": 24.4,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_s_adv_3",
       "label": "S advance 3"
     },
     {
-      "id": "c1_s_adv_4",
       "kind": "checkbox",
-      "x": 25.982,
-      "y": 24.4923,
-      "width": 0.6547,
-      "height": 0.4923,
+      "x": 25.9002,
+      "y": 24.4308,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_s_adv_4",
       "label": "S advance 4"
     },
     {
-      "id": "c1_t_adv_1",
       "kind": "checkbox",
-      "x": 33.347,
-      "y": 24.5538,
-      "width": 0.6547,
-      "height": 0.4615,
+      "x": 33.2242,
+      "y": 24.4308,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_t_adv_1",
       "label": "T advance 1"
     },
     {
-      "id": "c1_t_adv_2",
       "kind": "checkbox",
-      "x": 34.4108,
-      "y": 24.5538,
-      "width": 0.6137,
-      "height": 0.4615,
+      "x": 34.2881,
+      "y": 24.4308,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_t_adv_2",
       "label": "T advance 2"
     },
     {
-      "id": "c1_t_adv_3",
       "kind": "checkbox",
-      "x": 35.4337,
-      "y": 24.5538,
-      "width": 0.6547,
-      "height": 0.4615,
+      "x": 35.311,
+      "y": 24.4615,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_t_adv_3",
       "label": "T advance 3"
     },
     {
-      "id": "c1_t_adv_4",
       "kind": "checkbox",
-      "x": 36.4771,
-      "y": 24.5538,
-      "width": 0.6547,
-      "height": 0.4615,
+      "x": 36.3748,
+      "y": 24.4615,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_t_adv_4",
       "label": "T advance 4"
     },
     {
-      "id": "c1_ag_adv_1",
       "kind": "checkbox",
-      "x": 43.8216,
-      "y": 24.5846,
-      "width": 0.6547,
-      "height": 0.4615,
+      "x": 43.7398,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ag_adv_1",
       "label": "AG advance 1"
     },
     {
-      "id": "c1_ag_adv_2",
       "kind": "checkbox",
-      "x": 44.8854,
-      "y": 24.5846,
-      "width": 0.6956,
-      "height": 0.4615,
+      "x": 44.8036,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ag_adv_2",
       "label": "AG advance 2"
     },
     {
-      "id": "c1_ag_adv_3",
       "kind": "checkbox",
-      "x": 45.9493,
-      "y": 24.5846,
-      "width": 0.6137,
-      "height": 0.4615,
+      "x": 45.8265,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ag_adv_3",
       "label": "AG advance 3"
     },
     {
-      "id": "c1_ag_adv_4",
       "kind": "checkbox",
-      "x": 47.0131,
-      "y": 24.5846,
-      "width": 0.6137,
-      "height": 0.4615,
+      "x": 46.8903,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_ag_adv_4",
       "label": "AG advance 4"
     },
     {
-      "id": "c1_int_adv_1",
       "kind": "checkbox",
-      "x": 54.3372,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 54.2553,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_int_adv_1",
       "label": "INT advance 1"
     },
     {
-      "id": "c1_int_adv_2",
       "kind": "checkbox",
-      "x": 55.401,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 55.2782,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_int_adv_2",
       "label": "INT advance 2"
     },
     {
-      "id": "c1_int_adv_3",
       "kind": "checkbox",
-      "x": 56.4648,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 56.3421,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_int_adv_3",
       "label": "INT advance 3"
     },
     {
-      "id": "c1_int_adv_4",
       "kind": "checkbox",
-      "x": 57.5286,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 57.4059,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_int_adv_4",
       "label": "INT advance 4"
     },
     {
-      "id": "c1_per_adv_1",
       "kind": "checkbox",
-      "x": 64.8527,
-      "y": 24.6154,
-      "width": 0.6547,
-      "height": 0.4308,
+      "x": 64.7709,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_per_adv_1",
       "label": "PER advance 1"
     },
     {
-      "id": "c1_per_adv_2",
       "kind": "checkbox",
-      "x": 65.9165,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 65.7938,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_per_adv_2",
       "label": "PER advance 2"
     },
     {
-      "id": "c1_per_adv_3",
       "kind": "checkbox",
-      "x": 66.9804,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 66.8576,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_per_adv_3",
       "label": "PER advance 3"
     },
     {
-      "id": "c1_per_adv_4",
       "kind": "checkbox",
-      "x": 68.0033,
-      "y": 24.6154,
-      "width": 0.6547,
-      "height": 0.4308,
+      "x": 67.8805,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_per_adv_4",
       "label": "PER advance 4"
     },
     {
-      "id": "c1_wp_adv_1",
       "kind": "checkbox",
-      "x": 75.3682,
-      "y": 24.6154,
-      "width": 0.6547,
-      "height": 0.4308,
+      "x": 75.2455,
+      "y": 24.4923,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_wp_adv_1",
       "label": "WP advance 1"
     },
     {
-      "id": "c1_wp_adv_2",
       "kind": "checkbox",
-      "x": 76.4321,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 76.3093,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_wp_adv_2",
       "label": "WP advance 2"
     },
     {
-      "id": "c1_wp_adv_3",
       "kind": "checkbox",
-      "x": 77.4959,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 77.3732,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_wp_adv_3",
       "label": "WP advance 3"
     },
     {
-      "id": "c1_wp_adv_4",
       "kind": "checkbox",
-      "x": 78.5188,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 78.3961,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_wp_adv_4",
       "label": "WP advance 4"
     },
     {
-      "id": "c1_fel_adv_1",
       "kind": "checkbox",
-      "x": 85.8838,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 85.761,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_fel_adv_1",
       "label": "FEL advance 1"
     },
     {
-      "id": "c1_fel_adv_2",
       "kind": "checkbox",
-      "x": 86.9476,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4615,
+      "x": 86.8249,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_fel_adv_2",
       "label": "FEL advance 2"
     },
     {
-      "id": "c1_fel_adv_3",
       "kind": "checkbox",
-      "x": 87.9705,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 87.8478,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_fel_adv_3",
       "label": "FEL advance 3"
     },
     {
-      "id": "c1_fel_adv_4",
       "kind": "checkbox",
-      "x": 89.0344,
-      "y": 24.6154,
-      "width": 0.6137,
-      "height": 0.4308,
+      "x": 88.9116,
+      "y": 24.5231,
+      "width": 0.8592,
+      "height": 0.6462,
       "max_length": 1,
+      "checkbox_style": "pip",
+      "id": "c1_fel_adv_4",
       "label": "FEL advance 4"
     },
     {
@@ -543,7 +605,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "acrobatics basic"
+      "label": "acrobatics basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_acrobatics_trained",
@@ -553,7 +616,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "acrobatics trained"
+      "label": "acrobatics trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_acrobatics_plus10",
@@ -563,7 +627,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "acrobatics plus10"
+      "label": "acrobatics plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_acrobatics_plus20",
@@ -573,17 +638,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "acrobatics plus20"
+      "label": "acrobatics plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_acrobatics_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 31.8154,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "acrobatics bonus"
+      "max_length": 2,
+      "label": "acrobatics bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_awareness_basic",
@@ -593,7 +661,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "awareness basic"
+      "label": "awareness basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_awareness_trained",
@@ -603,7 +672,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "awareness trained"
+      "label": "awareness trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_awareness_plus10",
@@ -613,7 +683,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "awareness plus10"
+      "label": "awareness plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_awareness_plus20",
@@ -623,17 +694,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "awareness plus20"
+      "label": "awareness plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_awareness_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 33.2308,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "awareness bonus"
+      "max_length": 2,
+      "label": "awareness bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_barter_basic",
@@ -643,7 +717,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "barter basic"
+      "label": "barter basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_barter_trained",
@@ -653,7 +728,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "barter trained"
+      "label": "barter trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_barter_plus10",
@@ -663,7 +739,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "barter plus10"
+      "label": "barter plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_barter_plus20",
@@ -673,17 +750,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "barter plus20"
+      "label": "barter plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_barter_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 34.6462,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "barter bonus"
+      "max_length": 2,
+      "label": "barter bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_blather_basic",
@@ -693,7 +773,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "blather basic"
+      "label": "blather basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_blather_trained",
@@ -703,7 +784,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "blather trained"
+      "label": "blather trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_blather_plus10",
@@ -713,7 +795,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "blather plus10"
+      "label": "blather plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_blather_plus20",
@@ -723,17 +806,20 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "blather plus20"
+      "label": "blather plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_blather_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 36.0538,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "blather bonus"
+      "max_length": 2,
+      "label": "blather bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_carouse_basic",
@@ -743,7 +829,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "carouse basic"
+      "label": "carouse basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_carouse_trained",
@@ -753,7 +840,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "carouse trained"
+      "label": "carouse trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_carouse_plus10",
@@ -763,7 +851,8 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "carouse plus10"
+      "label": "carouse plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_carouse_plus20",
@@ -773,17 +862,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "carouse plus20"
+      "label": "carouse plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_carouse_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.1375,
       "y": 37.5077,
       "width": 3.2324,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "carouse bonus"
+      "max_length": 2,
+      "label": "carouse bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_charm_basic",
@@ -793,7 +885,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "charm basic"
+      "label": "charm basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_charm_trained",
@@ -803,7 +896,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "charm trained"
+      "label": "charm trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_charm_plus10",
@@ -813,7 +907,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "charm plus10"
+      "label": "charm plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_charm_plus20",
@@ -823,17 +918,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "charm plus20"
+      "label": "charm plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_charm_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.1375,
       "y": 38.8923,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "charm bonus"
+      "max_length": 2,
+      "label": "charm bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_chem_use_basic",
@@ -843,7 +941,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "chem_use basic"
+      "label": "chem_use basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_chem_use_trained",
@@ -853,7 +952,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "chem_use trained"
+      "label": "chem_use trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_chem_use_plus10",
@@ -863,7 +963,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "chem_use plus10"
+      "label": "chem_use plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_chem_use_plus20",
@@ -873,17 +974,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "chem_use plus20"
+      "label": "chem_use plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_chem_use_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 40.2538,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "chem_use bonus"
+      "max_length": 2,
+      "label": "chem_use bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_ciphers_basic",
@@ -893,7 +997,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "ciphers basic"
+      "label": "ciphers basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_ciphers_trained",
@@ -903,7 +1008,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "ciphers trained"
+      "label": "ciphers trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_ciphers_plus10",
@@ -913,7 +1019,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "ciphers plus10"
+      "label": "ciphers plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_ciphers_plus20",
@@ -923,17 +1030,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "ciphers plus20"
+      "label": "ciphers plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_ciphers_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 41.7231,
       "width": 3.3142,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "ciphers bonus"
+      "max_length": 2,
+      "label": "ciphers bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_climb_basic",
@@ -943,7 +1053,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "climb basic"
+      "label": "climb basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_climb_trained",
@@ -953,7 +1064,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "climb trained"
+      "label": "climb trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_climb_plus10",
@@ -963,7 +1075,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "climb plus10"
+      "label": "climb plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_climb_plus20",
@@ -973,17 +1086,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "climb plus20"
+      "label": "climb plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_climb_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0966,
       "y": 43.1385,
       "width": 3.2733,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "climb bonus"
+      "max_length": 2,
+      "label": "climb bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_command_basic",
@@ -993,7 +1109,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "command basic"
+      "label": "command basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_command_trained",
@@ -1003,7 +1120,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "command trained"
+      "label": "command trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_command_plus10",
@@ -1013,7 +1131,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "command plus10"
+      "label": "command plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_command_plus20",
@@ -1023,17 +1142,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "command plus20"
+      "label": "command plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_command_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0966,
       "y": 44.5231,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "command bonus"
+      "max_length": 2,
+      "label": "command bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_commerce_basic",
@@ -1043,7 +1165,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "commerce basic"
+      "label": "commerce basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_commerce_trained",
@@ -1053,7 +1176,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "commerce trained"
+      "label": "commerce trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_commerce_plus10",
@@ -1063,7 +1187,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "commerce plus10"
+      "label": "commerce plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_commerce_plus20",
@@ -1073,17 +1198,20 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "commerce plus20"
+      "label": "commerce plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_commerce_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 45.9692,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "commerce bonus"
+      "max_length": 2,
+      "label": "commerce bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_common_lore_basic",
@@ -1093,7 +1221,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore basic"
+      "label": "common_lore basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_trained",
@@ -1103,7 +1232,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore trained"
+      "label": "common_lore trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_plus10",
@@ -1113,7 +1243,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore plus10"
+      "label": "common_lore plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_plus20",
@@ -1123,17 +1254,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore plus20"
+      "label": "common_lore plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 48.8,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "common_lore bonus"
+      "max_length": 2,
+      "label": "common_lore bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_common_lore_custom_1_basic",
@@ -1143,7 +1277,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_1 basic"
+      "label": "common_lore_custom_1 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_1_trained",
@@ -1153,7 +1288,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_1 trained"
+      "label": "common_lore_custom_1 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_1_plus10",
@@ -1163,7 +1299,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_1 plus10"
+      "label": "common_lore_custom_1 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_1_plus20",
@@ -1173,17 +1310,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "common_lore_custom_1 plus20"
+      "label": "common_lore_custom_1 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_1_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 50.2154,
       "width": 3.2324,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "common_lore_custom_1 bonus"
+      "max_length": 2,
+      "label": "common_lore_custom_1 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_common_lore_custom_2_basic",
@@ -1193,7 +1333,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "common_lore_custom_2 basic"
+      "label": "common_lore_custom_2 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_2_trained",
@@ -1203,7 +1344,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_2 trained"
+      "label": "common_lore_custom_2 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_2_plus10",
@@ -1213,7 +1355,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_2 plus10"
+      "label": "common_lore_custom_2 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_2_plus20",
@@ -1223,17 +1366,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_2 plus20"
+      "label": "common_lore_custom_2 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_2_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0147,
       "y": 51.6308,
       "width": 3.2733,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "common_lore_custom_2 bonus"
+      "max_length": 2,
+      "label": "common_lore_custom_2 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_common_lore_custom_3_basic",
@@ -1243,7 +1389,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "common_lore_custom_3 basic"
+      "label": "common_lore_custom_3 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_3_trained",
@@ -1253,7 +1400,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_3 trained"
+      "label": "common_lore_custom_3 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_3_plus10",
@@ -1263,7 +1411,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "common_lore_custom_3 plus10"
+      "label": "common_lore_custom_3 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_3_plus20",
@@ -1273,17 +1422,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "common_lore_custom_3 plus20"
+      "label": "common_lore_custom_3 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_common_lore_custom_3_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0147,
       "y": 53.0462,
       "width": 3.2733,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "common_lore_custom_3 bonus"
+      "max_length": 2,
+      "label": "common_lore_custom_3 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_concealment_basic",
@@ -1293,7 +1445,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "concealment basic"
+      "label": "concealment basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_concealment_trained",
@@ -1303,7 +1456,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "concealment trained"
+      "label": "concealment trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_concealment_plus10",
@@ -1313,7 +1467,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "concealment plus10"
+      "label": "concealment plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_concealment_plus20",
@@ -1323,17 +1478,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "concealment plus20"
+      "label": "concealment plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_concealment_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 54.3692,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "concealment bonus"
+      "max_length": 2,
+      "label": "concealment bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_contortionist_basic",
@@ -1343,7 +1501,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "contortionist basic"
+      "label": "contortionist basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_contortionist_trained",
@@ -1353,7 +1512,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "contortionist trained"
+      "label": "contortionist trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_contortionist_plus10",
@@ -1363,7 +1523,8 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "contortionist plus10"
+      "label": "contortionist plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_contortionist_plus20",
@@ -1373,17 +1534,20 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "contortionist plus20"
+      "label": "contortionist plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_contortionist_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 55.7846,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "contortionist bonus"
+      "max_length": 2,
+      "label": "contortionist bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_deceive_basic",
@@ -1393,7 +1557,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "deceive basic"
+      "label": "deceive basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_deceive_trained",
@@ -1403,7 +1568,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "deceive trained"
+      "label": "deceive trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_deceive_plus10",
@@ -1413,7 +1579,8 @@
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "deceive plus10"
+      "label": "deceive plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_deceive_plus20",
@@ -1423,17 +1590,20 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "deceive plus20"
+      "label": "deceive plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_deceive_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 57.1846,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "deceive bonus"
+      "max_length": 2,
+      "label": "deceive bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_demolition_basic",
@@ -1443,7 +1613,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "demolition basic"
+      "label": "demolition basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_demolition_trained",
@@ -1453,7 +1624,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "demolition trained"
+      "label": "demolition trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_demolition_plus10",
@@ -1463,7 +1635,8 @@
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "demolition plus10"
+      "label": "demolition plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_demolition_plus20",
@@ -1473,17 +1646,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "demolition plus20"
+      "label": "demolition plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_demolition_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 58.5846,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "demolition bonus"
+      "max_length": 2,
+      "label": "demolition bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_disguise_basic",
@@ -1493,7 +1669,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "disguise basic"
+      "label": "disguise basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_disguise_trained",
@@ -1503,7 +1680,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "disguise trained"
+      "label": "disguise trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_disguise_plus10",
@@ -1513,7 +1691,8 @@
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "disguise plus10"
+      "label": "disguise plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_disguise_plus20",
@@ -1523,17 +1702,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "disguise plus20"
+      "label": "disguise plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_disguise_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 30.9738,
       "y": 60.0615,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "disguise bonus"
+      "max_length": 2,
+      "label": "disguise bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_dodge_basic",
@@ -1543,7 +1725,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "dodge basic"
+      "label": "dodge basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_dodge_trained",
@@ -1553,7 +1736,8 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "dodge trained"
+      "label": "dodge trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_dodge_plus10",
@@ -1563,7 +1747,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "dodge plus10"
+      "label": "dodge plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_dodge_plus20",
@@ -1573,17 +1758,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "dodge plus20"
+      "label": "dodge plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_dodge_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 30.9738,
       "y": 61.4769,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "dodge bonus"
+      "max_length": 2,
+      "label": "dodge bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_drive_basic",
@@ -1593,7 +1781,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "drive basic"
+      "label": "drive basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_drive_trained",
@@ -1603,7 +1792,8 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "drive trained"
+      "label": "drive trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_drive_plus10",
@@ -1613,7 +1803,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "drive plus10"
+      "label": "drive plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_drive_plus20",
@@ -1623,17 +1814,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "drive plus20"
+      "label": "drive plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_drive_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 62.8462,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "drive bonus"
+      "max_length": 2,
+      "label": "drive bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_evaluate_basic",
@@ -1643,7 +1837,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "evaluate basic"
+      "label": "evaluate basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_evaluate_trained",
@@ -1653,7 +1848,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "evaluate trained"
+      "label": "evaluate trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_evaluate_plus10",
@@ -1663,7 +1859,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "evaluate plus10"
+      "label": "evaluate plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_evaluate_plus20",
@@ -1673,17 +1870,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "evaluate plus20"
+      "label": "evaluate plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_evaluate_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 64.2615,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "evaluate bonus"
+      "max_length": 2,
+      "label": "evaluate bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_forbidden_lore_basic",
@@ -1693,7 +1893,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore basic"
+      "label": "forbidden_lore basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_trained",
@@ -1703,7 +1904,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore trained"
+      "label": "forbidden_lore trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_plus10",
@@ -1713,7 +1915,8 @@
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore plus10"
+      "label": "forbidden_lore plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_plus20",
@@ -1723,17 +1926,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore plus20"
+      "label": "forbidden_lore plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 65.6615,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "forbidden_lore bonus"
+      "max_length": 2,
+      "label": "forbidden_lore bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_1_basic",
@@ -1743,7 +1949,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_1 basic"
+      "label": "forbidden_lore_custom_1 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_1_trained",
@@ -1753,7 +1960,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_1 trained"
+      "label": "forbidden_lore_custom_1 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_1_plus10",
@@ -1763,7 +1971,8 @@
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_1 plus10"
+      "label": "forbidden_lore_custom_1 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_1_plus20",
@@ -1773,17 +1982,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_1 plus20"
+      "label": "forbidden_lore_custom_1 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_1_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 68.4308,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "forbidden_lore_custom_1 bonus"
+      "max_length": 2,
+      "label": "forbidden_lore_custom_1 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_2_basic",
@@ -1793,7 +2005,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "forbidden_lore_custom_2 basic"
+      "label": "forbidden_lore_custom_2 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_2_trained",
@@ -1803,7 +2016,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_2 trained"
+      "label": "forbidden_lore_custom_2 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_2_plus10",
@@ -1813,7 +2027,8 @@
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_2 plus10"
+      "label": "forbidden_lore_custom_2 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_2_plus20",
@@ -1823,17 +2038,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_2 plus20"
+      "label": "forbidden_lore_custom_2 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_2_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 69.8308,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "forbidden_lore_custom_2 bonus"
+      "max_length": 2,
+      "label": "forbidden_lore_custom_2 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_3_basic",
@@ -1843,7 +2061,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "forbidden_lore_custom_3 basic"
+      "label": "forbidden_lore_custom_3 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_3_trained",
@@ -1853,7 +2072,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_3 trained"
+      "label": "forbidden_lore_custom_3 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_3_plus10",
@@ -1863,7 +2083,8 @@
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_3 plus10"
+      "label": "forbidden_lore_custom_3 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_3_plus20",
@@ -1873,267 +2094,300 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "forbidden_lore_custom_3 plus20"
+      "label": "forbidden_lore_custom_3 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_forbidden_lore_custom_3_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
       "y": 71.2538,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "forbidden_lore_custom_3 bonus"
+      "max_length": 2,
+      "label": "forbidden_lore_custom_3 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_gamble_basic",
       "kind": "checkbox",
       "x": 20.2537,
-      "y": 72.6769,
+      "y": 74.0462,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "gamble basic"
+      "label": "gamble basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_gamble_trained",
       "kind": "checkbox",
       "x": 22.9133,
-      "y": 72.6769,
+      "y": 74.0462,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "gamble trained"
+      "label": "gamble trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_gamble_plus10",
       "kind": "checkbox",
       "x": 25.6751,
-      "y": 72.6692,
+      "y": 74.0385,
       "width": 1.739,
       "height": 1.2923,
       "max_length": 1,
-      "label": "gamble plus10"
+      "label": "gamble plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_gamble_plus20",
       "kind": "checkbox",
       "x": 28.3245,
-      "y": 72.6692,
+      "y": 74.0385,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "gamble plus20"
+      "label": "gamble plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_gamble_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
-      "y": 72.6692,
+      "y": 74.0385,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "gamble bonus"
+      "max_length": 2,
+      "label": "gamble bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_inquiry_basic",
       "kind": "checkbox",
       "x": 20.2537,
-      "y": 74.0923,
+      "y": 75.4923,
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "inquiry basic"
+      "label": "inquiry basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_inquiry_trained",
       "kind": "checkbox",
       "x": 22.8723,
-      "y": 74.0923,
+      "y": 75.4923,
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "inquiry trained"
+      "label": "inquiry trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_inquiry_plus10",
       "kind": "checkbox",
       "x": 25.491,
-      "y": 74.0923,
+      "y": 75.4923,
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "inquiry plus10"
+      "label": "inquiry plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_inquiry_plus20",
       "kind": "checkbox",
       "x": 28.3245,
-      "y": 74.0923,
+      "y": 75.4923,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "inquiry plus20"
+      "label": "inquiry plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_inquiry_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
-      "y": 74.0923,
+      "y": 75.4923,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "inquiry bonus"
+      "max_length": 2,
+      "label": "inquiry bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_interrogation_basic",
       "kind": "checkbox",
       "x": 20.2537,
-      "y": 75.5077,
+      "y": 76.8923,
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "interrogation basic"
+      "label": "interrogation basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_interrogation_trained",
       "kind": "checkbox",
       "x": 22.8723,
-      "y": 75.5077,
+      "y": 76.8923,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "interrogation trained"
+      "label": "interrogation trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_interrogation_plus10",
       "kind": "checkbox",
       "x": 25.491,
-      "y": 75.5077,
+      "y": 76.8923,
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "interrogation plus10"
+      "label": "interrogation plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_interrogation_plus20",
       "kind": "checkbox",
       "x": 28.3245,
-      "y": 75.5077,
+      "y": 76.8923,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "interrogation plus20"
+      "label": "interrogation plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_interrogation_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
-      "y": 75.5077,
+      "y": 76.8923,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "interrogation bonus"
+      "max_length": 2,
+      "label": "interrogation bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_intimidate_basic",
       "kind": "checkbox",
       "x": 20.2537,
-      "y": 76.9231,
+      "y": 78.3077,
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "intimidate basic"
+      "label": "intimidate basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_intimidate_trained",
       "kind": "checkbox",
       "x": 22.8723,
-      "y": 76.9231,
+      "y": 78.3077,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "intimidate trained"
+      "label": "intimidate trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_intimidate_plus10",
       "kind": "checkbox",
       "x": 25.491,
-      "y": 76.9231,
+      "y": 78.3077,
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "intimidate plus10"
+      "label": "intimidate plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_intimidate_plus20",
       "kind": "checkbox",
       "x": 28.3245,
-      "y": 76.9231,
+      "y": 78.3077,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "intimidate plus20"
+      "label": "intimidate plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_intimidate_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
-      "y": 76.9231,
+      "y": 78.3077,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "intimidate bonus"
+      "max_length": 2,
+      "label": "intimidate bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_invocation_basic",
       "kind": "checkbox",
       "x": 20.2537,
-      "y": 78.3385,
+      "y": 79.6923,
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "invocation basic"
+      "label": "invocation basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_invocation_trained",
       "kind": "checkbox",
       "x": 22.8723,
-      "y": 78.3385,
+      "y": 79.6923,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "invocation trained"
+      "label": "invocation trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_invocation_plus10",
       "kind": "checkbox",
       "x": 25.491,
-      "y": 78.3385,
+      "y": 79.6923,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "invocation plus10"
+      "label": "invocation plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_invocation_plus20",
       "kind": "checkbox",
       "x": 28.1097,
-      "y": 78.3692,
+      "y": 79.723,
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "invocation plus20"
+      "label": "invocation plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_invocation_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 31.0556,
-      "y": 78.3385,
+      "y": 79.6923,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "invocation bonus"
+      "max_length": 2,
+      "label": "invocation bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_lip_reading_basic",
@@ -2143,7 +2397,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "lip_reading basic"
+      "label": "lip_reading basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_lip_reading_trained",
@@ -2153,7 +2408,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "lip_reading trained"
+      "label": "lip_reading trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_lip_reading_plus10",
@@ -2163,7 +2419,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "lip_reading plus10"
+      "label": "lip_reading plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_lip_reading_plus20",
@@ -2173,17 +2430,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "lip_reading plus20"
+      "label": "lip_reading plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_lip_reading_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.4255,
       "y": 32.0,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "lip_reading bonus"
+      "max_length": 2,
+      "label": "lip_reading bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_literacy_basic",
@@ -2193,7 +2453,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "literacy basic"
+      "label": "literacy basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_literacy_trained",
@@ -2203,7 +2464,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "literacy trained"
+      "label": "literacy trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_literacy_plus10",
@@ -2213,7 +2475,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "literacy plus10"
+      "label": "literacy plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_literacy_plus20",
@@ -2223,17 +2486,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "literacy plus20"
+      "label": "literacy plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_literacy_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.4255,
       "y": 33.4154,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "literacy bonus"
+      "max_length": 2,
+      "label": "literacy bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_logic_basic",
@@ -2243,7 +2509,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "logic basic"
+      "label": "logic basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_logic_trained",
@@ -2253,7 +2520,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "logic trained"
+      "label": "logic trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_logic_plus10",
@@ -2263,7 +2531,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "logic plus10"
+      "label": "logic plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_logic_plus20",
@@ -2273,17 +2542,20 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "logic plus20"
+      "label": "logic plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_logic_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.4255,
       "y": 34.8308,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "logic bonus"
+      "max_length": 2,
+      "label": "logic bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_midicae_basic",
@@ -2293,7 +2565,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "midicae basic"
+      "label": "midicae basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_midicae_trained",
@@ -2303,7 +2576,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "midicae trained"
+      "label": "midicae trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_midicae_plus10",
@@ -2313,7 +2587,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "midicae plus10"
+      "label": "midicae plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_midicae_plus20",
@@ -2323,17 +2598,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "midicae plus20"
+      "label": "midicae plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_midicae_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3846,
       "y": 36.2462,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "midicae bonus"
+      "max_length": 2,
+      "label": "midicae bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_navigation_basic",
@@ -2343,7 +2621,8 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "navigation basic"
+      "label": "navigation basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_navigation_trained",
@@ -2353,7 +2632,8 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "navigation trained"
+      "label": "navigation trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_navigation_plus10",
@@ -2363,7 +2643,8 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "navigation plus10"
+      "label": "navigation plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_navigation_plus20",
@@ -2373,17 +2654,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "navigation plus20"
+      "label": "navigation plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_navigation_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3846,
       "y": 37.6615,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "navigation bonus"
+      "max_length": 2,
+      "label": "navigation bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_performer_basic",
@@ -2393,7 +2677,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer basic"
+      "label": "performer basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_trained",
@@ -2403,7 +2688,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer trained"
+      "label": "performer trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_plus10",
@@ -2413,7 +2699,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer plus10"
+      "label": "performer plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_plus20",
@@ -2423,17 +2710,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer plus20"
+      "label": "performer plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3846,
       "y": 40.4308,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "performer bonus"
+      "max_length": 2,
+      "label": "performer bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_performer_custom_1_basic",
@@ -2443,7 +2733,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer_custom_1 basic"
+      "label": "performer_custom_1 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_1_trained",
@@ -2453,7 +2744,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer_custom_1 trained"
+      "label": "performer_custom_1 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_1_plus10",
@@ -2463,7 +2755,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer_custom_1 plus10"
+      "label": "performer_custom_1 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_1_plus20",
@@ -2473,17 +2766,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "performer_custom_1 plus20"
+      "label": "performer_custom_1 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_1_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3437,
       "y": 41.8462,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "performer_custom_1 bonus"
+      "max_length": 2,
+      "label": "performer_custom_1 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_performer_custom_2_basic",
@@ -2493,7 +2789,8 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "performer_custom_2 basic"
+      "label": "performer_custom_2 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_2_trained",
@@ -2503,7 +2800,8 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "performer_custom_2 trained"
+      "label": "performer_custom_2 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_2_plus10",
@@ -2513,7 +2811,8 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "performer_custom_2 plus10"
+      "label": "performer_custom_2 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_2_plus20",
@@ -2523,17 +2822,20 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "performer_custom_2 plus20"
+      "label": "performer_custom_2 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_performer_custom_2_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3437,
       "y": 43.2615,
       "width": 3.1915,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "performer_custom_2 bonus"
+      "max_length": 2,
+      "label": "performer_custom_2 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_pilot_basic",
@@ -2543,7 +2845,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot basic"
+      "label": "pilot basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_trained",
@@ -2553,7 +2856,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot trained"
+      "label": "pilot trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_plus10",
@@ -2563,7 +2867,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot plus10"
+      "label": "pilot plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_plus20",
@@ -2573,17 +2878,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot plus20"
+      "label": "pilot plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3437,
       "y": 44.6769,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "pilot bonus"
+      "max_length": 2,
+      "label": "pilot bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_pilot_custom_1_basic",
@@ -2593,7 +2901,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot_custom_1 basic"
+      "label": "pilot_custom_1 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_1_trained",
@@ -2603,7 +2912,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot_custom_1 trained"
+      "label": "pilot_custom_1 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_1_plus10",
@@ -2613,7 +2923,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot_custom_1 plus10"
+      "label": "pilot_custom_1 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_1_plus20",
@@ -2623,17 +2934,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "pilot_custom_1 plus20"
+      "label": "pilot_custom_1 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_1_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3437,
       "y": 46.0923,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "pilot_custom_1 bonus"
+      "max_length": 2,
+      "label": "pilot_custom_1 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_pilot_custom_2_basic",
@@ -2643,7 +2957,8 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "pilot_custom_2 basic"
+      "label": "pilot_custom_2 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_2_trained",
@@ -2653,7 +2968,8 @@
       "width": 1.7594,
       "height": 1.2308,
       "max_length": 1,
-      "label": "pilot_custom_2 trained"
+      "label": "pilot_custom_2 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_2_plus10",
@@ -2663,7 +2979,8 @@
       "width": 1.6776,
       "height": 1.2308,
       "max_length": 1,
-      "label": "pilot_custom_2 plus10"
+      "label": "pilot_custom_2 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_2_plus20",
@@ -2673,17 +2990,20 @@
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "pilot_custom_2 plus20"
+      "label": "pilot_custom_2 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_pilot_custom_2_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3437,
       "y": 47.5077,
       "width": 3.1915,
       "height": 1.2308,
-      "max_length": 1,
-      "label": "pilot_custom_2 bonus"
+      "max_length": 2,
+      "label": "pilot_custom_2 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_psyniscience_basic",
@@ -2693,7 +3013,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "psyniscience basic"
+      "label": "psyniscience basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_psyniscience_trained",
@@ -2703,7 +3024,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "psyniscience trained"
+      "label": "psyniscience trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_psyniscience_plus10",
@@ -2713,7 +3035,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "psyniscience plus10"
+      "label": "psyniscience plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_psyniscience_plus20",
@@ -2723,17 +3046,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "psyniscience plus20"
+      "label": "psyniscience plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_psyniscience_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3028,
       "y": 50.3385,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "psyniscience bonus"
+      "max_length": 2,
+      "label": "psyniscience bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_scholastic_lore_basic",
@@ -2743,7 +3069,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore basic"
+      "label": "scholastic_lore basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_trained",
@@ -2753,7 +3080,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore trained"
+      "label": "scholastic_lore trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_plus10",
@@ -2763,7 +3091,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore plus10"
+      "label": "scholastic_lore plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_plus20",
@@ -2773,17 +3102,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore plus20"
+      "label": "scholastic_lore plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3028,
       "y": 51.7538,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "scholastic_lore bonus"
+      "max_length": 2,
+      "label": "scholastic_lore bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_1_basic",
@@ -2793,7 +3125,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_1 basic"
+      "label": "scholastic_lore_custom_1 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_1_trained",
@@ -2803,7 +3136,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_1 trained"
+      "label": "scholastic_lore_custom_1 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_1_plus10",
@@ -2813,7 +3147,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_1 plus10"
+      "label": "scholastic_lore_custom_1 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_1_plus20",
@@ -2823,17 +3158,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_1 plus20"
+      "label": "scholastic_lore_custom_1 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_1_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.3028,
       "y": 53.1692,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "scholastic_lore_custom_1 bonus"
+      "max_length": 2,
+      "label": "scholastic_lore_custom_1 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_2_basic",
@@ -2843,7 +3181,8 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_2 basic"
+      "label": "scholastic_lore_custom_2 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_2_trained",
@@ -2853,7 +3192,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_2 trained"
+      "label": "scholastic_lore_custom_2 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_2_plus10",
@@ -2863,7 +3203,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_2 plus10"
+      "label": "scholastic_lore_custom_2 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_2_plus20",
@@ -2873,17 +3214,20 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scholastic_lore_custom_2 plus20"
+      "label": "scholastic_lore_custom_2 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scholastic_lore_custom_2_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2619,
       "y": 54.5846,
       "width": 3.2324,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "scholastic_lore_custom_2 bonus"
+      "max_length": 2,
+      "label": "scholastic_lore_custom_2 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_scrutiny_basic",
@@ -2893,7 +3237,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "scrutiny basic"
+      "label": "scrutiny basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scrutiny_trained",
@@ -2903,7 +3248,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "scrutiny trained"
+      "label": "scrutiny trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scrutiny_plus10",
@@ -2913,7 +3259,8 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "scrutiny plus10"
+      "label": "scrutiny plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scrutiny_plus20",
@@ -2923,17 +3270,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "scrutiny plus20"
+      "label": "scrutiny plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_scrutiny_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2619,
       "y": 55.9692,
       "width": 3.2324,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "scrutiny bonus"
+      "max_length": 2,
+      "label": "scrutiny bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_search_basic",
@@ -2943,7 +3293,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "search basic"
+      "label": "search basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_search_trained",
@@ -2953,7 +3304,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "search trained"
+      "label": "search trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_search_plus10",
@@ -2963,7 +3315,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "search plus10"
+      "label": "search plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_search_plus20",
@@ -2973,17 +3326,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "search plus20"
+      "label": "search plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_search_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2619,
       "y": 57.3846,
       "width": 3.1915,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "search bonus"
+      "max_length": 2,
+      "label": "search bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_secret_tongue_basic",
@@ -2993,7 +3349,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "secret_tongue basic"
+      "label": "secret_tongue basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_secret_tongue_trained",
@@ -3003,7 +3360,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "secret_tongue trained"
+      "label": "secret_tongue trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_secret_tongue_plus10",
@@ -3013,7 +3371,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "secret_tongue plus10"
+      "label": "secret_tongue plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_secret_tongue_plus20",
@@ -3023,17 +3382,20 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "secret_tongue plus20"
+      "label": "secret_tongue plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_secret_tongue_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2823,
       "y": 58.7692,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "secret_tongue bonus"
+      "max_length": 2,
+      "label": "secret_tongue bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_security_basic",
@@ -3043,7 +3405,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "security basic"
+      "label": "security basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_security_trained",
@@ -3053,7 +3416,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "security trained"
+      "label": "security trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_security_plus10",
@@ -3063,7 +3427,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "security plus10"
+      "label": "security plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_security_plus20",
@@ -3073,17 +3438,20 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "security plus20"
+      "label": "security plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_security_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2209,
       "y": 60.1846,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "security bonus"
+      "max_length": 2,
+      "label": "security bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_shadowing_basic",
@@ -3093,7 +3461,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "shadowing basic"
+      "label": "shadowing basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_shadowing_trained",
@@ -3103,7 +3472,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "shadowing trained"
+      "label": "shadowing trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_shadowing_plus10",
@@ -3113,7 +3483,8 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "shadowing plus10"
+      "label": "shadowing plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_shadowing_plus20",
@@ -3123,17 +3494,20 @@
       "width": 1.6776,
       "height": 1.2923,
       "max_length": 1,
-      "label": "shadowing plus20"
+      "label": "shadowing plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_shadowing_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2209,
       "y": 61.6308,
       "width": 3.2324,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "shadowing bonus"
+      "max_length": 2,
+      "label": "shadowing bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_silent_move_basic",
@@ -3143,7 +3517,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "silent_move basic"
+      "label": "silent_move basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_silent_move_trained",
@@ -3153,7 +3528,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "silent_move trained"
+      "label": "silent_move trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_silent_move_plus10",
@@ -3163,7 +3539,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "silent_move plus10"
+      "label": "silent_move plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_silent_move_plus20",
@@ -3173,17 +3550,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "silent_move plus20"
+      "label": "silent_move plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_silent_move_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2209,
       "y": 63.0462,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "silent_move bonus"
+      "max_length": 2,
+      "label": "silent_move bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_sleight_of_hand_basic",
@@ -3193,7 +3573,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "sleight_of_hand basic"
+      "label": "sleight_of_hand basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_sleight_of_hand_trained",
@@ -3203,7 +3584,8 @@
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "sleight_of_hand trained"
+      "label": "sleight_of_hand trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_sleight_of_hand_plus10",
@@ -3213,7 +3595,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "sleight_of_hand plus10"
+      "label": "sleight_of_hand plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_sleight_of_hand_plus20",
@@ -3223,17 +3606,20 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "sleight_of_hand plus20"
+      "label": "sleight_of_hand plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_sleight_of_hand_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2209,
       "y": 64.4615,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "sleight_of_hand bonus"
+      "max_length": 2,
+      "label": "sleight_of_hand bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_speak_language_basic",
@@ -3243,7 +3629,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language basic"
+      "label": "speak_language basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_trained",
@@ -3253,7 +3640,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language trained"
+      "label": "speak_language trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_plus10",
@@ -3263,7 +3651,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language plus10"
+      "label": "speak_language plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_plus20",
@@ -3273,17 +3662,20 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language plus20"
+      "label": "speak_language plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.2209,
       "y": 67.2615,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "speak_language bonus"
+      "max_length": 2,
+      "label": "speak_language bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_speak_language_custom_1_basic",
@@ -3293,7 +3685,8 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language_custom_1 basic"
+      "label": "speak_language_custom_1 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_1_trained",
@@ -3303,7 +3696,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language_custom_1 trained"
+      "label": "speak_language_custom_1 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_1_plus10",
@@ -3313,7 +3707,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language_custom_1 plus10"
+      "label": "speak_language_custom_1 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_1_plus20",
@@ -3323,17 +3718,20 @@
       "width": 1.7594,
       "height": 1.2923,
       "max_length": 1,
-      "label": "speak_language_custom_1 plus20"
+      "label": "speak_language_custom_1 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_1_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.18,
       "y": 68.6154,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "speak_language_custom_1 bonus"
+      "max_length": 2,
+      "label": "speak_language_custom_1 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_speak_language_custom_2_basic",
@@ -3343,7 +3741,8 @@
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language_custom_2 basic"
+      "label": "speak_language_custom_2 basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_2_trained",
@@ -3353,7 +3752,8 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language_custom_2 trained"
+      "label": "speak_language_custom_2 trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_2_plus10",
@@ -3363,7 +3763,8 @@
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language_custom_2 plus10"
+      "label": "speak_language_custom_2 plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_2_plus20",
@@ -3373,727 +3774,895 @@
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "speak_language_custom_2 plus20"
+      "label": "speak_language_custom_2 plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_speak_language_custom_2_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.18,
       "y": 70.0308,
       "width": 3.2324,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "speak_language_custom_2 bonus"
+      "max_length": 2,
+      "label": "speak_language_custom_2 bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_survival_basic",
       "kind": "checkbox",
       "x": 79.5008,
-      "y": 71.4154,
+      "y": 72.8154,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "survival basic"
+      "label": "survival basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_survival_trained",
       "kind": "checkbox",
       "x": 82.1604,
-      "y": 71.4154,
+      "y": 72.8154,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "survival trained"
+      "label": "survival trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_survival_plus10",
       "kind": "checkbox",
       "x": 84.7791,
-      "y": 71.4462,
+      "y": 72.8462,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "survival plus10"
+      "label": "survival plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_survival_plus20",
       "kind": "checkbox",
       "x": 87.4386,
-      "y": 71.4462,
+      "y": 72.8462,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "survival plus20"
+      "label": "survival plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_survival_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.18,
-      "y": 71.4462,
+      "y": 72.8462,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "survival bonus"
+      "max_length": 2,
+      "label": "survival bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_swim_basic",
       "kind": "checkbox",
       "x": 79.5008,
-      "y": 72.8308,
+      "y": 74.2308,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "swim basic"
+      "label": "swim basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_swim_trained",
       "kind": "checkbox",
       "x": 82.1604,
-      "y": 72.8308,
+      "y": 74.2308,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "swim trained"
+      "label": "swim trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_swim_plus10",
       "kind": "checkbox",
       "x": 84.7791,
-      "y": 72.8308,
+      "y": 74.2308,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "swim plus10"
+      "label": "swim plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_swim_plus20",
       "kind": "checkbox",
       "x": 87.4386,
-      "y": 72.8615,
+      "y": 74.2615,
       "width": 1.7185,
       "height": 1.2308,
       "max_length": 1,
-      "label": "swim plus20"
+      "label": "swim plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_swim_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.18,
-      "y": 72.8615,
+      "y": 74.2615,
       "width": 3.1915,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "swim bonus"
+      "max_length": 2,
+      "label": "swim bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_tech_use_basic",
       "kind": "checkbox",
       "x": 79.5008,
-      "y": 74.2154,
+      "y": 75.6308,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "tech_use basic"
+      "label": "tech_use basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tech_use_trained",
       "kind": "checkbox",
       "x": 82.1195,
-      "y": 74.2462,
+      "y": 75.6616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "tech_use trained"
+      "label": "tech_use trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tech_use_plus10",
       "kind": "checkbox",
       "x": 84.7791,
-      "y": 74.2462,
+      "y": 75.6616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "tech_use plus10"
+      "label": "tech_use plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tech_use_plus20",
       "kind": "checkbox",
       "x": 87.4386,
-      "y": 74.2462,
+      "y": 75.6616,
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "tech_use plus20"
+      "label": "tech_use plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tech_use_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.18,
-      "y": 74.2462,
+      "y": 75.6616,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "tech_use bonus"
+      "max_length": 2,
+      "label": "tech_use bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_tracking_basic",
       "kind": "checkbox",
       "x": 79.5008,
-      "y": 75.6615,
+      "y": 77.0616,
       "width": 1.6776,
       "height": 1.2615,
       "max_length": 1,
-      "label": "tracking basic"
+      "label": "tracking basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tracking_trained",
       "kind": "checkbox",
       "x": 82.1195,
-      "y": 75.6615,
+      "y": 77.0616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "tracking trained"
+      "label": "tracking trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tracking_plus10",
       "kind": "checkbox",
       "x": 84.7381,
-      "y": 75.6615,
+      "y": 77.0616,
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "tracking plus10"
+      "label": "tracking plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tracking_plus20",
       "kind": "checkbox",
       "x": 87.3977,
-      "y": 75.6615,
+      "y": 77.0616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "tracking plus20"
+      "label": "tracking plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_tracking_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.1391,
-      "y": 75.6615,
+      "y": 77.0616,
       "width": 3.1915,
       "height": 1.2615,
-      "max_length": 1,
-      "label": "tracking bonus"
+      "max_length": 2,
+      "label": "tracking bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_trade_basic",
       "kind": "checkbox",
       "x": 79.4599,
-      "y": 77.0462,
+      "y": 78.4615,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "trade basic"
+      "label": "trade basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_trade_trained",
       "kind": "checkbox",
       "x": 82.1195,
-      "y": 77.0462,
+      "y": 78.4615,
       "width": 1.7185,
       "height": 1.2923,
       "max_length": 1,
-      "label": "trade trained"
+      "label": "trade trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_trade_plus10",
       "kind": "checkbox",
       "x": 84.7381,
-      "y": 77.0769,
+      "y": 78.4922,
       "width": 1.7594,
       "height": 1.2615,
       "max_length": 1,
-      "label": "trade plus10"
+      "label": "trade plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_trade_plus20",
       "kind": "checkbox",
       "x": 87.3977,
-      "y": 77.0769,
+      "y": 78.4922,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "trade plus20"
+      "label": "trade plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_trade_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.1391,
-      "y": 77.0769,
+      "y": 78.4922,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "trade bonus"
+      "max_length": 2,
+      "label": "trade bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_skill_wrangling_basic",
       "kind": "checkbox",
       "x": 79.4599,
-      "y": 78.4923,
+      "y": 79.8616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "wrangling basic"
+      "label": "wrangling basic",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_wrangling_trained",
       "kind": "checkbox",
       "x": 82.1195,
-      "y": 78.4923,
+      "y": 79.8616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "wrangling trained"
+      "label": "wrangling trained",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_wrangling_plus10",
       "kind": "checkbox",
       "x": 84.7381,
-      "y": 78.4923,
+      "y": 79.8616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "wrangling plus10"
+      "label": "wrangling plus10",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_wrangling_plus20",
       "kind": "checkbox",
       "x": 87.3977,
-      "y": 78.4923,
+      "y": 79.8616,
       "width": 1.7185,
       "height": 1.2615,
       "max_length": 1,
-      "label": "wrangling plus20"
+      "label": "wrangling plus20",
+      "checkbox_style": "square"
     },
     {
       "id": "c1_skill_wrangling_bonus",
-      "kind": "checkbox",
+      "kind": "text",
       "x": 90.1391,
-      "y": 78.4923,
+      "y": 79.8616,
       "width": 3.1915,
       "height": 1.2923,
-      "max_length": 1,
-      "label": "wrangling bonus"
+      "max_length": 2,
+      "label": "wrangling bonus",
+      "text_style": "center",
+      "input_mode": "numeric"
     },
     {
       "id": "c1_talent_1",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3568,
       "y": 30.6462,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 1"
+      "label": "Talent/Trait line 1",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_2",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3977,
       "y": 32.0923,
-      "width": 20.4583,
+      "width": 21.4403,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 2"
+      "label": "Talent/Trait line 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_talent_2b",
+      "kind": "text",
+      "x": 37.4795,
+      "y": 33.5077,
+      "width": 21.3175,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Talent/Trait line 2b",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_3",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.4795,
       "y": 34.9231,
-      "width": 20.4583,
+      "width": 21.3584,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 3"
+      "label": "Talent/Trait line 3",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_4",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.4386,
       "y": 36.3077,
-      "width": 20.4583,
+      "width": 21.3175,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 4"
+      "label": "Talent/Trait line 4",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_talent_4b",
+      "kind": "text",
+      "x": 37.3977,
+      "y": 37.7231,
+      "width": 21.3584,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Talent/Trait line 4b",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_5",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3977,
       "y": 39.1385,
-      "width": 20.4583,
+      "width": 21.4403,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 5"
+      "label": "Talent/Trait line 5",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_6",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3977,
       "y": 40.5231,
-      "width": 20.4583,
+      "width": 21.3584,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 6"
+      "label": "Talent/Trait line 6",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_7",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3977,
       "y": 41.9077,
-      "width": 20.4583,
+      "width": 21.3584,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 7"
+      "label": "Talent/Trait line 7",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_talent_7b",
+      "kind": "text",
+      "x": 37.3568,
+      "y": 43.3231,
+      "width": 21.4403,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Talent/Trait line 7b",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_8",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3568,
       "y": 44.7385,
-      "width": 20.4583,
+      "width": 21.3993,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 8"
+      "label": "Talent/Trait line 8",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_9",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3159,
       "y": 46.1538,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 9"
+      "label": "Talent/Trait line 9",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_10",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3159,
       "y": 47.5692,
-      "width": 20.4583,
+      "width": 21.3993,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 10"
+      "label": "Talent/Trait line 10",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_talent_10b",
+      "kind": "text",
+      "x": 37.3159,
+      "y": 48.9846,
+      "width": 21.3584,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Talent/Trait line 10b",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_11",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3159,
       "y": 50.4,
-      "width": 20.4583,
+      "width": 21.4403,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 11"
+      "label": "Talent/Trait line 11",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_12",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.275,
       "y": 51.8154,
-      "width": 20.4583,
+      "width": 21.3993,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 12"
+      "label": "Talent/Trait line 12",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_talent_12b",
+      "kind": "text",
+      "x": 37.3568,
+      "y": 53.2308,
+      "width": 21.3175,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Talent/Trait line 12b",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_13",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3977,
       "y": 54.6462,
-      "width": 20.4583,
+      "width": 21.2766,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 13"
+      "label": "Talent/Trait line 13",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_14",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.4386,
       "y": 56.0615,
-      "width": 20.4583,
+      "width": 21.2357,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 14"
+      "label": "Talent/Trait line 14",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_15",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.275,
       "y": 57.4462,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 15"
+      "label": "Talent/Trait line 15",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_talent_15b",
+      "kind": "text",
+      "x": 37.3159,
+      "y": 58.8615,
+      "width": 21.3584,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Talent/Trait line 15b",
+      "text_style": "line"
     },
     {
       "id": "c1_talent_16",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.3159,
       "y": 60.3077,
-      "width": 20.4583,
+      "width": 21.3175,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Talent/Trait line 16"
+      "label": "Talent/Trait line 16",
+      "text_style": "line"
     },
     {
       "id": "c1_special_ability_1",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.1522,
       "y": 64.6154,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Special ability line 1"
+      "label": "Special ability line 1",
+      "text_style": "line"
     },
     {
       "id": "c1_special_ability_2",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.1522,
       "y": 66.0308,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Special ability line 2"
+      "label": "Special ability line 2",
+      "text_style": "line"
     },
     {
       "id": "c1_special_ability_3",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.1522,
       "y": 67.4462,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Special ability line 3"
+      "label": "Special ability line 3",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_special_ability_3b",
+      "kind": "text",
+      "x": 37.1522,
+      "y": 68.8615,
+      "width": 21.4812,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Special ability 3b",
+      "text_style": "line"
     },
     {
       "id": "c1_special_ability_4",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.1522,
       "y": 70.2462,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Special ability line 4"
+      "label": "Special ability line 4",
+      "text_style": "line"
     },
     {
       "id": "c1_special_ability_5",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.1522,
       "y": 71.6615,
-      "width": 20.4583,
+      "width": 21.4812,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Special ability line 5"
+      "label": "Special ability line 5",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_discipline_1",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.1522,
       "y": 75.8154,
-      "width": 20.4583,
+      "width": 21.3584,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic discipline line 1"
+      "label": "Psychic discipline line 1",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_discipline_2",
       "kind": "text",
-      "x": 38.4615,
+      "x": 37.1522,
       "y": 77.2308,
-      "width": 20.4583,
+      "width": 21.3584,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic discipline line 2"
+      "label": "Psychic discipline line 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_psychic_discipline_3",
+      "kind": "text",
+      "x": 37.1522,
+      "y": 78.6462,
+      "width": 21.3584,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Psychic discipline 3",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_power_1",
       "kind": "text",
-      "x": 32.7332,
+      "x": 32.4059,
       "y": 84.6769,
-      "width": 20.0491,
+      "width": 20.2128,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic power 1 name"
+      "label": "Psychic power 1 name",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_sustain_1",
       "kind": "text",
-      "x": 54.419,
+      "x": 53.6416,
       "y": 84.6769,
-      "width": 4.5008,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 1 sustain"
+      "label": "Psychic power 1 sustain",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_range_1",
       "kind": "text",
-      "x": 59.7381,
+      "x": 58.6334,
       "y": 84.6769,
-      "width": 4.0917,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 1 range"
+      "label": "Psychic power 1 range",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_power_2",
       "kind": "text",
-      "x": 32.7332,
+      "x": 32.4059,
       "y": 86.0308,
-      "width": 20.0491,
+      "width": 20.2128,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic power 2 name"
+      "label": "Psychic power 2 name",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_sustain_2",
       "kind": "text",
-      "x": 54.419,
+      "x": 53.6416,
       "y": 86.0308,
-      "width": 4.5008,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 2 sustain"
+      "label": "Psychic power 2 sustain",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_range_2",
       "kind": "text",
-      "x": 59.7381,
+      "x": 58.6334,
       "y": 86.0308,
-      "width": 4.0917,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 2 range"
+      "label": "Psychic power 2 range",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_power_3",
       "kind": "text",
-      "x": 32.7332,
+      "x": 32.4059,
       "y": 87.3846,
-      "width": 20.0491,
+      "width": 20.2128,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic power 3 name"
+      "label": "Psychic power 3 name",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_sustain_3",
       "kind": "text",
-      "x": 54.419,
+      "x": 53.6416,
       "y": 87.3846,
-      "width": 4.5008,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 3 sustain"
+      "label": "Psychic power 3 sustain",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_range_3",
       "kind": "text",
-      "x": 59.7381,
+      "x": 58.6334,
       "y": 87.3846,
-      "width": 4.0917,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 3 range"
+      "label": "Psychic power 3 range",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_power_4",
       "kind": "text",
-      "x": 32.7332,
-      "y": 88.7385,
-      "width": 20.0491,
+      "x": 32.4059,
+      "y": 88.7692,
+      "width": 20.2128,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic power 4 name"
+      "label": "Psychic power 4 name",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_sustain_4",
       "kind": "text",
-      "x": 54.419,
+      "x": 53.6416,
       "y": 88.7692,
-      "width": 4.5008,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 4 sustain"
+      "label": "Psychic power 4 sustain",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_range_4",
       "kind": "text",
-      "x": 59.7381,
+      "x": 58.6334,
       "y": 88.7692,
-      "width": 4.0917,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 4 range"
+      "label": "Psychic power 4 range",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_power_5",
       "kind": "text",
-      "x": 32.7332,
-      "y": 90.0923,
-      "width": 20.0491,
+      "x": 32.4059,
+      "y": 90.1538,
+      "width": 20.2128,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic power 5 name"
+      "label": "Psychic power 5 name",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_sustain_5",
       "kind": "text",
-      "x": 54.419,
+      "x": 53.6416,
       "y": 90.1538,
-      "width": 4.5008,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 5 sustain"
+      "label": "Psychic power 5 sustain",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_range_5",
       "kind": "text",
-      "x": 59.7381,
+      "x": 58.6334,
       "y": 90.1538,
-      "width": 4.0917,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 5 range"
+      "label": "Psychic power 5 range",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_power_6",
       "kind": "text",
-      "x": 32.7332,
-      "y": 91.4769,
-      "width": 20.0491,
+      "x": 32.4059,
+      "y": 91.5077,
+      "width": 20.2128,
       "height": 1.0462,
       "max_length": 60,
-      "label": "Psychic power 6 name"
+      "label": "Psychic power 6 name",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_sustain_6",
       "kind": "text",
-      "x": 54.419,
+      "x": 53.6416,
       "y": 91.5077,
-      "width": 4.5008,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 6 sustain"
+      "label": "Psychic power 6 sustain",
+      "text_style": "line"
     },
     {
       "id": "c1_psychic_range_6",
       "kind": "text",
-      "x": 59.7381,
+      "x": 58.6334,
       "y": 91.5077,
-      "width": 4.0917,
+      "width": 4.1326,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Psychic power 6 range"
+      "label": "Psychic power 6 range",
+      "text_style": "line"
     },
     {
       "id": "c1_xp_to_spend",
@@ -4103,7 +4672,9 @@
       "width": 9.329,
       "height": 2.7692,
       "max_length": 6,
-      "label": "XP to Spend"
+      "label": "XP to Spend",
+      "align": "center",
+      "text_style": "center"
     },
     {
       "id": "c1_xp_total_spent",
@@ -4113,7 +4684,9 @@
       "width": 9.329,
       "height": 2.7692,
       "max_length": 6,
-      "label": "Total XP Spent"
+      "label": "Total XP Spent",
+      "align": "center",
+      "text_style": "center"
     },
     {
       "id": "c1_profit_factor_starting",
@@ -4123,17 +4696,19 @@
       "width": 14.5254,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Profit Factor starting"
+      "label": "Profit Factor starting",
+      "text_style": "line"
     },
     {
       "id": "c1_profit_factor_current",
       "kind": "text",
-      "x": 69.9673,
+      "x": 71.1948,
       "y": 87.5692,
-      "width": 15.7529,
+      "width": 14.5254,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Profit Factor current"
+      "label": "Profit Factor current",
+      "text_style": "line"
     },
     {
       "id": "c1_profit_factor_misfortunes",
@@ -4143,7 +4718,756 @@
       "width": 11.6612,
       "height": 1.0462,
       "max_length": 10,
-      "label": "Profit Factor misfortunes"
+      "label": "Profit Factor misfortunes",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_misfortunes_2",
+      "kind": "text",
+      "x": 66.0802,
+      "y": 90.3385,
+      "width": 19.6809,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Misfortunes 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_misfortunes_3",
+      "kind": "text",
+      "x": 66.0802,
+      "y": 91.7538,
+      "width": 19.6809,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Misfortunes 3",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_common_lore_spec_1",
+      "kind": "text",
+      "x": 2.0458,
+      "y": 48.8615,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Common Lore specialisation 1",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_common_lore_spec_2",
+      "kind": "text",
+      "x": 2.0458,
+      "y": 50.2769,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Common Lore specialisation 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_common_lore_spec_3",
+      "kind": "text",
+      "x": 2.0458,
+      "y": 51.6923,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Common Lore specialisation 3",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_common_lore_spec_4",
+      "kind": "text",
+      "x": 2.0458,
+      "y": 53.0769,
+      "width": 17.0213,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Common Lore specialisation 4",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_drive_spec_1",
+      "kind": "text",
+      "x": 1.964,
+      "y": 64.4308,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Drive specialisation",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_forbidden_lore_spec_1",
+      "kind": "text",
+      "x": 1.9231,
+      "y": 68.6154,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Forbidden Lore specialisation 1",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_forbidden_lore_spec_2",
+      "kind": "text",
+      "x": 1.9231,
+      "y": 70.0308,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Forbidden Lore specialisation 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_forbidden_lore_spec_3",
+      "kind": "text",
+      "x": 1.9231,
+      "y": 71.4462,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Forbidden Lore specialisation 3",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_forbidden_lore_spec_4",
+      "kind": "text",
+      "x": 1.9231,
+      "y": 72.8615,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Forbidden Lore specialisation 4",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_performer_spec_1",
+      "kind": "text",
+      "x": 61.3339,
+      "y": 40.5846,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Performer specialisation 1",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_performer_spec_2",
+      "kind": "text",
+      "x": 61.3339,
+      "y": 41.9692,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Performer specialisation 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_pilot_spec_1",
+      "kind": "text",
+      "x": 61.252,
+      "y": 44.8,
+      "width": 17.144,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Pilot specialisation 1",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_pilot_spec_2",
+      "kind": "text",
+      "x": 61.293,
+      "y": 46.2154,
+      "width": 17.1031,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Pilot specialisation 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_speak_language_spec_1",
+      "kind": "text",
+      "x": 61.1702,
+      "y": 67.3846,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Speak Language specialisation 1",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_speak_language_spec_2",
+      "kind": "text",
+      "x": 61.1293,
+      "y": 68.8,
+      "width": 17.1031,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Speak Language specialisation 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_speak_language_spec_3",
+      "kind": "text",
+      "x": 61.1293,
+      "y": 70.2154,
+      "width": 17.1031,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Speak Language specialisation 3",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_speak_language_spec_4",
+      "kind": "text",
+      "x": 61.0884,
+      "y": 71.6308,
+      "width": 17.144,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Speak Language specialisation 4",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_scholastic_lore_spec_1",
+      "kind": "text",
+      "x": 61.252,
+      "y": 50.4615,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Scholastic Lore specialisation 1",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_scholastic_lore_spec_2",
+      "kind": "text",
+      "x": 61.252,
+      "y": 51.8769,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Scholastic Lore specialisation 2",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_scholastic_lore_spec_3",
+      "kind": "text",
+      "x": 61.252,
+      "y": 53.2923,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Scholastic Lore specialisation 3",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_scholastic_lore_spec_4",
+      "kind": "text",
+      "x": 61.252,
+      "y": 54.6769,
+      "width": 17.0622,
+      "height": 1.0462,
+      "max_length": 60,
+      "label": "Scholastic Lore specialisation 4",
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_acrobatics_note",
+      "kind": "text",
+      "label": "Acrobatics value / note",
+      "x": 12.3977,
+      "y": 31.9692,
+      "width": 6.8331,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_awareness_note",
+      "kind": "text",
+      "label": "Awareness value / note",
+      "x": 13.2979,
+      "y": 33.3846,
+      "width": 5.9329,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_barter_note",
+      "kind": "text",
+      "label": "Barter value / note",
+      "x": 9.8609,
+      "y": 34.8,
+      "width": 9.3699,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_blather_note",
+      "kind": "text",
+      "label": "Blather value / note",
+      "x": 10.6792,
+      "y": 36.1846,
+      "width": 8.5106,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_carouse_note",
+      "kind": "text",
+      "label": "Carouse value / note",
+      "x": 9.8609,
+      "y": 37.5692,
+      "width": 9.329,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_charm_note",
+      "kind": "text",
+      "label": "Charm value / note",
+      "x": 10.6792,
+      "y": 38.9846,
+      "width": 8.5106,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_chem_use_note",
+      "kind": "text",
+      "label": "Chem Use value / note",
+      "x": 12.3977,
+      "y": 40.4,
+      "width": 6.7512,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_ciphers_note",
+      "kind": "text",
+      "label": "Ciphers value / note",
+      "x": 10.6792,
+      "y": 41.8154,
+      "width": 8.4697,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_climb_note",
+      "kind": "text",
+      "label": "Climb value / note",
+      "x": 8.9607,
+      "y": 43.2308,
+      "width": 10.1882,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_command_note",
+      "kind": "text",
+      "label": "Command value / note",
+      "x": 12.3159,
+      "y": 44.6462,
+      "width": 6.8331,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_commerce_note",
+      "kind": "text",
+      "label": "Commerce value / note",
+      "x": 13.216,
+      "y": 46.0615,
+      "width": 5.9329,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_concealment_note",
+      "kind": "text",
+      "label": "Concealment value / note",
+      "x": 13.9935,
+      "y": 54.5231,
+      "width": 5.0736,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_contortionist_note",
+      "kind": "text",
+      "label": "Contortionist value / note",
+      "x": 14.0753,
+      "y": 55.9385,
+      "width": 4.9918,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_deceive_note",
+      "kind": "text",
+      "label": "Deceive value / note",
+      "x": 10.5565,
+      "y": 57.3231,
+      "width": 8.5106,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_demolition_note",
+      "kind": "text",
+      "label": "Demolition value / note",
+      "x": 13.1342,
+      "y": 58.7692,
+      "width": 5.9329,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_disguise_note",
+      "kind": "text",
+      "label": "Disguise value / note",
+      "x": 11.4157,
+      "y": 60.1846,
+      "width": 7.6514,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_dodge_note",
+      "kind": "text",
+      "label": "Dodge value / note",
+      "x": 9.6972,
+      "y": 61.6,
+      "width": 9.329,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_drive_note",
+      "kind": "text",
+      "label": "Drive value / note",
+      "x": 8.9198,
+      "y": 63.0154,
+      "width": 10.1064,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_evaluate_note",
+      "kind": "text",
+      "label": "Evaluate value / note",
+      "x": 11.3748,
+      "y": 65.8462,
+      "width": 7.6514,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_gamble_note",
+      "kind": "text",
+      "label": "Gamble value / note",
+      "x": 10.4337,
+      "y": 74.2769,
+      "width": 8.5516,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_inquiry_note",
+      "kind": "text",
+      "label": "Inquiry value / note",
+      "x": 10.4337,
+      "y": 75.6923,
+      "width": 8.5516,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_interrogation_note",
+      "kind": "text",
+      "label": "Interrogation value / note",
+      "x": 14.689,
+      "y": 77.1077,
+      "width": 4.2962,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_intimidate_note",
+      "kind": "text",
+      "label": "Intimidate value / note",
+      "x": 11.293,
+      "y": 78.5231,
+      "width": 7.6514,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_invocation_note",
+      "kind": "text",
+      "label": "Invocation value / note",
+      "x": 12.9705,
+      "y": 79.9385,
+      "width": 5.9738,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_lip_reading_note",
+      "kind": "text",
+      "label": "Lip Reading value / note",
+      "x": 73.3633,
+      "y": 32.1538,
+      "width": 5.1146,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_literacy_note",
+      "kind": "text",
+      "label": "Literacy value / note",
+      "x": 69.9264,
+      "y": 33.5692,
+      "width": 8.5516,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_logic_note",
+      "kind": "text",
+      "label": "Logic value / note",
+      "x": 69.108,
+      "y": 34.9846,
+      "width": 9.3699,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_midicae_note",
+      "kind": "text",
+      "label": "Midicae value / note",
+      "x": 69.9264,
+      "y": 36.3692,
+      "width": 8.5106,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_navigation_note",
+      "kind": "text",
+      "label": "Navigation value / note",
+      "x": 72.4632,
+      "y": 37.7538,
+      "width": 5.9329,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_pilot_note",
+      "kind": "text",
+      "label": "Pilot value / note",
+      "x": 68.1669,
+      "y": 43.3846,
+      "width": 10.2291,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_psyniscience_note",
+      "kind": "text",
+      "label": "Psyniscience value / note",
+      "x": 73.2815,
+      "y": 47.6308,
+      "width": 5.0736,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_scrutiny_note",
+      "kind": "text",
+      "label": "Scrutiny value / note",
+      "x": 70.6628,
+      "y": 56.1231,
+      "width": 7.6514,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_search_note",
+      "kind": "text",
+      "label": "Search value / note",
+      "x": 69.8036,
+      "y": 57.5385,
+      "width": 8.5106,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_secret_tongue_note",
+      "kind": "text",
+      "label": "Secret Tongue value / note",
+      "x": 74.018,
+      "y": 58.9538,
+      "width": 4.2962,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_security_note",
+      "kind": "text",
+      "label": "Security value / note",
+      "x": 69.7627,
+      "y": 60.3692,
+      "width": 8.5516,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_shadowing_note",
+      "kind": "text",
+      "label": "Shadowing value / note",
+      "x": 72.2995,
+      "y": 61.7846,
+      "width": 5.9738,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_silent_move_note",
+      "kind": "text",
+      "label": "Silent Move value / note",
+      "x": 72.3813,
+      "y": 63.2,
+      "width": 5.892,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_sleight_of_hand_note",
+      "kind": "text",
+      "label": "Sleight Of Hand value / note",
+      "x": 74.8773,
+      "y": 64.6154,
+      "width": 3.3552,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_survival_note",
+      "kind": "text",
+      "label": "Survival value / note",
+      "x": 69.6809,
+      "y": 73.0462,
+      "width": 8.5516,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_swim_note",
+      "kind": "text",
+      "label": "Swim value / note",
+      "x": 67.144,
+      "y": 74.4615,
+      "width": 11.0884,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_tech_use_note",
+      "kind": "text",
+      "label": "Tech Use value / note",
+      "x": 70.7447,
+      "y": 75.8769,
+      "width": 7.4468,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_tracking_note",
+      "kind": "text",
+      "label": "Tracking value / note",
+      "x": 70.4992,
+      "y": 77.2923,
+      "width": 7.6514,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_trade_note",
+      "kind": "text",
+      "label": "Trade value / note",
+      "x": 68.8216,
+      "y": 78.7077,
+      "width": 9.329,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_skill_wrangling_note",
+      "kind": "text",
+      "label": "Wrangling value / note",
+      "x": 71.3584,
+      "y": 80.1231,
+      "width": 6.7921,
+      "height": 1.0462,
+      "max_length": 40,
+      "text_style": "line"
+    },
+    {
+      "id": "c1_talent_first_line",
+      "kind": "text",
+      "label": "Talents & Traits first line",
+      "x": 37.3977,
+      "y": 29.2308,
+      "width": 21.4403,
+      "height": 1.0462,
+      "max_length": 100,
+      "text_style": "line"
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
-  "reviewed_on": "2026-08-23",
-  "method": "Original-resolution contact crops visually checked against printed marking surfaces; production schemas are not read by the renderer.",
+  "reviewed_on": "2026-09-15",
+  "method": "Original-resolution contact crops visually checked against printed marking surfaces; production schemas are not read by the renderer. 2026-08-27: the bottom skill rows (character-page-1 Gamble..Invocation and Survival..Wrangling) were re-aligned one square down to their printed checkbox squares after an owner review found them shifted up a row (Invocation/Wrangling squares were left empty). 2026-08-27b: the 36 character-page-1 'Adv. Taken' pips were re-centred on their printed circles and enlarged to fill them (owner review). 2026-08-28: the 36 character-page-2 'Adv. Taken' pips were levelled to a single common height (top=738, bottom=753) at the owner's request; the printed pips drift ~8px down left-to-right, so this deliberately trades exact per-pip circle registration (worst case ~4px) for a perfectly flat pip row. 2026-09-14: actual printed artwork takes precedence over the former flat-row convention. Page-2 pips re-centred individually by ring-contrast measurement and visual crops; ship marking bounds and circular styles remeasured from ink. Character-page-1 checkbox registration retained after crop review. Page1 circles individually fitted at21px outer diameter; Bonus cells converted to numeric input.",
   "rectangle_reference": {
     "path": "tests/fixtures/checkbox-rectangles.json",
-    "sha256": "3993cfa6744fa49f2ef3ae6a84c0cdbeeb3ae2d9a5edb5ac895db46334e55ee5"
+    "sha256": "37ab996e83a9b528ff4962317d01ae9d13079d6a2c6a6545f41bcc45a53f96aa"
   },
   "sources": {
     "character-page-1": {

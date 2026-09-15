@@ -44,17 +44,26 @@ def _open_character(page, live_server, owner, character_factory, *, values=None)
     return character
 
 
+# All lengths reported here are RENDERED (post-transform) pixels: getBoundingClientRect
+# already includes the canvas transform, and fontSize -- which is computed in the
+# canvas's fixed element space -- is multiplied by --sheet-scale so it lands in the
+# same rendered space. That keeps every "shared canvas-relative size" / "fits its box"
+# invariant a comparison between mutually consistent rendered values.
 def _text_metrics(page, field_id):
     return page.locator(f'[data-field-id="{field_id}"]').evaluate(
         """(input) => {
+          const canvasEl = input.closest('.sheet-canvas');
+          const scale = Number.parseFloat(
+            getComputedStyle(canvasEl).getPropertyValue('--sheet-scale')
+          ) || 1;
           const field = input.closest('.sheet-field').getBoundingClientRect();
-          const canvas = input.closest('.sheet-canvas').getBoundingClientRect();
+          const canvas = canvasEl.getBoundingClientRect();
           const rect = input.getBoundingClientRect();
           const style = getComputedStyle(input);
           return {
             bottomDelta: Math.abs(rect.bottom - field.bottom),
             fontFamily: style.fontFamily,
-            fontSize: Number.parseFloat(style.fontSize),
+            fontSize: Number.parseFloat(style.fontSize) * scale,
             inputHeight: rect.height,
             fieldHeight: field.height,
             canvasWidth: canvas.width,
@@ -64,10 +73,17 @@ def _text_metrics(page, field_id):
 
 
 def _all_text_metrics(page):
-    return page.locator(".sheet-text").evaluate_all(
+    # Excludes the centred value fields (characteristics + experience totals),
+    # which deliberately fill their box and use their own size, so they are not
+    # part of the shared bottom-anchored line-text contract asserted below.
+    return page.locator(".sheet-text:not(.sheet-text--center)").evaluate_all(
         """(inputs) => inputs.map((input) => {
+          const canvasEl = input.closest('.sheet-canvas');
+          const scale = Number.parseFloat(
+            getComputedStyle(canvasEl).getPropertyValue('--sheet-scale')
+          ) || 1;
           const field = input.closest('.sheet-field').getBoundingClientRect();
-          const canvas = input.closest('.sheet-canvas').getBoundingClientRect();
+          const canvas = canvasEl.getBoundingClientRect();
           const rect = input.getBoundingClientRect();
           const style = getComputedStyle(input);
           return {
@@ -75,7 +91,7 @@ def _all_text_metrics(page):
             pageId: input.closest('.sheet-page').dataset.pageId,
             bottomDelta: Math.abs(rect.bottom - field.bottom),
             fontFamily: style.fontFamily,
-            fontSize: Number.parseFloat(style.fontSize),
+            fontSize: Number.parseFloat(style.fontSize) * scale,
             inputHeight: rect.height,
             canvasWidth: canvas.width,
           };
@@ -187,9 +203,12 @@ def test_tab_order_crosses_from_character_page_1_to_page_2(
 def test_character_text_uses_one_bottom_anchored_canvas_relative_serif_size(
     page, live_server, owner, character_factory, viewport
 ):
+    # Only line (bottom-anchored) text fields here -- the characteristic value
+    # boxes (c1_ws_value etc.) are centred and use their own larger size, so
+    # they are not part of this shared-serif-size contract.
     values = {
         "c1_character_name": "Abel Gerrit",
-        "c1_ws_value": "42",
+        "c1_rank": "R9",
         "c2_weapon_1_name": "Sunsear",
         "c2_wounds_critical_damage": "3",
     }
@@ -248,12 +267,16 @@ def test_every_text_input_is_bottom_aligned_and_uses_the_shared_size(
     page.set_viewport_size(viewport)
     _open_character(page, live_server, owner, character_factory)
     character_metrics = _all_text_metrics(page)
-    assert len(character_metrics) == 194
+    # 341 text fields minus the 94 centred value fields that _all_text_metrics
+    # excludes: 9+9 characteristics, 2 experience totals, and (2026-08-28 owner
+    # review) page-2's 6 movement, 3 lifting and 2 fate boxes, which have no
+    # printed line and are now centred like the characteristic boxes.
+    assert len(character_metrics) == 247
 
     page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
     page.wait_for_selector('[data-field-id="ship_name"]')
     ship_metrics = _all_text_metrics(page)
-    assert len(ship_metrics) == 48
+    assert len(ship_metrics) == 49
 
     all_metrics = character_metrics + ship_metrics
     normalized_sizes = [item["fontSize"] / item["canvasWidth"] for item in all_metrics]
@@ -306,12 +329,13 @@ def test_rendered_times_glyph_height_matches_the_normalized_source_median(
 @pytest.mark.parametrize(
     ("page_id", "field_id"),
     (
-        ("character-page-1", "c1_ws_adv_1"),
-        ("character-page-2", "c2_ws_adv_1"),
-        ("ship-page", "ship_weapon_capacity_dorsal"),
+        # Square cells only. The "Adv. Taken" pips (c1_ws_adv_1 etc.) are round
+        # and fill their box -- covered by the round-fill test below. Page 2 has
+        # only pip checkboxes, so it is not in this square-cell contract.
+        ("character-page-1", "c1_skill_acrobatics_basic"),
     ),
 )
-def test_checked_checkbox_renders_only_an_inset_black_block(
+def test_checked_checkbox_renders_an_inset_x(
     page,
     live_server,
     owner,
@@ -355,7 +379,9 @@ def test_checked_checkbox_renders_only_an_inset_black_block(
     assert checkbox.is_checked()
     assert style["appearance"] == "none"
     assert style["backgroundColor"] in ("rgba(0, 0, 0, 0)", "transparent")
-    assert style["backgroundImage"] != "none"
+    from urllib.parse import unquote
+    assert "M2 2L18 18M18 2L2 18" in unquote(style["backgroundImage"])
+    assert "%3Crect" not in style["backgroundImage"]
     assert style["backgroundPosition"] == "50% 50%"
     assert style["backgroundSize"] == "70% 70%"
 
@@ -395,3 +421,53 @@ def test_checked_checkbox_renders_only_an_inset_black_block(
     assert min(y for _x, y in black_pixels) >= 1, field_id
     assert max(x for x, _y in black_pixels) <= checked.width - 2, field_id
     assert max(y for _x, y in black_pixels) <= checked.height - 2, field_id
+
+
+@pytest.mark.parametrize(
+    ("page_id", "field_id"),
+    (
+        ("character-page-1", "c1_ws_adv_1"),
+        ("character-page-2", "c2_ws_adv_1"),
+    ),
+)
+def test_checked_advancement_pip_renders_a_round_fill(
+    page, live_server, owner, character_factory, page_id, field_id
+):
+    page.set_viewport_size({"width": 1440, "height": 900})
+    _open_character(
+        page, live_server, owner, character_factory, values={field_id: True}
+    )
+
+    pip = page.locator(f'[data-field-id="{field_id}"]')
+    assert pip.is_visible(), page_id
+    pip.scroll_into_view_if_needed()
+    style = pip.evaluate(
+        """(el) => {
+          const s = getComputedStyle(el);
+          return {appearance: s.appearance, backgroundSize: s.backgroundSize};
+        }"""
+    )
+    assert pip.is_checked()
+    assert style["appearance"] == "none"
+    # Fills the whole pip box, unlike the 70% inset square used for skill cells.
+    assert style["backgroundSize"] == "100% 100%"
+
+    checked = Image.open(io.BytesIO(pip.screenshot())).convert("RGB")
+    pip.evaluate("el => { el.checked = false; }")
+    unchecked = Image.open(io.BytesIO(pip.screenshot())).convert("RGB")
+    delta_bbox = (
+        ImageChops.difference(checked, unchecked)
+        .convert("L")
+        .point(lambda v: 255 if v >= 5 else 0)
+        .getbbox()
+    )
+    assert delta_bbox is not None, field_id
+    left, top, right, bottom = delta_bbox
+    w, h = checked.width, checked.height
+    # The round fill spans essentially the whole box (not an inset block)...
+    # At fitted zoom the crop is only about 10px wide. Its bounds can
+    # include one extra raster pixel from a fractional CSS position.
+    assert (right - left) + 1 >= w * 0.85 and (bottom - top) + 1 >= h * 0.85, field_id
+    # ...yet leaves the corners empty -- i.e. it is a circle, not a square.
+    for corner in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)):
+        assert max(checked.getpixel(corner)) > 60, (field_id, corner)

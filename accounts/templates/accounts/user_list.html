@@ -11,11 +11,11 @@
     {% for user in users %}
       <li>
         <span>{{ user.username }} &mdash; {% if user.is_active %}aktiv{% else %}inaktiv{% endif %}</span>
-        <a href="{% url 'accounts:admin_user_edit' user.pk %}">Bearbeiten</a>
-        <a href="{% url 'accounts:admin_user_reset_password' user.pk %}">Passwort zur&uuml;cksetzen</a>
+        <a class="button link-button" href="{% url 'accounts:admin_user_edit' user.pk %}">Bearbeiten</a>
+        <a class="button link-button" href="{% url 'accounts:admin_user_reset_password' user.pk %}">Passwort zur&uuml;cksetzen</a>
         <form method="post" action="{% if user.is_active %}{% url 'accounts:admin_user_deactivate' user.pk %}{% else %}{% url 'accounts:admin_user_reactivate' user.pk %}{% endif %}">
           {% csrf_token %}
-          <button type="submit">{% if user.is_active %}Deaktivieren{% else %}Reaktivieren{% endif %}</button>
+          <button type="submit" class="button{% if user.is_active %} button-danger{% endif %}">{% if user.is_active %}Deaktivieren{% else %}Reaktivieren{% endif %}</button>
         </form>
       </li>
     {% endfor %}

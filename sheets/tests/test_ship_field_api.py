@@ -50,7 +50,7 @@ def test_field_patch_persists_value(client, user_factory, ship_sheet):
 @pytest.mark.django_db
 def test_checkbox_field_patch_accepts_boolean(client, user_factory, ship_sheet):
     client.force_login(user_factory())
-    response = post_field(client, ship_sheet, "ship_space_available", True, 0)
+    response = post_field(client, ship_sheet, "ship_weapon_1_location_dorsal", True, 0)
     assert response.status_code == 200
     assert response.json()["value"] is True
 
@@ -113,7 +113,7 @@ def test_text_value_exceeding_max_length_returns_422(client, user_factory, ship_
 @pytest.mark.django_db
 def test_checkbox_with_non_boolean_value_returns_422(client, user_factory, ship_sheet):
     client.force_login(user_factory())
-    response = post_field(client, ship_sheet, "ship_space_available", "yes", 0)
+    response = post_field(client, ship_sheet, "ship_weapon_1_location_dorsal", "yes", 0)
     assert response.status_code == 422
 
 

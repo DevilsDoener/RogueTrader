@@ -71,6 +71,16 @@ class FieldSpec:
     height: Decimal
     max_length: int
     label: str
+    #: How typed text sits in the field box. "left" (default) keeps the
+    #: historic bottom-left-on-the-printed-line layout; "center" centres the
+    #: value in the box (used for the characteristic value boxes and the
+    #: experience totals, which have no printed line to sit on).
+    align: str = "left"
+    text_style: str = "line"
+    checkbox_style: str = "square"
+    input_mode: str = "text"
+    read_only: bool = False
+    hit_padding: tuple[int, int, int, int] = (0, 0, 0, 0)
 
     @classmethod
     def from_dict(cls, payload: Mapping[str, Any]) -> "FieldSpec":
@@ -119,6 +129,38 @@ class FieldSpec:
             f"field {field_id!r}: label must be a non-empty string, got {label!r}",
         )
 
+        text_style = payload.get(
+            "text_style", "center" if payload.get("align") == "center" else "line"
+        )
+        _require(text_style in ("line", "center", "characteristic"),
+                 f"field {field_id!r}: invalid text_style {text_style!r}")
+        checkbox_style = payload.get("checkbox_style", "square")
+        _require(checkbox_style in ("square", "pip"),
+                 f"field {field_id!r}: invalid checkbox_style {checkbox_style!r}")
+        expected_align = "left" if text_style == "line" else "center"
+        align = payload.get("align", expected_align)
+        _require(
+            align in ("left", "center"),
+            f"field {field_id!r}: align must be 'left' or 'center', got {align!r}",
+        )
+        _require(align == expected_align,
+                 f"field {field_id!r}: align conflicts with text_style")
+        _require(kind == "text" or text_style == "line",
+                 f"field {field_id!r}: checkbox cannot have text_style {text_style!r}")
+        _require(kind == "checkbox" or checkbox_style == "square",
+                 f"field {field_id!r}: text field cannot have checkbox_style {checkbox_style!r}")
+
+        read_only = payload.get("read_only", False)
+        _require(type(read_only) is bool and (kind == "text" or not read_only),
+                 f"field {field_id!r}: invalid read_only")
+        input_mode = payload.get("input_mode", "text")
+        _require(input_mode in ("text", "numeric"), f"field {field_id!r}: invalid input_mode")
+        _require(kind == "text" or input_mode == "text", f"field {field_id!r}: checkbox input_mode")
+        hit_padding = payload.get("hit_padding", [0, 0, 0, 0])
+        _require(isinstance(hit_padding, (list, tuple)) and len(hit_padding) == 4
+                 and all(type(n) is int and 0 <= n <= 200 for n in hit_padding),
+                 f"field {field_id!r}: invalid hit_padding")
+        _require(kind == "checkbox" or not any(hit_padding), f"field {field_id!r}: text hit_padding")
         return cls(
             id=field_id,
             kind=kind,
@@ -128,6 +170,12 @@ class FieldSpec:
             height=height,
             max_length=max_length,
             label=label,
+            align=align,
+            text_style=text_style,
+            checkbox_style=checkbox_style,
+            input_mode=input_mode,
+            read_only=read_only,
+            hit_padding=tuple(hit_padding),
         )
 
     def validate_value(self, value: Any) -> None:
@@ -144,6 +192,8 @@ class FieldSpec:
             raise SchemaError(
                 f"field {self.id!r}: text value must be a string, got {value!r}"
             )
+        if self.input_mode == "numeric" and value and not (value.isascii() and value.isdigit()):
+            raise SchemaError(f"field {self.id!r}: enter a non-negative whole number")
         if len(value) > self.max_length:
             raise SchemaError(
                 f"field {self.id!r}: text value exceeds max_length "

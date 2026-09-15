@@ -1,0 +1,1724 @@
+{
+  "character-page-1": {
+    "c1_character_name": {
+      "x": 490,
+      "y": 191,
+      "width": 675,
+      "height": 34
+    },
+    "c1_player_name": {
+      "x": 1430,
+      "y": 193,
+      "width": 738,
+      "height": 34
+    },
+    "c1_career_path": {
+      "x": 410,
+      "y": 265,
+      "width": 522,
+      "height": 34
+    },
+    "c1_rank": {
+      "x": 1040,
+      "y": 267,
+      "width": 125,
+      "height": 34
+    },
+    "c1_home_world": {
+      "x": 1435,
+      "y": 268,
+      "width": 200,
+      "height": 34
+    },
+    "c1_motivation": {
+      "x": 1855,
+      "y": 268,
+      "width": 313,
+      "height": 34
+    },
+    "c1_talent_1": {
+      "x": 913,
+      "y": 996,
+      "width": 525,
+      "height": 34
+    },
+    "c1_talent_2": {
+      "x": 914,
+      "y": 1043,
+      "width": 524,
+      "height": 34
+    },
+    "c1_talent_2b": {
+      "x": 916,
+      "y": 1089,
+      "width": 521,
+      "height": 34
+    },
+    "c1_talent_3": {
+      "x": 916,
+      "y": 1135,
+      "width": 522,
+      "height": 34
+    },
+    "c1_talent_4": {
+      "x": 915,
+      "y": 1180,
+      "width": 521,
+      "height": 34
+    },
+    "c1_talent_4b": {
+      "x": 914,
+      "y": 1226,
+      "width": 522,
+      "height": 34
+    },
+    "c1_talent_5": {
+      "x": 914,
+      "y": 1272,
+      "width": 524,
+      "height": 34
+    },
+    "c1_talent_6": {
+      "x": 914,
+      "y": 1317,
+      "width": 522,
+      "height": 34
+    },
+    "c1_talent_7": {
+      "x": 914,
+      "y": 1362,
+      "width": 522,
+      "height": 34
+    },
+    "c1_talent_7b": {
+      "x": 913,
+      "y": 1408,
+      "width": 524,
+      "height": 34
+    },
+    "c1_talent_8": {
+      "x": 913,
+      "y": 1454,
+      "width": 523,
+      "height": 34
+    },
+    "c1_talent_9": {
+      "x": 912,
+      "y": 1500,
+      "width": 525,
+      "height": 34
+    },
+    "c1_talent_10": {
+      "x": 912,
+      "y": 1546,
+      "width": 523,
+      "height": 34
+    },
+    "c1_talent_10b": {
+      "x": 912,
+      "y": 1592,
+      "width": 522,
+      "height": 34
+    },
+    "c1_talent_11": {
+      "x": 912,
+      "y": 1638,
+      "width": 524,
+      "height": 34
+    },
+    "c1_talent_12": {
+      "x": 911,
+      "y": 1684,
+      "width": 523,
+      "height": 34
+    },
+    "c1_talent_12b": {
+      "x": 913,
+      "y": 1730,
+      "width": 521,
+      "height": 34
+    },
+    "c1_talent_13": {
+      "x": 914,
+      "y": 1776,
+      "width": 520,
+      "height": 34
+    },
+    "c1_talent_14": {
+      "x": 915,
+      "y": 1822,
+      "width": 519,
+      "height": 34
+    },
+    "c1_talent_15": {
+      "x": 911,
+      "y": 1867,
+      "width": 525,
+      "height": 34
+    },
+    "c1_talent_15b": {
+      "x": 912,
+      "y": 1913,
+      "width": 522,
+      "height": 34
+    },
+    "c1_talent_16": {
+      "x": 912,
+      "y": 1960,
+      "width": 521,
+      "height": 34
+    },
+    "c1_special_ability_1": {
+      "x": 908,
+      "y": 2100,
+      "width": 525,
+      "height": 34
+    },
+    "c1_special_ability_2": {
+      "x": 908,
+      "y": 2146,
+      "width": 525,
+      "height": 34
+    },
+    "c1_special_ability_3": {
+      "x": 908,
+      "y": 2192,
+      "width": 525,
+      "height": 34
+    },
+    "c1_special_ability_3b": {
+      "x": 908,
+      "y": 2238,
+      "width": 525,
+      "height": 34
+    },
+    "c1_special_ability_4": {
+      "x": 908,
+      "y": 2283,
+      "width": 525,
+      "height": 34
+    },
+    "c1_special_ability_5": {
+      "x": 908,
+      "y": 2329,
+      "width": 525,
+      "height": 34
+    },
+    "c1_psychic_discipline_1": {
+      "x": 908,
+      "y": 2464,
+      "width": 522,
+      "height": 34
+    },
+    "c1_psychic_discipline_2": {
+      "x": 908,
+      "y": 2510,
+      "width": 522,
+      "height": 34
+    },
+    "c1_psychic_discipline_3": {
+      "x": 908,
+      "y": 2556,
+      "width": 522,
+      "height": 34
+    },
+    "c1_psychic_power_1": {
+      "x": 792,
+      "y": 2752,
+      "width": 494,
+      "height": 34
+    },
+    "c1_psychic_sustain_1": {
+      "x": 1311,
+      "y": 2752,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_range_1": {
+      "x": 1433,
+      "y": 2752,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_power_2": {
+      "x": 792,
+      "y": 2796,
+      "width": 494,
+      "height": 34
+    },
+    "c1_psychic_sustain_2": {
+      "x": 1311,
+      "y": 2796,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_range_2": {
+      "x": 1433,
+      "y": 2796,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_power_3": {
+      "x": 792,
+      "y": 2840,
+      "width": 494,
+      "height": 34
+    },
+    "c1_psychic_sustain_3": {
+      "x": 1311,
+      "y": 2840,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_range_3": {
+      "x": 1433,
+      "y": 2840,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_power_4": {
+      "x": 792,
+      "y": 2885,
+      "width": 494,
+      "height": 34
+    },
+    "c1_psychic_sustain_4": {
+      "x": 1311,
+      "y": 2885,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_range_4": {
+      "x": 1433,
+      "y": 2885,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_power_5": {
+      "x": 792,
+      "y": 2930,
+      "width": 494,
+      "height": 34
+    },
+    "c1_psychic_sustain_5": {
+      "x": 1311,
+      "y": 2930,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_range_5": {
+      "x": 1433,
+      "y": 2930,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_power_6": {
+      "x": 792,
+      "y": 2974,
+      "width": 494,
+      "height": 34
+    },
+    "c1_psychic_sustain_6": {
+      "x": 1311,
+      "y": 2974,
+      "width": 101,
+      "height": 34
+    },
+    "c1_psychic_range_6": {
+      "x": 1433,
+      "y": 2974,
+      "width": 101,
+      "height": 34
+    },
+    "c1_misfortunes_2": {
+      "x": 1615,
+      "y": 2936,
+      "width": 481,
+      "height": 34
+    },
+    "c1_misfortunes_3": {
+      "x": 1615,
+      "y": 2982,
+      "width": 481,
+      "height": 34
+    },
+    "c1_common_lore_spec_1": {
+      "x": 50,
+      "y": 1588,
+      "width": 417,
+      "height": 34
+    },
+    "c1_common_lore_spec_2": {
+      "x": 50,
+      "y": 1634,
+      "width": 417,
+      "height": 34
+    },
+    "c1_common_lore_spec_3": {
+      "x": 50,
+      "y": 1680,
+      "width": 417,
+      "height": 34
+    },
+    "c1_common_lore_spec_4": {
+      "x": 50,
+      "y": 1725,
+      "width": 416,
+      "height": 34
+    },
+    "c1_drive_spec_1": {
+      "x": 48,
+      "y": 2094,
+      "width": 417,
+      "height": 34
+    },
+    "c1_forbidden_lore_spec_1": {
+      "x": 47,
+      "y": 2230,
+      "width": 417,
+      "height": 34
+    },
+    "c1_forbidden_lore_spec_2": {
+      "x": 47,
+      "y": 2276,
+      "width": 417,
+      "height": 34
+    },
+    "c1_forbidden_lore_spec_3": {
+      "x": 47,
+      "y": 2322,
+      "width": 417,
+      "height": 34
+    },
+    "c1_forbidden_lore_spec_4": {
+      "x": 47,
+      "y": 2368,
+      "width": 417,
+      "height": 34
+    },
+    "c1_performer_spec_1": {
+      "x": 1499,
+      "y": 1319,
+      "width": 417,
+      "height": 34
+    },
+    "c1_performer_spec_2": {
+      "x": 1499,
+      "y": 1364,
+      "width": 417,
+      "height": 34
+    },
+    "c1_pilot_spec_1": {
+      "x": 1497,
+      "y": 1456,
+      "width": 419,
+      "height": 34
+    },
+    "c1_pilot_spec_2": {
+      "x": 1498,
+      "y": 1502,
+      "width": 418,
+      "height": 34
+    },
+    "c1_speak_language_spec_1": {
+      "x": 1495,
+      "y": 2190,
+      "width": 417,
+      "height": 34
+    },
+    "c1_speak_language_spec_2": {
+      "x": 1494,
+      "y": 2236,
+      "width": 418,
+      "height": 34
+    },
+    "c1_speak_language_spec_3": {
+      "x": 1494,
+      "y": 2282,
+      "width": 418,
+      "height": 34
+    },
+    "c1_speak_language_spec_4": {
+      "x": 1493,
+      "y": 2328,
+      "width": 419,
+      "height": 34
+    },
+    "c1_scholastic_lore_spec_1": {
+      "x": 1497,
+      "y": 1640,
+      "width": 417,
+      "height": 34
+    },
+    "c1_scholastic_lore_spec_2": {
+      "x": 1497,
+      "y": 1686,
+      "width": 417,
+      "height": 34
+    },
+    "c1_scholastic_lore_spec_3": {
+      "x": 1497,
+      "y": 1732,
+      "width": 417,
+      "height": 34
+    },
+    "c1_scholastic_lore_spec_4": {
+      "x": 1497,
+      "y": 1777,
+      "width": 417,
+      "height": 34
+    },
+    "c1_skill_acrobatics_note": {
+      "x": 303,
+      "y": 1039,
+      "width": 167,
+      "height": 34
+    },
+    "c1_skill_awareness_note": {
+      "x": 325,
+      "y": 1085,
+      "width": 145,
+      "height": 34
+    },
+    "c1_skill_barter_note": {
+      "x": 241,
+      "y": 1131,
+      "width": 229,
+      "height": 34
+    },
+    "c1_skill_blather_note": {
+      "x": 261,
+      "y": 1176,
+      "width": 208,
+      "height": 34
+    },
+    "c1_skill_carouse_note": {
+      "x": 241,
+      "y": 1221,
+      "width": 228,
+      "height": 34
+    },
+    "c1_skill_charm_note": {
+      "x": 261,
+      "y": 1267,
+      "width": 208,
+      "height": 34
+    },
+    "c1_skill_chem_use_note": {
+      "x": 303,
+      "y": 1313,
+      "width": 165,
+      "height": 34
+    },
+    "c1_skill_ciphers_note": {
+      "x": 261,
+      "y": 1359,
+      "width": 207,
+      "height": 34
+    },
+    "c1_skill_climb_note": {
+      "x": 219,
+      "y": 1405,
+      "width": 249,
+      "height": 34
+    },
+    "c1_skill_command_note": {
+      "x": 301,
+      "y": 1451,
+      "width": 167,
+      "height": 34
+    },
+    "c1_skill_commerce_note": {
+      "x": 323,
+      "y": 1497,
+      "width": 145,
+      "height": 34
+    },
+    "c1_skill_concealment_note": {
+      "x": 342,
+      "y": 1772,
+      "width": 124,
+      "height": 34
+    },
+    "c1_skill_contortionist_note": {
+      "x": 344,
+      "y": 1818,
+      "width": 122,
+      "height": 34
+    },
+    "c1_skill_deceive_note": {
+      "x": 258,
+      "y": 1863,
+      "width": 208,
+      "height": 34
+    },
+    "c1_skill_demolition_note": {
+      "x": 321,
+      "y": 1910,
+      "width": 145,
+      "height": 34
+    },
+    "c1_skill_disguise_note": {
+      "x": 279,
+      "y": 1956,
+      "width": 187,
+      "height": 34
+    },
+    "c1_skill_dodge_note": {
+      "x": 237,
+      "y": 2002,
+      "width": 228,
+      "height": 34
+    },
+    "c1_skill_drive_note": {
+      "x": 218,
+      "y": 2048,
+      "width": 247,
+      "height": 34
+    },
+    "c1_skill_evaluate_note": {
+      "x": 278,
+      "y": 2140,
+      "width": 187,
+      "height": 34
+    },
+    "c1_skill_gamble_note": {
+      "x": 255,
+      "y": 2414,
+      "width": 209,
+      "height": 34
+    },
+    "c1_skill_inquiry_note": {
+      "x": 255,
+      "y": 2460,
+      "width": 209,
+      "height": 34
+    },
+    "c1_skill_interrogation_note": {
+      "x": 359,
+      "y": 2506,
+      "width": 105,
+      "height": 34
+    },
+    "c1_skill_intimidate_note": {
+      "x": 276,
+      "y": 2552,
+      "width": 187,
+      "height": 34
+    },
+    "c1_skill_invocation_note": {
+      "x": 317,
+      "y": 2598,
+      "width": 146,
+      "height": 34
+    },
+    "c1_skill_lip_reading_note": {
+      "x": 1793,
+      "y": 1045,
+      "width": 125,
+      "height": 34
+    },
+    "c1_skill_literacy_note": {
+      "x": 1709,
+      "y": 1091,
+      "width": 209,
+      "height": 34
+    },
+    "c1_skill_logic_note": {
+      "x": 1689,
+      "y": 1137,
+      "width": 229,
+      "height": 34
+    },
+    "c1_skill_midicae_note": {
+      "x": 1709,
+      "y": 1182,
+      "width": 208,
+      "height": 34
+    },
+    "c1_skill_navigation_note": {
+      "x": 1771,
+      "y": 1227,
+      "width": 145,
+      "height": 34
+    },
+    "c1_skill_pilot_note": {
+      "x": 1666,
+      "y": 1410,
+      "width": 250,
+      "height": 34
+    },
+    "c1_skill_psyniscience_note": {
+      "x": 1791,
+      "y": 1548,
+      "width": 124,
+      "height": 34
+    },
+    "c1_skill_scrutiny_note": {
+      "x": 1727,
+      "y": 1824,
+      "width": 187,
+      "height": 34
+    },
+    "c1_skill_search_note": {
+      "x": 1706,
+      "y": 1870,
+      "width": 208,
+      "height": 34
+    },
+    "c1_skill_secret_tongue_note": {
+      "x": 1809,
+      "y": 1916,
+      "width": 105,
+      "height": 34
+    },
+    "c1_skill_security_note": {
+      "x": 1705,
+      "y": 1962,
+      "width": 209,
+      "height": 34
+    },
+    "c1_skill_shadowing_note": {
+      "x": 1767,
+      "y": 2008,
+      "width": 146,
+      "height": 34
+    },
+    "c1_skill_silent_move_note": {
+      "x": 1769,
+      "y": 2054,
+      "width": 144,
+      "height": 34
+    },
+    "c1_skill_sleight_of_hand_note": {
+      "x": 1830,
+      "y": 2100,
+      "width": 82,
+      "height": 34
+    },
+    "c1_skill_survival_note": {
+      "x": 1703,
+      "y": 2374,
+      "width": 209,
+      "height": 34
+    },
+    "c1_skill_swim_note": {
+      "x": 1641,
+      "y": 2420,
+      "width": 271,
+      "height": 34
+    },
+    "c1_skill_tech_use_note": {
+      "x": 1729,
+      "y": 2466,
+      "width": 182,
+      "height": 34
+    },
+    "c1_skill_tracking_note": {
+      "x": 1723,
+      "y": 2512,
+      "width": 187,
+      "height": 34
+    },
+    "c1_skill_trade_note": {
+      "x": 1682,
+      "y": 2558,
+      "width": 228,
+      "height": 34
+    },
+    "c1_skill_wrangling_note": {
+      "x": 1744,
+      "y": 2604,
+      "width": 166,
+      "height": 34
+    },
+    "c1_talent_first_line": {
+      "x": 914,
+      "y": 950,
+      "width": 524,
+      "height": 34
+    },
+    "c1_skill_acrobatics_bonus": {
+      "x": 759,
+      "y": 1034,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_awareness_bonus": {
+      "x": 759,
+      "y": 1080,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_barter_bonus": {
+      "x": 759,
+      "y": 1126,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_blather_bonus": {
+      "x": 759,
+      "y": 1172,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_carouse_bonus": {
+      "x": 761,
+      "y": 1219,
+      "width": 79,
+      "height": 41
+    },
+    "c1_skill_charm_bonus": {
+      "x": 761,
+      "y": 1264,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_chem_use_bonus": {
+      "x": 759,
+      "y": 1308,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_ciphers_bonus": {
+      "x": 759,
+      "y": 1356,
+      "width": 81,
+      "height": 42
+    },
+    "c1_skill_climb_bonus": {
+      "x": 760,
+      "y": 1402,
+      "width": 80,
+      "height": 41
+    },
+    "c1_skill_command_bonus": {
+      "x": 760,
+      "y": 1447,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_commerce_bonus": {
+      "x": 759,
+      "y": 1494,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_common_lore_bonus": {
+      "x": 759,
+      "y": 1586,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_common_lore_custom_1_bonus": {
+      "x": 759,
+      "y": 1632,
+      "width": 79,
+      "height": 41
+    },
+    "c1_skill_common_lore_custom_2_bonus": {
+      "x": 758,
+      "y": 1678,
+      "width": 80,
+      "height": 41
+    },
+    "c1_skill_common_lore_custom_3_bonus": {
+      "x": 758,
+      "y": 1724,
+      "width": 80,
+      "height": 41
+    },
+    "c1_skill_concealment_bonus": {
+      "x": 759,
+      "y": 1767,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_contortionist_bonus": {
+      "x": 759,
+      "y": 1813,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_deceive_bonus": {
+      "x": 759,
+      "y": 1858,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_demolition_bonus": {
+      "x": 759,
+      "y": 1904,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_disguise_bonus": {
+      "x": 757,
+      "y": 1952,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_dodge_bonus": {
+      "x": 757,
+      "y": 1998,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_drive_bonus": {
+      "x": 759,
+      "y": 2043,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_evaluate_bonus": {
+      "x": 759,
+      "y": 2088,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_forbidden_lore_bonus": {
+      "x": 759,
+      "y": 2134,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_forbidden_lore_custom_1_bonus": {
+      "x": 759,
+      "y": 2224,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_forbidden_lore_custom_2_bonus": {
+      "x": 759,
+      "y": 2270,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_forbidden_lore_custom_3_bonus": {
+      "x": 759,
+      "y": 2316,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_gamble_bonus": {
+      "x": 759,
+      "y": 2406,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_inquiry_bonus": {
+      "x": 759,
+      "y": 2453,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_interrogation_bonus": {
+      "x": 759,
+      "y": 2499,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_intimidate_bonus": {
+      "x": 759,
+      "y": 2545,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_invocation_bonus": {
+      "x": 759,
+      "y": 2590,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_lip_reading_bonus": {
+      "x": 2210,
+      "y": 1040,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_literacy_bonus": {
+      "x": 2210,
+      "y": 1086,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_logic_bonus": {
+      "x": 2210,
+      "y": 1132,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_midicae_bonus": {
+      "x": 2209,
+      "y": 1178,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_navigation_bonus": {
+      "x": 2209,
+      "y": 1224,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_performer_bonus": {
+      "x": 2209,
+      "y": 1314,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_performer_custom_1_bonus": {
+      "x": 2208,
+      "y": 1360,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_performer_custom_2_bonus": {
+      "x": 2208,
+      "y": 1406,
+      "width": 78,
+      "height": 41
+    },
+    "c1_skill_pilot_bonus": {
+      "x": 2208,
+      "y": 1452,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_pilot_custom_1_bonus": {
+      "x": 2208,
+      "y": 1498,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_pilot_custom_2_bonus": {
+      "x": 2208,
+      "y": 1544,
+      "width": 78,
+      "height": 40
+    },
+    "c1_skill_psyniscience_bonus": {
+      "x": 2207,
+      "y": 1636,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_scholastic_lore_bonus": {
+      "x": 2207,
+      "y": 1682,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_scholastic_lore_custom_1_bonus": {
+      "x": 2207,
+      "y": 1728,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_scholastic_lore_custom_2_bonus": {
+      "x": 2206,
+      "y": 1774,
+      "width": 79,
+      "height": 41
+    },
+    "c1_skill_scrutiny_bonus": {
+      "x": 2206,
+      "y": 1819,
+      "width": 79,
+      "height": 41
+    },
+    "c1_skill_search_bonus": {
+      "x": 2206,
+      "y": 1865,
+      "width": 78,
+      "height": 41
+    },
+    "c1_skill_secret_tongue_bonus": {
+      "x": 2206,
+      "y": 1910,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_security_bonus": {
+      "x": 2205,
+      "y": 1956,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_shadowing_bonus": {
+      "x": 2205,
+      "y": 2003,
+      "width": 79,
+      "height": 41
+    },
+    "c1_skill_silent_move_bonus": {
+      "x": 2205,
+      "y": 2049,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_sleight_of_hand_bonus": {
+      "x": 2205,
+      "y": 2095,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_speak_language_bonus": {
+      "x": 2205,
+      "y": 2186,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_speak_language_custom_1_bonus": {
+      "x": 2204,
+      "y": 2230,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_speak_language_custom_2_bonus": {
+      "x": 2204,
+      "y": 2276,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_survival_bonus": {
+      "x": 2204,
+      "y": 2368,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_swim_bonus": {
+      "x": 2204,
+      "y": 2413,
+      "width": 78,
+      "height": 41
+    },
+    "c1_skill_tech_use_bonus": {
+      "x": 2204,
+      "y": 2459,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_tracking_bonus": {
+      "x": 2203,
+      "y": 2505,
+      "width": 78,
+      "height": 41
+    },
+    "c1_skill_trade_bonus": {
+      "x": 2203,
+      "y": 2551,
+      "width": 78,
+      "height": 42
+    },
+    "c1_skill_wrangling_bonus": {
+      "x": 2203,
+      "y": 2596,
+      "width": 78,
+      "height": 42
+    }
+  },
+  "character-page-2": {
+    "c2_gear_1": {
+      "x": 1294,
+      "y": 899,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_2": {
+      "x": 1294,
+      "y": 945,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_3": {
+      "x": 1294,
+      "y": 991,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_4": {
+      "x": 1294,
+      "y": 1037,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_5": {
+      "x": 1294,
+      "y": 1082,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_6": {
+      "x": 1294,
+      "y": 1128,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_7": {
+      "x": 1294,
+      "y": 1175,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_8": {
+      "x": 1294,
+      "y": 1221,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_9": {
+      "x": 1294,
+      "y": 1267,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_10": {
+      "x": 1294,
+      "y": 1313,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_11": {
+      "x": 1294,
+      "y": 1359,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_12": {
+      "x": 1294,
+      "y": 1405,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_13": {
+      "x": 1294,
+      "y": 1450,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_14": {
+      "x": 1294,
+      "y": 1496,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_15": {
+      "x": 1294,
+      "y": 1541,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_16": {
+      "x": 1294,
+      "y": 1587,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_17": {
+      "x": 1294,
+      "y": 1633,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_18": {
+      "x": 1294,
+      "y": 1679,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_19": {
+      "x": 1294,
+      "y": 1726,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_20": {
+      "x": 1294,
+      "y": 1772,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_21": {
+      "x": 1294,
+      "y": 1818,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_22": {
+      "x": 1294,
+      "y": 1863,
+      "width": 525,
+      "height": 34
+    },
+    "c2_gear_23": {
+      "x": 1294,
+      "y": 1909,
+      "width": 525,
+      "height": 34
+    },
+    "c2_acquisition_1": {
+      "x": 1854,
+      "y": 903,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_2": {
+      "x": 1854,
+      "y": 949,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_3": {
+      "x": 1854,
+      "y": 995,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_4": {
+      "x": 1854,
+      "y": 1040,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_5": {
+      "x": 1854,
+      "y": 1085,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_6": {
+      "x": 1854,
+      "y": 1131,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_7": {
+      "x": 1854,
+      "y": 1178,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_8": {
+      "x": 1854,
+      "y": 1224,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_9": {
+      "x": 1854,
+      "y": 1271,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_10": {
+      "x": 1854,
+      "y": 1316,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_11": {
+      "x": 1854,
+      "y": 1362,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_12": {
+      "x": 1854,
+      "y": 1408,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_13": {
+      "x": 1854,
+      "y": 1454,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_14": {
+      "x": 1854,
+      "y": 1499,
+      "width": 524,
+      "height": 34
+    },
+    "c2_acquisition_15": {
+      "x": 1854,
+      "y": 1545,
+      "width": 524,
+      "height": 34
+    },
+    "c2_insanity_current_points": {
+      "x": 2094,
+      "y": 2352,
+      "width": 256,
+      "height": 34
+    },
+    "c2_insanity_degree": {
+      "x": 1975,
+      "y": 2398,
+      "width": 375,
+      "height": 34
+    },
+    "c2_insanity_disorders": {
+      "x": 2013,
+      "y": 2444,
+      "width": 337,
+      "height": 34
+    },
+    "c2_insanity_disorders_2": {
+      "x": 1848,
+      "y": 2490,
+      "width": 502,
+      "height": 34
+    }
+  },
+  "ship-page": {
+    "ship_name": {
+      "x": 540,
+      "y": 189,
+      "width": 872,
+      "height": 34
+    },
+    "ship_class": {
+      "x": 542,
+      "y": 265,
+      "width": 378,
+      "height": 34
+    },
+    "ship_hull": {
+      "x": 1025,
+      "y": 264,
+      "width": 387,
+      "height": 34
+    },
+    "ship_speed": {
+      "x": 550,
+      "y": 339,
+      "width": 862,
+      "height": 34
+    },
+    "ship_manoeuvrability": {
+      "x": 758,
+      "y": 414,
+      "width": 654,
+      "height": 34
+    },
+    "ship_detection": {
+      "x": 628,
+      "y": 489,
+      "width": 784,
+      "height": 34
+    },
+    "ship_essential_component_1": {
+      "x": 437,
+      "y": 672,
+      "width": 988,
+      "height": 34
+    },
+    "ship_essential_component_2": {
+      "x": 437,
+      "y": 735,
+      "width": 988,
+      "height": 34
+    },
+    "ship_essential_component_3": {
+      "x": 437,
+      "y": 797,
+      "width": 988,
+      "height": 34
+    },
+    "ship_essential_component_4": {
+      "x": 437,
+      "y": 922,
+      "width": 988,
+      "height": 34
+    },
+    "ship_essential_component_5": {
+      "x": 437,
+      "y": 997,
+      "width": 988,
+      "height": 34
+    },
+    "ship_essential_component_6": {
+      "x": 437,
+      "y": 1072,
+      "width": 988,
+      "height": 34
+    },
+    "ship_supplemental_component_1": {
+      "x": 440,
+      "y": 1260,
+      "width": 986,
+      "height": 34
+    },
+    "ship_supplemental_component_2": {
+      "x": 440,
+      "y": 1323,
+      "width": 986,
+      "height": 34
+    },
+    "ship_supplemental_component_3": {
+      "x": 440,
+      "y": 1385,
+      "width": 986,
+      "height": 34
+    },
+    "ship_supplemental_component_4": {
+      "x": 440,
+      "y": 1447,
+      "width": 986,
+      "height": 34
+    },
+    "ship_supplemental_component_5": {
+      "x": 440,
+      "y": 1510,
+      "width": 986,
+      "height": 34
+    },
+    "ship_complication_1": {
+      "x": 441,
+      "y": 1710,
+      "width": 986,
+      "height": 34
+    },
+    "ship_complication_2": {
+      "x": 441,
+      "y": 1773,
+      "width": 986,
+      "height": 34
+    },
+    "ship_turret_rating": {
+      "x": 1928,
+      "y": 184,
+      "width": 842,
+      "height": 34
+    },
+    "ship_shields": {
+      "x": 1814,
+      "y": 259,
+      "width": 956,
+      "height": 34
+    },
+    "ship_armour": {
+      "x": 1824,
+      "y": 334,
+      "width": 946,
+      "height": 34
+    },
+    "ship_hull_integrity_total": {
+      "x": 1960,
+      "y": 410,
+      "width": 360,
+      "height": 34
+    },
+    "ship_hull_integrity_current": {
+      "x": 2320,
+      "y": 408,
+      "width": 450,
+      "height": 34
+    },
+    "ship_crew_percent_max": {
+      "x": 1882,
+      "y": 1000,
+      "width": 198,
+      "height": 34
+    },
+    "ship_crew_percent_current": {
+      "x": 2138,
+      "y": 999,
+      "width": 198,
+      "height": 34
+    },
+    "ship_morale_max": {
+      "x": 1882,
+      "y": 1078,
+      "width": 198,
+      "height": 34
+    },
+    "ship_morale_current": {
+      "x": 2138,
+      "y": 1077,
+      "width": 198,
+      "height": 34
+    },
+    "ship_weapon_1_name": {
+      "x": 557,
+      "y": 2002,
+      "width": 989,
+      "height": 34
+    },
+    "ship_weapon_1_strength": {
+      "x": 1607,
+      "y": 1998,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_1_crit_rating": {
+      "x": 1762,
+      "y": 1997,
+      "width": 78,
+      "height": 41
+    },
+    "ship_weapon_1_damage": {
+      "x": 1916,
+      "y": 1996,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_1_range": {
+      "x": 2068,
+      "y": 1996,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_2_name": {
+      "x": 557,
+      "y": 2064,
+      "width": 989,
+      "height": 34
+    },
+    "ship_weapon_2_strength": {
+      "x": 1607,
+      "y": 2060,
+      "width": 79,
+      "height": 42
+    },
+    "ship_weapon_2_crit_rating": {
+      "x": 1762,
+      "y": 2060,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_2_damage": {
+      "x": 1916,
+      "y": 2059,
+      "width": 78,
+      "height": 41
+    },
+    "ship_weapon_2_range": {
+      "x": 2068,
+      "y": 2058,
+      "width": 80,
+      "height": 42
+    },
+    "ship_weapon_3_name": {
+      "x": 557,
+      "y": 2127,
+      "width": 989,
+      "height": 34
+    },
+    "ship_weapon_3_strength": {
+      "x": 1608,
+      "y": 2122,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_3_crit_rating": {
+      "x": 1762,
+      "y": 2122,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_3_damage": {
+      "x": 1916,
+      "y": 2122,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_3_range": {
+      "x": 2069,
+      "y": 2121,
+      "width": 79,
+      "height": 42
+    },
+    "ship_weapon_4_name": {
+      "x": 557,
+      "y": 2190,
+      "width": 989,
+      "height": 34
+    },
+    "ship_weapon_4_strength": {
+      "x": 1608,
+      "y": 2186,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_4_crit_rating": {
+      "x": 1762,
+      "y": 2185,
+      "width": 79,
+      "height": 42
+    },
+    "ship_weapon_4_damage": {
+      "x": 1916,
+      "y": 2184,
+      "width": 78,
+      "height": 42
+    },
+    "ship_weapon_4_range": {
+      "x": 2069,
+      "y": 2184,
+      "width": 79,
+      "height": 42
+    },
+    "ship_essential_component_7": {
+      "x": 437,
+      "y": 860,
+      "width": 988,
+      "height": 34
+    },
+    "ship_space_available": {
+      "x": 2021,
+      "y": 602,
+      "width": 83,
+      "height": 47
+    },
+    "ship_space_used": {
+      "x": 2021,
+      "y": 662,
+      "width": 83,
+      "height": 46
+    },
+    "ship_power_available": {
+      "x": 2630,
+      "y": 600,
+      "width": 84,
+      "height": 47
+    },
+    "ship_power_used": {
+      "x": 2630,
+      "y": 660,
+      "width": 84,
+      "height": 46
+    },
+    "ship_weapon_capacity_dorsal": {
+      "x": 2078,
+      "y": 791,
+      "width": 83,
+      "height": 47
+    },
+    "ship_weapon_capacity_prow": {
+      "x": 2306,
+      "y": 790,
+      "width": 84,
+      "height": 47
+    },
+    "ship_weapon_capacity_keel": {
+      "x": 2534,
+      "y": 790,
+      "width": 83,
+      "height": 46
+    },
+    "ship_weapon_capacity_port": {
+      "x": 2078,
+      "y": 862,
+      "width": 84,
+      "height": 46
+    },
+    "ship_weapon_capacity_starboard": {
+      "x": 2307,
+      "y": 861,
+      "width": 83,
+      "height": 47
+    }
+  }
+}

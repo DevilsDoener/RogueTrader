@@ -13,7 +13,18 @@
   <div class="sheet-canvas-wrapper" id="sheet-canvas-wrapper">
     {% for page in pages %}
       <section class="sheet-page" data-page-id="{{ page.page_id }}">
-        <div class="sheet-canvas" style="aspect-ratio: {{ page.width }} / {{ page.height }};">
+        {% comment %}The canvas carries the background image's intrinsic pixel size as
+           data attributes. sheet-zoom.js reads them and switches the viewer into
+           "scaled" mode: the canvas is pinned to those exact pixels and the whole
+           layer (image + every field) is scaled by ONE transform, so nothing can
+           drift on zoom or across widths. Until JS runs, the aspect-ratio + fluid
+           width below render the sheet correctly as a fallback.{% endcomment %}
+        <div
+          class="sheet-canvas"
+          style="aspect-ratio: {{ page.width }} / {{ page.height }};"
+          data-natural-width="{{ page.width }}"
+          data-natural-height="{{ page.height }}"
+        >
           <img class="sheet-background" src="{{ page.image_url }}" alt="{{ page.page_id }}" draggable="false">
           {% for field in page.fields %}
             <div
@@ -22,8 +33,9 @@
             >
               {% if field.kind == "checkbox" %}
                 <input
+                  id="field-{{ field.id }}"
                   type="checkbox"
-                  class="sheet-input sheet-checkbox"
+                  class="sheet-input sheet-checkbox sheet-checkbox--{{ field.checkbox_style }}"
                   name="{{ field.id }}"
                   data-field-id="{{ field.id }}"
                   data-kind="checkbox"
@@ -32,10 +44,16 @@
                   {% if sheet.values|get_item:field.id %}checked{% endif %}
                   {% if read_only %}disabled{% endif %}
                 >
+                {% if field.hit_padding.0 or field.hit_padding.1 or field.hit_padding.2 or field.hit_padding.3 %}
+                  <label class="sheet-pip-hit" for="field-{{ field.id }}" aria-hidden="true"
+                    style="left: -{{ field.hit_padding.0 }}px; top: -{{ field.hit_padding.1 }}px; right: -{{ field.hit_padding.2 }}px; bottom: -{{ field.hit_padding.3 }}px;"></label>
+                {% endif %}
               {% else %}
                 <input
                   type="text"
-                  class="sheet-input sheet-text"
+                  inputmode="{{ field.input_mode }}"
+                  {% if field.read_only %}readonly title="Wird automatisch aus Half Move berechnet"{% endif %}
+                  class="sheet-input sheet-text{% if field.align == 'center' %} sheet-text--center{% endif %}{% if field.text_style == 'characteristic' %} sheet-text--characteristic{% endif %}"
                   name="{{ field.id }}"
                   data-field-id="{{ field.id }}"
                   data-kind="text"

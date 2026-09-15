@@ -8,7 +8,7 @@
     {% for character in characters %}
       <li>
         <a href="{% url 'sheets:character_detail' character.pk %}">{{ character.display_name|default:"Unbenannter Charakter" }}</a>
-        <a href="{% url 'sheets:character_delete' character.pk %}">L&ouml;schen</a>
+        <a class="button button-danger" href="{% url 'sheets:character_delete' character.pk %}">L&ouml;schen</a>
       </li>
     {% empty %}
       <li>Noch keine Charaktere vorhanden.</li>

@@ -16,9 +16,22 @@ def _open_character(page, live_server, owner, character_factory):
     return character
 
 
-def _wrapper_zoom_percent(page):
-    return page.locator("#sheet-canvas-wrapper").evaluate(
-        "el => Math.round(parseFloat(getComputedStyle(el).getPropertyValue('--sheet-zoom')) * 100)"
+# The viewer scales via a single transform on .sheet-canvas (not a wrapper
+# width). The effective zoom is therefore the rendered canvas width as a
+# fraction of the available column width: canvasWidth = wrapperWidth * zoom/100.
+def _rendered_zoom_percent(page):
+    return page.evaluate(
+        """() => {
+          const wrapper = document.getElementById('sheet-canvas-wrapper');
+          const canvas = document.querySelector('.sheet-page .sheet-canvas');
+          return Math.round(canvas.getBoundingClientRect().width / wrapper.clientWidth * 100);
+        }"""
+    )
+
+
+def _rendered_canvas_width(page):
+    return page.evaluate(
+        "() => document.querySelector('.sheet-page .sheet-canvas').getBoundingClientRect().width"
     )
 
 
@@ -28,14 +41,52 @@ def test_zoom_out_button_shrinks_canvas_and_updates_label(
     _open_character(page, live_server, owner, character_factory)
 
     assert page.locator("#sheet-zoom-level").inner_text() == "100%"
-    before = page.locator("#sheet-canvas-wrapper").bounding_box()["width"]
+    before = _rendered_canvas_width(page)
 
     page.click(".sheet-zoom-out")
 
     assert page.locator("#sheet-zoom-level").inner_text() == "90%"
-    after = page.locator("#sheet-canvas-wrapper").bounding_box()["width"]
+    after = _rendered_canvas_width(page)
     assert after < before
-    assert _wrapper_zoom_percent(page) == 90
+    assert _rendered_zoom_percent(page) == 90
+
+
+def _checkbox_position_in_canvas(page, field_id):
+    # Where the checkbox sits as a fraction of the canvas box. Uses
+    # getBoundingClientRect for both, so the ratio is what the user actually
+    # sees on screen at the current zoom.
+    return page.locator(f'[data-field-id="{field_id}"]').evaluate(
+        """(input) => {
+          const canvas = input.closest('.sheet-canvas').getBoundingClientRect();
+          const box = input.getBoundingClientRect();
+          return {
+            x: (box.left - canvas.left) / canvas.width,
+            y: (box.top - canvas.top) / canvas.height,
+            w: box.width / canvas.width,
+            h: box.height / canvas.height,
+          };
+        }"""
+    )
+
+
+def test_checkbox_stays_locked_to_artwork_across_zoom(
+    page, live_server, owner, character_factory
+):
+    # Direct regression for the reported bug: "when you change the zoom the
+    # checkboxes shift". Because one transform scales the whole calibrated
+    # layer as a unit, a checkbox's position relative to the artwork must be
+    # identical at every zoom level, not merely close.
+    _open_character(page, live_server, owner, character_factory)
+
+    at_100 = _checkbox_position_in_canvas(page, "c1_ws_adv_1")
+
+    for _ in range(5):  # 100% -> 50%
+        page.click(".sheet-zoom-out")
+    assert page.locator("#sheet-zoom-level").inner_text() == "50%"
+    at_50 = _checkbox_position_in_canvas(page, "c1_ws_adv_1")
+
+    for axis in ("x", "y", "w", "h"):
+        assert at_50[axis] == pytest.approx(at_100[axis], abs=0.0005), axis
 
 
 def test_zoom_cannot_go_below_30_or_above_100_percent(
@@ -80,7 +131,7 @@ def test_zoom_level_persists_across_reload(page, live_server, owner, character_f
     page.wait_for_selector('[data-field-id="c1_character_name"]')
 
     assert page.locator("#sheet-zoom-level").inner_text() == "80%"
-    assert _wrapper_zoom_percent(page) == 80
+    assert _rendered_zoom_percent(page) == 80
 
 
 def test_zoom_control_is_present_on_read_only_admin_view(

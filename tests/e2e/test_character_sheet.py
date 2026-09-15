@@ -27,24 +27,54 @@ DESKTOP_TEXT_VIEWPORTS = [
 ]
 
 
+def _wait_for_fit(page):
+    # The viewer re-fits the canvas to the column via JS on resize (one event
+    # tick), whereas the old cqw model was synchronous CSS. When a test changes
+    # the viewport after load and measures immediately, wait for the re-fit:
+    # at the default 100% zoom a fitted canvas's rendered width equals the
+    # column (wrapper) width.
+    page.wait_for_function(
+        """() => {
+          const wr = document.getElementById('sheet-canvas-wrapper');
+          const cs = document.querySelectorAll('.sheet-page .sheet-canvas');
+          if (!wr || !cs.length) return false;
+          return [...cs].every(
+            (c) => Math.abs(c.getBoundingClientRect().width - wr.clientWidth) <= 1
+          );
+        }"""
+    )
+
+
 def _filled_text_metrics(page, field_id):
     return page.locator(f'[data-field-id="{field_id}"]').evaluate(
         """(input) => {
           const style = getComputedStyle(input);
-          const rect = input.getBoundingClientRect();
+          const canvas = input.closest('.sheet-canvas');
+          const scale = Number.parseFloat(
+            getComputedStyle(canvas).getPropertyValue('--sheet-scale')
+          ) || 1;
           const px = (value) => Number.parseFloat(value) || 0;
+          const rect = input.getBoundingClientRect();
           return {
             value: input.value,
             color: style.color,
-            fontSize: px(style.fontSize),
-            lineHeight: px(style.lineHeight),
-            inputHeight: rect.height,
+            // "Does the text fit its box": compare the rendered (post-transform)
+            // line height against the rendered content box. The computed
+            // line-height is in element space, so scale it by the canvas
+            // transform to bring it into the same rendered space as the rect.
+            // scrollHeight/clientHeight are the element's own space and are
+            // already mutually consistent (transform-invariant).
+            renderedLineHeight: px(style.lineHeight) * scale,
             contentHeight: rect.height
               - px(style.paddingTop) - px(style.paddingBottom)
               - px(style.borderTopWidth) - px(style.borderBottomWidth),
             clientHeight: input.clientHeight,
             scrollHeight: input.scrollHeight,
-            canvasWidth: input.closest('.sheet-canvas').getBoundingClientRect().width,
+            // "Does the text scale with the sheet": the single canvas transform
+            // scales the rendered text with the rendered canvas width.
+            scale: scale,
+            renderedFont: px(style.fontSize) * scale,
+            canvasWidth: canvas.getBoundingClientRect().width,
           };
         }"""
     )
@@ -72,7 +102,7 @@ def test_tab_order_follows_schema_order(page, live_server, owner, character_fact
         ("c2_acquisition_14", "c2_acquisition_15"),
     ],
 )
-def test_page_2_split_line_fields_are_direct_dom_tab_neighbours(
+def test_page_2_final_line_fields_are_direct_dom_tab_neighbours(
     page,
     live_server,
     owner,
@@ -90,7 +120,7 @@ def test_page_2_split_line_fields_are_direct_dom_tab_neighbours(
     assert page.evaluate("document.activeElement.dataset.fieldId") == expected_next_field_id
 
 
-def test_split_line_values_remain_independently_visible_and_editable(
+def test_full_line_and_new_skill_values_remain_visible_and_editable(
     page, live_server, owner, character_factory
 ):
     initial_values = {
@@ -110,6 +140,8 @@ def test_split_line_values_remain_independently_visible_and_editable(
 
     edited_values = {
         "c2_gear_23": "edited gear 23",
+        "c1_skill_acrobatics_note": "35",
+        "c1_talent_first_line": "New talent",
         "c2_acquisition_15": "edited acquisition 15",
     }
     for field_id, edited_value in edited_values.items():
@@ -208,6 +240,7 @@ def test_filled_character_text_line_boxes_scale_and_fit_at_desktop_widths(
     measurements = {}
     for viewport in DESKTOP_TEXT_VIEWPORTS:
         page.set_viewport_size(viewport)
+        _wait_for_fit(page)
         page_1 = _filled_text_metrics(page, "c1_rank")
         page_2 = _filled_text_metrics(page, "c2_wounds_critical_damage")
         measurements[viewport["width"]] = {
@@ -220,14 +253,17 @@ def test_filled_character_text_line_boxes_scale_and_fit_at_desktop_widths(
             context = f"{field_id} at desktop width {viewport_width}px"
             assert metrics["value"] == field_values[field_id], context
             assert metrics["color"] != "rgba(0, 0, 0, 0)", context
-            assert metrics["lineHeight"] <= metrics["contentHeight"] + 0.5, context
+            # Text fits inside its box (rendered space).
+            assert metrics["renderedLineHeight"] <= metrics["contentHeight"] + 0.5, context
             assert metrics["scrollHeight"] <= metrics["clientHeight"] + 1, context
 
     for field_id in field_values:
         narrow = measurements[1024][field_id]
         wide = measurements[1440][field_id]
-        assert narrow["fontSize"] < wide["fontSize"], field_id
-        assert wide["fontSize"] / narrow["fontSize"] == pytest.approx(
+        # The single canvas transform scales the rendered text with the sheet:
+        # a wider rendered canvas renders proportionally larger text.
+        assert narrow["renderedFont"] < wide["renderedFont"], field_id
+        assert wide["renderedFont"] / narrow["renderedFont"] == pytest.approx(
             wide["canvasWidth"] / narrow["canvasWidth"], rel=0.15
         ), field_id
 

@@ -178,14 +178,15 @@ def _field_update_response(request, patch_fn, **patch_kwargs):
             status=409,
         )
 
-    return JsonResponse(
-        {
-            "field_id": result.field_id,
-            "value": result.value,
-            "version": result.version,
-            "saved_at": result.saved_at.isoformat(),
-        }
-    )
+    body = {
+        "field_id": result.field_id,
+        "value": result.value,
+        "version": result.version,
+        "saved_at": result.saved_at.isoformat(),
+    }
+    if result.calculated_fields:
+        body["calculated_fields"] = result.calculated_fields
+    return JsonResponse(body)
 
 
 class CharacterFieldUpdateView(LoginRequiredMixin, View):

@@ -7,7 +7,7 @@
   <p>Dies kann nicht r&uuml;ckg&auml;ngig gemacht werden.</p>
   <form method="post" class="page-actions">
     {% csrf_token %}
-    <button type="submit" class="button-primary">L&ouml;schen best&auml;tigen</button>
+    <button type="submit" class="button button-danger">L&ouml;schen best&auml;tigen</button>
   </form>
   <a href="{% url 'sheets:character_list' %}">Abbrechen</a>
 {% endblock %}

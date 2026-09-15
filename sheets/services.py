@@ -9,13 +9,13 @@ conflict never silently overwrites the stored value -- it raises
 from __future__ import annotations
 
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field as dataclass_field, replace
 from datetime import datetime
 
 from django.db import transaction
 from django.utils import timezone
 
-from . import schema
+from . import schema, movement
 from .models import CharacterSheet, ShipSheet, SheetChange
 from .permissions import (
     can_mutate_character,
@@ -51,6 +51,7 @@ class PatchResult:
     value: str | bool
     version: int
     saved_at: datetime
+    calculated_fields: dict = dataclass_field(default_factory=dict)
 
 
 class SheetNotFound(Exception):
@@ -98,6 +99,8 @@ def _find_character_field_spec(field_id: str) -> schema.FieldSpec:
 
 def _validate_character_field(field_id: str, value) -> None:
     field_spec = _find_character_field_spec(field_id)
+    if field_spec.read_only:
+        raise FieldValidationError(field_id=field_id, message="Dieses Feld wird aus Half Move berechnet.")
     try:
         field_spec.validate_value(value)
     except schema.SchemaError as exc:
@@ -230,7 +233,23 @@ def patch_character_field(
     if not can_mutate_character(actor, sheet):
         raise SheetNotFound(f"No character sheet {sheet_id}")
 
-    return _apply_field_patch(
+    calculated = {}
+
+    def apply_character_values(locked, changed_id, changed_value):
+        extra = _sync_character_display_name(locked, changed_id, changed_value)
+        if changed_id == movement.SOURCE:
+            for target, derived in movement.calculate(changed_value).items():
+                _find_character_field_spec(target).validate_value(derived)
+                old = locked.values.get(target)
+                locked.values[target] = derived
+                locked.field_versions[target] = locked.version
+                SheetChange.objects.create(character=locked, actor=actor,
+                    field_id=target, old_value=old, new_value=derived,
+                    resulting_version=locked.version)
+                calculated[target] = {"value": derived, "version": locked.version}
+        return extra
+
+    result = _apply_field_patch(
         sheet,
         actor=actor,
         field_id=field_id,
@@ -238,8 +257,9 @@ def patch_character_field(
         base_version=base_version,
         validate=_validate_character_field,
         audit_kwargs={"character": sheet, "ship": None},
-        on_value_applied=_sync_character_display_name,
+        on_value_applied=apply_character_values,
     )
+    return replace(result, calculated_fields=calculated)
 
 
 @transaction.atomic

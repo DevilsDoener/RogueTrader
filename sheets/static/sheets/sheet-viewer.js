@@ -21,9 +21,49 @@
   const statusEl = document.getElementById("sheet-save-status");
   const conflictPanels = new Map();
 
+  const textMeasure = document.createElement("canvas").getContext("2d");
+  function fitShipText(input) {
+    if (!input.closest('[data-page-id="ship-page"]')) return;
+    input.style.fontSize = "";
+    if (!input.value) return;
+    const style = getComputedStyle(input);
+    const available = input.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    if (available <= 0) return;
+    textMeasure.font = style.font;
+    const needed = textMeasure.measureText(input.value).width;
+    if (needed > available) {
+      input.style.fontSize = (parseFloat(style.fontSize) * (available - 1) / needed) + "px";
+    }
+  }
+  function fitShipFields() {
+    root.querySelectorAll('[data-page-id="ship-page"] .sheet-text').forEach(fitShipText);
+  }
+  // Font size depends on the unscaled canvas width, including its initial fit.
+  const shipCanvas = root.querySelector('[data-page-id="ship-page"] .sheet-canvas');
+  if (shipCanvas && typeof ResizeObserver === "function") {
+    new ResizeObserver(fitShipFields).observe(shipCanvas);
+  }
+  if (document.fonts) document.fonts.ready.then(fitShipFields);
+  window.addEventListener("resize", fitShipFields);
+
+  const movementFactors = {
+    c2_movement_full_move: 2, c2_movement_charge: 3, c2_movement_run: 6
+  };
+  function updateMovement(input) {
+    if (input.dataset.fieldId !== "c2_movement_half_move") return;
+    const valid = /^\d{1,6}$/.test(input.value);
+    for (const [id, factor] of Object.entries(movementFactors)) {
+      const target = root.querySelector('[data-field-id="' + id + '"]');
+      if (!target) continue;
+      target.value = valid ? String(Number(input.value) * factor) : "";
+      updateHasValue(target);
+    }
+  }
   function updateHasValue(input) {
     if (input.type === "checkbox") return;
     input.classList.toggle("has-value", input.value.trim() !== "");
+    fitShipText(input);
+    updateMovement(input);
   }
 
   root.querySelectorAll(".sheet-text").forEach(updateHasValue);
@@ -184,6 +224,16 @@
         }
         if (result.status === 200) {
           input.dataset.version = String(result.data.version);
+          for (const [id, derived] of Object.entries(result.data.calculated_fields || {})) {
+            const target = root.querySelector('[data-field-id="' + id + '"]');
+            if (!target) continue;
+            target.dataset.version = String(derived.version);
+            // A newer unsaved input must retain its live preview.
+            if (readValue(input) === value) {
+              target.value = derived.value;
+              updateHasValue(target);
+            }
+          }
           closeConflictPanel(input);
           setStatus("Gespeichert");
         } else if (result.status === 409) {
@@ -221,6 +271,7 @@
   }
 
   root.querySelectorAll(".sheet-input").forEach((input) => {
+    if (input.readOnly) return;
     if (input.dataset.kind === "checkbox") {
       input.addEventListener("change", () => saveField(input));
     } else {
