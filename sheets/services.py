@@ -15,7 +15,7 @@ from datetime import datetime
 from django.db import transaction
 from django.utils import timezone
 
-from . import schema, movement
+from . import characteristics, movement, schema
 from .models import CharacterSheet, ShipSheet, SheetChange
 from .permissions import (
     can_mutate_character,
@@ -237,6 +237,24 @@ def patch_character_field(
 
     def apply_character_values(locked, changed_id, changed_value):
         extra = _sync_character_display_name(locked, changed_id, changed_value)
+        counterpart = characteristics.counterpart(changed_id)
+        if counterpart is not None:
+            _find_character_field_spec(counterpart).validate_value(changed_value)
+            old = locked.values.get(counterpart)
+            locked.values[counterpart] = changed_value
+            locked.field_versions[counterpart] = locked.version
+            SheetChange.objects.create(
+                character=locked,
+                actor=actor,
+                field_id=counterpart,
+                old_value=old,
+                new_value=changed_value,
+                resulting_version=locked.version,
+            )
+            calculated[counterpart] = {
+                "value": changed_value,
+                "version": locked.version,
+            }
         if changed_id == movement.SOURCE:
             for target, derived in movement.calculate(changed_value).items():
                 _find_character_field_spec(target).validate_value(derived)

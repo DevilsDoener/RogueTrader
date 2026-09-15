@@ -12,9 +12,10 @@
         "y": 0.0,
         "width": 9.1787,
         "height": 4.313,
-        "max_length": 3,
+        "max_length": 2,
         "align": "center",
-        "text_style": "characteristic"
+        "text_style": "characteristic",
+        "input_mode": "numeric"
       },
       "adv_1": {
         "kind": "checkbox",

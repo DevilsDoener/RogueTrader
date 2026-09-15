@@ -59,6 +59,25 @@
       updateHasValue(target);
     }
   }
+  const characteristicPattern = /^c([12])_(ws|bs|s|t|ag|int|per|wp|fel)_(value|adv_[1-4])$/;
+  function characteristicCounterpart(input) {
+    const match = characteristicPattern.exec(input.dataset.fieldId || "");
+    if (!match) return null;
+    const otherPage = match[1] === "1" ? "2" : "1";
+    return root.querySelector(
+      '[data-field-id="c' + otherPage + '_' + match[2] + '_' + match[3] + '"]'
+    );
+  }
+  function updateCharacteristic(input) {
+    const target = characteristicCounterpart(input);
+    if (!target) return;
+    if (input.type === "checkbox") {
+      target.checked = input.checked;
+    } else {
+      target.value = input.value;
+      updateHasValue(target);
+    }
+  }
   function updateHasValue(input) {
     if (input.type === "checkbox") return;
     input.classList.toggle("has-value", input.value.trim() !== "");
@@ -166,6 +185,7 @@
         input.value = conflict.current_value == null ? "" : String(conflict.current_value);
         updateHasValue(input);
       }
+      updateCharacteristic(input);
       input.dataset.version = String(conflict.current_version);
       closeConflictPanel(input);
       setStatus("Gespeichert");
@@ -230,8 +250,12 @@
             target.dataset.version = String(derived.version);
             // A newer unsaved input must retain its live preview.
             if (readValue(input) === value) {
-              target.value = derived.value;
-              updateHasValue(target);
+              if (target.type === "checkbox") {
+                target.checked = Boolean(derived.value);
+              } else {
+                target.value = derived.value;
+                updateHasValue(target);
+              }
             }
           }
           closeConflictPanel(input);
@@ -273,10 +297,14 @@
   root.querySelectorAll(".sheet-input").forEach((input) => {
     if (input.readOnly) return;
     if (input.dataset.kind === "checkbox") {
-      input.addEventListener("change", () => saveField(input));
+      input.addEventListener("change", () => {
+        updateCharacteristic(input);
+        saveField(input);
+      });
     } else {
       input.addEventListener("input", () => {
         updateHasValue(input);
+        updateCharacteristic(input);
         scheduleSave(input);
       });
       input.addEventListener("blur", () => flushPendingSave(input));
