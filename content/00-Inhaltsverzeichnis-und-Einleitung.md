@@ -1,9 +1,9 @@
-# Rogue Trader – Inhaltsverzeichnis und Einleitung
+# Rogue Trader – Contents and Introduction
 
-> Quelle: *Rogue Trader Core Rulebook*, PDF-Seiten 1–15.  
-> Seitensystem: Buchseite + 4 = PDF-Seite (ab Buchseite 1).  
-> Dieses Dokument erfasst die Frontmatter-Seiten, das vollständige gedruckte
-> Inhaltsverzeichnis und die regelrelevanten Angaben der Einleitung.
+> Source: *Rogue Trader Core Rulebook*, PDF pages 1–15.  
+> Page system: book page + 4 = PDF page (from book page 1 onwards).  
+> This document covers the front matter, the complete printed table of
+> contents, and the rules-relevant material from the introduction.
 
 ## Seiteninventar PDF 1–15
 
@@ -38,11 +38,11 @@
 - Cover Art: Andrea Uderzo
 - Art Direction: Zoë Robinson
 
-## Vollständiges gedrucktes Inhaltsverzeichnis
+## Complete Printed Table of Contents
 
-Die Zahlen sind die gedruckten Buchseiten; für die PDF-Seite jeweils **+4** rechnen.
+The numbers are printed book pages; add **+4** for the PDF page.
 
-### Einleitung – Ambition Knows No Bounds
+### Introduction – Ambition Knows No Bounds
 
 - What is a roleplaying game? – 8
 - What’s in this book? – 9
@@ -401,30 +401,30 @@ der PDF-Navigation eigenständige Lesezeichen. Im gedruckten Inhaltsverzeichnis 
 sie zugleich Kapitel XIV zugeordnet. Beim Gegencheck werden sie daher als eigene
 Prüfpunkte innerhalb von Kapitel XIV behandelt.
 
-## Einleitung: Kernaussagen
+## Introduction: Key Points
 
-- *Rogue Trader* ist ein Rollenspiel über Erforschung, Risiko, Macht, Reichtum und
-  Freiheit am Rand des Imperiums im 41. Millennium.
-- Ein Spieler steuert jeweils einen Player Character (PC). Der Game Master (GM)
-  beschreibt Welt und Situationen, führt Nichtspielerfiguren und entscheidet anhand
-  der Regeln über Erfolg, Misserfolg und Folgen.
-- Empfohlenes Spielmaterial: Regelbuch, mindestens drei Personen, ruhiger Spielort,
-  drei bis vier Stunden, mindestens zwei verschiedenfarbige zehnseitige Würfel pro
-  Spieler, Papier sowie Stifte und Radiergummi. Miniaturen sind optional.
-- Das Buch besteht aus fünfzehn Kapiteln. Kapitel XV ist ein Einführungsabenteuer für
-  den GM und enthält Spieler-Spoiler.
+- *Rogue Trader* is a roleplaying game about exploration, risk, power, wealth and
+  freedom at the edge of the Imperium in the 41st Millennium.
+- Each player controls one Player Character (PC). The Game Master (GM) describes
+  the world and the situations, plays the non-player characters, and rules on
+  success, failure and consequences.
+- Recommended material: the rulebook, at least three people, a quiet place to
+  play, three to four hours, at least two ten-sided dice of different colours per
+  player, paper, pencils and an eraser. Miniatures are optional.
+- The book has fifteen chapters. Chapter XV is an introductory adventure for the
+  GM and contains spoilers for players.
 
 ## Game Dice
 
-- `1d10`: ein zehnseitiger Würfel.
-- `2d10`: zwei zehnseitige Würfel; Ergebnisse werden addiert.
-- `d%` oder `1d100`: zwei d10, einer als Zehner-, einer als Einerstelle.
-- Beim Prozentwurf bedeuten `00` und `0` zusammen **100**, nicht 0.
-- `1d5`: `1d10` würfeln, durch 2 teilen und aufrunden.
+- `1d10`: one ten-sided die.
+- `2d10`: two ten-sided dice; the results are added together.
+- `d%` or `1d100`: two d10, one read as the tens digit, one as the ones digit.
+- On a percentile roll, `00` and `0` together mean **100**, not 0.
+- `1d5`: roll `1d10`, divide by 2 and round up.
 
 ### Table A-1: Percentage Roll Examples
 
-| Zehnerwürfel | Einerwürfel | Ergebnis |
+| Tens Die | Ones Die | Result |
 |---:|---:|---:|
 | 7 | 3 | 73 |
 | 3 | 7 | 37 |

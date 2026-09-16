@@ -440,6 +440,10 @@ label {
   grid-area: content;
   padding: 2rem var(--rt-content-gutter);
   max-width: 72rem;
+  /* A grid item defaults to min-width:auto, i.e. it refuses to be narrower
+     than its content's minimum -- which lets a wide table push the whole
+     document sideways instead of scrolling inside its own container. */
+  min-width: 0;
 }
 
 .content-bare {
@@ -1130,30 +1134,74 @@ mark {
   color: var(--rt-text-muted);
 }
 
-/* The contents box sits INSIDE .wiki-article, so it must be a parchment
-   surface. It used to use the dark --rt-panel while inheriting the article's
-   dark ink, which left its own label almost unreadable. */
+/* Chapter page: outline menu on the left, article on the right. Nested inside
+   .content on purpose -- see the comment in wiki/templates/wiki/chapter.html.
+   The rail width uses clamp() rather than a media query, so the article is not
+   crushed at the 1024px minimum width while a wide window still gives the
+   menu room. */
+/* Flex with wrapping rather than a fixed two-column grid, so the rail folds
+   above the article on its own when the article would otherwise be squeezed.
+   Measured: at 1024px a grid left the article 500px wide and 11 of the 19
+   Armoury tables then needed up to 635px of sideways scrolling. The article's
+   flex-basis is the width below which that starts to hurt; when rail + gap +
+   that basis no longer fit, the row wraps and the article gets full width.
+   No media query -- the shell's desktop-only scope stays untouched. */
+.wiki-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.wiki-layout > .wiki-section-nav {
+  flex: 1 1 11rem;
+  max-width: 15rem;
+}
+
+.wiki-layout > .wiki-article {
+  flex: 5 1 34rem;
+  min-width: 0;
+}
+
+/* The outline now lives on the dark shell, not on the parchment article, so
+   it takes the shell's panel colours again. It scrolls on its own: the
+   talents chapter alone lists 147 entries. */
 .wiki-section-nav {
-  margin-bottom: 1.5rem;
-  padding: 1rem 1.25rem;
-  background: var(--rt-parchment-raised);
-  border: 1px solid var(--rt-parchment-border);
-  border-left: 3px solid var(--rt-gold-dim);
+  position: sticky;
+  top: calc(var(--rt-topbar-height) + var(--rt-wiki-sticky-nav-height) + 0.5rem);
+  max-height: calc(
+    100vh - var(--rt-topbar-height) - var(--rt-wiki-sticky-nav-height) - 2rem
+  );
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.9rem 1rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius);
+  font-size: 0.92rem;
 }
 
 .wiki-section-nav > strong {
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.4rem;
+  color: var(--rt-text-muted);
   font-family: var(--rt-font-display);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
 }
 
 .wiki-section-nav ul {
-  margin: 0.5rem 0 0;
-  padding-left: 1.25rem;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.wiki-section-nav a {
+  color: var(--rt-text);
+}
+
+.wiki-section-nav a:hover {
+  color: var(--rt-gold-bright);
 }
 
 .wiki-toc-list .wiki-toc-list {
@@ -1170,6 +1218,17 @@ mark {
   gap: 0.2rem 0.75rem;
   margin: 0.35rem 0 0.6rem;
   font-size: 0.9em;
+}
+
+/* In the narrow rail those entries stack nearly one per line, so an unbounded
+   glossary would push every following chapter section out of reach. Give it
+   its own scroll box instead. */
+.wiki-section-nav .wiki-toc-index {
+  max-height: 14rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-left: 0.1rem;
+  border-left: 2px solid var(--rt-border);
 }
 
 .wiki-results {

@@ -352,6 +352,15 @@ WIKI_CONTENT_ALLOWLIST = _wiki_allowlist_override or WIKI_DEFAULT_CONTENT_ALLOWL
 WIKI_EDITORIAL_SECTION_PATTERNS = (
     r"^status$",
     r"^page (inventory|coverage) and cross-?check$",
+    # The front-matter chapter also carries four transcription sections: a PDF
+    # page inventory, the book's bibliographic data, the PDF bookmark tree and
+    # a description of the endpaper map. They are German and they are about the
+    # scan, not the rules, so they are hidden rather than translated -- the
+    # Markdown keeps them as part of the transcription trail.
+    r"^seiteninventar\b",
+    r"^bibliografische kerndaten$",
+    r"^vollständige pdf-lesezeichenstruktur$",
+    r"^kartenübersicht\b",
 )
 
 # A section whose children are all leaves and number at least this many is a

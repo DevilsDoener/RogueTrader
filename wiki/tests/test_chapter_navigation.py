@@ -163,3 +163,36 @@ def test_search_results_are_not_compressed(client, user_factory, three_chapters)
     )
 
     assert response.get("Content-Encoding") is None
+
+
+@pytest.mark.django_db
+def test_the_outline_sits_beside_the_article_not_inside_it(
+    client, user_factory, three_chapters
+):
+    """It is the chapter's main way around, so it is its own left-hand menu.
+
+    Inside the article it pushed the text down and scrolled out of reach after
+    a screenful; on an 800-section corpus that made it close to useless.
+    """
+    content = _get(client, user_factory, "two")
+
+    layout = content.split('class="wiki-layout"', 1)[1]
+    nav_at = layout.index('class="wiki-section-nav"')
+    article_at = layout.index('class="wiki-article"')
+
+    assert nav_at < article_at, "the outline must precede the article"
+    # And it must not have been left behind inside the article as well.
+    article = layout[article_at:]
+    assert "wiki-section-nav" not in article
+
+
+@pytest.mark.django_db
+def test_a_chapter_without_sections_renders_no_outline_menu(
+    client, user_factory, tmp_path, settings
+):
+    _publish(tmp_path, settings, {"01-One.md": "# One\n"})
+
+    content = _get(client, user_factory, "one")
+
+    assert "wiki-section-nav" not in content
+    assert "wiki-layout" in content

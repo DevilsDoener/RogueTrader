@@ -34,7 +34,7 @@ Every Characteristic Advance purchased grants **+5** to the Characteristic. Ther
 4. **Expert** — the limit of natural ability
 
 Costs are **cumulative**: for +10 you pay for Simple **and** Intermediate (not just the Intermediate cost).
-*Example:* Willpower 34 â†’ Simple (250 xp) â†’ 39 â†’ Intermediate (500 xp) â†’ 44. Total 750 xp.
+*Example:* Willpower 34 → Simple (250 xp) → 39 → Intermediate (500 xp) → 44. Total 750 xp.
 
 ### Ranks
 - Rank is determined **by total xp spent**.
@@ -1920,7 +1920,7 @@ Choose **a single** weapon class. With a weapon of that class, the Arch-militant
 - **See Without Eyes:** Blind, but perceives without physical senses. Functionally treated as though they could see normally (including colours, blocked by walls). Effects that target vision (flash grenades, cameleoline) have **no** effect. Cannot perceive **Untouchables** (p. 156) at all.
 
 ### Explorator — Explorator Implants
-Begins with the Trait **Mechanicus Implants** (p. 366) and may choose up to **two additional** bionic implants of common Craftsmanship (p. 147). For **200 xp**, the Craftsmanship of an implant may be raised by one tier (common â†’ good). Maximum **twice** (common â†’ good â†’ best), and only **during character creation**.
+Begins with the Trait **Mechanicus Implants** (p. 366) and may choose up to **two additional** bionic implants of common Craftsmanship (p. 147). For **200 xp**, the Craftsmanship of an implant may be raised by one tier (common → good). Maximum **twice** (common → good → best), and only **during character creation**.
 
 ### Missionary — Pure Faith
 Begins with the Talent **Pure Faith** (details p. 104).

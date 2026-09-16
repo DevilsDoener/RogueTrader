@@ -12,22 +12,35 @@
 
   {% include "wiki/_chapter_nav.html" with sticky=True %}
 
-  <article class="wiki-article">
-    <h1>{{ chapter.title }}</h1>
-
+  {% comment %}Two columns: the chapter outline as its own menu on the left,
+     the article on the right. Deliberately nested inside .content rather than
+     added as a third column to .app-shell -- the shell's fixed two-column grid
+     is documented scope, the skip-link and primary-nav are asserted by the
+     responsive-shell e2e test, and a shell change would follow onto the
+     dashboard and the character sheets too.{% endcomment %}
+  <div class="wiki-layout">
     {% if chapter.outline %}
+      {% comment %}A table of contents is navigation, so <nav> rather than
+         <aside> -- it is the page's primary way around 800-odd sections, not
+         tangential content.{% endcomment %}
       <nav class="wiki-section-nav" aria-label="Abschnitte">
         <strong>Abschnitte</strong>
         {% include "wiki/_toc.html" with sections=chapter.outline depth=1 max_depth=toc_max_depth %}
       </nav>
-
-      {% for section in chapter.outline %}
-        {% include "wiki/_section.html" with section=section %}
-      {% endfor %}
-    {% else %}
-      <p>{{ placeholder_text }}</p>
     {% endif %}
-  </article>
+
+    <article class="wiki-article">
+      <h1>{{ chapter.title }}</h1>
+
+      {% if chapter.outline %}
+        {% for section in chapter.outline %}
+          {% include "wiki/_section.html" with section=section %}
+        {% endfor %}
+      {% else %}
+        <p>{{ placeholder_text }}</p>
+      {% endif %}
+    </article>
+  </div>
 
   {% include "wiki/_chapter_nav.html" %}
 
