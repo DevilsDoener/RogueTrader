@@ -10,7 +10,7 @@
     <span aria-current="page">{{ chapter.title }}</span>
   </nav>
 
-  {% include "wiki/_chapter_nav.html" %}
+  {% include "wiki/_chapter_nav.html" with sticky=True %}
 
   <article class="wiki-article">
     <h1>{{ chapter.title }}</h1>

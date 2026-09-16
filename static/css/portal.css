@@ -51,6 +51,13 @@
 
   --rt-topbar-height: 3.5rem;
   --rt-nav-width: 15.5rem;
+  /* Horizontal padding of .content. Named because the sticky chapter nav has
+     to bleed out by exactly this much to cover the full content width. */
+  --rt-content-gutter: clamp(1rem, 3vw, 3rem);
+  /* Height the sticky chapter nav occupies under the topbar. Anchored
+     sections offset by topbar + this, otherwise every search result and
+     permalink lands underneath the sticky stack instead of below it. */
+  --rt-wiki-sticky-nav-height: 3rem;
   --rt-transition-fast: 150ms ease;
   --rt-transition: 220ms ease;
 }
@@ -321,6 +328,11 @@ label {
   padding: 0 1rem;
   background: var(--rt-bg-elevated);
   border-bottom: 1px solid var(--rt-border);
+  /* Chapters run to 150 KB of text; without this the search -- the fastest
+     way into another chapter -- scrolls out of reach after a screenful. */
+  position: sticky;
+  top: 0;
+  z-index: 30;
 }
 
 .brand {
@@ -373,6 +385,12 @@ label {
   background: var(--rt-panel);
   border-right: 1px solid var(--rt-border);
   padding: 1.25rem 0.75rem;
+  /* align-self keeps the nav at its content height inside the grid area,
+     which is what gives `sticky` room to move within that area. */
+  position: sticky;
+  top: var(--rt-topbar-height);
+  align-self: start;
+  max-height: calc(100vh - var(--rt-topbar-height));
   overflow-y: auto;
 }
 
@@ -420,7 +438,7 @@ label {
 
 .content {
   grid-area: content;
-  padding: 2rem clamp(1rem, 3vw, 3rem);
+  padding: 2rem var(--rt-content-gutter);
   max-width: 72rem;
 }
 
@@ -841,6 +859,14 @@ mark {
   opacity: 0.55;
 }
 
+/* Jumping to an anchor must clear the sticky topbar and chapter nav; without
+   this the targeted heading lands behind them. */
+.wiki-article section[id] {
+  scroll-margin-top: calc(
+    var(--rt-topbar-height) + var(--rt-wiki-sticky-nav-height) + 0.75rem
+  );
+}
+
 /* Where a search result or a permalink landed. */
 .wiki-article section:target {
   background: var(--rt-parchment-raised);
@@ -1028,6 +1054,19 @@ mark {
   margin: 1.5rem 0;
 }
 
+/* The upper copy stays put under the topbar so switching chapters never
+   requires scrolling back. It bleeds into the content padding so article text
+   cannot show through beside it while scrolling past. */
+.wiki-chapter-nav--sticky {
+  position: sticky;
+  top: var(--rt-topbar-height);
+  z-index: 20;
+  margin: 0 calc(-1 * var(--rt-content-gutter)) 1.5rem;
+  padding: 0.4rem var(--rt-content-gutter);
+  background: var(--rt-bg);
+  border-bottom: 1px solid var(--rt-border);
+}
+
 .wiki-chapter-nav a {
   display: flex;
   flex-direction: column;
@@ -1054,6 +1093,26 @@ mark {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+/* Compact while stuck: the stacked two-line cards would hold 116px of the
+   viewport permanently, on top of the topbar. One line each says enough.
+   These must come AFTER the base `.wiki-chapter-nav a` rules: `--sticky` is
+   part of the same class name, so both selectors have equal specificity and
+   source order decides. */
+.wiki-chapter-nav--sticky a {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.45rem;
+  max-width: 48%;
+  padding: 0.25rem 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.wiki-chapter-nav--sticky a > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* The full chapter list belongs on /wiki/; here it is a fallback, folded away

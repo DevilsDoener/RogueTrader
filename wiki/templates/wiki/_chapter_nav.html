@@ -1,9 +1,10 @@
 {% comment %}Previous/next chapter, rendered above and below the article.
 
 Included twice on purpose: a chapter can be very long, and after reading one
-the natural next action is the next chapter, not a scroll back to the
-top.{% endcomment %}
-<nav class="wiki-chapter-nav" aria-label="Kapitelwechsel">
+the natural next action is the next chapter, not a scroll back to the top.
+The upper copy is passed sticky=True so it stays reachable while reading;
+the lower one is an ordinary end-of-chapter element.{% endcomment %}
+<nav class="wiki-chapter-nav{% if sticky %} wiki-chapter-nav--sticky{% endif %}" aria-label="Kapitelwechsel">
   {% if previous_chapter %}
     <a class="wiki-chapter-nav-prev" href="{% url 'wiki:chapter' previous_chapter.slug %}" rel="prev">
       <span class="wiki-chapter-nav-label">Zurück</span>
