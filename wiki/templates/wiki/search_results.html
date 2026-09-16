@@ -11,16 +11,34 @@
     <button type="submit" class="button-primary">Suchen</button>
   </form>
 
-  {% if query %}
+  {% if results %}
     <p>{{ results|length }} Treffer f&uuml;r &bdquo;{{ query }}&ldquo;</p>
+    <ul class="wiki-results">
+      {% for result in results %}
+        <li>
+          {% comment %}The query rides along as ?q= rather than in the fragment,
+             so the destination page can highlight the hit without this link
+             depending on the anchor scheme.{% endcomment %}
+          <a href="{% url 'wiki:chapter' result.chapter_slug %}?q={{ query|urlencode }}#sec-{{ result.section_id }}">{{ result.chapter_title }} &ndash; {{ result.title }}</a>
+          <p>{{ result.snippet|safe }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif query_too_short %}
+    <div class="empty-state">
+      <p>Bitte mindestens {{ min_query_length }} Zeichen eingeben.</p>
+    </div>
+  {% elif query %}
+    <div class="empty-state">
+      <p>Keine Treffer f&uuml;r &bdquo;{{ query }}&ldquo;.</p>
+      <p>Das Regelwerk ist auf Englisch. Viele deutsche Begriffe werden
+        &uuml;bersetzt &ndash; wenn deiner nicht dabei ist, hilft der englische
+        Fachbegriff. Es m&uuml;ssen alle eingegebenen W&ouml;rter im selben
+        Abschnitt vorkommen, ein k&uuml;rzerer Suchbegriff findet daher mehr.</p>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>Durchsucht alle Kapitel des Regelwerks.</p>
+    </div>
   {% endif %}
-
-  <ul class="wiki-results">
-    {% for result in results %}
-      <li>
-        <a href="{% url 'wiki:chapter' result.chapter_slug %}#sec-{{ result.section_id }}">{{ result.chapter_title }} &ndash; {{ result.title }}</a>
-        <p>{{ result.snippet|safe }}</p>
-      </li>
-    {% endfor %}
-  </ul>
 {% endblock %}

@@ -4,29 +4,21 @@
 {% block title %}{{ chapter.title }} &ndash; Rogue Trader Portal{% endblock %}
 
 {% block content %}
-  <nav class="wiki-toc" aria-label="Kapitel">
-    <a href="{% url 'wiki:index' %}">&larr; Wiki</a>
-    <ul class="entry-list">
-      {% for other in chapters %}
-        <li><a href="{% url 'wiki:chapter' other.slug %}" {% if other.slug == chapter.slug %}aria-current="page"{% endif %}>{{ other.title }}</a></li>
-      {% endfor %}
-    </ul>
+  <nav class="wiki-breadcrumbs" aria-label="Pfad">
+    <a href="{% url 'wiki:index' %}">Wiki</a>
+    <span aria-hidden="true">&rsaquo;</span>
+    <span aria-current="page">{{ chapter.title }}</span>
   </nav>
+
+  {% include "wiki/_chapter_nav.html" %}
+
   <article class="wiki-article">
     <h1>{{ chapter.title }}</h1>
 
     {% if chapter.outline %}
       <nav class="wiki-section-nav" aria-label="Abschnitte">
         <strong>Abschnitte</strong>
-        <ul>
-          {% for section in chapter.outline %}
-            {% if not section.is_intro %}
-              {% comment %}title_html is the sanitized inline markup, so a
-                 heading carrying inline code reads correctly here too.{% endcomment %}
-              <li><a href="#sec-{{ section.id }}">{{ section.title_html|safe }}</a></li>
-            {% endif %}
-          {% endfor %}
-        </ul>
+        {% include "wiki/_toc.html" with sections=chapter.outline depth=1 max_depth=toc_max_depth %}
       </nav>
 
       {% for section in chapter.outline %}
@@ -36,4 +28,15 @@
       <p>{{ placeholder_text }}</p>
     {% endif %}
   </article>
+
+  {% include "wiki/_chapter_nav.html" %}
+
+  <details class="wiki-chapter-list">
+    <summary>Alle Kapitel</summary>
+    <ul class="entry-list">
+      {% for other in chapters %}
+        <li><a href="{% url 'wiki:chapter' other.slug %}" {% if other.slug == chapter.slug %}aria-current="page"{% endif %}>{{ other.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </details>
 {% endblock %}

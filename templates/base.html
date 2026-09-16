@@ -19,10 +19,13 @@
 
         <form class="topbar-search" method="get" action="{% url 'wiki:search' %}" role="search">
           <label for="topbar-search-input" class="sr-only">Wiki durchsuchen</label>
+          {% comment %}Prefilled from ?q= so that following a search result into
+             a chapter keeps the query at hand for refining it.{% endcomment %}
           <input
             id="topbar-search-input"
             type="search"
             name="q"
+            value="{{ request.GET.q|default:'' }}"
             placeholder="Wiki durchsuchen&hellip;"
             autocomplete="off"
           >

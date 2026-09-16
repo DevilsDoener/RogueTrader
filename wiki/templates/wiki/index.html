@@ -10,9 +10,37 @@
     <input id="wiki-index-search-input" type="search" name="q" placeholder="Suche">
     <button type="submit" class="button-primary">Suchen</button>
   </form>
-  <ul class="entry-list">
-    {% for chapter in chapters %}
-      <li><a href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.title }}</a></li>
-    {% endfor %}
-  </ul>
+
+  {% comment %}Grouped by the book's own divisions (wiki/manifest.py). Most
+     parts hold a single numbered chapter, so a heading is only printed where
+     a part actually collects several files -- otherwise it would repeat the
+     chapter title in different words.{% endcomment %}
+  {% for part_name, part_chapters in parts %}
+    {% if part_chapters|length > 1 %}
+      <h2 class="wiki-part-heading">{{ part_name }}</h2>
+    {% endif %}
+    <ul class="wiki-chapter-cards">
+      {% for chapter in part_chapters %}
+        <li class="wiki-chapter-card">
+          <a class="wiki-chapter-card-title" href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.title }}</a>
+          {% with sections=chapter.navigable_sections %}
+            {% if sections %}
+              <div class="wiki-chapter-card-sections">
+                {% for section in sections|slice:":6" %}
+                  <a href="{% url 'wiki:chapter' chapter.slug %}#sec-{{ section.id }}">{{ section.title }}</a>
+                {% endfor %}
+                {% if sections|length > 6 %}
+                  <a class="wiki-chapter-card-more" href="{% url 'wiki:chapter' chapter.slug %}">+{{ sections|length|add:"-6" }} weitere</a>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endwith %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% empty %}
+    <div class="empty-state">
+      <p>Es sind noch keine Kapitel verf&uuml;gbar.</p>
+    </div>
+  {% endfor %}
 {% endblock %}

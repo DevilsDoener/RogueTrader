@@ -262,3 +262,20 @@ docker compose restart portal
 This does not require a rebuild (`--build`) unless the Dockerfile or
 Python dependencies also changed — only the running process needs to
 re-read the files.
+
+Before restarting, `manage.py check` verifies the content tree: it fails if an
+allow-listed chapter is missing or unreadable, and warns about a Markdown file
+under the content root that is not served. Adding a chapter therefore means
+adding it to `wiki/manifest.py` — the single source of truth for the chapter
+list, its reading order, each chapter's URL slug, and its grouping on the
+overview page.
+
+`WIKI_STRICT_CONTENT` is on in the container: if the content tree cannot be
+parsed at startup, the process fails to boot instead of serving an empty wiki.
+
+> **Action for the project owner:** `.env` still carries a
+> `WIKI_CONTENT_ALLOWLIST=` line listing all chapters. It currently matches
+> `wiki/manifest.py` exactly, so nothing is broken — but it pins the old list
+> and will silently override future manifest changes. Delete that line from
+> `.env`. (Agents are blocked from editing `.env`, so this has to be done by
+> hand.)

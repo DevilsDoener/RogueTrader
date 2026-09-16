@@ -41,12 +41,15 @@ def dashboard(request):
     )
     ship = ShipSheet.objects.filter(is_active=True).order_by("id").first()
     try:
-        chapters = get_repository().chapters()
+        repository = get_repository()
+        chapters = repository.chapters()
+        wiki_parts = repository.parts()
     except RuntimeError:
         # The wiki content repository failed to initialize at startup (see
         # WikiConfig.ready()) -- degrade the wiki panel to empty rather than
         # 500ing the whole dashboard.
         chapters = ()
+        wiki_parts = ()
 
     return render(
         request,
@@ -55,5 +58,6 @@ def dashboard(request):
             "characters": characters,
             "ship": ship,
             "chapters": chapters,
+            "wiki_parts": wiki_parts,
         },
     )

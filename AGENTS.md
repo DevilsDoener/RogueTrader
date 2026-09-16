@@ -38,6 +38,7 @@ Hinweis am Dateianfang. Dazu gehören:
 | Synchronisierte Charakterwerte | `docs/characteristic-sync.md` |
 | Berechnete Bewegungsfelder | `docs/movement-calculation.md` |
 | Offene Zuordnung der Fertigkeitskästchen | `docs/checkbox-row-mapping.md` |
+| Wiki-Kapitel: Liste, Reihenfolge, Slug, Gruppierung | `wiki/manifest.py` |
 | Betrieb, Deployment, Backup, Kontowiederherstellung | `docs/operations.md` |
 | Einrichtung, Abnahmeliste, Projektüberblick | `README.md` |
 | Regelwerk-Wissensbasis (`content/`) | `00-FORTSCHRITT.md` |

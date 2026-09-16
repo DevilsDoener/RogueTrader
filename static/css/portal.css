@@ -955,17 +955,162 @@ mark {
   margin: 2rem 0;
 }
 
-.wiki-section-nav {
-  margin-bottom: 1.5rem;
-  padding: 1rem 1.25rem;
+/* Overview: one card per chapter, with its top-level sections as deep links.
+   The point of the card is that 180-odd sections become reachable from here,
+   not just 21 chapter names. */
+.wiki-part-heading {
+  margin: 2rem 0 0.75rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rt-text-muted);
+}
+
+.wiki-chapter-cards {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wiki-chapter-card {
+  padding: 0.9rem 1.15rem;
   background: var(--rt-panel);
   border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius);
 }
 
+.wiki-chapter-card:hover {
+  border-color: var(--rt-border-strong);
+}
+
+.wiki-chapter-card-title {
+  font-family: var(--rt-font-display);
+  font-size: 1.05rem;
+}
+
+.wiki-chapter-card-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.9rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.wiki-chapter-card-sections a {
+  color: var(--rt-text-muted);
+}
+
+.wiki-chapter-card-sections a:hover {
+  color: var(--rt-gold-bright);
+}
+
+.wiki-chapter-card-more {
+  font-style: italic;
+}
+
+.wiki-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--rt-text-muted);
+  font-size: 0.9rem;
+}
+
+/* Previous/next chapter, shown above and below the article. */
+.wiki-chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.wiki-chapter-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-width: 45%;
+  padding: 0.6rem 0.9rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+  text-decoration: none;
+}
+
+.wiki-chapter-nav a:hover {
+  border-color: var(--rt-border-strong);
+}
+
+.wiki-chapter-nav-next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.wiki-chapter-nav-label {
+  color: var(--rt-text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* The full chapter list belongs on /wiki/; here it is a fallback, folded away
+   so it does not push the article down on every page. */
+.wiki-chapter-list {
+  margin-top: 2rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+}
+
+.wiki-chapter-list summary {
+  cursor: pointer;
+  color: var(--rt-text-muted);
+}
+
+/* The contents box sits INSIDE .wiki-article, so it must be a parchment
+   surface. It used to use the dark --rt-panel while inheriting the article's
+   dark ink, which left its own label almost unreadable. */
+.wiki-section-nav {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--rt-parchment-raised);
+  border: 1px solid var(--rt-parchment-border);
+  border-left: 3px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius);
+}
+
+.wiki-section-nav > strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--rt-font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
 .wiki-section-nav ul {
   margin: 0.5rem 0 0;
   padding-left: 1.25rem;
+}
+
+.wiki-toc-list .wiki-toc-list {
+  margin: 0.25rem 0 0.5rem;
+  padding-left: 1.1rem;
+  font-size: 0.94em;
+}
+
+/* A section whose children are a glossary (147 talents, 48 skills) renders
+   them as a wrapped index instead of a very long nested list. */
+.wiki-toc-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.75rem;
+  margin: 0.35rem 0 0.6rem;
+  font-size: 0.9em;
 }
 
 .wiki-results {

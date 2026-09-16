@@ -16,6 +16,10 @@ from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
 
+# Plain dataclasses, no Django imports -- safe to import while settings are
+# still being assembled. Single source of truth for the wiki chapter list.
+from wiki import manifest as wiki_manifest
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -326,37 +330,19 @@ WIKI_CONTENT_ROOT = Path(os.environ.get("WIKI_CONTENT_ROOT", BASE_DIR / "content
 
 # Ordered, explicit filenames (not extensions) allowed to be loaded as wiki
 # chapters. Anything not listed here -- e.g. the project's own progress log
-# -- is excluded even if it lives under WIKI_CONTENT_ROOT.
-WIKI_DEFAULT_CONTENT_ALLOWLIST = (
-    "00-Foreword.md",
-    "00-Inhaltsverzeichnis-und-Einleitung.md",
-    "01-Charaktererschaffung.md",
-    "02-Karrierewege.md",
-    "03-Skills.md",
-    "04-Talents.md",
-    "05-Armoury.md",
-    "06-Psychic-Powers.md",
-    "07-Navigator-Powers.md",
-    "08-Starships.md",
-    "09-Playing-The-Game.md",
-    "10-The-Game-Master.md",
-    "11-The-Imperium.md",
-    "12-Rogue-Traders.md",
-    "13-The-Koronus-Expanse.md",
-    "14-Adversaries-and-Aliens.md",
-    "14-Allies-Enemies-and-Rivals.md",
-    "14-Mutations.md",
-    "14-Traits.md",
-    "15-Into-The-Maw.md",
-    "16-Index.md",
-)
-WIKI_CONTENT_ALLOWLIST = tuple(
+# -- is excluded even if it lives under WIKI_CONTENT_ROOT. Declared once in
+# wiki/manifest.py, which also carries each chapter's slug and grouping; the
+# environment variable below still overrides it.
+WIKI_DEFAULT_CONTENT_ALLOWLIST = wiki_manifest.ALLOWLIST
+# An empty or whitespace-only value falls back to the manifest rather than
+# serving nothing: compose.yaml passes ${WIKI_CONTENT_ALLOWLIST:-} through, so
+# "set but empty" is the normal case when no override is configured.
+_wiki_allowlist_override = tuple(
     filename.strip()
-    for filename in os.environ.get(
-        "WIKI_CONTENT_ALLOWLIST", ",".join(WIKI_DEFAULT_CONTENT_ALLOWLIST)
-    ).split(",")
+    for filename in os.environ.get("WIKI_CONTENT_ALLOWLIST", "").split(",")
     if filename.strip()
 )
+WIKI_CONTENT_ALLOWLIST = _wiki_allowlist_override or WIKI_DEFAULT_CONTENT_ALLOWLIST
 # Top-level sections whose heading matches one of these (casefolded) patterns
 # are transcription bookkeeping, not rules: per-chapter PDF page audits left in
 # the Markdown so the cross-check trail stays with the text. They are hidden
@@ -366,6 +352,24 @@ WIKI_CONTENT_ALLOWLIST = tuple(
 WIKI_EDITORIAL_SECTION_PATTERNS = (
     r"^status$",
     r"^page (inventory|coverage) and cross-?check$",
+)
+
+# A section whose children are all leaves and number at least this many is a
+# glossary (147 talents, 48 skills, 32 traits ...). Its table-of-contents entry
+# renders as a compact index of links instead of a very long nested list.
+WIKI_TOC_GLOSSARY_THRESHOLD = 16
+
+# How many heading levels the in-page table of contents shows. The corpus
+# nests at most three deep.
+WIKI_TOC_MAX_DEPTH = 3
+
+# When true, a failure to parse the content tree at startup aborts the boot
+# instead of leaving the wiki silently empty. Enabled in the container (see
+# compose.yaml), where an empty wiki means the mount is wrong.
+WIKI_STRICT_CONTENT = os.environ.get("WIKI_STRICT_CONTENT", "false").lower() in (
+    "1",
+    "true",
+    "yes",
 )
 
 SHEET_SOURCE_PDF = Path(
