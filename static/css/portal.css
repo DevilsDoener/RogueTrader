@@ -1210,6 +1210,40 @@ mark {
   font-size: 0.94em;
 }
 
+/* A section with sub-sections folds away until asked for. The disclosure
+   triangle is the toggle; the link inside the summary still navigates. */
+.wiki-toc-branch > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.wiki-toc-branch > summary::-webkit-details-marker {
+  display: none;
+}
+
+.wiki-toc-branch > summary::before {
+  content: "\25B8";           /* small right-pointing triangle */
+  display: inline-block;
+  width: 0.9em;
+  margin-left: -0.9em;
+  color: var(--rt-text-muted);
+  transition: transform var(--rt-transition-fast);
+}
+
+.wiki-toc-branch[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.wiki-toc-branch > summary:hover::before {
+  color: var(--rt-gold-bright);
+}
+
+/* The triangle sits in the list's own indent, so the label keeps its
+   alignment with the leaf entries above and below it. */
+.wiki-toc-list li {
+  padding-left: 0.9em;
+}
+
 /* A section whose children are a glossary (147 talents, 48 skills) renders
    them as a wrapped index instead of a very long nested list. */
 .wiki-toc-index {

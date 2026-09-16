@@ -1,7 +1,15 @@
 {% comment %}Recursive table of contents for one level of the heading tree.
 
-Expects `sections`, `depth` (1 for the top level) and `max_depth`. A section
-whose children are all leaves and number at least
+Expects `sections`, `depth` (1 for the top level) and `max_depth`.
+
+A section with sub-sections becomes a <details>, collapsed by default: a
+chapter has a handful of top-level sections but hundreds below them, so the
+menu is only scannable if the depth is folded away until asked for. Plain
+<details>/<summary> rather than scripted toggles -- it needs no JavaScript,
+keyboard and screen-reader behaviour come for free, and the page has no other
+client-side state to keep in sync.
+
+A section whose children are all leaves and number at least
 WIKI_TOC_GLOSSARY_THRESHOLD renders them as a compact index rather than a
 nested list -- without that, the talents chapter alone would put 147 entries
 in front of everything else.{% endcomment %}
@@ -9,17 +17,21 @@ in front of everything else.{% endcomment %}
   {% for section in sections %}
     {% if not section.is_intro %}
       <li>
-        <a href="#sec-{{ section.id }}">{{ section.title_html|safe }}</a>
         {% if section.children and depth < max_depth %}
-          {% if section.is_glossary %}
-            <div class="wiki-toc-index">
-              {% for child in section.children %}
-                <a href="#sec-{{ child.id }}">{{ child.title }}</a>
-              {% endfor %}
-            </div>
-          {% else %}
-            {% include "wiki/_toc.html" with sections=section.children depth=depth|add:1 %}
-          {% endif %}
+          <details class="wiki-toc-branch">
+            <summary><a href="#sec-{{ section.id }}">{{ section.title_html|safe }}</a></summary>
+            {% if section.is_glossary %}
+              <div class="wiki-toc-index">
+                {% for child in section.children %}
+                  <a href="#sec-{{ child.id }}">{{ child.title }}</a>
+                {% endfor %}
+              </div>
+            {% else %}
+              {% include "wiki/_toc.html" with sections=section.children depth=depth|add:1 %}
+            {% endif %}
+          </details>
+        {% else %}
+          <a href="#sec-{{ section.id }}">{{ section.title_html|safe }}</a>
         {% endif %}
       </li>
     {% endif %}

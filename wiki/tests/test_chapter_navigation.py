@@ -196,3 +196,53 @@ def test_a_chapter_without_sections_renders_no_outline_menu(
 
     assert "wiki-section-nav" not in content
     assert "wiki-layout" in content
+
+
+@pytest.mark.django_db
+def test_sub_sections_are_collapsed_until_asked_for(
+    client, user_factory, three_chapters
+):
+    """A chapter has a handful of top-level sections and hundreds below them.
+
+    Measured on Playing the Game: the outline is 650px tall collapsed against
+    3259px expanded, so folding is what keeps the menu scannable at all.
+    """
+    content = _get(client, user_factory, "two")
+    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+
+    assert '<details class="wiki-toc-branch">' in toc
+    # Collapsed: no `open` attribute on the branch.
+    assert "<details class=\"wiki-toc-branch\" open" not in toc
+    # The parent's own link stays reachable from the summary.
+    assert '<summary><a href="#sec-beta"' in toc
+    assert "#sec-beta-detail" in toc
+
+
+@pytest.mark.django_db
+def test_a_section_without_children_is_a_plain_link(
+    client, user_factory, three_chapters
+):
+    """Only branches get a disclosure; leaves must not look expandable."""
+    content = _get(client, user_factory, "one")
+    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+
+    assert "#sec-alpha" in toc
+    assert "wiki-toc-branch" not in toc
+
+
+@pytest.mark.django_db
+def test_a_glossary_index_lives_inside_its_disclosure(
+    client, user_factory, tmp_path, settings
+):
+    entries = "\n\n".join(f"### Entry {index}\nBody." for index in range(20))
+    _publish(
+        tmp_path, settings, {"01-One.md": f"# One\n\n## Descriptions\nIntro.\n\n{entries}\n"}
+    )
+    settings.WIKI_TOC_GLOSSARY_THRESHOLD = 16
+
+    content = _get(client, user_factory, "one")
+    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    branch = toc.split('<details class="wiki-toc-branch">', 1)[1].split("</details>", 1)[0]
+
+    assert 'class="wiki-toc-index"' in branch
+    assert branch.count("#sec-entry-") == 20
