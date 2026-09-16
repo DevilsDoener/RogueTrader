@@ -150,12 +150,11 @@ def _logout_via_post(page):
 
 def test_complete_portal_journey(page, second_page, live_server, settings, ship_sheet):
     # ---- Preserve/override the wiki content repository around this test.
-    # WikiConfig.ready() already ran once at process start against whatever
-    # WIKI_CONTENT_ROOT was set to then (normally unset/missing locally),
-    # so the live repository singleton has zero chapters until we point it
-    # at this checkout's real Markdown source and reload it -- the same
-    # thing a production container does by mounting the book read-only and
-    # letting WikiConfig.ready() parse it on boot.
+    # WikiConfig.ready() already parsed the full corpus at process start, but
+    # this journey asserts against one specific chapter, so narrow the
+    # allowlist to that file and reload -- otherwise cross-chapter search
+    # ranking, which is not what this test is about, could decide which
+    # result lands first. Restored in the finally block below.
     original_repository = get_repository()
     settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
     settings.WIKI_CONTENT_ALLOWLIST = [WIKI_CHAPTER_FILE]

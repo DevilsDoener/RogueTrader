@@ -315,7 +315,14 @@ AUTH_USER_MODEL = "accounts.User"
 
 LOGIN_URL = "/account/login/"
 
-WIKI_CONTENT_ROOT = Path(os.environ.get("WIKI_CONTENT_ROOT", "/content/wiki"))
+# Default to this checkout's own ``content/`` directory so a plain
+# ``manage.py runserver`` serves the bundled chapters. The Compose deployment
+# mounts the same directory at /content/wiki and sets this explicitly (see
+# compose.yaml), so production is unaffected. The previous default was that
+# container-only absolute path, which does not exist on a developer machine --
+# every local run then logged one "file not found" warning per chapter and
+# served an empty wiki.
+WIKI_CONTENT_ROOT = Path(os.environ.get("WIKI_CONTENT_ROOT", BASE_DIR / "content"))
 
 # Ordered, explicit filenames (not extensions) allowed to be loaded as wiki
 # chapters. Anything not listed here -- e.g. the project's own progress log
@@ -350,6 +357,17 @@ WIKI_CONTENT_ALLOWLIST = tuple(
     ).split(",")
     if filename.strip()
 )
+# Top-level sections whose heading matches one of these (casefolded) patterns
+# are transcription bookkeeping, not rules: per-chapter PDF page audits left in
+# the Markdown so the cross-check trail stays with the text. They are hidden
+# from readers and from search at parse time, which keeps the source files
+# untouched. Matched at depth 1 only, so a legitimately-named deeper heading is
+# never swallowed. Note the two spellings of the cross-check heading.
+WIKI_EDITORIAL_SECTION_PATTERNS = (
+    r"^status$",
+    r"^page (inventory|coverage) and cross-?check$",
+)
+
 SHEET_SOURCE_PDF = Path(
     os.environ.get("SHEET_SOURCE_PDF", BASE_DIR / "data" / "character-sheet.pdf")
 )

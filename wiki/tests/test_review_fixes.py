@@ -3,10 +3,29 @@
 Kept separate from the adopted RED test files (test_content.py, test_markdown.py,
 test_search.py, test_views.py), which are not to be modified.
 """
+import re
+
 import pytest
 from django.urls import reverse
 
 from wiki.content import WikiRepository, set_repository_for_tests
+
+
+def _heading_texts(html: str, level: int) -> list[str]:
+    """Visible text of every ``<hN>`` on the page, permalink anchor removed.
+
+    Asserting on the exact string ``<h2>Details</h2>`` would now fail for a
+    cosmetic reason: every heading carries a permalink ``<a class="wiki-anchor">``
+    since headings moved out of the sanitized body HTML and into the template
+    (see wiki/templates/wiki/_section.html). The behaviour these tests actually
+    pin -- which headings exist, and how many -- is unchanged.
+    """
+    blocks = re.findall(rf"<h{level}[^>]*>(.*?)</h{level}>", html, re.DOTALL)
+    without_anchor = [
+        re.sub(r'<a class="wiki-anchor".*?</a>', "", block, flags=re.DOTALL)
+        for block in blocks
+    ]
+    return [re.sub(r"<[^>]+>", "", text).strip() for text in without_anchor]
 
 
 def test_fenced_code_block_heading_marker_does_not_start_new_section(tmp_path, settings):
@@ -49,6 +68,5 @@ def test_chapter_intro_heading_is_not_duplicated_when_slug_and_title_differ(
     # heading must appear exactly once, as the <h1>; the intro section must
     # not render its own duplicate <h2> with the same text. The real "##
     # Details" section still gets its <h2> normally.
-    assert content.count("<h1>Plasma Doctrine</h1>") == 1
-    assert "<h2>Plasma Doctrine</h2>" not in content
-    assert content.count("<h2>Details</h2>") == 1
+    assert _heading_texts(content, 1) == ["Plasma Doctrine"]
+    assert _heading_texts(content, 2) == ["Details"]

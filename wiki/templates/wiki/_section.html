@@ -1,0 +1,20 @@
+{% comment %}One outline node and its sub-sections, rendered recursively.
+
+The heading is rendered HERE rather than inside the sanitized body HTML. That
+is deliberate: it means the anchor `id` is built from our own slug in template
+context, so no `id` attribute ever has to be admitted through the Bleach
+allowlist in wiki/markdown.py. The `sec-` prefix keeps these ids from
+colliding with the shell's own element ids or with a DOM global.
+
+`section.level` is the effective heading level (2-6) from wiki/outline.py, so
+the document keeps a correct heading hierarchy without depending on how the
+source file happened to number its headings.{% endcomment %}
+<section id="sec-{{ section.id }}">
+  {% if not section.is_intro %}
+    <h{{ section.level }}>{{ section.title_html|safe }}<a class="wiki-anchor" href="#sec-{{ section.id }}" aria-label="Direktlink zu „{{ section.title }}“">#</a></h{{ section.level }}>
+  {% endif %}
+  {{ section.html|safe }}
+  {% for child in section.children %}
+    {% include "wiki/_section.html" with section=child %}
+  {% endfor %}
+</section>

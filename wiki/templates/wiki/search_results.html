@@ -18,7 +18,7 @@
   <ul class="wiki-results">
     {% for result in results %}
       <li>
-        <a href="{% url 'wiki:chapter' result.chapter_slug %}#{{ result.section_id }}">{{ result.chapter_title }} &ndash; {{ result.title }}</a>
+        <a href="{% url 'wiki:chapter' result.chapter_slug %}#sec-{{ result.section_id }}">{{ result.chapter_title }} &ndash; {{ result.title }}</a>
         <p>{{ result.snippet|safe }}</p>
       </li>
     {% endfor %}

@@ -36,6 +36,7 @@
   --rt-parchment-raised: #faf4e6;
   --rt-parchment-ink: #2a241c;
   --rt-parchment-border: #cdbb92;
+  --rt-parchment-link: #7a4a1f;
 
   --rt-danger: #b3543f;
   --rt-danger-bright: #d97a63;
@@ -684,6 +685,16 @@ label {
   margin: 0 0 0.75rem;
 }
 
+/* Search-hit highlight. Lives here rather than in the wiki block because it
+   is used on the dark results panel as well as on the parchment article, and
+   the UA default is both garish and inconsistent under a dark color-scheme. */
+mark {
+  background: var(--rt-gold);
+  color: var(--rt-text-on-gold);
+  padding: 0 0.15em;
+  border-radius: 2px;
+}
+
 /* ---------------------------------------------------------------------
    Generic content: lists, tables, cards used by accounts/sheets templates
    --------------------------------------------------------------------- */
@@ -786,16 +797,162 @@ label {
   color: var(--rt-parchment-ink);
   border: 1px solid var(--rt-parchment-border);
   border-radius: var(--rt-radius-lg);
+  /* The parchment surface is the one place a serif belongs -- this is a
+     rulebook, not console chrome. */
+  font-family: var(--rt-font-display);
+  line-height: 1.6;
 }
 
 .wiki-article a {
-  color: #7a4a1f;
+  color: var(--rt-parchment-link);
 }
 
+/* All six levels, not just h1-h3: the generic heading rule further up paints
+   headings in the dark-shell text colour, which on parchment leaves h4-h6
+   effectively invisible. Chapter IX uses h4 for its table captions. */
 .wiki-article h1,
 .wiki-article h2,
-.wiki-article h3 {
+.wiki-article h3,
+.wiki-article h4,
+.wiki-article h5,
+.wiki-article h6 {
   color: var(--rt-parchment-ink);
+}
+
+.wiki-article h4 {
+  margin: 1.5rem 0 0.4rem;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+/* Per-heading permalink. Present for every heading so any rule can be linked
+   directly; only shown once the heading is hovered or the link is focused, so
+   it never competes with the text. */
+.wiki-anchor {
+  margin-left: 0.4em;
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity var(--rt-transition-fast);
+}
+
+.wiki-article :is(h2, h3, h4, h5, h6):hover .wiki-anchor,
+.wiki-anchor:focus-visible {
+  opacity: 0.55;
+}
+
+/* Where a search result or a permalink landed. */
+.wiki-article section:target {
+  background: var(--rt-parchment-raised);
+  box-shadow: -0.75rem 0 0 var(--rt-parchment-raised), inset 3px 0 0 var(--rt-gold-dim);
+  border-radius: 0 var(--rt-radius) var(--rt-radius) 0;
+}
+
+/* A caption belongs to the table below it, not halfway between two tables. */
+.wiki-article h4 + .wiki-table-scroll {
+  margin-top: 0;
+}
+
+/* Tables ------------------------------------------------------------------
+   Emitted by wiki/markdown.py as <div class="wiki-table-scroll"
+   data-table-mode="flow|wide"><table>...</table></div>. Deliberately separate
+   from .data-table above, which is the dark console table used by accounts/
+   and sheets/ and is unreadable on parchment. */
+
+.wiki-table-scroll {
+  margin: 0 0 1.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  /* Without this the root's dark color-scheme paints a dark scrollbar over
+     the parchment surface. */
+  color-scheme: light;
+}
+
+.wiki-article table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rt-parchment-border);
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.wiki-article th,
+.wiki-article td {
+  padding: 0.4rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid var(--rt-parchment-border);
+}
+
+.wiki-article thead th {
+  background: var(--rt-parchment-border);
+  border-bottom: 2px solid var(--rt-gold-dim);
+  font-family: var(--rt-font-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--rt-parchment-ink);
+}
+
+.wiki-article tbody tr:nth-child(even) {
+  background: var(--rt-parchment-raised);
+}
+
+/* Column alignment declared in the Markdown source (|---:|). */
+.wiki-article .wiki-col-left { text-align: left; }
+.wiki-article .wiki-col-center { text-align: center; }
+.wiki-article .wiki-col-right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Wide tables keep their natural width and scroll inside the container
+   instead of crushing short codes into unreadable stacks. */
+.wiki-table-scroll[data-table-mode="wide"] table {
+  width: max-content;
+  min-width: 100%;
+}
+
+.wiki-table-scroll[data-table-mode="wide"] td {
+  white-space: nowrap;
+}
+
+/* Inline rules values (1d10+3 E, -10, 1d100) -- the corpus has 700+ of these
+   and no fenced code blocks at all. */
+.wiki-article code {
+  font-family: var(--rt-font-mono);
+  font-size: 0.88em;
+  padding: 0.05em 0.3em;
+  background: var(--rt-parchment-raised);
+  border: 1px solid var(--rt-parchment-border);
+  border-radius: var(--rt-radius);
+}
+
+/* Blockquotes carry statblocks and source attributions, not asides. */
+.wiki-article blockquote {
+  margin: 1.25rem 0;
+  padding: 0.6rem 0 0.6rem 1rem;
+  border-left: 3px solid var(--rt-gold-dim);
+  background: var(--rt-parchment-raised);
+}
+
+.wiki-article blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.wiki-article ul,
+.wiki-article ol {
+  padding-left: 1.4rem;
+}
+
+.wiki-article li + li {
+  margin-top: 0.25rem;
+}
+
+.wiki-article hr {
+  border: 0;
+  border-top: 1px solid var(--rt-parchment-border);
+  margin: 2rem 0;
 }
 
 .wiki-section-nav {

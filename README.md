@@ -77,27 +77,28 @@ migration.
 py -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt
 .\.venv\Scripts\python -m playwright install chromium
-$env:WIKI_CONTENT_ROOT = (Resolve-Path .\content).Path
 .\.venv\Scripts\python manage.py migrate
 .\.venv\Scripts\python manage.py bootstrap_admin --username <admin-username>
 .\.venv\Scripts\python manage.py runserver
 ```
 
-These direct `manage.py` commands do not read `.env`; the
-`WIKI_CONTENT_ROOT` process variable above is the minimal local setting
-needed to load the bundled wiki chapters instead of showing an empty wiki.
-`.env` is consumed by Docker Compose only. For a Compose deployment, copy
-`.env.example` to `.env`, edit its deployment values, and follow
-[`docs/operations.md`](docs/operations.md).
+These direct `manage.py` commands do not read `.env` — it is consumed by
+Docker Compose only. No extra environment variable is needed for the wiki:
+`WIKI_CONTENT_ROOT` defaults to this checkout's own `content/` directory, and
+the Compose deployment overrides it to the read-only mount point. For a
+Compose deployment, copy `.env.example` to `.env`, edit its deployment
+values, and follow [`docs/operations.md`](docs/operations.md).
 
 The wiki reads its chapters from `WIKI_CONTENT_ROOT` (an allow-listed set
 of `NN-Chapter-Name.md` files under `content/`, see
 `WIKI_CONTENT_ALLOWLIST` in `.env.example`) rather than from any database
-table, so pointing `WIKI_CONTENT_ROOT` at this checkout's `content/`
-directory is enough for local development. In the Docker deployment only
-that same `content/` directory (never the whole repository) is mounted
-read-only into the container, at `/content/wiki` (see `compose.yaml` and
-`docs/operations.md`).
+table. In the Docker deployment only that same `content/` directory (never
+the whole repository) is mounted read-only into the container, at
+`/content/wiki` (see `compose.yaml` and `docs/operations.md`).
+
+The whole corpus is parsed once at process start and held in memory, so
+**editing a Markdown file under `content/` requires a server restart** to
+take effect — `runserver`'s autoreloader watches Python files only.
 
 Every account is admin-created (`bootstrap_admin` creates the first one);
 there is no self-registration. A newly-created account gets a temporary

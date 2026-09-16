@@ -4,28 +4,29 @@ The book's Markdown chapters are mounted read-only into the container. On
 Django startup (``WikiConfig.ready()``), the allow-listed files are parsed
 once into immutable ``WikiChapter``/``WikiSection`` records and a search
 index, and held in a module-level singleton. Requests never touch disk.
+
+Sectioning lives in ``wiki.outline``: each chapter is parsed a single time
+into a heading tree. ``WikiChapter.outline`` holds the top-level nodes for
+navigation; ``WikiChapter.sections`` is the same nodes flattened depth-first,
+which is what the search index consumes.
 """
 from __future__ import annotations
 
 import logging
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from itertools import count
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 
 from django.conf import settings
 from django.utils.text import slugify
-from markdown_it import MarkdownIt
 
 from .markdown import SafeMarkdownRenderer
+from .outline import MIN_SECTION_LEVEL, OutlineNode, parse_outline
 from .search import SearchIndex, build_search_index
 
 logger = logging.getLogger(__name__)
-
-_HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
-_FENCE_RE = re.compile(r"^\s*(```|~~~)")
-
-_plain_text_parser = MarkdownIt("gfm-like", {"html": False, "linkify": False, "typographer": False})
 
 
 @dataclass(frozen=True)
@@ -37,11 +38,19 @@ class WikiSection:
     plain_text: str
     html: str
     ordinal: int
+    #: Heading level as rendered (2-6). Drives both the heading tag and the
+    #: indent level in the table of contents.
+    level: int = MIN_SECTION_LEVEL
+    #: The heading's inline markup, already sanitized. Falls back to the plain
+    #: title. Rendered by the template so no `id` attribute ever has to pass
+    #: through the Bleach allowlist.
+    title_html: str = ""
+    children: Tuple["WikiSection", ...] = ()
     # True for the single implicit section built from the content between the
-    # H1 title and the first H2 heading (see `_split_into_sections`). Its
-    # title always equals the chapter title, so templates use this flag --
-    # not string comparison between `id` and `chapter_slug`, which only
-    # coincide by accident -- to avoid rendering a redundant heading.
+    # H1 title and the first following heading. Its title always equals the
+    # chapter title, so templates use this flag -- not string comparison
+    # between `id` and `chapter_slug`, which only coincide by accident -- to
+    # avoid rendering a redundant heading.
     is_intro: bool = False
 
 
@@ -52,59 +61,29 @@ class WikiChapter:
     source_name: str
     sections: Tuple[WikiSection, ...]
     ordinal: int
+    #: Top-level sections only; each carries its own ``children``.
+    outline: Tuple[WikiSection, ...] = ()
+
+
+def _editorial_patterns() -> Tuple[re.Pattern, ...]:
+    return tuple(
+        re.compile(pattern)
+        for pattern in getattr(settings, "WIKI_EDITORIAL_SECTION_PATTERNS", ())
+    )
 
 
 def _unique_slug(base_slug: str, seen: Dict[str, int]) -> str:
-    count = seen.get(base_slug, 0)
-    seen[base_slug] = count + 1
-    if count == 0:
+    count_so_far = seen.get(base_slug, 0)
+    seen[base_slug] = count_so_far + 1
+    if count_so_far == 0:
         return base_slug
-    return f"{base_slug}-{count + 1}"
+    return f"{base_slug}-{count_so_far + 1}"
 
 
-def _extract_plain_text(markdown_text: str) -> str:
-    tokens = _plain_text_parser.parse(markdown_text or "")
-    fragments: List[str] = []
-    for token in tokens:
-        if token.type != "inline" or not token.children:
-            continue
-        for child in token.children:
-            if child.type in ("text", "code_inline"):
-                fragments.append(child.content)
-            elif child.type in ("softbreak", "hardbreak"):
-                fragments.append(" ")
-    return " ".join("".join(fragments).split())
-
-
-def _split_into_sections(lines: List[str]) -> List[Tuple[Optional[str], List[str]]]:
-    """Split lines after the H1 title into (heading_text_or_None, body_lines).
-
-    The first entry (heading_text is None) is the chapter's own front matter
-    -- any content between the H1 title and the first H2 heading. Every
-    subsequent entry corresponds to one H2 heading.
-
-    Lines inside a fenced code block (delimited by ``` or ~~~) are never
-    treated as heading boundaries, even if they happen to start with "## ".
-    """
-    sections: List[Tuple[Optional[str], List[str]]] = []
-    current_heading: Optional[str] = None
-    current_lines: List[str] = []
-    in_fence = False
-    for line in lines:
-        if _FENCE_RE.match(line):
-            in_fence = not in_fence
-            current_lines.append(line)
-            continue
-        if not in_fence:
-            match = _HEADING_RE.match(line)
-            if match and len(match.group(1)) == 2:
-                sections.append((current_heading, current_lines))
-                current_heading = match.group(2)
-                current_lines = []
-                continue
-        current_lines.append(line)
-    sections.append((current_heading, current_lines))
-    return sections
+def _flatten(sections: Tuple[WikiSection, ...]) -> Iterator[WikiSection]:
+    for section in sections:
+        yield section
+        yield from _flatten(section.children)
 
 
 def _parse_chapter(
@@ -113,23 +92,18 @@ def _parse_chapter(
     ordinal: int,
     renderer: SafeMarkdownRenderer,
     chapter_slugs_seen: Dict[str, int],
-) -> WikiChapter:
-    lines = text.splitlines()
+    editorial_patterns: Tuple[re.Pattern, ...] = (),
+) -> Tuple[WikiChapter, int]:
+    def should_drop(title: str) -> bool:
+        folded = title.casefold().strip()
+        return any(pattern.match(folded) for pattern in editorial_patterns)
 
-    title = None
-    title_index = None
-    for index, line in enumerate(lines):
-        match = _HEADING_RE.match(line)
-        if match and len(match.group(1)) == 1:
-            title = match.group(2)
-            title_index = index
-            break
-
-    if title is None:
-        title = Path(source_name).stem
-        body_lines = lines
-    else:
-        body_lines = lines[title_index + 1 :]
+    title, nodes, dropped = parse_outline(
+        text,
+        renderer,
+        source_name=source_name,
+        should_drop_section=should_drop if editorial_patterns else None,
+    )
 
     # The chapter slug (and thus its URL) is derived from the filename, not
     # the heading text: book filenames follow "<order>-<Name>.md", and using
@@ -137,46 +111,40 @@ def _parse_chapter(
     # edited later.
     file_stem = Path(source_name).stem
     name_part = re.sub(r"^\d+-", "", file_stem)
-    chapter_slug = _unique_slug(slugify(name_part) or slugify(file_stem) or "chapter", chapter_slugs_seen)
+    chapter_slug = _unique_slug(
+        slugify(name_part) or slugify(file_stem) or "chapter", chapter_slugs_seen
+    )
 
-    sections: List[WikiSection] = []
-    section_slugs_seen: Dict[str, int] = {}
-    section_ordinal = 0
-    for heading_text, section_lines in _split_into_sections(body_lines):
-        section_markdown = "\n".join(section_lines)
-        plain_text = _extract_plain_text(section_markdown)
+    ordinals = count()
 
-        is_intro = heading_text is None
-        if is_intro:
-            if not plain_text.strip():
-                continue
-            section_title = title
-        else:
-            section_title = heading_text
-
-        section_id = _unique_slug(slugify(section_title) or "section", section_slugs_seen)
-        section_html = renderer.render(section_markdown)
-        sections.append(
-            WikiSection(
-                id=section_id,
-                chapter_slug=chapter_slug,
-                chapter_title=title,
-                title=section_title,
-                plain_text=plain_text,
-                html=section_html,
-                ordinal=section_ordinal,
-                is_intro=is_intro,
-            )
+    def convert(node: OutlineNode) -> WikiSection:
+        # Pre-order, so a section's ordinal matches its position in the
+        # flattened tuple the search index sorts on.
+        section_ordinal = next(ordinals)
+        return WikiSection(
+            id=node.anchor,
+            chapter_slug=chapter_slug,
+            chapter_title=title,
+            title=node.title,
+            title_html=node.title_html,
+            plain_text=node.plain_text,
+            html=node.html,
+            ordinal=section_ordinal,
+            level=node.level,
+            children=tuple(convert(child) for child in node.children),
+            is_intro=node.is_intro,
         )
-        section_ordinal += 1
 
-    return WikiChapter(
+    outline = tuple(convert(node) for node in nodes)
+    chapter = WikiChapter(
         slug=chapter_slug,
         title=title,
         source_name=source_name,
-        sections=tuple(sections),
+        sections=tuple(_flatten(outline)),
         ordinal=ordinal,
+        outline=outline,
     )
+    return chapter, dropped
 
 
 class WikiRepository:
@@ -192,29 +160,40 @@ class WikiRepository:
         root = Path(settings.WIKI_CONTENT_ROOT)
         allowlist = list(settings.WIKI_CONTENT_ALLOWLIST)
         renderer = SafeMarkdownRenderer()
+        editorial_patterns = _editorial_patterns()
         chapter_slugs_seen: Dict[str, int] = {}
         chapters: List[WikiChapter] = []
+        dropped_total = 0
 
         for ordinal, filename in enumerate(allowlist):
             path = root / filename
             try:
                 text = path.read_text(encoding="utf-8")
             except FileNotFoundError:
-                logger.warning("Wiki content file not found, skipping: %s", filename)
+                logger.error("Wiki content file not found, skipping: %s", filename)
                 continue
             except (OSError, UnicodeDecodeError) as exc:
-                logger.warning(
+                logger.error(
                     "Skipping unreadable wiki content file %s (%s)", filename, exc.__class__.__name__
                 )
                 continue
 
             try:
-                chapter = _parse_chapter(filename, text, ordinal, renderer, chapter_slugs_seen)
+                chapter, dropped = _parse_chapter(
+                    filename, text, ordinal, renderer, chapter_slugs_seen, editorial_patterns
+                )
             except Exception:  # noqa: BLE001 - one bad chapter must not break the rest
                 logger.exception("Failed to parse wiki content file, skipping: %s", filename)
                 continue
 
             chapters.append(chapter)
+            dropped_total += dropped
+
+        if dropped_total:
+            logger.info(
+                "Hid %d editorial section(s) from the wiki (transcription bookkeeping).",
+                dropped_total,
+            )
 
         search_index = build_search_index(chapters)
         return cls(tuple(chapters), search_index)
@@ -224,6 +203,18 @@ class WikiRepository:
 
     def get_chapter(self, slug: str) -> Optional[WikiChapter]:
         return self._by_slug.get(slug)
+
+    def neighbours(self, slug: str) -> Tuple[Optional[WikiChapter], Optional[WikiChapter]]:
+        """The chapters before and after ``slug`` in reading order."""
+        chapter = self._by_slug.get(slug)
+        if chapter is None:
+            return None, None
+        index = self._chapters.index(chapter)
+        previous = self._chapters[index - 1] if index > 0 else None
+        following = (
+            self._chapters[index + 1] if index + 1 < len(self._chapters) else None
+        )
+        return previous, following
 
     def search(self, query: str, limit: int = 30):
         return self._search_index.search(query, limit=limit)
