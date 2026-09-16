@@ -12,3 +12,13 @@ staticfiles
 tests/visual
 *.py[cod]
 docs
+
+# Foreign artefacts that must never ship in the image. Without these,
+# collectstatic picked up 78 OneNote files and hashed them into staticfiles,
+# and a local pytest temp directory was baked in.
+**/*.onetoc2
+graphify-out
+pytest-of-*
+pytest-cache-files-*
+.claude
+.planning

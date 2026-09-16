@@ -270,8 +270,12 @@ adding it to `wiki/manifest.py` — the single source of truth for the chapter
 list, its reading order, each chapter's URL slug, and its grouping on the
 overview page.
 
-`WIKI_STRICT_CONTENT` is on in the container: if the content tree cannot be
-parsed at startup, the process fails to boot instead of serving an empty wiki.
+`WIKI_STRICT_CONTENT` is on in the container: if the wiki loads no chapters at
+all — the usual cause being a wrong or missing content mount — the process
+fails to boot instead of coming up and serving an empty wiki. Note that a
+missing mount does not raise on its own; each unreadable file is logged and
+skipped, so the guard is the "no chapters loaded" check rather than an
+exception. Losing *some* chapters is caught earlier, by `manage.py check`.
 
 > **Action for the project owner:** `.env` still carries a
 > `WIKI_CONTENT_ALLOWLIST=` line listing all chapters. It currently matches
