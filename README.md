@@ -1,9 +1,9 @@
 # Rogue Trader Portal
 
 A self-hosted Django portal for a private Rogue Trader game group: a
-read-only Markdown wiki of the rulebook, isolated per-user character
-sheets, and one shared ship sheet, all rendered as pixel-aligned overlays
-on the original character-sheet artwork.
+read-only, searchable wiki of the rulebook, isolated per-user character
+sheets, and one shared ship sheet, the sheets rendered as pixel-aligned
+overlays on the original character-sheet artwork.
 
 ## Documentation
 
@@ -11,6 +11,7 @@ Start at **[`AGENTS.md`](AGENTS.md)** — the binding entry point. It defines th
 document precedence, who owns which subject, and the test duties. The active
 subject documents are:
 
+- **Wiki chapters — list, reading order, URL slug, grouping:** [`wiki/manifest.py`](wiki/manifest.py)
 - **Sheet field & overlay conventions:** [`docs/charakterbogen-feld-anforderungen.md`](docs/charakterbogen-feld-anforderungen.md)
 - **Layout format (sections, templates, coordinates):** [`docs/sheet-layout.md`](docs/sheet-layout.md)
 - **Calibration, fixtures, manifest:** [`docs/sheet-calibration.md`](docs/sheet-calibration.md)
@@ -24,11 +25,54 @@ The original design spec
 and the implementation plans under `docs/superpowers/plans/` are **history**:
 useful for *why* a decision was made, never authoritative for what is true now.
 
+## Wiki
+
+The rulebook lives as Markdown under `content/`, one file per book chapter.
+There is no database table behind it: the whole corpus is parsed once at
+process start into an immutable in-memory tree, so requests never touch disk.
+
+- **The chapter list is `wiki/manifest.py`** — file names, reading order, each
+  chapter's URL slug and its grouping on the overview page. That is the only
+  place to add or reorder a chapter. `WIKI_CONTENT_ALLOWLIST` still overrides
+  the list from the environment, but nothing needs to set it.
+- **Structure comes from the headings, not from the file layout.** A chapter is
+  parsed into a heading tree; the first `#` is the chapter title and every
+  later heading becomes a navigable section, whatever its level. Chapters whose
+  sub-sections are written as `#` rather than `##` therefore still break apart
+  properly.
+- **Every heading is linkable.** Anchors are derived from the heading text and,
+  where a heading repeats, qualified with its parent — so reordering content
+  does not move someone's bookmark. The anchor is written by the template, so
+  no `id` attribute passes through the HTML sanitizer.
+- **Each chapter page carries its outline as a menu** beside the article,
+  sticky and scrolling on its own, with sub-sections folded away until asked
+  for. A section whose children are really a glossary renders as a compact
+  index instead of a very long list.
+- **Tables** keep the column alignment declared in the Markdown, and a table
+  too wide for the column scrolls inside its own container rather than pushing
+  the page sideways.
+- **Search** is in-memory and covers every section. The book is English while
+  the interface is German, so a curated alias table maps the German terms a
+  group actually says onto the English text; all query terms must still occur
+  in the same section. Term frequency saturates, so a long section cannot win
+  a word by repeating it, and chapters that are navigation rather than rules
+  (the page index, the foreword) carry less weight.
+- **Transcription bookkeeping is hidden from readers.** Several chapters end
+  with PDF page audits left in the Markdown on purpose; they are filtered out
+  at parse time, so the files keep the audit trail while the wiki does not show
+  it. The patterns are `WIKI_EDITORIAL_SECTION_PATTERNS` in `config/settings.py`.
+
+`manage.py check` validates the content tree: a missing or unreadable chapter
+is an error, and a Markdown file under the content root that no chapter serves
+is a warning. With `WIKI_STRICT_CONTENT` enabled — it is, in the container —
+the process refuses to boot when no chapter loads at all, rather than coming up
+and serving an empty wiki.
+
 ## Background assets
 
 `sheets/static/sheets/images/character-page-1.webp`,
 `character-page-2.webp`, and `ship-page.webp` are extracted directly from
-the user's source character-sheet PDF (pages 401 and 402 for the two
+the source character-sheet PDF (pages 401 and 402 for the two
 character-sheet pages, page 403 for the ship sheet). The ship page is
 rotated to landscape for display; the two character pages keep their
 original portrait orientation. No other artwork on any page is interactive.
@@ -83,22 +127,17 @@ py -m venv .venv
 ```
 
 These direct `manage.py` commands do not read `.env` — it is consumed by
-Docker Compose only. No extra environment variable is needed for the wiki:
+Docker Compose only. Nothing extra is needed for the wiki:
 `WIKI_CONTENT_ROOT` defaults to this checkout's own `content/` directory, and
 the Compose deployment overrides it to the read-only mount point. For a
 Compose deployment, copy `.env.example` to `.env`, edit its deployment
-values, and follow [`docs/operations.md`](docs/operations.md).
+values, and follow [`docs/operations.md`](docs/operations.md). In the Docker
+deployment only `content/` (never the whole repository) is mounted read-only
+into the container, at `/content/wiki` — see `compose.yaml`.
 
-The wiki reads its chapters from `WIKI_CONTENT_ROOT` (an allow-listed set
-of `NN-Chapter-Name.md` files under `content/`, see
-`WIKI_CONTENT_ALLOWLIST` in `.env.example`) rather than from any database
-table. In the Docker deployment only that same `content/` directory (never
-the whole repository) is mounted read-only into the container, at
-`/content/wiki` (see `compose.yaml` and `docs/operations.md`).
-
-The whole corpus is parsed once at process start and held in memory, so
-**editing a Markdown file under `content/` requires a server restart** to
-take effect — `runserver`'s autoreloader watches Python files only.
+The corpus is parsed once at process start and held in memory, so **editing a
+Markdown file under `content/` requires a server restart** to take effect;
+`runserver`'s autoreloader watches Python files only.
 
 Every account is admin-created (`bootstrap_admin` creates the first one);
 there is no self-registration. A newly-created account gets a temporary
@@ -121,6 +160,9 @@ layout.
 
 # Generated schemas are in sync with the layout sources.
 .\.venv\Scripts\python -m sheets.layout --check
+
+# Django system checks, including the wiki content tree.
+.\.venv\Scripts\python manage.py check
 
 # Production-shaped Django deployment check (run with DJANGO_DEBUG=false
 # and the other production env vars from .env.example set).
@@ -152,10 +194,18 @@ shared-ship editing and conflict resolution, wiki search, and persistence
 across a simulated restart) against a real headless Chromium browser and a
 real HTTP server. `tests/e2e/test_visual_regression.py` compares each
 sheet page's rendered canvas against its extracted background image
-(`tests/visual/*.png` are the latest captured renders) and checks that
-every schema field -- checkboxes specifically included -- stays correctly
-positioned inside the scaled canvas at the minimum and wide supported
-desktop sizes. `tests/e2e/test_sheet_zoom.py` covers the zoom controller.
+(`tests/visual/*.png` are the latest captured renders, rewritten on every run)
+and checks that every schema field -- checkboxes specifically included --
+stays correctly positioned inside the scaled canvas at the minimum and wide
+supported desktop sizes. `tests/e2e/test_sheet_zoom.py` covers the zoom
+controller.
+
+Two wiki suites guard things a green unit test would otherwise miss:
+`wiki/tests/test_corpus_invariants.py` runs against the real book — anchors
+unique per chapter, every chapter navigable, no section grown back into an
+unnavigable monolith — and `wiki/tests/test_content_language.py` measures the
+text the wiki actually *serves*, so a chapter cannot quietly revert to German
+and an encoding mistake cannot creep back in.
 
 ## Manual acceptance checklist
 
@@ -219,8 +269,8 @@ still require physical-device acceptance by a person.
    confirm mutation/delete attempts on someone else's character fail.
 4. **[automated]** Edit the shared ship from both accounts; confirm the
    audit history and the same-field conflict dialog.
-5. **[automated]** Browse a wiki chapter's section navigation and confirm
-   search finds it.
+5. **[automated]** Browse a wiki chapter's outline and confirm search finds
+   a section and lands on it.
 6. **[manual, desktop acceptance]** In supported desktop browsers at widths
    from 1024 px, and across the 30–100 % zoom range: confirm every
    printed line, value box, and checkbox/marking circle has exactly one
@@ -229,12 +279,15 @@ still require physical-device acceptance by a person.
    click or focus), that the ship page reads upright in landscape, and
    that normal vertical scrolling feels natural and no page creates
    horizontal document overflow.
-7. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
+7. **[manual, wiki]** Read a dense chapter end to end: the outline menu
+   reaches every section, a search result lands below the sticky bars rather
+   than behind them, and no table pushes the page sideways.
+8. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
    isolated Compose project with a disposable volume was rebuilt from a
    clean image and forcibly recreated; account, character, and ship data
    remained intact. On a fresh volume, follow the documented explicit
    `manage.py migrate` step after first boot/deploy before using the app.
-8. **[verified-host, 2026-08-23]** Backup-and-restore rehearsal: against
+9. **[verified-host, 2026-08-23]** Backup-and-restore rehearsal: against
    disposable test data, `scripts/backup.ps1` created a manifest and passed
    SQLite integrity checking; `scripts/restore.ps1` restored the expected
    pre-backup state and the application data passed integrity checking.
