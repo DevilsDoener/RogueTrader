@@ -1911,6 +1911,18 @@
       ],
       "fields": [
         {
+          "id": "c2_armour_head_ap",
+          "kind": "text",
+          "x": 11.3719,
+          "y": -2.1257,
+          "width": 5.2355,
+          "height": 1.9757,
+          "max_length": 2,
+          "label": "Armour head points",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
           "id": "c2_armour_head_type",
           "kind": "text",
           "x": 11.755,
@@ -1920,6 +1932,18 @@
           "max_length": 20,
           "label": "Armour head type",
           "text_style": "line"
+        },
+        {
+          "id": "c2_armour_right_arm_ap",
+          "kind": "text",
+          "x": 0.0192,
+          "y": 4.5287,
+          "width": 5.2355,
+          "height": 2.0373,
+          "max_length": 2,
+          "label": "Armour right arm points",
+          "text_style": "center",
+          "input_mode": "numeric"
         },
         {
           "id": "c2_armour_right_arm_type",
@@ -1933,6 +1957,18 @@
           "text_style": "line"
         },
         {
+          "id": "c2_armour_left_arm_ap",
+          "kind": "text",
+          "x": 22.1901,
+          "y": 4.6211,
+          "width": 5.2174,
+          "height": 2.0065,
+          "max_length": 2,
+          "label": "Armour left arm points",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
           "id": "c2_armour_left_arm_type",
           "kind": "text",
           "x": 22.544,
@@ -1942,6 +1978,18 @@
           "max_length": 20,
           "label": "Armour left_arm type",
           "text_style": "line"
+        },
+        {
+          "id": "c2_armour_body_ap",
+          "kind": "text",
+          "x": 11.2914,
+          "y": 11.2754,
+          "width": 5.2355,
+          "height": 2.0065,
+          "max_length": 2,
+          "label": "Armour body points",
+          "text_style": "center",
+          "input_mode": "numeric"
         },
         {
           "id": "c2_armour_body_type",
@@ -1955,6 +2003,18 @@
           "text_style": "line"
         },
         {
+          "id": "c2_armour_right_leg_ap",
+          "kind": "text",
+          "x": -0.0613,
+          "y": 17.9298,
+          "width": 5.2355,
+          "height": 2.0681,
+          "max_length": 2,
+          "label": "Armour right leg points",
+          "text_style": "center",
+          "input_mode": "numeric"
+        },
+        {
           "id": "c2_armour_right_leg_type",
           "kind": "text",
           "x": 0.322,
@@ -1964,6 +2024,18 @@
           "max_length": 20,
           "label": "Armour right_leg type",
           "text_style": "line"
+        },
+        {
+          "id": "c2_armour_left_leg_ap",
+          "kind": "text",
+          "x": 22.0804,
+          "y": 17.9914,
+          "width": 5.2355,
+          "height": 2.0681,
+          "max_length": 2,
+          "label": "Armour left leg points",
+          "text_style": "center",
+          "input_mode": "numeric"
         },
         {
           "id": "c2_armour_left_leg_type",

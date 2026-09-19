@@ -127,6 +127,38 @@ The sections below are **history**. They state what was true on their date and
 are deliberately not updated; where they conflict with the sections above or
 with the code, the code wins.
 
+## 2026-09-19: Rüstungspunkte je Trefferzone
+
+Jede Trefferzone ist ein gedruckter Kasten mit Name und Trefferbereich oben,
+freier Fläche für den Rüstungswert und einer `TYPE:`-Zeile unten. Nur die
+Typ-Zeile hatte ein Feld; der Wert selbst konnte nirgends eingetragen werden.
+Aufgefallen beim Übernehmen eines ausgefüllten Bogens: sechs Zahlen fanden im
+Schema kein Ziel.
+
+Sechs neue Textfelder `c2_armour_<zone>_ap`, je unmittelbar **vor** der
+zugehörigen Typ-Zeile, damit die Tabulator-Reihenfolge einer Zone dem
+gedruckten Aufbau von oben nach unten folgt. `text_style: "center"` wie bei den
+anderen Werteboxen ohne gedruckte Linie, `input_mode: "numeric"`.
+
+Die Felder nehmen 45 % der freien Kastenbreite ein und sind darin zentriert.
+Über die volle Breite gezogen lasen sie sich wie eine Schreiblinie statt wie
+eine Wertebox; der Wert ist ein- bis zweistellig.
+
+Die Kästen wurden in der Originalgrafik vermessen: Hell-/Dunkelschwellen für
+die Kastenkanten, danach die größte druckfreie Zeilenfolge innerhalb des
+Kastens. Die Unterkante wurde auf 0,15 Prozentpunkte über die Typ-Zeile
+gezogen, damit sich beide nicht überlappen. Gegenprobe: die Positionen der
+sechs Werte aus einem real ausgefüllten PDF fallen alle in die gemessenen
+Flächen.
+
+Beim ersten Durchgang zählte die Tintenerkennung anteilig zur Kastenbreite.
+Die kurze, mittige Bereichszahl („11–20") blieb darunter, und die Felder
+begannen oberhalb davon — sichtbar erst auf der Abdeckungskarte, nicht in den
+Zahlen. Die Erkennung zählt jetzt absolute Dunkelpixel.
+
+Seite 2: 175 → 181 Felder. Contract-Hash und Feldzahlen in
+`sheets/tests/test_schema.py` nachgezogen.
+
 ## Characteristic value boxes (2026-08-26 / 2026-08-27)
 
 Owner convention (`docs/charakterbogen-feld-anforderungen.md`): every

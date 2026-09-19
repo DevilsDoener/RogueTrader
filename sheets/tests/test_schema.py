@@ -448,9 +448,14 @@ class TestLoadSchema:
         # "Special Rules" line per weapon (5), two Corruption malignancy
         # continuation lines, and one Insanity disorders continuation line.
         # Page 2 went 167 -> 175.
+        # 2026-09-19: page 2 grew by 6 text fields -- an armour-points box per
+        # hit location. Each location is printed as a box with its name and hit
+        # range on top, free space for the value, and a "TYPE:" line at the
+        # bottom; only the type line had a field, so the armour value had
+        # nowhere to go. Page 2 went 175 -> 181.
         assert len(character_page_1_schema.fields) == 490
-        assert len(character_page_2_schema.fields) == 175
-        assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 665
+        assert len(character_page_2_schema.fields) == 181
+        assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 671
 
     @pytest.mark.parametrize(
         ("page_id", "expected_digest"),
@@ -460,8 +465,10 @@ class TestLoadSchema:
                 "3d820a42c15536d6d8319408480a192297d02ccbb7d58ffa41bdc6741d44b93a",
             ),
             (
+                # 2026-09-19: six c2_armour_*_ap fields inserted, each ahead of
+                # its own type line so tabbing a location runs top to bottom.
                 "character-page-2",
-                "d200ea7fdb023f263c1d9bdb4b5f15641d973b209ededb9ce51789bda349501a",
+                "1d4847e0118f9246f23b469d77566699b034c1f7a0ee905e646d236b56081ea9",
             ),
         ],
     )
