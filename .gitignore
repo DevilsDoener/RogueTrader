@@ -8,6 +8,12 @@ __pycache__/
 tmp/
 *.py[cod]
 staticfiles/
+# OneNote drops a "Notizbuch öffnen.onetoc2" into every synced folder. They are
+# not project files; staging one by accident is easy because they sit next to
+# real sources and a `git add <directory>` sweeps them up.
+*.onetoc2
+graphify-out/
+pytest-of-*/
 .coverage
 htmlcov/
 playwright-report/
