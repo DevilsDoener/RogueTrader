@@ -145,3 +145,19 @@ def test_zoom_control_is_present_on_read_only_admin_view(
     assert page.locator("#sheet-zoom-level").inner_text() == "100%"
     page.click(".sheet-zoom-out")
     assert page.locator("#sheet-zoom-level").inner_text() == "90%"
+
+
+def test_zoom_toolbar_stays_below_topbar_while_scrolling(
+    page, live_server, owner, character_factory
+):
+    _open_character(page, live_server, owner, character_factory)
+
+    page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
+    page.wait_for_function("window.scrollY > 500")
+
+    toolbar_top = page.locator(".sheet-toolbar").bounding_box()["y"]
+    topbar_bottom = page.locator(".topbar").bounding_box()["height"]
+    assert toolbar_top == pytest.approx(topbar_bottom, abs=1)
+
+    page.click(".sheet-zoom-out")
+    assert page.locator("#sheet-zoom-level").inner_text() == "90%"

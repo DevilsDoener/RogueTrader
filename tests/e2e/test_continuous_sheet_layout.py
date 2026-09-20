@@ -267,11 +267,11 @@ def test_every_text_input_is_bottom_aligned_and_uses_the_shared_size(
     page.set_viewport_size(viewport)
     _open_character(page, live_server, owner, character_factory)
     character_metrics = _all_text_metrics(page)
-    # 341 text fields minus the 94 centred value fields that _all_text_metrics
-    # excludes: 9+9 characteristics, 2 experience totals, and (2026-08-28 owner
-    # review) page-2's 6 movement, 3 lifting and 2 fate boxes, which have no
-    # printed line and are now centred like the characteristic boxes.
-    assert len(character_metrics) == 247
+    # 348 text fields minus the 102 centred value fields that _all_text_metrics
+    # excludes. Armour Weight joins those full-box inputs: its field already
+    # covers the printed box and now fills that whole area instead of keeping
+    # the bottom-anchored single-line treatment.
+    assert len(character_metrics) == 246
 
     page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
     page.wait_for_selector('[data-field-id="ship_name"]')

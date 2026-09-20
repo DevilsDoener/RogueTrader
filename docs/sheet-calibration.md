@@ -40,6 +40,20 @@ slot defaults preserve the calibrated page coordinates. `--check` and the layout
 tests catch stale generated files. See [sheet-layout.md](sheet-layout.md) for
 coordinates, overrides and explicit text/checkbox presentation styles.
 
+## Background sources
+
+The two character pages come from the complete two-page standalone
+`Rogue Trader Character Sheet.pdf`, rendered at 300 DPI with PDF annotations
+hidden. This preserves the full decorative frame and prevents values stored in
+the PDF form from being baked into the backgrounds. The ship page still comes
+from page 403 of the core rulebook and is rotated to landscape.
+
+Recreate the assets with `tools/extract_sheet_assets.py`, passing the core PDF
+as `--pdf` and the standalone sheet as `--character-pdf`. The character images
+must both be 2691 × 3435 pixels. Their layouts were transferred from the older
+cropped scans by page-specific affine registration and then checked with full
+coverage maps from `tools/render_field_coverage.py`.
+
 ## Rendering model (scaling)
 
 Field coordinates are stored as percentages of the page (see `sheets/schema.py`)
@@ -106,8 +120,8 @@ the overlay. The printed box or circle stays the only border.
 `tests/fixtures/font-calibration.json` records dark connected-component glyph
 heights from isolated normal-label crops in the original artwork:
 
-- character page 1, "Character Name": 26 px on a 2444 px canvas
-- character page 2, "Name": 26 px on a 2484 px canvas
+- character page 1, "Character Name": 26 px on the previous 2444 px scan
+- character page 2, "Name": 26 px on the previous 2484 px scan
 - ship page, "Name": 23 px on a 3238 px canvas
 
 The median normalized visible-glyph size is 1.047% of canvas width. Testing
@@ -126,6 +140,20 @@ fits the printed area, and return to the base size for shorter values.
 The sections below are **history**. They state what was true on their date and
 are deliberately not updated; where they conflict with the sections above or
 with the code, the code wins.
+
+## 2026-09-20: vollständiger Rahmen aus der Standalone-PDF
+
+Die beiden beschnittenen Charakterseiten aus dem Regelbuchscan wurden durch
+die vollständigen Seiten der separaten Character-Sheet-PDF ersetzt. Beide
+Hintergründe enthalten jetzt den kompletten linken und rechten Zierrahmen sowie
+die ursprünglichen Seitenränder. Gespeicherte PDF-Formularwerte werden beim
+Rendern mit `-hide-annotations` ausgeblendet.
+
+Alle bestehenden Felder und IDs blieben erhalten. Die Koordinaten wurden pro
+Seite über lokale Bildmerkmale registriert, als affine Abbildung auf die neuen
+2691 × 3435-Pixel-Seiten übertragen und anschließend auf vollständigen
+Abdeckungskarten kontrolliert. Checkbox- und Textlinienreferenzen sowie die
+Quellbild-Hashes wurden auf das neue Druckbild nachgezogen.
 
 ## 2026-09-19: Rüstungspunkte je Trefferzone
 

@@ -1,11 +1,10 @@
-"""Extract the printed character/ship sheet pages from the Rogue Trader core
-rulebook PDF and turn them into immutable, lossless background images.
+"""Extract the complete character sheets and the printed ship sheet.
 
-This script renders pages 401-403 of the source PDF (the printed character
-sheet, its second page, and the starship sheet) at a fixed, deterministic
-resolution using ``pdftoppm``, converts each page to lossless WebP, strips
-incidental metadata, and rotates the ship page (page 403) so that its header
-reads horizontally with the output wider than it is tall.
+This script renders both pages of the standalone character-sheet PDF and page
+403 of the core rulebook at a fixed, deterministic resolution using
+``pdftoppm``. PDF annotations are hidden so saved form values never become
+part of the background. Each page is converted to lossless WebP with metadata
+stripped; the ship page is rotated so its header reads horizontally.
 
 The PDF itself is never committed to the repository; only these derived
 images are. The script is intended to be run once (or re-run if the source
@@ -16,6 +15,7 @@ Usage::
 
     .venv\\Scripts\\python tools\\extract_sheet_assets.py \\
         --pdf "path\\to\\737639872-Rogue-Trader-Core-Rulebook.pdf" \\
+        --character-pdf "path\\to\\Rogue Trader Character Sheet.pdf" \\
         --pdftoppm "path\\to\\pdftoppm.exe" \\
         --output "sheets\\static\\sheets\\images"
 """
@@ -27,19 +27,20 @@ import re
 import shutil
 import subprocess
 import sys
-import tempfile
+import traceback
 from pathlib import Path
 from typing import NamedTuple
+from uuid import uuid4
 
 from PIL import Image
 
 # The three source pages, in printed reading order, and the output filename
 # stem each one is extracted to.
-PAGE_PLAN: tuple[tuple[int, str], ...] = (
-    (401, "character-page-1"),
-    (402, "character-page-2"),
-    (403, "ship-page"),
+CHARACTER_PAGE_PLAN: tuple[tuple[int, str], ...] = (
+    (1, "character-page-1"),
+    (2, "character-page-2"),
 )
+SHIP_PAGE = (403, "ship-page")
 
 # The rulebook page count must be at least this large for pages 401-403 to
 # exist. This is intentionally the exact page we need, not a margin -- if the
@@ -91,11 +92,17 @@ def _render_page(
     page_number: int,
     dpi: int,
     tmp_dir: Path,
+    *,
+    hide_annotations: bool = False,
 ) -> Path:
     """Render a single PDF page to a lossless PNG using pdftoppm."""
     output_prefix = tmp_dir / f"page-{page_number}"
     cmd = [
         str(pdftoppm_path),
+    ]
+    if hide_annotations:
+        cmd.append("-hide-annotations")
+    cmd.extend([
         "-r",
         str(dpi),
         "-f",
@@ -106,7 +113,7 @@ def _render_page(
         "-singlefile",
         str(pdf_path),
         str(output_prefix),
-    ]
+    ])
     subprocess.run(cmd, check=True, capture_output=True)
     png_path = output_prefix.with_suffix(".png")
     if not png_path.exists():
@@ -130,6 +137,7 @@ def _sha256_of(path: Path) -> str:
 
 def extract_assets(
     pdf_path: Path,
+    character_pdf_path: Path,
     pdftoppm_path: Path,
     output_dir: Path,
     dpi: int,
@@ -137,6 +145,8 @@ def extract_assets(
 ) -> list[ExtractedPage]:
     if not pdf_path.exists():
         raise FileNotFoundError(f"PDF not found: {pdf_path}")
+    if not character_pdf_path.exists():
+        raise FileNotFoundError(f"Character-sheet PDF not found: {character_pdf_path}")
     if not pdftoppm_path.exists():
         raise FileNotFoundError(f"pdftoppm executable not found: {pdftoppm_path}")
 
@@ -146,14 +156,35 @@ def extract_assets(
             f"PDF has only {page_count} pages; expected at least "
             f"{MINIMUM_PAGE_COUNT} to contain the character/ship sheets."
         )
+    character_page_count = _get_page_count(character_pdf_path, pdftoppm_path)
+    if character_page_count < 2:
+        raise ValueError(
+            f"Character-sheet PDF has only {character_page_count} page(s); expected 2."
+        )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     results: list[ExtractedPage] = []
 
-    with tempfile.TemporaryDirectory(prefix="sheet-extract-") as tmp:
-        tmp_dir = Path(tmp)
-        for page_number, stem in PAGE_PLAN:
-            png_path = _render_page(pdf_path, pdftoppm_path, page_number, dpi, tmp_dir)
+    # tempfile.TemporaryDirectory creates a mode-0700 directory. On managed
+    # Windows workspaces that can prevent pdftoppm from entering the directory,
+    # so create a regular workspace directory and always remove it ourselves.
+    tmp_dir = output_dir / f".sheet-extract-{uuid4().hex}"
+    tmp_dir.mkdir()
+    try:
+        page_plan = [
+            (character_pdf_path, page_number, stem, True)
+            for page_number, stem in CHARACTER_PAGE_PLAN
+        ]
+        page_plan.append((pdf_path, SHIP_PAGE[0], SHIP_PAGE[1], False))
+        for source_pdf, page_number, stem, hide_annotations in page_plan:
+            png_path = _render_page(
+                source_pdf,
+                pdftoppm_path,
+                page_number,
+                dpi,
+                tmp_dir,
+                hide_annotations=hide_annotations,
+            )
             with Image.open(png_path) as raw_image:
                 image = raw_image.convert("RGB")
 
@@ -193,6 +224,8 @@ def extract_assets(
                     height=image.height,
                 )
             )
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
 
     return results
 
@@ -200,6 +233,12 @@ def extract_assets(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pdf", required=True, type=Path, help="Path to the source rulebook PDF.")
+    parser.add_argument(
+        "--character-pdf",
+        required=True,
+        type=Path,
+        help="Path to the complete two-page standalone character-sheet PDF.",
+    )
     parser.add_argument(
         "--pdftoppm",
         required=True,
@@ -238,6 +277,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         results = extract_assets(
             pdf_path=args.pdf,
+            character_pdf_path=args.character_pdf,
             pdftoppm_path=args.pdftoppm,
             output_dir=args.output,
             dpi=args.dpi,
@@ -245,6 +285,7 @@ def main(argv: list[str] | None = None) -> int:
         )
     except Exception as exc:  # noqa: BLE001 - surface any failure to the operator
         print(f"ERROR: {exc}", file=sys.stderr)
+        traceback.print_exc()
         return 1
 
     print("Extracted sheet assets:")

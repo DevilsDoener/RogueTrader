@@ -495,3 +495,24 @@ def test_page_2_edge_conflicts_are_fully_visible_and_resolvable_on_desktop(
         )
         page.reload()
         assert page.input_value(f'[data-field-id="{field_id}"]') == local_value
+
+
+def test_speak_language_fourth_row_survives_reload(page, live_server, owner, character_factory):
+    character = character_factory(owner=owner)
+    login_via_browser(page, live_server, username=owner.username)
+    page.goto(f"{live_server.url}/characters/{character.id}/")
+    for suffix in ("basic", "trained", "plus10", "plus20", "bonus"):
+        field = page.locator(f'[data-field-id="c1_skill_speak_language_custom_3_{suffix}"]')
+        if suffix == "bonus":
+            field.fill("15")
+            field.blur()
+        else:
+            field.check()
+        page.wait_for_function(
+            "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
+            timeout=5000,
+        )
+    page.reload()
+    for suffix in ("basic", "trained", "plus10", "plus20"):
+        assert page.is_checked(f'[data-field-id="c1_skill_speak_language_custom_3_{suffix}"]')
+    assert page.input_value('[data-field-id="c1_skill_speak_language_custom_3_bonus"]') == "15"

@@ -1,18 +1,18 @@
 {
-  "reviewed_on": "2026-09-15",
-  "method": "Original-resolution contact crops visually checked against printed marking surfaces; production schemas are not read by the renderer. 2026-08-27: the bottom skill rows (character-page-1 Gamble..Invocation and Survival..Wrangling) were re-aligned one square down to their printed checkbox squares after an owner review found them shifted up a row (Invocation/Wrangling squares were left empty). 2026-08-27b: the 36 character-page-1 'Adv. Taken' pips were re-centred on their printed circles and enlarged to fill them (owner review). 2026-08-28: the 36 character-page-2 'Adv. Taken' pips were levelled to a single common height (top=738, bottom=753) at the owner's request; the printed pips drift ~8px down left-to-right, so this deliberately trades exact per-pip circle registration (worst case ~4px) for a perfectly flat pip row. 2026-09-14: actual printed artwork takes precedence over the former flat-row convention. Page-2 pips re-centred individually by ring-contrast measurement and visual crops; ship marking bounds and circular styles remeasured from ink. Character-page-1 checkbox registration retained after crop review. Page1 circles individually fitted at21px outer diameter; Bonus cells converted to numeric input.",
+  "reviewed_on": "2026-09-20",
+  "method": "Original-resolution contact crops visually checked against printed marking surfaces; production schemas are not read by the renderer. 2026-08-27: the bottom skill rows (character-page-1 Gamble..Invocation and Survival..Wrangling) were re-aligned one square down to their printed checkbox squares after an owner review found them shifted up a row (Invocation/Wrangling squares were left empty). 2026-08-27b: the 36 character-page-1 'Adv. Taken' pips were re-centred on their printed circles and enlarged to fill them (owner review). 2026-08-28: the 36 character-page-2 'Adv. Taken' pips were levelled to a single common height (top=738, bottom=753) at the owner's request; the printed pips drift ~8px down left-to-right, so this deliberately trades exact per-pip circle registration (worst case ~4px) for a perfectly flat pip row. 2026-09-14: actual printed artwork takes precedence over the former flat-row convention. Page-2 pips re-centred individually by ring-contrast measurement and visual crops; ship marking bounds and circular styles remeasured from ink. Character-page-1 checkbox registration retained after crop review. Page1 circles individually fitted at21px outer diameter; Bonus cells converted to numeric input. Speak Language fourth row measured against original artwork: four checkbox interiors at y=2322..2363. 2026-09-20: both character pages transferred by affine registration to the full standalone two-page character-sheet artwork; complete coverage maps were visually checked against the printed boxes, lines, circles, and full frame.",
   "rectangle_reference": {
     "path": "tests/fixtures/checkbox-rectangles.json",
-    "sha256": "37ab996e83a9b528ff4962317d01ae9d13079d6a2c6a6545f41bcc45a53f96aa"
+    "sha256": "bcd13f3b0ffccb97b5d03be1f5f39ffb647123eb5fd8b52195a2b13a4e0ffbdd"
   },
   "sources": {
     "character-page-1": {
       "path": "sheets/static/sheets/images/character-page-1.webp",
-      "sha256": "218e11ae4062f0621d6b213daadfbfe2e7fb1c259aac6a01fe5c5dfb14a18990"
+      "sha256": "fb70a9fe15857f32a85600f0e2b6ae26e26134a8ace63b450d36a094e7cbcad0"
     },
     "character-page-2": {
       "path": "sheets/static/sheets/images/character-page-2.webp",
-      "sha256": "86396b384e6ab35398a261cd7cc0565cfe16aca089f1c67b39e7b8251406e77f"
+      "sha256": "e5f9f0f4e475db8a8fdd9c4d2a0d715fbd5b2b1807db7849035b4b2a617e6663"
     },
     "ship-page": {
       "path": "sheets/static/sheets/images/ship-page.webp",

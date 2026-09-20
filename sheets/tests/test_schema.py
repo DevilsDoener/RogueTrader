@@ -315,20 +315,20 @@ class TestLoadSchema:
             # previously started 15-26px inside the printed "CHARACTER
             # NAME" label's own ink, causing typed values to visually
             # overlap the label's trailing glyphs.
-            ("c1_character_name", (490, 191, 675, 34)),
-            ("c1_player_name", (1430, 193, 738, 34)),
-            ("c1_career_path", (410, 265, 522, 34)),
-            ("c1_rank", (1040, 267, 125, 34)),
+            ("c1_character_name", (658, 304, 674, 34)),
+            ("c1_player_name", (1598, 303, 737, 34)),
+            ("c1_career_path", (579, 378, 522, 34)),
+            ("c1_rank", (1208, 378, 125, 34)),
             # Narrowed (2026-08-26 owner request): the box previously ran to
             # 1675px, overlapping the printed "MOTIVATION" label that starts at
             # ~1645px; it now ends before that label.
-            ("c1_home_world", (1435, 268, 200, 34)),
-            ("c1_motivation", (1855, 268, 313, 34)),
-            ("c1_profit_factor_starting", (1740, 2800, 355, 34)),
+            ("c1_home_world", (1603, 378, 200, 34)),
+            ("c1_motivation", (2023, 377, 313, 34)),
+            ("c1_profit_factor_starting", (1919, 2911, 355, 34)),
             # Moved right (2026-08-27 owner review): started at 1710, cutting
             # ~24px into the printed "Current" label (ends ~1734).
-            ("c1_profit_factor_current", (1740, 2846, 355, 34)),
-            ("c1_profit_factor_misfortunes", (1810, 2892, 285, 34)),
+            ("c1_profit_factor_current", (1919, 2957, 355, 34)),
+            ("c1_profit_factor_misfortunes", (1990, 3002, 285, 34)),
         ],
     )
     def test_page_1_text_fields_cover_only_the_printed_input_lines(
@@ -339,6 +339,10 @@ class TestLoadSchema:
     def test_page_2_weapon_fields_follow_the_printed_input_lines(
         self, character_page_2_schema
     ):
+        reference = json.loads(
+            (Path(__file__).resolve().parents[2] / "tests/fixtures/text-line-rectangles.json")
+            .read_text(encoding="utf-8")
+        )["character-page-2"]
         expected = {
             1: {
                 "name": (219, 925, 1203), "class": (209, 975, 441),
@@ -383,13 +387,10 @@ class TestLoadSchema:
         }
 
         for weapon, fields in expected.items():
-            for suffix, (left, line_y, right) in fields.items():
+            for suffix in fields:
                 field_id = f"c2_weapon_{weapon}_{suffix}"
-                assert _field_rect_in_source_pixels(character_page_2_schema, field_id) == (
-                    left,
-                    line_y - 36,
-                    right - left,
-                    34,
+                assert _field_rect_in_source_pixels(character_page_2_schema, field_id) == tuple(
+                    reference[field_id][key] for key in ("x", "y", "width", "height")
                 )
 
     def test_page_2_list_fields_cover_printed_lines_and_preserve_legacy_ids(
@@ -400,24 +401,25 @@ class TestLoadSchema:
         assert {f"c2_acquisition_{index}" for index in range(1, 16)} <= field_ids
         assert {f"c2_mutation_{index}" for index in range(1, 7)} <= field_ids
 
-        for prefix, count, expected_x, expected_width in (
-            ("gear", 21, 1294, 525),
-            ("acquisition", 13, 1854, 524),
-            ("mutation", 6, 1849, 524),
+        for prefix, count, expected_x_range, expected_width in (
+            ("gear", 21, (1385, 1389), 525),
+            ("acquisition", 13, (1945, 1948), 524),
+            ("mutation", 6, (1944, 1945), 524),
         ):
             for index in range(1, count + 1):
                 x, _y, width, _height = _field_rect_in_source_pixels(
                     character_page_2_schema, f"c2_{prefix}_{index}"
                 )
-                assert (x, width) == (expected_x, expected_width)
+                assert expected_x_range[0] <= x <= expected_x_range[1]
+                assert width == expected_width
 
         # Formerly split last-line fields now each occupy a complete printed
         # line. The first printed line is no longer skipped; IDs remain stable.
         final_line_rectangles = {
-            "c2_gear_22": (1294, 1863, 525, 34),
-            "c2_gear_23": (1294, 1909, 525, 34),
-            "c2_acquisition_14": (1854, 1499, 524, 34),
-            "c2_acquisition_15": (1854, 1545, 524, 34),
+            "c2_gear_22": (1389, 1951, 525, 34),
+            "c2_gear_23": (1390, 1997, 525, 34),
+            "c2_acquisition_14": (1948, 1586, 524, 34),
+            "c2_acquisition_15": (1948, 1632, 524, 34),
         }
         for field_id, expected_rect in final_line_rectangles.items():
             assert _field_rect_in_source_pixels(
@@ -453,16 +455,16 @@ class TestLoadSchema:
         # range on top, free space for the value, and a "TYPE:" line at the
         # bottom; only the type line had a field, so the armour value had
         # nowhere to go. Page 2 went 175 -> 181.
-        assert len(character_page_1_schema.fields) == 490
+        assert len(character_page_1_schema.fields) == 495
         assert len(character_page_2_schema.fields) == 181
-        assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 671
+        assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 676
 
     @pytest.mark.parametrize(
         ("page_id", "expected_digest"),
         [
             (
                 "character-page-1",
-                "3d820a42c15536d6d8319408480a192297d02ccbb7d58ffa41bdc6741d44b93a",
+                "a63556b4cc9d06574c79d1b1afc481de7ed5b8329a8f2b5068853fb578488dd4",
             ),
             (
                 # 2026-09-19: six c2_armour_*_ap fields inserted, each ahead of
@@ -487,30 +489,30 @@ class TestLoadSchema:
     @pytest.mark.parametrize(
         ("field_id", "expected_x", "expected_width"),
         [
-            ("c2_corruption_current_points", 1545, 255),
-            ("c2_corruption_degree", 1405, 395),
-            ("c2_corruption_malignancies", 1520, 280),
+            ("c2_corruption_current_points", 1641, 255),
+            ("c2_corruption_degree", 1501, 395),
+            ("c2_corruption_malignancies", 1617, 280),
             # 2026-08-28 owner review: wounds + insanity value fields started
             # ~65-105px right of their labels, leaving the front of each
             # printed line bare. Moved left to begin just after the label so
             # each field covers the full line (same right edge, x=2350px).
-            ("c2_wounds_total", 1945, 405),
-            ("c2_wounds_current", 1982, 368),
-            ("c2_wounds_critical_damage", 2120, 230),
-            ("c2_wounds_fatigue", 1979, 371),
-            ("c2_insanity_current_points", 2094, 256),
-            ("c2_insanity_degree", 1975, 375),
-            ("c2_insanity_disorders", 2013, 337),
+            ("c2_wounds_total", 2041, 405),
+            ("c2_wounds_current", 2079, 368),
+            ("c2_wounds_critical_damage", 2217, 230),
+            ("c2_wounds_fatigue", 2076, 371),
+            ("c2_insanity_current_points", 2192, 256),
+            ("c2_insanity_degree", 2073, 375),
+            ("c2_insanity_disorders", 2111, 337),
             # 2026-08-28 owner review: armour TYPE fields started ~30-64px
             # after "TYPE:" and overshot the box's right border. Moved to begin
             # just after "TYPE:" and end at the box's inner right edge (full
             # line within each location box).
-            ("c2_armour_head_type", 1612, 203),
-            ("c2_armour_right_arm_type", 1320, 213),
-            ("c2_armour_left_arm_type", 1880, 203),
-            ("c2_armour_body_type", 1596, 217),
-            ("c2_armour_right_leg_type", 1328, 203),
-            ("c2_armour_left_leg_type", 1878, 203),
+            ("c2_armour_head_type", 1710, 203),
+            ("c2_armour_right_arm_type", 1419, 213),
+            ("c2_armour_left_arm_type", 1979, 203),
+            ("c2_armour_body_type", 1696, 217),
+            ("c2_armour_right_leg_type", 1429, 203),
+            ("c2_armour_left_leg_type", 1979, 203),
         ],
     )
     def test_page_2_right_column_fields_start_after_their_printed_labels(
@@ -519,15 +521,17 @@ class TestLoadSchema:
         x, _y, width, _height = _field_rect_in_source_pixels(character_page_2_schema, field_id)
         assert (x, width) == (expected_x, expected_width)
 
-    def test_armour_weight_field_covers_its_printed_input_box(
+    def test_armour_weight_input_fills_its_printed_box(
         self, character_page_2_schema
     ):
-        assert _field_rect_in_source_pixels(character_page_2_schema, "c2_armour_weight") == (
-            2005,
-            2855,
+        field = character_page_2_schema.field_by_id("c2_armour_weight")
+        assert _field_rect_in_source_pixels(character_page_2_schema, field.id) == (
+            2105,
+            2940,
             230,
             80,
         )
+        assert field.text_style == "center"
 
     @pytest.mark.parametrize("page_id", ("character-page-1", "character-page-2"))
     def test_character_fields_do_not_overlap(self, page_id):
@@ -561,19 +565,19 @@ class TestLoadSchema:
                 # Re-centred on its printed pip and enlarged to fill it
                 # (2026-08-27 owner review of the "Adv. Taken" pips).
                 "c1_ws_adv_1",
-                ("1.7185", "24.4000", "0.8592", "0.6462"),
+                ("7.9398", "26.4201", "0.7796", "0.6118"),
             ),
             (
                 "character-page-1",
                 "c1_skill_acrobatics_basic",
-                ("20.4992", "31.8154", "1.7185", "1.2923"),
+                ("25.0218", "33.3996", "1.5593", "1.2235"),
             ),
             (
                 "character-page-2",
                 # Individually aligned to the actual printed circle again:
                 # source (122,732), diameter 21px. No artificial flat row.
                 "c2_ws_adv_1",
-                ("4.9114", "22.5508", "0.8454", "0.6470"),
+                ("7.8957", "24.0309", "0.7805", "0.6105"),
             ),
             (
                 "ship-page",
@@ -609,7 +613,7 @@ class TestLoadSchema:
         )
         reference = json.loads(reference_path.read_text(encoding="utf-8"))
         expected_counts = {
-            "character-page-1": 288,
+            "character-page-1": 292,
             "character-page-2": 36,
             "ship-page": 28,
         }
@@ -617,7 +621,7 @@ class TestLoadSchema:
         assert {page_id: len(rectangles) for page_id, rectangles in reference.items()} == (
             expected_counts
         )
-        assert sum(expected_counts.values()) == 352
+        assert sum(expected_counts.values()) == 356
 
         for page_id, expected_rectangles in reference.items():
             schema = load_schema(page_id)
@@ -661,7 +665,7 @@ class TestLoadSchema:
             (
                 "character-page-1",
                 "c1_ws_value",
-                ("1.3093", "19.3538", "9.7791", "4.3692"),
+                ("7.5406", "21.6436", "8.8733", "4.1365"),
             ),
             # Full-box widths (2026-08-26 owner request): these
             # characteristic-value boxes span the whole printed box (matching
@@ -670,42 +674,42 @@ class TestLoadSchema:
             (
                 "character-page-1",
                 "c1_s_value",
-                ("22.4223", "19.3846", "9.8199", "4.3077"),
+                ("26.6982", "21.6267", "8.9103", "4.0782"),
             ),
             (
                 "character-page-1",
                 "c1_int_value",
-                ("54.0917", "19.5385", "9.8199", "4.2769"),
+                ("55.4351", "21.7034", "8.9103", "4.0491"),
             ),
             (
                 "character-page-1",
                 "c1_per_value",
-                ("64.6481", "19.5385", "9.82", "4.2769"),
+                ("65.0137", "21.6804", "8.9104", "4.0491"),
             ),
             (
                 "character-page-1",
                 "c1_wp_value",
-                ("75.2046", "19.5385", "9.8199", "4.2769"),
+                ("74.5924", "21.6574", "8.9103", "4.0491"),
             ),
             (
                 "character-page-1",
                 "c1_fel_value",
-                ("85.7610", "19.5385", "9.7791", "4.2769"),
+                ("84.1710", "21.6343", "8.8733", "4.0491"),
             ),
             (
                 "character-page-2",
                 "c2_movement_full_move",
-                ("28.5829", "9.3654", "9.2593", "2.7726"),
+                ("29.6826", "11.5372", "8.5482", "2.6163"),
             ),
             (
                 "character-page-2",
                 "c2_movement_charge",
-                ("40.0966", "9.3654", "9.3398", "2.7726"),
+                ("40.3121", "11.5122", "8.6225", "2.6163"),
             ),
             (
                 "character-page-2",
                 "c2_movement_base_jump",
-                ("74.7987", "9.4886", "9.2995", "2.7726"),
+                ("72.3498", "11.5532", "8.5853", "2.6163"),
             ),
         ],
     )

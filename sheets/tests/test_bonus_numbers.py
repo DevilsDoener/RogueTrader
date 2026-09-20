@@ -7,7 +7,7 @@ from sheets.schema import load_schema, SchemaError
 
 def test_all_bonus_cells_accept_two_digit_numbers():
     fields=[f for f in load_schema("character-page-1").fields if f.id.endswith("_bonus")]
-    assert len(fields)==63
+    assert len(fields)==64
     for field in fields:
         assert field.kind=="text" and field.input_mode=="numeric"
         assert field.text_style=="center" and field.max_length==2

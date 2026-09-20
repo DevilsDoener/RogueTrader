@@ -1,8 +1,8 @@
 {
   "page_id": "character-page-2",
   "image": {
-    "width": 2484,
-    "height": 3246
+    "width": 2691,
+    "height": 3435
   },
   "templates": {
     "characteristic": {
@@ -10,8 +10,8 @@
         "kind": "text",
         "x": 0.0,
         "y": 0.0,
-        "width": 9.1787,
-        "height": 4.313,
+        "width": 8.4738,
+        "height": 4.0699,
         "max_length": 2,
         "align": "center",
         "text_style": "characteristic",
@@ -21,35 +21,35 @@
         "kind": "checkbox",
         "x": 0.0,
         "y": 0.0,
-        "width": 0.6039,
-        "height": 0.4621,
+        "width": 0.5575,
+        "height": 0.4361,
         "max_length": 1,
         "checkbox_style": "pip"
       },
       "adv_2": {
         "kind": "checkbox",
-        "x": 1.0467,
-        "y": 0.0,
-        "width": 0.6039,
-        "height": 0.4621,
+        "x": 0.9663,
+        "y": -0.0023,
+        "width": 0.5575,
+        "height": 0.4361,
         "max_length": 1,
         "checkbox_style": "pip"
       },
       "adv_3": {
         "kind": "checkbox",
-        "x": 2.0934,
-        "y": 0.0,
-        "width": 0.6039,
-        "height": 0.4621,
+        "x": 1.9326,
+        "y": -0.0045,
+        "width": 0.5575,
+        "height": 0.4361,
         "max_length": 1,
         "checkbox_style": "pip"
       },
       "adv_4": {
         "kind": "checkbox",
-        "x": 3.0999,
-        "y": 0.0,
-        "width": 0.6039,
-        "height": 0.4621,
+        "x": 2.8618,
+        "y": -0.0067,
+        "width": 0.5575,
+        "height": 0.4361,
         "max_length": 1,
         "checkbox_style": "pip"
       }
@@ -57,100 +57,100 @@
     "weapon": {
       "name": {
         "kind": "text",
-        "x": 3.7439,
-        "y": 0.0,
-        "width": 39.6135,
-        "height": 1.0474,
+        "x": 3.4564,
+        "y": -0.0081,
+        "width": 36.5713,
+        "height": 0.9884,
         "max_length": 60,
         "text_style": "line"
       },
       "class": {
         "kind": "text",
-        "x": 3.3413,
-        "y": 1.5403,
-        "width": 9.3398,
-        "height": 1.0474,
+        "x": 3.0925,
+        "y": 1.4462,
+        "width": 8.6225,
+        "height": 0.9884,
         "max_length": 20,
         "text_style": "line"
       },
       "damage": {
         "kind": "text",
-        "x": 18.2367,
-        "y": 1.5403,
-        "width": 8.4138,
-        "height": 1.0474,
+        "x": 16.844,
+        "y": 1.4139,
+        "width": 7.7676,
+        "height": 0.9884,
         "max_length": 12,
         "text_style": "line"
       },
       "type": {
         "kind": "text",
-        "x": 30.1529,
-        "y": 1.5403,
-        "width": 5.1127,
-        "height": 1.0474,
+        "x": 27.845,
+        "y": 1.3881,
+        "width": 4.7201,
+        "height": 0.9884,
         "max_length": 12,
         "text_style": "line"
       },
       "pen": {
         "kind": "text",
-        "x": 38.0434,
-        "y": 1.5403,
-        "width": 5.1127,
-        "height": 1.0474,
+        "x": 35.1296,
+        "y": 1.3709,
+        "width": 4.7201,
+        "height": 0.9884,
         "max_length": 8,
         "text_style": "line"
       },
       "range": {
         "kind": "text",
-        "x": 4.066,
-        "y": 3.0807,
-        "width": 8.5346,
-        "height": 1.0474,
+        "x": 3.7693,
+        "y": 2.8983,
+        "width": 7.8792,
+        "height": 0.9884,
         "max_length": 12,
         "text_style": "line"
       },
       "rof": {
         "kind": "text",
-        "x": 16.0225,
-        "y": 3.0807,
-        "width": 8.4944,
-        "height": 1.0474,
+        "x": 14.8076,
+        "y": 2.8723,
+        "width": 7.8421,
+        "height": 0.9884,
         "max_length": 12,
         "text_style": "line"
       },
       "clip": {
         "kind": "text",
-        "x": 27.5765,
-        "y": 3.0807,
-        "width": 5.1932,
-        "height": 1.0474,
+        "x": 25.4743,
+        "y": 2.8472,
+        "width": 4.7944,
+        "height": 0.9884,
         "max_length": 8,
         "text_style": "line"
       },
       "reload": {
         "kind": "text",
-        "x": 37.5201,
-        "y": 3.0807,
-        "width": 5.153,
-        "height": 1.0474,
+        "x": 34.6543,
+        "y": 2.8257,
+        "width": 4.7573,
+        "height": 0.9884,
         "max_length": 12,
         "text_style": "line"
       },
       "special_rules_1": {
         "kind": "text",
-        "x": 8.6236,
-        "y": 4.621,
-        "width": 34.3313,
-        "height": 1.0474,
+        "x": 7.9847,
+        "y": 4.3419,
+        "width": 31.6948,
+        "height": 0.9884,
         "max_length": 100,
         "text_style": "line"
       },
       "special_rules_2": {
         "kind": "text",
-        "x": 0.0,
-        "y": 6.1614,
-        "width": 42.9549,
-        "height": 1.0474,
+        "x": 0.0312,
+        "y": 5.8142,
+        "width": 39.6561,
+        "height": 0.9884,
         "max_length": 100,
         "text_style": "line"
       }
@@ -160,8 +160,8 @@
     {
       "id": "c2_movement",
       "origin": [
-        17.1095,
-        9.3654
+        19.0903,
+        11.5621
       ],
       "fields": [
         {
@@ -169,8 +169,8 @@
           "kind": "text",
           "x": 0.0,
           "y": 0.0,
-          "width": 9.219,
-          "height": 2.7726,
+          "width": 8.511,
+          "height": 2.6163,
           "max_length": 6,
           "label": "half move",
           "align": "center",
@@ -180,10 +180,10 @@
         {
           "id": "c2_movement_full_move",
           "kind": "text",
-          "x": 11.4734,
-          "y": 0.0,
-          "width": 9.2593,
-          "height": 2.7726,
+          "x": 10.5923,
+          "y": -0.0249,
+          "width": 8.5482,
+          "height": 2.6163,
           "max_length": 7,
           "label": "full move",
           "align": "center",
@@ -194,10 +194,10 @@
         {
           "id": "c2_movement_charge",
           "kind": "text",
-          "x": 22.9871,
-          "y": 0.0,
-          "width": 9.3398,
-          "height": 2.7726,
+          "x": 21.2218,
+          "y": -0.0499,
+          "width": 8.6225,
+          "height": 2.6163,
           "max_length": 7,
           "label": "charge",
           "align": "center",
@@ -208,10 +208,10 @@
         {
           "id": "c2_movement_run",
           "kind": "text",
-          "x": 34.6216,
-          "y": 0.0,
-          "width": 9.219,
-          "height": 2.8343,
+          "x": 31.9628,
+          "y": -0.0751,
+          "width": 8.511,
+          "height": 2.6746,
           "max_length": 7,
           "label": "run",
           "align": "center",
@@ -222,10 +222,10 @@
         {
           "id": "c2_movement_base_leap",
           "kind": "text",
-          "x": 46.1755,
-          "y": 0.0924,
-          "width": 9.1787,
-          "height": 2.7726,
+          "x": 42.6298,
+          "y": -0.013,
+          "width": 8.4738,
+          "height": 2.6163,
           "max_length": 6,
           "label": "base leap",
           "align": "center",
@@ -234,10 +234,10 @@
         {
           "id": "c2_movement_base_jump",
           "kind": "text",
-          "x": 57.6892,
-          "y": 0.1232,
-          "width": 9.2995,
-          "height": 2.7726,
+          "x": 53.2595,
+          "y": -0.0089,
+          "width": 8.5853,
+          "height": 2.6163,
           "max_length": 6,
           "label": "base jump",
           "align": "center",
@@ -248,8 +248,8 @@
     {
       "id": "c2_ws",
       "origin": [
-        4.5894,
-        17.5293
+        7.573,
+        19.2931
       ],
       "fields": [
         {
@@ -263,16 +263,16 @@
     {
       "id": "c2_bs",
       "origin": [
-        14.8953,
-        17.5601
+        17.0876,
+        19.2998
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_bs_value",
           "label": "BS value",
-          "width": 9.219,
-          "height": 4.2822
+          "width": 8.511,
+          "height": 4.0409
         }
       ],
       "template": "characteristic"
@@ -280,16 +280,16 @@
     {
       "id": "c2_s",
       "origin": [
-        25.2818,
-        17.5909
+        26.6766,
+        19.3063
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_s_value",
           "label": "S value",
-          "width": 9.1591,
-          "height": 4.2514
+          "width": 8.4557,
+          "height": 4.0118
         }
       ],
       "template": "characteristic"
@@ -297,16 +297,16 @@
     {
       "id": "c2_t",
       "origin": [
-        35.6683,
-        17.6217
+        36.2656,
+        19.3129
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_t_value",
           "label": "T value",
-          "width": 9.0987,
-          "height": 4.2206
+          "width": 8.3999,
+          "height": 3.9827
         }
       ],
       "template": "characteristic"
@@ -314,16 +314,16 @@
     {
       "id": "c2_ag",
       "origin": [
-        45.9742,
-        17.6217
+        45.7801,
+        19.2905
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_ag_value",
           "label": "AG value",
-          "width": 9.139,
-          "height": 4.2514
+          "width": 8.4372,
+          "height": 4.0118
         }
       ],
       "template": "characteristic"
@@ -331,16 +331,16 @@
     {
       "id": "c2_int",
       "origin": [
-        56.3205,
-        17.6525
+        55.3319,
+        19.2971
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_int_value",
           "label": "INT value",
-          "width": 9.139,
-          "height": 4.2514
+          "width": 8.4372,
+          "height": 4.0118
         }
       ],
       "template": "characteristic"
@@ -348,16 +348,16 @@
     {
       "id": "c2_per",
       "origin": [
-        66.6667,
-        17.7141
+        64.8839,
+        19.3328
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_per_value",
           "label": "PER value",
-          "width": 9.0987,
-          "height": 4.2514
+          "width": 8.3999,
+          "height": 4.0118
         }
       ],
       "template": "characteristic"
@@ -365,16 +365,16 @@
     {
       "id": "c2_wp",
       "origin": [
-        76.9726,
-        17.7449
+        74.3985,
+        19.3395
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_wp_value",
           "label": "WP value",
-          "width": 9.1592,
-          "height": 4.2822
+          "width": 8.4558,
+          "height": 4.0409
         }
       ],
       "template": "characteristic"
@@ -382,16 +382,16 @@
     {
       "id": "c2_fel",
       "origin": [
-        87.2786,
-        17.7757
+        83.9132,
+        19.3462
       ],
       "fields": [
         {
           "slot": "value",
           "id": "c2_fel_value",
           "label": "FEL value",
-          "width": 9.1994,
-          "height": 4.2514
+          "width": 8.4929,
+          "height": 4.0118
         }
       ],
       "template": "characteristic"
@@ -399,45 +399,45 @@
     {
       "id": "c2_ws-2",
       "origin": [
-        4.9919,
-        22.7357
+        7.971,
+        24.2052
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_ws_adv_1",
           "label": "WS advance 1",
-          "x": -0.0805,
-          "y": -0.1849,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.0753,
+          "y": -0.1743,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_ws_adv_2",
           "label": "WS advance 2",
-          "x": 0.926,
-          "y": -0.1849,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.854,
+          "y": -0.1765,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_ws_adv_3",
           "label": "WS advance 3",
-          "x": 1.9727,
-          "y": -0.1541,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8204,
+          "y": -0.1497,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_ws_adv_4",
           "label": "WS advance 4",
-          "x": 3.0194,
-          "y": -0.1541,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7867,
+          "y": -0.152,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -445,45 +445,45 @@
     {
       "id": "c2_bs-2",
       "origin": [
-        15.3382,
-        22.7357
+        17.5227,
+        24.1828
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_bs_adv_1",
           "label": "BS advance 1",
-          "x": -0.0806,
-          "y": -0.1541,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.0752,
+          "y": -0.1452,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_bs_adv_2",
           "label": "BS advance 2",
-          "x": 0.9661,
-          "y": -0.1541,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8911,
+          "y": -0.1475,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_bs_adv_3",
           "label": "BS advance 3",
-          "x": 1.9726,
-          "y": -0.1541,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8203,
+          "y": -0.1497,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_bs_adv_4",
           "label": "BS advance 4",
-          "x": 3.0193,
-          "y": -0.1541,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7866,
+          "y": -0.152,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -491,45 +491,45 @@
     {
       "id": "c2_s-2",
       "origin": [
-        25.6844,
-        22.7357
+        27.0743,
+        24.1603
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_s_adv_1",
           "label": "S advance 1",
-          "x": -0.1208,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.1121,
+          "y": -0.1161,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_s_adv_2",
           "label": "S advance 2",
-          "x": 0.9259,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8542,
+          "y": -0.1184,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_s_adv_3",
           "label": "S advance 3",
-          "x": 1.9726,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8205,
+          "y": -0.1206,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_s_adv_4",
           "label": "S advance 4",
-          "x": 3.0193,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7868,
+          "y": -0.1229,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -537,45 +537,45 @@
     {
       "id": "c2_t-2",
       "origin": [
-        36.0306,
-        22.7357
+        36.626,
+        24.1379
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_t_adv_1",
           "label": "T advance 1",
-          "x": -0.0805,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.0749,
+          "y": -0.1162,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_t_adv_2",
           "label": "T advance 2",
-          "x": 0.9259,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8542,
+          "y": -0.1184,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_t_adv_3",
           "label": "T advance 3",
-          "x": 1.9726,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8205,
+          "y": -0.1206,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_t_adv_4",
           "label": "T advance 4",
-          "x": 3.0193,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7868,
+          "y": -0.1229,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -583,45 +583,45 @@
     {
       "id": "c2_ag-2",
       "origin": [
-        46.3768,
-        22.7357
+        46.1776,
+        24.1154
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_ag_adv_1",
           "label": "AG advance 1",
-          "x": -0.1208,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.1121,
+          "y": -0.1161,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_ag_adv_2",
           "label": "AG advance 2",
-          "x": 0.9259,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8542,
+          "y": -0.1184,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_ag_adv_3",
           "label": "AG advance 3",
-          "x": 1.9726,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8205,
+          "y": -0.1206,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_ag_adv_4",
           "label": "AG advance 4",
-          "x": 3.0193,
-          "y": -0.1233,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7868,
+          "y": -0.1229,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -629,45 +629,45 @@
     {
       "id": "c2_int-2",
       "origin": [
-        56.723,
-        22.7357
+        55.7293,
+        24.093
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_int_adv_1",
           "label": "INT advance 1",
-          "x": -0.0805,
-          "y": -0.0924,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.0748,
+          "y": -0.087,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_int_adv_2",
           "label": "INT advance 2",
-          "x": 0.926,
-          "y": -0.0924,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8544,
+          "y": -0.0892,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_int_adv_3",
           "label": "INT advance 3",
-          "x": 1.9727,
-          "y": -0.0924,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8207,
+          "y": -0.0915,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_int_adv_4",
           "label": "INT advance 4",
-          "x": 3.0194,
-          "y": -0.0616,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7872,
+          "y": -0.0647,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -675,45 +675,45 @@
     {
       "id": "c2_per-2",
       "origin": [
-        67.0692,
-        22.7357
+        65.2809,
+        24.0705
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_per_adv_1",
           "label": "PER advance 1",
-          "x": -0.1207,
-          "y": -0.0616,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.1117,
+          "y": -0.0579,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_per_adv_2",
           "label": "PER advance 2",
-          "x": 0.926,
-          "y": -0.0308,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8547,
+          "y": -0.0311,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_per_adv_3",
           "label": "PER advance 3",
-          "x": 1.9727,
-          "y": -0.0308,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.821,
+          "y": -0.0333,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_per_adv_4",
           "label": "PER advance 4",
-          "x": 2.9791,
-          "y": -0.0308,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7502,
+          "y": -0.0355,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -721,45 +721,45 @@
     {
       "id": "c2_wp-2",
       "origin": [
-        77.4155,
-        22.7357
+        74.8326,
+        24.0481
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_wp_adv_1",
           "label": "WP advance 1",
-          "x": -0.1208,
-          "y": 0.0,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.1115,
+          "y": 0.0003,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_wp_adv_2",
           "label": "WP advance 2",
-          "x": 0.9259,
-          "y": 0.0,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8548,
+          "y": -0.002,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_wp_adv_3",
           "label": "WP advance 3",
-          "x": 1.9726,
-          "y": 0.0,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8211,
+          "y": -0.0043,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_wp_adv_4",
           "label": "WP advance 4",
-          "x": 2.979,
-          "y": 0.0,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7502,
+          "y": -0.0065,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -767,45 +767,45 @@
     {
       "id": "c2_fel-2",
       "origin": [
-        87.7214,
-        22.7357
+        84.3471,
+        24.0257
       ],
       "fields": [
         {
           "slot": "adv_1",
           "id": "c2_fel_adv_1",
           "label": "FEL advance 1",
-          "x": -0.0805,
-          "y": 0.0616,
-          "width": 0.8454,
-          "height": 0.647
+          "x": -0.074,
+          "y": 0.0583,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_2",
           "id": "c2_fel_adv_2",
           "label": "FEL advance 2",
-          "x": 0.9662,
-          "y": 0.0616,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 0.8923,
+          "y": 0.056,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_3",
           "id": "c2_fel_adv_3",
           "label": "FEL advance 3",
-          "x": 1.9726,
-          "y": 0.0616,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 1.8214,
+          "y": 0.0538,
+          "width": 0.7805,
+          "height": 0.6105
         },
         {
           "slot": "adv_4",
           "id": "c2_fel_adv_4",
           "label": "FEL advance 4",
-          "x": 3.0193,
-          "y": 0.0616,
-          "width": 0.8454,
-          "height": 0.647
+          "x": 2.7877,
+          "y": 0.0516,
+          "width": 0.7805,
+          "height": 0.6105
         }
       ],
       "template": "characteristic"
@@ -813,8 +813,8 @@
     {
       "id": "c2_weapon_1",
       "origin": [
-        5.0725,
-        27.3876
+        8.0689,
+        28.5948
       ],
       "fields": [
         {
@@ -878,73 +878,73 @@
     {
       "id": "c2_weapon_2",
       "origin": [
-        4.9919,
-        39.2175
+        8.0544,
+        39.7582
       ],
       "fields": [
         {
           "slot": "name",
           "id": "c2_weapon_2_name",
           "label": "Weapon 2 name",
-          "x": 3.7843,
-          "width": 39.5733
+          "x": 3.4937,
+          "width": 36.5342
         },
         {
           "slot": "class",
           "id": "c2_weapon_2_class",
           "label": "Weapon 2 class",
-          "x": 3.3414,
-          "y": 1.5404
+          "x": 3.0926,
+          "y": 1.4463
         },
         {
           "slot": "damage",
           "id": "c2_weapon_2_damage",
           "label": "Weapon 2 damage",
-          "x": 18.1965,
-          "y": 1.5404,
-          "width": 8.4944
+          "x": 16.8069,
+          "y": 1.4141,
+          "width": 7.8421
         },
         {
           "slot": "type",
           "id": "c2_weapon_2_type",
           "label": "Weapon 2 type",
-          "x": 30.1933,
-          "y": 1.5404
+          "x": 27.8823,
+          "y": 1.3881
         },
         {
           "slot": "pen",
           "id": "c2_weapon_2_pen",
           "label": "Weapon 2 pen",
-          "x": 38.0435,
-          "y": 1.5404,
-          "width": 5.153
+          "x": 35.1297,
+          "y": 1.371,
+          "width": 4.7573
         },
         {
           "slot": "range",
           "id": "c2_weapon_2_range",
           "label": "Weapon 2 range",
-          "x": 4.0661,
-          "width": 8.4944
+          "x": 3.7538,
+          "width": 7.8421
         },
         {
           "slot": "rof",
           "id": "c2_weapon_2_rof",
           "label": "Weapon 2 ROF",
-          "x": 16.0629
+          "x": 14.8293
         },
         {
           "slot": "clip",
           "id": "c2_weapon_2_clip",
           "label": "Weapon 2 clip",
-          "x": 27.6571,
-          "width": 5.1127
+          "x": 25.5331,
+          "width": 4.7201
         },
         {
           "slot": "reload",
           "id": "c2_weapon_2_reload",
           "label": "Weapon 2 reload",
-          "x": 37.5604,
-          "width": 5.1127
+          "x": 34.6759,
+          "width": 4.7201
         },
         {
           "slot": "special_rules_1",
@@ -962,90 +962,90 @@
     {
       "id": "c2_weapon_3",
       "origin": [
-        4.9517,
-        51.0166
+        8.077,
+        50.8924
       ],
       "fields": [
         {
           "slot": "name",
           "id": "c2_weapon_3_name",
           "label": "Weapon 3 name",
-          "x": 3.7842,
-          "width": 39.533
+          "x": 3.4936,
+          "width": 36.497
         },
         {
           "slot": "class",
           "id": "c2_weapon_3_class",
           "label": "Weapon 3 class",
-          "x": 3.3414,
-          "y": 1.5404
+          "x": 3.0926,
+          "y": 1.4463
         },
         {
           "slot": "damage",
           "id": "c2_weapon_3_damage",
           "label": "Weapon 3 damage",
-          "x": 18.1964,
-          "y": 1.5712,
-          "width": 8.4944
+          "x": 16.8069,
+          "y": 1.4432,
+          "width": 7.8421
         },
         {
           "slot": "type",
           "id": "c2_weapon_3_type",
           "label": "Weapon 3 type",
-          "x": 30.1932,
-          "y": 1.5712
+          "x": 27.8824,
+          "y": 1.4171
         },
         {
           "slot": "pen",
           "id": "c2_weapon_3_pen",
           "label": "Weapon 3 pen",
-          "x": 38.0032,
-          "y": 1.602,
-          "width": 5.153
+          "x": 35.0928,
+          "y": 1.4293,
+          "width": 4.7573
         },
         {
           "slot": "range",
           "id": "c2_weapon_3_range",
           "label": "Weapon 3 range",
-          "x": 4.1063,
-          "y": 3.0808,
-          "width": 8.4944
+          "x": 3.8065,
+          "y": 2.8983,
+          "width": 7.8421
         },
         {
           "slot": "rof",
           "id": "c2_weapon_3_rof",
           "label": "Weapon 3 ROF",
-          "y": 3.1116,
-          "width": 8.5346
+          "y": 2.9362,
+          "width": 7.8792
         },
         {
           "slot": "clip",
           "id": "c2_weapon_3_clip",
           "label": "Weapon 3 clip",
-          "x": 27.6167,
-          "y": 3.1424,
-          "width": 5.153
+          "x": 25.5117,
+          "y": 2.9054,
+          "width": 4.7573
         },
         {
           "slot": "reload",
           "id": "c2_weapon_3_reload",
           "label": "Weapon 3 reload",
-          "y": 3.1424
+          "y": 2.9653
         },
         {
           "slot": "special_rules_1",
           "id": "c2_weapon_3_special_rules_1",
           "label": "Weapon 3 special rules line 1",
-          "x": 8.5833,
-          "y": 4.6519,
-          "width": 34.3314
+          "x": 7.9477,
+          "y": 4.3711,
+          "width": 31.6949
         },
         {
           "slot": "special_rules_2",
           "id": "c2_weapon_3_special_rules_2",
           "label": "Weapon 3 special rules line 2",
-          "y": 6.1923,
-          "width": 42.9147
+          "y": 5.8433,
+          "width": 39.619
         }
       ],
       "template": "weapon"
@@ -1053,84 +1053,84 @@
     {
       "id": "c2_weapon_4",
       "origin": [
-        4.9114,
-        62.8466
+        8.0996,
+        62.0558
       ],
       "fields": [
         {
           "slot": "name",
           "id": "c2_weapon_4_name",
           "label": "Weapon 4 name",
-          "x": 3.7843,
-          "width": 39.5733
+          "x": 3.4937,
+          "width": 36.5342
         },
         {
           "slot": "class",
           "id": "c2_weapon_4_class",
           "label": "Weapon 4 class",
-          "x": 3.3414,
-          "y": 1.4787,
-          "width": 9.2995
+          "x": 3.0923,
+          "y": 1.3881,
+          "width": 8.5853
         },
         {
           "slot": "damage",
           "id": "c2_weapon_4_damage",
           "label": "Weapon 4 damage",
-          "x": 18.1562,
-          "width": 8.5346
+          "x": 16.7619,
+          "width": 7.8792
         },
         {
           "slot": "type",
           "id": "c2_weapon_4_type",
           "label": "Weapon 4 type",
-          "x": 30.153
+          "x": 27.8373
         },
         {
           "slot": "pen",
           "id": "c2_weapon_4_pen",
           "label": "Weapon 4 pen",
-          "x": 37.963,
-          "width": 5.153
+          "x": 35.0476,
+          "width": 4.7573
         },
         {
           "slot": "range",
           "id": "c2_weapon_4_range",
           "label": "Weapon 4 range",
-          "x": 4.0661,
-          "y": 3.0499
+          "x": 3.7693,
+          "y": 2.8692
         },
         {
           "slot": "rof",
           "id": "c2_weapon_4_rof",
           "label": "Weapon 4 ROF",
-          "x": 15.9823,
-          "width": 8.5346
+          "x": 14.7549,
+          "width": 7.8792
         },
         {
           "slot": "clip",
           "id": "c2_weapon_4_clip",
           "label": "Weapon 4 clip",
-          "width": 5.153
+          "width": 4.7573
         },
         {
           "slot": "reload",
           "id": "c2_weapon_4_reload",
           "label": "Weapon 4 reload",
-          "x": 37.4799
+          "x": 34.6016
         },
         {
           "slot": "special_rules_1",
           "id": "c2_weapon_4_special_rules_1",
           "label": "Weapon 4 special rules line 1",
-          "x": 8.5431,
-          "y": 4.6826
+          "x": 7.9107,
+          "y": 4.4002
         },
         {
           "slot": "special_rules_2",
           "id": "c2_weapon_4_special_rules_2",
           "label": "Weapon 4 special rules line 2",
-          "y": 6.223,
-          "width": 42.8744
+          "y": 5.8723,
+          "width": 39.5818
         }
       ],
       "template": "weapon"
@@ -1138,86 +1138,86 @@
     {
       "id": "c2_weapon_5",
       "origin": [
-        4.7504,
-        74.6765
+        8.0109,
+        73.2194
       ],
       "fields": [
         {
           "slot": "name",
           "id": "c2_weapon_5_name",
           "label": "Weapon 5 name",
-          "x": 3.8647,
-          "width": 39.5733
+          "x": 3.5679,
+          "width": 36.5342
         },
         {
           "slot": "class",
           "id": "c2_weapon_5_class",
           "label": "Weapon 5 class",
-          "x": 3.4219,
-          "y": 1.5404,
-          "width": 9.2995
+          "x": 3.1669,
+          "y": 1.4462,
+          "width": 8.5853
         },
         {
           "slot": "damage",
           "id": "c2_weapon_5_damage",
           "label": "Weapon 5 damage",
-          "y": 1.5404,
-          "width": 8.4944
+          "y": 1.4536,
+          "width": 7.8421
         },
         {
           "slot": "type",
           "id": "c2_weapon_5_type",
           "label": "Weapon 5 type",
-          "x": 30.2335,
-          "y": 1.5404
+          "x": 27.9195,
+          "y": 1.388
         },
         {
           "slot": "pen",
           "id": "c2_weapon_5_pen",
           "label": "Weapon 5 pen",
-          "x": 38.0435,
-          "y": 1.5404,
-          "width": 5.153
+          "x": 35.1297,
+          "y": 1.371,
+          "width": 4.7573
         },
         {
           "slot": "range",
           "id": "c2_weapon_5_range",
           "label": "Weapon 5 range",
-          "x": 4.1465
+          "x": 3.8281
         },
         {
           "slot": "rof",
           "id": "c2_weapon_5_rof",
           "label": "Weapon 5 ROF",
-          "x": 16.0628,
-          "width": 8.5346
+          "x": 14.8292,
+          "width": 7.8792
         },
         {
           "slot": "clip",
           "id": "c2_weapon_5_clip",
           "label": "Weapon 5 clip",
-          "x": 27.657,
-          "width": 5.1127
+          "x": 25.533,
+          "width": 4.7201
         },
         {
           "slot": "reload",
           "id": "c2_weapon_5_reload",
           "label": "Weapon 5 reload",
-          "x": 37.5604
+          "x": 34.6759
         },
         {
           "slot": "special_rules_1",
           "id": "c2_weapon_5_special_rules_1",
           "label": "Weapon 5 special rules line 1",
-          "x": 8.6639,
-          "y": 4.6211,
-          "width": 34.291
+          "x": 8.0219,
+          "y": 4.3419,
+          "width": 31.6576
         },
         {
           "slot": "special_rules_2",
           "id": "c2_weapon_5_special_rules_2",
           "label": "Weapon 5 special rules line 2",
-          "y": 6.1615
+          "y": 5.8143
         }
       ],
       "template": "weapon"
@@ -1225,17 +1225,17 @@
     {
       "id": "c2_gear",
       "origin": [
-        52.0934,
-        29.1128
+        51.4875,
+        30.1207
       ],
       "fields": [
         {
           "id": "c2_gear_1",
           "kind": "text",
-          "x": 0.0,
-          "y": -1.4172,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": -0.0072,
+          "y": -1.3373,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 1",
           "text_style": "line"
@@ -1245,8 +1245,8 @@
           "kind": "text",
           "x": 0.0,
           "y": 0.0,
-          "width": 21.1353,
-          "height": 1.0474,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 2",
           "text_style": "line"
@@ -1254,10 +1254,10 @@
         {
           "id": "c2_gear_3",
           "kind": "text",
-          "x": 0.0,
-          "y": 1.4171,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0072,
+          "y": 1.3372,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 3",
           "text_style": "line"
@@ -1265,10 +1265,10 @@
         {
           "id": "c2_gear_4",
           "kind": "text",
-          "x": 0.0,
-          "y": 2.8342,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0143,
+          "y": 2.6745,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 4",
           "text_style": "line"
@@ -1276,10 +1276,10 @@
         {
           "id": "c2_gear_5",
           "kind": "text",
-          "x": 0.0,
-          "y": 4.2205,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0214,
+          "y": 3.9827,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 5",
           "text_style": "line"
@@ -1287,10 +1287,10 @@
         {
           "id": "c2_gear_6",
           "kind": "text",
-          "x": 0.0,
-          "y": 5.6377,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0285,
+          "y": 5.32,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 6",
           "text_style": "line"
@@ -1298,10 +1298,10 @@
         {
           "id": "c2_gear_7",
           "kind": "text",
-          "x": 0.0,
-          "y": 7.0856,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0359,
+          "y": 6.6863,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 7",
           "text_style": "line"
@@ -1309,10 +1309,10 @@
         {
           "id": "c2_gear_8",
           "kind": "text",
-          "x": 0.0,
-          "y": 8.5027,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.043,
+          "y": 8.0235,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 8",
           "text_style": "line"
@@ -1320,10 +1320,10 @@
         {
           "id": "c2_gear_9",
           "kind": "text",
-          "x": 0.0,
-          "y": 9.9199,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0502,
+          "y": 9.3609,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 9",
           "text_style": "line"
@@ -1331,10 +1331,10 @@
         {
           "id": "c2_gear_10",
           "kind": "text",
-          "x": 0.0,
-          "y": 11.337,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0574,
+          "y": 10.6981,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 10",
           "text_style": "line"
@@ -1342,10 +1342,10 @@
         {
           "id": "c2_gear_11",
           "kind": "text",
-          "x": 0.0,
-          "y": 12.7541,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0645,
+          "y": 12.0353,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 11",
           "text_style": "line"
@@ -1353,10 +1353,10 @@
         {
           "id": "c2_gear_12",
           "kind": "text",
-          "x": 0.0,
-          "y": 14.1712,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0717,
+          "y": 13.3726,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 12",
           "text_style": "line"
@@ -1364,10 +1364,10 @@
         {
           "id": "c2_gear_13",
           "kind": "text",
-          "x": 0.0,
-          "y": 15.5576,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0787,
+          "y": 14.6808,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 13",
           "text_style": "line"
@@ -1375,10 +1375,10 @@
         {
           "id": "c2_gear_14",
           "kind": "text",
-          "x": 0.0,
-          "y": 16.9747,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0859,
+          "y": 16.0181,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 14",
           "text_style": "line"
@@ -1386,10 +1386,10 @@
         {
           "id": "c2_gear_15",
           "kind": "text",
-          "x": 0.0,
-          "y": 18.361,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.0929,
+          "y": 17.3263,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 15",
           "text_style": "line"
@@ -1397,10 +1397,10 @@
         {
           "id": "c2_gear_16",
           "kind": "text",
-          "x": 0.0,
-          "y": 19.7781,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1001,
+          "y": 18.6635,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 16",
           "text_style": "line"
@@ -1408,10 +1408,10 @@
         {
           "id": "c2_gear_17",
           "kind": "text",
-          "x": 0.0,
-          "y": 21.1953,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1073,
+          "y": 20.0008,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 17",
           "text_style": "line"
@@ -1419,10 +1419,10 @@
         {
           "id": "c2_gear_18",
           "kind": "text",
-          "x": 0.0,
-          "y": 22.6124,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1144,
+          "y": 21.3381,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 18",
           "text_style": "line"
@@ -1430,10 +1430,10 @@
         {
           "id": "c2_gear_19",
           "kind": "text",
-          "x": 0.0,
-          "y": 24.0603,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1218,
+          "y": 22.7044,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 19",
           "text_style": "line"
@@ -1441,10 +1441,10 @@
         {
           "id": "c2_gear_20",
           "kind": "text",
-          "x": 0.0,
-          "y": 25.4775,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1289,
+          "y": 24.0417,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 20",
           "text_style": "line"
@@ -1452,10 +1452,10 @@
         {
           "id": "c2_gear_21",
           "kind": "text",
-          "x": 0.0,
-          "y": 26.8946,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1361,
+          "y": 25.3789,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 21",
           "text_style": "line"
@@ -1463,10 +1463,10 @@
         {
           "id": "c2_gear_22",
           "kind": "text",
-          "x": 0.0,
-          "y": 28.2809,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1431,
+          "y": 26.6871,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 22",
           "text_style": "line"
@@ -1474,10 +1474,10 @@
         {
           "id": "c2_gear_23",
           "kind": "text",
-          "x": 0.0,
-          "y": 29.698,
-          "width": 21.1353,
-          "height": 1.0474,
+          "x": 0.1503,
+          "y": 28.0244,
+          "width": 19.5122,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Gear line 23",
           "text_style": "line"
@@ -1487,17 +1487,17 @@
     {
       "id": "c2_acquisition",
       "origin": [
-        74.6377,
-        29.236
+        72.3011,
+        30.1881
       ],
       "fields": [
         {
           "id": "c2_acquisition_1",
           "kind": "text",
-          "x": 0.0,
-          "y": -1.4171,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": -0.0072,
+          "y": -1.3372,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 1",
           "text_style": "line"
@@ -1507,8 +1507,8 @@
           "kind": "text",
           "x": 0.0,
           "y": 0.0,
-          "width": 21.095,
-          "height": 1.0474,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 2",
           "text_style": "line"
@@ -1516,10 +1516,10 @@
         {
           "id": "c2_acquisition_3",
           "kind": "text",
-          "x": 0.0,
-          "y": 1.4171,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0072,
+          "y": 1.3372,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 3",
           "text_style": "line"
@@ -1527,10 +1527,10 @@
         {
           "id": "c2_acquisition_4",
           "kind": "text",
-          "x": 0.0,
-          "y": 2.8034,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0142,
+          "y": 2.6454,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 4",
           "text_style": "line"
@@ -1538,10 +1538,10 @@
         {
           "id": "c2_acquisition_5",
           "kind": "text",
-          "x": 0.0,
-          "y": 4.1898,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0212,
+          "y": 3.9537,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 5",
           "text_style": "line"
@@ -1549,10 +1549,10 @@
         {
           "id": "c2_acquisition_6",
           "kind": "text",
-          "x": 0.0,
-          "y": 5.6069,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0284,
+          "y": 5.2909,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 6",
           "text_style": "line"
@@ -1560,10 +1560,10 @@
         {
           "id": "c2_acquisition_7",
           "kind": "text",
-          "x": 0.0,
-          "y": 7.0548,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0357,
+          "y": 6.6572,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 7",
           "text_style": "line"
@@ -1571,10 +1571,10 @@
         {
           "id": "c2_acquisition_8",
           "kind": "text",
-          "x": 0.0,
-          "y": 8.4719,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0429,
+          "y": 7.9945,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 8",
           "text_style": "line"
@@ -1582,10 +1582,10 @@
         {
           "id": "c2_acquisition_9",
           "kind": "text",
-          "x": 0.0,
-          "y": 9.9199,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0502,
+          "y": 9.3609,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 9",
           "text_style": "line"
@@ -1593,10 +1593,10 @@
         {
           "id": "c2_acquisition_10",
           "kind": "text",
-          "x": 0.0,
-          "y": 11.3062,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0572,
+          "y": 10.669,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 10",
           "text_style": "line"
@@ -1604,10 +1604,10 @@
         {
           "id": "c2_acquisition_11",
           "kind": "text",
-          "x": 0.0,
-          "y": 12.7233,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0644,
+          "y": 12.0063,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 11",
           "text_style": "line"
@@ -1615,10 +1615,10 @@
         {
           "id": "c2_acquisition_12",
           "kind": "text",
-          "x": 0.0,
-          "y": 14.1405,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0716,
+          "y": 13.3436,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 12",
           "text_style": "line"
@@ -1626,10 +1626,10 @@
         {
           "id": "c2_acquisition_13",
           "kind": "text",
-          "x": 0.0,
-          "y": 15.5576,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0787,
+          "y": 14.6808,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 13",
           "text_style": "line"
@@ -1637,10 +1637,10 @@
         {
           "id": "c2_acquisition_14",
           "kind": "text",
-          "x": 0.0,
-          "y": 16.9439,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0858,
+          "y": 15.989,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 14",
           "text_style": "line"
@@ -1648,10 +1648,10 @@
         {
           "id": "c2_acquisition_15",
           "kind": "text",
-          "x": 0.0,
-          "y": 18.361,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0929,
+          "y": 17.3263,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Acquisition line 15",
           "text_style": "line"
@@ -1661,8 +1661,8 @@
     {
       "id": "c2_mutation",
       "origin": [
-        74.4364,
-        51.8176
+        72.2295,
+        51.4975
       ],
       "fields": [
         {
@@ -1670,8 +1670,8 @@
           "kind": "text",
           "x": 0.0,
           "y": 0.0,
-          "width": 21.095,
-          "height": 1.0474,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Mutation line 1",
           "text_style": "line"
@@ -1679,10 +1679,10 @@
         {
           "id": "c2_mutation_2",
           "kind": "text",
-          "x": 0.0,
-          "y": 1.4172,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0072,
+          "y": 1.3373,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Mutation line 2",
           "text_style": "line"
@@ -1690,10 +1690,10 @@
         {
           "id": "c2_mutation_3",
           "kind": "text",
-          "x": 0.0,
-          "y": 2.8651,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0145,
+          "y": 2.7036,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Mutation line 3",
           "text_style": "line"
@@ -1701,10 +1701,10 @@
         {
           "id": "c2_mutation_4",
           "kind": "text",
-          "x": 0.0,
-          "y": 4.2822,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0217,
+          "y": 4.0409,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Mutation line 4",
           "text_style": "line"
@@ -1712,10 +1712,10 @@
         {
           "id": "c2_mutation_5",
           "kind": "text",
-          "x": 0.0,
-          "y": 5.6993,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0288,
+          "y": 5.3781,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Mutation line 5",
           "text_style": "line"
@@ -1723,10 +1723,10 @@
         {
           "id": "c2_mutation_6",
           "kind": "text",
-          "x": 0.0,
-          "y": 7.0549,
-          "width": 21.095,
-          "height": 1.0474,
+          "x": 0.0357,
+          "y": 6.6573,
+          "width": 19.475,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Mutation line 6",
           "text_style": "line"
@@ -1736,17 +1736,17 @@
     {
       "id": "c2_corruption",
       "origin": [
-        52.1337,
-        63.6168
+        51.6993,
+        62.6802
       ],
       "fields": [
         {
           "id": "c2_corruption_current_points",
           "kind": "text",
-          "x": 10.0644,
-          "y": 0.0,
-          "width": 10.2657,
-          "height": 1.0474,
+          "x": 9.2915,
+          "y": -0.0218,
+          "width": 9.4773,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Corruption current_points",
           "text_style": "line"
@@ -1754,10 +1754,10 @@
         {
           "id": "c2_corruption_degree",
           "kind": "text",
-          "x": 4.4283,
-          "y": 1.4171,
-          "width": 15.9018,
-          "height": 1.0474,
+          "x": 4.0954,
+          "y": 1.3276,
+          "width": 14.6806,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Corruption degree",
           "text_style": "line"
@@ -1765,10 +1765,10 @@
         {
           "id": "c2_corruption_malignancies",
           "kind": "text",
-          "x": 9.0579,
-          "y": 2.8342,
-          "width": 11.2721,
-          "height": 1.0474,
+          "x": 8.3766,
+          "y": 2.6548,
+          "width": 10.4064,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Corruption malignancies",
           "text_style": "line"
@@ -1776,10 +1776,10 @@
         {
           "id": "c2_corruption_malignancies_2",
           "kind": "text",
-          "x": 0.0,
-          "y": 4.2822,
-          "width": 20.33,
-          "height": 1.0474,
+          "x": 0.0217,
+          "y": 4.0409,
+          "width": 18.7687,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Corruption malignancies line 2",
           "text_style": "line"
@@ -1787,10 +1787,10 @@
         {
           "id": "c2_corruption_malignancies_3",
           "kind": "text",
-          "x": 0.0402,
-          "y": 5.6993,
-          "width": 20.2898,
-          "height": 1.0474,
+          "x": 0.066,
+          "y": 5.378,
+          "width": 18.7316,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Corruption malignancies line 3",
           "text_style": "line"
@@ -1800,8 +1800,8 @@
     {
       "id": "c2_wounds",
       "origin": [
-        78.3011,
-        63.7092
+        75.8576,
+        62.7106
       ],
       "fields": [
         {
@@ -1809,8 +1809,8 @@
           "kind": "text",
           "x": 0.0,
           "y": 0.0,
-          "width": 16.3044,
-          "height": 1.0474,
+          "width": 15.0523,
+          "height": 0.9884,
           "max_length": 6,
           "label": "Wounds total",
           "text_style": "line"
@@ -1818,10 +1818,10 @@
         {
           "id": "c2_wounds_current",
           "kind": "text",
-          "x": 1.4896,
-          "y": 1.4171,
-          "width": 14.8148,
-          "height": 1.0474,
+          "x": 1.3824,
+          "y": 1.334,
+          "width": 13.6771,
+          "height": 0.9884,
           "max_length": 6,
           "label": "Wounds current",
           "text_style": "line"
@@ -1829,10 +1829,10 @@
         {
           "id": "c2_wounds_critical_damage",
           "kind": "text",
-          "x": 7.0451,
-          "y": 2.865,
-          "width": 9.2593,
-          "height": 1.0474,
+          "x": 6.5186,
+          "y": 2.6883,
+          "width": 8.5482,
+          "height": 0.9884,
           "max_length": 6,
           "label": "Wounds critical_damage",
           "text_style": "line"
@@ -1840,10 +1840,10 @@
         {
           "id": "c2_wounds_fatigue",
           "kind": "text",
-          "x": 1.3688,
-          "y": 4.2514,
-          "width": 14.9356,
-          "height": 1.0474,
+          "x": 1.2852,
+          "y": 4.0088,
+          "width": 13.7886,
+          "height": 0.9884,
           "max_length": 6,
           "label": "Wounds fatigue",
           "text_style": "line"
@@ -1853,17 +1853,17 @@
     {
       "id": "c2_insanity",
       "origin": [
-        79.5089,
-        72.4584
+        77.0169,
+        70.9641
       ],
       "fields": [
         {
           "id": "c2_insanity_current_points",
           "kind": "text",
-          "x": 4.7906,
-          "y": 0.0,
-          "width": 10.306,
-          "height": 1.0474,
+          "x": 4.4227,
+          "y": -0.0104,
+          "width": 9.5145,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Insanity current_points",
           "text_style": "line"
@@ -1871,10 +1871,10 @@
         {
           "id": "c2_insanity_degree",
           "kind": "text",
-          "x": 0.0,
-          "y": 1.4171,
-          "width": 15.0966,
-          "height": 1.0474,
+          "x": 0.0072,
+          "y": 1.3372,
+          "width": 13.9372,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Insanity degree",
           "text_style": "line"
@@ -1882,10 +1882,10 @@
         {
           "id": "c2_insanity_disorders",
           "kind": "text",
-          "x": 1.5297,
-          "y": 2.8343,
-          "width": 13.5668,
-          "height": 1.0474,
+          "x": 1.4266,
+          "y": 2.6713,
+          "width": 12.5249,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Insanity disorders",
           "text_style": "line"
@@ -1893,10 +1893,10 @@
         {
           "id": "c2_insanity_disorders_2",
           "kind": "text",
-          "x": -5.1128,
-          "y": 4.2514,
-          "width": 20.2093,
-          "height": 1.0474,
+          "x": -4.6986,
+          "y": 4.0229,
+          "width": 18.6573,
+          "height": 0.9884,
           "max_length": 60,
           "label": "Insanity disorders line 2",
           "text_style": "line"
@@ -1906,17 +1906,17 @@
     {
       "id": "c2_armour",
       "origin": [
-        53.14,
-        76.8638
+        52.6954,
+        75.1784
       ],
       "fields": [
         {
           "id": "c2_armour_head_ap",
           "kind": "text",
-          "x": 11.3719,
-          "y": -2.1257,
-          "width": 5.2355,
-          "height": 1.9757,
+          "x": 10.4878,
+          "y": -2.0306,
+          "width": 4.8334,
+          "height": 1.8644,
           "max_length": 2,
           "label": "Armour head points",
           "text_style": "center",
@@ -1925,10 +1925,10 @@
         {
           "id": "c2_armour_head_type",
           "kind": "text",
-          "x": 11.755,
-          "y": 0.0,
-          "width": 8.173,
-          "height": 1.0474,
+          "x": 10.8523,
+          "y": -0.0255,
+          "width": 7.5453,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Armour head type",
           "text_style": "line"
@@ -1936,10 +1936,10 @@
         {
           "id": "c2_armour_right_arm_ap",
           "kind": "text",
-          "x": 0.0192,
-          "y": 4.5287,
-          "width": 5.2355,
-          "height": 2.0373,
+          "x": 0.0406,
+          "y": 4.2734,
+          "width": 4.8334,
+          "height": 1.9225,
           "max_length": 2,
           "label": "Armour right arm points",
           "text_style": "center",
@@ -1948,10 +1948,10 @@
         {
           "id": "c2_armour_right_arm_type",
           "kind": "text",
-          "x": 0.0,
-          "y": 6.716,
-          "width": 8.575,
-          "height": 1.0474,
+          "x": 0.034,
+          "y": 6.3375,
+          "width": 7.9165,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Armour right_arm type",
           "text_style": "line"
@@ -1959,10 +1959,10 @@
         {
           "id": "c2_armour_left_arm_ap",
           "kind": "text",
-          "x": 22.1901,
-          "y": 4.6211,
-          "width": 5.2174,
-          "height": 2.0065,
+          "x": 20.5094,
+          "y": 4.3125,
+          "width": 4.8167,
+          "height": 1.8934,
           "max_length": 2,
           "label": "Armour left arm points",
           "text_style": "center",
@@ -1971,10 +1971,10 @@
         {
           "id": "c2_armour_left_arm_type",
           "kind": "text",
-          "x": 22.544,
-          "y": 6.7776,
-          "width": 8.172,
-          "height": 1.0474,
+          "x": 20.847,
+          "y": 6.3467,
+          "width": 7.5444,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Armour left_arm type",
           "text_style": "line"
@@ -1982,10 +1982,10 @@
         {
           "id": "c2_armour_body_ap",
           "kind": "text",
-          "x": 11.2914,
-          "y": 11.2754,
-          "width": 5.2355,
-          "height": 2.0065,
+          "x": 10.4813,
+          "y": 10.6155,
+          "width": 4.8334,
+          "height": 1.8934,
           "max_length": 2,
           "label": "Armour body points",
           "text_style": "center",
@@ -1994,10 +1994,10 @@
         {
           "id": "c2_armour_body_type",
           "kind": "text",
-          "x": 11.111,
-          "y": 13.4319,
-          "width": 8.736,
-          "height": 1.0474,
+          "x": 10.3257,
+          "y": 12.6508,
+          "width": 8.0651,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Armour body type",
           "text_style": "line"
@@ -2005,10 +2005,10 @@
         {
           "id": "c2_armour_right_leg_ap",
           "kind": "text",
-          "x": -0.0613,
-          "y": 17.9298,
-          "width": 5.2355,
-          "height": 2.0681,
+          "x": 0.0342,
+          "y": 16.9195,
+          "width": 4.8334,
+          "height": 1.9516,
           "max_length": 2,
           "label": "Armour right leg points",
           "text_style": "center",
@@ -2017,10 +2017,10 @@
         {
           "id": "c2_armour_right_leg_type",
           "kind": "text",
-          "x": 0.322,
-          "y": 20.1479,
-          "width": 8.172,
-          "height": 1.0474,
+          "x": 0.3992,
+          "y": 19.0118,
+          "width": 7.5444,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Armour right_leg type",
           "text_style": "line"
@@ -2028,10 +2028,10 @@
         {
           "id": "c2_armour_left_leg_ap",
           "kind": "text",
-          "x": 22.0804,
-          "y": 17.9914,
-          "width": 5.2355,
-          "height": 2.0681,
+          "x": 20.4757,
+          "y": 16.9296,
+          "width": 4.8334,
+          "height": 1.9516,
           "max_length": 2,
           "label": "Armour left leg points",
           "text_style": "center",
@@ -2040,10 +2040,10 @@
         {
           "id": "c2_armour_left_leg_type",
           "kind": "text",
-          "x": 22.464,
-          "y": 20.2095,
-          "width": 8.172,
-          "height": 1.0474,
+          "x": 20.8411,
+          "y": 19.0218,
+          "width": 7.5444,
+          "height": 0.9884,
           "max_length": 20,
           "label": "Armour left_leg type",
           "text_style": "line"
@@ -2051,21 +2051,21 @@
         {
           "id": "c2_armour_weight",
           "kind": "text",
-          "x": 27.5766,
-          "y": 11.0906,
-          "width": 9.2593,
-          "height": 2.4646,
+          "x": 25.5149,
+          "y": 10.4057,
+          "width": 8.5482,
+          "height": 2.3257,
           "max_length": 6,
           "label": "Armour Weight",
-          "text_style": "line"
+          "text_style": "center"
         }
       ]
     },
     {
       "id": "c2_lifting",
       "origin": [
-        13.4863,
-        87.5231
+        16.1409,
+        85.3231
       ],
       "fields": [
         {
@@ -2073,8 +2073,8 @@
           "kind": "text",
           "x": 0.0,
           "y": 0.0,
-          "width": 9.219,
-          "height": 2.7726,
+          "width": 8.511,
+          "height": 2.6163,
           "max_length": 8,
           "label": "Lifting lift",
           "align": "center",
@@ -2083,10 +2083,10 @@
         {
           "id": "c2_lifting_carry",
           "kind": "text",
-          "x": 11.5137,
-          "y": 0.0,
-          "width": 9.219,
-          "height": 2.7726,
+          "x": 10.6295,
+          "y": -0.025,
+          "width": 8.511,
+          "height": 2.6163,
           "max_length": 8,
           "label": "Lifting carry",
           "align": "center",
@@ -2095,10 +2095,10 @@
         {
           "id": "c2_lifting_push",
           "kind": "text",
-          "x": 23.0676,
-          "y": 0.0,
-          "width": 9.1787,
-          "height": 2.7726,
+          "x": 21.2961,
+          "y": -0.0501,
+          "width": 8.4738,
+          "height": 2.6163,
           "max_length": 8,
           "label": "Lifting push",
           "align": "center",
@@ -2109,8 +2109,8 @@
     {
       "id": "c2_fate",
       "origin": [
-        19.2029,
-        94.6087
+        21.4544,
+        91.997
       ],
       "fields": [
         {
@@ -2118,8 +2118,8 @@
           "kind": "text",
           "x": 0.0,
           "y": 0.0,
-          "width": 9.219,
-          "height": 2.8035,
+          "width": 8.511,
+          "height": 2.6455,
           "max_length": 4,
           "label": "Fate Points Total",
           "align": "center",
@@ -2128,10 +2128,10 @@
         {
           "id": "c2_fate_points_current",
           "kind": "text",
-          "x": 11.5539,
-          "y": 0.0,
-          "width": 9.1787,
-          "height": 2.8035,
+          "x": 10.6666,
+          "y": -0.0251,
+          "width": 8.4738,
+          "height": 2.6455,
           "max_length": 4,
           "label": "Fate Points Current",
           "align": "center",

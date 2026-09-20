@@ -5,19 +5,23 @@ from pathlib import Path
 from sheets.schema import load_schema
 
 
-@pytest.mark.parametrize("prefix,left,width,baselines", [
-    ("gear", 1294, 525, [935,981,1027,1073,1118,1164,1211,1257,1303,1349,1395,
-                         1441,1486,1532,1577,1623,1669,1715,1762,1808,1854,1899,1945]),
-    ("acquisition", 1854, 524, [939,985,1031,1076,1121,1167,1214,1260,1307,1352,
-                               1398,1444,1490,1535,1581]),
+@pytest.mark.parametrize("prefix,lefts,width,bottoms", [
+    ("gear", [1385,1386,1386,1386,1386,1386,1386,1387,1387,1387,1387,1387,
+              1388,1388,1388,1388,1388,1389,1389,1389,1389,1389,1390], 525,
+             [1023,1069,1115,1160,1205,1251,1298,1344,1390,1436,1482,1528,
+              1573,1619,1664,1710,1756,1802,1848,1894,1940,1985,2031]),
+    ("acquisition", [1945,1946,1946,1946,1946,1946,1947,1947,1947,1947,1947,
+                     1948,1948,1948,1948], 524,
+                    [1025,1071,1117,1162,1207,1253,1300,1346,1392,1437,1483,
+                     1529,1575,1620,1666]),
 ])
-def test_every_gear_and_acquisition_line_has_one_full_width_field(prefix,left,width,baselines):
+def test_every_gear_and_acquisition_line_has_one_full_width_field(prefix,lefts,width,bottoms):
     schema = load_schema("character-page-2")
-    for index, baseline in enumerate(baselines, 1):
+    for index, (left, bottom) in enumerate(zip(lefts, bottoms, strict=True), 1):
         field = schema.field_by_id(f"c2_{prefix}_{index}")
         assert round(field.x * schema.image_width / 100) == left
         assert round(field.width * schema.image_width / 100) == width
-        assert round((field.y + field.height) * schema.image_height / 100) == baseline - 2
+        assert round((field.y + field.height) * schema.image_height / 100) == bottom
 
 
 def test_page_2_pips_follow_printed_circle_centres_not_a_flat_row():
@@ -25,8 +29,8 @@ def test_page_2_pips_follow_printed_circle_centres_not_a_flat_row():
     first = schema.field_by_id("c2_ws_adv_1")
     last = schema.field_by_id("c2_fel_adv_4")
     # Visually measured from the original artwork; the final circle is lower.
-    assert float((first.y + first.height / 2) * schema.image_height / 100) == pytest.approx(742.5, abs=1)
-    assert float((last.y + last.height / 2) * schema.image_height / 100) > 748
+    assert float((first.y + first.height / 2) * schema.image_height / 100) == pytest.approx(836, abs=1)
+    assert float((last.y + last.height / 2) * schema.image_height / 100) > 837
 
 
 def test_ship_printed_round_markers_use_round_fills():

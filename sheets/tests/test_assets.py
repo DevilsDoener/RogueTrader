@@ -18,6 +18,12 @@ LANDSCAPE_IMAGES = ("ship-page.webp",)
 ALL_IMAGES = PORTRAIT_IMAGES + LANDSCAPE_IMAGES
 
 
+@pytest.mark.parametrize("filename", PORTRAIT_IMAGES)
+def test_character_pages_keep_the_full_standalone_sheet_frame(filename):
+    with Image.open(IMAGES_DIR / filename) as image:
+        assert image.size == (2691, 3435)
+
+
 @pytest.mark.parametrize("filename", ALL_IMAGES)
 def test_image_exists(filename):
     assert (IMAGES_DIR / filename).exists(), f"missing extracted asset: {filename}"

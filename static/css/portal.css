@@ -1305,7 +1305,7 @@ mark {
 .sheet-viewer-frame {
   border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius-lg);
-  overflow: hidden;
+  overflow: clip;
 }
 
 /* ---------------------------------------------------------------------

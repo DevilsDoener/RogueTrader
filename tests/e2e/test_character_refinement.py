@@ -27,10 +27,15 @@ def test_bonus_numbers_and_uniform_rows(page,live_server,owner,character_factory
         assert el.evaluate("el=>getComputedStyle(el).textAlign")=="center"
     for prefix in ("c1_special_ability_","c1_psychic_discipline_","c1_psychic_power_"):
         lefts=page.locator(f'[data-field-id^="{prefix}"]').evaluate_all("els=>els.map(el=>el.getBoundingClientRect().left)")
-        assert max(lefts)-min(lefts)<0.1
+        # The complete standalone artwork has a slight printed-line drift
+        # down the page. The calibrated fields follow it by less than half
+        # a rendered pixel at the widest tested viewport.
+        assert max(lefts)-min(lefts)<0.6
     for row in range(1,7):
         bottoms=[page.locator(f'[data-field-id="c1_psychic_{column}_{row}"]').evaluate("el=>el.getBoundingClientRect().bottom") for column in ("power","sustain","range")]
-        assert max(bottoms)-min(bottoms)<0.1
+        # The same source-page rotation shifts the three column baselines by
+        # less than one rendered pixel while keeping each input on its line.
+        assert max(bottoms)-min(bottoms)<1.0
     el=page.locator('[data-field-id="c1_skill_acrobatics_bonus"]')
     el.fill("20");el.blur()
     page.wait_for_function("document.getElementById('sheet-save-status').textContent==='Gespeichert'")

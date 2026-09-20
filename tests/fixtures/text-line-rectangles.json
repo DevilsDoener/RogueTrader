@@ -1,1373 +1,1703 @@
 {
   "character-page-1": {
     "c1_character_name": {
-      "x": 490,
-      "y": 191,
-      "width": 675,
+      "x": 658,
+      "y": 304,
+      "width": 674,
       "height": 34
     },
     "c1_player_name": {
-      "x": 1430,
-      "y": 193,
-      "width": 738,
+      "x": 1598,
+      "y": 303,
+      "width": 737,
       "height": 34
     },
     "c1_career_path": {
-      "x": 410,
-      "y": 265,
+      "x": 579,
+      "y": 378,
       "width": 522,
       "height": 34
     },
     "c1_rank": {
-      "x": 1040,
-      "y": 267,
+      "x": 1208,
+      "y": 378,
       "width": 125,
       "height": 34
     },
     "c1_home_world": {
-      "x": 1435,
-      "y": 268,
+      "x": 1603,
+      "y": 378,
       "width": 200,
       "height": 34
     },
     "c1_motivation": {
-      "x": 1855,
-      "y": 268,
+      "x": 2023,
+      "y": 377,
       "width": 313,
       "height": 34
     },
     "c1_talent_1": {
-      "x": 913,
-      "y": 996,
+      "x": 1085,
+      "y": 1108,
       "width": 525,
       "height": 34
     },
     "c1_talent_2": {
-      "x": 914,
-      "y": 1043,
+      "x": 1086,
+      "y": 1155,
       "width": 524,
       "height": 34
     },
     "c1_talent_2b": {
-      "x": 916,
-      "y": 1089,
+      "x": 1088,
+      "y": 1201,
       "width": 521,
       "height": 34
     },
     "c1_talent_3": {
-      "x": 916,
-      "y": 1135,
+      "x": 1088,
+      "y": 1247,
       "width": 522,
       "height": 34
     },
     "c1_talent_4": {
-      "x": 915,
-      "y": 1180,
+      "x": 1088,
+      "y": 1292,
       "width": 521,
       "height": 34
     },
     "c1_talent_4b": {
-      "x": 914,
-      "y": 1226,
+      "x": 1087,
+      "y": 1338,
       "width": 522,
       "height": 34
     },
     "c1_talent_5": {
-      "x": 914,
-      "y": 1272,
+      "x": 1087,
+      "y": 1384,
       "width": 524,
       "height": 34
     },
     "c1_talent_6": {
-      "x": 914,
-      "y": 1317,
+      "x": 1087,
+      "y": 1429,
       "width": 522,
       "height": 34
     },
     "c1_talent_7": {
-      "x": 914,
-      "y": 1362,
+      "x": 1087,
+      "y": 1474,
       "width": 522,
       "height": 34
     },
     "c1_talent_7b": {
-      "x": 913,
-      "y": 1408,
+      "x": 1087,
+      "y": 1520,
       "width": 524,
       "height": 34
     },
     "c1_talent_8": {
-      "x": 913,
-      "y": 1454,
+      "x": 1087,
+      "y": 1566,
       "width": 523,
       "height": 34
     },
     "c1_talent_9": {
-      "x": 912,
-      "y": 1500,
+      "x": 1086,
+      "y": 1612,
       "width": 525,
       "height": 34
     },
     "c1_talent_10": {
-      "x": 912,
-      "y": 1546,
+      "x": 1086,
+      "y": 1658,
       "width": 523,
       "height": 34
     },
     "c1_talent_10b": {
-      "x": 912,
-      "y": 1592,
+      "x": 1087,
+      "y": 1704,
       "width": 522,
       "height": 34
     },
     "c1_talent_11": {
-      "x": 912,
-      "y": 1638,
+      "x": 1087,
+      "y": 1750,
       "width": 524,
       "height": 34
     },
     "c1_talent_12": {
-      "x": 911,
-      "y": 1684,
+      "x": 1086,
+      "y": 1796,
       "width": 523,
       "height": 34
     },
     "c1_talent_12b": {
-      "x": 913,
-      "y": 1730,
+      "x": 1088,
+      "y": 1842,
       "width": 521,
       "height": 34
     },
     "c1_talent_13": {
-      "x": 914,
-      "y": 1776,
+      "x": 1089,
+      "y": 1888,
       "width": 520,
       "height": 34
     },
     "c1_talent_14": {
-      "x": 915,
-      "y": 1822,
+      "x": 1091,
+      "y": 1934,
       "width": 519,
       "height": 34
     },
     "c1_talent_15": {
-      "x": 911,
-      "y": 1867,
+      "x": 1087,
+      "y": 1980,
       "width": 525,
       "height": 34
     },
     "c1_talent_15b": {
-      "x": 912,
-      "y": 1913,
+      "x": 1088,
+      "y": 2026,
       "width": 522,
       "height": 34
     },
     "c1_talent_16": {
-      "x": 912,
-      "y": 1960,
+      "x": 1088,
+      "y": 2073,
       "width": 521,
       "height": 34
     },
     "c1_special_ability_1": {
-      "x": 908,
-      "y": 2100,
+      "x": 1085,
+      "y": 2213,
       "width": 525,
       "height": 34
     },
     "c1_special_ability_2": {
-      "x": 908,
-      "y": 2146,
+      "x": 1085,
+      "y": 2259,
       "width": 525,
       "height": 34
     },
     "c1_special_ability_3": {
-      "x": 908,
-      "y": 2192,
+      "x": 1085,
+      "y": 2305,
       "width": 525,
       "height": 34
     },
     "c1_special_ability_3b": {
-      "x": 908,
-      "y": 2238,
+      "x": 1085,
+      "y": 2351,
       "width": 525,
       "height": 34
     },
     "c1_special_ability_4": {
-      "x": 908,
-      "y": 2283,
+      "x": 1086,
+      "y": 2396,
       "width": 525,
       "height": 34
     },
     "c1_special_ability_5": {
-      "x": 908,
-      "y": 2329,
+      "x": 1086,
+      "y": 2442,
       "width": 525,
       "height": 34
     },
     "c1_psychic_discipline_1": {
-      "x": 908,
-      "y": 2464,
+      "x": 1086,
+      "y": 2577,
       "width": 522,
       "height": 34
     },
     "c1_psychic_discipline_2": {
-      "x": 908,
-      "y": 2510,
+      "x": 1087,
+      "y": 2623,
       "width": 522,
       "height": 34
     },
     "c1_psychic_discipline_3": {
-      "x": 908,
-      "y": 2556,
+      "x": 1087,
+      "y": 2669,
       "width": 522,
       "height": 34
     },
     "c1_psychic_power_1": {
-      "x": 792,
-      "y": 2752,
+      "x": 972,
+      "y": 2865,
       "width": 494,
       "height": 34
     },
     "c1_psychic_sustain_1": {
-      "x": 1311,
-      "y": 2752,
+      "x": 1490,
+      "y": 2864,
       "width": 101,
       "height": 34
     },
     "c1_psychic_range_1": {
-      "x": 1433,
-      "y": 2752,
+      "x": 1612,
+      "y": 2863,
       "width": 101,
       "height": 34
     },
     "c1_psychic_power_2": {
-      "x": 792,
-      "y": 2796,
+      "x": 972,
+      "y": 2909,
       "width": 494,
       "height": 34
     },
     "c1_psychic_sustain_2": {
-      "x": 1311,
-      "y": 2796,
+      "x": 1491,
+      "y": 2908,
       "width": 101,
       "height": 34
     },
     "c1_psychic_range_2": {
-      "x": 1433,
-      "y": 2796,
+      "x": 1613,
+      "y": 2908,
       "width": 101,
       "height": 34
     },
     "c1_psychic_power_3": {
-      "x": 792,
-      "y": 2840,
+      "x": 972,
+      "y": 2954,
       "width": 494,
       "height": 34
     },
     "c1_psychic_sustain_3": {
-      "x": 1311,
-      "y": 2840,
+      "x": 1491,
+      "y": 2952,
       "width": 101,
       "height": 34
     },
     "c1_psychic_range_3": {
-      "x": 1433,
-      "y": 2840,
+      "x": 1613,
+      "y": 2952,
       "width": 101,
       "height": 34
     },
     "c1_psychic_power_4": {
-      "x": 792,
-      "y": 2885,
+      "x": 973,
+      "y": 2999,
       "width": 494,
       "height": 34
     },
     "c1_psychic_sustain_4": {
-      "x": 1311,
-      "y": 2885,
+      "x": 1491,
+      "y": 2997,
       "width": 101,
       "height": 34
     },
     "c1_psychic_range_4": {
-      "x": 1433,
-      "y": 2885,
+      "x": 1613,
+      "y": 2997,
       "width": 101,
       "height": 34
     },
     "c1_psychic_power_5": {
-      "x": 792,
-      "y": 2930,
+      "x": 973,
+      "y": 3044,
       "width": 494,
       "height": 34
     },
     "c1_psychic_sustain_5": {
-      "x": 1311,
-      "y": 2930,
+      "x": 1491,
+      "y": 3042,
       "width": 101,
       "height": 34
     },
     "c1_psychic_range_5": {
-      "x": 1433,
-      "y": 2930,
+      "x": 1613,
+      "y": 3042,
       "width": 101,
       "height": 34
     },
     "c1_psychic_power_6": {
-      "x": 792,
-      "y": 2974,
+      "x": 973,
+      "y": 3088,
       "width": 494,
       "height": 34
     },
     "c1_psychic_sustain_6": {
-      "x": 1311,
-      "y": 2974,
+      "x": 1491,
+      "y": 3086,
       "width": 101,
       "height": 34
     },
     "c1_psychic_range_6": {
-      "x": 1433,
-      "y": 2974,
+      "x": 1613,
+      "y": 3086,
       "width": 101,
       "height": 34
     },
     "c1_misfortunes_2": {
-      "x": 1615,
-      "y": 2936,
+      "x": 1795,
+      "y": 3047,
       "width": 481,
       "height": 34
     },
     "c1_misfortunes_3": {
-      "x": 1615,
-      "y": 2982,
+      "x": 1795,
+      "y": 3093,
       "width": 481,
       "height": 34
     },
     "c1_common_lore_spec_1": {
-      "x": 50,
-      "y": 1588,
+      "x": 225,
+      "y": 1703,
       "width": 417,
       "height": 34
     },
     "c1_common_lore_spec_2": {
-      "x": 50,
-      "y": 1634,
+      "x": 225,
+      "y": 1749,
       "width": 417,
       "height": 34
     },
     "c1_common_lore_spec_3": {
-      "x": 50,
-      "y": 1680,
+      "x": 226,
+      "y": 1795,
       "width": 417,
       "height": 34
     },
     "c1_common_lore_spec_4": {
-      "x": 50,
-      "y": 1725,
+      "x": 226,
+      "y": 1840,
       "width": 416,
       "height": 34
     },
     "c1_drive_spec_1": {
-      "x": 48,
-      "y": 2094,
+      "x": 226,
+      "y": 2209,
       "width": 417,
       "height": 34
     },
     "c1_forbidden_lore_spec_1": {
-      "x": 47,
-      "y": 2230,
+      "x": 225,
+      "y": 2345,
       "width": 417,
       "height": 34
     },
     "c1_forbidden_lore_spec_2": {
-      "x": 47,
-      "y": 2276,
+      "x": 225,
+      "y": 2391,
       "width": 417,
       "height": 34
     },
     "c1_forbidden_lore_spec_3": {
-      "x": 47,
-      "y": 2322,
+      "x": 226,
+      "y": 2437,
       "width": 417,
       "height": 34
     },
     "c1_forbidden_lore_spec_4": {
-      "x": 47,
-      "y": 2368,
+      "x": 226,
+      "y": 2483,
       "width": 417,
       "height": 34
     },
     "c1_performer_spec_1": {
-      "x": 1499,
-      "y": 1319,
+      "x": 1672,
+      "y": 1429,
       "width": 417,
       "height": 34
     },
     "c1_performer_spec_2": {
-      "x": 1499,
-      "y": 1364,
+      "x": 1672,
+      "y": 1474,
       "width": 417,
       "height": 34
     },
     "c1_pilot_spec_1": {
-      "x": 1497,
-      "y": 1456,
+      "x": 1670,
+      "y": 1566,
       "width": 419,
       "height": 34
     },
     "c1_pilot_spec_2": {
-      "x": 1498,
-      "y": 1502,
+      "x": 1672,
+      "y": 1613,
       "width": 418,
       "height": 34
     },
     "c1_speak_language_spec_1": {
-      "x": 1495,
-      "y": 2190,
+      "x": 1672,
+      "y": 2301,
       "width": 417,
       "height": 34
     },
     "c1_speak_language_spec_2": {
-      "x": 1494,
-      "y": 2236,
+      "x": 1671,
+      "y": 2347,
       "width": 418,
       "height": 34
     },
     "c1_speak_language_spec_3": {
-      "x": 1494,
-      "y": 2282,
+      "x": 1671,
+      "y": 2393,
       "width": 418,
       "height": 34
     },
     "c1_speak_language_spec_4": {
-      "x": 1493,
-      "y": 2328,
+      "x": 1670,
+      "y": 2439,
       "width": 419,
       "height": 34
     },
     "c1_scholastic_lore_spec_1": {
-      "x": 1497,
-      "y": 1640,
+      "x": 1671,
+      "y": 1751,
       "width": 417,
       "height": 34
     },
     "c1_scholastic_lore_spec_2": {
-      "x": 1497,
-      "y": 1686,
+      "x": 1671,
+      "y": 1797,
       "width": 417,
       "height": 34
     },
     "c1_scholastic_lore_spec_3": {
-      "x": 1497,
-      "y": 1732,
+      "x": 1672,
+      "y": 1843,
       "width": 417,
       "height": 34
     },
     "c1_scholastic_lore_spec_4": {
-      "x": 1497,
-      "y": 1777,
+      "x": 1672,
+      "y": 1888,
       "width": 417,
       "height": 34
     },
     "c1_skill_acrobatics_note": {
-      "x": 303,
-      "y": 1039,
+      "x": 476,
+      "y": 1153,
       "width": 167,
       "height": 34
     },
     "c1_skill_awareness_note": {
-      "x": 325,
-      "y": 1085,
+      "x": 498,
+      "y": 1199,
       "width": 145,
       "height": 34
     },
     "c1_skill_barter_note": {
-      "x": 241,
-      "y": 1131,
+      "x": 414,
+      "y": 1245,
       "width": 229,
       "height": 34
     },
     "c1_skill_blather_note": {
-      "x": 261,
-      "y": 1176,
+      "x": 434,
+      "y": 1290,
       "width": 208,
       "height": 34
     },
     "c1_skill_carouse_note": {
-      "x": 241,
-      "y": 1221,
+      "x": 414,
+      "y": 1335,
       "width": 228,
       "height": 34
     },
     "c1_skill_charm_note": {
-      "x": 261,
-      "y": 1267,
+      "x": 435,
+      "y": 1381,
       "width": 208,
       "height": 34
     },
     "c1_skill_chem_use_note": {
-      "x": 303,
-      "y": 1313,
+      "x": 477,
+      "y": 1427,
       "width": 165,
       "height": 34
     },
     "c1_skill_ciphers_note": {
-      "x": 261,
-      "y": 1359,
+      "x": 435,
+      "y": 1473,
       "width": 207,
       "height": 34
     },
     "c1_skill_climb_note": {
-      "x": 219,
-      "y": 1405,
+      "x": 393,
+      "y": 1519,
       "width": 249,
       "height": 34
     },
     "c1_skill_command_note": {
-      "x": 301,
-      "y": 1451,
+      "x": 475,
+      "y": 1565,
       "width": 167,
       "height": 34
     },
     "c1_skill_commerce_note": {
-      "x": 323,
-      "y": 1497,
+      "x": 498,
+      "y": 1611,
       "width": 145,
       "height": 34
     },
     "c1_skill_concealment_note": {
-      "x": 342,
-      "y": 1772,
+      "x": 518,
+      "y": 1886,
       "width": 124,
       "height": 34
     },
     "c1_skill_contortionist_note": {
-      "x": 344,
-      "y": 1818,
+      "x": 520,
+      "y": 1932,
       "width": 122,
       "height": 34
     },
     "c1_skill_deceive_note": {
-      "x": 258,
-      "y": 1863,
+      "x": 434,
+      "y": 1978,
       "width": 208,
       "height": 34
     },
     "c1_skill_demolition_note": {
-      "x": 321,
-      "y": 1910,
+      "x": 498,
+      "y": 2024,
       "width": 145,
       "height": 34
     },
     "c1_skill_disguise_note": {
-      "x": 279,
-      "y": 1956,
+      "x": 456,
+      "y": 2071,
       "width": 187,
       "height": 34
     },
     "c1_skill_dodge_note": {
-      "x": 237,
-      "y": 2002,
+      "x": 414,
+      "y": 2117,
       "width": 228,
       "height": 34
     },
     "c1_skill_drive_note": {
-      "x": 218,
-      "y": 2048,
+      "x": 395,
+      "y": 2163,
       "width": 247,
       "height": 34
     },
     "c1_skill_evaluate_note": {
-      "x": 278,
-      "y": 2140,
+      "x": 456,
+      "y": 2255,
       "width": 187,
       "height": 34
     },
     "c1_skill_gamble_note": {
-      "x": 255,
-      "y": 2414,
+      "x": 434,
+      "y": 2529,
       "width": 209,
       "height": 34
     },
     "c1_skill_inquiry_note": {
-      "x": 255,
-      "y": 2460,
+      "x": 434,
+      "y": 2575,
       "width": 209,
       "height": 34
     },
     "c1_skill_interrogation_note": {
-      "x": 359,
-      "y": 2506,
+      "x": 538,
+      "y": 2621,
       "width": 105,
       "height": 34
     },
     "c1_skill_intimidate_note": {
-      "x": 276,
-      "y": 2552,
+      "x": 455,
+      "y": 2667,
       "width": 187,
       "height": 34
     },
     "c1_skill_invocation_note": {
-      "x": 317,
-      "y": 2598,
+      "x": 497,
+      "y": 2713,
       "width": 146,
       "height": 34
     },
     "c1_skill_lip_reading_note": {
-      "x": 1793,
-      "y": 1045,
+      "x": 1964,
+      "y": 1154,
       "width": 125,
       "height": 34
     },
     "c1_skill_literacy_note": {
-      "x": 1709,
-      "y": 1091,
+      "x": 1880,
+      "y": 1201,
       "width": 209,
       "height": 34
     },
     "c1_skill_logic_note": {
-      "x": 1689,
-      "y": 1137,
+      "x": 1861,
+      "y": 1247,
       "width": 229,
       "height": 34
     },
     "c1_skill_midicae_note": {
-      "x": 1709,
-      "y": 1182,
+      "x": 1881,
+      "y": 1292,
       "width": 208,
       "height": 34
     },
     "c1_skill_navigation_note": {
-      "x": 1771,
-      "y": 1227,
+      "x": 1943,
+      "y": 1337,
       "width": 145,
       "height": 34
     },
     "c1_skill_pilot_note": {
-      "x": 1666,
-      "y": 1410,
+      "x": 1839,
+      "y": 1520,
       "width": 250,
       "height": 34
     },
     "c1_skill_psyniscience_note": {
-      "x": 1791,
-      "y": 1548,
+      "x": 1964,
+      "y": 1658,
       "width": 124,
       "height": 34
     },
     "c1_skill_scrutiny_note": {
-      "x": 1727,
-      "y": 1824,
+      "x": 1902,
+      "y": 1934,
       "width": 187,
       "height": 34
     },
     "c1_skill_search_note": {
-      "x": 1706,
-      "y": 1870,
+      "x": 1881,
+      "y": 1980,
       "width": 208,
       "height": 34
     },
     "c1_skill_secret_tongue_note": {
-      "x": 1809,
-      "y": 1916,
+      "x": 1984,
+      "y": 2026,
       "width": 105,
       "height": 34
     },
     "c1_skill_security_note": {
-      "x": 1705,
-      "y": 1962,
+      "x": 1880,
+      "y": 2072,
       "width": 209,
       "height": 34
     },
     "c1_skill_shadowing_note": {
-      "x": 1767,
-      "y": 2008,
+      "x": 1943,
+      "y": 2118,
       "width": 146,
       "height": 34
     },
     "c1_skill_silent_move_note": {
-      "x": 1769,
-      "y": 2054,
+      "x": 1945,
+      "y": 2164,
       "width": 144,
       "height": 34
     },
     "c1_skill_sleight_of_hand_note": {
-      "x": 1830,
-      "y": 2100,
+      "x": 2006,
+      "y": 2210,
       "width": 82,
       "height": 34
     },
     "c1_skill_survival_note": {
-      "x": 1703,
-      "y": 2374,
+      "x": 1880,
+      "y": 2484,
       "width": 209,
       "height": 34
     },
     "c1_skill_swim_note": {
-      "x": 1641,
-      "y": 2420,
+      "x": 1819,
+      "y": 2531,
       "width": 271,
       "height": 34
     },
     "c1_skill_tech_use_note": {
-      "x": 1729,
-      "y": 2466,
+      "x": 1907,
+      "y": 2576,
       "width": 182,
       "height": 34
     },
     "c1_skill_tracking_note": {
-      "x": 1723,
-      "y": 2512,
+      "x": 1901,
+      "y": 2622,
       "width": 187,
       "height": 34
     },
     "c1_skill_trade_note": {
-      "x": 1682,
-      "y": 2558,
+      "x": 1860,
+      "y": 2669,
       "width": 228,
       "height": 34
     },
     "c1_skill_wrangling_note": {
-      "x": 1744,
-      "y": 2604,
+      "x": 1922,
+      "y": 2714,
       "width": 166,
       "height": 34
     },
     "c1_talent_first_line": {
-      "x": 914,
-      "y": 950,
+      "x": 1086,
+      "y": 1062,
       "width": 524,
       "height": 34
     },
     "c1_skill_acrobatics_bonus": {
-      "x": 759,
-      "y": 1034,
+      "x": 931,
+      "y": 1146,
       "width": 79,
       "height": 42
     },
     "c1_skill_awareness_bonus": {
-      "x": 759,
-      "y": 1080,
+      "x": 931,
+      "y": 1193,
       "width": 79,
       "height": 42
     },
     "c1_skill_barter_bonus": {
-      "x": 759,
-      "y": 1126,
+      "x": 932,
+      "y": 1239,
       "width": 79,
       "height": 42
     },
     "c1_skill_blather_bonus": {
-      "x": 759,
-      "y": 1172,
+      "x": 932,
+      "y": 1284,
       "width": 79,
       "height": 42
     },
     "c1_skill_carouse_bonus": {
-      "x": 761,
-      "y": 1219,
+      "x": 934,
+      "y": 1332,
       "width": 79,
       "height": 41
     },
     "c1_skill_charm_bonus": {
-      "x": 761,
-      "y": 1264,
+      "x": 934,
+      "y": 1377,
       "width": 79,
       "height": 42
     },
     "c1_skill_chem_use_bonus": {
-      "x": 759,
-      "y": 1308,
+      "x": 932,
+      "y": 1421,
       "width": 79,
       "height": 42
     },
     "c1_skill_ciphers_bonus": {
-      "x": 759,
-      "y": 1356,
+      "x": 933,
+      "y": 1469,
       "width": 81,
       "height": 42
     },
     "c1_skill_climb_bonus": {
-      "x": 760,
-      "y": 1402,
+      "x": 934,
+      "y": 1515,
       "width": 80,
       "height": 41
     },
     "c1_skill_command_bonus": {
-      "x": 760,
-      "y": 1447,
+      "x": 934,
+      "y": 1560,
       "width": 78,
       "height": 42
     },
     "c1_skill_commerce_bonus": {
-      "x": 759,
-      "y": 1494,
+      "x": 933,
+      "y": 1607,
       "width": 79,
       "height": 42
     },
     "c1_skill_common_lore_bonus": {
-      "x": 759,
-      "y": 1586,
+      "x": 934,
+      "y": 1699,
       "width": 79,
       "height": 42
     },
     "c1_skill_common_lore_custom_1_bonus": {
-      "x": 759,
-      "y": 1632,
+      "x": 934,
+      "y": 1745,
       "width": 79,
       "height": 41
     },
     "c1_skill_common_lore_custom_2_bonus": {
-      "x": 758,
-      "y": 1678,
+      "x": 933,
+      "y": 1791,
       "width": 80,
       "height": 41
     },
     "c1_skill_common_lore_custom_3_bonus": {
-      "x": 758,
-      "y": 1724,
+      "x": 933,
+      "y": 1837,
       "width": 80,
       "height": 41
     },
     "c1_skill_concealment_bonus": {
-      "x": 759,
-      "y": 1767,
+      "x": 934,
+      "y": 1880,
       "width": 79,
       "height": 42
     },
     "c1_skill_contortionist_bonus": {
-      "x": 759,
-      "y": 1813,
+      "x": 935,
+      "y": 1926,
       "width": 79,
       "height": 42
     },
     "c1_skill_deceive_bonus": {
-      "x": 759,
-      "y": 1858,
+      "x": 935,
+      "y": 1971,
       "width": 79,
       "height": 42
     },
     "c1_skill_demolition_bonus": {
-      "x": 759,
-      "y": 1904,
+      "x": 935,
+      "y": 2017,
       "width": 79,
       "height": 42
     },
     "c1_skill_disguise_bonus": {
-      "x": 757,
-      "y": 1952,
+      "x": 933,
+      "y": 2065,
       "width": 79,
       "height": 42
     },
     "c1_skill_dodge_bonus": {
-      "x": 757,
-      "y": 1998,
+      "x": 933,
+      "y": 2111,
       "width": 79,
       "height": 42
     },
     "c1_skill_drive_bonus": {
-      "x": 759,
-      "y": 2043,
+      "x": 936,
+      "y": 2156,
       "width": 79,
       "height": 42
     },
     "c1_skill_evaluate_bonus": {
-      "x": 759,
-      "y": 2088,
+      "x": 936,
+      "y": 2202,
       "width": 79,
       "height": 42
     },
     "c1_skill_forbidden_lore_bonus": {
-      "x": 759,
-      "y": 2134,
+      "x": 936,
+      "y": 2247,
       "width": 79,
       "height": 42
     },
     "c1_skill_forbidden_lore_custom_1_bonus": {
-      "x": 759,
-      "y": 2224,
+      "x": 937,
+      "y": 2337,
       "width": 79,
       "height": 42
     },
     "c1_skill_forbidden_lore_custom_2_bonus": {
-      "x": 759,
-      "y": 2270,
+      "x": 937,
+      "y": 2383,
       "width": 79,
       "height": 42
     },
     "c1_skill_forbidden_lore_custom_3_bonus": {
-      "x": 759,
-      "y": 2316,
+      "x": 937,
+      "y": 2429,
       "width": 79,
       "height": 42
     },
     "c1_skill_gamble_bonus": {
-      "x": 759,
-      "y": 2406,
+      "x": 937,
+      "y": 2520,
       "width": 79,
       "height": 42
     },
     "c1_skill_inquiry_bonus": {
-      "x": 759,
-      "y": 2453,
+      "x": 938,
+      "y": 2567,
       "width": 79,
       "height": 42
     },
     "c1_skill_interrogation_bonus": {
-      "x": 759,
-      "y": 2499,
+      "x": 938,
+      "y": 2612,
       "width": 79,
       "height": 42
     },
     "c1_skill_intimidate_bonus": {
-      "x": 759,
-      "y": 2545,
+      "x": 938,
+      "y": 2658,
       "width": 79,
       "height": 42
     },
     "c1_skill_invocation_bonus": {
-      "x": 759,
-      "y": 2590,
+      "x": 938,
+      "y": 2703,
       "width": 79,
       "height": 42
     },
     "c1_skill_lip_reading_bonus": {
-      "x": 2210,
-      "y": 1040,
+      "x": 2381,
+      "y": 1148,
       "width": 78,
       "height": 42
     },
     "c1_skill_literacy_bonus": {
-      "x": 2210,
-      "y": 1086,
+      "x": 2381,
+      "y": 1194,
       "width": 78,
       "height": 42
     },
     "c1_skill_logic_bonus": {
-      "x": 2210,
-      "y": 1132,
+      "x": 2381,
+      "y": 1240,
       "width": 78,
       "height": 42
     },
     "c1_skill_midicae_bonus": {
-      "x": 2209,
-      "y": 1178,
+      "x": 2380,
+      "y": 1286,
       "width": 79,
       "height": 42
     },
     "c1_skill_navigation_bonus": {
-      "x": 2209,
-      "y": 1224,
+      "x": 2381,
+      "y": 1332,
       "width": 78,
       "height": 42
     },
     "c1_skill_performer_bonus": {
-      "x": 2209,
-      "y": 1314,
+      "x": 2381,
+      "y": 1422,
       "width": 78,
       "height": 42
     },
     "c1_skill_performer_custom_1_bonus": {
-      "x": 2208,
-      "y": 1360,
+      "x": 2380,
+      "y": 1468,
       "width": 79,
       "height": 42
     },
     "c1_skill_performer_custom_2_bonus": {
-      "x": 2208,
-      "y": 1406,
+      "x": 2380,
+      "y": 1514,
       "width": 78,
       "height": 41
     },
     "c1_skill_pilot_bonus": {
-      "x": 2208,
-      "y": 1452,
+      "x": 2381,
+      "y": 1560,
       "width": 78,
       "height": 42
     },
     "c1_skill_pilot_custom_1_bonus": {
-      "x": 2208,
-      "y": 1498,
+      "x": 2381,
+      "y": 1606,
       "width": 78,
       "height": 42
     },
     "c1_skill_pilot_custom_2_bonus": {
-      "x": 2208,
-      "y": 1544,
+      "x": 2381,
+      "y": 1652,
       "width": 78,
       "height": 40
     },
     "c1_skill_psyniscience_bonus": {
-      "x": 2207,
-      "y": 1636,
+      "x": 2381,
+      "y": 1744,
       "width": 79,
       "height": 42
     },
     "c1_skill_scholastic_lore_bonus": {
-      "x": 2207,
-      "y": 1682,
+      "x": 2381,
+      "y": 1790,
       "width": 78,
       "height": 42
     },
     "c1_skill_scholastic_lore_custom_1_bonus": {
-      "x": 2207,
-      "y": 1728,
+      "x": 2381,
+      "y": 1836,
       "width": 78,
       "height": 42
     },
     "c1_skill_scholastic_lore_custom_2_bonus": {
-      "x": 2206,
-      "y": 1774,
+      "x": 2380,
+      "y": 1883,
       "width": 79,
       "height": 41
     },
     "c1_skill_scrutiny_bonus": {
-      "x": 2206,
-      "y": 1819,
+      "x": 2380,
+      "y": 1928,
       "width": 79,
       "height": 41
     },
     "c1_skill_search_bonus": {
-      "x": 2206,
-      "y": 1865,
+      "x": 2381,
+      "y": 1974,
       "width": 78,
       "height": 41
     },
     "c1_skill_secret_tongue_bonus": {
-      "x": 2206,
-      "y": 1910,
+      "x": 2381,
+      "y": 2019,
       "width": 78,
       "height": 42
     },
     "c1_skill_security_bonus": {
-      "x": 2205,
-      "y": 1956,
+      "x": 2380,
+      "y": 2065,
       "width": 79,
       "height": 42
     },
     "c1_skill_shadowing_bonus": {
-      "x": 2205,
-      "y": 2003,
+      "x": 2380,
+      "y": 2112,
       "width": 79,
       "height": 41
     },
     "c1_skill_silent_move_bonus": {
-      "x": 2205,
-      "y": 2049,
+      "x": 2380,
+      "y": 2158,
       "width": 78,
       "height": 42
     },
     "c1_skill_sleight_of_hand_bonus": {
-      "x": 2205,
-      "y": 2095,
+      "x": 2381,
+      "y": 2204,
       "width": 78,
       "height": 42
     },
     "c1_skill_speak_language_bonus": {
-      "x": 2205,
-      "y": 2186,
+      "x": 2381,
+      "y": 2295,
       "width": 78,
       "height": 42
     },
     "c1_skill_speak_language_custom_1_bonus": {
-      "x": 2204,
-      "y": 2230,
+      "x": 2380,
+      "y": 2339,
       "width": 79,
       "height": 42
     },
     "c1_skill_speak_language_custom_2_bonus": {
-      "x": 2204,
-      "y": 2276,
+      "x": 2380,
+      "y": 2385,
       "width": 79,
       "height": 42
     },
     "c1_skill_survival_bonus": {
-      "x": 2204,
-      "y": 2368,
+      "x": 2381,
+      "y": 2476,
       "width": 78,
       "height": 42
     },
     "c1_skill_swim_bonus": {
-      "x": 2204,
-      "y": 2413,
+      "x": 2381,
+      "y": 2522,
       "width": 78,
       "height": 41
     },
     "c1_skill_tech_use_bonus": {
-      "x": 2204,
-      "y": 2459,
+      "x": 2381,
+      "y": 2568,
       "width": 78,
       "height": 42
     },
     "c1_skill_tracking_bonus": {
-      "x": 2203,
-      "y": 2505,
+      "x": 2380,
+      "y": 2613,
       "width": 78,
       "height": 41
     },
     "c1_skill_trade_bonus": {
-      "x": 2203,
-      "y": 2551,
+      "x": 2381,
+      "y": 2660,
       "width": 78,
       "height": 42
     },
     "c1_skill_wrangling_bonus": {
-      "x": 2203,
-      "y": 2596,
+      "x": 2381,
+      "y": 2705,
       "width": 78,
       "height": 42
     }
   },
   "character-page-2": {
     "c2_gear_1": {
-      "x": 1294,
-      "y": 899,
+      "x": 1385,
+      "y": 989,
       "width": 525,
       "height": 34
     },
     "c2_gear_2": {
-      "x": 1294,
-      "y": 945,
+      "x": 1386,
+      "y": 1035,
       "width": 525,
       "height": 34
     },
     "c2_gear_3": {
-      "x": 1294,
-      "y": 991,
+      "x": 1386,
+      "y": 1081,
       "width": 525,
       "height": 34
     },
     "c2_gear_4": {
-      "x": 1294,
-      "y": 1037,
+      "x": 1386,
+      "y": 1127,
       "width": 525,
       "height": 34
     },
     "c2_gear_5": {
-      "x": 1294,
-      "y": 1082,
+      "x": 1386,
+      "y": 1171,
       "width": 525,
       "height": 34
     },
     "c2_gear_6": {
-      "x": 1294,
-      "y": 1128,
+      "x": 1386,
+      "y": 1217,
       "width": 525,
       "height": 34
     },
     "c2_gear_7": {
-      "x": 1294,
-      "y": 1175,
+      "x": 1386,
+      "y": 1264,
       "width": 525,
       "height": 34
     },
     "c2_gear_8": {
-      "x": 1294,
-      "y": 1221,
+      "x": 1387,
+      "y": 1310,
       "width": 525,
       "height": 34
     },
     "c2_gear_9": {
-      "x": 1294,
-      "y": 1267,
+      "x": 1387,
+      "y": 1356,
       "width": 525,
       "height": 34
     },
     "c2_gear_10": {
-      "x": 1294,
-      "y": 1313,
+      "x": 1387,
+      "y": 1402,
       "width": 525,
       "height": 34
     },
     "c2_gear_11": {
-      "x": 1294,
-      "y": 1359,
+      "x": 1387,
+      "y": 1448,
       "width": 525,
       "height": 34
     },
     "c2_gear_12": {
-      "x": 1294,
-      "y": 1405,
+      "x": 1387,
+      "y": 1494,
       "width": 525,
       "height": 34
     },
     "c2_gear_13": {
-      "x": 1294,
-      "y": 1450,
+      "x": 1388,
+      "y": 1539,
       "width": 525,
       "height": 34
     },
     "c2_gear_14": {
-      "x": 1294,
-      "y": 1496,
+      "x": 1388,
+      "y": 1585,
       "width": 525,
       "height": 34
     },
     "c2_gear_15": {
-      "x": 1294,
-      "y": 1541,
+      "x": 1388,
+      "y": 1630,
       "width": 525,
       "height": 34
     },
     "c2_gear_16": {
-      "x": 1294,
-      "y": 1587,
+      "x": 1388,
+      "y": 1676,
       "width": 525,
       "height": 34
     },
     "c2_gear_17": {
-      "x": 1294,
-      "y": 1633,
+      "x": 1388,
+      "y": 1722,
       "width": 525,
       "height": 34
     },
     "c2_gear_18": {
-      "x": 1294,
-      "y": 1679,
+      "x": 1389,
+      "y": 1768,
       "width": 525,
       "height": 34
     },
     "c2_gear_19": {
-      "x": 1294,
-      "y": 1726,
+      "x": 1389,
+      "y": 1815,
       "width": 525,
       "height": 34
     },
     "c2_gear_20": {
-      "x": 1294,
-      "y": 1772,
+      "x": 1389,
+      "y": 1860,
       "width": 525,
       "height": 34
     },
     "c2_gear_21": {
-      "x": 1294,
-      "y": 1818,
+      "x": 1389,
+      "y": 1906,
       "width": 525,
       "height": 34
     },
     "c2_gear_22": {
-      "x": 1294,
-      "y": 1863,
+      "x": 1389,
+      "y": 1951,
       "width": 525,
       "height": 34
     },
     "c2_gear_23": {
-      "x": 1294,
-      "y": 1909,
+      "x": 1390,
+      "y": 1997,
       "width": 525,
       "height": 34
     },
     "c2_acquisition_1": {
-      "x": 1854,
-      "y": 903,
+      "x": 1945,
+      "y": 991,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_2": {
-      "x": 1854,
-      "y": 949,
+      "x": 1946,
+      "y": 1037,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_3": {
-      "x": 1854,
-      "y": 995,
+      "x": 1946,
+      "y": 1083,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_4": {
-      "x": 1854,
-      "y": 1040,
+      "x": 1946,
+      "y": 1128,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_5": {
-      "x": 1854,
-      "y": 1085,
+      "x": 1946,
+      "y": 1173,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_6": {
-      "x": 1854,
-      "y": 1131,
+      "x": 1946,
+      "y": 1219,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_7": {
-      "x": 1854,
-      "y": 1178,
+      "x": 1947,
+      "y": 1266,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_8": {
-      "x": 1854,
-      "y": 1224,
+      "x": 1947,
+      "y": 1312,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_9": {
-      "x": 1854,
-      "y": 1271,
+      "x": 1947,
+      "y": 1359,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_10": {
-      "x": 1854,
-      "y": 1316,
+      "x": 1947,
+      "y": 1403,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_11": {
-      "x": 1854,
-      "y": 1362,
+      "x": 1947,
+      "y": 1449,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_12": {
-      "x": 1854,
-      "y": 1408,
+      "x": 1948,
+      "y": 1495,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_13": {
-      "x": 1854,
-      "y": 1454,
+      "x": 1948,
+      "y": 1541,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_14": {
-      "x": 1854,
-      "y": 1499,
+      "x": 1948,
+      "y": 1586,
       "width": 524,
       "height": 34
     },
     "c2_acquisition_15": {
-      "x": 1854,
-      "y": 1545,
+      "x": 1948,
+      "y": 1632,
       "width": 524,
       "height": 34
     },
     "c2_insanity_current_points": {
-      "x": 2094,
-      "y": 2352,
+      "x": 2192,
+      "y": 2437,
       "width": 256,
       "height": 34
     },
     "c2_insanity_degree": {
-      "x": 1975,
-      "y": 2398,
+      "x": 2073,
+      "y": 2484,
       "width": 375,
       "height": 34
     },
     "c2_insanity_disorders": {
-      "x": 2013,
-      "y": 2444,
+      "x": 2111,
+      "y": 2529,
       "width": 337,
       "height": 34
     },
     "c2_insanity_disorders_2": {
-      "x": 1848,
-      "y": 2490,
+      "x": 1946,
+      "y": 2576,
       "width": 502,
+      "height": 34
+    },
+    "c2_weapon_1_name": {
+      "x": 310,
+      "y": 982,
+      "width": 984,
+      "height": 34
+    },
+    "c2_weapon_1_class": {
+      "x": 300,
+      "y": 1032,
+      "width": 232,
+      "height": 34
+    },
+    "c2_weapon_1_damage": {
+      "x": 670,
+      "y": 1031,
+      "width": 209,
+      "height": 34
+    },
+    "c2_weapon_1_type": {
+      "x": 966,
+      "y": 1030,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_1_pen": {
+      "x": 1162,
+      "y": 1029,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_1_range": {
+      "x": 319,
+      "y": 1082,
+      "width": 212,
+      "height": 34
+    },
+    "c2_weapon_1_rof": {
+      "x": 616,
+      "y": 1081,
+      "width": 211,
+      "height": 34
+    },
+    "c2_weapon_1_clip": {
+      "x": 903,
+      "y": 1080,
+      "width": 129,
+      "height": 34
+    },
+    "c2_weapon_1_reload": {
+      "x": 1150,
+      "y": 1079,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_1_special_rules_1": {
+      "x": 432,
+      "y": 1131,
+      "width": 853,
+      "height": 34
+    },
+    "c2_weapon_1_special_rules_2": {
+      "x": 218,
+      "y": 1182,
+      "width": 1067,
+      "height": 34
+    },
+    "c2_weapon_2_name": {
+      "x": 311,
+      "y": 1365,
+      "width": 983,
+      "height": 34
+    },
+    "c2_weapon_2_class": {
+      "x": 300,
+      "y": 1415,
+      "width": 232,
+      "height": 34
+    },
+    "c2_weapon_2_damage": {
+      "x": 669,
+      "y": 1414,
+      "width": 211,
+      "height": 34
+    },
+    "c2_weapon_2_type": {
+      "x": 967,
+      "y": 1413,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_2_pen": {
+      "x": 1162,
+      "y": 1413,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_2_range": {
+      "x": 318,
+      "y": 1465,
+      "width": 211,
+      "height": 34
+    },
+    "c2_weapon_2_rof": {
+      "x": 616,
+      "y": 1464,
+      "width": 211,
+      "height": 34
+    },
+    "c2_weapon_2_clip": {
+      "x": 904,
+      "y": 1463,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_2_reload": {
+      "x": 1150,
+      "y": 1463,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_2_special_rules_1": {
+      "x": 432,
+      "y": 1515,
+      "width": 853,
+      "height": 34
+    },
+    "c2_weapon_2_special_rules_2": {
+      "x": 218,
+      "y": 1565,
+      "width": 1067,
+      "height": 34
+    },
+    "c2_weapon_3_name": {
+      "x": 311,
+      "y": 1748,
+      "width": 982,
+      "height": 34
+    },
+    "c2_weapon_3_class": {
+      "x": 301,
+      "y": 1798,
+      "width": 232,
+      "height": 34
+    },
+    "c2_weapon_3_damage": {
+      "x": 670,
+      "y": 1798,
+      "width": 211,
+      "height": 34
+    },
+    "c2_weapon_3_type": {
+      "x": 968,
+      "y": 1797,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_3_pen": {
+      "x": 1162,
+      "y": 1797,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_3_range": {
+      "x": 320,
+      "y": 1848,
+      "width": 211,
+      "height": 34
+    },
+    "c2_weapon_3_rof": {
+      "x": 616,
+      "y": 1849,
+      "width": 212,
+      "height": 34
+    },
+    "c2_weapon_3_clip": {
+      "x": 904,
+      "y": 1848,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_3_reload": {
+      "x": 1150,
+      "y": 1850,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_3_special_rules_1": {
+      "x": 431,
+      "y": 1898,
+      "width": 853,
+      "height": 34
+    },
+    "c2_weapon_3_special_rules_2": {
+      "x": 218,
+      "y": 1949,
+      "width": 1066,
+      "height": 34
+    },
+    "c2_weapon_4_name": {
+      "x": 312,
+      "y": 2131,
+      "width": 983,
+      "height": 34
+    },
+    "c2_weapon_4_class": {
+      "x": 301,
+      "y": 2179,
+      "width": 231,
+      "height": 34
+    },
+    "c2_weapon_4_damage": {
+      "x": 669,
+      "y": 2180,
+      "width": 212,
+      "height": 34
+    },
+    "c2_weapon_4_type": {
+      "x": 967,
+      "y": 2179,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_4_pen": {
+      "x": 1161,
+      "y": 2179,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_4_range": {
+      "x": 319,
+      "y": 2230,
+      "width": 212,
+      "height": 34
+    },
+    "c2_weapon_4_rof": {
+      "x": 615,
+      "y": 2230,
+      "width": 212,
+      "height": 34
+    },
+    "c2_weapon_4_clip": {
+      "x": 903,
+      "y": 2229,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_4_reload": {
+      "x": 1149,
+      "y": 2229,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_4_special_rules_1": {
+      "x": 431,
+      "y": 2283,
+      "width": 853,
+      "height": 34
+    },
+    "c2_weapon_4_special_rules_2": {
+      "x": 219,
+      "y": 2333,
+      "width": 1065,
+      "height": 34
+    },
+    "c2_weapon_5_name": {
+      "x": 312,
+      "y": 2515,
+      "width": 983,
+      "height": 34
+    },
+    "c2_weapon_5_class": {
+      "x": 301,
+      "y": 2565,
+      "width": 231,
+      "height": 34
+    },
+    "c2_weapon_5_damage": {
+      "x": 669,
+      "y": 2565,
+      "width": 211,
+      "height": 34
+    },
+    "c2_weapon_5_type": {
+      "x": 967,
+      "y": 2563,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_5_pen": {
+      "x": 1161,
+      "y": 2562,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_5_range": {
+      "x": 319,
+      "y": 2615,
+      "width": 212,
+      "height": 34
+    },
+    "c2_weapon_5_rof": {
+      "x": 615,
+      "y": 2614,
+      "width": 212,
+      "height": 34
+    },
+    "c2_weapon_5_clip": {
+      "x": 903,
+      "y": 2613,
+      "width": 127,
+      "height": 34
+    },
+    "c2_weapon_5_reload": {
+      "x": 1149,
+      "y": 2612,
+      "width": 128,
+      "height": 34
+    },
+    "c2_weapon_5_special_rules_1": {
+      "x": 431,
+      "y": 2664,
+      "width": 852,
+      "height": 34
+    },
+    "c2_weapon_5_special_rules_2": {
+      "x": 216,
+      "y": 2715,
+      "width": 1067,
       "height": 34
     }
   },
