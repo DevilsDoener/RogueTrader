@@ -46,7 +46,9 @@ def _library_card(chapter):
 
     The filter string is built here (not in the template) so autoescape stays
     in charge of quotes and angle brackets in section titles. It covers the
-    chapter title and its level-1 and level-2 sections, casefolded.
+    chapter title and its level-1 and level-2 sections, casefolded; the
+    template nests each level-1 section's children under it, so a level-2
+    match can be shown and marked too.
     """
     sections = chapter.navigable_sections
     words = [chapter.short_title, chapter.title]

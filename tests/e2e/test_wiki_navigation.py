@@ -140,6 +140,33 @@ def test_filtering_hides_bands_without_a_match_entirely(
     assert page.is_visible(vorspann) and page.is_visible(anhang)
 
 
+def test_a_level_two_match_is_shown_and_marked_inside_its_card(
+    page, live_server, owner, real_corpus
+):
+    _open_library(page, live_server, owner)
+    card = '.library-card:has(a.library-card-title:text-is("Playing the Game"))'
+    sub_link = f'{card} .library-card-subsections a:text-is("Critical Damage")'
+    # Unfiltered, the level-2 entries stay out of the way.
+    page.click(f"{card} summary")
+    assert page.locator(sub_link).count() == 1
+    assert not page.is_visible(sub_link)
+    page.click(f"{card} summary")
+
+    page.fill("#library-filter", "critical")
+
+    assert page.is_visible(sub_link)
+    assert "is-match" in (page.get_attribute(sub_link, "class") or "")
+    assert page.get_attribute(sub_link, "href") == "/wiki/playing-the-game/#sec-critical-damage"
+    # Only matching level-2 entries appear, not their unmatched siblings.
+    visible_subs = page.locator(f"{card} .library-card-subsections a:visible")
+    assert visible_subs.count() >= 1
+    for text in visible_subs.all_inner_texts():
+        assert "critical" in text.casefold()
+
+    page.fill("#library-filter", "")
+    assert not page.is_visible(sub_link)
+
+
 def test_a_contents_list_the_reader_opened_stays_open_after_filtering(
     page, live_server, owner, real_corpus
 ):
@@ -218,6 +245,21 @@ def test_the_outline_filter_hides_sections_that_do_not_match(
 
     assert page.is_visible(healing)
     assert not page.is_visible(hit_locations)  # its branch folds up again
+
+
+def test_the_outline_filter_shows_a_focus_ring(page, live_server, owner, real_corpus):
+    _open_chapter(page, live_server, owner, "/wiki/playing-the-game/")
+    shadow = "getComputedStyle(document.querySelector('.wiki-toc-filter')).boxShadow"
+    unfocused = page.evaluate(shadow)
+
+    page.focus(".wiki-toc-filter")
+    page.wait_for_timeout(250)  # past the box-shadow transition
+    focused = page.evaluate(shadow)
+
+    # One extra shadow layer: the 3px ring, laid over the two mask shadows.
+    assert focused != unfocused
+    assert focused.count("rgb") == unfocused.count("rgb") + 1
+    assert "0px 0px 0px 3px" in focused
 
 
 def test_a_search_query_highlights_the_chapter_until_removed(
@@ -459,13 +501,74 @@ def test_the_topbar_field_opens_the_palette_without_looping(
     # Let any focus bounce settle (two frames) before checking it stayed shut.
     page.evaluate("() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))")
     assert page.locator(PALETTE_OPEN).count() == 0
-    assert page.evaluate("document.activeElement.id") != "topbar-search-input"
+    # Focus returns to the field that opened it, and that does not reopen it.
+    assert page.evaluate("document.activeElement.id") == "topbar-search-input"
 
     # A click on the backdrop closes it too.
     page.keyboard.press("Control+k")
     page.wait_for_selector(PALETTE_OPEN)
     page.mouse.click(20, 880)
     page.wait_for_selector(PALETTE_CLOSED, state="attached")
+
+
+def test_tabbing_through_the_topbar_field_leaves_the_palette_closed(
+    page, live_server, owner, real_corpus
+):
+    _open_dashboard(page, live_server, owner)
+    page.focus(".topbar .brand")
+
+    page.keyboard.press("Tab")
+    assert page.evaluate("document.activeElement.id") == "topbar-search-input"
+    page.evaluate("() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))")
+    assert page.locator(PALETTE_OPEN).count() == 0
+
+    # Tab passes on through the header: no dialog grabbed the focus.
+    page.keyboard.press("Tab")
+    assert page.evaluate("document.activeElement.matches('.topbar-search button')")
+    assert page.locator(PALETTE_OPEN).count() == 0
+
+
+def test_typing_into_the_topbar_field_opens_the_palette_with_that_letter(
+    page, live_server, owner, real_corpus
+):
+    _open_dashboard(page, live_server, owner)
+    page.focus(".topbar .brand")
+    page.keyboard.press("Tab")
+    assert page.locator(PALETTE_OPEN).count() == 0
+
+    page.keyboard.press("h")
+    page.wait_for_selector(PALETTE_OPEN)
+    assert page.evaluate("document.activeElement.classList.contains('auspex-input')")
+    assert page.input_value(PALETTE_INPUT) == "h"
+    assert page.input_value("#topbar-search-input") == ""
+
+    # The caret sits after the carried letter, so typing simply continues.
+    page.keyboard.type("it locations")
+    assert page.input_value(PALETTE_INPUT) == "hit locations"
+    page.locator("#auspex .auspex-option").first.wait_for()
+
+
+def test_palette_groups_are_named_by_their_headings(
+    page, live_server, owner, real_corpus
+):
+    _open_dashboard(page, live_server, owner)
+    page.keyboard.press("Control+k")
+    page.fill(PALETTE_INPUT, "hit locations")
+    page.locator("#auspex .auspex-option").first.wait_for()
+
+    groups = page.locator("#auspex [role=listbox] > [role=group]")
+    assert groups.count() >= 1
+    for index in range(groups.count()):
+        group = groups.nth(index)
+        heading_id = group.get_attribute("aria-labelledby")
+        assert heading_id
+        heading = page.locator(f"#{heading_id}")
+        assert heading.count() == 1
+        assert heading.inner_text().strip()
+        assert group.locator("[role=option]").count() >= 1
+    # Every option sits in a group; none is left directly in the listbox.
+    assert page.locator("#auspex [role=listbox] > [role=option]").count() == 0
+    assert page.get_attribute(PALETTE_INPUT, "aria-label") == "Regelwerk durchsuchen"
 
 
 def test_the_empty_palette_lists_recent_reading(page, live_server, owner, real_corpus):

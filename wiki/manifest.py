@@ -128,4 +128,3 @@ QUICK_LINKS: Tuple[QuickLink, ...] = (
     QuickLink("Gefahren des Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
     QuickLink("Raumkampf", "starships", "starship-combat"),
 )
-

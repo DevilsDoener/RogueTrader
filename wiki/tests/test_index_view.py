@@ -59,6 +59,36 @@ def test_all_top_level_sections_are_listed_in_the_collapsible_contents(
 
 
 @pytest.mark.django_db
+def test_level_two_sections_are_nested_under_their_parent_for_the_filter(
+    client, user_factory, tmp_path, settings
+):
+    _publish(
+        tmp_path,
+        settings,
+        {
+            "01-Charaktererschaffung.md": (
+                "# One\n\n## Injury\na\n\n### Critical Damage\nb\n\n## Other\nc\n"
+            )
+        },
+    )
+
+    content = _get(client, user_factory)
+    chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "charaktererschaffung"})
+
+    nested = re.search(
+        r'<a href="[^"]*#sec-injury">Injury</a>\s*<ul class="library-card-subsections">(.*?)</ul>',
+        content,
+        re.S,
+    )
+    assert nested, "the level-2 list sits inside its level-1 entry"
+    assert f'href="{chapter_url}#sec-critical-damage">Critical Damage</a>' in nested.group(1)
+    # A level-1 entry without children gets no empty sub-list.
+    assert content.count('class="library-card-subsections"') == 1
+    # The card still counts level-1 sections only.
+    assert "2 Abschnitte" in content
+
+
+@pytest.mark.django_db
 def test_the_page_is_the_bibliothek_with_a_filter_and_fulltext_form(
     client, user_factory, tmp_path, settings
 ):

@@ -17,6 +17,8 @@ def test_authenticated_shell_renders_the_palette(client, owner):
     assert 'data-search-url="/search/"' in content
     assert 'role="combobox"' in content
     assert 'aria-controls="auspex-results"' in content
+    # A real accessible name, not only the placeholder.
+    assert 'aria-label="Regelwerk durchsuchen"' in content
     assert "js/auspex.js" in content
     assert 'class="topbar-search-kbd js-only"' in content
     # The idle/empty/error note is a live region beside the listbox.

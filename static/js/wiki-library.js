@@ -67,6 +67,8 @@
         }
         var anyLinkMatch = false;
         if (tokens.length && matches) {
+          // Level-1 entries and their nested level-2 entries alike; portal.css
+          // reveals a level-2 entry only while it carries `is-match`.
           Array.prototype.forEach.call(details.querySelectorAll("a"), function (link) {
             var text = fold(link.textContent);
             if (tokens.every(function (token) { return text.indexOf(token) !== -1; })) {

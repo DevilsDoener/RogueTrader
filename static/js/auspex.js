@@ -1,7 +1,8 @@
 /*
- * Auspex: the global command palette (Ctrl+K / Meta+K, "/", or the topbar
- * search field). Suggests chapters, section titles and full-text hits from
- * `wiki:suggest` as you type; fully keyboard-driven (combobox + listbox).
+ * Auspex: the global command palette (Ctrl+K / Meta+K, "/", or a click or
+ * keystroke in the topbar search field). Suggests chapters, section titles
+ * and full-text hits from `wiki:suggest` as you type; fully keyboard-driven
+ * (combobox + listbox).
  *
  * Progressive enhancement: without this script the <dialog> is never opened
  * and the topbar form stays a plain GET search. Server strings are inserted
@@ -177,14 +178,25 @@
     if (!items.length) {
       return;
     }
+    // ARIA 1.2 listbox > group > option: the group is named by its visible
+    // heading, so a screen reader announces "Kapitel", "Abschnitte" ... with
+    // the options. The heading stays the first child, which revealOption()
+    // relies on to scroll it into view with the group's first option.
+    var headingId = "auspex-group-" + results.children.length;
+    var group = document.createElement("div");
+    group.className = "auspex-optgroup";
+    group.setAttribute("role", "group");
+    group.setAttribute("aria-labelledby", headingId);
     var heading = document.createElement("div");
     heading.className = "auspex-group";
+    heading.id = headingId;
     heading.setAttribute("role", "presentation");
     heading.textContent = label;
-    results.appendChild(heading);
+    group.appendChild(heading);
     items.forEach(function (item) {
-      results.appendChild(makeOption(item));
+      group.appendChild(makeOption(item));
     });
+    results.appendChild(group);
   }
 
   function trail(numeral, chapter, path) {
@@ -372,21 +384,28 @@
 
   /* ---- open / close ---------------------------------------------------- */
 
-  function open(initialValue) {
+  /* `caret` (optional): place the caret there instead of selecting the
+     text, so a keystroke carried over from the topbar field is not
+     overwritten by the next one. */
+  function open(initialValue, caret) {
     if (dialog.open) {
       input.focus();
       input.select();
       return;
     }
     var active = document.activeElement;
-    returnFocus = active && active !== document.body && active !== topbarInput ? active : null;
+    returnFocus = active && active !== document.body ? active : null;
     if (typeof initialValue === "string") {
       input.value = initialValue;
     }
     navigating = false;
     dialog.showModal();
     input.focus();
-    input.select();
+    if (typeof caret === "number") {
+      input.setSelectionRange(caret, caret);
+    } else {
+      input.select();
+    }
     update(true);
   }
 
@@ -402,12 +421,10 @@
     cancelPending();
     var target = returnFocus;
     returnFocus = null;
-    // Never hand focus back to the topbar field: focusing it opens the
-    // palette again.
-    if (!navigating && target && target !== topbarInput && document.contains(target)) {
+    // Focus goes back where the reader was, the topbar field included:
+    // focusing that field no longer opens the palette, so nothing loops.
+    if (!navigating && target && document.contains(target)) {
       target.focus({ preventScroll: true });
-    } else if (document.activeElement === topbarInput) {
-      topbarInput.blur();
     }
   });
 
@@ -536,16 +553,38 @@
     }
   });
 
+  // The topbar field opens the palette on a click or on the first printable
+  // key typed into it -- never on focus alone, so Tab passes through the
+  // header without a dialog appearing (WCAG 3.2.1). Enter still submits the
+  // plain GET form.
   if (topbarInput) {
-    var openFromTopbar = function () {
-      if (dialog.open) {
+    topbarInput.addEventListener("click", function () {
+      if (!dialog.open) {
+        open(topbarInput.value);
+      }
+    });
+    topbarInput.addEventListener("keydown", function (event) {
+      // AltGr (reported as Ctrl+Alt on Windows) types characters like "@".
+      var altGraph =
+        typeof event.getModifierState === "function" && event.getModifierState("AltGraph");
+      if (
+        dialog.open ||
+        event.isComposing ||
+        ((event.ctrlKey || event.metaKey || event.altKey) && !altGraph) ||
+        typeof event.key !== "string" ||
+        event.key.length !== 1
+      ) {
         return;
       }
+      event.preventDefault();
+      // The keystroke replaces any selected text, as it would in the field.
       var value = topbarInput.value;
-      topbarInput.blur();
-      open(value);
-    };
-    topbarInput.addEventListener("focus", openFromTopbar);
-    topbarInput.addEventListener("click", openFromTopbar);
+      var from = topbarInput.selectionStart;
+      var to = topbarInput.selectionEnd;
+      if (typeof from !== "number" || typeof to !== "number") {
+        from = to = value.length;
+      }
+      open(value.slice(0, from) + event.key + value.slice(to), from + 1);
+    });
   }
 })();

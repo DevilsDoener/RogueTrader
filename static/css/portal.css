@@ -1144,9 +1144,12 @@ mark {
   font-size: 0.78rem;
 }
 
+/* The disclosure triangles already carry the outline's structure; list
+   bullets beside them only added noise. */
 .wiki-section-nav ul {
   margin: 0;
   padding-left: 1.1rem;
+  list-style: none;
 }
 
 .wiki-section-nav a {
@@ -1272,14 +1275,8 @@ mark {
   color: var(--rt-gold-bright);
 }
 
-/* The disclosure triangles already carry the outline's structure; list
-   bullets beside them only added noise. */
-.wiki-section-nav ul {
-  list-style: none;
-}
-
-/* Without bullets the top level needs no indent of its own: the triangles
-   sit in each item's padding. */
+/* Without bullets (see `.wiki-section-nav ul` above) the top level needs no
+   indent of its own: the triangles sit in each item's padding. */
 .wiki-section-nav > .wiki-toc-list {
   padding-left: 0;
 }
@@ -1302,11 +1299,15 @@ mark {
   box-shadow: 0 -0.6rem 0 0.35rem var(--rt-panel), 0 0.25rem 0 0.35rem var(--rt-panel);
   font-family: var(--rt-font-body);
   font-size: 0.85rem;
-  transition: border-color var(--rt-transition-fast);
+  transition: border-color var(--rt-transition-fast), box-shadow var(--rt-transition-fast);
 }
 
+/* The same focus ring as the Bibliothek filter (.library-search), laid over
+   the two panel-coloured mask shadows the sticky field keeps. */
 .wiki-section-nav input[type="search"].wiki-toc-filter:focus {
   border-color: var(--rt-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rt-focus) 28%, transparent),
+    0 -0.6rem 0 0.35rem var(--rt-panel), 0 0.25rem 0 0.35rem var(--rt-panel);
   outline: none;
 }
 
@@ -1822,6 +1823,23 @@ mark {
   color: var(--rt-gold-bright);
 }
 
+/* Level-2 sections under each "Inhalt" entry: quieter, and shown only while
+   the live filter (static/js/wiki-library.js) marks one of them, so a card
+   that matched on "Critical Damage" shows why. Without JS they stay hidden
+   and the level-1 list is unchanged. */
+.library-card-contents ul.library-card-subsections {
+  margin: 0.1rem 0 0 0.75rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--rt-border);
+  columns: auto;
+  font-size: 0.82rem;
+}
+
+.library-card-subsections:not(:has(a.is-match)),
+.library-card-subsections > li:not(:has(> a.is-match)) {
+  display: none;
+}
+
 .library-empty {
   margin: 2rem 0;
   padding: 1.25rem;
@@ -1829,12 +1847,6 @@ mark {
   border-radius: var(--rt-radius-lg);
   color: var(--rt-text-muted);
   text-align: center;
-}
-
-@media (max-width: 60rem) {
-  .library-recent-list {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ---------------------------------------------------------------------

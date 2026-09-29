@@ -59,16 +59,20 @@ process start into an immutable in-memory tree, so requests never touch disk.
   a word by repeating it, and chapters that are navigation rather than rules
   (the page index, the foreword) carry less weight.
 - **Auspex, the command palette.** `Ctrl`/`Cmd`+`K`, or `/` outside a text
-  field, opens it on any portal page; the top-bar search field opens it too.
+  field, opens it on any portal page; so does a click or a typed character in
+  the top-bar search field (tabbing onto that field alone does not).
   It fills from `GET /search/suggest/` (`wiki/suggest.py`) as you type with
   matching chapters, sections and full-text hits, is fully keyboard-driven
   (arrow keys, `Enter`, `Esc`), and shows the recently read chapters while the
   field is empty. `Enter` without a highlighted suggestion runs the full-text
   search. The client is `static/js/auspex.js`.
 - **The Bibliothek (`/wiki/`)** groups the chapters into the bands Vorspann,
-  Kapitel and Anhang, as the manifest declares them. Typing in its filter
-  narrows the cards and their sections live, and bands without a match
-  disappear. The "Schnellzugriff" chips come from `QUICK_LINKS` in
+  Kapitel and Anhang. The manifest only names each chapter's part; the bands
+  are built in `wiki/views.py` (`_library_bands`): the Vorspann and Anhang
+  parts keep their own band, and every numbered chapter shares the Kapitel
+  band. Typing in its filter narrows the cards live, marks the matching
+  sections (level-2 ones included), and bands without a match disappear.
+  The "Schnellzugriff" chips come from `QUICK_LINKS` in
   `wiki/manifest.py` (the partial is `wiki/templates/wiki/_quick_links.html`);
   edit that tuple to change them. "Weiterlesen" lists the places you last
   read. That history (also shown in the empty palette) is kept **only in the

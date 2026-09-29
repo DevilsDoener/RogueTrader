@@ -48,7 +48,18 @@
                   <summary>Inhalt</summary>
                   <ul>
                     {% for section in sections %}
-                      <li><a href="{% url 'wiki:chapter' chapter.slug %}#sec-{{ section.id }}">{{ section.title }}</a></li>
+                      <li>
+                        <a href="{% url 'wiki:chapter' chapter.slug %}#sec-{{ section.id }}">{{ section.title }}</a>
+                        {% comment %}Level-2 sections: hidden by portal.css until the
+                           live filter marks one of them (a.is-match).{% endcomment %}
+                        {% if section.children %}
+                          <ul class="library-card-subsections">
+                            {% for child in section.children %}
+                              <li><a href="{% url 'wiki:chapter' chapter.slug %}#sec-{{ child.id }}">{{ child.title }}</a></li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
                     {% endfor %}
                   </ul>
                 </details>
