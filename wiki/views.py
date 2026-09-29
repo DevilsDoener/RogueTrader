@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.gzip import gzip_page
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 
 from .content import get_repository
 from .search import MIN_QUERY_LENGTH
+from .suggest import suggest
 
 PLACEHOLDER_TEXT = "Dieses Kapitel ist noch nicht ausgearbeitet."
 
@@ -15,7 +16,8 @@ PLACEHOLDER_TEXT = "Dieses Kapitel ist noch nicht ausgearbeitet."
 # Scoped to the two views that reflect no user input rather than applied
 # globally: the search view echoes `q`, and keeping compression away from
 # responses that mix a secret with attacker-influenced content keeps the BREACH
-# argument trivial instead of relying on Django's CSRF masking alone.
+# argument trivial instead of relying on Django's CSRF masking alone. The
+# suggest endpoint echoes `q` too, so it stays uncompressed for the same reason.
 gzip_chapter_html = method_decorator(gzip_page, name="dispatch")
 
 
@@ -66,3 +68,12 @@ class WikiSearchView(LoginRequiredMixin, TemplateView):
         )
         context["min_query_length"] = MIN_QUERY_LENGTH
         return context
+
+
+class WikiSuggestView(LoginRequiredMixin, View):
+    """JSON suggestions for the Auspex palette; deliberately not gzip-wrapped."""
+
+    def get(self, request):
+        response = JsonResponse(suggest(get_repository(), request.GET.get("q", "")))
+        response["Cache-Control"] = "private, max-age=60"
+        return response
