@@ -12,18 +12,43 @@
   </form>
 
   {% if results %}
-    <p>{{ results|length }} Treffer f&uuml;r &bdquo;{{ query }}&ldquo;</p>
-    <ul class="wiki-results">
-      {% for result in results %}
-        <li>
-          {% comment %}The query rides along as ?q= rather than in the fragment,
-             so the destination page can highlight the hit without this link
-             depending on the anchor scheme.{% endcomment %}
-          <a href="{% url 'wiki:chapter' result.chapter_slug %}?q={{ query|urlencode }}#sec-{{ result.section_id }}">{{ result.chapter_title }} &ndash; {{ result.title }}</a>
-          <p>{{ result.snippet|safe }}</p>
-        </li>
-      {% endfor %}
-    </ul>
+    <div class="search-layout">
+      <aside class="search-facets" aria-label="Nach Kapitel eingrenzen">
+        <ul>
+          <li>
+            <a href="{% url 'wiki:search' %}?q={{ query|urlencode }}"{% if not active_chapter %} aria-current="true"{% endif %}>
+              <span class="search-facet-label">Alle Kapitel</span>
+              <span class="search-facet-count">{{ all_count }}</span>
+            </a>
+          </li>
+          {% for facet in facets %}
+            <li>
+              <a href="{% url 'wiki:search' %}?q={{ query|urlencode }}&amp;kapitel={{ facet.chapter.slug|urlencode }}"{% if facet.chapter == active_chapter %} aria-current="true"{% endif %}>
+                <span class="search-facet-label">{% if facet.chapter.numeral %}{{ facet.chapter.numeral }} &middot; {% endif %}{{ facet.chapter.short_title }}</span>
+                <span class="search-facet-count">{{ facet.count }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </aside>
+
+      <div class="search-main">
+        <p class="search-summary">{{ total_count }} Treffer f&uuml;r &bdquo;{{ query }}&ldquo;{% if active_chapter %} in {{ active_chapter.short_title }}{% endif %}{% if results_capped %} &ndash; die besten {{ search_results_limit }} werden angezeigt{% endif %}</p>
+        <ol class="wiki-results">
+          {% for result, chapter in hits %}
+            <li class="search-hit-card{% if forloop.first and not active_chapter %} search-hit-card--best{% endif %}">
+              {% if forloop.first and not active_chapter %}<span class="search-hit-eyebrow">Bester Treffer</span>{% endif %}
+              {% comment %}The query rides along as ?q= rather than in the fragment,
+                 so the destination page can highlight the hit without this link
+                 depending on the anchor scheme.{% endcomment %}
+              <a class="search-hit-title" href="{% url 'wiki:chapter' result.chapter_slug %}?q={{ query|urlencode }}#sec-{{ result.section_id }}">{{ result.title }}</a>
+              <p class="search-hit-path">{% if chapter.numeral %}{{ chapter.numeral }} &middot; {% endif %}{{ chapter.short_title }}{% for part in result.path %} <span aria-hidden="true">&rsaquo;</span> {{ part }}{% endfor %}</p>
+              <p class="search-hit-snippet">{{ result.snippet|safe }}</p>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
   {% elif query_too_short %}
     <div class="empty-state">
       <p>Bitte mindestens {{ min_query_length }} Zeichen eingeben.</p>
@@ -35,6 +60,7 @@
         &uuml;bersetzt &ndash; wenn deiner nicht dabei ist, hilft der englische
         Fachbegriff. Es m&uuml;ssen alle eingegebenen W&ouml;rter im selben
         Abschnitt vorkommen, ein k&uuml;rzerer Suchbegriff findet daher mehr.</p>
+      {% include "wiki/_quick_links.html" %}
     </div>
   {% else %}
     <div class="empty-state">

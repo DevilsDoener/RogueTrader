@@ -1,3 +1,5 @@
+from collections import Counter
+
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, JsonResponse
@@ -9,6 +11,8 @@ from .content import get_repository
 from .search import MIN_QUERY_LENGTH
 from .suggest import suggest
 
+#: Hits shown on the results page; the rest are reachable via the chapter facets.
+SEARCH_RESULTS_LIMIT = 50
 PLACEHOLDER_TEXT = "Dieses Kapitel ist noch nicht ausgearbeitet."
 
 
@@ -58,9 +62,44 @@ class WikiSearchView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        repository = get_repository()
         query = self.request.GET.get("q", "")
+        all_results = repository.search(query, limit=None) if query else ()
+
+        # One facet per chapter with at least one hit, in book order.
+        counts = Counter(result.chapter_slug for result in all_results)
+        facets = [
+            {"chapter": chapter, "count": counts[chapter.slug]}
+            for chapter in repository.chapters()
+            if counts[chapter.slug]
+        ]
+        # An unknown or hit-less ?kapitel= is ignored rather than producing an
+        # empty page the reader cannot explain.
+        requested = self.request.GET.get("kapitel", "")
+        active_chapter = next(
+            (f["chapter"] for f in facets if f["chapter"].slug == requested), None
+        )
+        filtered = (
+            [r for r in all_results if r.chapter_slug == active_chapter.slug]
+            if active_chapter
+            else list(all_results)
+        )
+        shown = filtered[:SEARCH_RESULTS_LIMIT]
+
         context["query"] = query
-        context["results"] = get_repository().search(query) if query else ()
+        context["results"] = shown
+        # (result, chapter) pairs: templates cannot index a dict by a variable,
+        # and each card shows its chapter's numeral and short title.
+        context["hits"] = [
+            (result, repository.get_chapter(result.chapter_slug)) for result in shown
+        ]
+        context["total_count"] = len(filtered)
+        context["all_count"] = len(all_results)
+        context["facets"] = facets
+        context["active_chapter"] = active_chapter
+        context["results_capped"] = len(filtered) > SEARCH_RESULTS_LIMIT
+        context["search_results_limit"] = SEARCH_RESULTS_LIMIT
+        context["quick_links"] = repository.quick_links()
         # Distinguishes "too short to search" from "searched, found nothing",
         # which the template could not tell apart from an empty result tuple.
         context["query_too_short"] = bool(query) and (

@@ -1,0 +1,8 @@
+{% comment %}Curated quick-link chips. Expects `quick_links`: (QuickLink, WikiChapter) pairs.{% endcomment %}
+{% if quick_links %}
+  <ul class="quick-links">
+    {% for link, chapter in quick_links %}
+      <li><a class="quick-link" href="{% url 'wiki:chapter' chapter.slug %}#sec-{{ link.section_id }}">{{ link.label }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}
