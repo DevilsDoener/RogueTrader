@@ -12,6 +12,7 @@ document precedence, who owns which subject, and the test duties. The active
 subject documents are:
 
 - **Wiki chapters — list, reading order, URL slug, grouping:** [`wiki/manifest.py`](wiki/manifest.py)
+- **Wiki quick-access links ("Schnellzugriff"):** `QUICK_LINKS` in [`wiki/manifest.py`](wiki/manifest.py)
 - **Sheet field & overlay conventions:** [`docs/charakterbogen-feld-anforderungen.md`](docs/charakterbogen-feld-anforderungen.md)
 - **Layout format (sections, templates, coordinates):** [`docs/sheet-layout.md`](docs/sheet-layout.md)
 - **Calibration, fixtures, manifest:** [`docs/sheet-calibration.md`](docs/sheet-calibration.md)
@@ -57,6 +58,32 @@ process start into an immutable in-memory tree, so requests never touch disk.
   in the same section. Term frequency saturates, so a long section cannot win
   a word by repeating it, and chapters that are navigation rather than rules
   (the page index, the foreword) carry less weight.
+- **Auspex, the command palette.** `Ctrl`/`Cmd`+`K`, or `/` outside a text
+  field, opens it on any portal page; the top-bar search field opens it too.
+  It fills from `GET /search/suggest/` (`wiki/suggest.py`) as you type with
+  matching chapters, sections and full-text hits, is fully keyboard-driven
+  (arrow keys, `Enter`, `Esc`), and shows the recently read chapters while the
+  field is empty. `Enter` without a highlighted suggestion runs the full-text
+  search. The client is `static/js/auspex.js`.
+- **The Bibliothek (`/wiki/`)** groups the chapters into the bands Vorspann,
+  Kapitel and Anhang, as the manifest declares them. Typing in its filter
+  narrows the cards and their sections live, and bands without a match
+  disappear. The "Schnellzugriff" chips come from `QUICK_LINKS` in
+  `wiki/manifest.py` (the partial is `wiki/templates/wiki/_quick_links.html`);
+  edit that tuple to change them. "Weiterlesen" lists the places you last
+  read. That history (also shown in the empty palette) is kept **only in the
+  browser's `localStorage`** (key `rt-wiki-recent`, `static/js/wiki-recent.js`):
+  nothing is stored server-side, so it is per browser and gone when site data
+  is cleared.
+- **Search results** (`/search/`) show the best matches and can be narrowed
+  to one chapter with the facets, i.e. `?kapitel=<slug>`; an unknown or
+  hit-less slug is ignored.
+- **Reading navigation on chapter pages.** The left navigation lists the
+  chapter tree (`wiki/context_processors.py`) with the current chapter marked.
+  The outline beside the article has its own filter and follows the reader as
+  the page scrolls, a progress bar shows how far the chapter is read, and a
+  chapter opened from a search (`?q=`) highlights the hits until the query is
+  removed. "Nach oben" returns to the top.
 - **Transcription bookkeeping is hidden from readers.** Several chapters end
   with PDF page audits left in the Markdown on purpose; they are filtered out
   at parse time, so the files keep the audit trail while the wiki does not show
@@ -271,7 +298,10 @@ still require physical-device acceptance by a person.
    audit history and the same-field conflict dialog.
 5. **[automated]** Browse a wiki chapter's outline and confirm search finds
    a section and lands on it.
-6. **[manual, desktop acceptance]** In supported desktop browsers at widths
+6. **[automated]** Open the Auspex palette with `Ctrl`+`K` or `/`, follow a
+   suggestion with the arrow keys and `Enter`, and confirm `Esc` returns
+   focus to where the reader was.
+7. **[manual, desktop acceptance]** In supported desktop browsers at widths
    from 1024 px, and across the 30–100 % zoom range: confirm every
    printed line, value box, and checkbox/marking circle has exactly one
    aligned control sitting on it, that every other mark on the page
@@ -279,18 +309,18 @@ still require physical-device acceptance by a person.
    click or focus), that the ship page reads upright in landscape, and
    that normal vertical scrolling feels natural and no page creates
    horizontal document overflow.
-7. **[manual, wiki]** Read a dense chapter end to end: the outline menu
+8. **[manual, wiki]** Read a dense chapter end to end: the outline menu
    reaches every section, a search result lands below the sticky bars rather
    than behind them, and no table pushes the page sideways.
-8. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
+9. **[verified-host, 2026-08-23]** Clean-container persistence rehearsal: an
    isolated Compose project with a disposable volume was rebuilt from a
    clean image and forcibly recreated; account, character, and ship data
    remained intact. On a fresh volume, follow the documented explicit
    `manage.py migrate` step after first boot/deploy before using the app.
-9. **[verified-host, 2026-08-23]** Backup-and-restore rehearsal: against
-   disposable test data, `scripts/backup.ps1` created a manifest and passed
-   SQLite integrity checking; `scripts/restore.ps1` restored the expected
-   pre-backup state and the application data passed integrity checking.
+10. **[verified-host, 2026-08-23]** Backup-and-restore rehearsal: against
+    disposable test data, `scripts/backup.ps1` created a manifest and passed
+    SQLite integrity checking; `scripts/restore.ps1` restored the expected
+    pre-backup state and the application data passed integrity checking.
 
 The 2026-08-23 rehearsal used an isolated Compose project and disposable
 volume; the existing port-8000 container and its data were not touched.
