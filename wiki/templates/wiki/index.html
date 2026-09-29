@@ -11,7 +11,7 @@
     <p class="library-intro">Alle Kapitel des Regelwerks auf einen Blick &ndash; filtere nach Kapiteln und Abschnitten oder springe direkt zu den Regeln, die am Tisch gebraucht werden.</p>
     <form class="library-search" method="get" action="{% url 'wiki:search' %}" role="search">
       <label for="library-filter" class="sr-only">Kapitel und Abschnitte filtern</label>
-      <input id="library-filter" type="search" name="q" placeholder="Kapitel und Abschnitte filtern &ndash; Enter sucht im Volltext" autocomplete="off">
+      <input id="library-filter" type="search" name="q" placeholder="Kapitel, Abschnitte oder Regeln suchen&hellip;" autocomplete="off">
       <button type="submit" class="button-primary">Volltextsuche</button>
     </form>
   </header>
@@ -30,39 +30,34 @@
     </section>
   {% endif %}
 
-  {% comment %}Grouped by the book's own divisions (wiki/manifest.py). Most
-     parts hold a single numbered chapter, so a heading is only printed where
-     a part actually collects several files -- otherwise it would repeat the
-     chapter title in different words. `filter_text` is built in the view.{% endcomment %}
-  {% for part in library_parts %}
-    {% if part.show_heading %}
-      <h2 class="library-part-heading">{{ part.name }}</h2>
-    {% endif %}
-    <ul class="library-grid">
-      {% for card in part.cards %}
-        {% with chapter=card.chapter sections=card.sections %}
-          <li class="library-card" data-filter-text="{{ card.filter_text }}">
-            {% if chapter.numeral %}
-              <span class="library-card-numeral" aria-hidden="true">{{ chapter.numeral }}</span>
-            {% else %}
-              <span class="library-card-numeral library-card-numeral--word" aria-hidden="true">{{ chapter.part }}</span>
-            {% endif %}
-            <a class="library-card-title" href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.short_title }}</a>
-            {% if sections %}
-              <p class="library-card-meta">{{ sections|length }} Abschnitt{{ sections|length|pluralize:"e" }}</p>
-              <details class="library-card-contents">
-                <summary>Inhalt</summary>
-                <ul>
-                  {% for section in sections %}
-                    <li><a href="{% url 'wiki:chapter' chapter.slug %}#sec-{{ section.id }}">{{ section.title }}</a></li>
-                  {% endfor %}
-                </ul>
-              </details>
-            {% endif %}
-          </li>
-        {% endwith %}
-      {% endfor %}
-    </ul>
+  {% comment %}Three bands in book order (Vorspann, Kapitel, Anhang), built in
+     wiki/views.py. All numbered chapters share the one "Kapitel" grid;
+     `filter_text` is built in the view so autoescape handles quotes.{% endcomment %}
+  {% for band in bands %}
+    <section class="library-band" aria-labelledby="library-band-{{ forloop.counter }}">
+      <h2 class="library-band-heading" id="library-band-{{ forloop.counter }}">{{ band.name }}</h2>
+      <ul class="library-grid">
+        {% for card in band.cards %}
+          {% with chapter=card.chapter sections=card.sections %}
+            <li class="library-card" data-filter-text="{{ card.filter_text }}">
+              <span class="library-card-numeral" aria-hidden="true">{% if chapter.numeral %}{{ chapter.numeral }}{% else %}&sect;{% endif %}</span>
+              <a class="library-card-title" href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.short_title }}</a>
+              {% if sections %}
+                <p class="library-card-meta">{{ sections|length }} Abschnitt{{ sections|length|pluralize:"e" }}</p>
+                <details class="library-card-contents">
+                  <summary>Inhalt</summary>
+                  <ul>
+                    {% for section in sections %}
+                      <li><a href="{% url 'wiki:chapter' chapter.slug %}#sec-{{ section.id }}">{{ section.title }}</a></li>
+                    {% endfor %}
+                  </ul>
+                </details>
+              {% endif %}
+            </li>
+          {% endwith %}
+        {% endfor %}
+      </ul>
+    </section>
   {% empty %}
     <div class="empty-state">
       <p>Es sind noch keine Kapitel verf&uuml;gbar.</p>

@@ -4,6 +4,8 @@ It used to be a flat list of 21 chapter titles and nothing else. The point of
 the rework is that a reader can reach a *section* from here -- roughly 180 of
 them -- instead of only a chapter.
 """
+import re
+
 import pytest
 from django.urls import reverse
 
@@ -89,9 +91,7 @@ def test_cards_show_the_roman_numeral_and_the_short_title(
     assert '<span class="library-card-numeral" aria-hidden="true">IV</span>' in content
     assert ">Talents</a>" in content
     assert "Chapter IV:" not in content
-    # Front matter has no numeral, so the part name stands in for it.
-    assert "library-card-numeral library-card-numeral--word" in content
-    assert "Vorspann" in content
+    assert "library-card-numeral--word" not in content
 
 
 @pytest.mark.django_db
@@ -139,23 +139,59 @@ def test_filter_text_is_casefolded_and_autoescaped(
 
 
 @pytest.mark.django_db
-def test_a_multi_file_part_gets_a_heading(client, user_factory, tmp_path, settings):
-    """Chapter XIV is four files; the numbered single-file chapters are not."""
+def test_chapters_are_grouped_into_three_bands_with_one_kapitel_grid(
+    client, user_factory, tmp_path, settings
+):
+    """Vorspann, Kapitel (all numbered chapters incl. the XIV files), Anhang."""
     _publish(
         tmp_path,
         settings,
         {
+            "00-Foreword.md": "# Foreword\n\nText.\n",
             "01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n",
             "14-Mutations.md": "# Mutations\n\n## M\nm\n",
             "14-Traits.md": "# Traits\n\n## T\nt\n",
+            "16-Index.md": "# Index\n\nText.\n",
         },
     )
 
     content = _get(client, user_factory)
 
-    assert "Kapitel XIV" in content
-    # A part holding a single chapter would only repeat the chapter title.
-    assert "Kapitel I<" not in content
+    headings = re.findall(r'<h2 class="library-band-heading"[^>]*>([^<]+)</h2>', content)
+    assert headings == ["Vorspann", "Kapitel", "Anhang"]
+    assert content.count('<section class="library-band"') == 3
+    assert content.count('<ul class="library-grid">') == 3
+    # No per-part headings any more, in particular none for chapter XIV.
+    assert "Kapitel XIV" not in content
+    sections = re.split(r'<section class="library-band"', content)[1:]
+    kapitel = sections[1]
+    for title in ("One", "Mutations", "Traits"):
+        assert f">{title}</a>" in kapitel
+    assert kapitel.count('class="library-card"') == 3
+    assert "Foreword" not in kapitel
+    assert "Index" not in kapitel
+
+
+@pytest.mark.django_db
+def test_unnumbered_cards_show_the_section_glyph_in_the_numeral_slot(
+    client, user_factory, tmp_path, settings
+):
+    _publish(tmp_path, settings, {"00-Foreword.md": "# Foreword\n\nText.\n"})
+
+    content = _get(client, user_factory)
+
+    assert '<span class="library-card-numeral" aria-hidden="true">&sect;</span>' in content
+
+
+@pytest.mark.django_db
+def test_the_search_placeholder_does_not_promise_a_live_filter_without_js(
+    client, user_factory, tmp_path, settings
+):
+    _publish(tmp_path, settings, {"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n"})
+
+    content = _get(client, user_factory)
+
+    assert 'placeholder="Kapitel, Abschnitte oder Regeln suchen&hellip;"' in content
 
 
 @pytest.mark.django_db

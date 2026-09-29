@@ -113,3 +113,38 @@ def test_weiterlesen_appears_only_with_a_stored_reading_position(
     assert links.count() == 2  # the off-site entry is dropped
     assert page.inner_text(".library-recent-title") == "Erfolgsgrade"
     assert page.get_attribute(".library-recent-card", "href") == "/wiki/playing-the-game/#sec-x"
+
+
+def test_filtering_hides_bands_without_a_match_entirely(
+    page, live_server, owner, real_corpus
+):
+    _open_library(page, live_server, owner)
+    vorspann = '.library-band:has(h2:text-is("Vorspann"))'
+    kapitel = '.library-band:has(h2:text-is("Kapitel"))'
+    anhang = '.library-band:has(h2:text-is("Anhang"))'
+    assert page.is_visible(vorspann) and page.is_visible(kapitel) and page.is_visible(anhang)
+
+    page.fill("#library-filter", "critical")
+
+    assert page.is_visible(kapitel)
+    assert not page.is_visible(vorspann)
+    assert not page.is_visible(anhang)
+    assert page.is_hidden(f"{vorspann} .library-band-heading")
+
+    page.fill("#library-filter", "")
+
+    assert page.is_visible(vorspann) and page.is_visible(anhang)
+
+
+def test_a_contents_list_the_reader_opened_stays_open_after_filtering(
+    page, live_server, owner, real_corpus
+):
+    _open_library(page, live_server, owner)
+    page.click(f"{CARD_TALENTS} summary")
+    assert _details_open(page)
+
+    page.fill("#library-filter", "detailed talent")
+    assert _details_open(page)
+    page.fill("#library-filter", "")
+
+    assert _details_open(page)

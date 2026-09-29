@@ -8,6 +8,7 @@ from django.views.decorators.gzip import gzip_page
 from django.views.generic import TemplateView, View
 
 from .content import get_repository
+from .manifest import PART_APPENDIX, PART_FRONT_MATTER
 from .search import MIN_QUERY_LENGTH
 from .suggest import suggest
 
@@ -44,6 +45,25 @@ def _library_card(chapter):
     }
 
 
+def _library_bands(repository):
+    """Three bands in book order: front matter, the numbered chapters, appendix.
+
+    Every numbered chapter (I-XV, including the four files of XIV) shares one
+    continuous grid; a band per manifest part would strand each chapter alone
+    in a one-card grid.
+    """
+    bands = [
+        {"name": PART_FRONT_MATTER, "cards": []},
+        {"name": "Kapitel", "cards": []},
+        {"name": PART_APPENDIX, "cards": []},
+    ]
+    by_part = {PART_FRONT_MATTER: bands[0], PART_APPENDIX: bands[2]}
+    for chapter in repository.chapters():
+        band = by_part.get(chapter.part, bands[1])
+        band["cards"].append(_library_card(chapter))
+    return [band for band in bands if band["cards"]]
+
+
 @gzip_chapter_html
 class WikiIndexView(LoginRequiredMixin, TemplateView):
     template_name = "wiki/index.html"
@@ -51,18 +71,7 @@ class WikiIndexView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         repository = get_repository()
-        context["chapters"] = repository.chapters()
-        context["parts"] = repository.parts()
-        context["library_parts"] = [
-            {
-                "name": part_name,
-                # Only a part collecting several files earns its own heading;
-                # a single-chapter part would repeat the chapter title.
-                "show_heading": len(part_chapters) > 1,
-                "cards": [_library_card(chapter) for chapter in part_chapters],
-            }
-            for part_name, part_chapters in repository.parts()
-        ]
+        context["bands"] = _library_bands(repository)
         context["quick_links"] = repository.quick_links()
         return context
 

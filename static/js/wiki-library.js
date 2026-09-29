@@ -20,9 +20,11 @@
     if (!input) {
       return;
     }
+    // Only with JS does typing filter; the HTML placeholder promises search only.
+    input.setAttribute("placeholder", "Kapitel und Abschnitte filtern – Enter sucht im Volltext");
     var cards = Array.prototype.slice.call(document.querySelectorAll(".library-card"));
     var emptyNote = document.querySelector(".library-empty");
-    var headings = Array.prototype.slice.call(document.querySelectorAll(".library-part-heading"));
+    var bands = Array.prototype.slice.call(document.querySelectorAll(".library-band"));
     // Whether the reader opened a <details> themselves, so clearing the
     // filter only closes the ones the filter opened.
     var userOpened = new WeakMap();
@@ -75,6 +77,11 @@
           });
         }
         if (anyLinkMatch) {
+          if (!details.dataset.filterOpened) {
+            // Remember the reader's own state now rather than waiting for the
+            // asynchronous `toggle` event, which may not have fired yet.
+            userOpened.set(details, details.open);
+          }
           details.dataset.filterOpened = "1";
           details.open = true;
         } else if (details.dataset.filterOpened) {
@@ -83,11 +90,9 @@
         }
       });
 
-      // Part headings belong to the list right after them.
-      headings.forEach(function (heading) {
-        var list = heading.nextElementSibling;
-        var anyVisible = list && list.querySelector(".library-card:not([hidden])");
-        heading.hidden = !anyVisible;
+      // A band with no matching card disappears entirely, heading included.
+      bands.forEach(function (band) {
+        band.hidden = !band.querySelector(".library-card:not([hidden])");
       });
 
       if (emptyNote) {
