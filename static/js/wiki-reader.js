@@ -1,7 +1,8 @@
 /*
  * Chapter page reading aids: scroll-spy on the outline, outline filter,
  * reading progress, search-term highlighting, "Nach oben" and the
- * "Weiterlesen" position for the Bibliothek (rt-wiki-recent).
+ * "Weiterlesen" position for the Bibliothek (rt-wiki-recent, stored through
+ * static/js/wiki-recent.js).
  *
  * Progressive enhancement throughout -- without this script the outline is a
  * plain <details> tree, the anchors still jump, and the JS-only controls stay
@@ -11,8 +12,6 @@
 (function () {
   "use strict";
 
-  var RECENT_KEY = "rt-wiki-recent";
-  var RECENT_MAX = 8;
   var RECENT_THROTTLE_MS = 2000;
   var MAX_HITS = 300;
 
@@ -559,17 +558,11 @@
      Reading position for "Weiterlesen" (read by wiki-library.js)
      ------------------------------------------------------------------ */
 
-  function readRecent() {
-    try {
-      var parsed = JSON.parse(window.localStorage.getItem(RECENT_KEY) || "[]");
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
   function initRecent() {
-    if (!article) {
+    // Storage format, URL checks and the one-per-chapter rule live in
+    // static/js/wiki-recent.js (loaded by base.html before this script).
+    var recent = window.RTWikiRecent;
+    if (!article || !recent) {
       return;
     }
     var chapterTitle = article.getAttribute("data-chapter-title") || "";
@@ -587,27 +580,12 @@
       }
       lastWrite = Date.now();
       var section = currentEntry ? currentEntry.section : null;
-      var record = {
+      recent.record({
         title: (currentEntry && headingTitle(currentEntry.heading)) || fullTitle,
         chapter: chapterTitle,
         url: path + (section ? "#" + section.id : ""),
         ts: lastWrite,
-      };
-      var kept = readRecent().filter(function (entry) {
-        // One entry per chapter: the older position in this chapter goes.
-        return (
-          entry &&
-          typeof entry.url === "string" &&
-          entry.url.indexOf("/wiki/") === 0 &&
-          entry.url.split("#")[0] !== path
-        );
       });
-      kept.unshift(record);
-      try {
-        window.localStorage.setItem(RECENT_KEY, JSON.stringify(kept.slice(0, RECENT_MAX)));
-      } catch (error) {
-        /* Storage full or disabled: "Weiterlesen" simply stays empty. */
-      }
     }
 
     sectionListeners.push(function (entry) {

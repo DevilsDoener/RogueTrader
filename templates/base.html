@@ -143,6 +143,8 @@
           <kbd class="auspex-esc">Esc</kbd>
         </div>
         <div class="auspex-results" id="auspex-results" role="listbox" aria-label="Vorschläge"></div>
+        <div class="auspex-note" role="status"></div>
+        <div class="auspex-count sr-only" role="status"></div>
         <div class="auspex-footer">
           <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> auswählen</span>
           <span><kbd>&crarr;</kbd> öffnen</span>
@@ -151,6 +153,10 @@
         </div>
       </div>
     </dialog>
+    {% comment %}Deferred scripts run in document order: the shared
+       rt-wiki-recent helper must precede auspex.js and every page's
+       extra_scripts (wiki-reader.js, wiki-library.js).{% endcomment %}
+    <script defer src="{% static 'js/wiki-recent.js' %}"></script>
     <script defer src="{% static 'js/auspex.js' %}"></script>
   {% endif %}
 

@@ -102,6 +102,8 @@ def test_weiterlesen_appears_only_with_a_stored_reading_position(
     entries = [
         {"title": "Erfolgsgrade", "chapter": "Playing the Game", "url": "/wiki/playing-the-game/#sec-x", "ts": 3},
         {"title": "Evil", "chapter": "Elsewhere", "url": "https://example.com/wiki/", "ts": 2},
+        # "/\host" is protocol-relative to a browser, despite the "/wiki/".
+        {"title": "Sneaky", "chapter": "Elsewhere", "url": "/\\evil.example/wiki/", "ts": 2},
         {"title": "Talente", "chapter": "Talents", "url": "/wiki/talents/", "ts": 1},
     ]
     page.evaluate(
@@ -112,7 +114,7 @@ def test_weiterlesen_appears_only_with_a_stored_reading_position(
 
     assert page.is_visible(".library-recent")
     links = page.locator(".library-recent-card")
-    assert links.count() == 2  # the off-site entry is dropped
+    assert links.count() == 2  # both off-site entries are dropped
     assert page.inner_text(".library-recent-title") == "Erfolgsgrade"
     assert page.get_attribute(".library-recent-card", "href") == "/wiki/playing-the-game/#sec-x"
 
@@ -355,6 +357,10 @@ def test_ctrl_k_opens_the_palette_and_arrow_enter_follows_a_suggestion(
     page.keyboard.press("Control+k")
     page.wait_for_selector(PALETTE_OPEN)
     assert page.evaluate("document.activeElement.classList.contains('auspex-input')")
+    # The focused field is marked by a focus-coloured rule under its row.
+    assert page.evaluate(
+        "getComputedStyle(document.querySelector('.auspex-input-row')).boxShadow"
+    ) != "none"
 
     page.keyboard.type("hit locations")
     option = page.locator(
@@ -450,7 +456,8 @@ def test_the_topbar_field_opens_the_palette_without_looping(
 
     page.keyboard.press("Escape")
     page.wait_for_selector(PALETTE_CLOSED, state="attached")
-    page.wait_for_timeout(200)
+    # Let any focus bounce settle (two frames) before checking it stayed shut.
+    page.evaluate("() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))")
     assert page.locator(PALETTE_OPEN).count() == 0
     assert page.evaluate("document.activeElement.id") != "topbar-search-input"
 
@@ -465,12 +472,15 @@ def test_the_empty_palette_lists_recent_reading(page, live_server, owner, real_c
     _open_dashboard(page, live_server, owner)
     page.keyboard.press("Control+k")
     page.wait_for_selector(PALETTE_OPEN)
-    assert "Tippe, um Kapitel" in page.inner_text("#auspex .auspex-results")
+    # The note is a live region beside the listbox, not inside it.
+    assert "Tippe, um Kapitel" in page.inner_text('#auspex .auspex-note[role="status"]')
+    assert page.locator("#auspex [role=listbox] .auspex-note").count() == 0
     assert page.get_attribute(PALETTE_INPUT, "aria-expanded") == "false"
 
     entries = [
         {"title": "Healing", "chapter": "Playing the Game", "url": "/wiki/playing-the-game/#sec-healing", "ts": 3},
         {"title": "Evil", "chapter": "Elsewhere", "url": "https://example.com/wiki/", "ts": 2},
+        {"title": "Sneaky", "chapter": "Elsewhere", "url": "/\\evil.example/wiki/", "ts": 1},
     ]
     page.evaluate(
         "(value) => localStorage.setItem('rt-wiki-recent', value)", json.dumps(entries)
@@ -482,8 +492,9 @@ def test_the_empty_palette_lists_recent_reading(page, live_server, owner, real_c
 
     assert page.inner_text("#auspex .auspex-group").lower() == "zuletzt gelesen"
     options = page.locator("#auspex .auspex-option")
-    assert options.count() == 1  # the off-site entry is dropped
+    assert options.count() == 1  # both off-site entries are dropped
     assert options.first.get_attribute("href") == "/wiki/playing-the-game/#sec-healing"
+    assert page.is_hidden("#auspex .auspex-note")
     assert page.inner_text("#auspex .auspex-option-title") == "Healing"
 
     page.keyboard.press("ArrowDown")
@@ -517,6 +528,44 @@ def test_a_failing_suggest_request_keeps_enter_working(
 
     page.keyboard.press("Enter")
     page.wait_for_url("**/search/?q=talent")
+
+
+def test_suggestions_only_link_to_wiki_and_search_pages(
+    page, live_server, owner, real_corpus
+):
+    _open_dashboard(page, live_server, owner)
+    payload = {
+        "query": "talent",
+        "chapters": [
+            {"title": "Proto", "short_title": "Proto", "numeral": "", "url": "//evil.example/wiki/"},
+            {"title": "Slash", "short_title": "Slash", "numeral": "", "url": "/\\evil.example/wiki/"},
+        ],
+        "sections": [
+            {"title": "Script", "chapter": "X", "numeral": "", "path": [], "url": "javascript:alert(1)"},
+            {"title": "Talents", "chapter": "Talents", "numeral": "IV", "path": [], "url": "/wiki/talents/"},
+        ],
+        "hits": [
+            {"title": "Absolute", "chapter": "X", "numeral": "", "path": [], "snippet_html": "x",
+             "url": "https://evil.example/wiki/"},
+            {"title": "Search", "chapter": "X", "numeral": "", "path": [], "snippet_html": "x",
+             "url": "/search/?q=talent"},
+        ],
+        "search_url": "/search/?q=talent",
+    }
+    page.route(
+        "**/search/suggest/**",
+        lambda route: route.fulfill(
+            status=200, content_type="application/json", body=json.dumps(payload)
+        ),
+    )
+    page.keyboard.press("Control+k")
+    page.fill(PALETTE_INPUT, "talent")
+    page.locator("#auspex .auspex-option").first.wait_for()
+
+    hrefs = page.eval_on_selector_all(
+        "#auspex .auspex-option", "els => els.map((el) => el.getAttribute('href'))"
+    )
+    assert hrefs == ["/wiki/talents/", "/search/?q=talent"]
 
 
 def test_typing_in_the_dashboard_search_does_not_open_the_palette(

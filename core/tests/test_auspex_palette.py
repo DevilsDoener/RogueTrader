@@ -19,6 +19,10 @@ def test_authenticated_shell_renders_the_palette(client, owner):
     assert 'aria-controls="auspex-results"' in content
     assert "js/auspex.js" in content
     assert 'class="topbar-search-kbd js-only"' in content
+    # The idle/empty/error note is a live region beside the listbox.
+    assert '<div class="auspex-note" role="status"></div>' in content
+    # The shared rt-wiki-recent helper runs before every script using it.
+    assert content.index("js/wiki-recent.js") < content.index("js/auspex.js")
     # The topbar form stays a plain GET search for readers without JS.
     assert 'id="topbar-search-input"' in content
     assert 'action="/search/"' in content
@@ -30,3 +34,11 @@ def test_login_page_has_no_palette(client):
     assert 'id="auspex"' not in content
     assert "/search/suggest/" not in content
     assert "js/auspex.js" not in content
+
+
+def test_the_recent_helper_precedes_the_wiki_page_scripts(client, owner):
+    client.force_login(owner)
+
+    content = client.get(reverse("wiki:index")).content.decode()
+
+    assert content.index("js/wiki-recent.js") < content.index("js/wiki-library.js")

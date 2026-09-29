@@ -24,7 +24,6 @@
   var suggestUrl = dialog.getAttribute("data-suggest-url");
   var searchUrl = dialog.getAttribute("data-search-url");
 
-  var RECENT_KEY = "rt-wiki-recent";
   var RECENT_LIMIT = 6;
   var MIN_QUERY_LENGTH = 2;
   var DEBOUNCE_MS = 120;
@@ -41,13 +40,13 @@
   var navigating = false;
   var pointerDownOnBackdrop = false;
 
-  // Polite announcement of what the list now shows; the listbox itself only
-  // holds groups and options.
-  var status = document.createElement("div");
-  status.className = "sr-only";
-  status.setAttribute("role", "status");
-  status.setAttribute("aria-live", "polite");
-  dialog.querySelector(".auspex-panel").appendChild(status);
+  // Two live regions beside the listbox (which holds only groups and
+  // options): the visible note for the idle/empty/error line, and a
+  // screen-reader-only count of the suggestions shown.
+  var note = dialog.querySelector(".auspex-note");
+  var count = dialog.querySelector(".auspex-count");
+  // Storage and URL checks for rt-wiki-recent: static/js/wiki-recent.js.
+  var recent = window.RTWikiRecent || null;
 
   /* ---- helpers --------------------------------------------------------- */
 
@@ -78,40 +77,6 @@
 
   function numeralOf(numeral) {
     return typeof numeral === "string" && numeral !== "" ? numeral : "§";
-  }
-
-  function readRecent() {
-    // Same shape and checks as the Bibliothek (static/js/wiki-library.js).
-    var raw;
-    try {
-      raw = window.localStorage.getItem(RECENT_KEY);
-    } catch (error) {
-      return [];
-    }
-    if (!raw) {
-      return [];
-    }
-    var parsed;
-    try {
-      parsed = JSON.parse(raw);
-    } catch (error) {
-      return [];
-    }
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-    return parsed
-      .filter(function (entry) {
-        return (
-          entry &&
-          typeof entry === "object" &&
-          typeof entry.url === "string" &&
-          entry.url.indexOf("/wiki/") === 0 &&
-          typeof entry.title === "string" &&
-          entry.title !== ""
-        );
-      })
-      .slice(0, RECENT_LIMIT);
   }
 
   /* ---- rendering ------------------------------------------------------- */
@@ -163,17 +128,17 @@
 
   function finishRender(message) {
     input.setAttribute("aria-expanded", options.length ? "true" : "false");
-    status.textContent = message;
+    note.textContent = "";
+    note.classList.remove("is-error");
+    count.textContent = message;
   }
 
   function showNote(text, isError) {
     clearList();
-    var note = document.createElement("p");
-    note.className = isError ? "auspex-note is-error" : "auspex-note";
-    note.setAttribute("role", "presentation");
+    input.setAttribute("aria-expanded", "false");
+    count.textContent = "";
+    note.classList.toggle("is-error", !!isError);
     note.textContent = text;
-    results.appendChild(note);
-    finishRender(text);
   }
 
   function makeOption(item) {
@@ -241,12 +206,13 @@
     return parts.join(" · ");
   }
 
+  /* Server-supplied targets: chapter/section pages or the search page only. */
   function validUrl(url) {
-    return typeof url === "string" && url.charAt(0) === "/" && url.charAt(1) !== "/";
+    return !!recent && recent.isSafeUrl(url, ["/wiki/", "/search/"]);
   }
 
   function renderRecent() {
-    var entries = readRecent();
+    var entries = recent ? recent.read(RECENT_LIMIT) : [];
     if (!entries.length) {
       showNote(MSG_IDLE, false);
       return;

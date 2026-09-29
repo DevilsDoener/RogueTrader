@@ -372,13 +372,6 @@ label {
   gap: 0.4rem;
 }
 
-.topbar-search-field {
-  position: relative;
-  display: flex;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
 .topbar-search input {
   flex: 1 1 auto;
   min-width: 0;
@@ -1869,7 +1862,16 @@ mark {
   white-space: nowrap;
 }
 
-/* The hint sits inside the field's right edge and lets clicks through. */
+/* Topbar: base.html wraps the search input in this span so the "Strg K"
+   hint can sit inside the field's right edge; the hint lets clicks through
+   to the input, which opens the palette (auspex.js). */
+.topbar-search-field {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .topbar-search-kbd {
   position: absolute;
   top: 50%;
@@ -1993,14 +1995,21 @@ dialog.auspex input.auspex-input::placeholder {
   opacity: 0.8;
 }
 
-/* The caret and the row's gold hairline mark focus; an outline around a
-   borderless field inside the panel would only box in the text. */
+/* Focus shows as a 2px focus-coloured rule under the whole input row: an
+   outline around the borderless field would only box in the text. Moving
+   focus on (Tab to "Alle Treffer") drops the rule and that link gets the
+   global :focus-visible outline instead. */
 dialog.auspex input.auspex-input:focus-visible {
   outline: none;
 }
 
 .auspex-input-row:focus-within {
-  border-bottom-color: var(--rt-gold-dim);
+  border-bottom-color: var(--rt-focus);
+  box-shadow: inset 0 -1px 0 var(--rt-focus);
+}
+
+.auspex-input-row:focus-within .auspex-glyph {
+  color: var(--rt-gold-bright);
 }
 
 dialog.auspex input.auspex-input::-webkit-search-cancel-button {
@@ -2091,11 +2100,17 @@ dialog.auspex input.auspex-input::-webkit-search-cancel-button {
   line-height: 1.4;
 }
 
+/* Idle / no-result / error line: a live region beside the listbox, empty
+   (and collapsed) while suggestions are shown. */
 .auspex-note {
   margin: 0;
   padding: 0.8rem 1rem;
   color: var(--rt-text-muted);
   font-size: 0.9rem;
+}
+
+.auspex-note:empty {
+  display: none;
 }
 
 .auspex-note.is-error {

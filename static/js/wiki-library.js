@@ -6,7 +6,6 @@
 (function () {
   "use strict";
 
-  var RECENT_KEY = "rt-wiki-recent";
   var RECENT_LIMIT = 3;
 
   function fold(text) {
@@ -104,46 +103,14 @@
     apply();
   }
 
-  function readRecent() {
-    var raw;
-    try {
-      raw = window.localStorage.getItem(RECENT_KEY);
-    } catch (error) {
-      return [];
-    }
-    if (!raw) {
-      return [];
-    }
-    var parsed;
-    try {
-      parsed = JSON.parse(raw);
-    } catch (error) {
-      return [];
-    }
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-    return parsed
-      .filter(function (entry) {
-        return (
-          entry &&
-          typeof entry === "object" &&
-          typeof entry.url === "string" &&
-          entry.url.indexOf("/wiki/") === 0 &&
-          typeof entry.title === "string" &&
-          entry.title !== ""
-        );
-      })
-      .slice(0, RECENT_LIMIT);
-  }
-
   function initRecent() {
     var section = document.querySelector(".library-recent");
     var list = section && section.querySelector(".library-recent-list");
-    if (!list) {
+    // Reading and validating rt-wiki-recent: static/js/wiki-recent.js.
+    if (!list || !window.RTWikiRecent) {
       return;
     }
-    var entries = readRecent();
+    var entries = window.RTWikiRecent.read(RECENT_LIMIT);
     if (!entries.length) {
       return;
     }
