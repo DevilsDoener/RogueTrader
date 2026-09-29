@@ -5,6 +5,7 @@ for most chapters meant a handful of entries and for the career-paths chapter
 meant one. It now mirrors the tree, with a compact index standing in for
 sections whose children are really a glossary.
 """
+import json
 import re
 
 import pytest
@@ -361,3 +362,21 @@ def test_a_chapter_opened_with_a_query_is_not_compressed(
     response = client.get(url, {"q": "Waffe"}, headers={"accept-encoding": "gzip"})
 
     assert response.get("Content-Encoding") is None
+
+
+@pytest.mark.django_db
+def test_markup_in_the_query_only_reaches_the_page_as_escaped_json(
+    client, user_factory, three_chapters
+):
+    client.force_login(user_factory())
+    url = reverse("wiki:chapter", kwargs={"chapter_slug": "two"})
+
+    content = client.get(url, {"q": "<img src=x onerror=alert(1)>"}).content.decode()
+
+    assert "<img" not in content
+    script = content.split('<script id="wiki-highlight-terms" type="application/json">', 1)[1]
+    payload = script.split("</script>", 1)[0]
+    assert "<" not in payload and ">" not in payload
+    assert json.loads(payload) == ["alert", "img", "onerror", "src"]
+    article = content.split('class="wiki-article"', 1)[1].split("</article>", 1)[0]
+    assert "onerror" not in article

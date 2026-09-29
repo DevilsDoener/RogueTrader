@@ -882,10 +882,15 @@ mark {
   );
 }
 
-/* Where a search result or a permalink landed. */
+/* Where a search result or a permalink landed. The box reaches 0.9rem into
+   the article's padding (negative margin, matching padding) so the gold rule
+   sits clear of the text instead of painting over each line's first letter,
+   and the text column does not move. */
 .wiki-article section:target {
+  margin-left: -0.9rem;
+  padding-left: 0.9rem;
   background: var(--rt-parchment-raised);
-  box-shadow: -0.75rem 0 0 var(--rt-parchment-raised), inset 3px 0 0 var(--rt-gold-dim);
+  box-shadow: inset 3px 0 0 var(--rt-gold-dim);
   border-radius: 0 var(--rt-radius) var(--rt-radius) 0;
 }
 

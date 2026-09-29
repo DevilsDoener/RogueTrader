@@ -7,6 +7,7 @@ the chapters a reader actually sees.
 from __future__ import annotations
 
 import json
+import re
 
 import pytest
 
@@ -222,10 +223,12 @@ def test_a_search_query_highlights_the_chapter_until_removed(
 ):
     _open_chapter(page, live_server, owner, "/wiki/armoury/?q=Waffe")
     page.wait_for_selector("mark.wiki-hit")
+    # The status bar is inserted empty and filled a frame later.
+    page.wait_for_selector(".wiki-hit-bar button")
 
     assert page.locator("mark.wiki-hit").count() >= 1
     assert page.is_visible(".wiki-hit-bar")
-    assert "Stellen markiert" in page.inner_text(".wiki-hit-bar")
+    assert re.fullmatch(r"\d+ Stellen markiert", page.inner_text(".wiki-hit-count"))
 
     page.click('.wiki-hit-bar button:text-is("Markierung entfernen")')
 
@@ -262,3 +265,67 @@ def test_the_current_chapter_is_marked_in_the_chapter_tree(
     assert current.count() == 1
     assert current.get_attribute("href") == "/wiki/talents/"
     assert page.is_visible('#primary-nav .primary-nav-sub a[href="/wiki/armoury/"]')
+
+
+def test_a_single_hit_is_counted_in_the_singular(page, live_server, owner, real_corpus):
+    _open_chapter(page, live_server, owner, "/wiki/foreword/?q=dystopian")
+    page.wait_for_selector(".wiki-hit-bar button")
+
+    assert page.locator("mark.wiki-hit").count() == 1
+    assert page.inner_text(".wiki-hit-count") == "1 Stelle markiert"
+
+
+def test_markup_in_the_query_is_never_injected(page, live_server, owner, real_corpus):
+    _open_chapter(
+        page, live_server, owner, "/wiki/armoury/?q=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E"
+    )
+
+    assert page.locator("img[src='x']").count() == 0
+    assert page.locator("[onerror]").count() == 0
+    terms = json.loads(page.inner_text("#wiki-highlight-terms"))
+    assert terms and all(re.fullmatch(r"\w+", term) for term in terms)
+    # Whatever got marked is plain text from the book.
+    assert page.locator("mark.wiki-hit *").count() == 0
+
+
+def test_an_instant_jump_past_many_sections_updates_the_outline(
+    page, live_server, owner, real_corpus
+):
+    """No heading is left inside the old observer band after this jump, so
+    only a per-frame re-evaluation catches it (scrollbar drag, Home/End,
+    find-in-page)."""
+    _open_chapter(page, live_server, owner, "/wiki/playing-the-game/")
+    page.evaluate(
+        """() => {
+            const heading = document.querySelector('#sec-healing > h2');
+            const top = heading.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({ top: top - 40, behavior: 'instant' });
+        }"""
+    )
+
+    page.wait_for_selector(f'{HEALING_LINK}[aria-current="location"]')
+    assert page.locator('.wiki-section-nav [aria-current="location"]').count() == 1
+
+    page.evaluate("window.scrollTo({ top: 0, behavior: 'instant' })")
+    page.wait_for_function(
+        "!document.querySelector('.wiki-section-nav [aria-current=\"location\"]')"
+    )
+
+
+def test_a_targeted_section_keeps_its_gold_rule_clear_of_the_text(
+    page, live_server, owner, real_corpus
+):
+    _open_chapter(page, live_server, owner, "/wiki/playing-the-game/#sec-the-attack")
+    gap = page.evaluate(
+        """() => {
+            const section = document.getElementById('sec-the-attack');
+            const paragraph = section.querySelector(':scope > p');
+            const range = document.createRange();
+            range.selectNodeContents(paragraph);
+            return range.getClientRects()[0].left - section.getBoundingClientRect().left;
+        }"""
+    )
+    assert page.evaluate(
+        "getComputedStyle(document.getElementById('sec-the-attack')).boxShadow"
+    ) != "none"
+    assert gap >= 4

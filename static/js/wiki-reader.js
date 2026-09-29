@@ -202,7 +202,7 @@
      ------------------------------------------------------------------ */
 
   function initScrollSpy() {
-    if (!article || !("IntersectionObserver" in window)) {
+    if (!article) {
       return;
     }
     var entries = [];
@@ -325,27 +325,25 @@
     function update() {
       var entry = current();
       var section = entry ? entry.section : null;
-      setActiveLink(section ? tocLinkFor(section) : null);
-      if (section !== activeSection) {
-        activeSection = section;
-        sectionListeners.forEach(function (listener) {
-          listener(entry);
-        });
+      if (section === activeSection) {
+        return;
       }
+      activeSection = section;
+      setActiveLink(section ? tocLinkFor(section) : null);
+      sectionListeners.forEach(function (listener) {
+        listener(entry);
+      });
     }
 
-    var observer = new IntersectionObserver(update, {
-      rootMargin: "-" + Math.round(line) + "px 0px -65% 0px",
-    });
-    entries.forEach(function (entry) {
-      observer.observe(entry.heading);
-    });
-    // The observer does not fire at the bottom edge case; the scroll loop does.
+    // Re-evaluated on every (rAF-throttled) scroll frame by initScrollLoop,
+    // not only when a heading crosses a band: a scrollbar drag, Home/End,
+    // find-in-page or an instant "Nach oben" jump past many headings at once.
+    // The binary search keeps each frame at a handful of layout reads.
     return update;
   }
 
   /* ------------------------------------------------------------------
-     Reading progress, "Nach oben", and the scroll loop that drives both
+     The scroll loop: scroll-spy, reading progress and "Nach oben"
      ------------------------------------------------------------------ */
 
   function initScrollLoop(spyUpdate) {
@@ -391,8 +389,7 @@
       if (toTop) {
         toTop.hidden = !(window.scrollY > window.innerHeight);
       }
-      var doc = document.documentElement;
-      if (spyUpdate && window.innerHeight + window.scrollY >= doc.scrollHeight - 2) {
+      if (spyUpdate) {
         spyUpdate();
       }
     }
@@ -497,6 +494,9 @@
       return;
     }
 
+    // The live region goes into the page empty and gets its text a frame
+    // later; a status region inserted with its content already in place is
+    // not announced by most screen readers.
     var bar = document.createElement("div");
     bar.className = "wiki-hit-bar";
     bar.setAttribute("role", "status");
@@ -512,14 +512,16 @@
     var button = document.createElement("button");
     button.type = "button";
     button.textContent = "Markierung entfernen";
-    bar.appendChild(count);
-    bar.appendChild(separator);
-    bar.appendChild(button);
 
     // Above both columns, on the dark shell: inside the flex row it would
     // become a third column, on the parchment it would read as book text.
     var layout = article.closest(".wiki-layout") || article;
     layout.parentNode.insertBefore(bar, layout);
+    window.requestAnimationFrame(function () {
+      bar.appendChild(count);
+      bar.appendChild(separator);
+      bar.appendChild(button);
+    });
 
     button.addEventListener("click", function () {
       var parents = new Set();
