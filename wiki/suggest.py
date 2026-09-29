@@ -7,7 +7,7 @@ markup (already escaped by ``wiki.search``, with ``<mark>`` around the match).
 """
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import List, Set
 from urllib.parse import urlencode
 
 from django.urls import reverse
@@ -41,30 +41,36 @@ def _section_rank(title: str, query: str, first_token: str) -> int:
     return 2
 
 
-def _matching_chapters(repository, tokens: List[str]) -> List[Dict[str, str]]:
+def _matching_chapters(repository, tokens: List[str]) -> list:
     found = []
     for chapter in repository.chapters():
         folded = chapter.title.casefold()
         if all(token in folded for token in tokens):
-            found.append(
-                {
-                    "title": chapter.title,
-                    "short_title": chapter.short_title,
-                    "numeral": chapter.numeral,
-                    "url": reverse("wiki:chapter", args=[chapter.slug]),
-                }
-            )
+            found.append(chapter)
             if len(found) == MAX_CHAPTERS:
                 break
     return found
 
 
-def _matching_sections(repository, tokens: List[str], query: str) -> list:
-    """The best ``MAX_SECTIONS`` (chapter, section) pairs for the title match."""
+def _repeats_chapter(chapter, section) -> bool:
+    """True for a section that is just its chapter again (the intro or a twin)."""
+    return section.is_intro or section.title.casefold() == chapter.title.casefold()
+
+
+def _matching_sections(
+    repository, tokens: List[str], query: str, listed: Set[str]
+) -> list:
+    """The best ``MAX_SECTIONS`` (chapter, section) pairs for the title match.
+
+    ``listed`` holds the slugs of the chapters already suggested; their own
+    chapter-titled rows would only repeat that suggestion.
+    """
     ranked = []
     for chapter in repository.chapters():
         for section in chapter.sections:
             if section.is_intro:
+                continue
+            if chapter.slug in listed and _repeats_chapter(chapter, section):
                 continue
             folded = section.title.casefold()
             if all(token in folded for token in tokens):
@@ -72,6 +78,10 @@ def _matching_sections(repository, tokens: List[str], query: str) -> list:
                 ranked.append((rank, chapter.ordinal, section.ordinal, chapter, section))
     ranked.sort(key=lambda item: item[:3])
     return [(chapter, section) for *_key, chapter, section in ranked[:MAX_SECTIONS]]
+
+
+def _find_section(chapter, section_id: str):
+    return next((s for s in chapter.sections if s.id == section_id), None)
 
 
 def suggest(repository, query: str) -> dict:
@@ -83,15 +93,26 @@ def suggest(repository, query: str) -> dict:
         "hits": [],
         "search_url": _search_url(query),
     }
-    if len(query.replace(" ", "")) < MIN_QUERY_LENGTH:
+    if len("".join(query.split())) < MIN_QUERY_LENGTH:
         return result
 
     tokens = query.casefold().split()
-    if not tokens:
-        return result
 
-    result["chapters"] = _matching_chapters(repository, tokens)
-    matched = _matching_sections(repository, tokens, query.casefold().strip())
+    chapters = _matching_chapters(repository, tokens)
+    listed_chapters = {chapter.slug for chapter in chapters}
+    result["chapters"] = [
+        {
+            "title": chapter.title,
+            "short_title": chapter.short_title,
+            "numeral": chapter.numeral,
+            "url": reverse("wiki:chapter", args=[chapter.slug]),
+        }
+        for chapter in chapters
+    ]
+
+    matched = _matching_sections(
+        repository, tokens, query.casefold().strip(), listed_chapters
+    )
     listed = {(chapter.slug, section.id) for chapter, section in matched}
     result["sections"] = [
         {
@@ -109,6 +130,10 @@ def suggest(repository, query: str) -> dict:
         if (hit.chapter_slug, hit.section_id) in listed:
             continue
         chapter = repository.get_chapter(hit.chapter_slug)
+        if hit.chapter_slug in listed_chapters:
+            section = _find_section(chapter, hit.section_id)
+            if section is not None and _repeats_chapter(chapter, section):
+                continue
         hits.append(
             {
                 "title": hit.title,

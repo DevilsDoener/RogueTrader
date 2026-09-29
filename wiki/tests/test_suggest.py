@@ -147,6 +147,37 @@ def test_section_url_has_the_query_and_a_section_anchor(repository):
     assert _query_of(url) == "combat sense"
 
 
+def test_a_whitespace_only_query_is_treated_as_too_short(repository):
+    result = suggest(repository, "\t\t \t")
+
+    assert result["chapters"] == result["sections"] == result["hits"] == []
+
+
+def test_a_matched_chapter_is_not_repeated_as_a_hit_or_section(repository):
+    result = suggest(repository, "talents")
+
+    assert [c["short_title"] for c in result["chapters"]] == ["Talents"]
+    rows = result["sections"] + result["hits"]
+    assert all(row["title"].casefold() != "chapter iv: talents" for row in rows)
+
+
+def test_dropping_chapter_repeats_still_fills_the_hit_list(tmp_path, settings):
+    repository = _load(
+        tmp_path,
+        settings,
+        {
+            "04-Talents.md": "# Talents\nIntro.\n\n"
+            + "".join(f"## Drill {i}\ntalents everywhere.\n\n" for i in range(8)),
+        },
+    )
+
+    result = suggest(repository, "talents")
+
+    assert len(result["chapters"]) == 1
+    assert len(result["hits"]) == MAX_HITS
+    assert all(hit["title"] != "Talents" for hit in result["hits"])
+
+
 def test_the_intro_is_never_a_section_suggestion(repository):
     assert suggest(repository, "talents")["sections"] == []
 
