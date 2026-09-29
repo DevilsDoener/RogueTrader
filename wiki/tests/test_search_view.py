@@ -43,9 +43,12 @@ def test_hits_are_listed(client, user_factory, corpus):
 @pytest.mark.django_db
 def test_no_query_shows_an_invitation(client, user_factory, corpus):
     content = _search(client, user_factory)
+    # The shell's Auspex palette has its own "Alle Treffer" link; only the
+    # page's main content must not talk about hits.
+    main = content.split('<main id="main-content"', 1)[1].split("</main>", 1)[0]
 
-    assert "empty-state" in content
-    assert "Treffer" not in content
+    assert "empty-state" in main
+    assert "Treffer" not in main
 
 
 @pytest.mark.django_db

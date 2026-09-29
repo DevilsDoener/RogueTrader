@@ -372,6 +372,13 @@ label {
   gap: 0.4rem;
 }
 
+.topbar-search-field {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .topbar-search input {
   flex: 1 1 auto;
   min-width: 0;
@@ -1835,6 +1842,294 @@ mark {
   .library-recent-list {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------------------------------------------------------------------
+   Auspex: the command palette (templates/base.html, static/js/auspex.js).
+   A modal <dialog> near the top of the viewport; never opened without JS.
+   The one `kbd` look below is shared by the topbar hint and the palette.
+   --------------------------------------------------------------------- */
+
+.topbar-search-kbd,
+.auspex kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6em;
+  padding: 0.05rem 0.35rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--rt-radius);
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* The hint sits inside the field's right edge and lets clicks through. */
+.topbar-search-kbd {
+  position: absolute;
+  top: 50%;
+  right: 0.55rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.js .topbar-search-field input {
+  padding-right: 4.25rem;
+}
+
+dialog.auspex {
+  width: min(40rem, 90vw);
+  max-width: none;
+  max-height: none;
+  margin: 12vh auto auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--rt-text);
+  overflow: visible;
+}
+
+dialog.auspex::backdrop {
+  background: color-mix(in srgb, var(--rt-bg) 70%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.auspex-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-border-strong);
+  border-top: 1px solid var(--rt-gold);
+  border-radius: var(--rt-radius-lg);
+  box-shadow: 0 1.5rem 3.5rem color-mix(in srgb, var(--rt-bg) 85%, transparent);
+}
+
+dialog.auspex[open] .auspex-panel {
+  animation: auspex-arrive 160ms ease-out;
+}
+
+@keyframes auspex-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.auspex-input-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 1rem;
+  border-bottom: 1px solid var(--rt-border);
+}
+
+/* A thin sweep along the input row while a request is in flight; the global
+   reduced-motion rule stops it. */
+.auspex-input-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 30%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rt-gold-bright), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.auspex-input-row.is-scanning::after {
+  opacity: 1;
+  animation: auspex-scan 1.1s ease-in-out infinite;
+}
+
+@keyframes auspex-scan {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(340%);
+  }
+}
+
+.auspex-glyph {
+  flex: 0 0 auto;
+  color: var(--rt-gold);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.auspex-input-row.is-scanning .auspex-glyph {
+  color: var(--rt-gold-bright);
+}
+
+/* Beats the generic input[type="search"] rule (same specificity, later). */
+dialog.auspex input.auspex-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--rt-text);
+  font-family: var(--rt-font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+}
+
+dialog.auspex input.auspex-input::placeholder {
+  color: var(--rt-text-muted);
+  opacity: 0.8;
+}
+
+/* The caret and the row's gold hairline mark focus; an outline around a
+   borderless field inside the panel would only box in the text. */
+dialog.auspex input.auspex-input:focus-visible {
+  outline: none;
+}
+
+.auspex-input-row:focus-within {
+  border-bottom-color: var(--rt-gold-dim);
+}
+
+dialog.auspex input.auspex-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.auspex-results {
+  position: relative;
+  max-height: 60vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.35rem 0;
+  transition: opacity var(--rt-transition-fast);
+}
+
+.auspex-results[aria-busy="true"] {
+  opacity: 0.7;
+}
+
+.auspex-results:empty {
+  display: none;
+}
+
+.auspex-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem 0.3rem;
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.auspex-group::after {
+  content: "";
+  flex: 1 1 auto;
+  border-top: 1px solid var(--rt-border);
+}
+
+.auspex-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.45rem 1rem 0.45rem calc(1rem - 2px);
+  border-left: 2px solid transparent;
+  color: var(--rt-text);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auspex-option:hover {
+  color: var(--rt-text);
+}
+
+.auspex-option.is-active {
+  background: var(--rt-panel-raised);
+  border-left-color: var(--rt-gold);
+}
+
+.auspex-option-title {
+  font-size: 0.98rem;
+  line-height: 1.3;
+}
+
+.auspex-option.is-active .auspex-option-title {
+  color: var(--rt-gold-bright);
+}
+
+.auspex-option-path {
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.auspex-option-snippet {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-top: 0.15rem;
+  color: var(--rt-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.auspex-note {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  color: var(--rt-text-muted);
+  font-size: 0.9rem;
+}
+
+.auspex-note.is-error {
+  color: var(--rt-danger-bright);
+}
+
+.auspex-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1.1rem;
+  padding: 0.55rem 1rem;
+  background: var(--rt-bg);
+  border-top: 1px solid var(--rt-border);
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.72rem;
+}
+
+.auspex-footer span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.auspex-all {
+  margin-left: auto;
+  color: var(--rt-gold-bright);
+  text-decoration: none;
+}
+
+.auspex-all:hover {
+  color: var(--rt-gold);
+  text-decoration: underline;
 }
 
 /* ---------------------------------------------------------------------

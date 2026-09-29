@@ -22,14 +22,17 @@
           <label for="topbar-search-input" class="sr-only">Wiki durchsuchen</label>
           {% comment %}Prefilled from ?q= so that following a search result into
              a chapter keeps the query at hand for refining it.{% endcomment %}
-          <input
-            id="topbar-search-input"
-            type="search"
-            name="q"
-            value="{{ request.GET.q|default:'' }}"
-            placeholder="Wiki durchsuchen&hellip;"
-            autocomplete="off"
-          >
+          <span class="topbar-search-field">
+            <input
+              id="topbar-search-input"
+              type="search"
+              name="q"
+              value="{{ request.GET.q|default:'' }}"
+              placeholder="Wiki durchsuchen&hellip;"
+              autocomplete="off"
+            >
+            <kbd class="topbar-search-kbd js-only" aria-hidden="true">Strg K</kbd>
+          </span>
           <button type="submit">Suchen</button>
         </form>
 
@@ -122,6 +125,34 @@
       }
     });
   </script>
+
+  {% if user.is_authenticated and not user.must_change_password %}
+    {% comment %}Auspex: the Ctrl+K / "/" command palette (static/js/auspex.js).
+       Never opened without JavaScript; the topbar form above stays the
+       plain GET search.{% endcomment %}
+    <dialog class="auspex" id="auspex" aria-label="Auspex-Suche"
+            data-suggest-url="{% url 'wiki:suggest' %}"
+            data-search-url="{% url 'wiki:search' %}">
+      <div class="auspex-panel">
+        <div class="auspex-input-row">
+          <span class="auspex-glyph" aria-hidden="true">&#9737;</span>
+          <input class="auspex-input" type="search" role="combobox"
+                 aria-expanded="false" aria-controls="auspex-results"
+                 aria-autocomplete="list" autocomplete="off"
+                 placeholder="Regelwerk scannen&hellip;">
+          <kbd class="auspex-esc">Esc</kbd>
+        </div>
+        <div class="auspex-results" id="auspex-results" role="listbox" aria-label="Vorschläge"></div>
+        <div class="auspex-footer">
+          <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> auswählen</span>
+          <span><kbd>&crarr;</kbd> öffnen</span>
+          <span><kbd>Esc</kbd> schließen</span>
+          <a class="auspex-all" href="{% url 'wiki:search' %}">Alle Treffer anzeigen &rarr;</a>
+        </div>
+      </div>
+    </dialog>
+    <script defer src="{% static 'js/auspex.js' %}"></script>
+  {% endif %}
 
   {% block extra_scripts %}{% endblock %}
 </body>
