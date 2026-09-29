@@ -102,3 +102,30 @@ def entry_for(source_name: str) -> ChapterEntry:
     if known is not None:
         return known
     return ChapterEntry(source_name=source_name, slug="", part="")
+
+
+@dataclass(frozen=True)
+class QuickLink:
+    label: str
+    chapter_slug: str
+    section_id: str
+
+
+#: Rules the table looks up mid-session. Labels are German; targets are
+#: section anchors (``sec-<id>``) checked against the real corpus by
+#: wiki/tests/test_navigation_data.py.
+QUICK_LINKS: Tuple[QuickLink, ...] = (
+    QuickLink("Proben", "playing-the-game", "tests-the-basic-mechanic"),
+    QuickLink("Erfolgsgrade", "playing-the-game", "degrees-of-success-and-failure"),
+    QuickLink("Kampfaktionen", "playing-the-game", "table-9-4-combat-actions"),
+    QuickLink("Trefferzonen", "playing-the-game", "table-9-6-hit-locations"),
+    QuickLink("Kritischer Schaden", "playing-the-game", "critical-effect-tables-tables-9-11-to-9-26"),
+    QuickLink("Fernkampfwaffen", "armoury", "table-5-4-ranged-weapons"),
+    QuickLink("Waffeneigenschaften", "armoury", "weapon-special-qualities"),
+    QuickLink("Rüstung", "armoury", "armour"),
+    QuickLink("Fertigkeiten", "skills", "skill-descriptions"),
+    QuickLink("Talente", "talents", "detailed-talent-descriptions"),
+    QuickLink("Gefahren des Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
+    QuickLink("Raumkampf", "starships", "starship-combat"),
+)
+

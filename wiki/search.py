@@ -22,7 +22,7 @@ import bisect
 import html
 import re
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Sequence, Set, Tuple
+from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 
 TITLE_WEIGHT = 4
 BODY_WEIGHT = 1
@@ -144,6 +144,9 @@ class SearchResult:
     title: str
     snippet: str
     score: float
+    #: Ancestor headings of the section, outermost first (empty for a top-level
+    #: section or the intro).
+    path: Tuple[str, ...] = ()
 
 
 def tokenize(text: str) -> List[str]:
@@ -223,7 +226,22 @@ class SearchIndex:
                     variants[candidate] = PREFIX_WEIGHT
         return variants
 
-    def search(self, query: str, limit: int = 30) -> Tuple[SearchResult, ...]:
+    def highlight_terms(self, query: str) -> Tuple[str, ...]:
+        """Words a results page should mark in a section for ``query``.
+
+        The typed words plus their curated aliases, deliberately without the
+        prefix expansion ``search`` applies: highlighting every word that merely
+        starts with the query would paint half a page for a short term.
+        """
+        if len((query or "").replace(" ", "")) < MIN_QUERY_LENGTH:
+            return ()
+        terms: Set[str] = set()
+        for token in tokenize(query):
+            terms.add(token)
+            terms.update(QUERY_ALIASES.get(token, ()))
+        return tuple(sorted(term for term in terms if len(term) >= 2))
+
+    def search(self, query: str, limit: Optional[int] = 30) -> Tuple[SearchResult, ...]:
         if len((query or "").replace(" ", "")) < MIN_QUERY_LENGTH:
             return ()
 
@@ -285,6 +303,7 @@ class SearchIndex:
                     title=section.title,
                     snippet=_make_snippet(section.plain_text, matched or terms),
                     score=score,
+                    path=tuple(getattr(section, "parent_titles", ())),
                 )
             )
         return tuple(results)

@@ -22,7 +22,7 @@ from typing import Dict, Iterator, List, Optional, Tuple
 from django.conf import settings
 from django.utils.text import slugify
 
-from .manifest import entry_for
+from .manifest import QUICK_LINKS, QuickLink, entry_for
 from .markdown import SafeMarkdownRenderer
 from .outline import MIN_SECTION_LEVEL, OutlineNode, parse_outline
 from .search import SearchIndex, build_search_index
@@ -47,6 +47,9 @@ class WikiSection:
     #: through the Bleach allowlist.
     title_html: str = ""
     children: Tuple["WikiSection", ...] = ()
+    #: Titles of the enclosing headings, outermost first. The intro node is
+    #: not a heading and never appears here.
+    parent_titles: Tuple[str, ...] = ()
 
     @property
     def is_glossary(self) -> bool:
@@ -85,6 +88,18 @@ class WikiChapter:
     search_weight: float = 1.0
 
     @property
+    def numeral(self) -> str:
+        """Roman numeral of a numbered book chapter, ``""`` for front matter."""
+        match = _PART_NUMERAL_RE.match(self.part)
+        return match.group(1) if match else ""
+
+    @property
+    def short_title(self) -> str:
+        """The title without its leading "Chapter V:" style label."""
+        stripped = _CHAPTER_PREFIX_RE.sub("", self.title).strip()
+        return stripped or self.title
+
+    @property
     def navigable_sections(self) -> Tuple[WikiSection, ...]:
         """Top-level sections a reader can jump to, excluding the intro.
 
@@ -92,6 +107,10 @@ class WikiChapter:
         listing it on the overview would just repeat the chapter link.
         """
         return tuple(section for section in self.outline if not section.is_intro)
+
+
+_PART_NUMERAL_RE = re.compile(r"^Kapitel\s+([IVXLC]+)$")
+_CHAPTER_PREFIX_RE = re.compile(r"^Chapter\s+[0-9IVXLC]+\s*[:\-–]\s*", re.IGNORECASE)
 
 
 def _editorial_patterns() -> Tuple[re.Pattern, ...]:
@@ -150,10 +169,11 @@ def _parse_chapter(
 
     ordinals = count()
 
-    def convert(node: OutlineNode) -> WikiSection:
+    def convert(node: OutlineNode, parent_titles: Tuple[str, ...] = ()) -> WikiSection:
         # Pre-order, so a section's ordinal matches its position in the
         # flattened tuple the search index sorts on.
         section_ordinal = next(ordinals)
+        child_path = parent_titles if node.is_intro else parent_titles + (node.title,)
         return WikiSection(
             id=node.anchor,
             chapter_slug=chapter_slug,
@@ -164,8 +184,9 @@ def _parse_chapter(
             html=node.html,
             ordinal=section_ordinal,
             level=node.level,
-            children=tuple(convert(child) for child in node.children),
+            children=tuple(convert(child, child_path) for child in node.children),
             is_intro=node.is_intro,
+            parent_titles=parent_titles,
         )
 
     outline = tuple(convert(node) for node in nodes)
@@ -267,8 +288,24 @@ class WikiRepository:
         )
         return previous, following
 
-    def search(self, query: str, limit: int = 30):
+    def search(self, query: str, limit: Optional[int] = 30):
         return self._search_index.search(query, limit=limit)
+
+    def highlight_terms(self, query: str) -> Tuple[str, ...]:
+        return self._search_index.highlight_terms(query)
+
+    def quick_links(self) -> Tuple[Tuple[QuickLink, WikiChapter], ...]:
+        """Curated quick links whose target still exists in the loaded book."""
+        resolved = []
+        for link in QUICK_LINKS:
+            chapter = self._by_slug.get(link.chapter_slug)
+            if chapter is None or link.section_id not in {
+                section.id for section in chapter.sections
+            }:
+                logger.debug("Dropping quick link with missing target: %s", link)
+                continue
+            resolved.append((link, chapter))
+        return tuple(resolved)
 
 
 _repository: Optional[WikiRepository] = None
