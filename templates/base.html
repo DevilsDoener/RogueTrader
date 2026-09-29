@@ -2,6 +2,7 @@
 <html lang="{% block html_lang %}de{% endblock %}">
 <head>
   <meta charset="utf-8">
+  <script>document.documentElement.classList.add("js");</script>
   <title>{% block title %}Rogue Trader Portal{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/portal.css' %}">
   {% block extra_head %}{% endblock %}

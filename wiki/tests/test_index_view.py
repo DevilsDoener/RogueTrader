@@ -43,7 +43,7 @@ def test_sections_are_linkable_straight_from_the_overview(
 
 
 @pytest.mark.django_db
-def test_long_chapters_are_capped_with_a_remainder_link(
+def test_all_top_level_sections_are_listed_in_the_collapsible_contents(
     client, user_factory, tmp_path, settings
 ):
     sections = "\n\n".join(f"## Section {index}\nBody." for index in range(10))
@@ -51,8 +51,91 @@ def test_long_chapters_are_capped_with_a_remainder_link(
 
     content = _get(client, user_factory)
 
-    assert content.count("#sec-section-") == 6
-    assert "+4 weitere" in content
+    assert content.count("#sec-section-") == 10
+    assert "10 Abschnitte" in content
+    assert '<details class="library-card-contents">' in content
+
+
+@pytest.mark.django_db
+def test_the_page_is_the_bibliothek_with_a_filter_and_fulltext_form(
+    client, user_factory, tmp_path, settings
+):
+    _publish(tmp_path, settings, {"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n"})
+
+    content = _get(client, user_factory)
+
+    assert "<h1>Bibliothek</h1>" in content
+    assert 'id="library-filter"' in content
+    assert reverse("wiki:search") in content
+    assert "Weiterlesen" in content
+    assert "js/wiki-library.js" in content
+
+
+@pytest.mark.django_db
+def test_cards_show_the_roman_numeral_and_the_short_title(
+    client, user_factory, tmp_path, settings
+):
+    _publish(
+        tmp_path,
+        settings,
+        {
+            "00-Foreword.md": "# Foreword\n\nText.\n",
+            "04-Talents.md": "# Chapter IV: Talents\n\n## Alpha\na\n",
+        },
+    )
+
+    content = _get(client, user_factory)
+
+    assert '<span class="library-card-numeral" aria-hidden="true">IV</span>' in content
+    assert ">Talents</a>" in content
+    assert "Chapter IV:" not in content
+    # Front matter has no numeral, so the part name stands in for it.
+    assert "library-card-numeral library-card-numeral--word" in content
+    assert "Vorspann" in content
+
+
+@pytest.mark.django_db
+def test_quick_links_are_rendered_when_their_targets_exist(
+    client, user_factory, tmp_path, settings
+):
+    _publish(
+        tmp_path,
+        settings,
+        {"04-Talents.md": "# Chapter IV: Talents\n\n## Detailed Talent Descriptions\nx\n"},
+    )
+
+    content = _get(client, user_factory)
+    chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "talents"})
+
+    assert "Schnellzugriff" in content
+    assert f'href="{chapter_url}#sec-detailed-talent-descriptions"' in content
+    assert ">Talente</a>" in content
+
+
+@pytest.mark.django_db
+def test_filter_text_is_casefolded_and_autoescaped(
+    client, user_factory, tmp_path, settings
+):
+    _publish(
+        tmp_path,
+        settings,
+        {
+            "01-Charaktererschaffung.md": (
+                '# One\n\n## Der "Große" <b>Plan</b>\na\n\n### Unter Abschnitt\nb\n'
+            )
+        },
+    )
+
+    content = _get(client, user_factory)
+
+    assert 'data-filter-text="' in content
+    # casefold: "Große" -> "grosse"; the level-2 title is part of the text.
+    assert "grosse" in content
+    assert "unter abschnitt" in content
+    # Quotes and tags in a title cannot break out of the attribute.
+    assert "&quot;grosse&quot;" in content
+    assert "&lt;b&gt;plan&lt;/b&gt;" in content
+    assert "<b>plan</b>" not in content
 
 
 @pytest.mark.django_db

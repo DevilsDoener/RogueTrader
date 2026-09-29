@@ -25,6 +25,25 @@ PLACEHOLDER_TEXT = "Dieses Kapitel ist noch nicht ausgearbeitet."
 gzip_chapter_html = method_decorator(gzip_page, name="dispatch")
 
 
+def _library_card(chapter):
+    """One overview card: the chapter plus the text the live filter matches.
+
+    The filter string is built here (not in the template) so autoescape stays
+    in charge of quotes and angle brackets in section titles. It covers the
+    chapter title and its level-1 and level-2 sections, casefolded.
+    """
+    sections = chapter.navigable_sections
+    words = [chapter.short_title, chapter.title]
+    for section in sections:
+        words.append(section.title)
+        words.extend(child.title for child in section.children)
+    return {
+        "chapter": chapter,
+        "sections": sections,
+        "filter_text": " ".join(words).casefold(),
+    }
+
+
 @gzip_chapter_html
 class WikiIndexView(LoginRequiredMixin, TemplateView):
     template_name = "wiki/index.html"
@@ -34,6 +53,17 @@ class WikiIndexView(LoginRequiredMixin, TemplateView):
         repository = get_repository()
         context["chapters"] = repository.chapters()
         context["parts"] = repository.parts()
+        context["library_parts"] = [
+            {
+                "name": part_name,
+                # Only a part collecting several files earns its own heading;
+                # a single-chapter part would repeat the chapter title.
+                "show_heading": len(part_chapters) > 1,
+                "cards": [_library_card(chapter) for chapter in part_chapters],
+            }
+            for part_name, part_chapters in repository.parts()
+        ]
+        context["quick_links"] = repository.quick_links()
         return context
 
 

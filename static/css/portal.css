@@ -92,6 +92,12 @@ html {
   display: none !important;
 }
 
+/* Elements that only make sense once JavaScript runs (base.html sets `.js`
+   on <html> before first paint). They keep their own `display` under `.js`. */
+html:not(.js) .js-only {
+  display: none !important;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -990,60 +996,12 @@ mark {
   margin: 2rem 0;
 }
 
-/* Overview: one card per chapter, with its top-level sections as deep links.
-   The point of the card is that 180-odd sections become reachable from here,
-   not just 21 chapter names. */
 .wiki-part-heading {
   margin: 2rem 0 0.75rem;
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--rt-text-muted);
-}
-
-.wiki-chapter-cards {
-  list-style: none;
-  margin: 0 0 1.25rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.wiki-chapter-card {
-  padding: 0.9rem 1.15rem;
-  background: var(--rt-panel);
-  border: 1px solid var(--rt-border);
-  border-radius: var(--rt-radius);
-}
-
-.wiki-chapter-card:hover {
-  border-color: var(--rt-border-strong);
-}
-
-.wiki-chapter-card-title {
-  font-family: var(--rt-font-display);
-  font-size: 1.05rem;
-}
-
-.wiki-chapter-card-sections {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem 0.9rem;
-  margin-top: 0.4rem;
-  font-size: 0.9rem;
-}
-
-.wiki-chapter-card-sections a {
-  color: var(--rt-text-muted);
-}
-
-.wiki-chapter-card-sections a:hover {
-  color: var(--rt-gold-bright);
-}
-
-.wiki-chapter-card-more {
-  font-style: italic;
 }
 
 .wiki-breadcrumbs {
@@ -1423,6 +1381,277 @@ mark {
 
 .quick-link:hover {
   border-color: var(--rt-gold);
+}
+
+/* ---------------------------------------------------------------------
+   Bibliothek (wiki index)
+   --------------------------------------------------------------------- */
+
+.library-hero {
+  max-width: 46rem;
+  padding: 1.5rem 0 2rem;
+}
+
+.library-eyebrow {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--rt-gold);
+  font-family: var(--rt-font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.library-hero h1 {
+  margin: 0;
+  color: var(--rt-gold-bright);
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+}
+
+.library-intro {
+  max-width: 38rem;
+  margin: 0.9rem 0 1.6rem;
+  color: var(--rt-text-muted);
+  font-size: 1.05rem;
+}
+
+.library-search {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.library-search input[type="search"] {
+  flex: 1 1 auto;
+  min-height: 3.25rem;
+  padding: 0 1rem;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-border-strong);
+  border-radius: var(--rt-radius-lg);
+  font-size: 1.05rem;
+  transition: border-color var(--rt-transition-fast), box-shadow var(--rt-transition-fast);
+}
+
+.library-search input[type="search"]:focus {
+  border-color: var(--rt-focus);
+  box-shadow: 0 0 0 3px rgba(236, 203, 132, 0.28);
+  outline: none;
+}
+
+.library-search button {
+  min-height: 3.25rem;
+  padding: 0 1.4rem;
+}
+
+.library-recent,
+.library-quick {
+  margin-bottom: 2rem;
+}
+
+.library-recent h2,
+.library-quick h2 {
+  margin: 0 0 0.75rem;
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.library-quick .quick-links {
+  margin-top: 0;
+}
+
+.library-recent-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.library-recent-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  height: 100%;
+  padding: 0.9rem 1.1rem;
+  background: var(--rt-panel-raised);
+  border: 1px solid var(--rt-border-strong);
+  border-left: 3px solid var(--rt-gold);
+  border-radius: var(--rt-radius);
+  color: var(--rt-text);
+  text-decoration: none;
+  transition: border-color var(--rt-transition), transform var(--rt-transition);
+}
+
+.library-recent-card:hover {
+  border-color: var(--rt-gold-dim);
+  border-left-color: var(--rt-gold-bright);
+  color: var(--rt-text);
+  transform: translateY(-2px);
+}
+
+.library-recent-chapter {
+  color: var(--rt-gold);
+  font-family: var(--rt-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.library-recent-title {
+  font-family: var(--rt-font-display);
+  font-size: 1.05rem;
+}
+
+.library-part-heading {
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rt-border);
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.library-part-heading + .library-grid {
+  margin-top: 0;
+}
+
+.library-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.1rem 1.25rem 1rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+  transition: border-color var(--rt-transition), transform var(--rt-transition),
+    box-shadow var(--rt-transition);
+}
+
+.library-card:hover,
+.library-card:focus-within {
+  border-color: var(--rt-gold-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+.library-card-numeral {
+  color: var(--rt-gold);
+  font-family: var(--rt-font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.library-card-numeral--word {
+  padding-top: 0.55rem;
+  font-family: var(--rt-font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.library-card-title {
+  margin-top: 0.5rem;
+  color: var(--rt-text);
+  font-family: var(--rt-font-display);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.library-card-title:hover {
+  color: var(--rt-gold-bright);
+}
+
+.library-card-meta {
+  margin: 0.25rem 0 0;
+  color: var(--rt-text-muted);
+  font-size: 0.85rem;
+}
+
+.library-card-contents {
+  width: 100%;
+  margin-top: 0.8rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--rt-border);
+}
+
+.library-card-contents summary {
+  cursor: pointer;
+  color: var(--rt-gold);
+  font-family: var(--rt-font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.library-card-contents summary:hover {
+  color: var(--rt-gold-bright);
+}
+
+.library-card-contents ul {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  columns: 2 9rem;
+  column-gap: 1.25rem;
+  font-size: 0.88rem;
+}
+
+.library-card-contents li {
+  break-inside: avoid;
+  padding: 0.15rem 0;
+}
+
+.library-card-contents li a {
+  color: var(--rt-text-muted);
+  text-decoration: none;
+}
+
+.library-card-contents li a:hover {
+  color: var(--rt-gold-bright);
+}
+
+.library-card-contents li a.is-match {
+  padding: 0 0.25rem;
+  margin: 0 -0.25rem;
+  background: var(--rt-panel-raised);
+  border-radius: var(--rt-radius);
+  box-shadow: inset 0 -2px 0 var(--rt-gold-dim);
+  color: var(--rt-gold-bright);
+}
+
+.library-empty {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border: 1px dashed var(--rt-border-strong);
+  border-radius: var(--rt-radius-lg);
+  color: var(--rt-text-muted);
+  text-align: center;
+}
+
+@media (max-width: 60rem) {
+  .library-recent-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------------------------------------------------------------------
