@@ -1,4 +1,5 @@
-"""Playwright checks for the wiki navigation: the Bibliothek (index) page.
+"""Playwright checks for the wiki navigation: the Bibliothek (index) page and
+the reading aids on a chapter page (scroll-spy, outline filter, highlight).
 
 Runs against the real ``content/`` corpus so the live filter is exercised on
 the chapters a reader actually sees.
@@ -148,3 +149,116 @@ def test_a_contents_list_the_reader_opened_stays_open_after_filtering(
     page.fill("#library-filter", "")
 
     assert _details_open(page)
+
+
+# ---- Chapter page: reading aids (static/js/wiki-reader.js) -----------------
+
+ATTACK_LINK = '.wiki-section-nav a[href="#sec-the-attack"]'
+HEALING_LINK = '.wiki-section-nav a[href="#sec-healing"]'
+
+
+def _open_chapter(page, live_server, owner, path):
+    login_via_browser(page, live_server, username=owner.username)
+    page.set_viewport_size({"width": 1440, "height": 900})
+    page.goto(f"{live_server.url}{path}")
+    page.wait_for_selector(".wiki-article")
+
+
+def _scroll_to(page, element_id):
+    page.evaluate("(id) => document.getElementById(id).scrollIntoView()", element_id)
+
+
+def test_scrolling_to_a_section_marks_it_in_the_outline(
+    page, live_server, owner, real_corpus
+):
+    _open_chapter(page, live_server, owner, "/wiki/playing-the-game/")
+    assert page.get_attribute(ATTACK_LINK, "aria-current") is None
+
+    _scroll_to(page, "sec-the-attack")
+    page.wait_for_selector(f'{ATTACK_LINK}[aria-current="location"]')
+
+    assert page.locator('.wiki-section-nav [aria-current="location"]').count() == 1
+    assert "is-active" in page.get_attribute(ATTACK_LINK, "class")
+    # The outline scrolled itself so the marked entry is in view.
+    assert page.evaluate(
+        """(selector) => {
+            const nav = document.querySelector('.wiki-section-nav').getBoundingClientRect();
+            const link = document.querySelector(selector).getBoundingClientRect();
+            return link.top >= nav.top && link.bottom <= nav.bottom;
+        }""",
+        ATTACK_LINK,
+    )
+
+    _scroll_to(page, "sec-healing")
+    page.wait_for_selector(f'{HEALING_LINK}[aria-current="location"]')
+
+    assert page.get_attribute(ATTACK_LINK, "aria-current") is None
+    assert page.locator('.wiki-section-nav [aria-current="location"]').count() == 1
+
+
+def test_the_outline_filter_hides_sections_that_do_not_match(
+    page, live_server, owner, real_corpus
+):
+    _open_chapter(page, live_server, owner, "/wiki/playing-the-game/")
+    hit_locations = '.wiki-section-nav a:text-is("Table 9-6: Hit Locations")'
+    healing = '.wiki-section-nav a:text-is("Healing")'
+    assert page.is_visible(".wiki-toc-filter")
+    assert page.is_visible(healing)
+    assert not page.is_visible(hit_locations)  # folded away inside its branch
+
+    page.fill(".wiki-toc-filter", "hit")
+
+    assert page.is_visible(hit_locations)
+    assert not page.is_visible(healing)
+
+    page.fill(".wiki-toc-filter", "")
+
+    assert page.is_visible(healing)
+    assert not page.is_visible(hit_locations)  # its branch folds up again
+
+
+def test_a_search_query_highlights_the_chapter_until_removed(
+    page, live_server, owner, real_corpus
+):
+    _open_chapter(page, live_server, owner, "/wiki/armoury/?q=Waffe")
+    page.wait_for_selector("mark.wiki-hit")
+
+    assert page.locator("mark.wiki-hit").count() >= 1
+    assert page.is_visible(".wiki-hit-bar")
+    assert "Stellen markiert" in page.inner_text(".wiki-hit-bar")
+
+    page.click('.wiki-hit-bar button:text-is("Markierung entfernen")')
+
+    assert page.locator("mark.wiki-hit").count() == 0
+    assert page.locator(".wiki-hit-bar").count() == 0
+    assert "q=" not in page.url
+
+
+def test_leaving_a_chapter_records_the_reading_position(
+    page, live_server, owner, real_corpus
+):
+    _open_chapter(page, live_server, owner, "/wiki/playing-the-game/")
+    _scroll_to(page, "sec-healing")
+    page.wait_for_selector(f'{HEALING_LINK}[aria-current="location"]')
+
+    page.goto(f"{live_server.url}/wiki/")
+    page.wait_for_selector("#library-filter")
+    stored = json.loads(page.evaluate("localStorage.getItem('rt-wiki-recent')"))
+
+    assert stored[0]["url"] == "/wiki/playing-the-game/#sec-healing"
+    assert stored[0]["title"] == "Healing"
+    assert stored[0]["chapter"] == "Playing the Game"
+    paths = [entry["url"].split("#")[0] for entry in stored]
+    assert paths.count("/wiki/playing-the-game/") == 1
+    assert page.inner_text(".library-recent-title") == "Healing"
+
+
+def test_the_current_chapter_is_marked_in_the_chapter_tree(
+    page, live_server, owner, real_corpus
+):
+    _open_chapter(page, live_server, owner, "/wiki/talents/")
+    current = page.locator('#primary-nav [aria-current="page"]')
+
+    assert current.count() == 1
+    assert current.get_attribute("href") == "/wiki/talents/"
+    assert page.is_visible('#primary-nav .primary-nav-sub a[href="/wiki/armoury/"]')

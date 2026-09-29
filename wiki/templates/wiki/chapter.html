@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block html_lang %}de{% endblock %}
 {% block title %}{{ chapter.title }} &ndash; Rogue Trader Portal{% endblock %}
@@ -24,12 +25,16 @@
          <aside> -- it is the page's primary way around 800-odd sections, not
          tangential content.{% endcomment %}
       <nav class="wiki-section-nav" aria-label="Abschnitte">
+        {% comment %}Filters the outline below as you type (wiki-reader.js);
+           without JavaScript there is nothing to filter with, so it is hidden.
+           First in the menu so it can stay pinned while the outline scrolls.{% endcomment %}
+        <input type="search" class="wiki-toc-filter js-only" placeholder="Abschnitt filtern…" aria-label="Abschnitte filtern" autocomplete="off">
         <strong>Abschnitte</strong>
         {% include "wiki/_toc.html" with sections=chapter.outline depth=1 max_depth=toc_max_depth %}
       </nav>
     {% endif %}
 
-    <article class="wiki-article">
+    <article class="wiki-article" data-chapter-title="{{ chapter.short_title }}">
       <h1>{{ chapter.title }}</h1>
 
       {% if chapter.outline %}
@@ -44,12 +49,12 @@
 
   {% include "wiki/_chapter_nav.html" %}
 
-  <details class="wiki-chapter-list">
-    <summary>Alle Kapitel</summary>
-    <ul class="entry-list">
-      {% for other in chapters %}
-        <li><a href="{% url 'wiki:chapter' other.slug %}" {% if other.slug == chapter.slug %}aria-current="page"{% endif %}>{{ other.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </details>
+  <button type="button" class="wiki-to-top js-only" hidden aria-label="Nach oben">↑</button>
+{% endblock %}
+
+{% block extra_scripts %}
+  {% if highlight_terms %}
+    {{ highlight_terms|json_script:"wiki-highlight-terms" }}
+  {% endif %}
+  <script src="{% static 'js/wiki-reader.js' %}" defer></script>
 {% endblock %}

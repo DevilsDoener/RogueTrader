@@ -19,4 +19,9 @@ the lower one is an ordinary end-of-chapter element.{% endcomment %}
       <span>{{ next_chapter.title }}</span>
     </a>
   {% endif %}
+  {% if sticky %}
+    {% comment %}Reading progress through the article, driven by
+       wiki-reader.js; sits on the sticky bar's bottom edge.{% endcomment %}
+    <div class="wiki-progress js-only" aria-hidden="true"><span class="wiki-progress-bar"></span></div>
+  {% endif %}
 </nav>

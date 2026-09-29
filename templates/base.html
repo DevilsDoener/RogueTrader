@@ -50,9 +50,18 @@
             </a>
           </li>
           <li>
-            <a href="{% url 'wiki:index' %}" {% if request.resolver_match.app_name == 'wiki' %}aria-current="page"{% endif %}>
+            {% comment %}On a chapter page the chapter's own sub-item carries
+               aria-current, so the nav never has two current pages.{% endcomment %}
+            <a href="{% url 'wiki:index' %}" {% if request.resolver_match.app_name == 'wiki' and request.resolver_match.url_name != 'chapter' %}aria-current="page"{% endif %}>
               Wiki
             </a>
+            {% if wiki_nav_chapters %}
+              <ul class="primary-nav-sub" aria-label="Kapitel">
+                {% for c in wiki_nav_chapters %}
+                  <li><a href="{% url 'wiki:chapter' c.slug %}" {% if chapter.slug == c.slug %}aria-current="page"{% endif %}><span class="primary-nav-numeral" aria-hidden="true">{% if c.numeral %}{{ c.numeral }}{% else %}&sect;{% endif %}</span><span>{{ c.short_title }}</span></a></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
           </li>
           <li>
             <a href="{% url 'sheets:character_list' %}" {% if request.resolver_match.url_name == 'character_list' %}aria-current="page"{% endif %}>

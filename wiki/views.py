@@ -1,4 +1,5 @@
 from collections import Counter
+from functools import wraps
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,7 +24,21 @@ PLACEHOLDER_TEXT = "Dieses Kapitel ist noch nicht ausgearbeitet."
 # responses that mix a secret with attacker-influenced content keeps the BREACH
 # argument trivial instead of relying on Django's CSRF masking alone. The
 # suggest endpoint echoes `q` too, so it stays uncompressed for the same reason.
-gzip_chapter_html = method_decorator(gzip_page, name="dispatch")
+# A chapter opened from a search result carries `?q=` as well (the topbar field
+# and the highlight terms echo it), so such a request is served uncompressed.
+def _gzip_unless_query(view_func):
+    compressed = gzip_page(view_func)
+
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if "q" in request.GET:
+            return view_func(request, *args, **kwargs)
+        return compressed(request, *args, **kwargs)
+
+    return wrapper
+
+
+gzip_chapter_html = method_decorator(_gzip_unless_query, name="dispatch")
 
 
 def _library_card(chapter):
@@ -88,11 +103,16 @@ class WikiChapterView(LoginRequiredMixin, TemplateView):
             raise Http404("Unknown wiki chapter.")
         previous_chapter, next_chapter = repository.neighbours(chapter.slug)
         context["chapter"] = chapter
-        context["chapters"] = repository.chapters()
         context["previous_chapter"] = previous_chapter
         context["next_chapter"] = next_chapter
         context["toc_max_depth"] = settings.WIKI_TOC_MAX_DEPTH
         context["placeholder_text"] = PLACEHOLDER_TEXT
+        # Arriving from a search result (?q=): wiki-reader.js marks these words
+        # in the article. The chapter list for the nav comes from
+        # wiki.context_processors.wiki_navigation.
+        context["highlight_terms"] = list(
+            repository.highlight_terms(self.request.GET.get("q", ""))
+        )
         return context
 
 
