@@ -1,14 +1,14 @@
 # Chapter VIII: Starships
 
 > Source: *Rogue Trader Core Rulebook*, book pages 187–228 / PDF pages 191–232.
-> **Status of this file:** fully transcribed and image-verified.
+> **Status of this file:** fully transcribed; re-verified against the page images 2026-09-30.
 
 ## Starship Characteristics
 
 - **Speed:** Void Units (VU) per Strategic Turn.
 - **Manoeuvrability:** modifier to Pilot (Space Craft) for Manoeuvres.
 - **Detection:** modifier to Tests made with Auger Arrays/Sensors.
-- **Hull Integrity:** the ship's structural Wounds.
+- **Hull Integrity:** the ship's structural Wounds; for every point lost, the ship also loses 1 Crew Population and 1 Morale.
 - **Armour:** subtracted from the Damage of every hit.
 - **Turret Rating:** defence against Torpedoes, Assault Craft, and Boarding/Hit and Run.
 - **Space:** installation capacity; Components consume Space.
@@ -61,7 +61,7 @@ Both Transport hulls start with a Main Cargo Hold; Space already accounts for it
 | 7 | Wrathful | in combat Speed +1 and Manoeuvrability +7; outside combat Speed -1, Manoeuvrability/Detection -5 |
 | 8 | Resolute | Speed -1, Hull Integrity +3, Repair Tests +10 |
 | 9 | Adventurous | Detection +10 during an Endeavour, otherwise Detection -10 |
-| 10 | Ancient and Wise | Hull Integrity -4, Manoeuvre Actions +10 including Ramming |
+| 10 | Ancient and Wise | Hull Integrity -4, Manoeuvre Actions +10 (including out of combat and ramming) |
 
 ### Table 8-2: Past Histories
 
@@ -173,9 +173,9 @@ The Mars Pattern Macrocannon Broadside must occupy a Port or Starboard slot (`Br
 | Augmented Retro-thrusters | Cruisers | 5 | 0 | 2 | as above |
 | Reinforced Interior Bulkheads | Transports/Raiders/Frigates | 0 | 2 | 2 | Hard to Breach: Hull Integrity +3 |
 | Reinforced Interior Bulkheads | Light Cruisers/Cruisers | 0 | 3 | 2 | as above |
-| Armour Plating | Transports/Raiders/Frigates | 0 | 1 | 2 | Armour +1, Manoeuvrability -2 |
-| Armour Plating | Light Cruisers/Cruisers | 0 | 2 | 2 | as above |
-| Armoured Prow | Cruisers | 0 | 4 | 2 | Imposing: no Prow Macrobatteries/Lances possible; +4 Armour only in the Fore Arc; +`1d10` Damage when Ramming |
+| Armour Plating* | Transports/Raiders/Frigates | 0 | 1 | 2 | Armour +1, Manoeuvrability -2 |
+| Armour Plating* | Light Cruisers/Cruisers | 0 | 2 | 2 | as above |
+| Armoured Prow* | Cruisers | 0 | 4 | 2 | Imposing: no Prow Macrobatteries/Lances possible; +4 Armour only in the Fore Arc; +`1d10` Damage when Ramming |
 | Tenebro-Maze* | Transports/Raiders/Frigates | 1 | 2 | 2 | Hidden sally-ports: +10 Command when defending against Boarding/Hit and Run. Incomprehensible Layout: the ship's controller (not the attacker) chooses the affected Component on a Critical Hit |
 | Tenebro-Maze* | Light Cruisers/Cruisers | 2 | 3 | 2 | as above |
 | Extended Supply Vaults | All | 1 | 4 | 2 | Extensive Stores: double time in the void without Crew Population/Morale loss; on Extended Repairs, 1 additional Hull Integrity repaired. Plenty for All: Morale permanently +1 |
@@ -188,11 +188,11 @@ The Mars Pattern Macrocannon Broadside must occupy a Port or Starboard slot (`Br
 | Observation Dome | All | 0 | 1 | 1 | Engraved Star-charts: +50 AP on an Exploration Objective. Cure for Claustrophobia: Morale permanently +1 |
 | Murder-servitors | All | 1 | 1 | 2 | Death-dealers: +20 to the Opposed Command Test on a Hit and Run. Precise: freely choose the Critical Hit result of the action (1–6) instead of rolling |
 
-\* At most one per vessel. Additionally, Crew Reclamation Facility, Extended Supply Vaults, Munitorium, Temple-shrine, Librarium Vault, Trophy Room, Observation Dome, and Murder-servitors may each likewise be chosen only once per ship ("Additional Facilities").
+\* At most one per vessel (Armour Plating, Armoured Prow, Tenebro-Maze). In addition, all of the "Additional Facilities" listed below the Tenebro-Maze (Crew Reclamation Facility, Extended Supply Vaults, Munitorium, Temple-shrine, Librarium Vault, Trophy Room, Observation Dome, Murder-servitors) may only be added to a starship once.
 
 ## Archeotech and Xeno-tech — Tables 8-6/8-7
 
-Archeotech normally requires Reliquary of Mars or GM approval; Xeno-tech requires Xenophilous or GM approval.
+Archeotech normally requires Reliquary of Mars, the Warrant of Trade, or GM approval; Xeno-tech requires Xenophilous or GM approval.
 
 ### Table 8-6: Archeotech Components
 
@@ -227,12 +227,13 @@ Archeotech normally requires Reliquary of Mars or GM approval; Xeno-tech require
 
 | Component Cost | Availability |
 |---|---|
-| Essential Component with no SP cost | Rare |
-| Supplemental Component with 1 SP cost | Very Rare |
-| Supplemental 2 SP / Essential +1 SP | Extremely Rare |
-| Archeotech/Xeno-tech, or otherwise especially rare | Near Unique |
+| Supplemental Component with 1 SP cost, Essential Components | Scarce |
+| Supplemental Component with 2 SP cost, Essential Component with +1 SP cost | Rare |
+| Supplemental Component with 3 SP cost, Essential Component with +2 SP cost | Very Rare |
+| Archeotech Components | Extremely Rare |
+| Xeno-tech Components | Near Unique |
 
-There is no population bonus to the Acquisition Threshold for Components. Plasma Drives have no Power requirement (they generate Power), and Hulls have no Space requirement (they provide Space) — these are the only two exceptions. Installing/upgrading requires a world with at least interplanetary space travel: typically **around three weeks**; a populous Hive World with a capable shipyard accomplishes the same in **half that time**.
+No Scale bonus applies to the Acquisition Threshold for Components; it is determined only by availability (and perhaps craftsmanship). Plasma Drives have no Power requirement (they generate Power), and Hulls have no Space requirement (they provide Space) — these are the only two exceptions. Installing/upgrading requires a world with at least interplanetary space travel: typically **around three weeks**; a populous Hive World with a capable shipyard accomplishes the same in **half that time**.
 
 ---
 
@@ -246,9 +247,9 @@ There is no population bonus to the Acquisition Threshold for Components. Plasma
 | Sabre | 8 | +20 | +13 | 18 | 33 | 1 | 1 | 45/45 | 38/40 |
 
 - **Wolfpack:** Dorsal Mars Macrocannons, Prow Sunsear, Augmented Retro-thrusters; Stowage Bays allow Trade with no AP bonus.
-- **Onslaught:** Dorsal 1/Prow 2; Armoured Kaptin's Bridge (Reinforced Armour: on Critical Hit/damaged/unpowered `1d10`, on a 4+ undamaged; Big Red Button: forgoing a turn grants +`1d5` VU of extra movement during the Manoeuvre Action); Lotsa Boyz +10 Command on Boarding/Hit and Run; Ork Armoured Prow (+4 Fore Armour, +`1d10` Ramming Damage, Macrobatteries may still be mounted in the Prow); Stowage Bays (Booty!: if the ship is captured with the Component intact, the captors gain 50 Achievement Points); two Looted Prow Macrocannons (Strength 3, `1d10+2`, Crit 5, Range 5), Dorsal Gunz (Strength `1d5`, Damage `1d10+2`, Crit 6, Range 4, Strength re-rolled each round before firing); Orky Tek/Components do not function for/on non-Ork crews or ships.
-- **Wayfarer:** immobile, Keel 3; two Mars Macrocannons and one Starbreaker Lance; Docks, Civitas, and Hydroponics; no long-term Crew/Morale penalties.
-- **Sabre:** Dorsal Sunsear, Prow Titanforge Lance, Cargo Hold, Bulkheads, Passenger Quarters; Complications Reliquary of Mars and Ancient and Wise; SP 50.
+- **Onslaught:** Dorsal 1/Prow 2; Armoured Kaptin's Bridge (Reinforced Armour: on Critical Hit/damaged/unpowered `1d10`, on a 4+ undamaged; Big Red Button: if the ship chooses not to turn, it gains +`1d5` VU of extra movement during its Manoeuvre Action); Lotsa Boyz +10 Command on Boarding/Hit and Run; Ork Armoured Prow (+4 Fore Armour, +`1d10` Ramming Damage, Macrobatteries may still be mounted in the Prow); Stowage Bays (Booty!: if the ship is captured with the Component intact, the captors gain 50 Achievement Points); two Looted Prow Macrocannons (Strength 3, `1d10+2`, Crit 5, Range 5), Dorsal Gunz (Strength `1d5`, Damage `1d10+4`, Crit 6, Range 4, Strength re-rolled each round before firing); Orky Tek/Components do not function for/on non-Ork crews or ships.
+- **Wayfarer:** immobile, Keel 3; two Keel Mars Pattern Macrocannons (Strength 3, `1d10+2`, Crit 5, Range 6) and one Keel Starbreaker Lance Weapon (Strength 1, `1d10+2`, Crit 4, Range 4); three Civitas Decks, Docks (any ship smaller than a Cruiser may dock), Hydroponics Decks (Sustaining: no Crew Population/Morale penalties for remaining in space for an extended period), Stationmaster Bridge (Damage Control Station: +10 to Tech-Use Tests to repair while undamaged), Station Genatorium, Multiple Void Shield Array, Vitae Pattern Life Sustainer. Space Station: completely immobile (including warp travel), never moves or performs Manoeuvre Actions in combat; requires Hull, Genatorium, Void Shield Array, Bridge, and Life Sustainer as Essential Components; otherwise treated as a starship.
+- **Sabre:** Dorsal Sunsear, Prow Titanforge Lance, Compartmentalised Cargo Hold, Reinforced Interior Bulkheads, Luxury Passenger Quarters; Complications Reliquary of Mars and Ancient and Wise; SP 50.
 
 ## Starship Combat
 
@@ -258,7 +259,7 @@ A **Strategic Round** lasts roughly 30 minutes. Each ship gets a turn with:
 2. **Shooting Action** – firing Weapon Components.
 3. **Extended Actions** – actions by characters and crew.
 
-Initiative is rolled per ship: `1d10` + Detection Bonus (the tens digit of the Detection value, analogous to a Characteristic Bonus). Character-based Initiative bonuses from Structured Time do not apply here. Every ship must perform a Manoeuvre Action and may additionally perform a Shooting Action; Explorers who take neither of these two Actions may instead take an Extended Action. All Actions and their order are decided at the start of the ship's Turn; Combined Tests (e.g. Pilot (Space Craft) + Manoeuvrability) add the ship's Characteristic to the Skill value. A Void Unit is roughly 10,000 km.
+Initiative is rolled per ship: `1d10` + Detection Bonus (the tens digit of the Detection value, analogous to a Characteristic Bonus). Character-based Initiative bonuses from Structured Time do not apply here. Every ship must perform a Manoeuvre Action and may additionally perform a Shooting Action; each of these Actions must be performed by a separate Explorer, and Explorers who take neither of them may instead take an Extended Action (see below). All Actions and their order are decided at the start of the ship's Turn; Combined Tests (e.g. Pilot (Space Craft) + Manoeuvrability) add the ship's Characteristic to the Skill value. A Void Unit is roughly 10,000 km.
 
 ### NPC Crew — Table 8-9
 
@@ -274,7 +275,7 @@ NPC crew normally performs at most three Actions per Strategic Round, or alterna
 
 ### Manoeuvre Actions — Table 8-10
 
-Default: half or full Speed straight ahead (movement is never optional), then turning — **Transports, Raiders, Frigates, and hulls of comparable size may turn up to 90°; all other ships (Light Cruisers, Cruisers) only up to 45°**, unless stated otherwise. On a failed Special Manoeuvre, the Default is performed instead.
+Default: half or full Speed straight ahead (movement is never optional), then turning (at least 1 VU must be moved before turning, and the complete movement must equal half or full Speed) — **Transports, Raiders, Frigates, and hulls of comparable size may turn up to 90°; all other ships (Light Cruisers, Cruisers) only up to 45°**, unless stated otherwise; a turn may never exceed 90° in any case. Only one Manoeuvre may be selected per Turn; each modifies (but does not replace) the basic Manoeuvre. On a failed Special Manoeuvre, the Default is performed instead.
 
 **Surprise:** The GM determines at the start of combat which ships are surprised (hidden ships, Silent Running, ambush/betrayal, disruptive phenomena — a Scrutiny+Detection Test can give warning). Attackers gain a **+20 bonus to attack rolls** against surprised ships during the **first Strategic Round**.
 
@@ -308,7 +309,7 @@ Default: half or full Speed straight ahead (movement is never optional), then tu
 
 **Detailed rules for the Extended Actions:**
 
-- **Active Augury:** Scans an area of 20 VU around the ship; on success, the GM provides basic information about celestial bodies, phenomena, and ships in the area. A ship on Silent Running within scan range is immediately detected. Each DoS grants +5 VU additional scan range.
+- **Active Augury:** Challenging (+0) Scrutiny+Detection. Scans an area of 20 VU around the ship; on success, the GM provides basic information about celestial bodies, phenomena, and ships in the area. A ship on Silent Running within scan range is immediately detected. Each DoS grants +5 VU additional scan range.
 - **Aid the Machine Spirit:** Challenging (+0) Tech-Use. On success, +5 to Manoeuvrability or Detection for the rest of the turn; every two further DoS grant an additional +5 to the same value.
 - **Disinformation:** Difficult (-10) Deceive or Blather. On success, Morale increases by `1d5` per DoS for the duration of the combat.
 - **Emergency Repairs:** Difficult (-10) Tech-Use. Repairs one unpowered/damaged/depressurised Component (not destroyed Components); normally takes `1d5` turns, reduced by one turn per DoS, minimum 1 turn.
@@ -328,12 +329,12 @@ Default: half or full Speed straight ahead (movement is never optional), then tu
 - **Ramming:** End the turn within 1 VU with the bow towards the target, forgoing shooting, Hard (-20) Pilot+Manoeuvrability. On success: a Damage Die based on Hull (Transport/Raider `1d5`, Frigate `1d10`, Light Cruiser `2d5`, Cruiser `2d10`) **plus the rammer's own Prow Armour** is dealt to the target, **ignoring Void Shields**. The rammer itself suffers **the target's Armour plus `1d5`** to its own Prow Armour, likewise ignoring Void Shields.
 - **Boarding:** End the Manoeuvre Action within 1 VU, forgoing shooting, Hard (-20) Pilot+Manoeuvrability to grapple. On success, the ships crash together; afterward neither can perform **Manoeuvre or Shooting Actions** (individual characters' Extended Actions remain possible), and **both drop to the end of the Initiative order**. Breaking free requires a Hard (-20) Pilot+Manoeuvrability at the start of the turn; on failure, -20 to the following Opposed Command Test. Each turn, one character per ship makes an **Opposed Command Test**; **+10 bonus** for every full 10 points of advantage in **Crew Population**, a further **+10 bonus** for every full 10 points of advantage in **Hull Integrity**; plus a Turret Rating bonus. The winner chooses, per Degree of Success: either `1d5` Crew Population **and** `1d5` Morale Damage to the loser, or 1 point of Hull Integrity Damage (which cascades to Crew Population/Morale as usual). The loser then rolls `1d100` against their current Morale: a result ≤ Morale means the crew fights on (another Opposed Command Test next round); a result > Morale means the crew surrenders (an NPC ship yields; for a player ship, the characters decide).
 - **Stern Chase:** Occurs when a ship flees and is pursued outside of combat, or when a ship in combat ends its turn outside the range of all enemy weapons (requiring a Routine (+10) Pilot+Manoeuvrability; on failure it remains in combat and loses its next turn) and the remaining participants decide to pursue (they must themselves leave combat on their next turn to do so). Treated as an Exploration Challenge (p. 263): required Degrees of Success depend on the pursued ship's type — **Transport/Cruiser 3, Light Cruiser/Frigate 5, Raider 7**; modifiers: pursued faster than pursuer +2 DoS needed, pursuer faster -2 DoS needed, pursuit through an asteroid field/nebula/other obscuring stellar phenomenon +1 DoS needed. Usable Skills (as with an Exploration Challenge, once per Explorer per Skill, default difficulty Challenging): **Tech-Use, Pilot (Space Craft), Command, Scrutiny** (the GM may allow others). Success lowers the difficulty of the next Test by one step and adds the character's own DoS to the total; failure raises the next difficulty by one step and subtracts the DoF from the total. If enough DoS are reached, the pursuit succeeds (the quarry yields or fights); otherwise it escapes. If the Explorers are the pursued, the same rules apply in mirror (their ship being faster = easier, slower = harder; using stellar phenomena to flee = one step easier); success means escape, failure forces combat or surrender. A Stern Chase takes **about 2 hours per Degree of Success required**, regardless of outcome. During the chase both ships can see each other but remain outside each other's weapon range.
-- **Silent Running:** Speed halved, Manoeuvre Tests one step harder. Failure reveals the ship. Detection is via a Scrutiny+Detection Test opposed by the Silent Running success.
+- **Silent Running:** Speed halved, all related Skill Tests one step harder; the default Manoeuvre requires an Ordinary (+10) Pilot (Space Craft)+Manoeuvrability Test. Failure performs the Manoeuvre as normal but reveals the ship to all ships within sensor range; firing any weapon likewise reveals it immediately. Detection is via a Scrutiny+Detection Test opposed by the Silent Running success.
 - **Disengage (Detail):** The disengaging ship's Pilot+Manoeuvrability result is opposed by an **Opposed Challenging (+0) Detection+Scrutiny Test from every enemy within 20 VU**; if the disengaging ship's successes exceed each individual enemy's, it leaves combat. The ship may **fire no weapons** this turn, regardless of outcome. A ship that has successfully disengaged **may not re-enter combat**, unless the GM expressly allows it, and Disengage **cannot initiate a Stern Chase** — it shuts down all non-vital systems (drive, sensors, weapons) and remains so for hours to days.
 
 ## Starship Weapons and Damage
 
-Weapon Components have Range, Strength, Damage, and Crit Rating. Ballistic Skill is modified by Range, Manoeuvres, Target Size/Detection, and other effects. Targets beyond a weapon's Range can be fired on out to **up to double that Range** (with a corresponding penalty). Firing Arcs extend across a 90° cone; if it is unclear on a grid representation whether a target lies within the Fore/Aft or Side Arc, it counts as being in the **Side Arc**.
+Weapon Components have Range, Strength, Damage, and Crit Rating. Ballistic Skill is modified by Range, Manoeuvres, Target Size/Detection, and other effects. Each Weapon Component may be fired once per Strategic Turn; all Weapon Components must be fired at once, although at different targets, and only at a target within their firing arc. Extended Actions are available only to characters who took no part in a Manoeuvre or Shooting Action this turn; each player may perform only one Extended Action per Strategic Turn. Targets beyond a weapon's Range can be fired on out to **up to double that Range** (with a corresponding penalty). Firing Arcs extend across a 90° cone; if it is unclear on a grid representation whether a target lies within the Fore/Aft or Side Arc, it counts as being in the **Side Arc**.
 
 **Weapon Arcs by Mount:**
 - **Dorsal:** fires Fore, Port, and Starboard (a wide arc, but fewer weapons fit in the limited space).
@@ -348,7 +349,7 @@ Range modifiers: firing beyond normal Range (up to double Range) gives **-10** t
 - **Lances:** one hit on success, plus one more per **three** Degrees of Success. Each Lance hit is resolved individually against the defence (never combined); it **ignores Armour**, but not Void Shields. Lance Damage goes directly to Hull Integrity.
 - **Void Shields:** each Shield negates one hit per attacking ship per turn, then overloads until the next turn. The attacker chooses which hits are negated when using combined batteries.
 - **Turrets:** each point of Turret Rating gives -10 to the Piloting Tests of Hit-and-Run attacks against the ship; also +10 to the ship's own Command Test during a Boarding Action.
-- **Triggering a Critical Hit:** If the number of successes on a shot meets or exceeds the weapon's Crit Rating, a Critical Hit occurs. If the hit would otherwise deal no Hull Integrity damage, 1 point of damage is automatically inflicted; then roll on Table 8-12 and apply the result.
+- **Triggering a Critical Hit:** If the number of successes on a shot meets or exceeds the weapon's Crit Rating, a Critical Hit occurs. If the hit would otherwise deal no Hull Integrity damage, 1 point of damage is automatically inflicted; then roll `1d5` on Table 8-12 and apply the result.
 - **Crippled:** occurs at 0 Hull Integrity. **-10 to Manoeuvrability and Detection**, **Speed halved**, **Strength of all Weapon Components halved (rounded up)**. These effects persist until at least 1 Hull Integrity has been regained. If a Crippled ship suffers damage exceeding its Armour, this **automatically** causes a Critical Hit: the damage value exceeding Armour is directly checked against the Critical Hit Chart (no Crit Rating test needed).
 - **Knowledge of enemy Components:** Some Critical Hit results require the attacker to know one of the target's Components. This is the case if they have scanned it with Active Augury, or if the target ship has already used the Component against them.
 - **GM simplification for NPC ships (optional):** From 0 Hull Integrity onward, the GM may reinterpret the Critical Hit Chart: results 1–9 mean the ship drifts away as a shattered, worthless hulk; 10–12 mean a violent explosion (as Catastrophic Overload). This makes every further Critical Hit destroy the ship instantly once 0 Hull Integrity is reached — at the cost of the possibility of boarding the wreck.
@@ -365,10 +366,10 @@ Range modifiers: firing beyond normal Range (up to double Range) gives **-10** t
 | 6 | **Engines Crippled:** `1d10`; 1–7 Speed halved, 8–10 Speed 1; repairable |
 | 7 | **Surly Techsprites:** for every Component, `1d10`, on 4+ it becomes unpowered; repaired individually; Morale `1d5` Damage |
 | 8 | **Decapitation:** Bridge Crew Dodge or `2d10 X`; Damage 12+ depressurised, 16+ damaged |
-| 9–10 | **Hull Breach:** attacker chooses `1d5` known non-Bridge Components; for each, `1d10`: 1–7 damaged/depressurised, 8–10 destroyed; Crew Population and Morale halved |
+| 9–10 | **Hull Breach:** attacker chooses `1d5` known non-Bridge Components; for each, `1d10`: 1–7 damaged and depressurised, 8–10 destroyed (all crew inside killed); Crew Population and Morale halved |
 | 11 | **Catastrophic Damage:** `1d10`: 1–7 Space Hulk, 8–9 Plasma Drive Explosion, 10 Warp Drive Explosion (if the ship has no Warp Drive, it suffers a Plasma Drive Explosion instead) |
 
-**Space Hulk:** all Components `1d10`: 1–2 intact/unpowered, 3–7 depressurised/damaged, 8–10 destroyed; Crew Population becomes `1d10`.
+**Space Hulk:** all Components `1d10`: 1–2 untouched but unpowered, 3–7 depressurised and damaged, 9–10 destroyed (all crew inside killed; the book prints no result for 8); Crew Population becomes `1d10`.
 
 **Plasma Drive Explosion:** ships within `1d10` VU take Hard (-20) Pilot+Manoeuvrability or `1d5` Macrobattery Hits of `1d10+4` each, Shields/Armour apply normally.
 
@@ -404,12 +405,12 @@ Both begin at 100 by default; all threshold effects are cumulative and disappear
 | 80 | Command with Ship/Crew -5 |
 | 60 | Ship Weapon BS -5 |
 | 50 | Command additionally -10 (-15 total) |
-| 40 | Speed/Manoeuvrability/Detection -10; Weapon BS additionally -5 (-10 total) |
+| 40 | Manoeuvrability -10; Weapon BS additionally -5 (-10 total) |
 | 20 | no own Boarding Actions/Hit-and-Run attacks possible anymore (defence against enemy Boarding attempts remains normal); when in port, the ship loses `1d5` Crew Population to desertion |
 | 10 | Command additionally -15 (-30 total); Speed/Manoeuvrability/Detection additionally -10 |
 | 0 | the crew takes over the ship, unless every crewman is personally led |
 
-Below 70, 40, and 10 Morale: Captain Command or Mutiny (in combat only afterward; at most one Test per combat). Mutiny is resolved with Opposed Command/Charm/Intimidate: a Command win costs `1d5` Crew and `1d5` Morale; a Charm win costs `1d10` Morale; an Intimidate win costs 1 Crew and `1d10` Morale. If Mutiny wins with 3+ DoS, the group loses the ship.
+Below 70, 40, and 10 Morale: Captain Command or Mutiny (in combat only afterward; at most one Test per combat). Mutiny is resolved with Opposed Command/Charm/Intimidate: a Command win costs `1d5` Crew and `1d5` Morale; a Charm win costs `1d10` Morale; an Intimidate win costs 1 Crew and `1d10` Morale. If the mutineers win a test, another opposed test is made and the cycle continues; if Mutiny wins by 3+ DoS, the mutiny succeeds and the group loses control of the ship.
 
 ## Replenishing Morale and Crew Population
 
@@ -423,7 +424,7 @@ None of the restoration methods can exceed the respective **maximum value** (whi
 **Restoring Crew Population** (only on worlds inhabited by humans):
 - **Regular Recruitment:** an Acquisition Test to fill Crew Population to maximum. Availability is usually **Common (+20)**, may vary by world (e.g. a Hive World **Abundant (+50)**, an isolated outpost **Scarce** or **Rare**). The GM may grant additional bonuses/penalties for the scope and quality of the recruited crew.
 - **Press-Gangs:** A character with underworld contacts arranges what is needed — at least a **Common Lore (Underworld) Test** to find the right contacts, plus a **Barter Test** to seal the deal. On failure, violent retaliation from the criminal underworld, Magistratum intervention, or a popular uprising threaten. Advantage: very cheap.
-- **Emptying the Prisons:** a deal with the planetary authorities — Crew Population is filled **free of charge**, but the ship immediately loses **10 Morale**, which **does not recover** while it remains at that location.
+- **Emptying the Prisons:** a deal with the planetary authorities — Crew Population is filled **free of charge**, but the ship immediately loses `1d10+10` Morale, which **does not recover** while it remains at that location.
 
 ## Zero Gravity, Hazards, and Long-term Operation
 
