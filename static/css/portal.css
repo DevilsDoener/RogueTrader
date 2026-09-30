@@ -1710,7 +1710,7 @@ mark {
    Charaktere (sheets/character_list.html)
    The hero reuses .library-hero / .library-eyebrow / .library-intro from
    the Bibliothek block above; the dossier cards follow .library-card's
-   surface and hover lift. Card data comes from sheets.views._character_card.
+   surface and hover lift. Card data comes from sheets.cards.character_card.
    --------------------------------------------------------------------- */
 
 .crew-grid {

@@ -11,7 +11,6 @@ services:
       # passes through an explicit override.
       WIKI_CONTENT_ALLOWLIST: ${WIKI_CONTENT_ALLOWLIST:-}
       WIKI_STRICT_CONTENT: ${WIKI_STRICT_CONTENT:-true}
-      SHEET_SOURCE_PDF: ${SHEET_SOURCE_PDF:-/content/wiki/character-sheet.pdf}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://127.0.0.1:8000}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_DEBUG: ${DJANGO_DEBUG:-false}

@@ -109,13 +109,11 @@ highest-consequence bug class in this app.
 
 ## Tests and file boundaries
 
-- Run tests with the project venv from the repo root:
-  `.venv/Scripts/python.exe -m pytest -q`. `pytest.ini` is already
-  configured. Per-app suites live in `accounts/tests/`, `core/tests/`,
-  `sheets/tests/` and `wiki/tests/`; Playwright e2e and visual-regression
-  tests live under `tests/e2e/` and `tests/visual/`. See
-  `.claude/skills/run-tests/SKILL.md`.
+- Run tests with the project venv from the repo root
+  (`.venv/Scripts/python.exe -m pytest -q`). The test groups, commands and
+  notes are kept in `.claude/skills/run-tests/SKILL.md` (and the duties in
+  `AGENTS.md`) -- do not restate them here.
 - `.env` is never edited by an agent (a `PreToolUse` hook denies it);
   `.env.example` is the documented template.
-- `Notizbuch oeffnen.onetoc2` files (OneNote) and `graphify-out/` are
+- `Notizbuch öffnen.onetoc2` files (OneNote) and `graphify-out/` are
   foreign artifacts: never edit them and never stage them.

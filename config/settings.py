@@ -381,7 +381,3 @@ WIKI_STRICT_CONTENT = os.environ.get("WIKI_STRICT_CONTENT", "false").lower() in 
     "true",
     "yes",
 )
-
-SHEET_SOURCE_PDF = Path(
-    os.environ.get("SHEET_SOURCE_PDF", BASE_DIR / "data" / "character-sheet.pdf")
-)
