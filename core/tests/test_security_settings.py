@@ -100,8 +100,24 @@ def test_production_rejects_a_short_secret(settings_from_env):
 def test_production_rejects_a_missing_secret(settings_from_env):
     env = dict(PRODUCTION_ENV)
     del env["DJANGO_SECRET_KEY"]
-    with pytest.raises(ImproperlyConfigured):
+    with pytest.raises(
+        ImproperlyConfigured,
+        match="DJANGO_SECRET_KEY must be set when DJANGO_DEBUG is false",
+    ):
         settings_from_env(**env)
+
+
+def test_production_accepts_an_explicit_secret_with_only_the_required_variables(
+    settings_from_env,
+):
+    # Secret and hosts are the only variables production cannot start
+    # without; PUBLIC_BASE_URL and ENABLE_HSTS fall back to defaults.
+    settings = settings_from_env(
+        DJANGO_DEBUG="false",
+        DJANGO_SECRET_KEY="test-only-secret-key-that-is-long-enough-1234",
+        DJANGO_ALLOWED_HOSTS="portal.example.com",
+    )
+    assert settings.DEBUG is False
 
 
 def test_production_requires_explicit_allowed_hosts(settings_from_env):

@@ -1,9 +1,5 @@
-"""Shared view mixins usable by any app.
-
-There used to be two near-identical copies of ``PortalAdminRequiredMixin``
-(one in ``accounts/views.py``, one in ``sheets/views.py``). Consolidated
-here so a future fix only has to land in one place.
-"""
+"""Shared view mixins usable by any app (the ``accounts`` and ``sheets``
+portal-admin views both use :class:`PortalAdminRequiredMixin`)."""
 from __future__ import annotations
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
