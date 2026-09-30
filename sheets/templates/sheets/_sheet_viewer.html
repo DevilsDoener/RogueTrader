@@ -1,11 +1,12 @@
-{% load static sheets_extras %}
+{% load static %}
 {% comment %}Bare include fragment (no <!doctype>/<html>/<body>) rendering the pages of
    any sheet (character or ship). Fields render from the schema in declared
-   order, never from stored DB keys -- unknown stored keys are simply never
-   looked up. The context must supply a generic ``sheet`` variable (the
-   CharacterSheet or ShipSheet instance) alongside ``pages``/``read_only``.
-   The owning page (character_detail.html / ship_detail.html) renders this as
-   responsive document content and wires up autosave via sheet-viewer.js; when
+   order, never from stored DB keys -- each entry of ``page.fields`` is a
+   (field spec, stored value, stored version) triple built by
+   sheets.views._page_contexts, so unknown stored keys are simply never
+   rendered. The context supplies ``pages``/``read_only``.
+   The owning page (character_detail.html / ship_detail.html) renders this
+   inside the sheet shell and wires up autosave via sheet-viewer.js; when
    read_only is true every input stays disabled and sheet-viewer.js never
    attaches listeners to it, so the admin view issues no field requests at
    all.{% endcomment %}
@@ -26,7 +27,7 @@
           data-natural-height="{{ page.height }}"
         >
           <img class="sheet-background" src="{{ page.image_url }}" alt="{{ page.page_id }}" draggable="false">
-          {% for field in page.fields %}
+          {% for field, stored_value, stored_version in page.fields %}
             <div
               class="sheet-field"
               style="left: {{ field.x }}%; top: {{ field.y }}%; width: {{ field.width }}%; height: {{ field.height }}%;"
@@ -39,9 +40,9 @@
                   name="{{ field.id }}"
                   data-field-id="{{ field.id }}"
                   data-kind="checkbox"
-                  data-version="{{ sheet.field_versions|get_item:field.id|default:0 }}"
+                  data-version="{{ stored_version|default:0 }}"
                   aria-label="{{ field.label }}"
-                  {% if sheet.values|get_item:field.id %}checked{% endif %}
+                  {% if stored_value %}checked{% endif %}
                   {% if read_only %}disabled{% endif %}
                 >
                 {% if field.hit_padding.0 or field.hit_padding.1 or field.hit_padding.2 or field.hit_padding.3 %}
@@ -57,9 +58,9 @@
                   name="{{ field.id }}"
                   data-field-id="{{ field.id }}"
                   data-kind="text"
-                  data-version="{{ sheet.field_versions|get_item:field.id|default:0 }}"
+                  data-version="{{ stored_version|default:0 }}"
                   aria-label="{{ field.label }}"
-                  value="{{ sheet.values|get_item:field.id|default_if_none:'' }}"
+                  value="{{ stored_value|default_if_none:'' }}"
                   maxlength="{{ field.max_length }}"
                   {% if read_only %}disabled{% endif %}
                 >

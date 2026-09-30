@@ -13,27 +13,7 @@
     <a href="{% url 'sheets:ship_history' ship.pk %}">Verlauf</a>
   </div>
 
-  <div class="sheet-viewer-frame">
-    <div
-      id="sheet-viewer-root"
-      class="sheet-viewer-root"
-      data-read-only="false"
-      data-field-url-template="{{ field_update_url_template }}"
-    >
-      <div class="sheet-toolbar">
-        <div class="sheet-zoom-controls" role="group" aria-label="Zoom">
-          <button type="button" class="sheet-zoom-out" aria-label="Verkleinern">&minus;</button>
-          <span class="sheet-zoom-level" id="sheet-zoom-level">100%</span>
-          <button type="button" class="sheet-zoom-in" aria-label="Vergr&ouml;&szlig;ern">+</button>
-        </div>
-        <div class="sheet-toolbar-status" id="sheet-save-status" aria-live="polite"></div>
-      </div>
-
-      {% include "sheets/_sheet_viewer.html" %}
-    </div>
-  </div>
-
-  {% csrf_token %}
+  {% include "sheets/_sheet_shell.html" %}
 {% endblock %}
 
 {% block extra_scripts %}

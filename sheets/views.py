@@ -22,30 +22,26 @@ from django.views import View
 
 from core.mixins import PortalAdminRequiredMixin
 
+from .cards import character_card
 from .forms import CharacterCreateForm
 from .models import CharacterSheet, SheetChange, ShipSheet
-from .schema import SchemaError, load_schema
+from .schema import CHARACTER_PAGE_IDS, SHIP_PAGE_ID, SchemaError, load_schema
 from .services import (
     FieldConflict,
     FieldValidationError,
     SheetNotFound,
     delete_character,
+    get_active_ship,
     get_ship_for_view,
     patch_character_field,
     patch_ship_field,
 )
 
-#: The two schema pages rendered by the sheet viewer for a character.
-CHARACTER_PAGE_IDS: tuple[str, ...] = ("character-page-1", "character-page-2")
-
-#: The single schema page rendered by the sheet viewer for the shared ship.
-SHIP_PAGE_IDS: tuple[str, ...] = ("ship-page",)
-
 #: How many audit rows the ship history list shows per page.
 SHIP_HISTORY_PAGE_SIZE = 50
 
 #: Shared page template for both the owner and admin detail views; it includes
-#: the ``_sheet_viewer.html`` fragment and toggles destructive actions on
+#: the ``_sheet_shell.html`` viewer and toggles destructive actions on
 #: ``read_only``.
 DETAIL_TEMPLATE_NAME = "sheets/character_detail.html"
 
@@ -55,16 +51,17 @@ def _owned_characters(user) -> QuerySet[CharacterSheet]:
     return CharacterSheet.objects.filter(owner=user)
 
 
-def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> dict:
-    """Build the context consumed by ``sheets/character_detail.html`` (which
-    itself includes ``sheets/_sheet_viewer.html``).
+def _page_contexts(sheet: CharacterSheet | ShipSheet, page_ids: tuple[str, ...]) -> list[dict]:
+    """One dict per rendered page for ``sheets/_sheet_viewer.html``.
 
-    Renders both background pages with overlay inputs; when ``read_only``
-    is false those inputs are live and backed by the interactive
-    autosave/conflict-resolution behaviour in ``sheet-viewer.js`` (Task 7).
+    ``fields`` pairs every schema field (in declared order) with the sheet's
+    stored value and version for it, so the template never looks up stored
+    keys itself -- unknown stored keys are simply never rendered.
     """
+    values = sheet.values or {}
+    versions = sheet.field_versions or {}
     pages = []
-    for page_id in CHARACTER_PAGE_IDS:
+    for page_id in page_ids:
         page_schema = load_schema(page_id)
         pages.append(
             {
@@ -72,9 +69,23 @@ def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> 
                 "image_url": static(f"sheets/images/{page_id}.webp"),
                 "width": page_schema.image_width,
                 "height": page_schema.image_height,
-                "fields": page_schema.fields,
+                "fields": [
+                    (field_spec, values.get(field_spec.id), versions.get(field_spec.id))
+                    for field_spec in page_schema.fields
+                ],
             }
         )
+    return pages
+
+
+def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> dict:
+    """Build the context consumed by ``sheets/character_detail.html`` (which
+    itself includes ``sheets/_sheet_viewer.html``).
+
+    Renders both background pages with overlay inputs; when ``read_only``
+    is false those inputs are live and backed by the interactive
+    autosave/conflict-resolution behaviour in ``sheet-viewer.js``.
+    """
     field_update_url_template = None
     if not read_only:
         # A single reversed URL with a placeholder field id, filled in
@@ -85,92 +96,9 @@ def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> 
         )
     return {
         "character": character,
-        "sheet": character,
         "read_only": read_only,
-        "pages": pages,
+        "pages": _page_contexts(character, CHARACTER_PAGE_IDS),
         "field_update_url_template": field_update_url_template,
-    }
-
-
-#: The nine characteristics shown on a character-list card, in sheet order.
-#: Labels are the book's English abbreviations.
-CARD_CHARACTERISTICS: tuple[tuple[str, str], ...] = (
-    ("WS", "c1_ws_value"),
-    ("BS", "c1_bs_value"),
-    ("S", "c1_s_value"),
-    ("T", "c1_t_value"),
-    ("Ag", "c1_ag_value"),
-    ("Int", "c1_int_value"),
-    ("Per", "c1_per_value"),
-    ("WP", "c1_wp_value"),
-    ("Fel", "c1_fel_value"),
-)
-
-#: Stat chips on a character-list card: label, then one field id for a single
-#: value or two (current, total) for a "current / total" pair.
-CARD_STATS: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("Wounds", ("c2_wounds_current", "c2_wounds_total")),
-    ("Fate", ("c2_fate_points_current", "c2_fate_points_total")),
-    ("XP to Spend", ("c1_xp_to_spend",)),
-    ("Profit Factor", ("c1_profit_factor_current",)),
-)
-
-#: Placeholder for one missing half of a "current / total" chip.
-_MISSING = "–"
-
-
-def _card_value(values: dict, field_id: str) -> str:
-    """One sheet value as display text; missing, empty or non-text is ``""``."""
-    value = values.get(field_id)
-    if isinstance(value, bool) or not isinstance(value, (str, int, float)):
-        return ""
-    return str(value).strip()
-
-
-def _character_card(character: CharacterSheet) -> dict:
-    """Map a character to the plain dict one character-list card renders.
-
-    Read-only presentation: it never writes to ``character``. Every part is
-    optional -- a fresh character with empty ``values`` yields a card with
-    only its name, dates and actions.
-    """
-    values = character.values if isinstance(character.values, dict) else {}
-    name = (character.display_name or "").strip() or "Unbenannter Charakter"
-
-    career = _card_value(values, "c1_career_path")
-    rank = _card_value(values, "c1_rank")
-    rank_label = f"Rank {rank}" if rank else ""
-    subtitle = [
-        part
-        for part in (career, rank_label, _card_value(values, "c1_home_world"))
-        if part
-    ]
-
-    characteristics = [
-        {"label": label, "value": _card_value(values, field_id)}
-        for label, field_id in CARD_CHARACTERISTICS
-    ]
-
-    stats = []
-    for label, field_ids in CARD_STATS:
-        parts = [_card_value(values, field_id) for field_id in field_ids]
-        if not any(parts):
-            continue
-        stats.append(
-            {"label": label, "value": " / ".join(part or _MISSING for part in parts)}
-        )
-
-    return {
-        "pk": character.pk,
-        "name": name,
-        "initial": name[0].upper(),
-        "subtitle": subtitle,
-        # Career and rank alone, for the dashboard's compact tiles (no home world).
-        "career_rank": [part for part in (career, rank_label) if part],
-        "characteristics": characteristics,
-        "has_characteristics": any(c["value"] for c in characteristics),
-        "stats": stats,
-        "updated_at": character.updated_at,
     }
 
 
@@ -180,13 +108,14 @@ class CharacterListCreateView(LoginRequiredMixin, View):
     template_name = "sheets/character_list.html"
 
     def _render(self, request, form):
-        characters = _owned_characters(request.user).order_by("display_name")
+        characters = (
+            _owned_characters(request.user).defer("field_versions").order_by("display_name")
+        )
         return render(
             request,
             self.template_name,
             {
-                "characters": characters,
-                "cards": [_character_card(character) for character in characters],
+                "cards": [character_card(character) for character in characters],
                 "form": form,
             },
         )
@@ -273,24 +202,33 @@ def _field_update_response(request, patch_fn, **patch_kwargs):
     return JsonResponse(body)
 
 
-class CharacterFieldUpdateView(LoginRequiredMixin, View):
-    """``POST /characters/<uuid>/fields/<field_id>/`` -- strict JSON autosave endpoint.
-
-    A thin HTTP wrapper around :func:`sheets.services.patch_character_field`
-    via :func:`_field_update_response`: all concurrency, permission, and
-    validation logic lives in the service. Only ``POST`` is accepted
-    (``View`` returns 405 for anything else since no other handler is
-    defined).
+class _FieldUpdateView(LoginRequiredMixin, View):
+    """Strict JSON autosave endpoint: a thin HTTP wrapper around
+    :attr:`patch_fn` via :func:`_field_update_response` -- all concurrency,
+    permission, and validation logic lives in the service. Only ``POST`` is
+    accepted (``View`` returns 405 for anything else since no other handler
+    is defined).
     """
+
+    #: :func:`sheets.services.patch_character_field` or ``patch_ship_field``.
+    patch_fn = None
 
     def post(self, request, pk, field_id):
         return _field_update_response(
             request,
-            patch_character_field,
+            type(self).patch_fn,
             sheet_id=pk,
             actor=request.user,
             field_id=field_id,
         )
+
+
+class CharacterFieldUpdateView(_FieldUpdateView):
+    """``POST /characters/<uuid>/fields/<field_id>/`` -- backed by
+    :func:`sheets.services.patch_character_field`.
+    """
+
+    patch_fn = patch_character_field
 
 
 class CharacterDeleteView(LoginRequiredMixin, View):
@@ -318,8 +256,10 @@ class AdminCharacterListView(PortalAdminRequiredMixin, View):
     template_name = "sheets/admin_character_list.html"
 
     def get(self, request):
-        characters = CharacterSheet.objects.select_related("owner").order_by(
-            "owner__username", "display_name"
+        characters = (
+            CharacterSheet.objects.select_related("owner")
+            .defer("values", "field_versions")
+            .order_by("owner__username", "display_name")
         )
         return render(request, self.template_name, {"characters": characters})
 
@@ -341,11 +281,19 @@ class AdminCharacterDetailView(PortalAdminRequiredMixin, View):
 #
 # Unlike characters, the ship has no ownership: every authenticated user may
 # view and mutate it (see ``sheets/permissions.py``). The first release
-# creates exactly one active ``ShipSheet`` row (seeded by a Task 5 data
-# migration) while keeping the model shaped for more than one -- the list
-# route below always resolves to "the" active ship rather than exposing any
-# create/delete controls.
+# creates exactly one active ``ShipSheet`` row (seeded by migration
+# ``0002_seed_shared_ship``) while keeping the model shaped for more than
+# one -- the list route below always resolves to "the" active ship rather
+# than exposing any create/delete controls.
 # ---------------------------------------------------------------------------
+
+
+def _ship_or_404(pk, user) -> ShipSheet:
+    """The ship ``pk`` if ``user`` may view it, else :class:`~django.http.Http404`."""
+    try:
+        return get_ship_for_view(sheet_id=pk, actor=user)
+    except SheetNotFound as exc:
+        raise Http404() from exc
 
 
 def _ship_viewer_context(ship: ShipSheet) -> dict:
@@ -353,27 +301,13 @@ def _ship_viewer_context(ship: ShipSheet) -> dict:
     includes the shared ``sheets/_sheet_viewer.html`` fragment). The ship
     viewer is always editable -- there is no read-only ship view.
     """
-    pages = []
-    for page_id in SHIP_PAGE_IDS:
-        page_schema = load_schema(page_id)
-        pages.append(
-            {
-                "page_id": page_id,
-                "image_url": static(f"sheets/images/{page_id}.webp"),
-                "width": page_schema.image_width,
-                "height": page_schema.image_height,
-                "fields": page_schema.fields,
-            }
-        )
-    field_update_url_template = reverse(
-        "sheets:ship_field_update", args=[ship.pk, "__FIELD_ID__"]
-    )
     return {
         "ship": ship,
-        "sheet": ship,
         "read_only": False,
-        "pages": pages,
-        "field_update_url_template": field_update_url_template,
+        "pages": _page_contexts(ship, (SHIP_PAGE_ID,)),
+        "field_update_url_template": reverse(
+            "sheets:ship_field_update", args=[ship.pk, "__FIELD_ID__"]
+        ),
     }
 
 
@@ -401,7 +335,7 @@ class ShipRedirectView(LoginRequiredMixin, View):
     """
 
     def get(self, request):
-        ship = ShipSheet.objects.filter(is_active=True).order_by("id").first()
+        ship = get_active_ship()
         if ship is None:
             raise Http404("No active ship sheet configured")
         return redirect("sheets:ship_detail", pk=ship.pk)
@@ -416,31 +350,20 @@ class ShipDetailView(LoginRequiredMixin, View):
     """
 
     def get(self, request, pk):
-        try:
-            ship = get_ship_for_view(sheet_id=pk, actor=request.user)
-        except SheetNotFound as exc:
-            raise Http404() from exc
+        ship = _ship_or_404(pk, request.user)
         return render(request, "sheets/ship_detail.html", _ship_viewer_context(ship))
 
 
-class ShipFieldUpdateView(LoginRequiredMixin, View):
-    """``POST /ships/<uuid>/fields/<field_id>/`` -- strict JSON autosave endpoint.
+class ShipFieldUpdateView(_FieldUpdateView):
+    """``POST /ships/<uuid>/fields/<field_id>/`` -- backed by
+    :func:`sheets.services.patch_ship_field`.
 
-    Identical contract to :class:`CharacterFieldUpdateView`, backed by
-    :func:`sheets.services.patch_ship_field` instead -- every authenticated
-    user may mutate the shared ship, so unlike the character endpoint a 404
-    here only ever means "no such sheet id" or "no such field", not "not
-    yours".
+    Every authenticated user may mutate the shared ship, so unlike the
+    character endpoint a 404 here only ever means "no such sheet id" or "no
+    such field", not "not yours".
     """
 
-    def post(self, request, pk, field_id):
-        return _field_update_response(
-            request,
-            patch_ship_field,
-            sheet_id=pk,
-            actor=request.user,
-            field_id=field_id,
-        )
+    patch_fn = patch_ship_field
 
 
 class ShipHistoryListView(LoginRequiredMixin, View):
@@ -456,12 +379,9 @@ class ShipHistoryListView(LoginRequiredMixin, View):
     template_name = "sheets/ship_history.html"
 
     def get(self, request, pk):
-        try:
-            ship = get_ship_for_view(sheet_id=pk, actor=request.user)
-        except SheetNotFound as exc:
-            raise Http404() from exc
+        ship = _ship_or_404(pk, request.user)
 
-        page_schema = load_schema("ship-page")
+        page_schema = load_schema(SHIP_PAGE_ID)
         changes = ship.changes.select_related("actor").order_by("-changed_at", "-id")
         paginator = Paginator(changes, SHIP_HISTORY_PAGE_SIZE)
         page_obj = paginator.get_page(request.GET.get("page"))
@@ -502,11 +422,7 @@ class ShipHistoryDetailView(LoginRequiredMixin, View):
     template_name = "sheets/_ship_history_detail.html"
 
     def get(self, request, pk, change_id):
-        try:
-            ship = get_ship_for_view(sheet_id=pk, actor=request.user)
-        except SheetNotFound as exc:
-            raise Http404() from exc
-
+        ship = _ship_or_404(pk, request.user)
         change = get_object_or_404(SheetChange, pk=change_id, ship=ship)
         return render(
             request,

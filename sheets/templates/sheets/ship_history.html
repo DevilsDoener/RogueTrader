@@ -23,7 +23,7 @@
       </thead>
       <tbody>
         {% for row in rows %}
-          <tr class="ship-history-row" data-change-id="{{ row.change.id }}">
+          <tr data-change-id="{{ row.change.id }}">
             <td>{{ row.change.changed_at }}</td>
             <td>{{ row.change.actor.username|default:"—" }}</td>
             <td>{{ row.field_label }}</td>
@@ -33,7 +33,7 @@
               </button>
             </td>
           </tr>
-          <tr class="ship-history-detail-row" hidden>
+          <tr hidden>
             <td colspan="4"></td>
           </tr>
         {% empty %}
