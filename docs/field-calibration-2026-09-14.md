@@ -1,5 +1,10 @@
 # Feldkalibrierung vom 14.09.2026
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 ## Sichtbare Änderungen
 
 - Charakterseite 1: 78 vorhandene Textrechtecke an Linienanfänge und -enden angepasst; 44 kurze Fertigkeitszeilen und die erste Talentzeile ergänzt.

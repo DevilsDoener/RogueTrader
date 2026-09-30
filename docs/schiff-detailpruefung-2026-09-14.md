@@ -1,5 +1,10 @@
 # Detailprüfung der Schiffsseite
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 ## Ergebnis
 
 Die bisherige Aussage, auf der Schiffsseite passe alles, war zu weitgehend. Die geometrische Platzierung stimmt weitgehend; bei Werteingabe und Bedienbarkeit bestehen konkrete Einschränkungen. Es wurden keine produktiven Felder oder gespeicherten Werte verändert.

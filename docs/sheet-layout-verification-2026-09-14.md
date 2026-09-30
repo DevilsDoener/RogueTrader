@@ -1,5 +1,10 @@
 # Layout verification — 2026-09-14
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 Compared against the working files at the start of this change, including the
 user's previously uncommitted field calibrations (not the older Git HEAD).
 

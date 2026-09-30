@@ -1,5 +1,10 @@
 # Rogue-Trader-Wissensportal und Charakterverwaltung
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 ## Ziel
 
 Eine öffentlich erreichbare, in Docker betriebene Webanwendung verbindet die vorhandene Rogue-Trader-Wissensdatenbank mit originalgetreuen digitalen Bögen. Mehrere vom Administrator angelegte Nutzer verwalten jeweils mehrere eigene Charaktere. Normale Nutzer sehen ausschließlich ihre eigenen Charaktere; der Administrator darf alle Charaktere ansehen, fremde Charaktere jedoch weder bearbeiten noch löschen. Zusätzlich existiert zunächst ein gemeinsamer Raumschiffbogen, den alle angemeldeten Nutzer ansehen und bearbeiten dürfen. Das Datenmodell unterstützt später mehrere gemeinsame Raumschiffe ohne Schemaänderung.

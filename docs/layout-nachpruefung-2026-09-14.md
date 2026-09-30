@@ -1,5 +1,10 @@
 # Erneute Layoutprüfung
 
+> **Historisches Dokument — nicht verbindlich.** Es hält den Stand zum Zeitpunkt
+> seiner Entstehung fest und wird nicht nachgeführt. Verbindlich sind `AGENTS.md`
+> und die dort genannten aktiven Fachdokumente; bei Widerspruch gelten Code,
+> Schemas und Tests. Dieses Dokument erklärt das *Warum*, nicht das *Jetzt*.
+
 Ergebnis: keine vollständige Freigabe. Der laufende Build stimmt per SHA-256 auf allen drei Layoutdateien mit dem geprüften Arbeitsstand überein.
 
 ## Bestätigte offene Fehler auf Charakterseite 1

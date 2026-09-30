@@ -34,7 +34,7 @@ There is no database table behind it: the whole corpus is parsed once at
 process start into an immutable in-memory tree, so requests never touch disk.
 
 - **The chapter list is `wiki/manifest.py`** — file names, reading order, each
-  chapter's URL slug and its grouping on the overview page. That is the only
+  chapter's URL slug, Roman numeral and its band on the overview page. That is the only
   place to add or reorder a chapter. `WIKI_CONTENT_ALLOWLIST` still overrides
   the list from the environment, but nothing needs to set it.
 - **Structure comes from the headings, not from the file layout.** A chapter is
@@ -68,10 +68,9 @@ process start into an immutable in-memory tree, so requests never touch disk.
   field is empty. `Enter` without a highlighted suggestion runs the full-text
   search. The client is `static/js/auspex.js`.
 - **The Bibliothek (`/wiki/`)** groups the chapters into the bands Front Matter,
-  Chapters and Appendix. The manifest only names each chapter's part; the bands
-  are built in `wiki/views.py` (`_library_bands`): the Front Matter and Appendix
-  parts keep their own band, and every numbered chapter shares the Chapters
-  band. Typing in its filter narrows the cards live, marks the matching
+  Chapters and Appendix. Each `ChapterEntry` in `wiki/manifest.py` declares its
+  own `numeral` and `band` (`wiki/views.py` only groups the cards per band, in
+  the order of `BANDS`); every numbered chapter shares the Chapters band. Typing in its filter narrows the cards live, marks the matching
   sections (level-2 ones included), and bands without a match disappear.
   The "Quick Links" chips come from `QUICK_LINKS` in
   `wiki/manifest.py` (the partial is `wiki/templates/wiki/_quick_links.html`);
@@ -108,9 +107,11 @@ and serving an empty wiki.
 ## Background assets
 
 `sheets/static/sheets/images/character-page-1.webp`,
-`character-page-2.webp`, and `ship-page.webp` are extracted directly from
-the source character-sheet PDF (pages 401 and 402 for the two
-character-sheet pages, page 403 for the ship sheet). The ship page is
+`character-page-2.webp`, and `ship-page.webp` are extracted by
+`tools/extract_sheet_assets.py`: the two character pages from the separate
+two-page `Rogue Trader Character Sheet.pdf` (pages 1 and 2), the ship sheet
+from page 403 of the core rulebook PDF (see
+[`docs/sheet-calibration.md`](docs/sheet-calibration.md)). The ship page is
 rotated to landscape for display; the two character pages keep their
 original portrait orientation. No other artwork on any page is interactive.
 
@@ -220,8 +221,8 @@ docker compose logs --no-color portal
 ```
 
 Per-app suites live in `accounts/tests/`, `core/tests/`, `sheets/tests/` and
-`wiki/tests/`; the browser tests live in `tests/e2e/` and their captured
-baselines in `tests/visual/`. Run the app you touched while iterating and the
+`wiki/tests/`; the browser tests live in `tests/e2e/` and their latest
+captured renders in `tests/visual/`. Run the app you touched while iterating and the
 full suite before a build, a push, or calling the work done.
 
 `tests/e2e/test_complete_journey.py` drives one continuous, real end-to-end

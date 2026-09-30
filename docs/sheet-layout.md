@@ -91,18 +91,17 @@ Zum Verschieben oder Umgestalten eines Feldes niemals dessen `id` ändern.
 Bereichsname und Vorlagenname sind von dieser persistenten ID unabhängig.
 Eine echte Feldumbenennung braucht eine gesonderte Datenmigration.
 
-Der vorhandene HTML-Feldmapper arbeitet mit den **erzeugten** flachen Koordinaten.
-Gemessene Korrekturen müssen in die Layout-Quelle zurückübertragen werden:
+Gemessene Seitenkoordinaten beziehen sich auf die **erzeugten** flachen Felder.
+Sie müssen in die Layout-Quelle zurückübertragen werden:
 `lokale Position = gemessene Seitenposition - Bereichsanker`. Ein direkt geändertes
 `sheets/data/*.json` wird beim nächsten Generieren überschrieben.
 
 ## Prüfung dieses Umbaus
 
-Bei der Umstellung wurden alle bestehenden Eigenschaften der 705 Felder
-(620 Charakterfelder und 85 Schiffsfelder) mit dem vorherigen Arbeitsstand
-verglichen. Der Browservergleich verwendet dieselben Originalbilder und
-Testeinträge vor und nach dem Umbau; aktuelle Ergebnisse stehen im Prüfbericht
-`docs/sheet-layout-verification.md`.
+Der Prüfbericht zur Umstellung auf Layout-Quellen steht (historisch) in
+`docs/sheet-layout-verification-2026-09-14.md`. Laufend prüfen
+`python -m sheets.layout --check` und die Schema-Tests, dass die erzeugten
+Dateien zu den Layout-Quellen passen.
 
 
 ## Zahlen und zusätzliche Klickflächen
