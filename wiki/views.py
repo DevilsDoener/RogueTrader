@@ -71,7 +71,7 @@ def _library_bands(repository):
     """
     bands = [
         {"name": PART_FRONT_MATTER, "cards": []},
-        {"name": "Kapitel", "cards": []},
+        {"name": "Chapters", "cards": []},
         {"name": PART_APPENDIX, "cards": []},
     ]
     by_part = {PART_FRONT_MATTER: bands[0], PART_APPENDIX: bands[2]}

@@ -72,11 +72,11 @@ def test_wiki_section_parent_titles_defaults_to_empty():
 @pytest.mark.parametrize(
     ("part", "numeral"),
     [
-        ("Kapitel IV", "IV"),
-        ("Kapitel XIV", "XIV"),
-        ("Kapitel   IX", "IX"),
-        ("Vorspann", ""),
-        ("Anhang", ""),
+        ("Chapter IV", "IV"),
+        ("Chapter XIV", "XIV"),
+        ("Chapter   IX", "IX"),
+        ("Front Matter", ""),
+        ("Appendix", ""),
         ("", ""),
     ],
 )
@@ -176,10 +176,10 @@ def test_highlight_terms_drop_single_character_tokens(tmp_path, settings):
 
 
 def test_quick_link_is_a_frozen_value():
-    link = QuickLink("Proben", "playing-the-game", "tests-the-basic-mechanic")
+    link = QuickLink("Tests", "playing-the-game", "tests-the-basic-mechanic")
 
     assert (link.label, link.chapter_slug, link.section_id) == (
-        "Proben", "playing-the-game", "tests-the-basic-mechanic",
+        "Tests", "playing-the-game", "tests-the-basic-mechanic",
     )
     with pytest.raises(Exception):
         link.label = "x"
@@ -194,8 +194,8 @@ def test_quick_links_drop_entries_whose_target_is_missing(tmp_path, settings, mo
         "wiki.content.QUICK_LINKS",
         (
             good,
-            QuickLink("Kein Kapitel", "nope", "alpha"),
-            QuickLink("Kein Abschnitt", "tree", "missing"),
+            QuickLink("No Chapter", "nope", "alpha"),
+            QuickLink("No Section", "tree", "missing"),
         ),
     )
 

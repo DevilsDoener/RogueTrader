@@ -139,7 +139,7 @@ def test_quick_links_are_rendered_when_their_targets_exist(
 
     assert "Schnellzugriff" in content
     assert f'href="{chapter_url}#sec-detailed-talent-descriptions"' in content
-    assert ">Talente</a>" in content
+    assert ">Talents</a>" in content
 
 
 @pytest.mark.django_db
@@ -169,10 +169,10 @@ def test_filter_text_is_casefolded_and_autoescaped(
 
 
 @pytest.mark.django_db
-def test_chapters_are_grouped_into_three_bands_with_one_kapitel_grid(
+def test_chapters_are_grouped_into_three_bands_with_one_chapters_grid(
     client, user_factory, tmp_path, settings
 ):
-    """Vorspann, Kapitel (all numbered chapters incl. the XIV files), Anhang."""
+    """Front Matter, Chapters (all numbered chapters incl. the XIV files), Appendix."""
     _publish(
         tmp_path,
         settings,
@@ -188,11 +188,11 @@ def test_chapters_are_grouped_into_three_bands_with_one_kapitel_grid(
     content = _get(client, user_factory)
 
     headings = re.findall(r'<h2 class="library-band-heading"[^>]*>([^<]+)</h2>', content)
-    assert headings == ["Vorspann", "Kapitel", "Anhang"]
+    assert headings == ["Front Matter", "Chapters", "Appendix"]
     assert content.count('<section class="library-band"') == 3
     assert content.count('<ul class="library-grid">') == 3
     # No per-part headings any more, in particular none for chapter XIV.
-    assert "Kapitel XIV" not in content
+    assert "Chapter XIV" not in content
     sections = re.split(r'<section class="library-band"', content)[1:]
     kapitel = sections[1]
     for title in ("One", "Mutations", "Traits"):

@@ -30,8 +30,8 @@
     </section>
   {% endif %}
 
-  {% comment %}Three bands in book order (Vorspann, Kapitel, Anhang), built in
-     wiki/views.py. All numbered chapters share the one "Kapitel" grid;
+  {% comment %}Three bands in book order (Front Matter, Chapters, Appendix), built in
+     wiki/views.py. All numbered chapters share the one "Chapters" grid;
      `filter_text` is built in the view so autoescape handles quotes.{% endcomment %}
   {% for band in bands %}
     <section class="library-band" aria-labelledby="library-band-{{ forloop.counter }}">

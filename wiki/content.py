@@ -109,7 +109,7 @@ class WikiChapter:
         return tuple(section for section in self.outline if not section.is_intro)
 
 
-_PART_NUMERAL_RE = re.compile(r"^Kapitel\s+([IVXLC]+)$")
+_PART_NUMERAL_RE = re.compile(r"^Chapter\s+([IVXLC]+)$")
 _CHAPTER_PREFIX_RE = re.compile(r"^Chapter\s+[0-9IVXLC]+\s*[:\-–]\s*", re.IGNORECASE)
 
 

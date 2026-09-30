@@ -279,14 +279,14 @@ def test_front_matter_shows_no_leading_separator(client, user_factory, book):
 def test_no_hits_offers_the_quick_links(client, user_factory, book, monkeypatch):
     monkeypatch.setattr(
         "wiki.content.QUICK_LINKS",
-        (QuickLink("Kandidaten", "karrierewege", "explorator"),),
+        (QuickLink("Candidates", "karrierewege", "explorator"),),
     )
     content = _get(client, user_factory, q="zzzznothing").content.decode()
     url = reverse("wiki:chapter", kwargs={"chapter_slug": "karrierewege"})
 
     assert '<ul class="quick-links">' in content
     assert (
-        f'<a class="quick-link" href="{url}#sec-explorator">Kandidaten</a>' in content
+        f'<a class="quick-link" href="{url}#sec-explorator">Candidates</a>' in content
     )
     assert "search-facets" not in content
 

@@ -38,9 +38,9 @@ def test_chapter_xiv_keeps_its_four_files_together():
     """The book's chapter XIV was split along the PDF's own bookmarks."""
     parts = [entry.part for entry in manifest.CHAPTERS]
 
-    assert parts.count("Kapitel XIV") == 4
-    first = parts.index("Kapitel XIV")
-    assert parts[first : first + 4] == ["Kapitel XIV"] * 4
+    assert parts.count("Chapter XIV") == 4
+    first = parts.index("Chapter XIV")
+    assert parts[first : first + 4] == ["Chapter XIV"] * 4
 
 
 def test_an_unknown_source_name_gets_a_neutral_entry():

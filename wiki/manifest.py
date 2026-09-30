@@ -29,8 +29,8 @@ from dataclasses import dataclass
 from typing import Dict, Tuple
 
 #: Front matter and appendix parts, named for what the book calls them.
-PART_FRONT_MATTER = "Vorspann"
-PART_APPENDIX = "Anhang"
+PART_FRONT_MATTER = "Front Matter"
+PART_APPENDIX = "Appendix"
 
 
 @dataclass(frozen=True)
@@ -55,27 +55,27 @@ CHAPTERS: Tuple[ChapterEntry, ...] = (
         PART_FRONT_MATTER,
         search_weight=0.3,
     ),
-    ChapterEntry("01-Charaktererschaffung.md", "charaktererschaffung", "Kapitel I"),
-    ChapterEntry("02-Karrierewege.md", "karrierewege", "Kapitel II"),
-    ChapterEntry("03-Skills.md", "skills", "Kapitel III"),
-    ChapterEntry("04-Talents.md", "talents", "Kapitel IV"),
-    ChapterEntry("05-Armoury.md", "armoury", "Kapitel V"),
-    ChapterEntry("06-Psychic-Powers.md", "psychic-powers", "Kapitel VI"),
-    ChapterEntry("07-Navigator-Powers.md", "navigator-powers", "Kapitel VII"),
-    ChapterEntry("08-Starships.md", "starships", "Kapitel VIII"),
-    ChapterEntry("09-Playing-The-Game.md", "playing-the-game", "Kapitel IX"),
-    ChapterEntry("10-The-Game-Master.md", "the-game-master", "Kapitel X"),
-    ChapterEntry("11-The-Imperium.md", "the-imperium", "Kapitel XI"),
-    ChapterEntry("12-Rogue-Traders.md", "rogue-traders", "Kapitel XII"),
-    ChapterEntry("13-The-Koronus-Expanse.md", "the-koronus-expanse", "Kapitel XIII"),
+    ChapterEntry("01-Charaktererschaffung.md", "charaktererschaffung", "Chapter I"),
+    ChapterEntry("02-Karrierewege.md", "karrierewege", "Chapter II"),
+    ChapterEntry("03-Skills.md", "skills", "Chapter III"),
+    ChapterEntry("04-Talents.md", "talents", "Chapter IV"),
+    ChapterEntry("05-Armoury.md", "armoury", "Chapter V"),
+    ChapterEntry("06-Psychic-Powers.md", "psychic-powers", "Chapter VI"),
+    ChapterEntry("07-Navigator-Powers.md", "navigator-powers", "Chapter VII"),
+    ChapterEntry("08-Starships.md", "starships", "Chapter VIII"),
+    ChapterEntry("09-Playing-The-Game.md", "playing-the-game", "Chapter IX"),
+    ChapterEntry("10-The-Game-Master.md", "the-game-master", "Chapter X"),
+    ChapterEntry("11-The-Imperium.md", "the-imperium", "Chapter XI"),
+    ChapterEntry("12-Rogue-Traders.md", "rogue-traders", "Chapter XII"),
+    ChapterEntry("13-The-Koronus-Expanse.md", "the-koronus-expanse", "Chapter XIII"),
     # Chapter XIV is four files because the PDF bookmarks split it that way.
-    ChapterEntry("14-Adversaries-and-Aliens.md", "adversaries-and-aliens", "Kapitel XIV"),
+    ChapterEntry("14-Adversaries-and-Aliens.md", "adversaries-and-aliens", "Chapter XIV"),
     ChapterEntry(
-        "14-Allies-Enemies-and-Rivals.md", "allies-enemies-and-rivals", "Kapitel XIV"
+        "14-Allies-Enemies-and-Rivals.md", "allies-enemies-and-rivals", "Chapter XIV"
     ),
-    ChapterEntry("14-Mutations.md", "mutations", "Kapitel XIV"),
-    ChapterEntry("14-Traits.md", "traits", "Kapitel XIV"),
-    ChapterEntry("15-Into-The-Maw.md", "into-the-maw", "Kapitel XV"),
+    ChapterEntry("14-Mutations.md", "mutations", "Chapter XIV"),
+    ChapterEntry("14-Traits.md", "traits", "Chapter XIV"),
+    ChapterEntry("15-Into-The-Maw.md", "into-the-maw", "Chapter XV"),
     ChapterEntry("16-Index.md", "index", PART_APPENDIX, search_weight=0.3),
 )
 
@@ -111,20 +111,20 @@ class QuickLink:
     section_id: str
 
 
-#: Rules the table looks up mid-session. Labels are German; targets are
+#: Rules the table looks up mid-session. Labels are English (book content); targets are
 #: section anchors (``sec-<id>``) checked against the real corpus by
 #: wiki/tests/test_navigation_data.py.
 QUICK_LINKS: Tuple[QuickLink, ...] = (
-    QuickLink("Proben", "playing-the-game", "tests-the-basic-mechanic"),
-    QuickLink("Erfolgsgrade", "playing-the-game", "degrees-of-success-and-failure"),
-    QuickLink("Kampfaktionen", "playing-the-game", "table-9-4-combat-actions"),
-    QuickLink("Trefferzonen", "playing-the-game", "table-9-6-hit-locations"),
-    QuickLink("Kritischer Schaden", "playing-the-game", "critical-effect-tables-tables-9-11-to-9-26"),
-    QuickLink("Fernkampfwaffen", "armoury", "table-5-4-ranged-weapons"),
-    QuickLink("Waffeneigenschaften", "armoury", "weapon-special-qualities"),
-    QuickLink("Rüstung", "armoury", "armour"),
-    QuickLink("Fertigkeiten", "skills", "skill-descriptions"),
-    QuickLink("Talente", "talents", "detailed-talent-descriptions"),
-    QuickLink("Gefahren des Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
-    QuickLink("Raumkampf", "starships", "starship-combat"),
+    QuickLink("Tests", "playing-the-game", "tests-the-basic-mechanic"),
+    QuickLink("Degrees of Success", "playing-the-game", "degrees-of-success-and-failure"),
+    QuickLink("Combat Actions", "playing-the-game", "table-9-4-combat-actions"),
+    QuickLink("Hit Locations", "playing-the-game", "table-9-6-hit-locations"),
+    QuickLink("Critical Damage", "playing-the-game", "critical-effect-tables-tables-9-11-to-9-26"),
+    QuickLink("Ranged Weapons", "armoury", "table-5-4-ranged-weapons"),
+    QuickLink("Weapon Qualities", "armoury", "weapon-special-qualities"),
+    QuickLink("Armour", "armoury", "armour"),
+    QuickLink("Skills", "skills", "skill-descriptions"),
+    QuickLink("Talents", "talents", "detailed-talent-descriptions"),
+    QuickLink("Perils of the Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
+    QuickLink("Starship Combat", "starships", "starship-combat"),
 )

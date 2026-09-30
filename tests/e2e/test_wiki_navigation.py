@@ -100,7 +100,7 @@ def test_weiterlesen_appears_only_with_a_stored_reading_position(
     assert page.is_hidden(".library-recent")
 
     entries = [
-        {"title": "Erfolgsgrade", "chapter": "Playing the Game", "url": "/wiki/playing-the-game/#sec-x", "ts": 3},
+        {"title": "Degrees of Success", "chapter": "Playing the Game", "url": "/wiki/playing-the-game/#sec-x", "ts": 3},
         {"title": "Evil", "chapter": "Elsewhere", "url": "https://example.com/wiki/", "ts": 2},
         # "/\host" is protocol-relative to a browser, despite the "/wiki/".
         {"title": "Sneaky", "chapter": "Elsewhere", "url": "/\\evil.example/wiki/", "ts": 2},
@@ -115,7 +115,7 @@ def test_weiterlesen_appears_only_with_a_stored_reading_position(
     assert page.is_visible(".library-recent")
     links = page.locator(".library-recent-card")
     assert links.count() == 2  # both off-site entries are dropped
-    assert page.inner_text(".library-recent-title") == "Erfolgsgrade"
+    assert page.inner_text(".library-recent-title") == "Degrees of Success"
     assert page.get_attribute(".library-recent-card", "href") == "/wiki/playing-the-game/#sec-x"
 
 
@@ -123,9 +123,9 @@ def test_filtering_hides_bands_without_a_match_entirely(
     page, live_server, owner, real_corpus
 ):
     _open_library(page, live_server, owner)
-    vorspann = '.library-band:has(h2:text-is("Vorspann"))'
-    kapitel = '.library-band:has(h2:text-is("Kapitel"))'
-    anhang = '.library-band:has(h2:text-is("Anhang"))'
+    vorspann = '.library-band:has(h2:text-is("Front Matter"))'
+    kapitel = '.library-band:has(h2:text-is("Chapters"))'
+    anhang = '.library-band:has(h2:text-is("Appendix"))'
     assert page.is_visible(vorspann) and page.is_visible(kapitel) and page.is_visible(anhang)
 
     page.fill("#library-filter", "critical")

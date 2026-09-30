@@ -66,10 +66,10 @@ process start into an immutable in-memory tree, so requests never touch disk.
   (arrow keys, `Enter`, `Esc`), and shows the recently read chapters while the
   field is empty. `Enter` without a highlighted suggestion runs the full-text
   search. The client is `static/js/auspex.js`.
-- **The Bibliothek (`/wiki/`)** groups the chapters into the bands Vorspann,
-  Kapitel and Anhang. The manifest only names each chapter's part; the bands
-  are built in `wiki/views.py` (`_library_bands`): the Vorspann and Anhang
-  parts keep their own band, and every numbered chapter shares the Kapitel
+- **The Bibliothek (`/wiki/`)** groups the chapters into the bands Front Matter,
+  Chapters and Appendix. The manifest only names each chapter's part; the bands
+  are built in `wiki/views.py` (`_library_bands`): the Front Matter and Appendix
+  parts keep their own band, and every numbered chapter shares the Chapters
   band. Typing in its filter narrows the cards live, marks the matching
   sections (level-2 ones included), and bands without a match disappear.
   The "Schnellzugriff" chips come from `QUICK_LINKS` in
