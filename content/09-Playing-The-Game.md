@@ -2,6 +2,7 @@
 
 > Source: Rogue Trader Core Rulebook, Chapter IX, book pages 229–284 (PDF pages 233–288).
 > Body text is condensed where noted; rules values, modifiers, and tables are captured in full as a reference.
+> Re-verified page by page against the page images (PDF 233–288) on 2026-09-30.
 
 ## Tests: The Basic Mechanic
 
@@ -95,7 +96,7 @@ Every Explorer begins with a number of **Fate Points** determined at character c
 
 **Starships and Burning Fate:** If a ship is destroyed, all Explorers aboard may **jointly** burn one Fate Point each to escape certain death — this only works if **every single** character aboard burns a Fate Point. The GM determines the exact manner of the rescue (typically a successful withdrawal from combat).
 
-**Additional Fate Points** are awarded at the GM's discretion, for example at milestones or for exceptional heroics, cleverness, or good roleplaying.
+**Additional Fate Points** (or the replenishment of burnt ones) are awarded at the GM's discretion, for example at milestones or for exceptional heroics, cleverness, or good roleplaying.
 
 ---
 
@@ -187,11 +188,11 @@ Per Turn: **one Full Action OR two different Half Actions.** Reactions always oc
 - **Defensive Stance:** no attacks of your own, but an additional Reaction until your next Turn; all opponents suffer -20 WS against this character.
 - **Delay:** the Turn ends, but a Half Action is reserved for later and can be used any time up to the start of your next Turn (otherwise it is lost). If multiple characters want to use their delayed Half Action at the same time, an Opposed Agility Test determines the order.
 - **Disengage:** leave melee + Half Move, without opponents gaining free attacks (see Fleeing).
-- **Dodge:** Reaction, after a hit is scored but before damage is rolled; on success, the attack counts as missed. Works against both Melee and Ranged. Against area attacks (e.g., a flamer), a successful Dodge moves the character to the edge of the effect area, by no more than their Agility Bonus in metres — if that isn't enough, the Dodge automatically fails. Against Semi-/Full-Auto Bursts, each Degree of Success negates one hit.
+- **Dodge:** Reaction, after a hit is scored but before damage is rolled; the character must be aware of the attack. On success, the attack counts as missed. Works against both Melee and Ranged. Against area attacks (e.g., a flamer), a successful Dodge moves the character to the edge of the effect area, by no more than their Agility Bonus in metres — if that isn't enough, the Dodge automatically fails. Against Semi-/Full-Auto Bursts, a successful Dodge negates one hit and each Degree of Success on the Dodge Test negates one additional hit.
 - **Feint:** Opposed WS Test; if the attacker wins, their next attack against the same target cannot be dodged/parried — this is lost if the next action is not a Standard Attack.
 - **Fleeing:** Voluntary flight allows Disengage, Move, or Run; forced flight (Fear, a Psychic Power, etc.) requires Run. Anyone who leaves melee without Disengaging takes a free Standard Attack from every opponent (in addition to their regular attacks).
 - **Focus Power:** Action type varies per Psychic Power (see Chapter VI).
-- **Full Auto Burst:** requires a fully-automatic-capable Ranged Weapon; +20 BS; 94–00 = Jam. Each Degree of Success scores an additional hit, limited by the weapon's Full-Auto RoF. Additional hits may be distributed to other targets within 2 m (no harder to hit than the main target). For multiple hits on the same target, Table 9-5 determines further Hit Locations, starting from the first (reverse-rolled) hit location. With Pistol/Basic class weapons, the shooter may also move up to their Agility Bonus in metres — but then without the BS bonus and with -10 BS.
+- **Full Auto Burst:** requires a fully-automatic-capable Ranged Weapon (a character with a fully-automatic-capable pistol in each hand may fire both with this action, see Two-Weapon Fighting); +20 BS; 94–00 = Jam. Each Degree of Success scores an additional hit, limited by the weapon's Full-Auto RoF. Additional hits may be distributed to other targets within 2 m (no harder to hit than the main target). For multiple hits on the same target, Table 9-5 determines further Hit Locations, starting from the first (reverse-rolled) hit location. With Pistol/Basic class weapons, the shooter may also move up to their Agility Bonus in metres — but then without the BS bonus and with -10 BS.
 
 ### Table 9-5: Multiple Hits
 
@@ -204,7 +205,7 @@ Lookup table based on the location of the **first** hit (reverse-rolled, see "Th
 | Body | Body | Arm | Head | Arm | Body |
 | Leg | Leg | Body | Arm | Head | Body |
 
-**Scatter + Full Auto Burst combined:** If fired at Point Blank Range, extra hits from `Scatter` and from the Full-Auto bonus are **calculated separately and both applied**.
+**Scatter + Full Auto / Semi-Auto Burst combined:** If a weapon with the `Scatter` quality is fired with a Full Auto Burst or a Semi-Auto Burst at Point Blank Range, extra hits from `Scatter` and from the burst are **calculated separately and both applied** (still limited by the burst's Rate of Fire for the burst hits).
 
 ### Grappling (Actions During an Ongoing Grapple)
 
@@ -223,7 +224,7 @@ Grappling is begun through its own action (details p. 246 in the original); the 
 - **Slip Free:** Challenging (+0) Contortionist Test; on success, free and may perform any Half Action.
 - **Take Control:** Opposed Strength Test (Assistance possible); on a win, the target becomes the Controller (and vice versa) and may immediately perform a Controller option, but no further Half Action.
 
-**Size Differences:** If a grappler is larger (Size category, p. 249), they gain **one additional Degree of Success** per category difference on all Opposed Tests within the Grapple.
+**Size Differences:** If a grappler is larger (Size category, p. 249), they count **one additional Degree of Success** per category difference on all successful Opposed Tests within the Grapple.
 
 ### Further Action Descriptions
 
@@ -237,15 +238,15 @@ Grappling is begun through its own action (details p. 246 in the original); the 
 - **Manoeuvre:** Half Action, Opposed WS Test; on success, push the opponent 1 m in any direction (not into obstacles/other characters), optionally moving 1 m yourself as well.
 - **Move:** Half Action = movement equal to Agility Bonus in metres; Full Action = twice that. If movement ends adjacent to an opponent, melee engagement applies; moving away from an engaged opponent triggers their free Standard Attack.
 - **Multiple Attacks:** Full Action; requires the Swift Attack/Lightning Attack Talent or a second weapon (Two-Weapon Fighting).
-- **Overwatch:** Full Action; defines a kill zone (45° arc in the direction faced) and a pre-declared action (Full Auto Burst, Semi-Auto Burst, or Suppressing Fire) along with a trigger condition; if the condition is met before your next Turn, the attack happens immediately. If two Overwatch actions trigger simultaneously, the higher Agility Bonus acts first (on a tie, an Opposed Agility Test). Targets in the kill zone must additionally pass a Hard (-20) Pinning Test or become Pinned. Any of your own Actions/Reactions (except Free Actions) ends your own Overwatch immediately.
+- **Overwatch:** Full Action; defines a kill zone (45° arc in the direction faced) and a pre-declared action (Full Auto Burst, Semi-Auto Burst, or Suppressing Fire) along with a trigger condition; if the condition is met before your next Turn, the attack happens immediately. If the Overwatch attack occurs at the same time as another character's Action, the character with the higher Agility Bonus acts first (on a tie, an Opposed Agility Test). Targets in the kill zone must additionally pass a Hard (-20) Pinning Test or become Pinned. Any of your own Actions/Reactions (except Free Actions) ends your own Overwatch immediately.
 - **Parry:** Reaction, Challenging (+0) WS Test with a parry-capable Melee Weapon; on success, the melee attack counts as missed. No Skill/Talent required, only works against melee attacks.
 - **Ready:** Half Action; draw a weapon, retrieve an item from a pocket, apply a medi-patch, inject a drug, apply poison, etc. Possible twice in the same Turn if it involves two different weapons/items.
 - **Reload:** Half/Full/Extended Action depending on the weapon (see Chapter V); reloading spread across multiple Rounds counts as an Extended Action.
 - **Run:** Full Action, movement at the Run movement rate (Table 9-30); until your next Turn, -20 BS against Ranged attacks on the runner, but +20 WS for Melee attacks against them.
-- **Semi-Auto Burst:** like Full Auto Burst, but +10 BS (instead of +20), Jam on 94–00, one extra hit per **two** Degrees of Success (instead of per 1), limited by the Semi-Auto RoF. Movement with Pistol/Basic class weapons is possible (up to Agility Bonus in metres), but then entirely without the BS bonus.
+- **Semi-Auto Burst:** like Full Auto Burst (including firing two semi-automatic-capable pistols, one in each hand), but +10 BS (instead of +20), Jam on 94–00, one extra hit per **two** Degrees of Success (instead of per 1), limited by the Semi-Auto RoF. Movement with Pistol/Basic class weapons is possible (up to Agility Bonus in metres), but then entirely without the BS bonus.
 - **Stand/Mount:** Half Action; get up from the ground, or — if already standing — mount a steed/vehicle.
 - **Standard Attack:** Half Action; a melee attack (WS Test) or a ranged attack (BS Test). Unarmed, a Grapple may be attempted instead.
-- **Stun:** Attack (unarmed or with a Melee Weapon) with a Hard (-20) WS Test instead of normal damage. On success: the attacker rolls `1d10` + Strength, the target rolls `1d10` + Toughness Bonus + 1 per Armour Point on the head (unarmed or with a Primitive Weapon: Armour Points count double). If the attacker's value is equal to or higher, the target is Stunned for as many Rounds as the difference, plus 1 Fatigue Level.
+- **Stun:** Attack (unarmed or with a Melee Weapon) with a Hard (-20) WS Test instead of normal damage. On success: the attacker rolls `1d10` + Strength Bonus, the target rolls `1d10` + Toughness Bonus + 1 per Armour Point on the head (unarmed or with a Primitive Weapon: Armour Points count double). If the attacker's value is equal to or higher, the target is Stunned for as many Rounds as the difference, plus 1 Fatigue Level.
 - **Suppressing Fire:** Full Action, requires a fully-automatic-capable weapon. Defines a kill zone (45° arc) like Overwatch (or uses an existing one), immediately fires a Full Auto Burst (ammunition is expended). All targets in the zone: Hard (-20) Pinning Test or become Pinned. Additionally a Hard (-20) BS Test by the shooter determines whether anyone (friend or foe) in the zone is hit at all; 94–100 = Jam. On success, a random target in the zone is hit, with an additional random hit for every two further Degrees of Success (max. Full-Auto RoF); Cover/Armour apply normally. This test cannot be intentionally failed. Suppressing Fire is a distinct Full Action separate from Full Auto Burst and does **not** gain its +20 bonus.
 - **Tactical Advance:** Full Action; move from one cover position to the next (up to a Full Move); remains protected by the cover left behind for the duration of the movement.
 - **Use a Skill:** Half/Full/Extended Action depending on circumstances; usually a regular Skill Test.
@@ -276,7 +277,7 @@ Prerequisites: Melee attacks require melee engagement with the target; Ranged at
 
 **Step 4 – Determine Damage:** Roll the weapon's Damage (+ modifiers); for Melee, also add Strength Bonus. The attacker may replace the result of **one** Damage die with their number of Degrees of Success (if there are multiple Damage dice, only one of them).
 
-**Righteous Fury:** If any Damage die shows its natural maximum result (a natural 10 on a `d10`, likewise a natural 5 on a `d5`), a **second, identical attack roll** (same modifiers) is made. If this hits, an additional Damage roll is added to the total. If this Damage roll also shows the maximum result, the process repeats as long as at least one Damage die shows its maximum.
+**Righteous Fury:** If any Damage die shows a natural 10 (this also includes a result of 10 when rolling `1d5` for damage), a **second, identical attack roll** (all modifiers included) is made. If this hits, an additional Damage roll is added to the total. If the additional Damage roll also shows a natural 10, the attacker may make yet another Damage roll and add it to the total; this continues as long as at least one Damage die shows a natural 10.
 
 **Step 5 – Target Applies Damage:** Toughness Bonus and the Armour Points of the hit location are subtracted from the total Damage. Result ≤ 0: no effect. Remaining damage is recorded as Damage; if Damage reaches/exceeds Wounds, the excess is recorded as Critical Damage (table depends on Damage Type, hit zone, and Critical Damage amount, see "Critical Damage").
 
@@ -323,7 +324,7 @@ Attacks against partially covered targets suffer **no** BS penalty, but the shot
 | Rockcrete, hatchway, thick iron, stone | 16 |
 | Armaplas, bulkhead, Plasteel | 32 |
 
-**Damaging Cover:** Any hit against cover whose damage exceeds its Armour Points permanently reduces the cover's Armour Points by 1 (the excess itself does not additionally pass through).
+**Damaging Cover:** Each successful hit against cover that deals any damage in excess of its Armour Points reduces the cover's Armour Points by 1.
 
 ## Further Combat Circumstances (Table 9-8)
 
@@ -350,7 +351,7 @@ Attacks against partially covered targets suffer **no** BS penalty, but the shot
 - **Helpless Targets:** WS Tests against sleeping/unconscious/helpless targets succeed automatically. Damage is rolled **twice** and added together; if either roll shows a natural 10, the normal Righteous Fury chance applies; if **both** show a natural 10, Righteous Fury occurs automatically (no second attack roll needed).
 - **Higher Ground:** an attacker on elevated terrain: WS Tests Ordinary (+10).
 - **Long Range:** target farther than twice the Weapon Range away: BS Test Difficult (-10).
-- **Missing / Scatter (for thrown weapons):** On a failed BS Test, the GM rolls `1d10` on the Scatter diagram for direction and `1d5` for the number of metres the weapon flies in that direction. In Zero Gravity: roll twice (X and Y axes).
+- **Missing / Scatter (for thrown weapons):** On a failed BS Test, the GM rolls `1d10` on the Scatter diagram for direction and `1d5` for the number of metres the weapon flies in that direction (Scatter Diagram, arrows arranged around the target as on the page: 1 = up-left, 2 = up, 3 = up-right, 4 = left, 5 = right, 6–7 = down-left, 8 = down, 9–0 = down-right). In Zero Gravity: roll twice (X and Y axes).
 - **Pinning:** With Suppressive Fire (even from covered/harmless hits), a Hard (-20) Willpower Test (Pinning Test) must be passed, or the character becomes **Pinned**. A Pinned character may only perform Half Actions, suffers -20 to all BS Tests, may not leave covered positions except to retreat (further into cover), and must — if uncovered — seek cover on their next Turn or move away from the attacker if no cover is reachable. At the end of a Turn, a Willpower Test may be attempted to escape Pinning (Easy (+30) if no one has fired on them since the last Turn). Melee engagement automatically ends Pinning. Certain Talents, Skills, Psychic Powers, drugs, or intimidating commissars can also free a character from Pinning.
 - **Point Blank Range:** target ≤ 2 m away: BS Test Easy (+30) (does not apply if attacker and target are engaged in melee). For weapons with Short Range < 3 m, Point Blank Range is 1 m less than their Short Range.
 - **Prone:** WS Tests against prone targets are Ordinary (+10); BS Tests against them are Difficult (-10), except at Point Blank Range. A prone character themself suffers -10 to WS and -20 to Dodge Tests. Lying down is a Free Action, unless engaged in a Grapple.
@@ -386,7 +387,7 @@ Attacks against partially covered targets suffer **no** BS penalty, but the shot
 
 Incoming damage is reduced by: **Toughness Bonus** (always, unless stated otherwise) plus the **Armour Points** of the hit, armoured location (if any). Some damage sources explicitly ignore Armour and/or Toughness. As long as Damage ≤ Wounds, the body functions normally. Once Damage exceeds Wounds, **Critical Damage** begins.
 
-**Damage Types:** Energy, Explosive, Impact, Rending. No stated type = Impact. The type primarily determines which Critical Effect table applies.
+**Damage Types:** Energy (lasers, fire, plasma), Explosive (grenades, bolt rounds), Impact (clubs, bullets, falling), Rending (swords, claws). No stated type = Impact. The type primarily determines which Critical Effect table applies.
 
 ### Critical Damage
 
@@ -396,7 +397,7 @@ Once total Damage exceeds Wounds, the excess is recorded as **Critical Damage**,
 
 ### Fatigue
 
-Fatigue measures non-lethal exhaustion, measured in **Levels**. A character can endure as many Fatigue Levels as their **Toughness Bonus** without suffering more than the flat penalty. Each Level of Fatigue (starting from the first) gives **-10 to all tests**. If Fatigue exceeds Toughness Bonus, the character is knocked unconscious for **`10 - TB` minutes** (minimum sensibly positive); afterward their Fatigue drops back to a value equal to their Toughness Bonus.
+Fatigue measures non-lethal exhaustion, measured in **Levels**. A character can endure as many Fatigue Levels as their **Toughness Bonus** without suffering more than the flat penalty. A character suffering from **any** level of Fatigue suffers a flat **-10 to all tests** (additional levels up to TB impose no further penalty). If Fatigue exceeds Toughness Bonus, the character collapses unconscious for **`10 - TB` minutes**; afterward their Fatigue drops back to a value equal to their Toughness Bonus.
 
 **Reducing Fatigue:** Every hour of normal rest (no combat, no Psychic Powers, no strenuous activity; unconsciousness does not count) removes 1 Level; **8 consecutive hours** of rest removes all Fatigue Levels.
 
@@ -462,7 +463,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 | 2 | The flash of energy blinds the target, who is Blinded for 1 Round. |
 | 3 | The attack burns the target's ear, who is Stunned for 1 Round and suffers 1 Level Fatigue. |
 | 4 | The energy attack singes all the hair on the target's head, leaving him dazed from the injury. The attack inflicts 2 Levels Fatigue, and the target is Blinded for `1d5` Rounds. |
-| 5 | A flash of energy engulfs the target's head, burning face and hair and leaving him screaming like a shot grox. In addition to hair loss, he is Blinded for `1d10` Rounds and suffers 3 Levels Fatigue. |
+| 5 | A flash of energy engulfs the target's head, burning face and hair and leaving him screaming like a stuck grox. In addition to hair loss, he is Blinded for `1d10` Rounds and suffers 3 Levels Fatigue. |
 | 6 | The attack burns the target's face, melting his features and damaging the eyes. The target is Blinded for the next `1d10` hours and his Fellowship Characteristic is permanently reduced by `1d10` points. In addition, the target suffers `1d5` Levels Fatigue. |
 | 7 | In a gruesome display, the flesh is burned from the target's head, exposing charred bone and muscle beneath. The target is permanently blind and suffers `1d10` Levels Fatigue. In addition, roll `1d10` — this becomes the target's new Fellowship, unless Fellowship was already 10 or less, in which case no one notices any difference anyway. |
 | 8 | The target's head is destroyed in a firestorm. He does not survive. |
@@ -490,7 +491,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 |---|---|
 | 1 | The attack throws the limb backward, painfully wrenching it from the body and inflicting 1 Level Fatigue. |
 | 2 | The attack sends a fracture through the limb. The target drops whatever he was holding and suffers 2 Levels Fatigue. |
-| 3 | The blast tears `1d5` fingers from the target's hand. The target suffers 3 Levels Fatigue, and anything carried in the hand is destroyed. If it was explosives, they go off. Bad news. |
+| 3 | The blast tears `1d5` fingers from the target's hand. The target suffers 3 Levels Fatigue, and anything carried in the hand is destroyed. If it was an explosive, it goes off. Messy. |
 | 4 | The detonation makes the target howl in agony. He suffers `1d5` Levels Fatigue, is Stunned for 1 Round, and the limb is useless until he receives medical aid. |
 | 5 | Fragments from the explosion rip into the target's hand, shredding flesh and muscle alike. He must immediately pass a Toughness Test or lose the hand. Even on success, the hand is useless until he receives medical aid. The target suffers `1d5` Levels Fatigue. |
 | 6 | The explosive attack shatters bone and shreds flesh, turning the target's arm into a red ruin — `1d5` Levels Fatigue. The target's arm is broken, and until repaired, the target counts as having only one arm. In addition, the gruesome nature of the wound means the target now suffers from Blood Loss. |
@@ -526,7 +527,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 | 6 | The target's head explodes under the force of the attack, his headless corpse spraying blood from the neck for the next few minutes. Needless to say, this is instantly fatal. |
 | 7 | Head and body of the target are blown into a shredded mess, and the target dies instantly. If the target is also carrying ammunition, it explodes, dealing `1d10+5` Impact Damage to all creatures within `1d5` metres. If the target was carrying grenades or rockets, these also detonate on the body. |
 | 8 | In a series of unpleasant explosions, the target's head and torso part ways, leaving a bloody mess on the ground. For the rest of the combat, anyone who moves across this spot must pass a **Challenging (+0) Agility Test** or fall prone. |
-| 9 | The target ceases to exist in any tangible form, transforming entirely into a kind of purple mist. It doesn't get much more dead, except… |
+| 9 | The target ceases to exist in any tangible form, transforming entirely into a kind of crimson mist. You don't get much deader than this, except… |
 | 10+ | As above, but additionally, the manner in which the target was killed is so indescribably horrific that every ally of the target within 2 metres of where he stood must immediately pass a **Challenging (+0) Willpower Test** or spend their next Turn fleeing from the attacker. |
 
 #### Table 9-18: Explosive Critical Effects — Leg
@@ -550,7 +551,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 |---|---|
 | 1 | The attack numbs the target's limb, causing him to drop whatever he was holding in that hand. |
 | 2 | The hit leaves a deep bruise. The target suffers 1 Level Fatigue. |
-| 3 | The hit causes agonising pain; the target suffers 1 Level Fatigue and drops whatever was held in that hand. |
+| 3 | The impact inflicts crushing pain; the target suffers 1 Level Fatigue and drops whatever was held in that hand. |
 | 4 | The hit leaves the target reeling in pain. He is Stunned for 1 Round. The limb is useless for `1d5` Rounds, and the target suffers 1 Level Fatigue. |
 | 5 | Muscle and bone are struck hard as the attack tears into the arm. The target's Weapon Skill and Ballistic Skill are both halved (round down) for `1d10` Rounds. In addition, the target suffers 1 Level Fatigue and must pass an Agility Test or drop whatever was held in that hand. |
 | 6 | The attack crushes the target's hand, mangling and breaking `1d5` fingers (for this Critical, the thumb counts as a finger). The target suffers 1 Level Fatigue and must immediately pass a **Challenging (+0) Toughness Test** or lose the use of the hand. |
@@ -608,7 +609,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 
 | Critical Damage | Critical Effect |
 |---|---|
-| 1 | The cutting attack shreds anything held loosely in that arm. |
+| 1 | The slashing attack tears free anything that was held in this arm. |
 | 2 | Deep cuts cause the target to drop what he was holding and inflict 1 Level Fatigue. |
 | 3 | The rending attack causes the target to cry out in pain. He suffers 2 Levels Fatigue and drops whatever was held in that hand. |
 | 4 | The attack flays the skin from the limb, filling the air with blood and the sound of his screams. The target falls prone in agony and suffers 2 Levels Fatigue. The limb is useless for `1d10` Rounds. |
@@ -629,7 +630,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 | 4 | A stream of blood pours from the deep cuts, making the ground slick with blood. All characters attempting to move through this pool of blood must pass an Agility Test or fall prone. The target suffers `1d5` Levels Fatigue. |
 | 5 | The blow opens a long wound in the target's torso, who doubles over in terrible pain. The target suffers `1d5` Levels Fatigue. |
 | 6 | The heavy attack tears a sizeable chunk from the target and knocks him to the ground while he clutches the gaping wound and screams in pain. The target is prone and suffers `1d10` Levels Fatigue. |
-| 7 | The attack cuts open the target's stomach. He can either use an arm to hold in his entrails (until a medic can bind them with a successful Medicae Test), or keep fighting regardless, risking a 20% chance each Round that his midsection opens and everything spills onto the ground, causing an additional `2d10` Damage. Either way, the target suffers `1d5` Levels Fatigue and now suffers from Blood Loss. |
+| 7 | The attack cuts open the target's stomach. He can either use an arm to hold in his entrails (until a medic can bind them with a successful Medicae Test), or keep fighting regardless, risking a 20% chance each Turn that his midsection opens and everything spills onto the ground, causing an additional `2d10` Damage. Either way, the target suffers `1d5` Levels Fatigue and now suffers from Blood Loss. |
 | 8 | With a disgusting tearing sound, the skin comes loose from the target's chest, exposing a red ruin of muscle beneath. The target must pass a **Challenging (+0) Toughness Test** or die. If he passes the test, he permanently loses `1d10` from his Toughness, suffers `1d10` Levels Fatigue, and now suffers from Blood Loss. |
 | 9 | The heavy blow splits the target from throat to groin, exposing his inner organs and scattering them on the ground before him. The target is now quite dead. |
 | 10+ | As above, but additionally, the area and the target are coated in entrails. For the rest of the combat, anyone who moves within four metres of the target's corpse must pass a **Challenging (+0) Agility Test** or fall prone. |
@@ -662,7 +663,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 | 7 | The force of the blow cuts deep into the leg, grinding against bone and tearing ligaments apart. The leg is broken, and until repaired, the target counts as having only one leg. In addition, the degree of mutilation is so great that the target now suffers from Blood Loss. He also suffers `1d10` Levels Fatigue. |
 | 8 | With a single bloody blow, the leg is severed from the target, spraying his life's blood across the ground. The target must immediately pass a Toughness Test or die of shock. On success, the target is Stunned for `1d10` Rounds, suffers `1d10` Fatigue, and suffers from Blood Loss. He now has only one leg. |
 | 9 | With a fleshy blow, the leg detaches at the hip. The target collapses to the ground, howling in agony, before dying shortly after. |
-| 10+ | As above, but additionally, the flood of blood is so great that for the rest of the combat, anyone who performs a Run or Charge Action within six metres of the target must pass a **Challenging (+0) Agility Test** or stumble. |
+| 10+ | As above, but additionally, the flood of blood is so great that for the rest of the combat, anyone who performs a Run or Charge Action within six metres of the target must pass a **Challenging (+0) Agility Test** or fall over. |
 
 ## Conditions and Special Damage
 
@@ -672,12 +673,12 @@ In addition to normal damage, the following conditions may arise:
 - **Blinded:** automatic failure of all sight- and BS-based tests, `-30` to WS and other sight-dependent tests.
 - **Blood Loss:** 10% chance per Round of dying if untreated. If conscious: Difficult (-10) Medicae Test per Round to stop the bleeding (Very Hard (-30) if simultaneously performing another strenuous action); otherwise another character may attempt the test.
 - **Deafened:** automatic failure of all hearing-based tests.
-- **Fire:** At the start of each Round (from the second onward) in contact with fire: Challenging (+0) Agility Test or catch fire. While burning: `1d10` Damage (no armour reduction) plus 1 Fatigue per Round; all fire damage counts as Energy Damage for Critical Effects. To act: Challenging (+0) Willpower Test per Turn (otherwise only running about/screaming as a Full Action). Extinguishing: go prone + Hard (-20) Agility Test as a Full Action.
+- **Fire:** At the beginning of each Round after the first in which a character is exposed to the same source of flames (or when hit by a weapon with the Flame quality or suffering certain Critical Effects): Challenging (+0) Agility Test or catch fire. While burning: `1d10` Damage (no armour reduction) plus 1 Fatigue per Round until extinguished; all fire damage counts as Energy Damage for Critical Effects (Body location, if not otherwise specified). To act: Challenging (+0) Willpower Test per Turn (otherwise only running about/screaming as a Full Action). Extinguishing: go prone + Hard (-20) Agility Test as a Full Action (the GM may make this easier or harder depending on conditions and help from allies).
 - **Falling:** `1d10` + 1 per metre of fall height, counts as Impact Damage; armour does not protect. Hit zone per Table 9-6.
 - **Stunned:** WS/BS Tests against Stunned targets are Routine (+20); no Actions/Reactions possible; not identical to Helpless/Unaware.
-- **Suffocation:** Holding breath for TB minutes (at rest) or 2×TB Rounds (exertion); afterward a Challenging (+0) Toughness Test per minute/Round, otherwise 1 Fatigue. If Fatigue > TB: unconscious for `10-TB` minutes. Without a new oxygen source once this expires, automatically unconscious; unconscious and without oxygen: `1d10` Damage/Round (unreduced) until death.
+- **Suffocation:** Holding breath for TB minutes (conserving oxygen) or 2×TB Rounds (strenuous activity such as combat or swimming); while holding breath, a Challenging (+0) Toughness Test each minute (conserving) or each Round (strenuous), otherwise 1 Fatigue. If Fatigue > TB: unconscious for `10-TB` minutes. Without a fresh oxygen source by the end of the allotted time, automatically unconscious regardless of Fatigue; unconscious and without oxygen: `1d10` Damage/Round (not reduced by Armour or Toughness) until death.
 - **Unconsciousness:** default duration `10-TB` minutes unless stated otherwise; counts as Helpless, no actions possible.
-- **Useless Limbs:** a Challenging (+0) Toughness Test (with Medicae support +20) prevents permanent loss; on success, the limb is in a sling and useless for `1d5+1` weeks. On failure: amputation is required (Difficult (-10) Medicae Test; if this fails, an additional `1d10` Critical Damage to the limb).
+- **Useless Limbs:** a Challenging (+0) Toughness Test (with Medicae support +20) prevents permanent loss; on success, the limb is in a sling and useless for `1d5+1` weeks. On failure: the limb must be removed (Difficult (-10) Medicae Test by a character with the Medicae Skill; if this fails, the limb still comes off but the surgery inflicts `1d10` Damage to the limb, almost always Critical Damage). The amputee suffers Blood Loss and the wound is then treated as an Amputated Limb.
 - **Vacuum:** Sudden vacuum: TB Rounds unharmed, then `1d10+3` Explosive Damage/Round from decompression (armour ineffective) plus Suffocation; in space, additionally a Challenging (+0) Toughness Test per Round against `1d10` Energy Damage from cold. A dead body freezes after 5 Rounds and shatters on further damage. Gradual vacuum: 2×TB Rounds unharmed, then a cumulative `-10` Toughness Test/Round: success = `1d5` Explosive Damage, failure = `1d10` Explosive Damage (unreduced by armour).
 
 ## Healing
@@ -776,7 +777,22 @@ Traits can modify some or all movement speeds.
 - **Hurrying:** A character can double his movement in Narrative Time for a number of hours equal to his Toughness Bonus. At the end of this time, he must make a Challenging (+0) Toughness Test or take 1 Level Fatigue; a hurrying character also suffers a -10 penalty to Perception-based Tests. He may push on, but the Toughness Test penalty increases by -10 per further period (cumulative).
 - **Running (Narrative Time):** triples movement; each hour of sustained running requires a Toughness Test, with a cumulative -10 penalty per hour after the first; failure = 1 Level Fatigue; -20 penalty to Perception-based Tests.
 - **Forced Marching:** characters may push beyond the standard ten hours of marching for a number of extra hours equal to their Toughness Bonus without issue. Beyond this, a Toughness Test is required, with a cumulative -10 penalty per hour beyond the Toughness Bonus; a failed test means 1 Level Fatigue. Fatigue from forced marching is removed after resting two hours for each hour marched beyond the Toughness Bonus.
-- **Movement and Environment:** Rubble, deep snow, dense fog, thick underbrush, and similar conditions halve a character's movement. If a character charges or runs in such terrain, he must succeed at a Challenging (+0) Agility Test or fall prone. **Table 9-32: Agility Modifiers for hazardous terrain** — Mud: Ordinary (+10), Darkness: Challenging (+0), Underbrush/Zero-G: Difficult (-10), Earthquake/vibration: Hard (-20).
+- **Movement and Environment:** Rubble, deep snow, dense fog, thick underbrush, and similar conditions halve a character's movement. If a character charges or runs in such terrain, he must succeed at a Challenging (+0) Agility Test or fall prone; the difficulty of this test can be modified based on the terrain (see Table 9-32).
+
+### Table 9-32: Agility Modifiers for Running Through Treacherous Environments
+
+| Condition | Difficulty |
+|---|---|
+| Fog or Smoke | Ordinary (+10) |
+| Mud | Challenging (+0) |
+| Shallow Water | Challenging (+0) |
+| Darkness | Difficult (-10) |
+| Snow | Difficult (-10) |
+| Underbrush | Difficult (-10) |
+| Dense Crowds | Hard (-20) |
+| Zero Gravity | Hard (-20) |
+| Rubble | Hard (-20) |
+| Tremors | Hard (-20) |
 
 ### Climbing
 
@@ -787,13 +803,13 @@ Traits can modify some or all movement speeds.
 ### Jumping and Leaping
 
 - **Standing Vertical Jump:** about 0.5m high without a test; reach for climbing over = height + ~1m arm length + 0.5m. Pulling up on a grasped edge: Challenging (+0) Strength Test. Safe jump down up to AB metres: Challenging (+0) Agility Test — success = no damage; at greater distance, Falling Damage for the excess, landing prone. Failure: full Falling Damage, prone.
-- **Running Vertical Jump:** with a running start (at least 4m) — Challenging (+0) Agility Test; success: + half SB (round up) + 0.5m per DoS; for every further 4m of run-up, +10 to the test (max. +30).
+- **Running Vertical Jump:** with a running start (at least 4m) — Challenging (+0) Agility Test; success: + half SB (round up) in metres to the normal vertical jump distance + 0.5m per DoS; failure: the character stumbles, which ends his Turn. For every further 4m of run-up beyond the first four, +10 to the test (max. +30).
 - **Standing Horizontal Leap:** Difficult (-10) Agility Test — success: SB metres + 0.5m per DoS; failure: half SB (round up), each degree of failure further reduces this distance by another half metre (minimum 0.5m). Jump height = ¼ of the distance (round up).
 - **Running Horizontal Leap:** with a run-up, Challenging (+0) Agility Test, otherwise as above; run-up bonus as for the vertical jump.
 
 ### Swimming
 
-Under normal circumstances no test is required; under hazardous conditions (rough water, bound hands, fighting) a Challenging (+0) Swim Test as a Full Action — success: move up to half SB in any direction (or tread water); failure: no progress. Armour/weight: Swim Tests become Very Hard, with automatic 1 Fatigue. Unconscious/paralysed characters automatically go under. **Narrative Time:** TB hours of swimming without issue, then a Toughness Test/hour (cumulative -10), failure = 1 Fatigue; an unconscious character in water risks drowning (Suffocation).
+Under normal circumstances no test is required; under hazardous conditions (rough water, bound hands, fighting) a Challenging (+0) Swim Test as a Full Action — success: move up to half SB in any direction (or tread water); failure: no progress. Armour/weighted down: all Swim Tests are Very Hard (-30), and a failed Swim Test automatically imposes 1 Fatigue. Swimming underwater requires holding one's breath; unconscious/paralysed characters automatically go under and risk Suffocation (drowning). **Narrative Time:** TB hours of swimming without issue, then a Toughness Test/hour (cumulative -10), failure = 1 Fatigue; a character falling unconscious from this Fatigue goes underwater and begins to Suffocate. Distance per hour of swimming: use Table 9-31 with Strength Bonus in place of Agility Bonus.
 
 ### Carrying, Lifting, and Pushing
 
@@ -827,7 +843,7 @@ Under normal circumstances no test is required; under hazardous conditions (roug
 - **Lifting Weight:** the maximum weight a character can pick up off the ground (Full Round Action); a character can attempt to lift beyond this limit with a Challenging (+0) Strength Test — each Degree of Success adds +1 to the SB+TB sum for determining limits; failure by 2+ degrees = 1 Fatigue.
 - **Pushing Weight:** the maximum weight a character can shove across a smooth surface (Full Round Action); same test rules as lifting.
 - **Encumbered:** a character carrying more than their Carrying Weight but less than their Lifting Weight is Encumbered: `-10` to movement-related tests, and Agility Bonus is reduced by 1 for determining movement rates and Initiative; after TB hours, a Challenging (+0) Toughness Test or 1 Fatigue.
-- **Throwing Objects:** up to half the Lifting Weight can be thrown; Challenging (+0) Strength Test — success: SB metres throw distance × (1+DoS); failure: half SB (round down; a result of 0 means it fell at the thrower's feet). If the object hits a hard surface: `1d10+SB` Damage plus 1 per Degree of Success on the test. When thrown at a specific target, a Ballistic Skill Test is used instead of a Strength Test (improvised weapon). Objects over half the Lifting Weight: Hard (-20).
+- **Throwing Objects:** up to half the Lifting Weight can be thrown; Challenging (+0) Strength Test — success: SB metres throw distance × (1+DoS); failure: half SB (round down; a result of 0 means it fell at the thrower's feet). If the object hits a hard surface such as a wall, it (the object) takes `1d10+SB` Damage plus 1 per Degree of Success on the test. These rules do not apply to aerodynamic throwing weapons and grenades, which use their listed ranges. When thrown at a specific target, a Ballistic Skill Test is used instead of a Strength Test (improvised weapon). Objects over half the Lifting Weight: Hard (-20).
 
 ### Lighting
 
@@ -835,7 +851,7 @@ Three levels of light: **Bright** (normal vision), **Shadow** (twilight, the edg
 
 ### Flying
 
-Three altitude levels (on Earth-like worlds): **Hovering** (up to 2m, melee and ranged combat possible to/from ground units), **Low Altitude** (beyond melee range but within most ranged weapon ranges — ground shooters suffer -10 BS against Low Altitude targets), **High Altitude** (beyond the range of anything except other High Altitude fliers). Changing altitude: 1 level per Move Action, 2 levels with Charge/Run. Flying/hovering requires a Move Action each Round, otherwise a crash: from Hovering unharmed, from Low Altitude as a 15m fall, from High Altitude as a 25m fall (or more, at the GM's discretion). Traits **Hoverer** (max. 2m altitude) and **Flyer** (any altitude) from Chapter XIV.
+Three altitude levels (on Earth-like worlds): **Hovering** (up to 2m, melee and ranged combat possible to/from ground units), **Low Altitude** (beyond melee range but within most ranged weapon ranges — a Low Altitude flier takes no penalty for shooting downwards, but those firing up at it suffer -10 BS in addition to normal range penalties), **High Altitude** (beyond the range of anything except other High Altitude fliers). Changing altitude: 1 level per Move Action, 2 levels with Charge/Run. Flying/hovering requires a Movement Action (Half Move, Full Move, Charge, or Run) each Turn to maintain flight, otherwise the creature falls (e.g., when Stunned): from Hovering unharmed, from Low Altitude as a 15m fall, from High Altitude as a 25m fall (or more, at the GM's discretion). Traits **Hoverer** (max. 2m altitude) and **Flyer** (any altitude) from Chapter XIV.
 
 ### The Effects of Gravity
 
@@ -875,17 +891,21 @@ Profit Factor (PF) is a combined measure of a Rogue Trader's wealth, social stan
 
 ### Acquisition
 
-An Explorer who wants to acquire equipment/resources makes an **Acquisition Test**: `1d100` against their PF (like a Characteristic Test), modified by the Availability, Craftsmanship, and Scale of the object. Success = the acquisition is secured; failure = the item remains out of reach for now.
+An Explorer who wants to acquire equipment/resources makes an **Acquisition Test**: `1d100` against their PF (like a Characteristic Test), modified by the Availability, Craftsmanship, and Scale of the object. Success = the acquisition is secured; failure = the item remains out of reach for now. All Explorers of a dynasty share the group's Profit Factor (individual access may be higher or lower through certain Talents, Skills, and Gear). Availability is set by the GM or taken from Chapter V: Armoury; Craftsmanship and Scale are usually chosen by the Explorer.
 
+- **Frequency of Acquisition:** the GM decides when and how often Acquisition Tests may be made — as a rule at appropriate junctures (mercantile districts, time at port, dealing with local traders) and during downtime at the start or end of a session; important or large acquisitions may require in-game conditions first (finding a specific seller, travelling to a certain locale).
+- **Acquisition as a Plot Device:** a failed test need not mean the item is completely out of reach — the GM can work it into the plot (a rival bought it, the goods turned out fake). The GM may also require time spent seeking the item or waiting for it to be built/trained before the test (see Availability and Time, p. 111).
+
+- **Retrying and Relaxing:** after a failed test, the GM decides when it may be retried (usually after seeking new vendors or travelling); if one Explorer fails during a mercantile foray, others will likely fail too. The GM should relax these rules for personal items of Average Availability (or more) and Common Craftsmanship (or less).
 - **Automatic Success/Failure:** if bonuses raise the effective PF to 100+ before rolling, the test automatically succeeds; if penalties reduce PF to 0 or below, the test automatically fails.
 - **Combining Acquisitions:** for combined items (e.g., a weapon + accessory), use the greatest Availability penalty among the components as the base, with an additional -5 for each further component.
 - **Character Creation:** a starting character may choose, once, a single item with a total modifier of +0 or better without making a test (weapons only with the matching Weapon Training Talent).
 - **Unscrupulous Traders:** the GM can shift the total modifier by -30 to +30; the Evaluate Skill helps to gauge the true modifier.
-- **Commerce and Acquisition:** an Explorer can make an Opposed Test of Commerce (their own) vs. Commerce/Scrutiny (the other party) before the Acquisition Test — each degree of victory gives ±2 PF for that one test (Command/Charm/Barter may substitute for Commerce situationally).
-- **Consumables** (ammunition, drugs, grenades): once acquired, a "Steady Supply" applies — replenished on return to the ship. Alternative: **Rule of Three** (a flat three reloads/grenades/drug doses per type).
-- **Starships and Components:** for components, Table 9-36 is used in place of Scale (modifier by system type: Etheric, Drive/Power, Structure, Weapons/War); when acquiring an entire ship, the modifier equals the negative Ship Point value of the hull (see Chapter VIII), with no further modifiers except from a Commerce Test.
+- **Commerce and Acquisition:** an Explorer can make an Opposed Test of Commerce (their own) vs. Commerce/Scrutiny (the other party) before the Acquisition Test — each degree by which the Explorer wins gives +2 PF, each degree by which the opponent wins gives -2 PF, for a single Acquisition Test made immediately with that trader. The GM may force such a contest when dealing with canny merchants, and may rarely allow Command/Charm/Barter in place of Commerce.
+- **Consumables** (ammunition, drugs, grenades): once acquired, a "Steady Supply" applies — replenished on return to the ship. Alternative: **Rule of Three** (three reloads per weapon, three grenades of each type, three doses of each drug, etc., until they can resupply). The GM may disrupt the supply (events in the locale, overuse), e.g., via the Availability and Time rules.
+- **Starships and Components:** for components, Table 9-36 is used in place of Scale (modifier by system type: Etheric, Drive/Power, Structure, Weapons/War); when acquiring an entire ship, the modifier equals the negative Ship Point value of the hull (see Chapter VIII), with no further modifiers except from a Commerce Test; only one warp-capable vessel may be acquired at a time.
 - **Other Acquisitions** (resources, favours, trophies): Availability per Table 9-38 (Acquisition Rarity: Ubiquitous through Abundant/Plentiful/Common/Average/Scarce/Rare/Very Rare/Extremely Rare/Near Unique/Unique), Craftsmanship per Table 9-37 (Poor/Common/Good/Best), Scale per "A Matter of Scale" (Negligible to Vast). Unique/Near-Unique objects get no Scale bonus.
-- **Upkeep Tests:** on consumption, damage, attacks on property, or setbacks, the GM may call for an Upkeep Test (like an Acquisition Test). On failure: discard the item (reacquire only at a higher PF), lower Craftsmanship by one level, lower Scale by one level, or overstretch PF (-5 to all further Acquisition Tests until PF rises or the item is given up/downgraded).
+- **Upkeep Tests:** when the Explorers suffer a reduction in their fortunes, commit to a massive expenditure, or an acquisition is expended/damaged/destroyed, attacked or stolen by a rival, or struck by fate, the GM may call for an Upkeep Test (like an Acquisition Test, with all the modifiers of the original acquisition). On failure, choose one: **discard** the item (unusable until repaired, reloaded, or purchased anew; cannot be reacquired until PF increases), **downgrade** Craftsmanship by one level (not if already Poor), **downsize** Scale by one level (not if already Negligible), or **overstretch** PF (-5 to all Acquisition Tests until PF increases or the acquisition is discarded, downgraded, or downsized).
 
 ### Table 9-35: Acquisition Modifiers
 
@@ -971,7 +991,7 @@ An **Endeavour** is a major undertaking (exploration, trade, conflict, etc.) int
 - **Objectives:** typically 3 sub-goals that must be achieved in sequence.
 - **Achievement Points:** a total point value depending on the Endeavour's size (Table 9-39: Endeavour Scale), divided among the Objectives (evenly or weighted). Points are awarded for overcoming challenges (Table 9-40: Achievement Point Awards, staggered by difficulty). Surplus points within an Objective carry over to the next; for every 100 surplus points at the end of the entire Endeavour, +1 additional PF.
 - **Objective Themes:** Military, Criminal, Exploration, Trade, Creed — determine tone and relevant Talents/Ship Components.
-- **Execution:** either in the foreground as a full adventure, or in the background during downtime through NPCs/subordinates (usually slower and less profitable).
+- **Execution:** either in the foreground as a full adventure, or in the background during downtime through NPCs/subordinates (always more problematic, slower, and less profitable).
 - **Failing an Objective** does not necessarily prevent overall success — missing points can potentially be compensated for by the remaining Objectives.
 
 ### Table 9-39: Endeavour Scale
@@ -994,7 +1014,22 @@ An **Endeavour** is a major undertaking (exploration, trade, conflict, etc.) int
 | Hard | 200 |
 | Very Hard | 300 |
 
-The chapter lists numerous example Endeavours (founding a colony on Grace, exploiting a resource world on Tvalde IV, the Nephium trade on Lucin's Breath, the Cold Trade in xenos artefacts with the Cineris Malificum and the Egarian Dominion, a trade route to Zayth, a Guilder's route from Port Wander to the Drusus Marches), each with size, PF bonus, themes, and three objectives as narrative templates for the GM — these are flavour/example content and are not individually transcribed here (see the original book, pp. 279–284, for the full scenario texts).
+As a benchmark, an encounter that requires some effort from the Explorers but places them in no real peril counts as **Ordinary**; the GM judges each encounter's difficulty by the resources, danger, and effort involved.
+
+### Example Endeavours
+
+The chapter presents four common Endeavour types (Establish an Imperial Colony, Exploit a Resource World, Establish a Cold Trade from Dead Xenos Worlds, Establish a Trade Route), each with example requirements and two specific Endeavours. The narrative texts are condensed here (full scenario texts: book pp. 279–283); sizes, PF rewards, objectives, and themes are as in the book:
+
+| Type | Endeavour | Size / PF | Objective 1 (Themes) | Objective 2 (Themes) | Objective 3 (Themes) |
+|---|---|---|---|---|---|
+| Imperial Colony | The First Colony of Grace | Greater, +4 | Confirm Grace as a Suitable Colony World (Exploration) | Establish Dominance Over the Cold Guild (Criminal, Trade) | Cleanse the Near Voids of Pirate Scum (Exploration, Military) |
+| Imperial Colony | The Second Colony of Grace | Lesser, +2 | Crush the Feral Orks Who Infest the Ruins (Military) | Forge an Alliance with a Ministorum Cult (Creed) | Raise up the Pilgrim Horde (Creed, Trade) |
+| Resource World | Establish a Beast Trade from the Unvisited World of Tvalde IV | Greater, +3 | Locate Tvalde IV and Catalogue Its Worst Horrors (Exploration) | Gain Powerful Beast Trade Allies (Criminal, Trade) | Cull the Dread Herds (Exploration, Military) |
+| Resource World | Enter the Nephium Trade of Lucin's Breath | Lesser, +2 | Make Your Mark and Clear the Zone (Military) | Tame the Lucinite Xenos (Criminal, Trade) | Challenge the Rival Rogue Traders (Military, Trade) |
+| Cold Trade | A Cold Trade from the Blasted Cineris Malificum | Grand, +5 | Establish Promising Archeosites (Exploration) | Develop a Cold Trade Network of Wealthy Clients (Criminal, Trade) | Defeat the Treacherous Eldar (Military) |
+| Cold Trade | A Cold Trade in Materials of the Egarian Dominion | Greater, +3 | Establish a Warp Route to the Egarian Worlds (Exploration) | Develop a Cold Trade Network of Wealthy Clients (Criminal, Trade) | Seek Out Value in the Hive-ruins (Exploration) |
+| Trade Route | Create a Macrocannon Trade Route from Zayth | Grand, +5 | Establish a Warp Route to Zayth (Exploration) | Gain Allies Amongst the Zaythi Powers (Creed, Military, Trade) | Aid the Zaythi Against the Orks (Military) |
+| Trade Route | Forge a Guilder's Route from Port Wander to the Drusus Marches | Lesser, +2 | Ally with Greater Rogue Traders (Trade) | Establish a Hive World Market (Criminal, Trade) | Defend the Reputation of the Lineage (Creed, Trade) |
 
 ## Misfortunes
 
