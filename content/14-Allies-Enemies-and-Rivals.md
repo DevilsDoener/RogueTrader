@@ -2,7 +2,7 @@
 
 > PDF bookmark: **Allies, Enemies & Rivals**
 > Binding page range: PDF 374–382 (book pages 370–378)
-> Status of full transcription: **fully captured, verified against page images**
+> Status of full transcription: **fully captured, verified against page images** (re-verified against page images 2026-09-30)
 
 > *"Looking for DeCol you say? Well I knows three by that name, one's a stubjack,
 > the other a scrivener and the third, well her I'd rather not speak of… unless
@@ -85,7 +85,7 @@ Wrangling (Int).
 
 **Gear:** Knife (1d5+3 R, Primitive), plus either a chain axe (1d10+7 R,
 Tearing) or a crossbow (30m; S/–/–; 1d10 R; Pen 0; Clip 1; 2 Full;
-Primitive) with 12 bolts.
+Primitive) with 12 quarrels.
 
 #### Entertainer
 
@@ -121,7 +121,7 @@ enforcement on colonial worlds.
 **Gear:** Lasgun (30m; S/3/–; 1d10+3 E; Pen 0; Clip 60; Reload Full;
 Reliable) or pump-action shotgun (30m; S/–/–; 1d10+4 I; Pen 0; Clip 8;
 Reload 2 Full; Scatter), stub automatic (30m; S/3/–; 1d10+3 I; Pen 0; Clip
-9; Reload Full), 2 spare magazines per weapon, knife, cudgel, hand-vox.
+9; Reload Full), 2 spare magazines per weapon, knife, truncheon, hand-vox.
 
 #### Scum
 
@@ -239,7 +239,7 @@ Scavenger) (Int).
 
 **Weapons:** Improvised club (1d10+1 I; Primitive).
 
-**Gear:** Rags, scraps, and salvaged junk from plundered wreckage.
+**Gear:** Rags, tatters, and scraps of scavenged detritus.
 
 #### Mutant Abomination
 
@@ -427,7 +427,7 @@ Resistance (Fear), Peer (Criminals or Renegades), Swift Attack.
 Tearing), hand cannon (30m; S/–/–; 1d10+4 I; Pen 2; Clip 5; Reload 2Full),
 chainsword (1d10+5 R; Balanced, Tearing), plus an exotic pistol (choose).
 
-**Gear:** Flamboyant uniform, bionic eye, 2 bolt pistol magazines, 4 hand
+**Gear:** Motley uniform, bionic eye, 2 bolt pistol magazines, 4 hand
 cannon magazines, 1 spare magazine for the exotic weapon, dubious star
 charts. Some possess extensive further cybernetic implants.
 
@@ -763,8 +763,8 @@ avian heritage. With a crest of spines, a beaked maw, and the ability to
 move with incredible speed and sinewy physical power, a Kroot is a
 formidable opponent. Their martial skill — combined with an unsettling
 reputation for eating those they slay — lends these freelance warriors a
-justly feared reputation, and they command a high price from trading
-criminals and lapsed elements willing to flout Imperial law to hire them.
+justly feared reputation, and they command a high price from merchant
+criminals and recidivist elements willing to flout Imperial law to hire them.
 
 **Kroot Mercenary Profile**
 
@@ -795,7 +795,7 @@ damage instead of 1d10.
 
 **††** Can be used in melee (1d10+6 R; Balanced).
 
-**Gear:** Raw meat, bandolier with 30 spare rounds for the rifle, fetish
+**Gear:** Cut meat, bandolier with 30 spare charges for the rifle, fetish
 pouch.
 
 ## From Beyond

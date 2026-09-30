@@ -31,4 +31,5 @@ accordingly captured in `14-Traits.md`.
 ---
 
 **Status:** This file is deliberately limited to the pure divider page
-(1/1 page, PDF 367). No rules text on this page. Verified against the page image.
+(1/1 page, PDF 367). No rules text on this page. Verified against the page image;
+re-verified 2026-09-30.
