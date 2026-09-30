@@ -1,13 +1,14 @@
 # Index
 
-> Source: *Rogue Trader Core Rulebook*, PDF pages 397–408 (PDF bookmark **Index**, book
-> pages 394–404 plus unmarked closing pages).
+> Source: *Rogue Trader Core Rulebook*, PDF pages 397–408 (PDF bookmark **Index**; the four index
+> pages are book pages 393–396, followed by unnumbered closing pages).
+> Re-verified against the page images on 2026-09-30.
 > Method: running text via OCR (`tmp/ocr/page397.txt` to `page408.txt`); the character
 > sheet pages (PDF 401–403) were additionally re-checked against the original page images
 > (`page401_0.jpg`, `page402_0.jpg`, `page403_0.jpg`), located in an older session
 > scratchpad. All three images are sharp and fully legible.
 
-## Alphabetical Index (PDF 397–400, book pages 394–397)
+## Alphabetical Index (PDF 397–400, book pages 393–396)
 
 These four pages carry the book's printed alphabetical subject index (entries from
 "Acquisition Tests" to "Zero Gravity" with their book-page references). Such an index has
@@ -29,9 +30,9 @@ against the page images (`page401_0.jpg`, `page402_0.jpg`), not just the OCR tex
 
 - Header row: **Character Name**, **Player Name** / **Career Path**, **Rank**, **Home
   World**, **Motivation** / **Description**
-- **Characteristics** (each with a row of 4 "Adv"/"Taken" advance boxes): Weapon Skill
+- **Characteristics** (each with a row of 4 advance circles labelled "Adv. Taken"): Weapon Skill
   (WS), Ballistic Skill (BS), Strength (S), Toughness (T), Agility (Ag), Intelligence
-  (Int), Perception (Per), Willpower (WP), Fellowship (Fel)
+  (Int), Perception (Per), Will Power (WP), Fellowship (Fel)
 - **Skills** — two columns listing all skills with their governing Characteristic in
   parentheses, alphabetically. Each skill row carries five checkbox/value columns:
   **Basic, Trained, +10%, +20%, Bonus**.
@@ -48,9 +49,9 @@ against the page images (`page401_0.jpg`, `page402_0.jpg`), not just the OCR tex
     Security (Ag), Shadowing (Ag), Silent Move (Ag), Sleight of Hand (Ag),
     Speak Language (Int), Survival (Int), Swim (S), Tech-Use (Int), Tracking (Int),
     Trade (Int), Wrangling (Int)
-  - Skills with sub-specializations (Common Lore, Forbidden Lore, etc.) have extra blank
-    lines under their row for writing in the chosen specialization, each with its own
-    Basic/Trained/+10%/+20%/Bonus columns.
+  - Skills with sub-specializations (Common Lore, Forbidden Lore, Performer, Pilot,
+    Scholastic Lore, Speak Language) have extra blank lines under their row for writing in
+    the chosen specialization, each with its own Basic/Trained/+10%/+20%/Bonus boxes.
 - **Experience Points**: fields "XP to Spend" and "Total XP Spent"
 - **Talents & Traits** (free-text field)
 - **Special Abilities** (free-text field)
@@ -63,7 +64,7 @@ against the page images (`page401_0.jpg`, `page402_0.jpg`), not just the OCR tex
 - **Movement**, each value defined by a formula tied to Agility Bonus (AB) or Strength
   Bonus (SB): Half Move (AB × 1), Full Move (AB × 2), Charge (AB × 3), Run (AB × 6),
   Base Leap (SB × 1 m), Base Jump (SB × 20 cm)
-- **Characteristics** repeated with full advance-box rows (4× "Adv"/"Taken" per
+- **Characteristics** repeated with full advance rows (4 circles labelled "Adv. Taken" per
   Characteristic) — presumably to continue tracking Advances if the front page runs out
   of room
 - **Weapons**: five separate boxes, each for one weapon (not a single multi-row table),
@@ -78,7 +79,7 @@ against the page images (`page401_0.jpg`, `page402_0.jpg`), not just the OCR tex
   - Body: 31–70
   - Right Leg: 71–85
   - Left Leg: 86–100
-  - plus a "Type" field per zone, and **Armour Weight** (Total/Current)
+  - plus a "Type" field per zone, and a single **Armour Weight** box
 - **Wounds**: Total, Current, plus **Critical Damage** and **Fatigue**
 - **Corruption**: Current Points, Degree, Malignancies
 - **Insanity**: Current Points, Degree, Disorders
@@ -105,15 +106,15 @@ character sheet pages (landscape orientation, with a ship's silhouette in the ce
 Its fields:
 
 - Header data: **Name, Class, Speed, Manoeuvrability, Detection, Hull**
-- **Turret Rating, Shields, Armour, Hull Integrity** (with Total/Current columns)
-- **Space Available / Space Used**
-- **Power Available / Power Used** (two boxes each, labelled Total/Current)
+- **Turret Rating, Shields, Armour, Hull Integrity** (Hull Integrity carries Total and Current values)
+- **Space Available / Space Used** (one box each)
+- **Power Available / Power Used** (one box each)
 - **Weapon Capacity** (two boxes) with mount-location checkboxes: **Prow, Starboard,
   Dorsal, Port, Keel**
 - **Essential Components** (free-text list)
 - **Supplemental Components** (free-text list)
 - **Complications/Past History** (free-text list)
-- **Crew %** and **Morale**
+- **Crew %** and **Morale** (each with Maximum and Current values)
 - **Weapons** table: four weapon slots, each togglable as **Macro Battery** or **Lance**,
   with four value columns per slot — **Strength, Crit Rating, Damage, Range** — and a
   **Location** grid of circles for each slot across **Dorsal, Prow, Keel, Port,
@@ -128,11 +129,11 @@ personal-character sheet fields above.
 The final pages of the PDF contain no more Rogue Trader rules content:
 
 - **PDF 404**: an advertisement for the unrelated Fantasy Flight Games board game
-  *Operation Tannhäuser* (including the "Operation Novgorod" expansion) — unconnected to
+  *Operation Tannhäuser* (including the "Operation Novgorod" expansion, headline "The War Rages On!") — unconnected to
   Warhammer 40,000 or Rogue Trader.
-- **PDF 405–406**: blank.
-- **PDF 407**: a fragment of the Koronus Expanse map (back inside cover, continuing the
-  inside-cover map from PDF pages 2–3).
+- **PDF 405**: blank.
+- **PDF 406–407**: the Koronus Expanse map spread again (back inside cover), the same map
+  as on PDF pages 2–3.
 - **PDF 408**: the book's back-cover blurb — marketing copy introducing *Rogue Trader* as
   a roleplaying game "in the grim darkness of the 41st Millennium": players take on the
   role of an Explorer from a dynasty of Rogue Traders, empowered by an ancient Warrant of
@@ -145,15 +146,15 @@ The final pages of the PDF contain no more Rogue Trader rules content:
 
 ## Status
 
-PDF pages 397–408 fully reviewed: 12/12 pages. The printed alphabetical index (PDF
+PDF pages 397–408 fully reviewed: 12/12 pages (re-checked against the page images 2026-09-30). The printed alphabetical index (PDF
 397–400) was deliberately **not** transcribed entry by entry (see rationale above), only
 recorded as present. The character sheet (PDF 401–402) has been fully captured as a field
 list and cross-checked against the page images — this reference can be used when
 designing this project's own character sheet. The previously unresolved grid on PDF 403
 has now been identified with the recovered page image: it is a Starship stat sheet, the
 character sheet set's third page, and its full field layout is recorded above. PDF
-404–408 contain no Rogue Trader rules material (third-party advertising, a map fragment,
-back-cover blurb) and are only briefly summarized for completeness. This file has been
+404–408 contain no Rogue Trader rules material (third-party advertising, a blank page, the map
+spread, back-cover blurb) and are only briefly summarized for completeness. This file has been
 rewritten in English as part of the project-wide English conversion; the Starship-sheet
 identification is the only substantive new finding from this pass, made possible by
 locating the PDF 403 page image that was unavailable previously.
