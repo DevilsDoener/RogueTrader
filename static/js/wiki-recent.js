@@ -1,9 +1,14 @@
 /*
- * The reader's recent positions ("rt-wiki-recent" in localStorage), shared by
- * the chapter reader (writes), the Bibliothek's "Weiterlesen" and the Auspex
- * palette (read). Loaded by base.html ahead of every script that uses it.
+ * Shared wiki helpers, loaded by base.html ahead of every script that uses
+ * them:
  *
- * Stored shape: a JSON array, newest first, of {title, chapter, url, ts}; one
+ * - RTWikiRecent: the reader's recent positions ("rt-wiki-recent" in
+ *   localStorage), written by the chapter reader and read by the Bibliothek's
+ *   "Weiterlesen" and the Auspex palette.
+ * - RTWikiText: the case/ss folding and all-tokens matching behind the
+ *   Bibliothek filter and the chapter outline filter.
+ *
+ * Stored shape: a JSON array, newest first, of {title, chapter, url}; one
  * entry per chapter path, at most MAX. The data is under the reader's control
  * (and any other script on the origin), so only same-site wiki paths are ever
  * handed out as link targets. Every storage access is guarded: without
@@ -77,5 +82,19 @@
     }
   }
 
+  /* Mirrors str.casefold() closely enough for German and English: the views
+     build data-filter-text with casefold(), which turns "ß" into "ss". */
+  function fold(text) {
+    return String(text).toLowerCase().replace(/ß/g, "ss");
+  }
+
+  /* Whether every token occurs in `text` (both already folded). */
+  function matchesAll(text, tokens) {
+    return tokens.every(function (token) {
+      return text.indexOf(token) !== -1;
+    });
+  }
+
   window.RTWikiRecent = { read: read, record: record, isSafeUrl: isSafeUrl };
+  window.RTWikiText = { fold: fold, matchesAll: matchesAll };
 })();

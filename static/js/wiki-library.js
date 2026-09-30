@@ -8,11 +8,9 @@
 
   var RECENT_LIMIT = 3;
 
-  function fold(text) {
-    // Mirrors str.casefold() closely enough for German: the view builds
-    // data-filter-text with casefold(), which turns "ß" into "ss".
-    return String(text).toLowerCase().replace(/ß/g, "ss");
-  }
+  // Folding and token matching: static/js/wiki-recent.js (loaded before this).
+  var fold = window.RTWikiText.fold;
+  var matchesAll = window.RTWikiText.matchesAll;
 
   function initFilter() {
     var input = document.getElementById("library-filter");
@@ -21,9 +19,9 @@
     }
     // Only with JS does typing filter; the HTML placeholder promises search only.
     input.setAttribute("placeholder", "Kapitel und Abschnitte filtern – Enter sucht im Volltext");
-    var cards = Array.prototype.slice.call(document.querySelectorAll(".library-card"));
+    var cards = Array.from(document.querySelectorAll(".library-card"));
     var emptyNote = document.querySelector(".library-empty");
-    var bands = Array.prototype.slice.call(document.querySelectorAll(".library-band"));
+    var bands = Array.from(document.querySelectorAll(".library-band"));
     // Whether the reader opened a <details> themselves, so clearing the
     // filter only closes the ones the filter opened.
     var userOpened = new WeakMap();
@@ -41,7 +39,7 @@
     });
 
     function clearMatches(card) {
-      Array.prototype.forEach.call(card.querySelectorAll("a.is-match"), function (link) {
+      card.querySelectorAll("a.is-match").forEach(function (link) {
         link.classList.remove("is-match");
       });
     }
@@ -52,9 +50,7 @@
 
       cards.forEach(function (card) {
         var haystack = card.getAttribute("data-filter-text") || "";
-        var matches = tokens.every(function (token) {
-          return haystack.indexOf(token) !== -1;
-        });
+        var matches = matchesAll(haystack, tokens);
         card.hidden = !matches;
         if (matches) {
           visibleCount += 1;
@@ -69,9 +65,8 @@
         if (tokens.length && matches) {
           // Level-1 entries and their nested level-2 entries alike; portal.css
           // reveals a level-2 entry only while it carries `is-match`.
-          Array.prototype.forEach.call(details.querySelectorAll("a"), function (link) {
-            var text = fold(link.textContent);
-            if (tokens.every(function (token) { return text.indexOf(token) !== -1; })) {
+          details.querySelectorAll("a").forEach(function (link) {
+            if (matchesAll(fold(link.textContent), tokens)) {
               link.classList.add("is-match");
               anyLinkMatch = true;
             }

@@ -17,18 +17,16 @@
 
   var article = document.querySelector(".wiki-article");
   var sectionNav = document.querySelector(".wiki-section-nav");
-  var reduceMotion =
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Listeners for "the reader's section changed"; the recent-position writer
   // subscribes here so the spy does not need to know about it.
   var sectionListeners = [];
   var activeSection = null;
 
-  function fold(text) {
-    // Close enough to Python's casefold() for German and English titles.
-    return String(text).toLowerCase().replace(/ß/g, "ss");
-  }
+  // Folding and token matching: static/js/wiki-recent.js (loaded before this).
+  var fold = window.RTWikiText.fold;
+  var matchesAll = window.RTWikiText.matchesAll;
 
   function toArray(list) {
     return Array.prototype.slice.call(list);
@@ -79,6 +77,18 @@
     return (margin || 120) + 12;
   }
 
+  /* Run `action`, then hand focus to <main> if the control was activated from
+     the keyboard: the control may vanish or the page jump away, and focus
+     must not fall back to <body>. */
+  function withKeyboardFocusToMain(control, action) {
+    var keyboard = control.matches(":focus-visible");
+    action();
+    var main = document.getElementById("main-content");
+    if (keyboard && main) {
+      main.focus({ preventScroll: true });
+    }
+  }
+
   function sectionHeading(section) {
     var first = section.firstElementChild;
     return first && /^H[2-6]$/.test(first.tagName) ? first : null;
@@ -92,7 +102,7 @@
     var nav = document.querySelector(".primary-nav");
     var current = nav && nav.querySelector('.primary-nav-sub a[aria-current="page"]');
     if (current) {
-      revealIn(nav, current, "auto");
+      revealIn(nav, current);
     }
   }
 
@@ -101,6 +111,20 @@
      ------------------------------------------------------------------ */
 
   var filterActive = false;
+
+  /* `element`'s ancestors matching `selector` (itself included), innermost
+     first, up to the section nav. */
+  function ancestorsIn(element, selector) {
+    var found = [];
+    for (
+      var node = element.closest(selector);
+      node && sectionNav.contains(node);
+      node = node.parentElement.closest(selector)
+    ) {
+      found.push(node);
+    }
+    return found;
+  }
 
   function initTocFilter() {
     var input = sectionNav && sectionNav.querySelector(".wiki-toc-filter");
@@ -114,6 +138,10 @@
     var linkText = new Map();
     links.forEach(function (link) {
       linkText.set(link, fold(link.textContent));
+    });
+    var summaryLinks = new Map();
+    allDetails.forEach(function (details) {
+      summaryLinks.set(details, details.querySelector(":scope > summary a"));
     });
     // The open/closed state from before the reader started typing, restored
     // when the field is cleared again.
@@ -156,28 +184,36 @@
       }
       filterActive = true;
 
+      // Walk up from every matching link once: each <li> above it stays
+      // visible, and each <details> above it opens -- unless the link is
+      // that <details>' own summary link, which does not count as a match
+      // inside it.
       var matched = new Set();
+      var visibleItems = new Set();
+      var openDetails = new Set();
       links.forEach(function (link) {
-        var text = linkText.get(link);
-        if (tokens.every(function (token) { return text.indexOf(token) !== -1; })) {
-          matched.add(link);
+        if (!matchesAll(linkText.get(link), tokens)) {
+          return;
         }
-      });
-      function containsMatch(root, except) {
-        return toArray(root.querySelectorAll("a[href^='#']")).some(function (link) {
-          return link !== except && matched.has(link);
+        matched.add(link);
+        ancestorsIn(link, "li").forEach(function (item) {
+          visibleItems.add(item);
         });
-      }
+        ancestorsIn(link, "details").forEach(function (details) {
+          if (summaryLinks.get(details) !== link) {
+            openDetails.add(details);
+          }
+        });
+      });
 
       items.forEach(function (item) {
-        item.hidden = !containsMatch(item, null);
+        item.hidden = !visibleItems.has(item);
       });
       indexLinks.forEach(function (link) {
         link.hidden = !matched.has(link);
       });
       allDetails.forEach(function (details) {
-        var summaryLink = details.querySelector(":scope > summary a");
-        details.open = containsMatch(details, summaryLink);
+        details.open = openDetails.has(details);
       });
       empty.hidden = matched.size > 0;
     }
@@ -200,7 +236,7 @@
      Scroll-spy
      ------------------------------------------------------------------ */
 
-  function initScrollSpy() {
+  function initScrollSpy(line) {
     if (!article) {
       return;
     }
@@ -214,8 +250,6 @@
     if (!entries.length) {
       return;
     }
-
-    var line = readingLine();
 
     var activeLink = null;
     var spyOpened = new Set();
@@ -345,22 +379,17 @@
      The scroll loop: scroll-spy, reading progress and "Nach oben"
      ------------------------------------------------------------------ */
 
-  function initScrollLoop(spyUpdate) {
+  function initScrollLoop(spyUpdate, line) {
     var bar = document.querySelector(".wiki-progress-bar");
     var toTop = document.querySelector(".wiki-to-top");
     if (!bar && !toTop && !spyUpdate) {
       return;
     }
-    var line = readingLine();
-
     if (toTop) {
       toTop.addEventListener("click", function () {
-        var keyboard = toTop.matches(":focus-visible");
-        window.scrollTo({ top: 0, behavior: scrollBehavior() });
-        var main = document.getElementById("main-content");
-        if (keyboard && main) {
-          main.focus({ preventScroll: true });
-        }
+        withKeyboardFocusToMain(toTop, function () {
+          window.scrollTo({ top: 0, behavior: scrollBehavior() });
+        });
       });
     }
 
@@ -536,14 +565,9 @@
         parent.normalize();
       });
       marks = [];
-      var keyboard = button.matches(":focus-visible");
-      bar.remove();
-      if (keyboard) {
-        var main = document.getElementById("main-content");
-        if (main) {
-          main.focus({ preventScroll: true });
-        }
-      }
+      withKeyboardFocusToMain(button, function () {
+        bar.remove();
+      });
       try {
         var url = new URL(window.location.href);
         url.searchParams.delete("q");
@@ -584,7 +608,6 @@
         title: (currentEntry && headingTitle(currentEntry.heading)) || fullTitle,
         chapter: chapterTitle,
         url: path + (section ? "#" + section.id : ""),
-        ts: lastWrite,
       });
     }
 
@@ -605,6 +628,7 @@
   initRecent();
   initTocFilter();
   initHighlight();
-  var spyUpdate = initScrollSpy();
-  initScrollLoop(spyUpdate);
+  var line = readingLine();
+  var spyUpdate = initScrollSpy(line);
+  initScrollLoop(spyUpdate, line);
 })();

@@ -67,7 +67,7 @@
     }
   }
 
-  let currentZoom = DEFAULT_ZOOM;
+  let currentZoom = loadStoredZoom();
   let lastAvailable = 0;
 
   // Pin every page/canvas to the current fit*zoom scale. Reads only the
@@ -105,7 +105,6 @@
     layout();
   }
 
-  currentZoom = loadStoredZoom();
   applyZoom(currentZoom);
 
   // If the first layout ran at zero width (hidden pane / not yet displayed),

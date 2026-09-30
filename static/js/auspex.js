@@ -51,10 +51,6 @@
 
   /* ---- helpers --------------------------------------------------------- */
 
-  function currentQuery() {
-    return input.value;
-  }
-
   function isLongEnough(query) {
     return query.replace(/\s+/g, "").length >= MIN_QUERY_LENGTH;
   }
@@ -74,6 +70,11 @@
       tag === "SELECT" ||
       element.isContentEditable === true
     );
+  }
+
+  /* A click the browser would follow in this tab: primary button, no modifier. */
+  function isPlainClick(event) {
+    return event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey;
   }
 
   function numeralOf(numeral) {
@@ -243,9 +244,15 @@
     finishRender(options.length + " zuletzt gelesene Abschnitte");
   }
 
+  /* The entries of a server-supplied list that may be shown as links. */
+  function validItems(list) {
+    return (Array.isArray(list) ? list : []).filter(function (item) {
+      return item && validUrl(item.url);
+    });
+  }
+
   function renderSuggestions(data) {
-    var chapters = (Array.isArray(data.chapters) ? data.chapters : [])
-      .filter(function (item) { return item && validUrl(item.url); })
+    var chapters = validItems(data.chapters)
       .map(function (item) {
         var path = numeralOf(item.numeral);
         if (item.short_title && item.short_title !== item.title) {
@@ -253,8 +260,7 @@
         }
         return { title: String(item.title), path: path, url: item.url };
       });
-    var sections = (Array.isArray(data.sections) ? data.sections : [])
-      .filter(function (item) { return item && validUrl(item.url); })
+    var sections = validItems(data.sections)
       .map(function (item) {
         return {
           title: String(item.title),
@@ -262,8 +268,7 @@
           url: item.url,
         };
       });
-    var hits = (Array.isArray(data.hits) ? data.hits : [])
-      .filter(function (item) { return item && validUrl(item.url); })
+    var hits = validItems(data.hits)
       .map(function (item) {
         return {
           title: String(item.title),
@@ -313,13 +318,13 @@
     if (controller) {
       controller.abort();
     }
-    var own = typeof AbortController === "function" ? new AbortController() : null;
+    var own = new AbortController();
     controller = own;
     setScanning(true);
     fetch(suggestUrl + "?q=" + encodeURIComponent(query), {
       credentials: "same-origin",
       headers: { Accept: "application/json" },
-      signal: own ? own.signal : undefined,
+      signal: own.signal,
     })
       .then(function (response) {
         if (!response.ok) {
@@ -333,7 +338,7 @@
         }
         controller = null;
         setScanning(false);
-        if (!data || data.query !== currentQuery()) {
+        if (!data || data.query !== input.value) {
           return; // The reader has typed on; a newer request is on its way.
         }
         renderSuggestions(data);
@@ -352,10 +357,8 @@
 
   /* React to the current query; `immediate` skips the debounce (on open). */
   function update(immediate) {
-    var query = currentQuery();
-    if (allLink) {
-      allLink.setAttribute("href", fullSearchHref(query));
-    }
+    var query = input.value;
+    allLink.setAttribute("href", fullSearchHref(query));
     if (debounceTimer !== null) {
       window.clearTimeout(debounceTimer);
       debounceTimer = null;
@@ -482,8 +485,8 @@
       var option = options[activeIndex];
       if (option) {
         navigate(option.getAttribute("href"));
-      } else if (currentQuery().trim()) {
-        navigate(fullSearchHref(currentQuery()));
+      } else if (input.value.trim()) {
+        navigate(fullSearchHref(input.value));
       }
     }
   });
@@ -508,7 +511,7 @@
 
   results.addEventListener("click", function (event) {
     var option = event.target.closest && event.target.closest(".auspex-option");
-    if (!option || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+    if (!option || !isPlainClick(event)) {
       return;
     }
     // Let the link navigate; closing first matters for a same-page #anchor.
@@ -516,14 +519,12 @@
     dialog.close();
   });
 
-  if (allLink) {
-    allLink.addEventListener("click", function (event) {
-      if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
-        navigating = true;
-        dialog.close();
-      }
-    });
-  }
+  allLink.addEventListener("click", function (event) {
+    if (isPlainClick(event)) {
+      navigating = true;
+      dialog.close();
+    }
+  });
 
   document.addEventListener("keydown", function (event) {
     if (event.defaultPrevented || event.isComposing) {
