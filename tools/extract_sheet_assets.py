@@ -42,7 +42,7 @@ CHARACTER_PAGE_PLAN: tuple[tuple[int, str], ...] = (
 )
 SHIP_PAGE = (403, "ship-page")
 
-# The rulebook page count must be at least this large for pages 401-403 to
+# The rulebook page count must be at least this large for the ship page (403) to
 # exist. This is intentionally the exact page we need, not a margin -- if the
 # supplied PDF is a different edition/printing with fewer pages, refuse to
 # guess.
@@ -154,7 +154,7 @@ def extract_assets(
     if page_count < MINIMUM_PAGE_COUNT:
         raise ValueError(
             f"PDF has only {page_count} pages; expected at least "
-            f"{MINIMUM_PAGE_COUNT} to contain the character/ship sheets."
+            f"{MINIMUM_PAGE_COUNT} to contain the ship sheet."
         )
     character_page_count = _get_page_count(character_pdf_path, pdftoppm_path)
     if character_page_count < 2:
