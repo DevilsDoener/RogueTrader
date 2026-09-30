@@ -128,3 +128,104 @@ QUICK_LINKS: Tuple[QuickLink, ...] = (
     QuickLink("Perils of the Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
     QuickLink("Starship Combat", "starships", "starship-combat"),
 )
+
+
+@dataclass(frozen=True)
+class ShortcutGroup:
+    #: Group heading, English like the labels (book content).
+    title: str
+    #: Icon key the dashboard maps to an inline SVG (core/_shortcut_glyph.html).
+    glyph: str
+    links: Tuple[QuickLink, ...]
+
+
+#: The Kommandobrücke's rule shortcuts: the tables looked up most at the table,
+#: grouped by what is being resolved. Same rules as QUICK_LINKS -- English
+#: labels, ``sec-<id>`` targets, checked against the real corpus by
+#: wiki/tests/test_navigation_data.py; unresolvable links are dropped by
+#: ``WikiRepository.dashboard_shortcuts()``.
+DASHBOARD_SHORTCUTS: Tuple[ShortcutGroup, ...] = (
+    ShortcutGroup(
+        "Combat",
+        "combat",
+        (
+            QuickLink("Combat Actions", "playing-the-game", "table-9-4-combat-actions"),
+            QuickLink("Hit Locations", "playing-the-game", "table-9-6-hit-locations"),
+            QuickLink(
+                "Combat Difficulty", "playing-the-game", "table-9-8-combat-difficulty-summary"
+            ),
+            QuickLink("Cover", "playing-the-game", "table-9-7-cover-examples"),
+            QuickLink("Multiple Hits", "playing-the-game", "table-9-5-multiple-hits"),
+            QuickLink(
+                "Critical Effects",
+                "playing-the-game",
+                "critical-effect-tables-tables-9-11-to-9-26",
+            ),
+            QuickLink(
+                "Conditions & Special Damage", "playing-the-game", "conditions-and-special-damage"
+            ),
+            QuickLink("Fatigue", "playing-the-game", "fatigue"),
+            QuickLink("Healing", "playing-the-game", "healing"),
+        ),
+    ),
+    ShortcutGroup(
+        "Psychic Powers",
+        "psychic",
+        (
+            QuickLink("Psychic Strength", "psychic-powers", "table-6-1-psychic-strength"),
+            QuickLink("Psychic Phenomena", "psychic-powers", "table-6-2-psychic-phenomena"),
+            QuickLink("Perils of the Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
+        ),
+    ),
+    ShortcutGroup(
+        "Weapons & Armour",
+        "armoury",
+        (
+            QuickLink("Ranged Weapons", "armoury", "table-5-4-ranged-weapons"),
+            QuickLink("Melee Weapons", "armoury", "table-5-8-melee-weapons"),
+            QuickLink("Grenades & Missiles", "armoury", "table-5-6-grenades-and-missiles"),
+            QuickLink("Weapon Qualities", "armoury", "weapon-special-qualities"),
+            QuickLink("Armour", "armoury", "table-5-12-armour"),
+            QuickLink("Ammo", "armoury", "table-5-10-ammo"),
+        ),
+    ),
+    ShortcutGroup(
+        "Tests & Fate",
+        "tests",
+        (
+            QuickLink("Test Difficulty", "playing-the-game", "table-9-3-test-difficulty"),
+            QuickLink(
+                "Degrees of Success", "playing-the-game", "degrees-of-success-and-failure"
+            ),
+            QuickLink("Fate Points", "playing-the-game", "the-role-of-fate"),
+            QuickLink("Fear Tests", "the-game-master", "fear-tests"),
+            QuickLink(
+                "Insanity & Corruption",
+                "the-game-master",
+                "insanity-points-and-corruption-points",
+            ),
+        ),
+    ),
+    ShortcutGroup(
+        "Starship Combat",
+        "starship",
+        (
+            QuickLink("Starship Combat", "starships", "starship-combat"),
+            QuickLink("Manoeuvre Actions", "starships", "manoeuvre-actions-table-8-10"),
+            QuickLink("Extended Actions", "starships", "extended-actions-table-8-11"),
+            QuickLink("Ship Critical Hits", "starships", "table-8-12-critical-hits"),
+            QuickLink("Morale", "starships", "table-8-14-morale"),
+        ),
+    ),
+    ShortcutGroup(
+        "Trade & Acquisition",
+        "trade",
+        (
+            QuickLink("Acquisition", "playing-the-game", "acquisition"),
+            QuickLink(
+                "Acquisition Modifiers", "playing-the-game", "table-9-35-acquisition-modifiers"
+            ),
+            QuickLink("Misfortunes", "playing-the-game", "table-9-41-misfortunes"),
+        ),
+    ),
+)

@@ -22,7 +22,7 @@ from typing import Dict, Iterator, List, Optional, Tuple
 from django.conf import settings
 from django.utils.text import slugify
 
-from .manifest import QUICK_LINKS, QuickLink, entry_for
+from .manifest import DASHBOARD_SHORTCUTS, QUICK_LINKS, QuickLink, ShortcutGroup, entry_for
 from .markdown import SafeMarkdownRenderer
 from .outline import MIN_SECTION_LEVEL, OutlineNode, parse_outline
 from .search import SearchIndex, build_search_index
@@ -294,10 +294,12 @@ class WikiRepository:
     def highlight_terms(self, query: str) -> Tuple[str, ...]:
         return self._search_index.highlight_terms(query)
 
-    def quick_links(self) -> Tuple[Tuple[QuickLink, WikiChapter], ...]:
-        """Curated quick links whose target still exists in the loaded book."""
+    def _resolve_links(
+        self, links: Tuple[QuickLink, ...]
+    ) -> Tuple[Tuple[QuickLink, WikiChapter], ...]:
+        """``links`` paired with their chapter, minus any whose target is gone."""
         resolved = []
-        for link in QUICK_LINKS:
+        for link in links:
             chapter = self._by_slug.get(link.chapter_slug)
             if chapter is None or link.section_id not in {
                 section.id for section in chapter.sections
@@ -305,6 +307,25 @@ class WikiRepository:
                 logger.debug("Dropping quick link with missing target: %s", link)
                 continue
             resolved.append((link, chapter))
+        return tuple(resolved)
+
+    def quick_links(self) -> Tuple[Tuple[QuickLink, WikiChapter], ...]:
+        """Curated quick links whose target still exists in the loaded book."""
+        return self._resolve_links(QUICK_LINKS)
+
+    def dashboard_shortcuts(
+        self,
+    ) -> Tuple[Tuple[ShortcutGroup, Tuple[Tuple[QuickLink, WikiChapter], ...]], ...]:
+        """The dashboard's shortcut groups with their resolvable links.
+
+        Same rule as ``quick_links()``: a link whose target is missing is
+        dropped, and a group left without any link is dropped with it.
+        """
+        resolved = []
+        for group in DASHBOARD_SHORTCUTS:
+            links = self._resolve_links(group.links)
+            if links:
+                resolved.append((group, links))
         return tuple(resolved)
 
 

@@ -595,125 +595,9 @@ label {
 .password-submit { width: 100%; min-height: 3rem; justify-content: space-between; }
 
 /* ---------------------------------------------------------------------
-   Dashboard: the "double command center"
+   Shared empty state and search-hit highlight
+   (the dashboard has its own "Kommandobrücke" block further down)
    --------------------------------------------------------------------- */
-
-.dashboard-hero {
-  margin-bottom: 2rem;
-}
-
-.dashboard-hero h1 {
-  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
-  margin: 0 0 0.4rem;
-}
-
-.dashboard-hero p {
-  color: var(--rt-text-muted);
-  max-width: 42rem;
-  margin: 0 0 1.25rem;
-}
-
-.dashboard-search {
-  display: flex;
-  gap: 0.5rem;
-  max-width: 34rem;
-}
-
-.dashboard-search input {
-  flex: 1 1 auto;
-}
-
-.command-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  gap: 1.25rem;
-}
-
-.command-panel {
-  position: relative;
-  padding: 1.5rem;
-  background: var(--rt-panel);
-  border: 1px solid var(--rt-border);
-  border-radius: var(--rt-radius-lg);
-}
-
-/* Signature element: the two primary command panels (wiki, characters) get
-   a brass corner bracket -- a restrained nod to console-plating rather than
-   a full ornamental border. */
-.command-panel--primary::before,
-.command-panel--primary::after {
-  content: "";
-  position: absolute;
-  top: 0.6rem;
-  width: 0.9rem;
-  height: 0.9rem;
-  border-top: 2px solid var(--rt-gold);
-  pointer-events: none;
-}
-
-.command-panel--primary::before {
-  left: 0.6rem;
-  border-left: 2px solid var(--rt-gold);
-}
-
-.command-panel--primary::after {
-  right: 0.6rem;
-  border-right: 2px solid var(--rt-gold);
-}
-
-.command-panel h2 {
-  margin-top: 0;
-  font-size: 1.2rem;
-}
-
-.command-panel-eyebrow {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-family: var(--rt-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--rt-gold);
-}
-
-.entry-list {
-  list-style: none;
-  margin: 0 0 1rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.entry-list a {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.75rem;
-  min-height: 2.75rem;
-  padding: 0 0.6rem;
-  border-radius: var(--rt-radius);
-  text-decoration: none;
-  color: var(--rt-text);
-}
-
-.entry-list a:hover {
-  background: var(--rt-panel-raised);
-  color: var(--rt-gold-bright);
-}
-
-.entry-meta {
-  font-family: var(--rt-font-mono);
-  font-size: 0.78rem;
-  color: var(--rt-text-muted);
-  white-space: nowrap;
-}
-
-.command-panel-footer {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--rt-border);
-}
 
 .empty-state {
   padding: 1rem 0;
@@ -1005,14 +889,6 @@ mark {
   border: 0;
   border-top: 1px solid var(--rt-parchment-border);
   margin: 2rem 0;
-}
-
-.wiki-part-heading {
-  margin: 2rem 0 0.75rem;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--rt-text-muted);
 }
 
 .wiki-breadcrumbs {
@@ -2124,6 +2000,439 @@ mark {
   color: var(--rt-text);
   font-family: var(--rt-font-display);
   font-size: 1.3rem;
+}
+
+/* ---------------------------------------------------------------------
+   Kommandobrücke (core/dashboard.html)
+   The hero reuses .library-hero / .library-search from the Bibliothek
+   block; the character tiles are compact dossiers built from the
+   Charaktere block (.crew-card-sigil, .crew-card-characteristics,
+   .crew-stat, .crew-empty) and the rule shortcuts use the shared
+   .quick-link chips. Only layout and compact sizing are new here.
+   Desktop-only like the rest of the shell: the breakpoint below only
+   switches between the 1024px and the wide desktop arrangement.
+   --------------------------------------------------------------------- */
+
+.bridge-deck {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem 1.5rem;
+  align-items: start;
+}
+
+/* Band heading plus an optional link on the same rule. */
+.bridge-band-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--rt-border);
+}
+
+.bridge-band-head .library-band-heading {
+  margin: 0;
+  border-bottom: 0;
+}
+
+.bridge-band-link {
+  padding-bottom: 0.5rem;
+  color: var(--rt-gold);
+  font-family: var(--rt-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bridge-band-link:hover {
+  color: var(--rt-gold-bright);
+}
+
+/* Character selection ------------------------------------------------- */
+
+.bridge-crew-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14.5rem, 1fr));
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bridge-crew-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.95rem 1rem 0.8rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-top: 2px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius-lg);
+  transition: border-color var(--rt-transition), transform var(--rt-transition),
+    box-shadow var(--rt-transition);
+}
+
+.bridge-crew-tile:hover,
+.bridge-crew-tile:focus-within {
+  border-color: var(--rt-gold-dim);
+  border-top-color: var(--rt-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--rt-bg) 70%, transparent);
+}
+
+.bridge-crew-tile.is-latest {
+  background: color-mix(in srgb, var(--rt-panel-raised) 60%, var(--rt-panel));
+  border-top-color: var(--rt-gold);
+}
+
+/* A tab riding on the tile's top rule, clear of the name. */
+.bridge-crew-latest {
+  position: absolute;
+  top: -0.6rem;
+  right: 0.85rem;
+  padding: 0.12rem 0.5rem;
+  background: var(--rt-gold);
+  border-radius: var(--rt-radius);
+  color: var(--rt-text-on-gold);
+  font-family: var(--rt-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.bridge-crew-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.bridge-crew-head .crew-card-sigil {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.55rem;
+}
+
+.bridge-crew-heading {
+  min-width: 0;
+}
+
+.bridge-crew-name {
+  margin: 0;
+  font-size: 1.12rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.bridge-crew-link {
+  color: var(--rt-text);
+  text-decoration: none;
+}
+
+/* The name link covers the whole tile: one click target, short name. */
+.bridge-crew-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--rt-radius-lg);
+}
+
+.bridge-crew-tile:hover .bridge-crew-link {
+  color: var(--rt-gold-bright);
+}
+
+.bridge-crew-link:focus-visible {
+  outline: none;
+}
+
+.bridge-crew-link:focus-visible::after {
+  outline: 3px solid var(--rt-focus);
+  outline-offset: 2px;
+}
+
+.bridge-crew-meta {
+  margin: 0.2rem 0 0;
+  color: var(--rt-text-muted);
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+/* The Charaktere characteristic strip, one size down. */
+.bridge-crew-values .crew-characteristic {
+  padding: 0.3rem 0 0.25rem;
+}
+
+.bridge-crew-values .crew-characteristic dt {
+  font-size: 0.6rem;
+  letter-spacing: 0;
+}
+
+.bridge-crew-values .crew-characteristic dd {
+  font-size: 0.95rem;
+}
+
+.bridge-crew-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin-top: auto;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rt-border);
+}
+
+.bridge-crew-foot .crew-card-stats {
+  gap: 0.35rem;
+}
+
+.bridge-crew-foot .crew-stat {
+  min-height: 1.6rem;
+  padding: 0.15rem 0.6rem;
+  gap: 0.35rem;
+}
+
+.bridge-crew-foot .crew-stat-label {
+  font-size: 0.62rem;
+}
+
+.bridge-crew-foot .crew-stat-value {
+  font-size: 0.82rem;
+}
+
+.bridge-crew-updated {
+  margin-left: auto;
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* "Neuer Charakter": the blank dossier of the Charaktere create card. */
+.bridge-crew-new-slot {
+  display: flex;
+}
+
+.bridge-crew-new {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 9rem;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--rt-panel) 45%, transparent);
+  border: 1px dashed var(--rt-border-strong);
+  border-top: 2px dashed var(--rt-gold-dim);
+  border-radius: var(--rt-radius-lg);
+  color: var(--rt-text-muted);
+  text-decoration: none;
+  transition: border-color var(--rt-transition), color var(--rt-transition);
+}
+
+.bridge-crew-new:hover {
+  border-color: var(--rt-gold-dim);
+  color: var(--rt-text);
+}
+
+.bridge-crew-new-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.2rem;
+  border: 1px dashed var(--rt-gold-dim);
+  border-radius: var(--rt-radius);
+  color: var(--rt-gold);
+  font-family: var(--rt-font-display);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.bridge-crew-new-title {
+  color: var(--rt-gold-bright);
+  font-family: var(--rt-font-display);
+  font-size: 1.12rem;
+}
+
+.bridge-crew-new-note {
+  font-size: 0.82rem;
+}
+
+.bridge-crew-empty-action {
+  margin-top: 1rem;
+}
+
+/* Shared ship ---------------------------------------------------------- */
+
+/* Glyph seal: the dossier seal's frame around a line icon. */
+.bridge-glyph {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius);
+  color: var(--rt-gold);
+}
+
+.bridge-glyph-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.bridge-glyph-large {
+  width: 3rem;
+  height: 3rem;
+}
+
+.bridge-glyph-large .bridge-glyph-icon {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.bridge-ship {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 1.1rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-top: 2px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius-lg);
+  transition: border-color var(--rt-transition);
+}
+
+.bridge-ship:focus-within,
+.bridge-ship:hover {
+  border-color: var(--rt-gold-dim);
+  border-top-color: var(--rt-gold);
+}
+
+.bridge-ship-body {
+  min-width: 0;
+}
+
+.bridge-ship-eyebrow {
+  display: block;
+  color: var(--rt-gold);
+  font-family: var(--rt-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.bridge-ship-name {
+  margin: 0.2rem 0 0;
+  font-size: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+.bridge-ship-name a {
+  color: var(--rt-text);
+  text-decoration: none;
+}
+
+.bridge-ship-name a:hover {
+  color: var(--rt-gold-bright);
+}
+
+.bridge-ship-note {
+  margin: 0.35rem 0 0;
+  color: var(--rt-text-muted);
+  font-size: 0.85rem;
+}
+
+.bridge-ship-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Rule shortcuts ------------------------------------------------------- */
+
+.bridge-rules {
+  margin-top: 2.5rem;
+}
+
+.bridge-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.bridge-rule-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 1.1rem 1.25rem 1.2rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+  transition: border-color var(--rt-transition);
+}
+
+.bridge-rule-group:hover,
+.bridge-rule-group:focus-within {
+  border-color: var(--rt-gold-dim);
+}
+
+.bridge-rule-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rt-border);
+}
+
+.bridge-rule-title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.bridge-rule-group .quick-links {
+  margin: 0;
+  gap: 0.4rem;
+}
+
+.bridge-rule-group .quick-link {
+  min-height: 2rem;
+  padding: 0 0.75rem;
+  font-size: 0.85rem;
+}
+
+/* Wide desktop: ship beside the crew, three shortcut columns. */
+@media (min-width: 1280px) {
+  .bridge-deck {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+  }
+
+  .bridge-ship {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .bridge-ship-actions {
+    grid-column: 1 / -1;
+    flex-direction: column;
+  }
+
+  .bridge-rules-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 /* ---------------------------------------------------------------------

@@ -4,11 +4,23 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
 from sheets.models import CharacterSheet, ShipSheet
+from sheets.views import _character_card
 from wiki.content import get_repository
 
-#: The dashboard's "your characters" panel only ever shows a short,
+#: The dashboard's character selection only ever shows a short,
 #: recency-ordered slice -- the full roster lives at ``sheets:character_list``.
 DASHBOARD_CHARACTER_LIMIT = 5
+
+#: The ``_character_card`` stat chips a compact dashboard tile keeps (labels
+#: from ``sheets.views.CARD_STATS``); XP and Profit Factor stay on the roster.
+DASHBOARD_TILE_STATS: tuple[str, ...] = ("Wounds", "Fate")
+
+
+def _dashboard_tile(character: CharacterSheet) -> dict:
+    """A character-list card, trimmed to what a dashboard tile shows."""
+    card = _character_card(character)
+    card["stats"] = [stat for stat in card["stats"] if stat["label"] in DASHBOARD_TILE_STATS]
+    return card
 
 
 def root(request):
@@ -26,9 +38,9 @@ def health(request):
 
 @login_required
 def dashboard(request):
-    """The authenticated home page: a double command center of global
-    search plus equally-weighted entries into the wiki and the caller's own
-    characters, alongside the single shared ship.
+    """The authenticated home page, the Kommandobrücke: rulebook search, a
+    selection of the caller's own characters, the shared ship and grouped
+    deep links into the most-used rule tables.
 
     Deliberately scoped to ``request.user`` -- this must never become a
     query over every user's characters (that is what the separate
@@ -41,23 +53,20 @@ def dashboard(request):
     )
     ship = ShipSheet.objects.filter(is_active=True).order_by("id").first()
     try:
-        repository = get_repository()
-        chapters = repository.chapters()
-        wiki_parts = repository.parts()
+        shortcuts = get_repository().dashboard_shortcuts()
     except RuntimeError:
         # The wiki content repository failed to initialize at startup (see
-        # WikiConfig.ready()) -- degrade the wiki panel to empty rather than
-        # 500ing the whole dashboard.
-        chapters = ()
-        wiki_parts = ()
+        # WikiConfig.ready()) -- drop the shortcuts rather than 500ing the
+        # whole dashboard.
+        shortcuts = ()
 
     return render(
         request,
         "core/dashboard.html",
         {
             "characters": characters,
+            "character_tiles": [_dashboard_tile(character) for character in characters],
             "ship": ship,
-            "chapters": chapters,
-            "wiki_parts": wiki_parts,
+            "shortcuts": shortcuts,
         },
     )

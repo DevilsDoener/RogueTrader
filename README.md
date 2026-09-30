@@ -13,6 +13,7 @@ subject documents are:
 
 - **Wiki chapters — list, reading order, URL slug, grouping:** [`wiki/manifest.py`](wiki/manifest.py)
 - **Wiki quick-access links ("Quick Links"):** `QUICK_LINKS` in [`wiki/manifest.py`](wiki/manifest.py)
+- **Rule shortcuts on the Kommandobrücke ("Regel-Shortcuts"):** `DASHBOARD_SHORTCUTS` in [`wiki/manifest.py`](wiki/manifest.py)
 - **Sheet field & overlay conventions:** [`docs/charakterbogen-feld-anforderungen.md`](docs/charakterbogen-feld-anforderungen.md)
 - **Layout format (sections, templates, coordinates):** [`docs/sheet-layout.md`](docs/sheet-layout.md)
 - **Calibration, fixtures, manifest:** [`docs/sheet-calibration.md`](docs/sheet-calibration.md)
@@ -74,7 +75,12 @@ process start into an immutable in-memory tree, so requests never touch disk.
   sections (level-2 ones included), and bands without a match disappear.
   The "Quick Links" chips come from `QUICK_LINKS` in
   `wiki/manifest.py` (the partial is `wiki/templates/wiki/_quick_links.html`);
-  edit that tuple to change them. "Weiterlesen" lists the places you last
+  edit that tuple to change them. The Kommandobrücke (`/dashboard/`) carries no
+  chapter list; next to the search and the caller's own characters it shows the
+  grouped "Regel-Shortcuts" from `DASHBOARD_SHORTCUTS` in the same file (group
+  title, icon key, `QuickLink`s). Both tuples are checked against the real
+  corpus by `wiki/tests/test_navigation_data.py`; a link whose target is missing
+  is dropped rather than shown dead. "Weiterlesen" lists the places you last
   read. That history (also shown in the empty palette) is kept **only in the
   browser's `localStorage`** (key `rt-wiki-recent`, `static/js/wiki-recent.js`):
   nothing is stored server-side, so it is per browser and gone when site data

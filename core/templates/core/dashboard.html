@@ -3,10 +3,14 @@
 {% block title %}Kommandobr&uuml;cke &ndash; Rogue Trader Portal{% endblock %}
 
 {% block content %}
-  <section class="dashboard-hero" aria-labelledby="dashboard-heading">
+  {% comment %}Hero shares the Bibliothek's classes (portal.css, "Bibliothek"),
+     like the Charaktere page. `dashboard-search` and the input id are hooks
+     the e2e journey tests type into -- keep both.{% endcomment %}
+  <header class="library-hero">
+    <span class="library-eyebrow">Willkommen an Bord</span>
     <h1 id="dashboard-heading">Kommandobr&uuml;cke</h1>
-    <p>Durchsuche das Regelwerk oder spring direkt zu deinen Charakteren und dem gemeinsamen Schiff.</p>
-    <form class="dashboard-search" method="get" action="{% url 'wiki:search' %}" role="search">
+    <p class="library-intro">W&auml;hle einen Charakter, schlag eine Regel am Tisch nach oder durchsuche das ganze Regelwerk.</p>
+    <form class="library-search dashboard-search" method="get" action="{% url 'wiki:search' %}" role="search">
       <label for="dashboard-search-input" class="sr-only">Wiki durchsuchen</label>
       <input
         id="dashboard-search-input"
@@ -17,80 +21,132 @@
       >
       <button type="submit" class="button-primary">Suchen</button>
     </form>
-  </section>
+  </header>
 
-  <div class="command-grid">
-    <section class="command-panel command-panel--primary" aria-labelledby="wiki-panel-heading">
-      <span class="command-panel-eyebrow">Regelwerk</span>
-      <h2 id="wiki-panel-heading">Wiki</h2>
-      {% if chapters %}
-        {% comment %}Grouped the same way as /wiki/, so the two listings agree.
-           A part heading is only shown where a part collects several files;
-           for the numbered chapters it would just repeat the title.{% endcomment %}
-        {% for part_name, part_chapters in wiki_parts %}
-          {% if part_chapters|length > 1 %}
-            <span class="wiki-part-heading">{{ part_name }}</span>
-          {% endif %}
-          <ul class="entry-list">
-            {% for chapter in part_chapters %}
-              <li><a href="{% url 'wiki:chapter' chapter.slug %}">{{ chapter.title }}</a></li>
-            {% endfor %}
-          </ul>
-        {% endfor %}
-      {% else %}
-        <div class="empty-state">
-          <p>Es sind noch keine Kapitel verf&uuml;gbar.</p>
-        </div>
-      {% endif %}
-      <div class="command-panel-footer">
-        <a href="{% url 'wiki:index' %}">Zum vollst&auml;ndigen Wiki</a>
+  {% comment %}Crew and ship side by side from 1280px, stacked below
+     (portal.css, "Kommandobrücke").{% endcomment %}
+  <div class="bridge-deck">
+    <section class="bridge-crew" aria-labelledby="bridge-crew-heading">
+      <div class="bridge-band-head">
+        <h2 class="library-band-heading" id="bridge-crew-heading">Charakterauswahl</h2>
+        {% if character_tiles %}
+          <a class="bridge-band-link" href="{% url 'sheets:character_list' %}">Alle Charaktere</a>
+        {% endif %}
       </div>
-    </section>
 
-    <section class="command-panel command-panel--primary" aria-labelledby="characters-panel-heading">
-      <span class="command-panel-eyebrow">Deine Crew</span>
-      <h2 id="characters-panel-heading">Charaktere</h2>
-      {% if characters %}
-        <ul class="entry-list">
-          {% for character in characters %}
-            <li>
-              <a href="{% url 'sheets:character_detail' character.pk %}">
-                <span>{{ character.display_name|default:"Unbenannter Charakter" }}</span>
-                <span class="entry-meta">{{ character.updated_at|date:"d.m.Y H:i" }}</span>
-              </a>
+      {% if character_tiles %}
+        {% comment %}Tiles come from sheets.views._character_card via
+           core.views._dashboard_tile, newest first. The name link is stretched
+           over the whole tile, so the tile is one click target with a short
+           accessible name.{% endcomment %}
+        <ul class="bridge-crew-grid">
+          {% for card in character_tiles %}
+            <li class="bridge-crew-tile{% if forloop.first %} is-latest{% endif %}">
+              <div class="bridge-crew-head">
+                <span class="crew-card-sigil" aria-hidden="true">{{ card.initial }}</span>
+                <div class="bridge-crew-heading">
+                  <h3 class="bridge-crew-name">
+                    <a class="bridge-crew-link" href="{% url 'sheets:character_detail' card.pk %}">{{ card.name }}</a>
+                  </h3>
+                  {% if card.career_rank %}
+                    <p class="bridge-crew-meta">{{ card.career_rank|join:" · " }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              {% if forloop.first %}
+                <span class="bridge-crew-latest">Zuletzt bearbeitet</span>
+              {% endif %}
+
+              {% if card.has_characteristics %}
+                <dl class="crew-card-characteristics bridge-crew-values" aria-label="Characteristics">
+                  {% for characteristic in card.characteristics %}
+                    <div class="crew-characteristic{% if not characteristic.value %} is-empty{% endif %}">
+                      <dt>{{ characteristic.label }}</dt>
+                      <dd>{{ characteristic.value|default:"–" }}</dd>
+                    </div>
+                  {% endfor %}
+                </dl>
+              {% else %}
+                <p class="crew-card-blank">Noch keine Werte eingetragen.</p>
+              {% endif %}
+
+              <div class="bridge-crew-foot">
+                {% if card.stats %}
+                  <ul class="crew-card-stats">
+                    {% for stat in card.stats %}
+                      <li class="crew-stat">
+                        <span class="crew-stat-label">{{ stat.label }}</span>
+                        <span class="crew-stat-value">{{ stat.value }}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+                <time class="bridge-crew-updated" datetime="{{ card.updated_at|date:'c' }}">{{ card.updated_at|date:'d.m.Y H:i' }}</time>
+              </div>
             </li>
           {% endfor %}
-        </ul>
-        <div class="command-panel-footer">
-          <a href="{% url 'sheets:character_list' %}">Alle Charaktere ansehen</a>
-        </div>
-      {% else %}
-        <div class="empty-state">
-          <p>Du hast noch keinen Charakter angelegt.</p>
-          <a class="button button-primary" href="{% url 'sheets:character_list' %}">Ersten Charakter erstellen</a>
-        </div>
-      {% endif %}
-    </section>
-
-    <section class="command-panel" aria-labelledby="ship-panel-heading">
-      <span class="command-panel-eyebrow">Gemeinsames Schiff</span>
-      <h2 id="ship-panel-heading">Schiff</h2>
-      {% if ship %}
-        <ul class="entry-list">
-          <li>
-            <a href="{% url 'sheets:ship_detail' ship.pk %}">
-              <span>{{ ship.display_name }}</span>
+          <li class="bridge-crew-new-slot">
+            <a class="bridge-crew-new" href="{% url 'sheets:character_list' %}#create-character">
+              <span class="bridge-crew-new-mark" aria-hidden="true">+</span>
+              <span class="bridge-crew-new-title">Neuer Charakter</span>
+              <span class="bridge-crew-new-note">Ein Name gen&uuml;gt &ndash; alles Weitere tr&auml;gst du im Bogen ein.</span>
             </a>
           </li>
         </ul>
-        <div class="command-panel-footer">
-          <a href="{% url 'sheets:ship_history' ship.pk %}">Verlauf ansehen</a>
-        </div>
       {% else %}
-        <div class="empty-state">
+        <div class="crew-empty">
+          <p class="crew-empty-title">Noch keine Charaktere vorhanden.</p>
+          <p>Deine Crew ist noch leer. Ein Name gen&uuml;gt, alles Weitere tr&auml;gst du im Bogen ein.</p>
+          <a class="button button-primary bridge-crew-empty-action" href="{% url 'sheets:character_list' %}#create-character">Ersten Charakter erstellen</a>
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="bridge-ship-section" aria-labelledby="bridge-ship-heading">
+      <div class="bridge-band-head">
+        <h2 class="library-band-heading" id="bridge-ship-heading">Schiff</h2>
+      </div>
+      {% if ship %}
+        <article class="bridge-ship">
+          <span class="bridge-glyph bridge-glyph-large" aria-hidden="true">{% include "core/_shortcut_glyph.html" with glyph="starship" %}</span>
+          <div class="bridge-ship-body">
+            <span class="bridge-ship-eyebrow">Gemeinsames Schiff</span>
+            <h3 class="bridge-ship-name"><a href="{% url 'sheets:ship_detail' ship.pk %}">{{ ship.display_name }}</a></h3>
+            <p class="bridge-ship-note">Die ganze Crew f&uuml;hrt diesen Bogen gemeinsam; jede &Auml;nderung steht im Verlauf.</p>
+          </div>
+          <div class="bridge-ship-actions">
+            <a class="button button-primary" href="{% url 'sheets:ship_detail' ship.pk %}">Bogen &ouml;ffnen</a>
+            <a class="button" href="{% url 'sheets:ship_history' ship.pk %}">Verlauf ansehen</a>
+          </div>
+        </article>
+      {% else %}
+        <div class="crew-empty">
           <p>Es ist noch kein Schiff konfiguriert.</p>
         </div>
       {% endif %}
     </section>
   </div>
+
+  {% if shortcuts %}
+    {% comment %}WikiRepository.dashboard_shortcuts(): groups from
+       wiki.manifest.DASHBOARD_SHORTCUTS, unresolvable links already dropped.
+       Labels and group titles are English (book content).{% endcomment %}
+    <section class="bridge-rules" aria-labelledby="bridge-rules-heading">
+      <div class="bridge-band-head">
+        <h2 class="library-band-heading" id="bridge-rules-heading">Regel-Shortcuts</h2>
+        <a class="bridge-band-link" href="{% url 'wiki:index' %}">Zur Bibliothek</a>
+      </div>
+      <div class="bridge-rules-grid">
+        {% for group, links in shortcuts %}
+          <section class="bridge-rule-group" aria-labelledby="bridge-rule-group-{{ forloop.counter }}">
+            <div class="bridge-rule-head">
+              <span class="bridge-glyph" aria-hidden="true">{% include "core/_shortcut_glyph.html" with glyph=group.glyph %}</span>
+              <h3 class="bridge-rule-title" id="bridge-rule-group-{{ forloop.counter }}">{{ group.title }}</h3>
+            </div>
+            {% include "wiki/_quick_links.html" with quick_links=links %}
+          </section>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
 {% endblock %}

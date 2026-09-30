@@ -4,7 +4,7 @@ import pytest
 from django.conf import settings as django_settings
 
 from wiki.content import WikiChapter, WikiRepository, WikiSection
-from wiki.manifest import QUICK_LINKS, QuickLink
+from wiki.manifest import DASHBOARD_SHORTCUTS, QUICK_LINKS, QuickLink, ShortcutGroup
 from wiki.search import MIN_QUERY_LENGTH
 
 
@@ -216,3 +216,50 @@ def test_every_curated_quick_link_resolves_against_the_real_corpus(settings):
     repository = WikiRepository.load()
 
     assert len(repository.quick_links()) == len(QUICK_LINKS)
+
+
+# -- dashboard shortcuts ----------------------------------------------------
+
+
+def test_dashboard_shortcuts_drop_missing_links_and_empty_groups(
+    tmp_path, settings, monkeypatch
+):
+    repository = _load(
+        tmp_path, settings, {"01-Tree.md": "# Tree\n\n## Alpha\nA.\n\n## Beta\nB.\n"}
+    )
+    alpha = QuickLink("Alpha", "tree", "alpha")
+    beta = QuickLink("Beta", "tree", "beta")
+    kept = ShortcutGroup(
+        "Kept", "combat", (alpha, QuickLink("No Section", "tree", "missing"), beta)
+    )
+    emptied = ShortcutGroup("Emptied", "trade", (QuickLink("No Chapter", "nope", "alpha"),))
+    monkeypatch.setattr("wiki.content.DASHBOARD_SHORTCUTS", (kept, emptied))
+    tree = repository.get_chapter("tree")
+
+    assert repository.dashboard_shortcuts() == ((kept, ((alpha, tree), (beta, tree))),)
+
+
+def test_dashboard_shortcut_groups_are_non_empty_and_uniquely_titled():
+    titles = [group.title for group in DASHBOARD_SHORTCUTS]
+
+    assert len(titles) == len(set(titles))
+    assert all(group.links and group.glyph for group in DASHBOARD_SHORTCUTS)
+
+
+@pytest.mark.skipif(
+    not (django_settings.BASE_DIR / "content" / "03-Skills.md").exists(),
+    reason="real wiki content is not available in this checkout",
+)
+def test_every_dashboard_shortcut_resolves_against_the_real_corpus(settings):
+    from wiki.manifest import ALLOWLIST
+
+    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
+    settings.WIKI_CONTENT_ALLOWLIST = list(ALLOWLIST)
+    repository = WikiRepository.load()
+
+    resolved = {
+        group.title: [link for link, _chapter in links]
+        for group, links in repository.dashboard_shortcuts()
+    }
+
+    assert resolved == {group.title: list(group.links) for group in DASHBOARD_SHORTCUTS}

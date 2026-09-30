@@ -137,14 +137,12 @@ def _character_card(character: CharacterSheet) -> dict:
     values = character.values if isinstance(character.values, dict) else {}
     name = (character.display_name or "").strip() or "Unbenannter Charakter"
 
+    career = _card_value(values, "c1_career_path")
     rank = _card_value(values, "c1_rank")
+    rank_label = f"Rank {rank}" if rank else ""
     subtitle = [
         part
-        for part in (
-            _card_value(values, "c1_career_path"),
-            f"Rank {rank}" if rank else "",
-            _card_value(values, "c1_home_world"),
-        )
+        for part in (career, rank_label, _card_value(values, "c1_home_world"))
         if part
     ]
 
@@ -167,6 +165,8 @@ def _character_card(character: CharacterSheet) -> dict:
         "name": name,
         "initial": name[0].upper(),
         "subtitle": subtitle,
+        # Career and rank alone, for the dashboard's compact tiles (no home world).
+        "career_rank": [part for part in (career, rank_label) if part],
         "characteristics": characteristics,
         "has_characteristics": any(c["value"] for c in characteristics),
         "stats": stats,
