@@ -1,10 +1,8 @@
 """The chapter manifest is the single source of truth.
 
-The list used to live in four places -- config/settings.py, .env, .env.example
-and compose.yaml -- and doubled as both the security filter and the ordering,
-with no test comparing it against what is actually on disk.
+It is both the security filter and the reading order, so these tests pin its
+shape and compare it against what is actually on disk.
 """
-import pytest
 from django.conf import settings
 from django.core.checks import Error
 from django.core.checks import Warning as CheckWarning
@@ -30,24 +28,60 @@ def test_source_names_are_unique():
     assert len(names) == len(set(names))
 
 
-def test_every_chapter_belongs_to_a_part():
-    assert all(entry.part for entry in manifest.CHAPTERS)
+#: What every chapter shows as its numeral and which Bibliothek band lists it.
+BOOK_NUMERALS_AND_BANDS = {
+    "foreword": ("", "Front Matter"),
+    "inhaltsverzeichnis-und-einleitung": ("", "Front Matter"),
+    "charaktererschaffung": ("I", "Chapters"),
+    "karrierewege": ("II", "Chapters"),
+    "skills": ("III", "Chapters"),
+    "talents": ("IV", "Chapters"),
+    "armoury": ("V", "Chapters"),
+    "psychic-powers": ("VI", "Chapters"),
+    "navigator-powers": ("VII", "Chapters"),
+    "starships": ("VIII", "Chapters"),
+    "playing-the-game": ("IX", "Chapters"),
+    "the-game-master": ("X", "Chapters"),
+    "the-imperium": ("XI", "Chapters"),
+    "rogue-traders": ("XII", "Chapters"),
+    "the-koronus-expanse": ("XIII", "Chapters"),
+    "adversaries-and-aliens": ("XIV", "Chapters"),
+    "allies-enemies-and-rivals": ("XIV", "Chapters"),
+    "mutations": ("XIV", "Chapters"),
+    "traits": ("XIV", "Chapters"),
+    "into-the-maw": ("XV", "Chapters"),
+    "index": ("", "Appendix"),
+}
+
+
+def test_every_chapter_has_its_book_numeral_and_band():
+    assert {
+        entry.slug: (entry.numeral, entry.band) for entry in manifest.CHAPTERS
+    } == BOOK_NUMERALS_AND_BANDS
+    assert list(BOOK_NUMERALS_AND_BANDS) == [entry.slug for entry in manifest.CHAPTERS]
+
+
+def test_bands_are_known_and_only_numbered_chapters_have_a_numeral():
+    for entry in manifest.CHAPTERS:
+        assert entry.band in manifest.BANDS, entry
+        assert bool(entry.numeral) == (entry.band == manifest.BAND_CHAPTERS), entry
 
 
 def test_chapter_xiv_keeps_its_four_files_together():
     """The book's chapter XIV was split along the PDF's own bookmarks."""
-    parts = [entry.part for entry in manifest.CHAPTERS]
+    numerals = [entry.numeral for entry in manifest.CHAPTERS]
 
-    assert parts.count("Chapter XIV") == 4
-    first = parts.index("Chapter XIV")
-    assert parts[first : first + 4] == ["Chapter XIV"] * 4
+    assert numerals.count("XIV") == 4
+    first = numerals.index("XIV")
+    assert numerals[first : first + 4] == ["XIV"] * 4
 
 
 def test_an_unknown_source_name_gets_a_neutral_entry():
     entry = manifest.entry_for("99-Nonexistent.md")
 
     assert entry.slug == ""
-    assert entry.part == ""
+    assert entry.numeral == ""
+    assert entry.band == manifest.BAND_CHAPTERS
     assert entry.search_weight == 1.0
 
 
@@ -114,9 +148,5 @@ def test_deliberately_excluded_files_do_not_warn(tmp_path, settings):
     assert check_wiki_content(None) == []
 
 
-@pytest.mark.skipif(
-    not (settings.WIKI_CONTENT_ROOT / "03-Skills.md").exists(),
-    reason="real wiki content is not available in this checkout",
-)
 def test_the_real_content_tree_passes_its_own_checks():
     assert check_wiki_content(None) == []

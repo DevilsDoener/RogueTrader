@@ -18,7 +18,7 @@ class WikiConfig(AppConfig):
 
         register(check_wiki_content)
 
-        strict = getattr(settings, "WIKI_STRICT_CONTENT", False)
+        strict = settings.WIKI_STRICT_CONTENT
 
         try:
             content.initialize_repository()

@@ -2,10 +2,10 @@
 
 Three things shape the ranking here, each chosen against the real corpus:
 
-- **German queries used to return nothing at all.** The interface is German,
-  the group speaks German, and the book is English -- "Stärke", "Waffe",
-  "Schiff" and "Deckung" all scored zero hits. Diacritic folding does not help
-  (only 35 of ~101,000 tokens carry an umlaut); a curated alias table does.
+- **German queries go through an alias table.** The interface is German, the
+  group speaks German, and the book is English -- without it "Stärke",
+  "Waffe", "Schiff" and "Deckung" score zero hits. Diacritic folding does not
+  help (only 35 of ~101,000 tokens carry an umlaut); a curated alias table does.
 - **Term frequency saturates.** Raw counts let one very long section win
   almost any term it happens to repeat. True length normalisation
   (sqrt/log/BM25) over-corrects on this corpus: it promotes a statblock that
@@ -13,14 +13,15 @@ Three things shape the ranking here, each chosen against the real corpus:
   the section literally titled "Profit Factor" off the top spot. Saturating
   the body count keeps the wins and avoids that.
 - **Some chapters are navigation, not rules.** The page-number index and the
-  foreword were taking top spots for ordinary words; their weight comes from
-  ``wiki/manifest.py``.
+  foreword would take top spots for ordinary words; their lower weight comes
+  from ``wiki/manifest.py``.
 """
 from __future__ import annotations
 
 import bisect
 import html
 import re
+from collections import Counter
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 
@@ -139,7 +140,6 @@ QUERY_ALIASES: Dict[str, Tuple[str, ...]] = {
 @dataclass(frozen=True)
 class SearchResult:
     chapter_slug: str
-    chapter_title: str
     section_id: str
     title: str
     snippet: str
@@ -152,13 +152,6 @@ class SearchResult:
 def tokenize(text: str) -> List[str]:
     """Casefolded Unicode word tokens."""
     return _TOKEN_RE.findall((text or "").casefold())
-
-
-def _count_tokens(tokens: Iterable[str]) -> Dict[str, int]:
-    counts: Dict[str, int] = {}
-    for token in tokens:
-        counts[token] = counts.get(token, 0) + 1
-    return counts
 
 
 def _saturate(count: int) -> float:
@@ -342,10 +335,9 @@ class SearchIndex:
                     # counts as a match for one term.
                     break
                 total += best
-                if best_variant:
-                    matched.add(best_variant)
+                matched.add(best_variant)
             else:
-                weighted = total * getattr(chapter, "search_weight", 1.0)
+                weighted = total * chapter.search_weight
                 if weighted > 0:
                     scored.append(
                         (
@@ -365,12 +357,11 @@ class SearchIndex:
             results.append(
                 SearchResult(
                     chapter_slug=chapter.slug,
-                    chapter_title=chapter.title,
                     section_id=section.id,
                     title=section.title,
-                    snippet=_make_snippet(section.plain_text, matched or terms),
+                    snippet=_make_snippet(section.plain_text, matched),
                     score=score,
-                    path=tuple(getattr(section, "parent_titles", ())),
+                    path=section.parent_titles,
                 )
             )
         return tuple(results)
@@ -381,8 +372,8 @@ def build_search_index(chapters: Iterable[object]) -> SearchIndex:
     vocabulary: Set[str] = set()
     for chapter in chapters:
         for section in chapter.sections:
-            title_tokens = _count_tokens(tokenize(section.title))
-            body_tokens = _count_tokens(tokenize(section.plain_text))
+            title_tokens = Counter(tokenize(section.title))
+            body_tokens = Counter(tokenize(section.plain_text))
             vocabulary.update(title_tokens)
             vocabulary.update(body_tokens)
             entries.append((chapter, section, title_tokens, body_tokens))

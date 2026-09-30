@@ -41,11 +41,15 @@ def _section_rank(title: str, query: str, first_token: str) -> int:
     return 2
 
 
+def _contains_all(tokens: List[str], text: str) -> bool:
+    folded = text.casefold()
+    return all(token in folded for token in tokens)
+
+
 def _matching_chapters(repository, tokens: List[str]) -> list:
     found = []
     for chapter in repository.chapters():
-        folded = chapter.title.casefold()
-        if all(token in folded for token in tokens):
+        if _contains_all(tokens, chapter.title):
             found.append(chapter)
             if len(found) == MAX_CHAPTERS:
                 break
@@ -72,16 +76,11 @@ def _matching_sections(
                 continue
             if chapter.slug in listed and _repeats_chapter(chapter, section):
                 continue
-            folded = section.title.casefold()
-            if all(token in folded for token in tokens):
+            if _contains_all(tokens, section.title):
                 rank = _section_rank(section.title, query, tokens[0])
                 ranked.append((rank, chapter.ordinal, section.ordinal, chapter, section))
     ranked.sort(key=lambda item: item[:3])
     return [(chapter, section) for *_key, chapter, section in ranked[:MAX_SECTIONS]]
-
-
-def _find_section(chapter, section_id: str):
-    return next((s for s in chapter.sections if s.id == section_id), None)
 
 
 def suggest(repository, query: str) -> dict:
@@ -131,7 +130,7 @@ def suggest(repository, query: str) -> dict:
             continue
         chapter = repository.get_chapter(hit.chapter_slug)
         if hit.chapter_slug in listed_chapters:
-            section = _find_section(chapter, hit.section_id)
+            section = chapter.sections_by_id.get(hit.section_id)
             if section is not None and _repeats_chapter(chapter, section):
                 continue
         hits.append(

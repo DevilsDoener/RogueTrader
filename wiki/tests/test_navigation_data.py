@@ -1,40 +1,42 @@
 """Server-side data behind the Auspex navigation: ancestry, numerals, search
 paths, unlimited search, highlight terms and curated quick links."""
 import pytest
-from django.conf import settings as django_settings
 
 from wiki.content import WikiChapter, WikiRepository, WikiSection
-from wiki.manifest import DASHBOARD_SHORTCUTS, QUICK_LINKS, QuickLink, ShortcutGroup
-from wiki.search import MIN_QUERY_LENGTH
+from wiki.manifest import (
+    ALLOWLIST,
+    BAND_APPENDIX,
+    BAND_CHAPTERS,
+    DASHBOARD_SHORTCUTS,
+    QUICK_LINKS,
+    QuickLink,
+    ShortcutGroup,
+)
+from wiki.search import MIN_QUERY_LENGTH, SearchResult
 
 
-def _load(tmp_path, settings, files):
-    for name, text in files.items():
-        (tmp_path / name).write_text(text, encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = list(files)
+def _chapter(title="Title"):
+    return WikiChapter(slug="x", title=title, source_name="x.md", sections=(), ordinal=0)
+
+
+@pytest.fixture
+def real_corpus(settings):
+    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
+    settings.WIKI_CONTENT_ALLOWLIST = list(ALLOWLIST)
     return WikiRepository.load()
-
-
-def _chapter(part="", title="Title"):
-    return WikiChapter(
-        slug="x", title=title, source_name="x.md", sections=(), ordinal=0, part=part
-    )
 
 
 # -- parent_titles ----------------------------------------------------------
 
 
-def test_parent_titles_follow_the_heading_ancestry(tmp_path, settings):
-    repository = _load(
-        tmp_path,
-        settings,
+def test_parent_titles_follow_the_heading_ancestry(make_repository):
+    repository = make_repository(
         {
             "01-Tree.md": (
                 "# Tree\nIntro text.\n\n"
                 "## Alpha\nA.\n\n### Beta\nB.\n\n#### Gamma\nG.\n\n## Delta\nD.\n"
             )
-        },
+        }
     )
     chapter = repository.get_chapter("tree")
     by_title = {section.title: section for section in chapter.sections}
@@ -45,10 +47,8 @@ def test_parent_titles_follow_the_heading_ancestry(tmp_path, settings):
     assert by_title["Delta"].parent_titles == ()
 
 
-def test_intro_contributes_nothing_to_the_ancestry(tmp_path, settings):
-    repository = _load(
-        tmp_path, settings, {"01-Tree.md": "# Tree\nIntro text.\n\n## Alpha\nA.\n"}
-    )
+def test_intro_contributes_nothing_to_the_ancestry(make_repository):
+    repository = make_repository({"01-Tree.md": "# Tree\nIntro text.\n\n## Alpha\nA.\n"})
     chapter = repository.get_chapter("tree")
     intro = next(section for section in chapter.sections if section.is_intro)
     alpha = next(section for section in chapter.sections if section.title == "Alpha")
@@ -58,30 +58,32 @@ def test_intro_contributes_nothing_to_the_ancestry(tmp_path, settings):
 
 
 def test_wiki_section_parent_titles_defaults_to_empty():
-    section = WikiSection(
-        id="a", chapter_slug="c", chapter_title="C", title="A",
-        plain_text="", html="", ordinal=0,
-    )
+    section = WikiSection(id="a", title="A", plain_text="", html="", ordinal=0)
 
     assert section.parent_titles == ()
 
 
-# -- numeral / short_title --------------------------------------------------
+# -- numeral / band / short_title -------------------------------------------
 
 
-@pytest.mark.parametrize(
-    ("part", "numeral"),
-    [
-        ("Chapter IV", "IV"),
-        ("Chapter XIV", "XIV"),
-        ("Chapter   IX", "IX"),
-        ("Front Matter", ""),
-        ("Appendix", ""),
-        ("", ""),
-    ],
-)
-def test_numeral_comes_from_the_part(part, numeral):
-    assert _chapter(part=part).numeral == numeral
+def test_numeral_and_band_come_from_the_manifest(make_repository):
+    repository = make_repository(
+        {
+            "04-Talents.md": "# Talents\n",
+            "14-Traits.md": "# Traits\n",
+            "16-Index.md": "# Index\n",
+            "99-Unlisted.md": "# Unlisted\n",
+        }
+    )
+
+    assert [
+        (chapter.slug, chapter.numeral, chapter.band) for chapter in repository.chapters()
+    ] == [
+        ("talents", "IV", BAND_CHAPTERS),
+        ("traits", "XIV", BAND_CHAPTERS),
+        ("index", "", BAND_APPENDIX),
+        ("unlisted", "", BAND_CHAPTERS),
+    ]
 
 
 @pytest.mark.parametrize(
@@ -99,8 +101,8 @@ def test_short_title_drops_the_chapter_prefix(title, short):
     assert _chapter(title=title).short_title == short
 
 
-def test_front_matter_chapter_has_no_numeral_and_keeps_its_title(tmp_path, settings):
-    repository = _load(tmp_path, settings, {"00-Foreword.md": "# Foreword\nHello.\n"})
+def test_front_matter_chapter_has_no_numeral_and_keeps_its_title(make_repository):
+    repository = make_repository({"00-Foreword.md": "# Foreword\nHello.\n"})
     chapter = repository.get_chapter("foreword")
 
     assert chapter.numeral == ""
@@ -110,11 +112,9 @@ def test_front_matter_chapter_has_no_numeral_and_keeps_its_title(tmp_path, setti
 # -- search result path, limit, highlight terms -----------------------------
 
 
-def test_search_result_carries_the_section_path(tmp_path, settings):
-    repository = _load(
-        tmp_path,
-        settings,
-        {"01-Tree.md": "# Tree\n\n## Alpha\nA.\n\n### Beta\nA zebrafish swims.\n"},
+def test_search_result_carries_the_section_path(make_repository):
+    repository = make_repository(
+        {"01-Tree.md": "# Tree\n\n## Alpha\nA.\n\n### Beta\nA zebrafish swims.\n"}
     )
 
     result = repository.search("zebrafish")[0]
@@ -124,17 +124,15 @@ def test_search_result_carries_the_section_path(tmp_path, settings):
 
 
 def test_search_result_path_defaults_to_empty():
-    from wiki.search import SearchResult
-
-    result = SearchResult("c", "C", "s", "t", "", 1.0)
+    result = SearchResult("c", "s", "t", "", 1.0)
 
     assert result.path == ()
 
 
 @pytest.fixture
-def many_matches(tmp_path, settings):
+def many_matches(make_repository):
     body = "".join(f"## Entry {index}\nA plasma note.\n\n" for index in range(45))
-    return _load(tmp_path, settings, {"01-Many.md": f"# Many\n\n{body}"})
+    return make_repository({"01-Many.md": f"# Many\n\n{body}"})
 
 
 def test_search_default_limit_is_still_thirty(many_matches):
@@ -145,10 +143,8 @@ def test_search_with_limit_none_returns_everything(many_matches):
     assert len(many_matches.search("plasma", limit=None)) == 45
 
 
-def test_highlight_terms_include_aliases_without_prefix_expansion(tmp_path, settings):
-    repository = _load(
-        tmp_path, settings, {"01-Weapons.md": "# Weapons\nWeaponsmith and weapons.\n"}
-    )
+def test_highlight_terms_include_aliases_without_prefix_expansion(make_repository):
+    repository = make_repository({"01-Weapons.md": "# Weapons\nWeaponsmith and weapons.\n"})
 
     terms = repository.highlight_terms("Waffe")
 
@@ -158,16 +154,16 @@ def test_highlight_terms_include_aliases_without_prefix_expansion(tmp_path, sett
     assert terms == tuple(sorted(set(terms)))
 
 
-def test_highlight_terms_are_empty_for_a_short_query(tmp_path, settings):
-    repository = _load(tmp_path, settings, {"01-Weapons.md": "# Weapons\nx\n"})
+def test_highlight_terms_are_empty_for_a_short_query(make_repository):
+    repository = make_repository({"01-Weapons.md": "# Weapons\nx\n"})
 
     assert repository.highlight_terms("x") == ()
     assert repository.highlight_terms("") == ()
     assert MIN_QUERY_LENGTH == 2
 
 
-def test_highlight_terms_drop_single_character_tokens(tmp_path, settings):
-    repository = _load(tmp_path, settings, {"01-Weapons.md": "# Weapons\nx\n"})
+def test_highlight_terms_drop_single_character_tokens(make_repository):
+    repository = make_repository({"01-Weapons.md": "# Weapons\nx\n"})
 
     assert repository.highlight_terms("a plasma") == ("plasma",)
 
@@ -185,10 +181,8 @@ def test_quick_link_is_a_frozen_value():
         link.label = "x"
 
 
-def test_quick_links_drop_entries_whose_target_is_missing(tmp_path, settings, monkeypatch):
-    repository = _load(
-        tmp_path, settings, {"01-Tree.md": "# Tree\n\n## Alpha\nA.\n"}
-    )
+def test_quick_links_drop_entries_whose_target_is_missing(make_repository, monkeypatch):
+    repository = make_repository({"01-Tree.md": "# Tree\n\n## Alpha\nA.\n"})
     good = QuickLink("Alpha", "tree", "alpha")
     monkeypatch.setattr(
         "wiki.content.QUICK_LINKS",
@@ -202,31 +196,15 @@ def test_quick_links_drop_entries_whose_target_is_missing(tmp_path, settings, mo
     assert repository.quick_links() == ((good, repository.get_chapter("tree")),)
 
 
-@pytest.mark.skipif(
-    not (django_settings.BASE_DIR / "content" / "03-Skills.md").exists(),
-    reason="real wiki content is not available in this checkout",
-)
-def test_every_curated_quick_link_resolves_against_the_real_corpus(settings):
-    from wiki.manifest import ALLOWLIST
-
-    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
-    settings.WIKI_CONTENT_ALLOWLIST = list(ALLOWLIST)
-    # ``load`` builds a fresh repository and never touches the process-wide
-    # singleton, so there is nothing to restore afterwards.
-    repository = WikiRepository.load()
-
-    assert len(repository.quick_links()) == len(QUICK_LINKS)
+def test_every_curated_quick_link_resolves_against_the_real_corpus(real_corpus):
+    assert len(real_corpus.quick_links()) == len(QUICK_LINKS)
 
 
 # -- dashboard shortcuts ----------------------------------------------------
 
 
-def test_dashboard_shortcuts_drop_missing_links_and_empty_groups(
-    tmp_path, settings, monkeypatch
-):
-    repository = _load(
-        tmp_path, settings, {"01-Tree.md": "# Tree\n\n## Alpha\nA.\n\n## Beta\nB.\n"}
-    )
+def test_dashboard_shortcuts_drop_missing_links_and_empty_groups(make_repository, monkeypatch):
+    repository = make_repository({"01-Tree.md": "# Tree\n\n## Alpha\nA.\n\n## Beta\nB.\n"})
     alpha = QuickLink("Alpha", "tree", "alpha")
     beta = QuickLink("Beta", "tree", "beta")
     kept = ShortcutGroup(
@@ -246,20 +224,10 @@ def test_dashboard_shortcut_groups_are_non_empty_and_uniquely_titled():
     assert all(group.links and group.glyph for group in DASHBOARD_SHORTCUTS)
 
 
-@pytest.mark.skipif(
-    not (django_settings.BASE_DIR / "content" / "03-Skills.md").exists(),
-    reason="real wiki content is not available in this checkout",
-)
-def test_every_dashboard_shortcut_resolves_against_the_real_corpus(settings):
-    from wiki.manifest import ALLOWLIST
-
-    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
-    settings.WIKI_CONTENT_ALLOWLIST = list(ALLOWLIST)
-    repository = WikiRepository.load()
-
+def test_every_dashboard_shortcut_resolves_against_the_real_corpus(real_corpus):
     resolved = {
         group.title: [link for link, _chapter in links]
-        for group, links in repository.dashboard_shortcuts()
+        for group, links in real_corpus.dashboard_shortcuts()
     }
 
     assert resolved == {group.title: list(group.links) for group in DASHBOARD_SHORTCUTS}

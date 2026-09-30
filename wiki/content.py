@@ -15,6 +15,7 @@ from __future__ import annotations
 import logging
 import re
 from dataclasses import dataclass
+from functools import cached_property
 from itertools import count
 from pathlib import Path
 from typing import Dict, Iterator, List, Optional, Tuple
@@ -22,19 +23,26 @@ from typing import Dict, Iterator, List, Optional, Tuple
 from django.conf import settings
 from django.utils.text import slugify
 
-from .manifest import DASHBOARD_SHORTCUTS, QUICK_LINKS, QuickLink, ShortcutGroup, entry_for
+from .manifest import (
+    BAND_CHAPTERS,
+    DASHBOARD_SHORTCUTS,
+    QUICK_LINKS,
+    QuickLink,
+    ShortcutGroup,
+    entry_for,
+)
 from .markdown import SafeMarkdownRenderer
 from .outline import MIN_SECTION_LEVEL, OutlineNode, parse_outline
 from .search import SearchIndex, build_search_index
 
 logger = logging.getLogger(__name__)
 
+_CHAPTER_PREFIX_RE = re.compile(r"^Chapter\s+[0-9IVXLC]+\s*[:\-–]\s*", re.IGNORECASE)
+
 
 @dataclass(frozen=True)
 class WikiSection:
     id: str
-    chapter_slug: str
-    chapter_title: str
     title: str
     plain_text: str
     html: str
@@ -50,6 +58,12 @@ class WikiSection:
     #: Titles of the enclosing headings, outermost first. The intro node is
     #: not a heading and never appears here.
     parent_titles: Tuple[str, ...] = ()
+    #: True for the single implicit section built from the content between the
+    #: H1 title and the first following heading. Its title always equals the
+    #: chapter title, so templates use this flag -- not string comparison
+    #: between `id` and the chapter slug, which only coincide by accident -- to
+    #: avoid rendering a redundant heading.
+    is_intro: bool = False
 
     @property
     def is_glossary(self) -> bool:
@@ -60,21 +74,16 @@ class WikiSection:
         table-of-contents list buries the rest of the chapter, so the template
         shows them as a compact index instead.
         """
-        threshold = getattr(settings, "WIKI_TOC_GLOSSARY_THRESHOLD", 0)
+        threshold = settings.WIKI_TOC_GLOSSARY_THRESHOLD
         if not threshold or len(self.children) < threshold:
             return False
         return all(not child.children for child in self.children)
 
-    # True for the single implicit section built from the content between the
-    # H1 title and the first following heading. Its title always equals the
-    # chapter title, so templates use this flag -- not string comparison
-    # between `id` and `chapter_slug`, which only coincide by accident -- to
-    # avoid rendering a redundant heading.
-    is_intro: bool = False
-
 
 @dataclass(frozen=True)
 class WikiChapter:
+    """One chapter. Immutable, so the derived views below are cached."""
+
     slug: str
     title: str
     source_name: str
@@ -82,24 +91,18 @@ class WikiChapter:
     ordinal: int
     #: Top-level sections only; each carries its own ``children``.
     outline: Tuple[WikiSection, ...] = ()
-    #: Grouping key from wiki/manifest.py; empty for a file reaching the
-    #: parser only through a WIKI_CONTENT_ALLOWLIST override.
-    part: str = ""
+    #: Roman numeral and Bibliothek band from wiki/manifest.py.
+    numeral: str = ""
+    band: str = BAND_CHAPTERS
     search_weight: float = 1.0
 
-    @property
-    def numeral(self) -> str:
-        """Roman numeral of a numbered book chapter, ``""`` for front matter."""
-        match = _PART_NUMERAL_RE.match(self.part)
-        return match.group(1) if match else ""
-
-    @property
+    @cached_property
     def short_title(self) -> str:
         """The title without its leading "Chapter V:" style label."""
         stripped = _CHAPTER_PREFIX_RE.sub("", self.title).strip()
         return stripped or self.title
 
-    @property
+    @cached_property
     def navigable_sections(self) -> Tuple[WikiSection, ...]:
         """Top-level sections a reader can jump to, excluding the intro.
 
@@ -108,15 +111,19 @@ class WikiChapter:
         """
         return tuple(section for section in self.outline if not section.is_intro)
 
-
-_PART_NUMERAL_RE = re.compile(r"^Chapter\s+([IVXLC]+)$")
-_CHAPTER_PREFIX_RE = re.compile(r"^Chapter\s+[0-9IVXLC]+\s*[:\-–]\s*", re.IGNORECASE)
+    @cached_property
+    def sections_by_id(self) -> Dict[str, WikiSection]:
+        """Every section keyed by its anchor id (the first one wins)."""
+        by_id: Dict[str, WikiSection] = {}
+        for section in self.sections:
+            by_id.setdefault(section.id, section)
+        return by_id
 
 
 def _editorial_patterns() -> Tuple[re.Pattern, ...]:
     return tuple(
         re.compile(pattern)
-        for pattern in getattr(settings, "WIKI_EDITORIAL_SECTION_PATTERNS", ())
+        for pattern in settings.WIKI_EDITORIAL_SECTION_PATTERNS
     )
 
 
@@ -154,9 +161,9 @@ def _parse_chapter(
     )
 
     # The slug comes from the manifest so that renaming a Markdown file cannot
-    # silently move a page. A file reaching us without a manifest entry (only
-    # possible via a WIKI_CONTENT_ALLOWLIST override) falls back to the old
-    # filename-derived slug.
+    # silently move a page. A file without a manifest entry (a
+    # WIKI_CONTENT_ALLOWLIST override or a test fixture) gets a slug derived
+    # from its filename.
     entry = entry_for(source_name)
     if entry.slug:
         chapter_slug = _unique_slug(entry.slug, chapter_slugs_seen)
@@ -176,8 +183,6 @@ def _parse_chapter(
         child_path = parent_titles if node.is_intro else parent_titles + (node.title,)
         return WikiSection(
             id=node.anchor,
-            chapter_slug=chapter_slug,
-            chapter_title=title,
             title=node.title,
             title_html=node.title_html,
             plain_text=node.plain_text,
@@ -197,7 +202,8 @@ def _parse_chapter(
         sections=tuple(_flatten(outline)),
         ordinal=ordinal,
         outline=outline,
-        part=entry.part,
+        numeral=entry.numeral,
+        band=entry.band,
         search_weight=entry.search_weight,
     )
     return chapter, dropped
@@ -257,22 +263,6 @@ class WikiRepository:
     def chapters(self) -> Tuple[WikiChapter, ...]:
         return self._chapters
 
-    def parts(self) -> Tuple[Tuple[str, Tuple[WikiChapter, ...]], ...]:
-        """Chapters grouped by their manifest ``part``, in reading order.
-
-        Returned as a list of ``(part_name, chapters)`` pairs rather than a
-        dict so the template keeps the book's order. Most parts hold a single
-        chapter -- the book's own numbering -- so the overview only prints a
-        part heading where there is more than one.
-        """
-        grouped: List[Tuple[str, List[WikiChapter]]] = []
-        for chapter in self._chapters:
-            if grouped and grouped[-1][0] == chapter.part:
-                grouped[-1][1].append(chapter)
-            else:
-                grouped.append((chapter.part, [chapter]))
-        return tuple((name, tuple(chapters)) for name, chapters in grouped)
-
     def get_chapter(self, slug: str) -> Optional[WikiChapter]:
         return self._by_slug.get(slug)
 
@@ -301,9 +291,7 @@ class WikiRepository:
         resolved = []
         for link in links:
             chapter = self._by_slug.get(link.chapter_slug)
-            if chapter is None or link.section_id not in {
-                section.id for section in chapter.sections
-            }:
+            if chapter is None or link.section_id not in chapter.sections_by_id:
                 logger.debug("Dropping quick link with missing target: %s", link)
                 continue
             resolved.append((link, chapter))
@@ -344,6 +332,11 @@ def get_repository() -> WikiRepository:
             "Wiki repository has not been initialized. Ensure WikiConfig.ready() ran, "
             "or call set_repository_for_tests() in tests."
         )
+    return _repository
+
+
+def get_repository_or_none() -> Optional[WikiRepository]:
+    """The repository, or ``None`` where startup did not initialise it."""
     return _repository
 
 

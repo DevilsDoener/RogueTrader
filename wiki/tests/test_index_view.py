@@ -1,8 +1,7 @@
-"""The overview page.
+"""The overview page (Bibliothek), and the login every wiki page requires.
 
-It used to be a flat list of 21 chapter titles and nothing else. The point of
-the rework is that a reader can reach a *section* from here -- roughly 180 of
-them -- instead of only a chapter.
+A reader reaches every chapter *and* its sections from here, grouped into the
+manifest's bands.
 """
 import re
 
@@ -10,14 +9,7 @@ import pytest
 from django.urls import reverse
 
 from wiki.content import WikiRepository, set_repository_for_tests
-
-
-def _publish(tmp_path, settings, bodies):
-    for name, body in bodies.items():
-        (tmp_path / name).write_text(body, encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = list(bodies)
-    set_repository_for_tests(WikiRepository.load())
+from wiki.manifest import ALLOWLIST
 
 
 def _get(client, user_factory):
@@ -28,13 +20,23 @@ def _get(client, user_factory):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize(
+    "url_name, kwargs",
+    [("wiki:index", {}), ("wiki:chapter", {"chapter_slug": "chapter"}), ("wiki:search", {})],
+)
+def test_wiki_routes_require_login(client, url_name, kwargs):
+    response = client.get(reverse(url_name, kwargs=kwargs))
+
+    assert response.status_code == 302
+    assert response.url.startswith("/account/login/?next=")
+
+
+@pytest.mark.django_db
 def test_sections_are_linkable_straight_from_the_overview(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(
-        tmp_path,
-        settings,
-        {"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n\n## Beta\nb\n"},
+    make_repository(
+        {"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n\n## Beta\nb\n"}, install=True
     )
 
     content = _get(client, user_factory)
@@ -46,10 +48,10 @@ def test_sections_are_linkable_straight_from_the_overview(
 
 @pytest.mark.django_db
 def test_all_top_level_sections_are_listed_in_the_collapsible_contents(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
     sections = "\n\n".join(f"## Section {index}\nBody." for index in range(10))
-    _publish(tmp_path, settings, {"01-Charaktererschaffung.md": f"# One\n\n{sections}\n"})
+    make_repository({"01-Charaktererschaffung.md": f"# One\n\n{sections}\n"}, install=True)
 
     content = _get(client, user_factory)
 
@@ -60,16 +62,15 @@ def test_all_top_level_sections_are_listed_in_the_collapsible_contents(
 
 @pytest.mark.django_db
 def test_level_two_sections_are_nested_under_their_parent_for_the_filter(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(
-        tmp_path,
-        settings,
+    make_repository(
         {
             "01-Charaktererschaffung.md": (
                 "# One\n\n## Injury\na\n\n### Critical Damage\nb\n\n## Other\nc\n"
             )
         },
+        install=True,
     )
 
     content = _get(client, user_factory)
@@ -90,9 +91,9 @@ def test_level_two_sections_are_nested_under_their_parent_for_the_filter(
 
 @pytest.mark.django_db
 def test_the_page_is_the_bibliothek_with_a_filter_and_fulltext_form(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(tmp_path, settings, {"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n"})
+    make_repository({"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n"}, install=True)
 
     content = _get(client, user_factory)
 
@@ -105,15 +106,14 @@ def test_the_page_is_the_bibliothek_with_a_filter_and_fulltext_form(
 
 @pytest.mark.django_db
 def test_cards_show_the_roman_numeral_and_the_short_title(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(
-        tmp_path,
-        settings,
+    make_repository(
         {
             "00-Foreword.md": "# Foreword\n\nText.\n",
             "04-Talents.md": "# Chapter IV: Talents\n\n## Alpha\na\n",
         },
+        install=True,
     )
 
     content = _get(client, user_factory)
@@ -126,12 +126,11 @@ def test_cards_show_the_roman_numeral_and_the_short_title(
 
 @pytest.mark.django_db
 def test_quick_links_are_rendered_when_their_targets_exist(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(
-        tmp_path,
-        settings,
+    make_repository(
         {"04-Talents.md": "# Chapter IV: Talents\n\n## Detailed Talent Descriptions\nx\n"},
+        install=True,
     )
 
     content = _get(client, user_factory)
@@ -144,16 +143,15 @@ def test_quick_links_are_rendered_when_their_targets_exist(
 
 @pytest.mark.django_db
 def test_filter_text_is_casefolded_and_autoescaped(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(
-        tmp_path,
-        settings,
+    make_repository(
         {
             "01-Charaktererschaffung.md": (
                 '# One\n\n## Der "Große" <b>Plan</b>\na\n\n### Unter Abschnitt\nb\n'
             )
         },
+        install=True,
     )
 
     content = _get(client, user_factory)
@@ -170,12 +168,10 @@ def test_filter_text_is_casefolded_and_autoescaped(
 
 @pytest.mark.django_db
 def test_chapters_are_grouped_into_three_bands_with_one_chapters_grid(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
     """Front Matter, Chapters (all numbered chapters incl. the XIV files), Appendix."""
-    _publish(
-        tmp_path,
-        settings,
+    make_repository(
         {
             "00-Foreword.md": "# Foreword\n\nText.\n",
             "01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n",
@@ -183,6 +179,7 @@ def test_chapters_are_grouped_into_three_bands_with_one_chapters_grid(
             "14-Traits.md": "# Traits\n\n## T\nt\n",
             "16-Index.md": "# Index\n\nText.\n",
         },
+        install=True,
     )
 
     content = _get(client, user_factory)
@@ -204,9 +201,9 @@ def test_chapters_are_grouped_into_three_bands_with_one_chapters_grid(
 
 @pytest.mark.django_db
 def test_unnumbered_cards_show_the_section_glyph_in_the_numeral_slot(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(tmp_path, settings, {"00-Foreword.md": "# Foreword\n\nText.\n"})
+    make_repository({"00-Foreword.md": "# Foreword\n\nText.\n"}, install=True)
 
     content = _get(client, user_factory)
 
@@ -215,9 +212,9 @@ def test_unnumbered_cards_show_the_section_glyph_in_the_numeral_slot(
 
 @pytest.mark.django_db
 def test_the_search_placeholder_does_not_promise_a_live_filter_without_js(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(tmp_path, settings, {"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n"})
+    make_repository({"01-Charaktererschaffung.md": "# One\n\n## Alpha\na\n"}, install=True)
 
     content = _get(client, user_factory)
 
@@ -226,11 +223,9 @@ def test_the_search_placeholder_does_not_promise_a_live_filter_without_js(
 
 @pytest.mark.django_db
 def test_the_empty_state_is_shown_when_nothing_loads(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = []
-    set_repository_for_tests(WikiRepository.load())
+    make_repository({}, install=True)
 
     content = _get(client, user_factory)
 
@@ -238,16 +233,45 @@ def test_the_empty_state_is_shown_when_nothing_loads(
 
 
 @pytest.mark.django_db
-def test_chapters_keep_the_manifest_order(client, user_factory, tmp_path, settings):
-    _publish(
-        tmp_path,
-        settings,
+def test_chapters_keep_the_manifest_order(client, user_factory, make_repository):
+    make_repository(
         {
             "01-Charaktererschaffung.md": "# First\n\n## A\na\n",
             "02-Karrierewege.md": "# Second\n\n## B\nb\n",
         },
+        install=True,
     )
 
     content = _get(client, user_factory)
 
     assert content.index("First") < content.index("Second")
+
+
+#: What the real book renders, band by band: each card's numeral in book order.
+REAL_BOOK_BANDS = [
+    ("Front Matter", ["&sect;", "&sect;"]),
+    (
+        "Chapters",
+        ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII"]
+        + ["XIV"] * 4
+        + ["XV"],
+    ),
+    ("Appendix", ["&sect;"]),
+]
+
+
+@pytest.mark.django_db
+def test_the_real_book_renders_its_numerals_in_their_bands(client, user_factory, settings):
+    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
+    settings.WIKI_CONTENT_ALLOWLIST = list(ALLOWLIST)
+    set_repository_for_tests(WikiRepository.load())
+
+    content = _get(client, user_factory)
+
+    heading = re.compile(r'<h2 class="library-band-heading"[^>]*>([^<]+)</h2>')
+    numeral = re.compile(r'<span class="library-card-numeral" aria-hidden="true">([^<]+)</span>')
+    rendered = [
+        (heading.search(band).group(1), numeral.findall(band))
+        for band in re.split(r'<section class="library-band"', content)[1:]
+    ]
+    assert rendered == REAL_BOOK_BANDS

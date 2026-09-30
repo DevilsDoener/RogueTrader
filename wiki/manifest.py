@@ -1,24 +1,15 @@
 """The book's chapters, in reading order -- the single source of truth.
 
-Before this module the chapter list lived in four places (``config/settings.py``,
-``.env``, ``.env.example``, ``compose.yaml``) and did double duty as both the
-security filter and the ordering. It is now declared once, here, and
-``settings.WIKI_DEFAULT_CONTENT_ALLOWLIST`` is generated from it; the
-``WIKI_CONTENT_ALLOWLIST`` environment override still works and still wins.
+``settings.WIKI_DEFAULT_CONTENT_ALLOWLIST`` is generated from ``CHAPTERS``; the
+``WIKI_CONTENT_ALLOWLIST`` environment override still wins.
 
-Three things this fixes:
-
-- **Ordering.** The ``NN-`` filename prefixes are not unique -- ``00-`` appears
-  three times and ``14-`` four, because chapter XIV was split along the PDF's
-  own bookmarks. Reading order therefore cannot be derived from filenames and
-  is the tuple order below.
-- **Slugs.** They used to be derived from the filename, so renaming a file
-  silently changed a URL. They are now explicit. The values are exactly the
-  ones the derivation produced, so no existing link breaks.
-- **Grouping.** ``part`` follows the printed book: front matter, the numbered
-  chapters in order, and the appendix. Chapter XIV is one part holding its four
-  files. Titles are never invented here -- each chapter's displayed name is the
-  H1 from its own Markdown file.
+- **Ordering** is the tuple order below. The ``NN-`` filename prefixes are not
+  unique (``00-`` appears three times, ``14-`` four, because chapter XIV was
+  split along the PDF's own bookmarks), so it cannot come from filenames.
+- **Slugs** are explicit, so renaming a file cannot move a page.
+- **Numerals and bands** follow the printed book: front matter, the numbered
+  chapters, and the appendix. Titles are never set here -- each chapter's
+  displayed name is the H1 from its own Markdown file.
 
 This module is imported by ``config/settings.py``, so it must stay importable
 without ``django.setup()``: no Django imports at module scope.
@@ -28,9 +19,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Tuple
 
-#: Front matter and appendix parts, named for what the book calls them.
-PART_FRONT_MATTER = "Front Matter"
-PART_APPENDIX = "Appendix"
+#: The Bibliothek bands, in the order the overview shows them.
+BAND_FRONT_MATTER = "Front Matter"
+BAND_CHAPTERS = "Chapters"
+BAND_APPENDIX = "Appendix"
+BANDS: Tuple[str, ...] = (BAND_FRONT_MATTER, BAND_CHAPTERS, BAND_APPENDIX)
 
 
 @dataclass(frozen=True)
@@ -39,8 +32,11 @@ class ChapterEntry:
     source_name: str
     #: URL slug. Explicit, so renaming the file cannot move the page.
     slug: str
-    #: Grouping key for the overview page.
-    part: str
+    #: Roman numeral of a numbered book chapter; empty for front matter and
+    #: the appendix. Shown on cards, in the nav and in search results.
+    numeral: str = ""
+    #: Which Bibliothek band (one of ``BANDS``) lists the chapter.
+    band: str = BAND_CHAPTERS
     #: Relative weight in search ranking. Lowered for chapters that are
     #: navigation aids rather than rules: the page-number index and the
     #: foreword otherwise surface above the rules that answer the query.
@@ -48,35 +44,35 @@ class ChapterEntry:
 
 
 CHAPTERS: Tuple[ChapterEntry, ...] = (
-    ChapterEntry("00-Foreword.md", "foreword", PART_FRONT_MATTER, search_weight=0.3),
+    ChapterEntry(
+        "00-Foreword.md", "foreword", band=BAND_FRONT_MATTER, search_weight=0.3
+    ),
     ChapterEntry(
         "00-Inhaltsverzeichnis-und-Einleitung.md",
         "inhaltsverzeichnis-und-einleitung",
-        PART_FRONT_MATTER,
+        band=BAND_FRONT_MATTER,
         search_weight=0.3,
     ),
-    ChapterEntry("01-Charaktererschaffung.md", "charaktererschaffung", "Chapter I"),
-    ChapterEntry("02-Karrierewege.md", "karrierewege", "Chapter II"),
-    ChapterEntry("03-Skills.md", "skills", "Chapter III"),
-    ChapterEntry("04-Talents.md", "talents", "Chapter IV"),
-    ChapterEntry("05-Armoury.md", "armoury", "Chapter V"),
-    ChapterEntry("06-Psychic-Powers.md", "psychic-powers", "Chapter VI"),
-    ChapterEntry("07-Navigator-Powers.md", "navigator-powers", "Chapter VII"),
-    ChapterEntry("08-Starships.md", "starships", "Chapter VIII"),
-    ChapterEntry("09-Playing-The-Game.md", "playing-the-game", "Chapter IX"),
-    ChapterEntry("10-The-Game-Master.md", "the-game-master", "Chapter X"),
-    ChapterEntry("11-The-Imperium.md", "the-imperium", "Chapter XI"),
-    ChapterEntry("12-Rogue-Traders.md", "rogue-traders", "Chapter XII"),
-    ChapterEntry("13-The-Koronus-Expanse.md", "the-koronus-expanse", "Chapter XIII"),
+    ChapterEntry("01-Charaktererschaffung.md", "charaktererschaffung", "I"),
+    ChapterEntry("02-Karrierewege.md", "karrierewege", "II"),
+    ChapterEntry("03-Skills.md", "skills", "III"),
+    ChapterEntry("04-Talents.md", "talents", "IV"),
+    ChapterEntry("05-Armoury.md", "armoury", "V"),
+    ChapterEntry("06-Psychic-Powers.md", "psychic-powers", "VI"),
+    ChapterEntry("07-Navigator-Powers.md", "navigator-powers", "VII"),
+    ChapterEntry("08-Starships.md", "starships", "VIII"),
+    ChapterEntry("09-Playing-The-Game.md", "playing-the-game", "IX"),
+    ChapterEntry("10-The-Game-Master.md", "the-game-master", "X"),
+    ChapterEntry("11-The-Imperium.md", "the-imperium", "XI"),
+    ChapterEntry("12-Rogue-Traders.md", "rogue-traders", "XII"),
+    ChapterEntry("13-The-Koronus-Expanse.md", "the-koronus-expanse", "XIII"),
     # Chapter XIV is four files because the PDF bookmarks split it that way.
-    ChapterEntry("14-Adversaries-and-Aliens.md", "adversaries-and-aliens", "Chapter XIV"),
-    ChapterEntry(
-        "14-Allies-Enemies-and-Rivals.md", "allies-enemies-and-rivals", "Chapter XIV"
-    ),
-    ChapterEntry("14-Mutations.md", "mutations", "Chapter XIV"),
-    ChapterEntry("14-Traits.md", "traits", "Chapter XIV"),
-    ChapterEntry("15-Into-The-Maw.md", "into-the-maw", "Chapter XV"),
-    ChapterEntry("16-Index.md", "index", PART_APPENDIX, search_weight=0.3),
+    ChapterEntry("14-Adversaries-and-Aliens.md", "adversaries-and-aliens", "XIV"),
+    ChapterEntry("14-Allies-Enemies-and-Rivals.md", "allies-enemies-and-rivals", "XIV"),
+    ChapterEntry("14-Mutations.md", "mutations", "XIV"),
+    ChapterEntry("14-Traits.md", "traits", "XIV"),
+    ChapterEntry("15-Into-The-Maw.md", "into-the-maw", "XV"),
+    ChapterEntry("16-Index.md", "index", band=BAND_APPENDIX, search_weight=0.3),
 )
 
 #: Markdown files under the content root that are deliberately not served.
@@ -95,13 +91,13 @@ def entry_for(source_name: str) -> ChapterEntry:
     """The manifest entry for a file, or a neutral default.
 
     A file reaching the parser without a manifest entry can only come from an
-    explicit ``WIKI_CONTENT_ALLOWLIST`` override, so it still renders -- just
-    without grouping or a curated slug.
+    explicit ``WIKI_CONTENT_ALLOWLIST`` override (or a test fixture), so it
+    still renders -- without a numeral or a curated slug, in the chapters band.
     """
     known = _BY_SOURCE.get(source_name)
     if known is not None:
         return known
-    return ChapterEntry(source_name=source_name, slug="", part="")
+    return ChapterEntry(source_name=source_name, slug="")
 
 
 @dataclass(frozen=True)
@@ -111,22 +107,36 @@ class QuickLink:
     section_id: str
 
 
+#: Links listed both in QUICK_LINKS and in DASHBOARD_SHORTCUTS, declared once so
+#: a moved book anchor is fixed in one place.
+_DEGREES_OF_SUCCESS = QuickLink(
+    "Degrees of Success", "playing-the-game", "degrees-of-success-and-failure"
+)
+_COMBAT_ACTIONS = QuickLink("Combat Actions", "playing-the-game", "table-9-4-combat-actions")
+_HIT_LOCATIONS = QuickLink("Hit Locations", "playing-the-game", "table-9-6-hit-locations")
+_RANGED_WEAPONS = QuickLink("Ranged Weapons", "armoury", "table-5-4-ranged-weapons")
+_WEAPON_QUALITIES = QuickLink("Weapon Qualities", "armoury", "weapon-special-qualities")
+_PERILS_OF_THE_WARP = QuickLink(
+    "Perils of the Warp", "psychic-powers", "table-6-3-perils-of-the-warp"
+)
+_STARSHIP_COMBAT = QuickLink("Starship Combat", "starships", "starship-combat")
+
 #: Rules the table looks up mid-session. Labels are English (book content); targets are
 #: section anchors (``sec-<id>``) checked against the real corpus by
 #: wiki/tests/test_navigation_data.py.
 QUICK_LINKS: Tuple[QuickLink, ...] = (
     QuickLink("Tests", "playing-the-game", "tests-the-basic-mechanic"),
-    QuickLink("Degrees of Success", "playing-the-game", "degrees-of-success-and-failure"),
-    QuickLink("Combat Actions", "playing-the-game", "table-9-4-combat-actions"),
-    QuickLink("Hit Locations", "playing-the-game", "table-9-6-hit-locations"),
+    _DEGREES_OF_SUCCESS,
+    _COMBAT_ACTIONS,
+    _HIT_LOCATIONS,
     QuickLink("Critical Damage", "playing-the-game", "critical-effect-tables-tables-9-11-to-9-26"),
-    QuickLink("Ranged Weapons", "armoury", "table-5-4-ranged-weapons"),
-    QuickLink("Weapon Qualities", "armoury", "weapon-special-qualities"),
+    _RANGED_WEAPONS,
+    _WEAPON_QUALITIES,
     QuickLink("Armour", "armoury", "armour"),
     QuickLink("Skills", "skills", "skill-descriptions"),
     QuickLink("Talents", "talents", "detailed-talent-descriptions"),
-    QuickLink("Perils of the Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
-    QuickLink("Starship Combat", "starships", "starship-combat"),
+    _PERILS_OF_THE_WARP,
+    _STARSHIP_COMBAT,
 )
 
 
@@ -149,8 +159,8 @@ DASHBOARD_SHORTCUTS: Tuple[ShortcutGroup, ...] = (
         "Combat",
         "combat",
         (
-            QuickLink("Combat Actions", "playing-the-game", "table-9-4-combat-actions"),
-            QuickLink("Hit Locations", "playing-the-game", "table-9-6-hit-locations"),
+            _COMBAT_ACTIONS,
+            _HIT_LOCATIONS,
             QuickLink(
                 "Combat Difficulty", "playing-the-game", "table-9-8-combat-difficulty-summary"
             ),
@@ -174,17 +184,17 @@ DASHBOARD_SHORTCUTS: Tuple[ShortcutGroup, ...] = (
         (
             QuickLink("Psychic Strength", "psychic-powers", "table-6-1-psychic-strength"),
             QuickLink("Psychic Phenomena", "psychic-powers", "table-6-2-psychic-phenomena"),
-            QuickLink("Perils of the Warp", "psychic-powers", "table-6-3-perils-of-the-warp"),
+            _PERILS_OF_THE_WARP,
         ),
     ),
     ShortcutGroup(
         "Weapons & Armour",
         "armoury",
         (
-            QuickLink("Ranged Weapons", "armoury", "table-5-4-ranged-weapons"),
+            _RANGED_WEAPONS,
             QuickLink("Melee Weapons", "armoury", "table-5-8-melee-weapons"),
             QuickLink("Grenades & Missiles", "armoury", "table-5-6-grenades-and-missiles"),
-            QuickLink("Weapon Qualities", "armoury", "weapon-special-qualities"),
+            _WEAPON_QUALITIES,
             QuickLink("Armour", "armoury", "table-5-12-armour"),
             QuickLink("Ammo", "armoury", "table-5-10-ammo"),
         ),
@@ -194,9 +204,7 @@ DASHBOARD_SHORTCUTS: Tuple[ShortcutGroup, ...] = (
         "tests",
         (
             QuickLink("Test Difficulty", "playing-the-game", "table-9-3-test-difficulty"),
-            QuickLink(
-                "Degrees of Success", "playing-the-game", "degrees-of-success-and-failure"
-            ),
+            _DEGREES_OF_SUCCESS,
             QuickLink("Fate Points", "playing-the-game", "the-role-of-fate"),
             QuickLink("Fear Tests", "the-game-master", "fear-tests"),
             QuickLink(
@@ -210,7 +218,7 @@ DASHBOARD_SHORTCUTS: Tuple[ShortcutGroup, ...] = (
         "Starship Combat",
         "starship",
         (
-            QuickLink("Starship Combat", "starships", "starship-combat"),
+            _STARSHIP_COMBAT,
             QuickLink("Manoeuvre Actions", "starships", "manoeuvre-actions-table-8-10"),
             QuickLink("Extended Actions", "starships", "extended-actions-table-8-11"),
             QuickLink("Ship Critical Hits", "starships", "table-8-12-critical-hits"),

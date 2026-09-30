@@ -1,27 +1,22 @@
 """The search results page.
 
-It previously rendered an empty ``<ul>`` for every unproductive case, so
-"nothing typed yet", "too short to search" and "searched, found nothing" all
-looked identical.
+"Nothing typed yet", "too short to search" and "searched, found nothing" each
+get their own message rather than one indistinguishable empty list.
 """
 import re
 
 import pytest
 from django.urls import reverse
 
-from wiki.content import WikiRepository, set_repository_for_tests
 from wiki.manifest import QuickLink
 from wiki.search import MIN_QUERY_LENGTH
 
 
 @pytest.fixture
-def corpus(tmp_path, settings):
-    (tmp_path / "01-Chapter.md").write_text(
-        "# Chapter\n\n## Combat\nTaking cover helps.\n", encoding="utf-8"
+def corpus(make_repository):
+    make_repository(
+        {"01-Chapter.md": "# Chapter\n\n## Combat\nTaking cover helps.\n"}, install=True
     )
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-Chapter.md"]
-    set_repository_for_tests(WikiRepository.load())
 
 
 def _search(client, user_factory, query=None):
@@ -103,27 +98,21 @@ def test_the_chapter_page_keeps_the_query_in_the_search_box(
 
 
 @pytest.fixture
-def book(tmp_path, settings):
+def book(make_repository):
     """Two manifest chapters (numerals I and II) plus front matter."""
-    (tmp_path / "01-Charaktererschaffung.md").write_text(
-        "# Chapter I: Character Creation\n\n## Origins\n\n### Homeworld\n"
-        "Shelter for the wanderer.\n\n## Skills\nShelter and cover.\n",
-        encoding="utf-8",
+    make_repository(
+        {
+            "00-Foreword.md": "# Foreword\n\n## Note\nShelter from the storm.\n",
+            "01-Charaktererschaffung.md": (
+                "# Chapter I: Character Creation\n\n## Origins\n\n### Homeworld\n"
+                "Shelter for the wanderer.\n\n## Skills\nShelter and cover.\n"
+            ),
+            "02-Karrierewege.md": (
+                "# Chapter II: Careers\n\n## Explorator\nShelter in the void.\n"
+            ),
+        },
+        install=True,
     )
-    (tmp_path / "02-Karrierewege.md").write_text(
-        "# Chapter II: Careers\n\n## Explorator\nShelter in the void.\n",
-        encoding="utf-8",
-    )
-    (tmp_path / "00-Foreword.md").write_text(
-        "# Foreword\n\n## Note\nShelter from the storm.\n", encoding="utf-8"
-    )
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = [
-        "00-Foreword.md",
-        "01-Charaktererschaffung.md",
-        "02-Karrierewege.md",
-    ]
-    set_repository_for_tests(WikiRepository.load())
 
 
 def _get(client, user_factory, **params):
@@ -131,6 +120,10 @@ def _get(client, user_factory, **params):
     response = client.get(reverse("wiki:search"), params)
     assert response.status_code == 200
     return response
+
+
+def _shown(response):
+    return [result for result, _chapter in response.context["hits"]]
 
 
 def _path_line(content):
@@ -165,7 +158,7 @@ def test_kapitel_filters_to_that_chapter(client, user_factory, book):
     assert response.context["active_chapter"].slug == "charaktererschaffung"
     assert response.context["total_count"] == 2
     assert response.context["all_count"] == 4
-    assert {r.chapter_slug for r in response.context["results"]} == {
+    assert {r.chapter_slug for r in _shown(response)} == {
         "charaktererschaffung"
     }
     assert "2 Treffer" in content
@@ -194,19 +187,14 @@ def test_a_kapitel_without_hits_is_ignored(client, user_factory, book):
 
 
 @pytest.mark.django_db
-def test_results_are_capped_at_fifty(client, user_factory, tmp_path, settings):
+def test_results_are_capped_at_fifty(client, user_factory, make_repository):
     sections = "".join(f"## Part {i}\nlantern glow {i}.\n\n" for i in range(60))
-    (tmp_path / "01-Chapter.md").write_text(
-        f"# Chapter\n\n{sections}", encoding="utf-8"
-    )
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-Chapter.md"]
-    set_repository_for_tests(WikiRepository.load())
+    make_repository({"01-Chapter.md": f"# Chapter\n\n{sections}"}, install=True)
 
     response = _get(client, user_factory, q="lantern")
     content = response.content.decode()
 
-    assert len(response.context["results"]) == 50
+    assert len(_shown(response)) == 50
     assert response.context["total_count"] == 60
     assert response.context["results_capped"] is True
     assert "60 Treffer" in content
