@@ -1,11 +1,12 @@
 """Coordinate schema for the printed character/ship sheet overlays.
 
-Each of the three source pages (``character-page-1``, ``character-page-2``,
-``ship-page``) has a JSON file under ``sheets/data/`` describing the
-rectangular overlay fields that sit on top of its background image (see
-``tools/extract_sheet_assets.py`` and ``tools/sheet_mapper.html``). This
-module parses that JSON into frozen, validated dataclasses and exposes
-``load_schema()`` for the rest of the app to consume.
+Each source page (``character-page-1``, ``character-page-2``, ``ship-page``)
+has a JSON file under ``sheets/data/`` describing the rectangular overlay
+fields that sit on top of its background image. Those files are generated
+from the layout sources in ``sheets/layouts/`` by ``sheets/layout.py``
+(``python -m sheets.layout``). This module parses that JSON into frozen,
+validated dataclasses and exposes ``load_schema()`` for the rest of the app
+to consume.
 
 Coordinates are stored as percentages of the background image's width/height
 (0-100), quantized to four decimal places, so the same schema works
@@ -16,16 +17,22 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
-from functools import lru_cache
+from functools import cached_property, lru_cache
 from pathlib import Path
 from typing import Any, Literal, Mapping, Sequence
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
+#: The two pages whose fields together make up one character sheet.
+CHARACTER_PAGE_IDS: tuple[str, ...] = ("character-page-1", "character-page-2")
+
+#: The single page of the shared ship sheet.
+SHIP_PAGE_ID = "ship-page"
+
 #: The only page IDs ``load_schema`` will accept. Keeping this as an explicit
 #: allow-list (rather than "whatever JSON files exist on disk") means a typo
 #: in a filename fails loudly instead of silently returning nothing.
-KNOWN_PAGE_IDS: tuple[str, ...] = ("character-page-1", "character-page-2", "ship-page")
+KNOWN_PAGE_IDS: tuple[str, ...] = (*CHARACTER_PAGE_IDS, SHIP_PAGE_ID)
 
 FieldKind = Literal["text", "checkbox"]
 _VALID_KINDS: tuple[FieldKind, ...] = ("text", "checkbox")
@@ -261,11 +268,15 @@ class SheetSchema:
             fields=tuple(fields),
         )
 
+    @cached_property
+    def _fields_by_id(self) -> dict[str, FieldSpec]:
+        return {field_spec.id: field_spec for field_spec in self.fields}
+
     def field_by_id(self, field_id: str) -> FieldSpec:
-        for field_spec in self.fields:
-            if field_spec.id == field_id:
-                return field_spec
-        raise SchemaError(f"{self.page_id}: unknown field id {field_id!r}")
+        try:
+            return self._fields_by_id[field_id]
+        except KeyError:
+            raise SchemaError(f"{self.page_id}: unknown field id {field_id!r}") from None
 
     def validate_value(self, field_id: str, value: Any) -> None:
         """Raise ``SchemaError`` if ``value`` is not valid for ``field_id``."""

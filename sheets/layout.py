@@ -19,7 +19,7 @@ FIELD_KEYS = {"id", "label", "kind", "x", "y", "width", "height", "max_length",
               "align", "text_style", "checkbox_style", "input_mode", "hit_padding", "read_only"}
 
 
-def _object(value, allowed, context):
+def _require_object(value, allowed, context):
     if not isinstance(value, dict):
         raise SchemaError(f"{context}: expected an object")
     unknown = value.keys() - allowed
@@ -39,7 +39,7 @@ def _number(value):
 
 def compile_layout(payload: dict) -> dict:
     """Resolve slot defaults and section origins; validate the complete result."""
-    _object(payload, {"page_id", "image", "templates", "sections"}, "layout")
+    _require_object(payload, {"page_id", "image", "templates", "sections"}, "layout")
     templates = payload.get("templates", {})
     if not isinstance(templates, dict):
         raise SchemaError("templates must be an object")
@@ -47,14 +47,14 @@ def compile_layout(payload: dict) -> dict:
         if not isinstance(slots, dict):
             raise SchemaError(f"template {name!r}: slots must be an object")
         for slot, defaults in slots.items():
-            _object(defaults, FIELD_KEYS - {"id", "label"}, f"template {name}/{slot}")
+            _require_object(defaults, FIELD_KEYS - {"id", "label"}, f"template {name}/{slot}")
     sections = payload.get("sections")
     if not isinstance(sections, list) or not sections:
         raise SchemaError("sections must be a non-empty list")
     fields = []
     section_ids = set()
     for section in sections:
-        _object(section, {"id", "origin", "template", "fields"}, "section")
+        _require_object(section, {"id", "origin", "template", "fields"}, "section")
         section_id = section.get("id")
         if not isinstance(section_id, str) or not section_id.strip() or section_id in section_ids:
             raise SchemaError(f"Invalid or duplicate section id {section_id!r}")
@@ -73,7 +73,7 @@ def compile_layout(payload: dict) -> dict:
         if not isinstance(entries, list) or not entries:
             raise SchemaError(f"{section_id}: fields must be a non-empty list")
         for entry in entries:
-            _object(entry, FIELD_KEYS | {"slot"}, f"{section_id} field")
+            _require_object(entry, FIELD_KEYS | {"slot"}, f"{section_id} field")
             slot = entry.get("slot")
             if "slot" in entry and (not isinstance(slot, str) or slot not in slots):
                 raise SchemaError(f"{section_id}: unknown slot {slot!r}")

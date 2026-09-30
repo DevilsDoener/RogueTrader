@@ -9,7 +9,7 @@ conflict never silently overwrites the stored value -- it raises
 from __future__ import annotations
 
 import uuid
-from dataclasses import dataclass, field as dataclass_field, replace
+from dataclasses import dataclass, field as dataclass_field
 from datetime import datetime
 
 from django.db import transaction
@@ -33,12 +33,9 @@ __all__ = [
     "patch_ship_field",
     "get_character_for_view",
     "get_ship_for_view",
+    "get_active_ship",
     "delete_character",
 ]
-
-#: The two schema pages whose fields together make up one character sheet.
-CHARACTER_PAGE_IDS: tuple[str, ...] = ("character-page-1", "character-page-2")
-SHIP_PAGE_ID = "ship-page"
 
 #: Updating this field also keeps CharacterSheet.display_name in sync so it
 #: can be used for listing/labelling characters without re-reading `values`.
@@ -89,11 +86,11 @@ class FieldConflict(Exception):
 
 
 def _find_character_field_spec(field_id: str) -> schema.FieldSpec:
-    for page_id in CHARACTER_PAGE_IDS:
-        page_schema = schema.load_schema(page_id)
-        for field_spec in page_schema.fields:
-            if field_spec.id == field_id:
-                return field_spec
+    for page_id in schema.CHARACTER_PAGE_IDS:
+        try:
+            return schema.load_schema(page_id).field_by_id(field_id)
+        except schema.SchemaError:
+            continue
     raise FieldValidationError(field_id=field_id, message=f"Unknown field id {field_id!r}")
 
 
@@ -108,7 +105,7 @@ def _validate_character_field(field_id: str, value) -> None:
 
 
 def _validate_ship_field(field_id: str, value) -> None:
-    page_schema = schema.load_schema(SHIP_PAGE_ID)
+    page_schema = schema.load_schema(schema.SHIP_PAGE_ID)
     try:
         page_schema.validate_value(field_id, value)
     except schema.SchemaError as exc:
@@ -141,6 +138,15 @@ def get_ship_for_view(*, sheet_id: uuid.UUID, actor) -> ShipSheet:
     return sheet
 
 
+def get_active_ship() -> ShipSheet | None:
+    """The shared ship the portal links to: the first active one.
+
+    v1 always has exactly one active ``ShipSheet`` (seeded by migration
+    ``0002_seed_shared_ship``), although the model supports more.
+    """
+    return ShipSheet.objects.filter(is_active=True).order_by("id").first()
+
+
 def _apply_field_patch(
     sheet,
     *,
@@ -151,6 +157,7 @@ def _apply_field_patch(
     validate,
     audit_kwargs: dict,
     on_value_applied=None,
+    calculated_fields: dict | None = None,
 ) -> PatchResult:
     """Shared fetch-locked-sheet -> version-compare -> conflict -> mutate ->
     audit sequence used by both :func:`patch_character_field` and
@@ -167,7 +174,8 @@ def _apply_field_patch(
     caller can apply model-specific side effects (e.g. syncing
     ``CharacterSheet.display_name``) exactly once, only on a successful
     write -- it returns any extra field names that need to be added to
-    ``update_fields``.
+    ``update_fields``. ``calculated_fields`` (filled in by that callback) is
+    passed through to :attr:`PatchResult.calculated_fields`.
     """
     validate(field_id, value)
 
@@ -198,20 +206,53 @@ def _apply_field_patch(
         **audit_kwargs,
     )
 
-    saved_at = getattr(sheet, "updated_at", None) or timezone.now()
+    # A character's auto_now ``updated_at`` was just refreshed by save();
+    # the ship has no timestamp column of its own.
+    saved_at = sheet.updated_at if isinstance(sheet, CharacterSheet) else timezone.now()
 
-    return PatchResult(field_id=field_id, value=value, version=sheet.version, saved_at=saved_at)
+    return PatchResult(
+        field_id=field_id,
+        value=value,
+        version=sheet.version,
+        saved_at=saved_at,
+        calculated_fields=calculated_fields if calculated_fields is not None else {},
+    )
 
 
-def _sync_character_display_name(sheet: CharacterSheet, field_id: str, value) -> list[str]:
-    """``on_value_applied`` callback: keep ``display_name`` in sync with the
-    ``c1_character_name`` field, only once the write has actually happened.
+def _derived_character_values(field_id: str, value) -> list[tuple[str, object]]:
+    """The server-derived ``(field_id, value)`` pairs a write to ``field_id``
+    implies: the same characteristic on the other printed page, or the
+    movement fields computed from Half Move.
     """
-    extra_fields = ["updated_at"]
-    if field_id == _CHARACTER_NAME_FIELD_ID:
-        sheet.display_name = value
-        extra_fields.append("display_name")
-    return extra_fields
+    derived: list[tuple[str, object]] = []
+    counterpart = characteristics.counterpart(field_id)
+    if counterpart is not None:
+        derived.append((counterpart, value))
+    if field_id == movement.SOURCE:
+        derived.extend(movement.calculate(value).items())
+    return derived
+
+
+def _write_derived_field(
+    sheet: CharacterSheet, *, actor, field_id: str, value, calculated: dict
+) -> None:
+    """Validate and write one derived field at the sheet's new version, audit
+    it with its own :class:`~sheets.models.SheetChange` and record it in
+    ``calculated`` for the response.
+    """
+    _find_character_field_spec(field_id).validate_value(value)
+    old_value = sheet.values.get(field_id)
+    sheet.values[field_id] = value
+    sheet.field_versions[field_id] = sheet.version
+    SheetChange.objects.create(
+        character=sheet,
+        actor=actor,
+        field_id=field_id,
+        old_value=old_value,
+        new_value=value,
+        resulting_version=sheet.version,
+    )
+    calculated[field_id] = {"value": value, "version": sheet.version}
 
 
 @transaction.atomic
@@ -227,47 +268,30 @@ def patch_character_field(
     # sheet's contents. Mutation is owner-only: a portal admin can *read* a
     # character they don't own (see get_character_for_view) but attempting
     # to mutate or delete it is indistinguishable from the sheet not
-    # existing at all, per the brief's exact exception surface
-    # (SheetNotFound / FieldValidationError / FieldConflict -- no separate
-    # permission-denied exception).
+    # existing at all -- the service only ever raises SheetNotFound /
+    # FieldValidationError / FieldConflict, never a separate
+    # permission-denied exception.
     if not can_mutate_character(actor, sheet):
         raise SheetNotFound(f"No character sheet {sheet_id}")
 
-    calculated = {}
+    calculated: dict = {}
 
-    def apply_character_values(locked, changed_id, changed_value):
-        extra = _sync_character_display_name(locked, changed_id, changed_value)
-        counterpart = characteristics.counterpart(changed_id)
-        if counterpart is not None:
-            _find_character_field_spec(counterpart).validate_value(changed_value)
-            old = locked.values.get(counterpart)
-            locked.values[counterpart] = changed_value
-            locked.field_versions[counterpart] = locked.version
-            SheetChange.objects.create(
-                character=locked,
-                actor=actor,
-                field_id=counterpart,
-                old_value=old,
-                new_value=changed_value,
-                resulting_version=locked.version,
+    def apply_character_values(locked, changed_id, changed_value) -> list[str]:
+        """``on_value_applied`` callback, run only once the write happens:
+        keep ``display_name`` in sync with ``c1_character_name`` and write
+        every derived field at the same new version.
+        """
+        extra_fields = ["updated_at"]
+        if changed_id == _CHARACTER_NAME_FIELD_ID:
+            locked.display_name = changed_value
+            extra_fields.append("display_name")
+        for target, derived_value in _derived_character_values(changed_id, changed_value):
+            _write_derived_field(
+                locked, actor=actor, field_id=target, value=derived_value, calculated=calculated
             )
-            calculated[counterpart] = {
-                "value": changed_value,
-                "version": locked.version,
-            }
-        if changed_id == movement.SOURCE:
-            for target, derived in movement.calculate(changed_value).items():
-                _find_character_field_spec(target).validate_value(derived)
-                old = locked.values.get(target)
-                locked.values[target] = derived
-                locked.field_versions[target] = locked.version
-                SheetChange.objects.create(character=locked, actor=actor,
-                    field_id=target, old_value=old, new_value=derived,
-                    resulting_version=locked.version)
-                calculated[target] = {"value": derived, "version": locked.version}
-        return extra
+        return extra_fields
 
-    result = _apply_field_patch(
+    return _apply_field_patch(
         sheet,
         actor=actor,
         field_id=field_id,
@@ -276,8 +300,8 @@ def patch_character_field(
         validate=_validate_character_field,
         audit_kwargs={"character": sheet, "ship": None},
         on_value_applied=apply_character_values,
+        calculated_fields=calculated,
     )
-    return replace(result, calculated_fields=calculated)
 
 
 @transaction.atomic
