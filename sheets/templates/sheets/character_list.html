@@ -12,7 +12,7 @@
   </header>
 
   {% comment %}One dossier per character. `cards` is built by
-     sheets.views._character_card; every part of a card is optional.{% endcomment %}
+     sheets.cards.character_card; every part of a card is optional.{% endcomment %}
   <div class="crew-grid">
     {% for card in cards %}
       <article class="crew-card" aria-labelledby="crew-card-{{ card.pk }}">

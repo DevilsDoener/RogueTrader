@@ -11,6 +11,8 @@ import re
 from datetime import timedelta
 
 import pytest
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -56,7 +58,6 @@ def test_dashboard_never_queries_all_characters_for_a_normal_user(
 
     response = client.get(reverse("dashboard"))
 
-    assert response.context["characters"] == []
     assert response.context["character_tiles"] == []
 
 
@@ -69,7 +70,6 @@ def test_dashboard_limits_to_five_most_recently_updated_characters(
 
     response = client.get(reverse("dashboard"))
 
-    assert len(response.context["characters"]) == 5
     assert len(response.context["character_tiles"]) == 5
 
 
@@ -89,7 +89,7 @@ def test_dashboard_orders_characters_by_most_recently_updated(
     client.force_login(owner)
     response = client.get(reverse("dashboard"))
 
-    names = [character.display_name for character in response.context["characters"]]
+    names = [tile["name"] for tile in response.context["character_tiles"]]
     assert names.index("Newer") < names.index("Older")
 
 
@@ -346,3 +346,18 @@ def test_every_shortcut_glyph_has_its_own_icon(group):
 
     assert "<svg" in fallback
     assert render_to_string("core/_shortcut_glyph.html", {"glyph": group.glyph}) != fallback
+
+
+def _query_count(client, url):
+    with CaptureQueriesContext(connection) as queries:
+        assert client.get(url).status_code == 200
+    return len(queries)
+
+
+def test_dashboard_query_count_does_not_grow_per_character(client, owner, character_factory):
+    client.force_login(owner)
+    character_factory(owner=owner, display_name="One", values={"c1_ws_value": "1"})
+    baseline = _query_count(client, reverse("dashboard"))
+    for index in range(3):
+        character_factory(owner=owner, display_name=f"More {index}", values={"c1_ws_value": "2"})
+    assert _query_count(client, reverse("dashboard")) == baseline

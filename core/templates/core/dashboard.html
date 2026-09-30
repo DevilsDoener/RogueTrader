@@ -35,8 +35,8 @@
       </div>
 
       {% if character_tiles %}
-        {% comment %}Tiles come from sheets.views._character_card via
-           core.views._dashboard_tile, newest first. The name link is stretched
+        {% comment %}Tiles come from sheets.cards.character_card (only the
+           Wounds and Fate chips, see core.views), newest first. The name link is stretched
            over the whole tile, so the tile is one click target with a short
            accessible name.{% endcomment %}
         <ul class="bridge-crew-grid">

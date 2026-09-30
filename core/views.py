@@ -3,24 +3,17 @@ from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
+from sheets.cards import character_card
 from sheets.models import CharacterSheet, ShipSheet
-from sheets.views import _character_card
 from wiki.content import get_repository
 
 #: The dashboard's character selection only ever shows a short,
 #: recency-ordered slice -- the full roster lives at ``sheets:character_list``.
 DASHBOARD_CHARACTER_LIMIT = 5
 
-#: The ``_character_card`` stat chips a compact dashboard tile keeps (labels
-#: from ``sheets.views.CARD_STATS``); XP and Profit Factor stay on the roster.
-DASHBOARD_TILE_STATS: tuple[str, ...] = ("Wounds", "Fate")
-
-
-def _dashboard_tile(character: CharacterSheet) -> dict:
-    """A character-list card, trimmed to what a dashboard tile shows."""
-    card = _character_card(character)
-    card["stats"] = [stat for stat in card["stats"] if stat["label"] in DASHBOARD_TILE_STATS]
-    return card
+#: The ``sheets.cards.CARD_STATS`` chips (by key) a compact dashboard tile
+#: keeps; XP and Profit Factor stay on the roster.
+DASHBOARD_TILE_STATS: tuple[str, ...] = ("wounds", "fate")
 
 
 def root(request):
@@ -46,10 +39,10 @@ def dashboard(request):
     query over every user's characters (that is what the separate
     portal-admin routes are for).
     """
-    characters = list(
-        CharacterSheet.objects.filter(owner=request.user).order_by("-updated_at")[
-            :DASHBOARD_CHARACTER_LIMIT
-        ]
+    characters = (
+        CharacterSheet.objects.filter(owner=request.user)
+        .defer("field_versions")
+        .order_by("-updated_at")[:DASHBOARD_CHARACTER_LIMIT]
     )
     ship = ShipSheet.objects.filter(is_active=True).order_by("id").first()
     try:
@@ -64,8 +57,10 @@ def dashboard(request):
         request,
         "core/dashboard.html",
         {
-            "characters": characters,
-            "character_tiles": [_dashboard_tile(character) for character in characters],
+            "character_tiles": [
+                character_card(character, stat_keys=DASHBOARD_TILE_STATS)
+                for character in characters
+            ],
             "ship": ship,
             "shortcuts": shortcuts,
         },
