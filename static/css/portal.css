@@ -195,6 +195,8 @@ button,
   background: var(--rt-panel-raised);
   color: var(--rt-text);
   cursor: pointer;
+  /* Link buttons (<a class="button">) are buttons, not inline links. */
+  text-decoration: none;
   transition: background var(--rt-transition-fast), border-color var(--rt-transition-fast);
 }
 
@@ -211,10 +213,13 @@ button[type="submit"],
   font-weight: 600;
 }
 
+/* The explicit colours on both hover rules keep link buttons readable:
+   without them the global a:hover gold would win on <a class="button">. */
 button[type="submit"]:hover,
 .button-primary:hover {
   background: var(--rt-gold-bright);
   border-color: var(--rt-gold-bright);
+  color: var(--rt-text-on-gold);
 }
 
 /* Specificity note: must beat button[type="submit"]'s gold default, so
@@ -232,6 +237,7 @@ button[type="submit"].button-danger {
 button[type="submit"].button-danger:hover {
   background: var(--rt-danger-bright);
   border-color: var(--rt-danger-bright);
+  color: var(--rt-text);
 }
 
 button:disabled,
@@ -2045,16 +2051,6 @@ mark {
   display: flex;
   gap: 0.5rem;
   margin-left: auto;
-}
-
-/* Anchor buttons: drop the link underline, and keep the primary label dark
-   on hover (the global a:hover colour would otherwise turn it gold-on-gold). */
-.crew-card-actions .button {
-  text-decoration: none;
-}
-
-.crew-card-actions .button-primary:hover {
-  color: var(--rt-text-on-gold);
 }
 
 /* Secondary but unmistakably destructive: an outlined danger button that
