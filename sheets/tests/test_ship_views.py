@@ -10,18 +10,13 @@ except through the one-change detail fragment.
 """
 from __future__ import annotations
 
+import uuid
+
 import pytest
 
 from sheets.models import ShipSheet
 from sheets.services import patch_ship_field
-
-
-def assert_contains(response, text):
-    assert text in response.content.decode()
-
-
-def assert_not_contains(response, text):
-    assert text not in response.content.decode()
+from sheets.tests.helpers import assert_contains, assert_not_contains
 
 
 @pytest.mark.django_db
@@ -77,8 +72,6 @@ def test_ship_detail_requires_login(client, ship_sheet):
 
 @pytest.mark.django_db
 def test_ship_detail_404s_for_nonexistent_ship(client, user_factory):
-    import uuid
-
     client.force_login(user_factory())
     response = client.get(f"/ships/{uuid.uuid4()}/")
     assert response.status_code == 404

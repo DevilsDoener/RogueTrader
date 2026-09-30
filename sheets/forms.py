@@ -13,9 +13,3 @@ class CharacterCreateForm(forms.ModelForm):
         model = CharacterSheet
         fields = ("display_name",)
         labels = {"display_name": "Name"}
-
-    def clean_display_name(self) -> str:
-        display_name = self.cleaned_data["display_name"].strip()
-        if not display_name:
-            raise forms.ValidationError("Bitte einen Namen angeben.")
-        return display_name

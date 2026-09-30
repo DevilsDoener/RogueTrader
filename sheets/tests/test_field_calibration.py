@@ -46,8 +46,7 @@ FULL_BOX_VALUE_FIELDS = (
 
 
 def _field(page_id, field_id):
-    schema = load_schema(page_id)
-    return next(f for f in schema.fields if f.id == field_id)
+    return load_schema(page_id).field_by_id(field_id)
 
 
 def _open_grayscale(page_id):

@@ -1,25 +1,22 @@
-import importlib
-from types import SimpleNamespace
-
 import pytest
-from django.apps import apps
-from django.db import connection
-from sheets.schema import load_schema, SchemaError
 
-migration = importlib.import_module("sheets.migrations.0003_ship_resource_numbers")
+from sheets.schema import load_schema, SchemaError
+from sheets.tests.helpers import load_migration, run_migration_step
+
+migration = load_migration("0003_ship_resource_numbers")
 
 @pytest.mark.django_db
 def test_old_marks_are_archived_without_inventing_numbers(ship_sheet):
     ship_sheet.values={"ship_space_available":True,"ship_power_used":False,"ship_power_available":"90","ship_name":"Keep"}
     ship_sheet.field_versions={"ship_space_available":4}
     ship_sheet.save()
-    migration.archive_marks(apps, SimpleNamespace(connection=connection))
+    run_migration_step(migration.archive_marks)
     ship_sheet.refresh_from_db()
     assert ship_sheet.values == {"ship_space_available":"","ship_power_used":"","ship_power_available":"90","ship_name":"Keep"}
     assert ship_sheet.field_versions["ship_space_available"]==5
     history=ship_sheet.changes.get(field_id="ship_space_available")
     assert history.old_value is True and history.new_value==""
-    migration.archive_marks(apps, SimpleNamespace(connection=connection))
+    run_migration_step(migration.archive_marks)
     assert ship_sheet.changes.count()==2
 
 @pytest.mark.parametrize("field", migration.RESOURCE_FIELDS)

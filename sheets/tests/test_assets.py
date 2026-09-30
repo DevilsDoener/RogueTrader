@@ -29,14 +29,6 @@ def test_image_exists(filename):
     assert (IMAGES_DIR / filename).exists(), f"missing extracted asset: {filename}"
 
 
-@pytest.mark.parametrize("filename", ALL_IMAGES)
-def test_image_has_nonzero_dimensions(filename):
-    with Image.open(IMAGES_DIR / filename) as image:
-        width, height = image.size
-    assert width > 0
-    assert height > 0
-
-
 @pytest.mark.parametrize("filename", PORTRAIT_IMAGES)
 def test_character_pages_are_portrait(filename):
     with Image.open(IMAGES_DIR / filename) as image:
@@ -52,14 +44,14 @@ def test_ship_page_is_landscape(filename):
 
 
 @pytest.mark.parametrize("filename", ALL_IMAGES)
-def test_image_is_lossless_webp(filename):
+def test_image_is_webp(filename):
     with Image.open(IMAGES_DIR / filename) as image:
         assert image.format == "WEBP"
 
 
 @pytest.mark.parametrize("filename", ALL_IMAGES)
-def test_image_dimensions_match_placeholder_schema(filename):
-    """The placeholder schema JSON records the real extracted dimensions.
+def test_image_dimensions_match_schema(filename):
+    """The schema JSON records the real extracted dimensions.
 
     This guards against the schema's ``image.width``/``image.height``
     silently drifting from the actual asset if either is regenerated.

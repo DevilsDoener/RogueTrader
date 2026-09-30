@@ -1,12 +1,8 @@
-import importlib
-from types import SimpleNamespace
-
 import pytest
-from django.apps import apps
-from django.db import connection
 
 from sheets import schema
 from sheets.services import FieldConflict, FieldValidationError, patch_character_field
+from sheets.tests.helpers import load_migration, run_migration_step
 
 
 @pytest.mark.django_db
@@ -100,9 +96,7 @@ def test_characteristic_values_accept_only_zero_to_two_digits(
 
 @pytest.mark.django_db
 def test_existing_characteristics_are_reconciled_from_page_one(character_factory):
-    migration = importlib.import_module(
-        "sheets.migrations.0006_sync_characteristics_between_pages"
-    )
+    migration = load_migration("0006_sync_characteristics_between_pages")
     character = character_factory(
         values={
             "c1_ws_value": "44",
@@ -113,7 +107,7 @@ def test_existing_characteristics_are_reconciled_from_page_one(character_factory
         }
     )
 
-    migration.sync_existing(apps, SimpleNamespace(connection=connection))
+    run_migration_step(migration.sync_existing)
     character.refresh_from_db()
 
     assert character.values["c2_ws_value"] == "44"
@@ -123,5 +117,5 @@ def test_existing_characteristics_are_reconciled_from_page_one(character_factory
     assert character.changes.get(field_id="c1_bs_value").old_value is None
 
     change_count = character.changes.count()
-    migration.sync_existing(apps, SimpleNamespace(connection=connection))
+    run_migration_step(migration.sync_existing)
     assert character.changes.count() == change_count

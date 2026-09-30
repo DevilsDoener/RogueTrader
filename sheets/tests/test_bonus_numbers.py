@@ -1,9 +1,7 @@
-import importlib
-from types import SimpleNamespace
 import pytest
-from django.apps import apps
-from django.db import connection
+
 from sheets.schema import load_schema, SchemaError
+from sheets.tests.helpers import load_migration, run_migration_step
 
 def test_all_bonus_cells_accept_two_digit_numbers():
     fields=[f for f in load_schema("character-page-1").fields if f.id.endswith("_bonus")]
@@ -21,11 +19,11 @@ def test_bonus_mark_migration_preserves_other_values(character_factory):
     character=character_factory(values={"c1_skill_acrobatics_bonus":True,"c1_skill_awareness_bonus":False,"c1_character_name":"Keep"})
     character.field_versions={"c1_skill_acrobatics_bonus":3}
     character.save()
-    migration=importlib.import_module("sheets.migrations.0004_character_bonus_numbers")
-    migration.archive_marks(apps,SimpleNamespace(connection=connection))
+    migration=load_migration("0004_character_bonus_numbers")
+    run_migration_step(migration.archive_marks)
     character.refresh_from_db()
     assert character.values=={"c1_skill_acrobatics_bonus":"","c1_skill_awareness_bonus":"","c1_character_name":"Keep"}
     assert character.field_versions["c1_skill_acrobatics_bonus"]==4
     assert character.changes.get(field_id="c1_skill_acrobatics_bonus").old_value is True
-    migration.archive_marks(apps,SimpleNamespace(connection=connection))
+    run_migration_step(migration.archive_marks)
     assert character.changes.count()==2

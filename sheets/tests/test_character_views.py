@@ -8,16 +8,12 @@ nonexistent one (404) when reached through these routes.
 from __future__ import annotations
 
 import pytest
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 
+from sheets.forms import CharacterCreateForm
 from sheets.models import CharacterSheet
-
-
-def assert_contains(response, text):
-    assert text in response.content.decode()
-
-
-def assert_not_contains(response, text):
-    assert text not in response.content.decode()
+from sheets.tests.helpers import assert_contains, assert_not_contains
 
 
 @pytest.mark.django_db
@@ -54,12 +50,26 @@ def test_create_character_sets_owner_server_side(client, user_factory):
 
 
 @pytest.mark.django_db
-def test_create_character_requires_display_name(client, user_factory):
+@pytest.mark.parametrize("display_name", ["", "   "], ids=["blank", "whitespace-only"])
+def test_create_character_requires_display_name(client, user_factory, display_name):
     owner = user_factory()
     client.force_login(owner)
-    response = client.post("/characters/", {"display_name": ""})
+    response = client.post("/characters/", {"display_name": display_name})
     assert response.status_code == 200
     assert not CharacterSheet.objects.exists()
+    assert response.context["form"].errors == {"display_name": ["This field is required."]}
+
+
+@pytest.mark.django_db
+def test_create_character_strips_surrounding_whitespace_from_the_name(client, user_factory):
+    owner = user_factory()
+    client.force_login(owner)
+    client.post("/characters/", {"display_name": "  Lucian Voss  "})
+    assert CharacterSheet.objects.get(owner=owner).display_name == "Lucian Voss"
+
+
+def test_create_form_keeps_the_german_name_label():
+    assert CharacterCreateForm().fields["display_name"].label == "Name"
 
 
 @pytest.mark.django_db
@@ -126,7 +136,7 @@ def test_get_on_another_users_delete_confirmation_is_not_found(client, user_fact
 
 # ---------------------------------------------------------------------------
 # Character list: dossier cards (presentation only, built by
-# sheets.views._character_card from ``character.values``).
+# sheets.cards.character_card from ``character.values``).
 # ---------------------------------------------------------------------------
 
 FILLED_VALUES = {
@@ -262,3 +272,21 @@ def test_character_list_empty_state_points_at_create_form(client, user_factory):
     assert 'id="create-character"' in html
     assert 'name="display_name"' in html
     assert 'id="id_display_name"' in html
+
+
+def _query_count(client, url):
+    with CaptureQueriesContext(connection) as queries:
+        assert client.get(url).status_code == 200
+    return len(queries)
+
+
+@pytest.mark.django_db
+def test_character_list_query_count_does_not_grow_per_character(
+    client, owner, character_factory
+):
+    client.force_login(owner)
+    character_factory(owner=owner, display_name="One", values=FILLED_VALUES)
+    baseline = _query_count(client, "/characters/")
+    for index in range(3):
+        character_factory(owner=owner, display_name=f"More {index}", values=FILLED_VALUES)
+    assert _query_count(client, "/characters/") == baseline

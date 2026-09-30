@@ -1,12 +1,8 @@
 """Structural and validation tests for ``sheets.schema``.
 
 These tests exercise ``SheetSchema``/``FieldSpec`` parsing and validation
-logic against both inline payloads and the real (currently placeholder)
-schema JSON files under ``sheets/data/``. See
-``.superpowers/sdd/2026-08-16-rogue-trader-portal/task-4-dispatch-context.md``
-for why the on-disk data is placeholder-only at this stage: these tests
-confirm the schema *machinery* works, not that the real sheet has been
-mapped yet.
+logic against both inline payloads and the real generated schema JSON files
+under ``sheets/data/``.
 """
 from __future__ import annotations
 
@@ -48,7 +44,7 @@ def _base_payload(**overrides):
 
 
 def _field_rect_in_source_pixels(schema: SheetSchema, field_id: str) -> tuple[int, int, int, int]:
-    field_spec = next(field for field in schema.fields if field.id == field_id)
+    field_spec = schema.field_by_id(field_id)
     return (
         round(field_spec.x * schema.image_width / 100),
         round(field_spec.y * schema.image_height / 100),
@@ -79,11 +75,6 @@ def character_page_1_schema() -> SheetSchema:
 @pytest.fixture
 def character_page_2_schema() -> SheetSchema:
     return load_schema("character-page-2")
-
-
-@pytest.fixture
-def ship_page_schema() -> SheetSchema:
-    return load_schema("ship-page")
 
 
 class TestSchemaValidation:
@@ -595,7 +586,7 @@ class TestLoadSchema:
         self, page_id, field_id, expected_geometry
     ):
         schema = load_schema(page_id)
-        field_spec = next(field for field in schema.fields if field.id == field_id)
+        field_spec = schema.field_by_id(field_id)
 
         assert (
             field_spec.x,
@@ -604,7 +595,7 @@ class TestLoadSchema:
             field_spec.height,
         ) == tuple(Decimal(value) for value in expected_geometry)
 
-    def test_all_352_checkbox_rectangles_match_independent_pixel_reference(self):
+    def test_all_checkbox_rectangles_match_independent_pixel_reference(self):
         reference_path = (
             Path(__file__).resolve().parents[2]
             / "tests"
@@ -717,7 +708,7 @@ class TestLoadSchema:
         self, page_id, field_id, expected_geometry
     ):
         schema = load_schema(page_id)
-        field_spec = next(field for field in schema.fields if field.id == field_id)
+        field_spec = schema.field_by_id(field_id)
 
         assert (
             field_spec.x,
