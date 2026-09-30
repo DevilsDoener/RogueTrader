@@ -49,9 +49,9 @@ A Navigator begins with **The Lidless Stare** and chooses one further Power, or 
 
 | Mastery | Bonus on Tests with the Power |
 |---|---:|
-| Novice | +10 |
-| Adept | +20 |
-| Master | +30 |
+| Novice | +0 |
+| Adept | +10 |
+| Master | +20 |
 
 Unless stated otherwise, using a Power is a Standard Action.
 
@@ -91,7 +91,7 @@ Unless stated otherwise, using a Power is a Standard Action.
 
 Affects friend and foe who look upon the open Warp Eye, within 15 m, or 5 m in fog. No effect on unliving targets, Untouchables, Daemons, or Warp Entities. Looking away or not knowing about the Navigator grants +30 to resist.
 
-- **Novice:** one Opposed Willpower Test against all viewers. Whoever scores fewer DoS suffers `1d10 + WP Bonus E`, ignoring Armour and Toughness, and is Stunned for 1 round. The Navigator gains 1 Fatigue; on his own failure by at least 1 DoF, 2 Fatigue.
+- **Novice:** one Opposed Willpower Test against all viewers. The Navigator rolls once and compares it to each viewer's result; every opponent with fewer DoS suffers `1d10 + WP Bonus E`, ignoring Armour and Toughness, and is Stunned for 1 round. The Navigator gains 1 Fatigue; on his own failure by at least 1 DoF, 2 Fatigue.
 - **Adept:** `2d10 + WP Bonus E`, Stunned for `1d5` rounds, and `1d5` Insanity.
 - **Master:** those affected with Intelligence 20+ must immediately test Difficult (-10) Toughness or die. On success, `1d10` Insanity instead of `1d5`.
 
@@ -214,4 +214,4 @@ Hard (-20) Perception determines the accuracy of the exit point. Success reaches
 
 ## Status
 
-Chapter VII (book pages 173–186 / PDF pages 177–190) is fully transcribed in English. All four numeric tables (7-1 through 7-4) were re-verified against the page images (`page186_0.jpg`, `page190_0.jpg`, and others) during this conversion pass and match the source text exactly. House history and atmospheric Navigator flavour remain condensed; the four Lineages, all nine Navigator Powers, the Mutation Test, and all Warp Navigation tables are present, including the previously documented correction (Unchecked Mutation: Challenging (+0), not Challenging (-10)) and the previously closed rule gap ("The Eye is Open" — Navigators suffer no Corruption Points from Warp Shock).
+Chapter VII (book pages 173–186 / PDF pages 177–190) is fully transcribed in English. All four numeric tables (7-1 through 7-4) were re-verified against the page images (PDF pages 177–190) on 2026-09-30. House history and atmospheric Navigator flavour remain condensed; the four Lineages, all nine Navigator Powers, the Mutation Test, and all Warp Navigation tables are present, including the previously documented correction (Unchecked Mutation: Challenging (+0), not Challenging (-10)) and the previously closed rule gap ("The Eye is Open" — Navigators suffer no Corruption Points from Warp Shock).

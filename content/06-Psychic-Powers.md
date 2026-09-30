@@ -22,7 +22,7 @@ Every Technique begins with the stated **Focus Power Action**. The Focus Power S
 | Strength | Effective Psy Rating | Astropath/Sanctioned Psyker | Renegade Psyker/Sorcerer |
 |---|---:|---|---|
 | Fettered | half Psy Rating, rounded up | no Phenomena check | roll on Psychic Phenomena on Doubles in the Focus Power Test |
-| Unfettered | full Psy Rating | roll on Psychic Phenomena on Doubles in the Focus Power Test | roll on Doubles and +10 on Psychic Phenomena |
+| Unfettered | full Psy Rating | roll on Psychic Phenomena on Doubles in the Focus Power Test | roll on Doubles, +5 on Psychic Phenomena per Psy Rating used |
 | Push | Psy Rating +1 to +3/+4 | always Psychic Phenomena; +5 per additional Rating, max. +15 | always Psychic Phenomena; +10 per additional Rating, max. +40 |
 
 Sanctioned Psykers may add at most +3 when pushing, Renegades/Sorcerers at most +4. Multiple sources that raise Effective Psy Rating do not stack; only the highest applies. Values above 10 are possible.
@@ -59,7 +59,7 @@ Sanctioned Psykers may add at most +3 when pushing, Renegades/Sorcerers at most 
 | 42–44 | **Spectral Gale:** the psyker and everyone within `4d10` m must test Easy (+30) Agility or Strength or be knocked Prone. |
 | 45–47 | **Bloody Tears:** stone, wood, pictures, and statues within `3d10` m weep blood. |
 | 48–50 | **The Earth Protests:** everyone including the psyker within `5d10` m must test Routine (+10) Agility or be knocked Prone. |
-| 51–53 | **Psy Discharge:** static energy fills `5d10` m; unprotected electronics briefly fail, all Ranged Weapons jam, and the psyker glows. |
+| 51–53 | **Psy Discharge:** static electricity fills the air for `5d10` m, hair stands on end, unprotected electronics short out, and the psyker is illuminated by eldritch light. |
 | 54–56 | **Warp Ghosts:** apparitions appear within `3d10` m; everyone except the psyker must test against Fear (1). |
 | 57–59 | **Falling Upwards:** everything within `2d10` m rises `1d10` m and then falls back down. |
 | 60–62 | **Banshee Howl:** every mortal who hears it must test Challenging (+0) Toughness or be deafened for `1d10` rounds. |
@@ -81,8 +81,8 @@ Sanctioned Psykers may add at most +3 when pushing, Renegades/Sorcerers at most 
 | 25–30 | **Locked In:** the psyker becomes catatonic; each round a Full Action Willpower Test, success frees him. |
 | 31–38 | **Chronological Incontinence:** he vanishes for `1d10` rounds (or one minute of narrative time); `1d5` Insanity and `1d5` permanent Toughness damage. |
 | 39–46 | **Psychic Mirror:** the Power hits the psyker himself; a beneficial Power instead deals `1d10+5 E` damage, ignoring Armour except Wards. |
-| 47–55 | **Warp Whispers:** everyone within `4d10` m must test Hard (-20) Willpower or gain `1d10` Corruption. |
-| 56–58 | **Vice Versa:** the psyker and a random ensouled creature within 50 m swap consciousness for `1d10` rounds; mental Characteristics remain the psyker's own, physical ones come from the host; both gain `1d5` Insanity. Without a target: Willpower or `1d5` rounds catatonic, plus `2d10` Insanity. |
+| 47–55 | **Warp Whispers:** everyone within `4d10` m, including the psyker, must test Hard (-20) Willpower or gain `1d10` Corruption. |
+| 56–58 | **Vice Versa:** the psyker and a random ensouled creature within 50 m swap consciousness for `1d10` rounds (not with a daemon, Untouchable, or other soulless creature); each keeps its own WS, BS, Intelligence, Perception, Willpower, and Fellowship, all other Characteristics are the new host's; if either body is slain, the effect ends immediately; both gain `1d5` Insanity. Without a target: Willpower or `1d5` rounds catatonic, plus `2d10` Insanity. |
 | 59–67 | **Dark Summoning:** a Warp Predator appears `3d10` m away for `1d10` rounds or until slain, and attacks the psyker. |
 | 68–72 | **Rending the Veil:** all sentient creatures within `1d100` m must test against Fear (3); lasts `1d5` rounds. |
 | 73–78 | **Blood Rain:** everyone within `5d10` m must test Challenging (+0) Strength or be knocked Prone; every Psychic Power used in the area automatically triggers Perils for `1d5` rounds. |
@@ -140,7 +140,7 @@ Every additional Range Bracket beyond Signal Strength imposes -20 on understandi
 
 Failure ends the Probe and causes Fatigue per Degree of Failure. A covert Probe: -20, Fettered only.
 
-**Mind Scan:** 1 DoS reveals number/approximate location; 2 DoS exact number/location/strength and Challenging Psyniscience on psykers; 3 DoS enables communication; 4+ DoS as Mind Probe. Untouchables and mindless beings remain undetectable; Resistance (Psychic Techniques) grants -10.
+**Mind Scan:** 1 DoS reveals number/approximate location; 2 DoS number, general location, and relative strength, and Challenging (+0) Psyniscience to tell whether they are psykers; 3 DoS enables communication; 4+ DoS also allows a Mind Probe on a sensed mind. Untouchables and mindless beings remain undetectable; Resistance (Psychic Techniques) grants -10.
 
 **Mental Bond:** Difficulty -10 and `1d5` hours; only one Bond at a time. Death of the target causes `1d10` Insanity; voluntarily breaking it requires a Hard (-20) Willpower Test.
 
@@ -154,14 +154,14 @@ Failure ends the Probe and causes Fatigue per Degree of Failure. A covert Probe:
 | Delude | Half Action | Yes | 100 | Opposed WP | +30 Interaction against a target within 1 m × PR; no self-harm or true mind control |
 | Beastmaster | Half Action | Yes | 200 | Opposed WP | controls up to PR Bestial creatures within 5 m × PR; one command per Reaction |
 | Compel | Half Action | No | 200 | Opposed WP | a simple command completable in one round; a suicidal command grants the target +20 |
-| Sensory Deprivation | Half Action | Yes | 200 | Opposed WP | target is blind/deaf/without smell/taste until end of scene +`1d5` rounds; alternatively mask one sense for WP Bonus targets |
+| Sensory Deprivation | Half Action | Yes | 200 | Opposed WP | Range 10 m × PR; target is blind, deaf, and without smell/taste for as long as the power is sustained plus `1d5` rounds; alternatively mask one sense for WP Bonus targets |
 | Dominate | Half Action | Yes | 300 | Opposed WP | target becomes a Puppet, -10 on its tests except Opposed WP; the two share actions |
 | Puppet Master | Full Action | Yes | 300 | Opposed WP | complete takeover at 1 km × PR; psyker suffers -10 on the initial test |
 | Reprogram | Full Action | Yes | 500 | Opposed WP | permanent reshaping of memories, at least `2d5` rounds |
 
-Prerequisites: Compel ← Delude; Sensory Deprivation ← Compel; Dominate ← Sensory Deprivation; Puppet Master ← Dominate; Reprogram ← Dominate + Mind Probe.
+Prerequisites: Compel ← Delude; Sensory Deprivation ← Compel; Dominate ← Sensory Deprivation; Puppet Master ← Dominate; Reprogram ← Dominate + Mind Probe. Ranges: Compel, Dominate 5 m × PR; Sensory Deprivation 10 m × PR; Reprogram 1 m.
 
-**Puppet Master (Detail):** On success, the psyker's mind leaves his own body (which remains helpless, as if in deep sleep) and completely takes over the target; the target's consciousness is pushed into a nightmarish dream state. The possessed target retains its own **physical** Characteristics (WS, BS, Strength, Toughness, Agility) but takes on the psyker's **mental** Characteristics (Intelligence, Willpower, Fellowship). Within the borrowed body, the psyker may use either the target's own Skills or his own, each at **-10**. Suicidal actions force a new Opposed Willpower Test (this time the **target** bears the -10, not the psyker). Voluntarily ending the Power costs `1d5` Fatigue Levels. If the possessed body is killed, the psyker is violently thrown back: `1d5` Wounds (ignoring any defence/armour) plus `1d10` Insanity Points. If the distance between psyker and target exceeds the Technique's range, the connection breaks and the psyker returns to his own body, also suffering `1d5` Fatigue Levels.
+**Puppet Master (Detail):** On success, the psyker's mind leaves his own body (which remains helpless, as if in deep sleep) and completely takes over the target; the target's consciousness is pushed into a nightmarish dream state. The possessed target retains its own **physical** Characteristics (WS, BS, Strength, Toughness, Agility) but takes on the psyker's **mental** Characteristics (Intelligence, Willpower, Fellowship). Within the borrowed body, the psyker may use either his own Skills or the target's, the target's at **-10**. Suicidal actions force a new Opposed Willpower Test (this time the **target** bears the -10, not the psyker). Voluntarily ending the Power costs `1d5` Fatigue Levels. If the possessed body is killed, the psyker is violently thrown back: `1d5` Wounds (ignoring any defence/armour) plus `1d10` Insanity Points. If the distance between psyker and target exceeds the Technique's range, the connection breaks and the psyker returns to his own body, also suffering `1d5` Fatigue Levels.
 
 **Reprogram (Detail):** If the target wins the Opposed Willpower Test, it fends off the reprogramming and throws the psyker out; the procedure ends, the psyker gains one Fatigue level, and may not attempt the Technique again for at least `1d5` hours.
 
@@ -179,7 +179,7 @@ Every 2 PR spent grants +10 on the Opposed Test. Major Reprogramming takes at le
 
 ## Divination Discipline
 
-**Activation:** Full Action · **Maintainable:** Yes · **Range:** Self · **Focus:** Psyniscience. At PR 1–3 vague, PR 4–6 clear, PR 7–9 sharp multisensory visions.
+**Activation:** Full Action · **Maintainable:** Yes · **Range:** Self · **Focus:** Psyniscience. At PR 1–3 hazy and indistinct, PR 4–6 clearer and sharply focused, PR 7+ crisp, clear images with other sensory input.
 
 **Basic Technique – Aura Reading:** targets a visible subject; more information per DoS. If sustained on the same target, +1 DoS per round, max. 3.
 
@@ -189,14 +189,14 @@ Every 2 PR spent grants +10 on the Opposed Test. Major Reprogramming takes at le
 |---|---|---|---:|---|---|
 | Psycholocation | Half Action | Yes | 100 | Psyniscience | locates an object/person within 1 km × PR |
 | Foreshadow | Half Action | No | 100 | Willpower | +30 on one skill until end of next turn; Unfettered only |
-| In Harm's Way | Free Action | No | 200 | Willpower | +20 WS/BS, attacks against the psyker -20 until end of next turn; Unfettered only |
+| In Harm's Way | Free Action | No | 200 | Willpower | +20 WS/BS, Ballistic Skill Tests against the psyker -20 until end of next turn; Unfettered only |
 | Augury | Half Action | Yes | 200 | Psyniscience | tarot question, usually 30 minutes; every two DoS more information, Phenomena +10 |
 | Psychometry | Half Action | Yes | 200 | Psyniscience | reads psychic traces at a place/object within 1 m × PR |
 | Divining the Future | Full Action | Yes | 200 | Psyniscience | as Augury but in one minute; every two DoS, Phenomena +10 |
-| Walking the Path | Free Action | Yes | 200 | Psyniscience | one round +10 WS/BS, attacks -20; allies within 1 m × PR: attacks -5; not Fettered |
-| Blessed by the Emperor | Free Action | Yes | 300 | Psyniscience | +20 WS/BS, attacks -30; warned allies within 5 m × PR: attacks -10; not Fettered |
+| Walking the Path | Free Action | Yes | 200 | Psyniscience | one round (or while sustained) +10 WS/BS, Ballistic Skill Tests against the psyker -20; warned allies within 1 m × PR: Ballistic attacks -5; not Fettered |
+| Blessed by the Emperor | Free Action | Yes | 300 | Psyniscience | +20 WS/BS, Ballistic Skill Tests against the psyker -30; warned allies within 5 m × PR: Ballistic attacks -10; not Fettered |
 
-Prerequisites: Augury ← Foreshadow; Psychometry ← Augury; Divining the Future ← Augury; Walking the Path ← Divining the Future; Blessed by the Emperor ← Divining the Future.
+Prerequisites: Augury ← Foreshadow; Psychometry ← Augury; Divining the Future ← Augury; Walking the Path ← Divining the Future; Blessed by the Emperor ← Divining the Future. Ranges: Augury 1 m; Foreshadow, In Harm's Way, Divining the Future personal; Walking the Path personal (1 m × PR for warnings); Blessed by the Emperor 5 m × PR. Table 6-9 in the book lists the Focus Power Test of Foreshadow and In Harm's Way as No and of Walking the Path and Blessed by the Emperor as Awareness; the technique descriptions specify Willpower and Psyniscience as shown above.
 
 ### Aura Reading (Table 6-10)
 
@@ -214,7 +214,7 @@ Prerequisites: Augury ← Foreshadow; Psychometry ← Augury; Divining the Futur
 | 0 | greatest opposition | greatest opposition |
 | 2 | further negative forces, number equal to PR | further negative forces, number equal to PR |
 | 4 | greatest advantage or tool | greatest advantage or tool |
-| 6+ | one sentence of advice on the clearest path | two sentences of advice; additionally +10 on PR tests for one month or until resolved |
+| 6+ | one sentence of advice on the clearest path | two sentences of advice; additionally +10 on a number of Tests equal to PR for one month or until resolved |
 
 ### Psycholocation (Table 6-13)
 
@@ -255,13 +255,13 @@ Psy Rating is subtracted in rounds from each threshold.
 |---|---|---|---:|---|---|
 | Precision Telekinesis | Half Action | Yes | 100 | none/Willpower | remote manipulation as with hands; WP replaces the Characteristic, PR replaces SB |
 | Force Bolt | Half Action | No | 100 | Willpower | BS to hit; `1d10 + 2×PR I`, Range 10 m × PR |
-| Telekinetic Crush | Half Action | Yes | 200 | Opposed WP vs T | `1d10+PR I`; optionally Grapple with WP Bonus instead of SB, Range 10 m × PR |
+| Telekinetic Crush | Half Action | No | 200 | Opposed WP vs T | `1d10+PR I`; optionally Grapple with WP Bonus instead of SB, Range 10 m × PR |
 | Telekinetic Weapon | Half Action | Yes | 200 | Willpower | Sword without training penalty; `1d10+PR R`, Pen PR; parryable, not destroyed by Power Field |
 | Telekinetic Shield | Half Action | Yes | 200 | Willpower | AP PR at all locations, stacks with Armour and protects against Warp Weapons |
 | Force Shards | Half Action | Yes | 400 | Willpower | WP Bonus shards; enemies -10 WS/BS against the psyker; `1d10+PR R`, Pen PR, an additional shard per DoS |
 | Storm of Force | Full Action | Yes | 500 | Willpower | up to PR targets per round; per target BS, `2d10 + 2×PR I`; no target hit more than once per round |
 
-Prerequisites: Telekinetic Weapon ← Force Bolt; Telekinetic Shield ← Telekinetic Crush; Force Shards ← Precision Telekinesis + Telekinetic Weapon; Storm of Force ← Telekinetic Weapon.
+Prerequisites: Telekinetic Weapon ← Force Bolt; Telekinetic Shield ← Telekinetic Crush; Force Shards ← Precision Telekinesis + Telekinetic Weapon; Storm of Force ← Telekinetic Weapon. Telekinetic Shield is listed with Focus Power Test No in Table 6-15, but its description calls for Willpower; it lasts one round unless sustained. Ranges: Telekinetic Weapon and Telekinetic Shield personal; Force Shards 5 m × PR; Storm of Force 5 m × PR radius.
 
 ## Compatibility with Dark Heresy
 
@@ -277,4 +277,4 @@ Prerequisites: Telekinetic Weapon ← Force Bolt; Telekinetic Shield ← Telekin
 
 ## Status
 
-Chapter VI (book pages 153–172 / PDF pages 157–176) is fully transcribed in English. All 15 numeric tables (6-1 through 6-15) were re-verified against the page images (`page164_0.jpg`, `page165_0.jpg`, and others) during this conversion pass and match the source text exactly. Historical and atmospheric psyker flavour text remains condensed; all rules-relevant content, tables, and Techniques are present, including the previously documented correction (Chronological Incontinence: `1d5` permanent Toughness Damage) and previously closed rule gaps (max. 3 Disciplines per Psy Rating 1+, the Power Scale rule, the full Table 6-4 prerequisite chain, and the detailed Puppet Master/Reprogram consequences).
+Chapter VI (book pages 153–172 / PDF pages 157–176) is fully transcribed in English. All 15 numeric tables (6-1 through 6-15) were re-verified against the page images (PDF pages 157–176) on 2026-09-30. Historical and atmospheric psyker flavour text remains condensed; all rules-relevant content, tables, and Techniques are present, including the previously documented correction (Chronological Incontinence: `1d5` permanent Toughness Damage) and previously closed rule gaps (max. 3 Disciplines per Psy Rating 1+, the Power Scale rule, the full Table 6-4 prerequisite chain, and the detailed Puppet Master/Reprogram consequences).
