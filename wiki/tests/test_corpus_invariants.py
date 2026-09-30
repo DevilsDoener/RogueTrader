@@ -1,9 +1,9 @@
 """Invariants checked against the real book corpus, not a fixture.
 
-The unit tests above pin behaviour on small synthetic chapters. This file is
-the net that catches a future *content* edit -- a renamed heading, a new
-chapter, a stray H1 -- silently breaking navigation. It skips when the content
-directory is unavailable, so a checkout without it still runs green.
+The other wiki tests pin behaviour on small synthetic chapters. This file is
+the net that catches a *content* edit -- a renamed heading, a new chapter, a
+stray H1 -- silently breaking navigation. ``content/`` is part of the
+repository, so these always run.
 """
 import collections
 
@@ -11,11 +11,6 @@ import pytest
 from django.conf import settings
 
 from wiki.content import WikiRepository
-
-pytestmark = pytest.mark.skipif(
-    not (settings.WIKI_CONTENT_ROOT / "03-Skills.md").exists(),
-    reason="real wiki content is not available in this checkout",
-)
 
 
 @pytest.fixture(scope="module")

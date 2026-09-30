@@ -1,28 +1,28 @@
 """Heading-tree structure.
 
-The previous splitter recognised ``##`` only, which collapsed whole chapters
-into one section when their sub-sections were written as ``#`` (the career
-paths chapter) and made ``###``/``####`` invisible to navigation entirely.
+Every heading level becomes a node: stray ``#`` headings after the title (the
+career paths chapter) are clamped to sections, and ``###``/``####`` nest under
+their parents. Only real headings count -- not ``#`` inside code, quotes or
+table cells.
 """
-from wiki.content import WikiRepository
+import pytest
 
 
-def _chapter(tmp_path, settings, body, name="01-Chapter.md", slug="chapter"):
-    (tmp_path / name).write_text(body, encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = [name]
-    return WikiRepository.load().get_chapter(slug)
+@pytest.fixture
+def load_chapter(make_repository):
+    def load(body, name="01-Chapter.md", slug="chapter"):
+        return make_repository({name: body}).get_chapter(slug)
+
+    return load
 
 
 def _titles(sections):
     return [section.title for section in sections]
 
 
-def test_h1_after_the_title_becomes_a_top_level_section(tmp_path, settings):
+def test_h1_after_the_title_becomes_a_top_level_section(load_chapter):
     """The shape of 02-Karrierewege.md: careers written as H1, not H2."""
-    chapter = _chapter(
-        tmp_path,
-        settings,
+    chapter = load_chapter(
         "# Chapter II: Career Paths\n\n"
         "## Basics\nShared rules.\n\n"
         "# Rogue Trader\nA captain.\n\n"
@@ -40,10 +40,8 @@ def test_h1_after_the_title_becomes_a_top_level_section(tmp_path, settings):
     assert _titles(chapter.outline[2].children) == ["Starting Skills"]
 
 
-def test_deeper_headings_nest_by_level(tmp_path, settings):
-    chapter = _chapter(
-        tmp_path,
-        settings,
+def test_deeper_headings_nest_by_level(load_chapter):
+    chapter = load_chapter(
         "# Chapter\n\n## Traits\nT\n\n### Descriptions\nD\n\n#### Amphibious\nA\n\n"
         "#### Armoured\nB\n\n## Next\nN\n",
     )
@@ -56,10 +54,8 @@ def test_deeper_headings_nest_by_level(tmp_path, settings):
     assert {child.level for child in descriptions.children} == {4}
 
 
-def test_content_before_the_first_heading_becomes_an_intro_section(tmp_path, settings):
-    chapter = _chapter(
-        tmp_path, settings, "# Chapter\n\nStanding text.\n\n## Real\nBody.\n"
-    )
+def test_content_before_the_first_heading_becomes_an_intro_section(load_chapter):
+    chapter = load_chapter("# Chapter\n\nStanding text.\n\n## Real\nBody.\n")
 
     intro = chapter.outline[0]
     assert intro.is_intro
@@ -67,16 +63,14 @@ def test_content_before_the_first_heading_becomes_an_intro_section(tmp_path, set
     assert "Standing text." in intro.plain_text
 
 
-def test_an_empty_intro_is_not_emitted(tmp_path, settings):
-    chapter = _chapter(tmp_path, settings, "# Chapter\n\n## Real\nBody.\n")
+def test_an_empty_intro_is_not_emitted(load_chapter):
+    chapter = load_chapter("# Chapter\n\n## Real\nBody.\n")
 
     assert _titles(chapter.outline) == ["Real"]
 
 
-def test_flat_sections_are_the_tree_in_depth_first_order(tmp_path, settings):
-    chapter = _chapter(
-        tmp_path,
-        settings,
+def test_flat_sections_are_the_tree_in_depth_first_order(load_chapter):
+    chapter = load_chapter(
         "# Chapter\n\n## A\na\n\n### A1\na1\n\n### A2\na2\n\n## B\nb\n",
     )
 
@@ -84,30 +78,35 @@ def test_flat_sections_are_the_tree_in_depth_first_order(tmp_path, settings):
     assert [section.ordinal for section in chapter.sections] == [0, 1, 2, 3]
 
 
-def test_headings_inside_a_blockquote_do_not_split_sections(tmp_path, settings):
-    chapter = _chapter(
-        tmp_path, settings, "# Chapter\n\n## Real\nBody.\n\n> ## Quoted\n> Inside.\n"
-    )
+def test_headings_inside_a_blockquote_do_not_split_sections(load_chapter):
+    chapter = load_chapter("# Chapter\n\n## Real\nBody.\n\n> ## Quoted\n> Inside.\n")
 
     assert _titles(chapter.outline) == ["Real"]
     assert "Quoted" in chapter.outline[0].html
 
 
-def test_a_hash_inside_a_table_cell_does_not_split_sections(tmp_path, settings):
-    chapter = _chapter(
-        tmp_path,
-        settings,
+def test_a_hash_inside_a_table_cell_does_not_split_sections(load_chapter):
+    chapter = load_chapter(
         "# Chapter\n\n## Real\n\n| Code | Note |\n|---|---|\n| ## 4 | fine |\n",
     )
 
     assert _titles(chapter.outline) == ["Real"]
 
 
-def test_a_chapter_without_an_h1_keeps_its_heading_structure(tmp_path, settings):
-    """Previously the filename became the title; the sections must survive."""
-    chapter = _chapter(
-        tmp_path,
-        settings,
+def test_fenced_code_block_heading_marker_does_not_start_new_section(load_chapter):
+    chapter = load_chapter(
+        "# Chapter\n\n"
+        "## Real Section\nSome text.\n\n"
+        "```\n## not a heading\n```\n\n"
+        "More text."
+    )
+
+    assert [section.id for section in chapter.sections] == ["real-section"]
+
+
+def test_a_chapter_without_an_h1_keeps_its_heading_structure(load_chapter):
+    """The filename stands in for the missing title; the sections survive."""
+    chapter = load_chapter(
         "Leading text.\n\n## One\nBody one.\n\n## Two\nBody two.\n",
         name="05-Armoury.md",
         slug="armoury",

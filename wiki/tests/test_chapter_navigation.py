@@ -1,27 +1,12 @@
 """Chapter-page navigation: breadcrumbs, prev/next, and the nested contents.
 
-Before the heading tree the table of contents was a flat list of H2s, which
-for most chapters meant a handful of entries and for the career-paths chapter
-meant one. It now mirrors the tree, with a compact index standing in for
-sections whose children are really a glossary.
+The table of contents mirrors the heading tree, with a compact index standing
+in for sections whose children are really a glossary.
 """
 import json
-import re
 
 import pytest
 from django.urls import reverse
-
-from wiki.content import WikiRepository, set_repository_for_tests
-
-CHAPTERS = ("01-One.md", "02-Two.md", "03-Three.md")
-
-
-def _publish(tmp_path, settings, bodies):
-    for name, body in bodies.items():
-        (tmp_path / name).write_text(body, encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = list(bodies)
-    set_repository_for_tests(WikiRepository.load())
 
 
 def _get(client, user_factory, slug):
@@ -31,16 +16,26 @@ def _get(client, user_factory, slug):
     return response.content.decode()
 
 
+def _toc(content):
+    return content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+
+
+def _glossary_chapter(make_repository, entry_count):
+    entries = "\n\n".join(f"### Entry {index}\nBody." for index in range(entry_count))
+    make_repository(
+        {"01-One.md": f"# One\n\n## Descriptions\nIntro.\n\n{entries}\n"}, install=True
+    )
+
+
 @pytest.fixture
-def three_chapters(tmp_path, settings):
-    _publish(
-        tmp_path,
-        settings,
+def three_chapters(make_repository):
+    make_repository(
         {
             "01-One.md": "# One\n\n## Alpha\na\n",
             "02-Two.md": "# Two\n\n## Beta\nb\n\n### Beta Detail\nbd\n",
             "03-Three.md": "# Three\n\n## Gamma\nc\n",
         },
+        install=True,
     )
 
 
@@ -81,7 +76,7 @@ def test_the_last_chapter_has_no_next_link(client, user_factory, three_chapters)
 @pytest.mark.django_db
 def test_the_contents_nest_sub_sections(client, user_factory, three_chapters):
     content = _get(client, user_factory, "two")
-    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    toc = _toc(content)
 
     assert "#sec-beta" in toc
     assert "#sec-beta-detail" in toc
@@ -91,27 +86,21 @@ def test_the_contents_nest_sub_sections(client, user_factory, three_chapters):
 
 @pytest.mark.django_db
 def test_a_glossary_section_renders_as_a_compact_index(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository, settings
 ):
-    entries = "\n\n".join(f"### Entry {index}\nBody." for index in range(20))
-    _publish(
-        tmp_path, settings, {"01-One.md": f"# One\n\n## Descriptions\nIntro.\n\n{entries}\n"}
-    )
+    _glossary_chapter(make_repository, 20)
     settings.WIKI_TOC_GLOSSARY_THRESHOLD = 16
 
     content = _get(client, user_factory, "one")
-    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    toc = _toc(content)
 
     assert 'class="wiki-toc-index"' in toc
     assert toc.count("#sec-entry-") == 20
 
 
 @pytest.mark.django_db
-def test_a_small_group_stays_a_nested_list(client, user_factory, tmp_path, settings):
-    entries = "\n\n".join(f"### Entry {index}\nBody." for index in range(3))
-    _publish(
-        tmp_path, settings, {"01-One.md": f"# One\n\n## Descriptions\nIntro.\n\n{entries}\n"}
-    )
+def test_a_small_group_stays_a_nested_list(client, user_factory, make_repository, settings):
+    _glossary_chapter(make_repository, 3)
     settings.WIKI_TOC_GLOSSARY_THRESHOLD = 16
 
     content = _get(client, user_factory, "one")
@@ -121,17 +110,16 @@ def test_a_small_group_stays_a_nested_list(client, user_factory, tmp_path, setti
 
 @pytest.mark.django_db
 def test_the_contents_stop_at_the_configured_depth(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository, settings
 ):
-    _publish(
-        tmp_path,
-        settings,
+    make_repository(
         {"01-One.md": "# One\n\n## A\na\n\n### B\nb\n\n#### C\nc\n\n##### D\nd\n"},
+        install=True,
     )
     settings.WIKI_TOC_MAX_DEPTH = 2
 
     content = _get(client, user_factory, "one")
-    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    toc = _toc(content)
 
     assert "#sec-a" in toc
     assert "#sec-b" in toc
@@ -189,14 +177,25 @@ def test_the_outline_sits_beside_the_article_not_inside_it(
 
 @pytest.mark.django_db
 def test_a_chapter_without_sections_renders_no_outline_menu(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    _publish(tmp_path, settings, {"01-One.md": "# One\n"})
+    make_repository({"01-One.md": "# One\n"}, install=True)
 
     content = _get(client, user_factory, "one")
 
     assert "wiki-section-nav" not in content
     assert "wiki-layout" in content
+
+
+@pytest.mark.django_db
+def test_empty_chapter_displays_placeholder_for_logged_in_user(
+    client, user_factory, make_repository
+):
+    make_repository({"09-Placeholder.md": "# Placeholder"}, install=True)
+
+    content = _get(client, user_factory, "placeholder")
+
+    assert "Dieses Kapitel ist noch nicht ausgearbeitet." in content
 
 
 @pytest.mark.django_db
@@ -209,7 +208,7 @@ def test_sub_sections_are_collapsed_until_asked_for(
     3259px expanded, so folding is what keeps the menu scannable at all.
     """
     content = _get(client, user_factory, "two")
-    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    toc = _toc(content)
 
     assert '<details class="wiki-toc-branch">' in toc
     # Collapsed: no `open` attribute on the branch.
@@ -225,7 +224,7 @@ def test_a_section_without_children_is_a_plain_link(
 ):
     """Only branches get a disclosure; leaves must not look expandable."""
     content = _get(client, user_factory, "one")
-    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    toc = _toc(content)
 
     assert "#sec-alpha" in toc
     assert "wiki-toc-branch" not in toc
@@ -233,16 +232,13 @@ def test_a_section_without_children_is_a_plain_link(
 
 @pytest.mark.django_db
 def test_a_glossary_index_lives_inside_its_disclosure(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository, settings
 ):
-    entries = "\n\n".join(f"### Entry {index}\nBody." for index in range(20))
-    _publish(
-        tmp_path, settings, {"01-One.md": f"# One\n\n## Descriptions\nIntro.\n\n{entries}\n"}
-    )
+    _glossary_chapter(make_repository, 20)
     settings.WIKI_TOC_GLOSSARY_THRESHOLD = 16
 
     content = _get(client, user_factory, "one")
-    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    toc = _toc(content)
     branch = toc.split('<details class="wiki-toc-branch">', 1)[1].split("</details>", 1)[0]
 
     assert 'class="wiki-toc-index"' in branch
@@ -313,7 +309,7 @@ def test_the_folded_chapter_list_at_the_bottom_is_gone(
 @pytest.mark.django_db
 def test_the_reading_aids_are_in_place(client, user_factory, three_chapters):
     content = _get(client, user_factory, "two")
-    toc = content.split('class="wiki-section-nav"', 1)[1].split("</nav>", 1)[0]
+    toc = _toc(content)
 
     assert 'class="wiki-toc-filter js-only"' in toc
     assert toc.index("wiki-toc-filter") < toc.index('class="wiki-toc-list"')

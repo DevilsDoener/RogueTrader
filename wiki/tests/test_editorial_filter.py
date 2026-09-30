@@ -7,7 +7,6 @@ audit trail -- stay untouched.
 """
 import pytest
 
-from wiki.content import WikiRepository
 
 EDITORIAL_HEADINGS = (
     "Status",
@@ -17,27 +16,23 @@ EDITORIAL_HEADINGS = (
 )
 
 
-def _chapter(tmp_path, settings, body):
-    (tmp_path / "01-Chapter.md").write_text(body, encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-Chapter.md"]
-    return WikiRepository.load().get_chapter("chapter")
+def _chapter(make_repository, body):
+    return make_repository({"01-Chapter.md": body}).get_chapter("chapter")
 
 
 @pytest.mark.parametrize("heading", EDITORIAL_HEADINGS)
-def test_editorial_sections_are_hidden(tmp_path, settings, heading):
+def test_editorial_sections_are_hidden(make_repository, heading):
     chapter = _chapter(
-        tmp_path, settings, f"# Chapter\n\n## Rules\nReal content.\n\n## {heading}\nAudit.\n"
+        make_repository, f"# Chapter\n\n## Rules\nReal content.\n\n## {heading}\nAudit.\n"
     )
 
     assert [section.title for section in chapter.outline] == ["Rules"]
 
 
-def test_the_whole_subtree_is_dropped_with_its_parent(tmp_path, settings):
+def test_the_whole_subtree_is_dropped_with_its_parent(make_repository):
     """03-Skills.md nests "### Final Audit" inside its "## Status" section."""
     chapter = _chapter(
-        tmp_path,
-        settings,
+        make_repository,
         "# Chapter\n\n## Rules\nReal.\n\n## Status\nAudit.\n\n"
         "### Final Audit (gameplay-critical tables)\nMore audit.\n",
     )
@@ -47,31 +42,30 @@ def test_the_whole_subtree_is_dropped_with_its_parent(tmp_path, settings):
     assert "Final Audit (gameplay-critical tables)" not in titles
 
 
-def test_a_deeper_status_heading_is_kept(tmp_path, settings):
+def test_a_deeper_status_heading_is_kept(make_repository):
     """Filtering is depth-1 only, so real content named "Status" survives."""
     chapter = _chapter(
-        tmp_path, settings, "# Chapter\n\n## Conditions\nBody.\n\n### Status\nA real rule.\n"
+        make_repository, "# Chapter\n\n## Conditions\nBody.\n\n### Status\nA real rule.\n"
     )
 
     assert [section.title for section in chapter.sections] == ["Conditions", "Status"]
 
 
-def test_hidden_sections_are_absent_from_the_search_index(tmp_path, settings):
-    (tmp_path / "01-Chapter.md").write_text(
-        "# Chapter\n\n## Rules\nReal content.\n\n## Status\nUnmistakable audit token.\n",
-        encoding="utf-8",
+def test_hidden_sections_are_absent_from_the_search_index(make_repository):
+    repository = make_repository(
+        {
+            "01-Chapter.md": (
+                "# Chapter\n\n## Rules\nReal content.\n\n## Status\nUnmistakable audit token.\n"
+            )
+        }
     )
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-Chapter.md"]
-
-    repository = WikiRepository.load()
 
     assert repository.search("unmistakable") == ()
     assert repository.search("real content")
 
 
-def test_filtering_is_off_when_no_patterns_are_configured(tmp_path, settings):
+def test_filtering_is_off_when_no_patterns_are_configured(make_repository, settings):
     settings.WIKI_EDITORIAL_SECTION_PATTERNS = ()
-    chapter = _chapter(tmp_path, settings, "# Chapter\n\n## Status\nAudit.\n")
+    chapter = _chapter(make_repository, "# Chapter\n\n## Status\nAudit.\n")
 
     assert [section.title for section in chapter.outline] == ["Status"]

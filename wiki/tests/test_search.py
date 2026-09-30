@@ -1,42 +1,42 @@
-from wiki.content import WikiRepository
+import pytest
+
+from wiki.search import SNIPPET_ELLIPSIS, SNIPPET_MAX_LENGTH, _make_snippet
 
 
-def test_heading_matches_rank_before_body_matches(tmp_path, settings):
-    (tmp_path / "01-First.md").write_text("# First\nA plasma weapon is rare.", encoding="utf-8")
-    (tmp_path / "02-Second.md").write_text("# Plasma Doctrine\nOrdinary notes.", encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-First.md", "02-Second.md"]
+@pytest.fixture
+def one_chapter(make_repository):
+    def load(text):
+        return make_repository({"01-Chapter.md": text})
 
-    results = WikiRepository.load().search("plasma")
+    return load
+
+
+def test_heading_matches_rank_before_body_matches(make_repository):
+    repository = make_repository(
+        {
+            "01-First.md": "# First\nA plasma weapon is rare.",
+            "02-Second.md": "# Plasma Doctrine\nOrdinary notes.",
+        }
+    )
+
+    results = repository.search("plasma")
 
     assert [result.chapter_slug for result in results] == ["second", "first"]
 
 
-def test_search_returns_escaped_highlighted_snippet_around_first_match(tmp_path, settings):
-    (tmp_path / "01-Chapter.md").write_text(
-        "# Chapter\nBefore <tag> plasma & after", encoding="utf-8"
-    )
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-Chapter.md"]
-
-    result = WikiRepository.load().search("plasma")[0]
+def test_search_returns_escaped_highlighted_snippet_around_first_match(one_chapter):
+    result = one_chapter("# Chapter\nBefore <tag> plasma & after").search("plasma")[0]
 
     assert "&lt;tag&gt;" in result.snippet
     assert "<mark>plasma</mark>" in result.snippet
     assert "&amp;" in result.snippet
 
 
-def test_search_rejects_one_character_query(tmp_path, settings):
-    (tmp_path / "01-Chapter.md").write_text("# Chapter\nPlasma", encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-Chapter.md"]
-
-    assert WikiRepository.load().search("p") == ()
+def test_search_rejects_one_character_query(one_chapter):
+    assert one_chapter("# Chapter\nPlasma").search("p") == ()
 
 
 # --- Snippet window: word boundaries, ellipses, casefold offsets -------------
-
-from wiki.search import SNIPPET_ELLIPSIS, SNIPPET_MAX_LENGTH, _make_snippet  # noqa: E402
 
 
 def _words(count, stem="word"):

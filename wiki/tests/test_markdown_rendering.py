@@ -1,15 +1,29 @@
-"""Table rendering: scroll wrapper, layout mode, and column alignment.
+"""Sanitised Markdown rendering: raw HTML, link protocols, and tables.
 
-Markdown tables parsed fine before these were added -- what was missing was
-every piece of presentation. There was no CSS rule for a bare ``<table>``
-anywhere in the project, and the column alignment declared by ``|---:|`` was
-silently destroyed because markdown-it expresses it as an inline ``style``
-that Bleach stripped. Both are regressions worth pinning.
+Raw HTML and unsafe link protocols never survive. Tables get a scroll wrapper
+and a layout mode, and the column alignment declared by ``|---:|`` becomes a
+class: markdown-it expresses it as an inline ``style``, which Bleach strips.
 """
 import pytest
-from django.conf import settings
 
 from wiki.markdown import WIDE_TABLE_MIN_COLUMNS, SafeMarkdownRenderer
+
+
+def test_raw_html_is_not_executed():
+    html = SafeMarkdownRenderer().render("# Safe\n<script>alert(1)</script>")
+
+    assert "<script" not in html
+    assert "alert(1)" in html
+
+
+def test_unsafe_link_protocols_are_removed():
+    html = SafeMarkdownRenderer().render("[bad](javascript:alert(1)) [data](data:text/html,boom)")
+
+    assert "javascript:" not in html
+    assert "data:text" not in html
+
+
+# -- tables -----------------------------------------------------------------
 
 
 def _table(columns: int, separator: str | None = None) -> str:
@@ -88,10 +102,6 @@ def test_two_tables_each_get_their_own_wrapper():
     assert "</table></div>" in html
 
 
-@pytest.mark.skipif(
-    not (settings.WIKI_CONTENT_ROOT / "03-Skills.md").exists(),
-    reason="real wiki content is not available in this checkout",
-)
 def test_every_table_in_the_real_corpus_is_wrapped():
     """Catches a renderer change that emits an attributed <table> tag, which
     would silently break the string match in ``_wrap_tables``."""

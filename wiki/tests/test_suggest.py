@@ -5,25 +5,15 @@ import pytest
 from django.conf import settings as django_settings
 from django.urls import reverse
 
-from wiki.content import WikiRepository, set_repository_for_tests
+from wiki.content import set_repository_for_tests
 from wiki.search import MIN_QUERY_LENGTH
 from wiki.suggest import MAX_CHAPTERS, MAX_HITS, MAX_SECTIONS, suggest
 
 
-def _load(tmp_path, settings, files):
-    for name, text in files.items():
-        (tmp_path / name).write_text(text, encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = list(files)
-    return WikiRepository.load()
-
-
 @pytest.fixture
-def repository(tmp_path, settings):
+def repository(make_repository):
     """Manifest file names, so the chapters get real slugs and numerals."""
-    return _load(
-        tmp_path,
-        settings,
+    return make_repository(
         {
             "04-Talents.md": (
                 "# Chapter IV: Talents\nIntro text.\n\n"
@@ -104,10 +94,8 @@ def test_sections_rank_a_title_prefix_before_a_word_prefix(repository):
     ]
 
 
-def test_a_word_start_outranks_a_mid_word_match(tmp_path, settings):
-    repository = _load(
-        tmp_path,
-        settings,
+def test_a_word_start_outranks_a_mid_word_match(make_repository):
+    repository = make_repository(
         {"04-Talents.md": "# Talents\n\n## Unarmed\nx.\n\n## Arm Guard\ny.\n"},
     )
 
@@ -116,10 +104,8 @@ def test_a_word_start_outranks_a_mid_word_match(tmp_path, settings):
     assert titles == ["Arm Guard", "Unarmed"]
 
 
-def test_a_later_title_prefix_match_beats_an_earlier_word_match(tmp_path, settings):
-    repository = _load(
-        tmp_path,
-        settings,
+def test_a_later_title_prefix_match_beats_an_earlier_word_match(make_repository):
+    repository = make_repository(
         {"04-Talents.md": "# Talents\n\n## Basic Drill\nx.\n\n## Drill Sergeant\ny.\n"},
     )
 
@@ -161,10 +147,8 @@ def test_a_matched_chapter_is_not_repeated_as_a_hit_or_section(repository):
     assert all(row["title"].casefold() != "chapter iv: talents" for row in rows)
 
 
-def test_dropping_chapter_repeats_still_fills_the_hit_list(tmp_path, settings):
-    repository = _load(
-        tmp_path,
-        settings,
+def test_dropping_chapter_repeats_still_fills_the_hit_list(make_repository):
+    repository = make_repository(
         {
             "04-Talents.md": "# Talents\nIntro.\n\n"
             + "".join(f"## Drill {i}\ntalents everywhere.\n\n" for i in range(8)),
@@ -204,7 +188,7 @@ def test_hits_never_repeat_a_listed_section(repository):
     assert "Bolters" in [hit["title"] for hit in result["hits"]]
 
 
-def test_caps_are_respected(tmp_path, settings):
+def test_caps_are_respected(make_repository):
     chapters = {
         f"{number:02d}-{name}.md": f"# Chapter {roman}: Zeta {name}\n\n"
         + "".join(f"## Zeta part {i}\nzeta text.\n\n" for i in range(9))
@@ -221,7 +205,7 @@ def test_caps_are_respected(tmp_path, settings):
     chapters["07-Navigator-Powers.md"] = "# Navigator\n\n" + "".join(
         f"## Other {i}\nzeta zeta zeta.\n\n" for i in range(12)
     )
-    repository = _load(tmp_path, settings, chapters)
+    repository = make_repository(chapters)
 
     result = suggest(repository, "zeta")
 
@@ -302,14 +286,10 @@ def test_markup_in_the_query_comes_back_only_as_json_data(
 
 @pytest.mark.django_db
 def test_a_title_with_markup_is_returned_as_a_plain_string(
-    client, user_factory, tmp_path, settings
+    client, user_factory, make_repository
 ):
-    set_repository_for_tests(
-        _load(
-            tmp_path,
-            settings,
-            {"04-Talents.md": "# Talents\n\n## Use <b>Bold</b> Moves\nText.\n"},
-        )
+    make_repository(
+        {"04-Talents.md": "# Talents\n\n## Use <b>Bold</b> Moves\nText.\n"}, install=True
     )
     client.force_login(user_factory())
 

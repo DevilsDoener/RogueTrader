@@ -1,10 +1,9 @@
 """The served rulebook is English, and stays that way.
 
 The corpus was transcribed from an English PDF but passed through a German
-phase, and one chapter was still German when this was written. Nothing held
-the translation in place, so this measures the text the wiki actually serves
-rather than the raw files: a section that is hidden on purpose (transcription
-bookkeeping) is allowed to stay German, because no reader sees it.
+phase. This measures the text the wiki actually serves rather than the raw
+files: a section that is hidden on purpose (transcription bookkeeping) may
+stay German, because no reader sees it.
 """
 import re
 
@@ -12,11 +11,6 @@ import pytest
 from django.conf import settings
 
 from wiki.content import WikiRepository
-
-pytestmark = pytest.mark.skipif(
-    not (settings.WIKI_CONTENT_ROOT / "03-Skills.md").exists(),
-    reason="real wiki content is not available in this checkout",
-)
 
 #: Unambiguously German function words. Deliberately excludes English
 #: homographs -- "die", "war", "am", "in" and "den" all occur in ordinary

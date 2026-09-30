@@ -8,17 +8,15 @@ from django.test import RequestFactory
 from django.urls import resolve, reverse
 
 from wiki import content
-from wiki.content import WikiRepository, set_repository_for_tests
 from wiki.context_processors import wiki_navigation
 
 
 @pytest.fixture
-def two_chapters(tmp_path, settings):
-    (tmp_path / "01-One.md").write_text("# One\n\n## Alpha\na\n", encoding="utf-8")
-    (tmp_path / "02-Two.md").write_text("# Two\n\n## Beta\nb\n", encoding="utf-8")
-    settings.WIKI_CONTENT_ROOT = tmp_path
-    settings.WIKI_CONTENT_ALLOWLIST = ["01-One.md", "02-Two.md"]
-    set_repository_for_tests(WikiRepository.load())
+def two_chapters(make_repository):
+    make_repository(
+        {"01-One.md": "# One\n\n## Alpha\na\n", "02-Two.md": "# Two\n\n## Beta\nb\n"},
+        install=True,
+    )
 
 
 def _request(path):
