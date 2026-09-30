@@ -1,6 +1,6 @@
 # Chapter III: Skills
 
-> Source: Rogue Trader Core Rulebook, Chapter III, book pages 73–88 (PDF pages 77–92).
+> Source: Rogue Trader Core Rulebook, Chapter III, book pages 73–88 (PDF pages 77–92); re-verified against page images 2026-09-30.
 
 ## Gaining Skills
 
@@ -21,6 +21,8 @@ New Explorers start with Skills from their **Home World** and **Career Path**. F
 ## Table 3-1: Skills
 
 † = Skill Group (specialisations in brackets)
+
+> Printed as such: Table 3-1 marks **Tech-Use** with † although its description (p. 87) lists no specialisations.
 
 | Skill | Type | Characteristic | Descriptor |
 |---|---|---|---|
@@ -68,7 +70,7 @@ New Explorers start with Skills from their **Home World** and **Career Path**. F
 | Speak Language † | Advanced | Intelligence | — |
 | Survival | Advanced | Intelligence | Exploration |
 | Swim | Basic | Strength | Movement |
-| Tech-Use | Advanced | Intelligence | Exploration |
+| Tech-Use † | Advanced | Intelligence | Exploration |
 | Tracking | Advanced | Intelligence | Exploration |
 | Trade † | Advanced | Intelligence | Crafting, Exploration |
 | Wrangling | Advanced | Intelligence | — |
@@ -316,8 +318,8 @@ Knowledge of particularly complex or esoteric subjects. Success = recalling nece
 | Degrees of Success | Result |
 |---|---|
 | Standard Success | Basic knowledge known to scholars of the subject |
-| One | Unusual information, known only to a few dedicated academics |
-| Two | Obscure information, known only to serious scholars |
+| One | Uncommon information, known to a few dedicated academics |
+| Two | Obscure information, known to only serious scholars |
 | Three + | Extremely rare information, known only to true experts in the field |
 
 Scholastic Lore Tests **require no time** — the Explorer either knows it or doesn't. **Research**, on the other hand, is an Extended Test with duration and difficulty per the task (p. 231).
