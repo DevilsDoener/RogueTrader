@@ -1850,6 +1850,287 @@ mark {
 }
 
 /* ---------------------------------------------------------------------
+   Charaktere (sheets/character_list.html)
+   The hero reuses .library-hero / .library-eyebrow / .library-intro from
+   the Bibliothek block above; the dossier cards follow .library-card's
+   surface and hover lift. Card data comes from sheets.views._character_card.
+   --------------------------------------------------------------------- */
+
+.crew-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20.5rem, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.crew-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  min-width: 0;
+  padding: 1.1rem 1.25rem 1rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-top: 2px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius-lg);
+  transition: border-color var(--rt-transition), transform var(--rt-transition),
+    box-shadow var(--rt-transition);
+}
+
+.crew-card:not(.crew-card-create):hover,
+.crew-card:not(.crew-card-create):focus-within {
+  border-color: var(--rt-gold-dim);
+  border-top-color: var(--rt-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--rt-bg) 70%, transparent);
+}
+
+.crew-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+/* The dossier seal: the name's initial, in the Bibliothek numeral's type. */
+.crew-card-sigil {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius);
+  color: var(--rt-gold);
+  font-family: var(--rt-font-display);
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.crew-card-heading {
+  min-width: 0;
+}
+
+.crew-card-title {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.crew-card-title a {
+  color: var(--rt-text);
+  text-decoration: none;
+}
+
+.crew-card-title a:hover {
+  color: var(--rt-gold-bright);
+}
+
+.crew-card-meta {
+  margin: 0.3rem 0 0;
+  color: var(--rt-text-muted);
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+}
+
+/* The nine characteristics as one console strip. */
+.crew-card-characteristics {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  margin: 0;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius);
+}
+
+.crew-characteristic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4rem 0 0.35rem;
+  min-width: 0;
+}
+
+.crew-characteristic + .crew-characteristic {
+  border-left: 1px solid var(--rt-border);
+}
+
+.crew-characteristic dt {
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.crew-characteristic dd {
+  margin: 0.1rem 0 0;
+  color: var(--rt-gold-bright);
+  font-family: var(--rt-font-display);
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.crew-characteristic.is-empty dd {
+  color: var(--rt-border-strong);
+}
+
+.crew-card-blank {
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border: 1px dashed var(--rt-border);
+  border-radius: var(--rt-radius);
+  color: var(--rt-text-muted);
+  font-size: 0.85rem;
+}
+
+/* Stat chips: the .quick-link pill, as a read-out rather than a link. */
+.crew-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crew-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-height: 1.9rem;
+  padding: 0.3rem 0.8rem;
+  background: var(--rt-panel-raised);
+  border: 1px solid var(--rt-border);
+  border-radius: 999px;
+}
+
+.crew-stat-label {
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.crew-stat-value {
+  color: var(--rt-gold-bright);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.crew-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 0.75rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--rt-border);
+}
+
+.crew-card-updated {
+  margin: 0;
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.crew-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* Anchor buttons: drop the link underline, and keep the primary label dark
+   on hover (the global a:hover colour would otherwise turn it gold-on-gold). */
+.crew-card-actions .button {
+  text-decoration: none;
+}
+
+.crew-card-actions .button-primary:hover {
+  color: var(--rt-text-on-gold);
+}
+
+/* Secondary but unmistakably destructive: an outlined danger button that
+   only fills on hover. Two classes so it beats .button-danger's fill. */
+.crew-card-delete.button-danger {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--rt-danger) 60%, transparent);
+  color: var(--rt-danger-bright);
+  font-weight: 400;
+}
+
+.crew-card-delete.button-danger:hover {
+  background: var(--rt-danger);
+  border-color: var(--rt-danger);
+  color: var(--rt-text);
+}
+
+/* The create form: a blank dossier waiting to be filled. */
+.crew-card-create {
+  background: color-mix(in srgb, var(--rt-panel) 45%, transparent);
+  border: 1px dashed var(--rt-border-strong);
+  border-top: 2px dashed var(--rt-gold-dim);
+}
+
+.crew-card-create:focus-within {
+  border-color: var(--rt-gold-dim);
+}
+
+.crew-card-create h2 {
+  margin: 0;
+  color: var(--rt-gold-bright);
+  font-size: 1.3rem;
+}
+
+.crew-card-create form {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.crew-card-create form p {
+  display: flex;
+  flex-direction: column;
+}
+
+.crew-card-create input[type="text"] {
+  width: 100%;
+}
+
+.crew-card-create button[type="submit"] {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.crew-empty {
+  grid-column: 1 / -1;
+  padding: 1.5rem 1.75rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-left: 3px solid var(--rt-gold);
+  border-radius: var(--rt-radius-lg);
+  color: var(--rt-text-muted);
+}
+
+.crew-empty p {
+  margin: 0;
+}
+
+.crew-empty .crew-empty-title {
+  margin-bottom: 0.35rem;
+  color: var(--rt-text);
+  font-family: var(--rt-font-display);
+  font-size: 1.3rem;
+}
+
+/* ---------------------------------------------------------------------
    Auspex: the command palette (templates/base.html, static/js/auspex.js).
    A modal <dialog> near the top of the viewport; never opened without JS.
    The one `kbd` look below is shared by the topbar hint and the palette.

@@ -122,3 +122,143 @@ def test_get_on_another_users_delete_confirmation_is_not_found(client, user_fact
     response = client.get(f"/characters/{character.id}/delete/")
     assert response.status_code == 404
     assert CharacterSheet.objects.filter(pk=character.id).exists()
+
+
+# ---------------------------------------------------------------------------
+# Character list: dossier cards (presentation only, built by
+# sheets.views._character_card from ``character.values``).
+# ---------------------------------------------------------------------------
+
+FILLED_VALUES = {
+    "c1_career_path": "Rogue Trader",
+    "c1_rank": "3",
+    "c1_home_world": "Void Born",
+    "c1_ws_value": "38",
+    "c1_bs_value": "41",
+    "c1_s_value": "29",
+    "c1_t_value": "33",
+    "c1_ag_value": "35",
+    "c1_int_value": "40",
+    "c1_per_value": "36",
+    "c1_wp_value": "37",
+    "c1_fel_value": "47",
+    "c2_wounds_current": "11",
+    "c2_wounds_total": "13",
+    "c2_fate_points_current": "2",
+    "c2_fate_points_total": "3",
+    "c1_xp_to_spend": "250",
+    "c1_profit_factor_current": "42",
+}
+
+
+@pytest.mark.django_db
+def test_character_list_card_shows_name_career_characteristics_and_stats(
+    client, user_factory, character_factory
+):
+    owner = user_factory()
+    character = character_factory(owner=owner, display_name="Lucian Voss", values=FILLED_VALUES)
+    client.force_login(owner)
+    response = client.get("/characters/")
+    html = response.content.decode()
+
+    assert response.status_code == 200
+    assert f'href="/characters/{character.id}/"' in html
+    assert "Lucian Voss" in html
+    assert "Rogue Trader · Rank 3 · Void Born" in html
+    assert "<dt>Fel</dt>" in html
+    assert "<dd>47</dd>" in html
+    assert '<span class="crew-stat-label">Wounds</span>' in html
+    assert '<span class="crew-stat-value">11 / 13</span>' in html
+    assert '<span class="crew-stat-value">2 / 3</span>' in html
+    assert '<span class="crew-stat-label">Profit Factor</span>' in html
+    assert "Bogen &ouml;ffnen" in html or "Bogen öffnen" in html
+    assert f'href="/characters/{character.id}/delete/"' in html
+    assert 'class="button button-danger crew-card-delete"' in html
+
+
+@pytest.mark.django_db
+def test_character_list_card_with_empty_values_renders_without_none(
+    client, user_factory, character_factory
+):
+    owner = user_factory()
+    character_factory(owner=owner, display_name="", values={})
+    client.force_login(owner)
+    response = client.get("/characters/")
+    html = response.content.decode()
+
+    assert response.status_code == 200
+    assert "Unbenannter Charakter" in html
+    assert "None" not in html
+    assert "Noch keine Werte eingetragen." in html
+    # No characteristics strip and no stat chips when nothing is filled in.
+    assert "crew-card-characteristics" not in html
+    assert "crew-stat" not in html
+    assert "Rank" not in html
+
+
+@pytest.mark.django_db
+def test_character_list_card_partial_values_skip_missing_parts(
+    client, user_factory, character_factory
+):
+    owner = user_factory()
+    character_factory(
+        owner=owner,
+        display_name="Half Done",
+        values={"c1_career_path": "Seneschal", "c1_ws_value": "30", "c2_wounds_total": "12", "c1_rank": ""},
+    )
+    client.force_login(owner)
+    html = client.get("/characters/").content.decode()
+
+    assert '<p class="crew-card-meta">Seneschal</p>' in html
+    assert "<dd>30</dd>" in html
+    assert '<span class="crew-stat-value">– / 12</span>' in html
+    assert "Fate" not in html
+    assert "None" not in html
+
+
+@pytest.mark.django_db
+def test_character_list_escapes_sheet_values(client, user_factory, character_factory):
+    owner = user_factory()
+    character_factory(
+        owner=owner, display_name="<b>X</b>", values={"c1_career_path": "<script>alert(1)</script>"}
+    )
+    client.force_login(owner)
+    html = client.get("/characters/").content.decode()
+
+    assert "<script>alert(1)</script>" not in html
+    assert "&lt;script&gt;" in html
+    assert "<b>X</b>" not in html
+
+
+@pytest.mark.django_db
+def test_character_list_never_shows_another_users_character_card(
+    client, user_factory, character_factory
+):
+    owner = user_factory()
+    other = user_factory()
+    character_factory(owner=owner, display_name="Own", values={"c1_career_path": "Arch-Militant"})
+    foreign = character_factory(
+        owner=other, display_name="Foreign Captain", values={"c1_career_path": "Navigator"}
+    )
+    client.force_login(owner)
+    response = client.get("/characters/")
+    html = response.content.decode()
+
+    assert "Arch-Militant" in html
+    assert "Foreign Captain" not in html
+    assert "Navigator" not in html
+    assert str(foreign.id) not in html
+    assert [card["name"] for card in response.context["cards"]] == ["Own"]
+
+
+@pytest.mark.django_db
+def test_character_list_empty_state_points_at_create_form(client, user_factory):
+    owner = user_factory()
+    client.force_login(owner)
+    html = client.get("/characters/").content.decode()
+
+    assert "Noch keine Charaktere vorhanden." in html
+    assert 'href="#create-character"' in html
+    assert 'id="create-character"' in html
+    assert 'name="display_name"' in html
+    assert 'id="id_display_name"' in html

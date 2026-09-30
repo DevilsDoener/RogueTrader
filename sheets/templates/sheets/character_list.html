@@ -3,18 +3,72 @@
 {% block title %}Charaktere &ndash; Rogue Trader Portal{% endblock %}
 
 {% block content %}
-  <h1>Deine Charaktere</h1>
-  <ul class="plain-list">
-    {% for character in characters %}
-      <li>
-        <a href="{% url 'sheets:character_detail' character.pk %}">{{ character.display_name|default:"Unbenannter Charakter" }}</a>
-        <a class="button button-danger" href="{% url 'sheets:character_delete' character.pk %}">L&ouml;schen</a>
-      </li>
+  {% comment %}Hero shares the Bibliothek's classes (portal.css, "Bibliothek")
+     so both overview pages keep one look.{% endcomment %}
+  <header class="library-hero">
+    <span class="library-eyebrow">Deine Crew</span>
+    <h1>Charaktere</h1>
+    <p class="library-intro">Deine Charaktere auf einen Blick &ndash; Laufbahn, Werte und Zustand jedes Dossiers. &Ouml;ffne einen Bogen, um weiterzuspielen, oder lege einen neuen Charakter an.</p>
+  </header>
+
+  {% comment %}One dossier per character. `cards` is built by
+     sheets.views._character_card; every part of a card is optional.{% endcomment %}
+  <div class="crew-grid">
+    {% for card in cards %}
+      <article class="crew-card" aria-labelledby="crew-card-{{ card.pk }}">
+        <header class="crew-card-head">
+          <span class="crew-card-sigil" aria-hidden="true">{{ card.initial }}</span>
+          <div class="crew-card-heading">
+            <h2 class="crew-card-title" id="crew-card-{{ card.pk }}">
+              <a href="{% url 'sheets:character_detail' card.pk %}">{{ card.name }}</a>
+            </h2>
+            {% if card.subtitle %}
+              <p class="crew-card-meta">{{ card.subtitle|join:" · " }}</p>
+            {% endif %}
+          </div>
+        </header>
+
+        {% if card.has_characteristics %}
+          <dl class="crew-card-characteristics" aria-label="Characteristics">
+            {% for characteristic in card.characteristics %}
+              <div class="crew-characteristic{% if not characteristic.value %} is-empty{% endif %}">
+                <dt>{{ characteristic.label }}</dt>
+                <dd>{{ characteristic.value|default:"–" }}</dd>
+              </div>
+            {% endfor %}
+          </dl>
+        {% else %}
+          <p class="crew-card-blank">Noch keine Werte eingetragen.</p>
+        {% endif %}
+
+        {% if card.stats %}
+          <ul class="crew-card-stats">
+            {% for stat in card.stats %}
+              <li class="crew-stat">
+                <span class="crew-stat-label">{{ stat.label }}</span>
+                <span class="crew-stat-value">{{ stat.value }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <footer class="crew-card-footer">
+          <p class="crew-card-updated">Zuletzt ge&auml;ndert <time datetime="{{ card.updated_at|date:'c' }}">{{ card.updated_at|date:'d.m.Y H:i' }}</time></p>
+          <div class="crew-card-actions">
+            <a class="button button-primary" href="{% url 'sheets:character_detail' card.pk %}">Bogen &ouml;ffnen</a>
+            <a class="button button-danger crew-card-delete" href="{% url 'sheets:character_delete' card.pk %}" aria-label="{{ card.name }} l&ouml;schen">L&ouml;schen</a>
+          </div>
+        </footer>
+      </article>
     {% empty %}
-      <li>Noch keine Charaktere vorhanden.</li>
+      <div class="crew-empty">
+        <p class="crew-empty-title">Noch keine Charaktere vorhanden.</p>
+        <p>Deine Crew ist noch leer. Leg <a href="#create-character">deinen ersten Charakter an</a> &ndash; ein Name gen&uuml;gt, alles Weitere tr&auml;gst du im Bogen ein.</p>
+      </div>
     {% endfor %}
-  </ul>
-  <div class="form-card" id="create-character">
-    {% include "sheets/character_create.html" %}
+
+    <section class="crew-card crew-card-create" id="create-character">
+      {% include "sheets/character_create.html" %}
+    </section>
   </div>
 {% endblock %}

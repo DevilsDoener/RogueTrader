@@ -92,18 +92,107 @@ def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> 
     }
 
 
+#: The nine characteristics shown on a character-list card, in sheet order.
+#: Labels are the book's English abbreviations.
+CARD_CHARACTERISTICS: tuple[tuple[str, str], ...] = (
+    ("WS", "c1_ws_value"),
+    ("BS", "c1_bs_value"),
+    ("S", "c1_s_value"),
+    ("T", "c1_t_value"),
+    ("Ag", "c1_ag_value"),
+    ("Int", "c1_int_value"),
+    ("Per", "c1_per_value"),
+    ("WP", "c1_wp_value"),
+    ("Fel", "c1_fel_value"),
+)
+
+#: Stat chips on a character-list card: label, then one field id for a single
+#: value or two (current, total) for a "current / total" pair.
+CARD_STATS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("Wounds", ("c2_wounds_current", "c2_wounds_total")),
+    ("Fate", ("c2_fate_points_current", "c2_fate_points_total")),
+    ("XP to Spend", ("c1_xp_to_spend",)),
+    ("Profit Factor", ("c1_profit_factor_current",)),
+)
+
+#: Placeholder for one missing half of a "current / total" chip.
+_MISSING = "–"
+
+
+def _card_value(values: dict, field_id: str) -> str:
+    """One sheet value as display text; missing, empty or non-text is ``""``."""
+    value = values.get(field_id)
+    if isinstance(value, bool) or not isinstance(value, (str, int, float)):
+        return ""
+    return str(value).strip()
+
+
+def _character_card(character: CharacterSheet) -> dict:
+    """Map a character to the plain dict one character-list card renders.
+
+    Read-only presentation: it never writes to ``character``. Every part is
+    optional -- a fresh character with empty ``values`` yields a card with
+    only its name, dates and actions.
+    """
+    values = character.values if isinstance(character.values, dict) else {}
+    name = (character.display_name or "").strip() or "Unbenannter Charakter"
+
+    rank = _card_value(values, "c1_rank")
+    subtitle = [
+        part
+        for part in (
+            _card_value(values, "c1_career_path"),
+            f"Rank {rank}" if rank else "",
+            _card_value(values, "c1_home_world"),
+        )
+        if part
+    ]
+
+    characteristics = [
+        {"label": label, "value": _card_value(values, field_id)}
+        for label, field_id in CARD_CHARACTERISTICS
+    ]
+
+    stats = []
+    for label, field_ids in CARD_STATS:
+        parts = [_card_value(values, field_id) for field_id in field_ids]
+        if not any(parts):
+            continue
+        stats.append(
+            {"label": label, "value": " / ".join(part or _MISSING for part in parts)}
+        )
+
+    return {
+        "pk": character.pk,
+        "name": name,
+        "initial": name[0].upper(),
+        "subtitle": subtitle,
+        "characteristics": characteristics,
+        "has_characteristics": any(c["value"] for c in characteristics),
+        "stats": stats,
+        "updated_at": character.updated_at,
+    }
+
+
 class CharacterListCreateView(LoginRequiredMixin, View):
     """``GET/POST /characters/`` -- list the caller's own characters, create a new one."""
 
     template_name = "sheets/character_list.html"
 
-    def get(self, request):
+    def _render(self, request, form):
         characters = _owned_characters(request.user).order_by("display_name")
         return render(
             request,
             self.template_name,
-            {"characters": characters, "form": CharacterCreateForm()},
+            {
+                "characters": characters,
+                "cards": [_character_card(character) for character in characters],
+                "form": form,
+            },
         )
+
+    def get(self, request):
+        return self._render(request, CharacterCreateForm())
 
     def post(self, request):
         form = CharacterCreateForm(request.POST)
@@ -112,12 +201,7 @@ class CharacterListCreateView(LoginRequiredMixin, View):
             character.owner = request.user
             character.save()
             return redirect("sheets:character_detail", pk=character.pk)
-        characters = _owned_characters(request.user).order_by("display_name")
-        return render(
-            request,
-            self.template_name,
-            {"characters": characters, "form": form},
-        )
+        return self._render(request, form)
 
 
 class CharacterDetailView(LoginRequiredMixin, View):
