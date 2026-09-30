@@ -24,7 +24,7 @@ Two table-specific passes sit either side of Bleach:
 - *Before*, a core rule rewrites markdown-it's column-alignment ``style``
   attribute into one of three fixed class names (``_table_alignment_to_class``).
   Bleach has no ``style`` in ``ALLOWED_ATTRIBUTES``, so the alignment declared
-  by ``|---:|`` used to be dropped silently. The class names are generated
+  by ``|---:|`` would be dropped silently. The class names are generated
   here, never copied from the document, and ``ALLOWED_ATTRIBUTES`` admits
   them through a *value*-checking callable rather than a bare attribute name.
 - *After*, ``_wrap_tables`` puts each table in a horizontally scrollable

@@ -1,13 +1,12 @@
 """Startup checks for the wiki content tree.
 
-A missing or unreadable chapter used to be a single ``WARNING`` in the log and
-nothing else: the app booted, the wiki was quietly short a chapter (or empty),
-and nobody found out until a player looked. These run under ``manage.py
-check``, so a broken content mount fails the deploy instead.
+A missing, unreadable or unlisted chapter is reported under ``manage.py
+check``, so a broken content mount fails the deploy instead of quietly serving
+a wiki that is short a chapter.
 
-Deliberately reported through the checks framework rather than raised during
-parsing: ``WikiRepository.load()`` must keep skipping a broken file so one bad
-chapter cannot take the whole wiki down at runtime.
+Reported through the checks framework rather than raised during parsing:
+``WikiRepository.load()`` keeps skipping a broken file so one bad chapter
+cannot take the whole wiki down at runtime.
 """
 from __future__ import annotations
 

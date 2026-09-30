@@ -1,27 +1,19 @@
 """Build a navigable heading tree for one chapter.
 
-Replaces the previous line-regex splitter, which recognised ``##`` only. Two
-things follow from that limitation and are fixed here:
+Every heading level becomes a node, so a chapter's table of contents can nest.
 
-- Chapters whose sub-sections are ``#`` rather than ``##`` collapsed into a
-  single enormous section. ``02-Karrierewege.md`` is the extreme case: its
-  eight career paths are H1, so ~93 KB and 1,400 table rows ended up under one
-  anchor with no way to link to any individual career. The rule below is *the
-  first H1 is the chapter title; every later heading counts as
-  ``max(level, 2)``* -- which turns that file into twelve sections with their
-  own children without editing a single Markdown file.
-- ``###`` and ``####`` headings were invisible to navigation entirely. They
-  are now nodes, so a chapter's table of contents can nest.
+- **H1 clamp.** The first H1 is the chapter title; every later heading counts
+  as ``max(level, 2)``. ``02-Karrierewege.md`` writes its eight career paths
+  as H1, and this rule turns them into sections with their own children
+  without editing the Markdown.
+- **Nesting, not absolute level.** Files that wrap their entries in one extra
+  container (``14-Traits.md`` uses ``## > ### > ####`` where
+  ``04-Talents.md`` uses ``## > ###``) come out with the same shape and need
+  no normalisation.
 
-The tree is keyed on *nesting*, not on the absolute heading level, so files
-that wrap their entries in one extra container (``14-Traits.md`` uses
-``## > ### > ####`` where ``04-Talents.md`` uses ``## > ###``) come out with
-the same shape and need no normalisation.
-
-Working from the token stream rather than from lines also means fenced code,
-indented code, setext headings and a ``#`` inside a table cell are handled
-correctly by construction -- the old splitter carried hand-written fence
-tracking for exactly one of those cases.
+Working from the markdown-it token stream rather than from lines means fenced
+code, indented code, setext headings and a ``#`` inside a table cell are
+handled correctly by construction.
 """
 from __future__ import annotations
 
@@ -256,8 +248,7 @@ def parse_outline(
 ) -> Tuple[str, Tuple[OutlineNode, ...], int]:
     """Parse one chapter into ``(title, top_level_nodes, dropped_count)``.
 
-    ``title`` falls back to ``source_name``'s stem when the file has no H1,
-    matching the previous behaviour.
+    ``title`` falls back to ``source_name``'s stem when the file has no H1.
     """
     tokens = renderer.parse(text)
     title_token, drafts = _split_headings(tokens)
@@ -266,12 +257,11 @@ def parse_outline(
         chapter_title = _plain_text([title_token]).strip()
     else:
         # No H1 anywhere: keep the heading structure we found and fall back to
-        # the filename for the chapter title, as the previous parser did.
+        # the filename for the chapter title.
         chapter_title = re.sub(r"\.md$", "", source_name) or "Chapter"
 
     # The intro has no heading of its own, so it borrows the chapter title --
-    # both for display and, importantly, for its anchor, which is what it was
-    # derived from before the tree existed.
+    # both for display and for its anchor.
     for draft in drafts:
         if draft.is_intro:
             draft.title = chapter_title
