@@ -12,7 +12,7 @@ document precedence, who owns which subject, and the test duties. The active
 subject documents are:
 
 - **Wiki chapters — list, reading order, URL slug, grouping:** [`wiki/manifest.py`](wiki/manifest.py)
-- **Wiki quick-access links ("Schnellzugriff"):** `QUICK_LINKS` in [`wiki/manifest.py`](wiki/manifest.py)
+- **Wiki quick-access links ("Quick Links"):** `QUICK_LINKS` in [`wiki/manifest.py`](wiki/manifest.py)
 - **Sheet field & overlay conventions:** [`docs/charakterbogen-feld-anforderungen.md`](docs/charakterbogen-feld-anforderungen.md)
 - **Layout format (sections, templates, coordinates):** [`docs/sheet-layout.md`](docs/sheet-layout.md)
 - **Calibration, fixtures, manifest:** [`docs/sheet-calibration.md`](docs/sheet-calibration.md)
@@ -72,7 +72,7 @@ process start into an immutable in-memory tree, so requests never touch disk.
   parts keep their own band, and every numbered chapter shares the Chapters
   band. Typing in its filter narrows the cards live, marks the matching
   sections (level-2 ones included), and bands without a match disappear.
-  The "Schnellzugriff" chips come from `QUICK_LINKS` in
+  The "Quick Links" chips come from `QUICK_LINKS` in
   `wiki/manifest.py` (the partial is `wiki/templates/wiki/_quick_links.html`);
   edit that tuple to change them. "Weiterlesen" lists the places you last
   read. That history (also shown in the empty palette) is kept **only in the

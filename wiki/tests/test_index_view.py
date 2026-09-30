@@ -137,7 +137,7 @@ def test_quick_links_are_rendered_when_their_targets_exist(
     content = _get(client, user_factory)
     chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "talents"})
 
-    assert "Schnellzugriff" in content
+    assert "Quick Links" in content
     assert f'href="{chapter_url}#sec-detailed-talent-descriptions"' in content
     assert ">Talents</a>" in content
 
