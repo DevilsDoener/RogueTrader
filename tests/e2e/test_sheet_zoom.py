@@ -3,17 +3,9 @@ from __future__ import annotations
 
 import pytest
 
-from .conftest import login_via_browser
+from .conftest import open_character
 
 pytestmark = pytest.mark.django_db(transaction=True)
-
-
-def _open_character(page, live_server, owner, character_factory):
-    character = character_factory(owner=owner, values={})
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.wait_for_selector('[data-field-id="c1_character_name"]')
-    return character
 
 
 # The viewer scales via a single transform on .sheet-canvas (not a wrapper
@@ -38,7 +30,7 @@ def _rendered_canvas_width(page):
 def test_zoom_out_button_shrinks_canvas_and_updates_label(
     page, live_server, owner, character_factory
 ):
-    _open_character(page, live_server, owner, character_factory)
+    open_character(page, live_server, owner, character_factory)
 
     assert page.locator("#sheet-zoom-level").inner_text() == "100%"
     before = _rendered_canvas_width(page)
@@ -76,7 +68,7 @@ def test_checkbox_stays_locked_to_artwork_across_zoom(
     # checkboxes shift". Because one transform scales the whole calibrated
     # layer as a unit, a checkbox's position relative to the artwork must be
     # identical at every zoom level, not merely close.
-    _open_character(page, live_server, owner, character_factory)
+    open_character(page, live_server, owner, character_factory)
 
     at_100 = _checkbox_position_in_canvas(page, "c1_ws_adv_1")
 
@@ -92,7 +84,7 @@ def test_checkbox_stays_locked_to_artwork_across_zoom(
 def test_zoom_cannot_go_below_30_or_above_100_percent(
     page, live_server, owner, character_factory
 ):
-    _open_character(page, live_server, owner, character_factory)
+    open_character(page, live_server, owner, character_factory)
 
     for _ in range(7):  # 100% down to 30% in 10% steps
         page.click(".sheet-zoom-out")
@@ -108,7 +100,7 @@ def test_zoom_cannot_go_below_30_or_above_100_percent(
 def test_ctrl_minus_and_ctrl_zero_shortcuts_control_zoom(
     page, live_server, owner, character_factory
 ):
-    _open_character(page, live_server, owner, character_factory)
+    open_character(page, live_server, owner, character_factory)
 
     page.keyboard.press("Control+-")
     assert page.locator("#sheet-zoom-level").inner_text() == "90%"
@@ -121,7 +113,7 @@ def test_ctrl_minus_and_ctrl_zero_shortcuts_control_zoom(
 
 
 def test_zoom_level_persists_across_reload(page, live_server, owner, character_factory):
-    _open_character(page, live_server, owner, character_factory)
+    open_character(page, live_server, owner, character_factory)
 
     page.click(".sheet-zoom-out")
     page.click(".sheet-zoom-out")
@@ -137,10 +129,7 @@ def test_zoom_level_persists_across_reload(page, live_server, owner, character_f
 def test_zoom_control_is_present_on_read_only_admin_view(
     page, live_server, portal_admin, owner, character_factory
 ):
-    character = character_factory(owner=owner, values={})
-    login_via_browser(page, live_server, username=portal_admin.username)
-    page.goto(f"{live_server.url}/portal-admin/characters/{character.id}/")
-    page.wait_for_selector('[data-field-id="c1_character_name"]')
+    open_character(page, live_server, owner, character_factory, admin=portal_admin)
 
     assert page.locator("#sheet-zoom-level").inner_text() == "100%"
     page.click(".sheet-zoom-out")
@@ -150,7 +139,7 @@ def test_zoom_control_is_present_on_read_only_admin_view(
 def test_zoom_toolbar_stays_below_topbar_while_scrolling(
     page, live_server, owner, character_factory
 ):
-    _open_character(page, live_server, owner, character_factory)
+    open_character(page, live_server, owner, character_factory)
 
     page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
     page.wait_for_function("window.scrollY > 500")

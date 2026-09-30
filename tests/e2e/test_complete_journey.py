@@ -1,4 +1,4 @@
-"""Task 11, Step 1: a single real end-to-end acceptance journey.
+"""A single real end-to-end acceptance journey.
 
 This drives the whole portal the way a game group would actually use it,
 through real (headless) browser sessions against a real HTTP server
@@ -6,7 +6,7 @@ through real (headless) browser sessions against a real HTTP server
 the fixtures below use ``transactional_db``/``django_db(transaction=True)``
 instead of the default ``db``.
 
-Covered in one continuous flow, matching the Task 11 brief:
+Covered in one continuous flow:
   1. Bootstrap the initial portal admin via the real management command.
   2. As that admin, create two managed users with temporary passwords.
   3. Force both users through the mandatory first-login password change.
@@ -32,9 +32,9 @@ could plausibly break this app:
 
 * Nothing may be cached only in the browser: after step 9 we clear the
   browser context's cookies *and* ``localStorage`` on both sessions --
-  this destroys the Django session id, the "must change password" bypass,
-  and the sheet viewer's remembered page index -- and log back in from
-  scratch, exactly as a returning user would after a server bounce.
+  this destroys the Django session id and the "must change password"
+  bypass -- and log back in from scratch, exactly as a returning user would
+  after a server bounce.
 * Nothing may be cached only in the wiki app's process-wide singleton: we
   explicitly rebuild ``wiki.content.WikiRepository`` from disk again (the
   exact call ``WikiConfig.ready()`` makes on a fresh process boot) and
@@ -55,7 +55,7 @@ from django.core.management import call_command
 
 from wiki.content import WikiRepository, get_repository, set_repository_for_tests
 
-from .conftest import login_via_browser
+from .conftest import login_via_browser, wait_saved
 
 pytestmark = pytest.mark.django_db(transaction=True)
 
@@ -70,13 +70,6 @@ USER_B_NEW_PASSWORD = "Starfall-Ember-64!"
 
 WIKI_SEARCH_TERM = "Explorer"
 WIKI_CHAPTER_FILE = "01-Charaktererschaffung.md"
-
-
-def _wait_saved(page):
-    page.wait_for_function(
-        "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
-        timeout=5000,
-    )
 
 
 def _force_password_change(page, *, old_password: str, new_password: str):
@@ -123,7 +116,7 @@ def _set_text_field(page, field_id: str, value: str):
     field = page.locator(f'[data-field-id="{field_id}"]')
     field.fill(value)
     field.blur()
-    _wait_saved(page)
+    wait_saved(page)
 
 
 def _logout_via_post(page):
@@ -281,7 +274,7 @@ def _run_journey(page, second_page, live_server, ship_sheet):
     class_field_a = page.locator('[data-field-id="ship_class"]')
     class_field_a.fill("Frigate")
     class_field_a.blur()
-    _wait_saved(page)
+    wait_saved(page)
 
     class_field_b = second_page.locator('[data-field-id="ship_class"]')
     class_field_b.fill("Cruiser")
@@ -292,7 +285,7 @@ def _run_journey(page, second_page, live_server, ship_sheet):
     retry_button = panel.locator("text=Meinen Wert erneut speichern")
     assert retry_button.count() == 1
     retry_button.click()
-    _wait_saved(second_page)
+    wait_saved(second_page)
     assert second_page.input_value('[data-field-id="ship_class"]') == "Cruiser"
 
     page.reload()

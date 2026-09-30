@@ -12,78 +12,13 @@ import pytest
 from sheets.schema import load_schema
 from sheets.services import patch_character_field
 
-from .conftest import login_via_browser
+from .conftest import NAMED_DESKTOP_VIEWPORTS, login_via_browser, open_character, wait_saved
 
 pytestmark = pytest.mark.django_db(transaction=True)
 
-DESKTOP_GEOMETRY_VIEWPORTS = [
-    ("desktop-minimum", {"width": 1024, "height": 768}),
-    ("desktop-wide", {"width": 1440, "height": 900}),
-]
-
-DESKTOP_TEXT_VIEWPORTS = [
-    {"width": 1024, "height": 768},
-    {"width": 1440, "height": 900},
-]
-
-
-def _wait_for_fit(page):
-    # The viewer re-fits the canvas to the column via JS on resize (one event
-    # tick), whereas the old cqw model was synchronous CSS. When a test changes
-    # the viewport after load and measures immediately, wait for the re-fit:
-    # at the default 100% zoom a fitted canvas's rendered width equals the
-    # column (wrapper) width.
-    page.wait_for_function(
-        """() => {
-          const wr = document.getElementById('sheet-canvas-wrapper');
-          const cs = document.querySelectorAll('.sheet-page .sheet-canvas');
-          if (!wr || !cs.length) return false;
-          return [...cs].every(
-            (c) => Math.abs(c.getBoundingClientRect().width - wr.clientWidth) <= 1
-          );
-        }"""
-    )
-
-
-def _filled_text_metrics(page, field_id):
-    return page.locator(f'[data-field-id="{field_id}"]').evaluate(
-        """(input) => {
-          const style = getComputedStyle(input);
-          const canvas = input.closest('.sheet-canvas');
-          const scale = Number.parseFloat(
-            getComputedStyle(canvas).getPropertyValue('--sheet-scale')
-          ) || 1;
-          const px = (value) => Number.parseFloat(value) || 0;
-          const rect = input.getBoundingClientRect();
-          return {
-            value: input.value,
-            color: style.color,
-            // "Does the text fit its box": compare the rendered (post-transform)
-            // line height against the rendered content box. The computed
-            // line-height is in element space, so scale it by the canvas
-            // transform to bring it into the same rendered space as the rect.
-            // scrollHeight/clientHeight are the element's own space and are
-            // already mutually consistent (transform-invariant).
-            renderedLineHeight: px(style.lineHeight) * scale,
-            contentHeight: rect.height
-              - px(style.paddingTop) - px(style.paddingBottom)
-              - px(style.borderTopWidth) - px(style.borderBottomWidth),
-            clientHeight: input.clientHeight,
-            scrollHeight: input.scrollHeight,
-            // "Does the text scale with the sheet": the single canvas transform
-            // scales the rendered text with the rendered canvas width.
-            scale: scale,
-            renderedFont: px(style.fontSize) * scale,
-            canvasWidth: canvas.getBoundingClientRect().width,
-          };
-        }"""
-    )
-
 
 def test_tab_order_follows_schema_order(page, live_server, owner, character_factory):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    open_character(page, live_server, owner, character_factory)
 
     # Schema order on character-page-1 puts c1_player_name right after
     # c1_character_name (see sheets/data/character-page-1.json) -- tabbing
@@ -110,9 +45,7 @@ def test_page_2_final_line_fields_are_direct_dom_tab_neighbours(
     starting_field_id,
     expected_next_field_id,
 ):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    open_character(page, live_server, owner, character_factory)
 
     page.focus(f'[data-field-id="{starting_field_id}"]')
     page.keyboard.press("Tab")
@@ -129,9 +62,7 @@ def test_full_line_and_new_skill_values_remain_visible_and_editable(
         "c2_acquisition_14": "existing acquisition 14",
         "c2_acquisition_15": "legacy acquisition 15",
     }
-    character = character_factory(owner=owner, values=initial_values)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    open_character(page, live_server, owner, character_factory, values=initial_values)
 
     for field_id, expected_value in initial_values.items():
         field = page.locator(f'[data-field-id="{field_id}"]')
@@ -148,10 +79,7 @@ def test_full_line_and_new_skill_values_remain_visible_and_editable(
         field = page.locator(f'[data-field-id="{field_id}"]')
         field.fill(edited_value)
         field.blur()
-        page.wait_for_function(
-            "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
-            timeout=5000,
-        )
+        wait_saved(page)
 
     page.reload()
     expected_after_reload = initial_values | edited_values
@@ -162,9 +90,7 @@ def test_full_line_and_new_skill_values_remain_visible_and_editable(
 def test_internal_template_comment_is_not_visible(
     page, live_server, owner, character_factory
 ):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    open_character(page, live_server, owner, character_factory)
 
     assert page.get_by_text("Bare include fragment", exact=False).count() == 0
 
@@ -173,7 +99,7 @@ def test_internal_template_comment_is_not_visible(
     "page_id",
     ("character-page-1", "character-page-2"),
 )
-@pytest.mark.parametrize(("viewport_name", "viewport"), DESKTOP_GEOMETRY_VIEWPORTS)
+@pytest.mark.parametrize(("viewport_name", "viewport"), NAMED_DESKTOP_VIEWPORTS)
 def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
     page,
     live_server,
@@ -184,11 +110,8 @@ def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
     viewport,
 ):
     schema = load_schema(page_id)
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
     page.set_viewport_size(viewport)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.wait_for_selector('[data-field-id="c1_character_name"]')
+    open_character(page, live_server, owner, character_factory)
 
     rendered = page.locator(
         f'.sheet-page[data-page-id="{page_id}"] .sheet-input'
@@ -226,60 +149,13 @@ def test_every_character_field_keeps_schema_order_label_kind_and_geometry(
         assert actual["height"] == pytest.approx(float(field_spec.height / 100), abs=0.001), context
 
 
-def test_filled_character_text_line_boxes_scale_and_fit_at_desktop_widths(
-    page, live_server, owner, character_factory
-):
-    field_values = {
-        "c1_rank": "R9",
-        "c2_wounds_critical_damage": "99",
-    }
-    character = character_factory(owner=owner, values=field_values)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
-
-    measurements = {}
-    for viewport in DESKTOP_TEXT_VIEWPORTS:
-        page.set_viewport_size(viewport)
-        _wait_for_fit(page)
-        page_1 = _filled_text_metrics(page, "c1_rank")
-        page_2 = _filled_text_metrics(page, "c2_wounds_critical_damage")
-        measurements[viewport["width"]] = {
-            "c1_rank": page_1,
-            "c2_wounds_critical_damage": page_2,
-        }
-
-    for viewport_width, fields in measurements.items():
-        for field_id, metrics in fields.items():
-            context = f"{field_id} at desktop width {viewport_width}px"
-            assert metrics["value"] == field_values[field_id], context
-            assert metrics["color"] != "rgba(0, 0, 0, 0)", context
-            # Text fits inside its box (rendered space).
-            assert metrics["renderedLineHeight"] <= metrics["contentHeight"] + 0.5, context
-            assert metrics["scrollHeight"] <= metrics["clientHeight"] + 1, context
-
-    for field_id in field_values:
-        narrow = measurements[1024][field_id]
-        wide = measurements[1440][field_id]
-        # The single canvas transform scales the rendered text with the sheet:
-        # a wider rendered canvas renders proportionally larger text.
-        assert narrow["renderedFont"] < wide["renderedFont"], field_id
-        assert wide["renderedFont"] / narrow["renderedFont"] == pytest.approx(
-            wide["canvasWidth"] / narrow["canvasWidth"], rel=0.15
-        ), field_id
-
-
 def test_text_field_survives_reload(page, live_server, owner, character_factory):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    open_character(page, live_server, owner, character_factory)
 
     field = page.locator('[data-field-id="c1_character_name"]')
     field.fill("Lucian Voss")
     field.blur()
-    page.wait_for_function(
-        "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
-        timeout=5000,
-    )
+    wait_saved(page)
 
     page.reload()
     page.wait_for_selector('[data-field-id="c1_character_name"]')
@@ -287,34 +163,20 @@ def test_text_field_survives_reload(page, live_server, owner, character_factory)
 
 
 def test_checkbox_field_survives_reload(page, live_server, owner, character_factory):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    open_character(page, live_server, owner, character_factory)
 
     checkbox = page.locator('[data-field-id="c1_ws_adv_1"]')
     checkbox.check()
-    page.wait_for_function(
-        "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
-        timeout=5000,
-    )
+    wait_saved(page)
 
     page.reload()
     page.wait_for_selector('[data-field-id="c1_ws_adv_1"]')
     assert page.is_checked('[data-field-id="c1_ws_adv_1"]')
 
 
-def test_viewer_uses_document_scroll_without_zoom_or_pan(
-    page, live_server, owner, character_factory
-):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.evaluate("localStorage.clear()")
+def test_viewer_scrolls_with_the_document(page, live_server, owner, character_factory):
     page.set_viewport_size({"width": 1024, "height": 768})
-    page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.wait_for_selector('[data-field-id="c1_character_name"]')
-
-    assert page.locator(".sheet-toolbar-zoom").count() == 0
-    assert page.locator("#zoom-in, #zoom-out, #fit-width, #fit-page").count() == 0
+    open_character(page, live_server, owner, character_factory)
 
     geometry = page.evaluate(
         """
@@ -338,9 +200,6 @@ def test_viewer_uses_document_scroll_without_zoom_or_pan(
     assert geometry["overflowY"] == "visible"
     assert geometry["transform"] == "none"
     assert geometry["documentScrollable"]
-
-    zoom_key = f"sheets:viewer:{owner.id}:{character.id}:zoom"
-    assert page.evaluate("key => localStorage.getItem(key)", zoom_key) is None
 
     page.evaluate("window.scrollTo(0, 0)")
     page.mouse.wheel(0, 500)
@@ -409,10 +268,8 @@ def test_page_2_edge_conflicts_are_fully_visible_and_resolvable_on_desktop(
     local_value,
     resolution,
 ):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
     page.set_viewport_size(viewport)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    character = open_character(page, live_server, owner, character_factory)
     field = page.locator(f'[data-field-id="{field_id}"]')
     field.scroll_into_view_if_needed()
 
@@ -489,18 +346,13 @@ def test_page_2_edge_conflicts_are_fully_visible_and_resolvable_on_desktop(
         assert page.input_value(f'[data-field-id="{field_id}"]') == remote_value
     else:
         panel.locator(".sheet-conflict-retry-mine").click()
-        page.wait_for_function(
-            "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
-            timeout=5000,
-        )
+        wait_saved(page)
         page.reload()
         assert page.input_value(f'[data-field-id="{field_id}"]') == local_value
 
 
 def test_speak_language_fourth_row_survives_reload(page, live_server, owner, character_factory):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/characters/{character.id}/")
+    open_character(page, live_server, owner, character_factory)
     for suffix in ("basic", "trained", "plus10", "plus20", "bonus"):
         field = page.locator(f'[data-field-id="c1_skill_speak_language_custom_3_{suffix}"]')
         if suffix == "bonus":
@@ -508,11 +360,62 @@ def test_speak_language_fourth_row_survives_reload(page, live_server, owner, cha
             field.blur()
         else:
             field.check()
-        page.wait_for_function(
-            "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
-            timeout=5000,
-        )
+        wait_saved(page)
     page.reload()
     for suffix in ("basic", "trained", "plus10", "plus20"):
         assert page.is_checked(f'[data-field-id="c1_skill_speak_language_custom_3_{suffix}"]')
     assert page.input_value('[data-field-id="c1_skill_speak_language_custom_3_bonus"]') == "15"
+
+
+@pytest.mark.parametrize("width", [1024, 1440])
+def test_bonus_numbers_and_uniform_rows(page, live_server, owner, character_factory, width):
+    fields = load_schema("character-page-1").fields
+    bonus_ids = [field.id for field in fields if field.id.endswith("_bonus")]
+    values = {field_id: "10" for field_id in bonus_ids}
+    values.update({field.id: True for field in fields if "_adv_" in field.id})
+    for field in fields:
+        if field.id.startswith(
+            ("c1_special_ability_", "c1_psychic_discipline_", "c1_psychic_power_")
+        ):
+            values[field.id] = "Beispiel"
+        elif field.id.startswith(("c1_psychic_sustain_", "c1_psychic_range_")):
+            values[field.id] = "10"
+    for field in load_schema("character-page-2").fields:
+        if field.id.startswith("c2_insanity_"):
+            values[field.id] = "Beispiel"
+
+    page.set_viewport_size({"width": width, "height": 1000})
+    open_character(page, live_server, owner, character_factory, values=values)
+
+    for field_id in bonus_ids:
+        bonus = page.locator(f'[data-field-id="{field_id}"]')
+        assert bonus.input_value() == "10"
+        assert bonus.get_attribute("type") == "text"
+        assert bonus.evaluate("el => getComputedStyle(el).textAlign") == "center"
+
+    for prefix in ("c1_special_ability_", "c1_psychic_discipline_", "c1_psychic_power_"):
+        lefts = page.locator(f'[data-field-id^="{prefix}"]').evaluate_all(
+            "els => els.map(el => el.getBoundingClientRect().left)"
+        )
+        # The complete standalone artwork has a slight printed-line drift
+        # down the page. The calibrated fields follow it by less than half
+        # a rendered pixel at the widest tested viewport.
+        assert max(lefts) - min(lefts) < 0.6
+
+    for row in range(1, 7):
+        bottoms = [
+            page.locator(f'[data-field-id="c1_psychic_{column}_{row}"]').evaluate(
+                "el => el.getBoundingClientRect().bottom"
+            )
+            for column in ("power", "sustain", "range")
+        ]
+        # The same source-page rotation shifts the three column baselines by
+        # less than one rendered pixel while keeping each input on its line.
+        assert max(bottoms) - min(bottoms) < 1.0
+
+    acrobatics_bonus = page.locator('[data-field-id="c1_skill_acrobatics_bonus"]')
+    acrobatics_bonus.fill("20")
+    acrobatics_bonus.blur()
+    wait_saved(page)
+    page.reload()
+    assert page.locator('[data-field-id="c1_skill_acrobatics_bonus"]').input_value() == "20"

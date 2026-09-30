@@ -3,14 +3,15 @@ from __future__ import annotations
 
 import pytest
 
-from .conftest import login_via_browser
+from .conftest import (
+    NAMED_DESKTOP_VIEWPORTS,
+    VIEWPORT_WIDE,
+    login_via_browser,
+    open_character,
+    open_ship,
+)
 
 pytestmark = pytest.mark.django_db(transaction=True)
-
-DESKTOP_VIEWPORTS = [
-    ("desktop-minimum", 1024, 768),
-    ("desktop-wide", 1440, 900),
-]
 
 
 def _assert_no_page_level_horizontal_overflow(page):
@@ -20,13 +21,13 @@ def _assert_no_page_level_horizontal_overflow(page):
     assert overflow <= 1, f"page-level horizontal overflow of {overflow}px"
 
 
-@pytest.mark.parametrize("name, width, height", DESKTOP_VIEWPORTS)
+@pytest.mark.parametrize(("viewport_name", "viewport"), NAMED_DESKTOP_VIEWPORTS)
 def test_dashboard_has_no_horizontal_overflow(
-    page, live_server, owner, character_factory, name, width, height
+    page, live_server, owner, character_factory, viewport_name, viewport
 ):
     character_factory(owner=owner, display_name="Lucian Voss")
     login_via_browser(page, live_server, username=owner.username)
-    page.set_viewport_size({"width": width, "height": height})
+    page.set_viewport_size(viewport)
 
     page.goto(f"{live_server.url}/dashboard/")
     page.wait_for_selector("#dashboard-heading")
@@ -34,41 +35,34 @@ def test_dashboard_has_no_horizontal_overflow(
     _assert_no_page_level_horizontal_overflow(page)
 
 
-@pytest.mark.parametrize("name, width, height", DESKTOP_VIEWPORTS)
+@pytest.mark.parametrize(("viewport_name", "viewport"), NAMED_DESKTOP_VIEWPORTS)
 def test_character_list_has_no_horizontal_overflow(
-    page, live_server, owner, name, width, height
+    page, live_server, owner, viewport_name, viewport
 ):
     login_via_browser(page, live_server, username=owner.username)
-    page.set_viewport_size({"width": width, "height": height})
+    page.set_viewport_size(viewport)
 
     page.goto(f"{live_server.url}/characters/")
 
     _assert_no_page_level_horizontal_overflow(page)
 
 
-@pytest.mark.parametrize("name, width, height", DESKTOP_VIEWPORTS)
+@pytest.mark.parametrize(("viewport_name", "viewport"), NAMED_DESKTOP_VIEWPORTS)
 def test_character_sheet_page_has_no_horizontal_overflow(
-    page, live_server, owner, character_factory, name, width, height
+    page, live_server, owner, character_factory, viewport_name, viewport
 ):
-    character = character_factory(owner=owner)
-    login_via_browser(page, live_server, username=owner.username)
-    page.set_viewport_size({"width": width, "height": height})
-
-    page.goto(f"{live_server.url}/characters/{character.id}/")
-    page.wait_for_selector('[data-field-id="c1_character_name"]')
+    page.set_viewport_size(viewport)
+    open_character(page, live_server, owner, character_factory)
 
     _assert_no_page_level_horizontal_overflow(page)
 
 
-@pytest.mark.parametrize("name, width, height", DESKTOP_VIEWPORTS)
+@pytest.mark.parametrize(("viewport_name", "viewport"), NAMED_DESKTOP_VIEWPORTS)
 def test_ship_sheet_page_has_no_horizontal_overflow(
-    page, live_server, owner, ship_sheet, name, width, height
+    page, live_server, owner, ship_sheet, viewport_name, viewport
 ):
-    login_via_browser(page, live_server, username=owner.username)
-    page.set_viewport_size({"width": width, "height": height})
-
-    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
-    page.wait_for_selector('[data-field-id="ship_name"]')
+    page.set_viewport_size(viewport)
+    open_ship(page, live_server, owner, ship_sheet)
 
     _assert_no_page_level_horizontal_overflow(page)
 
@@ -87,7 +81,7 @@ def test_skip_link_moves_focus_to_main_content(page, live_server, owner):
 
 def test_primary_nav_is_permanently_visible_on_desktop(page, live_server, owner):
     login_via_browser(page, live_server, username=owner.username)
-    page.set_viewport_size({"width": 1440, "height": 900})
+    page.set_viewport_size(VIEWPORT_WIDE)
     page.goto(f"{live_server.url}/dashboard/")
 
     assert page.locator("#primary-nav").is_visible()
@@ -95,7 +89,7 @@ def test_primary_nav_is_permanently_visible_on_desktop(page, live_server, owner)
 
 def test_focused_nav_link_has_a_visible_focus_outline(page, live_server, owner):
     login_via_browser(page, live_server, username=owner.username)
-    page.set_viewport_size({"width": 1440, "height": 900})
+    page.set_viewport_size(VIEWPORT_WIDE)
     page.goto(f"{live_server.url}/dashboard/")
 
     page.locator("#primary-nav a").first.focus()

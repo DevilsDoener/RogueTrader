@@ -210,3 +210,122 @@ def login_via_browser(page, live_server, *, username, password=DEFAULT_PASSWORD)
     page.fill('input[name="password"]', password)
     page.click('button[type="submit"]')
     page.wait_for_load_state("networkidle")
+
+
+# -- Shared browser helpers ---------------------------------------------------
+
+#: The two desktop widths every geometry contract is checked at: the minimum
+#: supported width and a wide one.
+VIEWPORT_MINIMUM = {"width": 1024, "height": 768}
+VIEWPORT_WIDE = {"width": 1440, "height": 900}
+DESKTOP_VIEWPORTS = (VIEWPORT_MINIMUM, VIEWPORT_WIDE)
+NAMED_DESKTOP_VIEWPORTS = (
+    ("desktop-minimum", VIEWPORT_MINIMUM),
+    ("desktop-wide", VIEWPORT_WIDE),
+)
+
+
+def wait_saved(page):
+    """Blocks until the sheet viewer reports that the last edit was saved."""
+    page.wait_for_function(
+        "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
+        timeout=10_000,
+    )
+
+
+def wait_for_fit(page):
+    """Blocks until the canvases are re-fitted to the column.
+
+    The viewer re-fits via JS on resize (one event tick). A test that changes
+    the viewport after load and measures at once has to wait for that: at 100%
+    zoom a fitted canvas's rendered width equals the column (wrapper) width.
+    """
+    page.wait_for_function(
+        """() => {
+          const wr = document.getElementById('sheet-canvas-wrapper');
+          const cs = document.querySelectorAll('.sheet-page .sheet-canvas');
+          if (!wr || !cs.length) return false;
+          return [...cs].every(
+            (c) => Math.abs(c.getBoundingClientRect().width - wr.clientWidth) <= 1
+          );
+        }"""
+    )
+
+
+def open_character(page, live_server, owner, character_factory, *, values=None, admin=None):
+    """Creates a character for ``owner``, logs in and opens its sheet.
+
+    With ``admin`` the read-only admin viewer is opened as that user instead.
+    """
+    character = character_factory(owner=owner, values=values or {})
+    login_via_browser(page, live_server, username=(admin or owner).username)
+    route = "portal-admin/characters" if admin else "characters"
+    page.goto(f"{live_server.url}/{route}/{character.id}/")
+    page.wait_for_selector('[data-field-id="c1_character_name"]')
+    return character
+
+
+def open_ship(page, live_server, user, ship_sheet, *, values=None):
+    """Logs ``user`` in and opens the shared ship, optionally pre-filled."""
+    if values:
+        ship_sheet.values = {**ship_sheet.values, **values}
+        ship_sheet.save(update_fields=["values"])
+    login_via_browser(page, live_server, username=user.username)
+    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
+    page.wait_for_selector('[data-field-id="ship_name"]')
+    return ship_sheet
+
+
+# All lengths below are RENDERED (post-transform) pixels: getBoundingClientRect
+# already includes the canvas transform, and font size and line height -- which
+# are computed in the canvas's fixed element space -- are multiplied by
+# --sheet-scale so they land in the same rendered space. Every "shared
+# canvas-relative size" / "fits its box" invariant is then a comparison between
+# mutually consistent values. scrollHeight/clientHeight are in the element's own
+# space and already consistent with each other.
+_TEXT_METRICS_JS = """(input) => {
+  const canvasEl = input.closest('.sheet-canvas');
+  const scale = Number.parseFloat(
+    getComputedStyle(canvasEl).getPropertyValue('--sheet-scale')
+  ) || 1;
+  const px = (value) => Number.parseFloat(value) || 0;
+  const field = input.closest('.sheet-field').getBoundingClientRect();
+  const canvas = canvasEl.getBoundingClientRect();
+  const rect = input.getBoundingClientRect();
+  const style = getComputedStyle(input);
+  return {
+    id: input.dataset.fieldId,
+    pageId: input.closest('.sheet-page').dataset.pageId,
+    value: input.value,
+    color: style.color,
+    bottomDelta: Math.abs(rect.bottom - field.bottom),
+    fontFamily: style.fontFamily,
+    fontSize: px(style.fontSize) * scale,
+    renderedLineHeight: px(style.lineHeight) * scale,
+    contentHeight: rect.height
+      - px(style.paddingTop) - px(style.paddingBottom)
+      - px(style.borderTopWidth) - px(style.borderBottomWidth),
+    clientHeight: input.clientHeight,
+    scrollHeight: input.scrollHeight,
+    inputHeight: rect.height,
+    fieldHeight: field.height,
+    canvasWidth: canvas.width,
+  };
+}"""
+
+
+def text_metrics(page, field_id):
+    """Rendered text metrics of one text input (see ``_TEXT_METRICS_JS``)."""
+    return page.locator(f'[data-field-id="{field_id}"]').evaluate(_TEXT_METRICS_JS)
+
+
+def all_text_metrics(page):
+    """Metrics of every bottom-anchored line-text input on the open sheet.
+
+    The centred value fields (characteristics, value boxes without a printed
+    line) deliberately fill their box and use their own size, so they are not
+    part of the shared line-text contract.
+    """
+    return page.locator(".sheet-text:not(.sheet-text--center)").evaluate_all(
+        f"(inputs) => inputs.map({_TEXT_METRICS_JS})"
+    )

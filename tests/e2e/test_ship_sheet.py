@@ -1,160 +1,104 @@
-"""Playwright end-to-end concurrency tests for the shared ship sheet.
+"""Playwright end-to-end tests for the shared ship sheet.
 
 Unlike the character sheet (owned by a single user), the ship is mutated by
-every authenticated user, so these tests drive two independent browser
-contexts (``page``/``second_page`` -- see ``tests/e2e/conftest.py``) logged
-in as two different users against the same ``ShipSheet`` row, matching how
-the feature is actually used at the table.
+every authenticated user, so the concurrency tests drive two independent
+browser contexts (``page``/``second_page`` -- see ``tests/e2e/conftest.py``)
+logged in as two different users against the same ``ShipSheet`` row, matching
+how the feature is actually used at the table.
 """
 from __future__ import annotations
 
 import pytest
 
-from .conftest import login_via_browser
+from .conftest import login_via_browser, open_ship, wait_saved
 
 pytestmark = pytest.mark.django_db(transaction=True)
 
-DESKTOP_TEXT_VIEWPORTS = [
-    {"width": 1024, "height": 768},
-    {"width": 1440, "height": 900},
-]
+# True while the rendered text of a ship field fits the printed area, the same
+# check the viewer's own shrink-to-fit applies.
+_TEXT_FITS_JS = """id => {
+  const el = document.querySelector('[data-field-id="' + id + '"]');
+  const style = getComputedStyle(el);
+  const context = document.createElement('canvas').getContext('2d');
+  context.font = style.font;
+  return context.measureText(el.value).width
+    <= el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) + 1;
+}"""
 
 
-def _wait_saved(page):
-    page.wait_for_function(
-        "document.getElementById('sheet-save-status').textContent === 'Gespeichert'",
-        timeout=5000,
-    )
+def test_ship_viewer_scrolls_with_the_document(page, live_server, user_factory, ship_sheet):
+    open_ship(page, live_server, user_factory(), ship_sheet)
 
-
-def _wait_for_fit(page):
-    # The viewer re-fits the canvas to the column via JS on resize (one event
-    # tick). When a test changes the viewport after load and measures at once,
-    # wait for the re-fit: at 100% zoom a fitted canvas's rendered width equals
-    # the column (wrapper) width.
-    page.wait_for_function(
-        """() => {
-          const wr = document.getElementById('sheet-canvas-wrapper');
-          const cs = document.querySelectorAll('.sheet-page .sheet-canvas');
-          if (!wr || !cs.length) return false;
-          return [...cs].every(
-            (c) => Math.abs(c.getBoundingClientRect().width - wr.clientWidth) <= 1
-          );
-        }"""
-    )
-
-
-def test_ship_viewer_has_no_zoom_controls_or_transform(
-    page, live_server, user_factory, ship_sheet
-):
-    user = user_factory()
-    login_via_browser(page, live_server, username=user.username)
-    page.evaluate("localStorage.clear()")
-    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
-    page.wait_for_selector('[data-field-id="ship_name"]')
-
-    assert page.locator(".sheet-toolbar-zoom").count() == 0
-    assert page.locator("#zoom-in, #zoom-out, #fit-width, #fit-page").count() == 0
     assert page.evaluate(
         "getComputedStyle(document.querySelector('.sheet-canvas-wrapper')).transform"
     ) == "none"
 
-    zoom_key = f"sheets:viewer:{user.id}:{ship_sheet.id}:zoom"
-    assert page.evaluate("key => localStorage.getItem(key)", zoom_key) is None
 
-
-def test_filled_ship_text_line_box_scales_and_fits_at_desktop_widths(
-    page, live_server, user_factory, ship_sheet
+@pytest.mark.parametrize("width", [1024, 1440])
+def test_ship_values_fit_and_enlarged_markers_save(
+    page, live_server, user_factory, ship_sheet, width
 ):
-    user = user_factory()
-    ship_sheet.values = {"ship_weapon_1_damage": "9"}
-    ship_sheet.save(update_fields=["values"])
-    login_via_browser(page, live_server, username=user.username)
-    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
+    damage_ids = [f"ship_weapon_{n}_damage" for n in range(1, 5)]
+    page.set_viewport_size({"width": width, "height": 1000})
+    open_ship(
+        page,
+        live_server,
+        user_factory(),
+        ship_sheet,
+        values={damage_id: "1d10+2" for damage_id in damage_ids},
+    )
+    for damage_id in damage_ids:
+        page.locator(f'[data-field-id="{damage_id}"]').scroll_into_view_if_needed()
+        page.wait_for_function(_TEXT_FITS_JS, arg=damage_id, timeout=3000)
 
-    measurements = {}
-    for viewport in DESKTOP_TEXT_VIEWPORTS:
-        page.set_viewport_size(viewport)
-        _wait_for_fit(page)
-        measurements[viewport["width"]] = page.locator(
-            '[data-field-id="ship_weapon_1_damage"]'
-        ).evaluate(
-            """(input) => {
-              const style = getComputedStyle(input);
-              const canvas = input.closest('.sheet-canvas');
-              const scale = Number.parseFloat(
-                getComputedStyle(canvas).getPropertyValue('--sheet-scale')
-              ) || 1;
-              const px = (value) => Number.parseFloat(value) || 0;
-              const rect = input.getBoundingClientRect();
-              return {
-                value: input.value,
-                color: style.color,
-                // "Does the text fit its box": rendered line height vs rendered
-                // content box (the computed line-height is scaled by the canvas
-                // transform into the same rendered space as the rect).
-                renderedLineHeight: px(style.lineHeight) * scale,
-                contentHeight: rect.height
-                  - px(style.paddingTop) - px(style.paddingBottom)
-                  - px(style.borderTopWidth) - px(style.borderBottomWidth),
-                clientHeight: input.clientHeight,
-                scrollHeight: input.scrollHeight,
-                // "Does the text scale with the sheet": rendered text scales
-                // with rendered canvas width via the single transform.
-                scale: scale,
-                renderedFont: px(style.fontSize) * scale,
-                canvasWidth: canvas.getBoundingClientRect().width,
-              };
+    resource_ids = (
+        "ship_space_available",
+        "ship_space_used",
+        "ship_power_available",
+        "ship_power_used",
+        *(
+            f"ship_weapon_capacity_{side}"
+            for side in ("dorsal", "prow", "keel", "port", "starboard")
+        ),
+    )
+    for field_id in resource_ids:
+        field = page.locator(f'[data-field-id="{field_id}"]')
+        field.fill("12")
+        field.blur()
+        wait_saved(page)
+
+    # Clicking the printed label, away from the small dot, toggles only this marker.
+    page.locator('label[for="field-ship_weapon_1_type_macro_battery"]').click(
+        position={"x": 3, "y": 2}
+    )
+    wait_saved(page)
+    assert page.locator('[data-field-id="ship_weapon_1_type_macro_battery"]').is_checked()
+    assert not page.locator('[data-field-id="ship_weapon_1_type_lance"]').is_checked()
+
+    # Every enlarged region must resolve to its own marker, including row edges.
+    for hit_label in page.locator(".sheet-pip-hit").all():
+        hit_label.scroll_into_view_if_needed()
+        assert hit_label.evaluate(
+            """label => {
+              const r = label.getBoundingClientRect();
+              return [[0.15, 0.5], [0.85, 0.5]].every(([x, y]) => {
+                const el = document.elementFromPoint(r.left + r.width * x, r.top + r.height * y);
+                return el === label || el.id === label.htmlFor;
+              });
             }"""
         )
 
-    for viewport_width, metrics in measurements.items():
-        context = f"ship_weapon_1_damage at desktop width {viewport_width}px"
-        assert metrics["value"] == "9", context
-        assert metrics["color"] != "rgba(0, 0, 0, 0)", context
-        # Text fits inside its box (rendered space).
-        assert metrics["renderedLineHeight"] <= metrics["contentHeight"] + 0.5, context
-        assert metrics["scrollHeight"] <= metrics["clientHeight"] + 1, context
+    damage = page.locator('[data-field-id="ship_weapon_1_damage"]')
+    damage.fill("2d10+12")
+    damage.blur()
+    wait_saved(page)
 
-    narrow = measurements[1024]
-    wide = measurements[1440]
-    # The single canvas transform scales the rendered text with the sheet.
-    assert narrow["renderedFont"] < wide["renderedFont"]
-    assert wide["renderedFont"] / narrow["renderedFont"] == pytest.approx(
-        wide["canvasWidth"] / narrow["canvasWidth"], rel=0.15
-    )
-
-
-def test_different_field_edits_from_two_browsers_merge(
-    page, second_page, live_server, user_factory, ship_sheet
-):
-    first_user = user_factory()
-    second_user = user_factory()
-
-    login_via_browser(page, live_server, username=first_user.username)
-    page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
-    page.wait_for_selector('[data-field-id="ship_name"]')
-
-    login_via_browser(second_page, live_server, username=second_user.username)
-    second_page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
-    second_page.wait_for_selector('[data-field-id="ship_speed"]')
-
-    name_field = page.locator('[data-field-id="ship_name"]')
-    name_field.fill("Rosinante")
-    name_field.blur()
-    _wait_saved(page)
-
-    speed_field = second_page.locator('[data-field-id="ship_speed"]')
-    speed_field.fill("7")
-    speed_field.blur()
-    _wait_saved(second_page)
-
-    # Both edits must have gone through even though they raced against each
-    # other on different fields of the same shared sheet.
     page.reload()
-    page.wait_for_selector('[data-field-id="ship_name"]')
-    assert page.input_value('[data-field-id="ship_name"]') == "Rosinante"
-    assert page.input_value('[data-field-id="ship_speed"]') == "7"
+    assert page.locator('[data-field-id="ship_weapon_1_damage"]').input_value() == "2d10+12"
+    assert page.locator('[data-field-id="ship_space_available"]').input_value() == "12"
+    assert page.locator('[data-field-id="ship_weapon_capacity_dorsal"]').input_value() == "12"
+    assert page.locator('[data-field-id="ship_weapon_1_type_macro_battery"]').is_checked()
+    page.wait_for_function(_TEXT_FITS_JS, arg="ship_weapon_1_damage")
 
 
 def test_same_field_conflict_shown_to_second_saver_and_reload_shows_accepted_value(
@@ -176,7 +120,7 @@ def test_same_field_conflict_shown_to_second_saver_and_reload_shows_accepted_val
     first_field = page.locator('[data-field-id="ship_class"]')
     first_field.fill("Frigate")
     first_field.blur()
-    _wait_saved(page)
+    wait_saved(page)
 
     # The second browser still thinks base_version is 0, so its save on the
     # same field must conflict rather than silently overwrite the winner.
@@ -202,7 +146,7 @@ def test_same_field_conflict_shown_to_second_saver_and_reload_shows_accepted_val
     assert second_page.input_value('[data-field-id="ship_class"]') == "Frigate"
 
 
-def test_history_attributes_each_edit_to_the_correct_actor(
+def test_different_field_edits_merge_and_history_attributes_each_to_its_actor(
     page, second_page, live_server, user_factory, ship_sheet
 ):
     first_user = user_factory()
@@ -211,18 +155,27 @@ def test_history_attributes_each_edit_to_the_correct_actor(
     login_via_browser(page, live_server, username=first_user.username)
     page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
     page.wait_for_selector('[data-field-id="ship_name"]')
-    name_field = page.locator('[data-field-id="ship_name"]')
-    name_field.fill("Rosinante")
-    name_field.blur()
-    _wait_saved(page)
 
     login_via_browser(second_page, live_server, username=second_user.username)
     second_page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
     second_page.wait_for_selector('[data-field-id="ship_speed"]')
+
+    name_field = page.locator('[data-field-id="ship_name"]')
+    name_field.fill("Rosinante")
+    name_field.blur()
+    wait_saved(page)
+
     speed_field = second_page.locator('[data-field-id="ship_speed"]')
     speed_field.fill("7")
     speed_field.blur()
-    _wait_saved(second_page)
+    wait_saved(second_page)
+
+    # Both edits must have gone through even though they raced against each
+    # other on different fields of the same shared sheet.
+    page.reload()
+    page.wait_for_selector('[data-field-id="ship_name"]')
+    assert page.input_value('[data-field-id="ship_name"]') == "Rosinante"
+    assert page.input_value('[data-field-id="ship_speed"]') == "7"
 
     page.goto(f"{live_server.url}/ships/{ship_sheet.id}/history/")
     page.wait_for_selector("#ship-history-table")
