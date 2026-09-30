@@ -2,7 +2,8 @@
 
 > PDF bookmark: **Chapter 13 - The Koronus Expanse**
 > Source: PDF pages 339–366 (book pages 335–362)
-> Status: content fully captured (first transcription). Pure background/lore chapter with no game
+> Status: content fully captured; re-verified page by page against the page images 2026-09-30
+> (including the map spread and its legend). Pure background/lore chapter with no game
 > mechanics (no numeric tables with rules values) — running text has been condensed appropriately;
 > all names, places, factions, persons, and events are fully preserved.
 
@@ -24,7 +25,7 @@ holds secrets and native inhabitants that are no less dangerous.
 
 For centuries, Rogue Traders have ventured into the Koronus Expanse despite great dangers and the
 treacherous warp passage, yet their efforts have barely scratched its secrets. Bases have been
-established near the few reasonably stable warp routes into the region: resource-rich worlds are
+established near the few semi-stable warp routes into the region: resource-rich worlds are
 exploited, xenos ruins are excavated, trade envoys meet with heathen princes, colonies are attempted
 on protected worlds. This has been enough to bring wealth and fame to a lucky few — and to turn the
 rest into corpses. The gateway to the Expanse is littered with wrecks and stories of the vanished.
@@ -54,7 +55,7 @@ inscription "Here be monsters".
 > relatively young sector, founded from worlds conquered during the Angevin Crusade (which ended in
 > the early centuries of the 39th Millennium). It is governed by Sector Governor Marius Hax from his
 > seat on the central hive world Scintilla; his realms stretch from the coreward worlds of the
-> Markayn Reaches, the Josian Reach, and the Hazeroth Abyss to the Malfian Sub-sector and the Drusus
+> Markayn Marches, the Josian Reach, and the Hazeroth Abyss to the Malfian Sub-sector and the Drusus
 > Marches, which border the unexplored vastness of the Halo Stars and from which Rogue Traders and
 > Explorators set out into those haunted, uncharted worlds. The Calixis Sector is the setting of
 > *Dark Heresy*; further information can be found in the *Dark Heresy* rulebook and its supplements.
@@ -95,30 +96,30 @@ into the dark unknown of the Koronus Expanse.
 
 ### The Map Double-Pages (book pages 338–339 / PDF 342–343)
 
-The two double-page spreads show a large-format, stylised star chart of the Koronus Expanse with
+The double-page spread shows a large-format, stylised star chart of the Koronus Expanse with
 place names and world-classification symbols, without accompanying running text. The following
 information was verified directly against the map image (symbols per the legend printed on the
 second map page).
 
-**World symbol legend:** Agri-world (green circle), Feudal World (gold/orange circle), Feral World
-(light green circle), Pleasure World (dark red/purple circle), Penal World (arrow symbol), Mining
-World (turquoise circle), Cemetery World (circle with slash), Frontier World (red circle), Special
-(green hexagon), Forbidden World (circle with X), Dead World (grey ring circle), Gas Giant
-(red-banded circle), Death World (red-and-black split circle), War World (red-and-white split
-circle), Unclassified (white circle).
+**World symbol legend:** Agri-world (dark green circle), Feudal World (gold/orange circle), Feral
+World (light green circle), Pleasure World (crimson circle), Penal World (red circle with a white
+slash), Mining World (turquoise circle), Cemetery World (circle with slash), Frontier World (bright
+red circle), Special (green hexagon), Forbidden World (circle with X), Dead World (grey ring circle),
+Gas Giant (glowing orange-red circle), Death World (red circle with crossed blades), War World
+(circle split red over black), Unclassified (white circle).
 
 **Map page 1 — Spinward/Rimward (Rifts of Hecaton, Heathen Stars, Accursed Demesne, Undred-Undred
 Teef, Cinerius Malificum, Unbeholden Reaches):**
 
 - **Heathen Stars:** Phainal Echoes (Special), Delectus Nox (Unclassified), Vaporius (Feudal World),
   Naduesh (Frontier World), Raakata (Feral World), Seven Dooms (Special), Agusia (Cemetery World),
-  Zayth (Frontier World), Solace Encarmine (Frontier World).
+  Zayth (War World), Solace Encarmine (Frontier World).
 - **Rifts of Hecaton / Accursed Demesne:** Rune (Dead World), Sarator Prime (Unclassified),
-  Pulsar 484 Scran (Special), Illisk (Dead World), Melbethe (Dead World), Last Known Location of
-  Hecaton's Fleet (no symbol, a plain marker point).
-- **Undred-Undred Teef** (Ork pirate hoard, its own green circle cluster): Lathimon's Death,
-  Stompgit, Snagruz, Tusk, Krakskull (all shown as Unclassified/small white dots, without a
-  classification symbol).
+  Pulsar 484 Scran (Special), Illisk (Dead World), Melbethe (Dead World), Lathimon's Death (Dead
+  World, just outside the Undred-Undred Teef ring), Last Known Location of Hecaton's Fleet (label
+  only, no symbol).
+- **Undred-Undred Teef** (Ork domain, marked by its own dashed green ring): Stompgit, Snagruz, Tusk,
+  Krakskull (all Unclassified).
 - **Cinerius Malificum / surroundings:** Falcon's Fall Gamma (Feral World), Dolorium (Feral World),
   Cobalt (Unclassified), Chasmed World (Unclassified), Hemelshot (Unclassified), Lacris
   (Unclassified, map edge), Ntharis (Agri-world), Marwolv (Unclassified), Cinderhall (Unclassified).
@@ -130,7 +131,7 @@ Teef, Cinerius Malificum, Unbeholden Reaches):**
 Worlds):**
 
 - **Ragged Worlds:** Aubray's Anvil (Dead World), Redemption (Cemetery World), Gallant
-  (Unclassified), Seldon's Folly (Pleasure World), Burnscour (Death World), Valcetti's Salvation
+  (Unclassified), Seldon's Folly (War World), Burnscour (Death World), Valcetti's Salvation
   (Unclassified).
 - **Winterscale's Realm:** The Serpent's Cradle with Serpentis Minor and Serpentis Major (both
   Unclassified), Maleziel (Penal World), Egarian Dominion (Special), Jerazol (Dead World), Lucin's
@@ -143,10 +144,10 @@ Worlds):**
   Grace (Unclassified), Septagonic Voids (Special), Salvar II (Cemetery World), Iniquity (Mining
   World), The Tempest of Scorn (Special).
 
-> Note: For a few very similarly coloured symbols (in particular Pleasure World/Frontier World and
-> Penal World/War World, which in the original print are distinguished only by subtle colour
-> nuances or a small arrow icon), the assignment was made by best visual match against the legend,
-> but cannot be guaranteed with absolute certainty.
+> Note: Pleasure World (crimson) and Frontier World (bright red) differ only by a subtle colour
+> nuance in the print; those assignments are a best visual match against the legend. A few labels
+> are cut off at the page edges of the scan and cannot be read in full: "Char…" and "Repton…" at the
+> right edge of map page 1, and a nebula label "…peror's …ge" at the left edge of map page 2.
 
 ## Port Wander: Gateway to the Expanse
 
@@ -448,8 +449,8 @@ fate is inescapable, and the malice of the Foundling Worlds is patient: in time,
   Iniquity, no law holds except that of the strongest; its brutal society is split into brotherhoods
   bound by blood and oaths sworn in unholy tongues. These brotherhoods control mines and smelters in
   the depths beneath the mountains and guard the labouring armies of prisoners, whose lives are best
-  kept short. Chaos raiders supply Iniquity with metal and provisions and bring captured slaves to
-  labour. There is no peace on Iniquity save the rule of strength and murder; mines established there
+  kept short. Iniquity exists to feed its feral packs of Chaos raiders with metal and supplies; the raiders
+  return with captured prisoners to toil in its foundries and poisoned mines. There is no peace on Iniquity save the rule of strength and murder; mines established there
   in the past were never again brought under control after an uprising of forced labourers who
   slaughtered their overseers. To this day, no one has managed to cleanse Iniquity.
 
@@ -462,9 +463,9 @@ unreachable void.
 
 ### The Accursed Demesne
 
-It has long been believed that all evil and all corruption in the Koronus Expanse originates from the
-Accursed Demesne: warp energies that swept life from worlds, star clusters that seemingly died
-together in unnatural catastrophes, and the ravenous Ork. Wise Rogue Traders still avoid these voids
+In ages past, man believed that all evil and all corruption in the Koronus Expanse originated from the
+Accursed Demesne: ills in the warp, energies that swept life from worlds, star clusters that seemingly
+died together in unnatural catastrophes, misfortunes, ghost-vessels, and the ravenous Ork. Wise Rogue Traders still avoid these voids
 today, and little is known about the worlds deep within the Accursed Demesne. Ordinary voidfarers
 live in fear of the Demesne and the misfortune that emanates from it — they whisper stories of xenos
 graves on Lathimon's Death, cursed Dolorium, and the realm of the terrible Ork beyond.
@@ -483,13 +484,13 @@ inaccurate and can cost both Navigator and ship their lives if followed blindly.
   regions of the Koronus Expanse.
 - **Processional of the Damned:** a system of a few barren worlds around a bright, restless star.
   Closer to the sun's energy lies the Processional itself: a thin, orbiting chain of debris, warp-
-  crushed space hulks, and dead ships of hundreds of different xenos origins — were every shipyard of
-  the Segmentum Obscurus to launch a new fleet simultaneously, that fleet would come close to matching
+  crushed space hulks, and dead ships of a hundred different xenos origins — were every dock of
+  the Segmentum Obscurus to launch a new vessel at the same moment, that fleet would come close to matching
   the scale of the Processional. The currents of the warp have carried these uncounted wrecks here,
   perhaps for longer than humanity has traveled the stars — perhaps for longer than humanity has
   existed. Ghosts and other warp echoes circle the Processional, bound to the wrecks and the dust of
   their remains. The Rogue Trader **Wrath Umboldt** discovered the Processional in 746.M41 with his
-  ship *Righteous Crusader*: presences stalked the crew, portent patterns swirled across the auspex
+  ship *Righteous Crusader*, on an expedition far beyond cursed Dolorium: presences stalked the crew, portent patterns swirled across the auspex
   grids, the *Crusader*'s machine spirits grew restless, and the ship's astropaths had to be sedated.
   Salvage crews Umboldt sent into the Processional returned some with great treasures and strange
   xenos artefacts, some mad and gibbering, and most not at all — swallowed by the Processional of the
@@ -530,34 +531,6 @@ senses that a **Waaagh!** is brewing — and all that it awaits is an unchalleng
 the crucible of Ork warfare. The Ork stand on the edge of a vast Waaagh! of destruction that, should
 it not be stopped, will shake the Expanse and the realms beyond it.
 
-**Ork Freebooterz:** Some claim the Ork are no great spacefaring race, their ships and weapons merely
-unreliable constructions of scrap and plundered parts from other races — others point out that Ork
-are found in every corner of the galaxy, and that the supposed limits of their technology have not
-stopped them from ranking among the galaxy's most feared and effective pirates. Their ships are
-massively armed and crammed with battle-hungry Ork; Ork rarely organise beyond the level of a single
-ship, but small fleets can form around particularly charismatic or successful leaders (Kaptins). In
-the Expanse, Ork are most often encountered in small raiding ships roughly the size of an imperial
-escort vessel — deceptively small, for the ship is always packed with a green tide of Ork, so that any
-boarding attempt can only go one way. Ork Freebooter attacks are usually brutal and direct: the ships
-charge the enemy with all weapons firing before ramming and boarding. This does not preclude
-cleverness — Ork often lurk in asteroid fields at the edges of systems to ambush convoys from hiding,
-or raid inhabited worlds and stations, plundering and burning them before withdrawing into a debris
-field. When aiming for a big fight, they will brutalise a world or station and simply wait to see who
-or what appears to defend it.
-
-**Morgaash Kulgraz and Da Wurldbraka:** An up-and-coming Kaptin seeking to unite other Freebooterz
-under a single banner, with the goal of raising himself to overlord of Undred-Undred Teef. Morgaash
-Kulgraz first appeared aboard a heavily damaged space hulk, the *Fist of Gork*, crammed with loot from
-other parts of the galaxy — no one knows how long the hulk had drifted in the warp before that. As a
-cunning master of ship-to-ship combat, Morgaash seized control of the largest and most powerful ship
-in the system, the mighty battlekroozer **Da Wurldbraka**, and crewed it with the strongest, most
-aggressive Boyz of other Kaptins, including as many psychic Ork Weirdboyz as he could find. Da
-Wurldbraka quickly became as legendary as its Kaptin — a nightmarish sight that spreads panic among
-smugglers and Rogue Traders alike. Morgaash strikes fast and with full force in every raid, deliberately
-leaving few survivors to escape and spread his reputation across the Expanse. Most ships in the
-Expanse can only hope to withdraw in time before the dark xenos ship ends the battle by crippling its
-opponent and its Kaptin personally appearing on the enemy bridge.
-
 ## The Heathen Stars
 
 The Heathen Stars are a diffuse region of ancient, dark-burning stars whose worlds have long been
@@ -570,15 +543,15 @@ these fallen worlds remain a subject of mystery and rumour. Rogue Traders have b
 treasures of the Heathen Stars and have not yet brought the God-Emperor's word — a billion heathen
 souls await the arrival of missionary zealots and great auto-temples.
 
-- **Agusia:** a grave world orbiting a dark red star. A vanished human civilisation transported its
+- **Agusia:** a tomb-world orbiting a dim red star. A vanished human civilisation transported its
   dead to Agusia over millennia, turning it into a necropolis world. Agusia's vast ruin-deserts and
-  tower-mountains are barren, eroded, or half-buried in wind-driven dust — every chamber an ancient
+  spire-mountains are barren, eroded, or half-buried in wind-driven dust — every chamber an ancient
   tomb. Agusia remains almost untouched by explorers, save for a small expedition of the Disciples of
   Thule (an Adeptus Mechanicus sect), which pushed into the catacombs beneath the icy deserts of the
-  northern polar zone and found ornately slanted grave shrines, huge dormant prayer-mechanisms,
+  northern polar zone and found ornate sloping tomb-fanes, huge dormant prayer-mechanisms of a dozen varieties,
   mausoleums efficiently packed with biers, impassable walls of black-green metal with silvered
-  magnetic runes, and still-active holographic artworks.
-- **Naduesh:** a world inhabited by humans, of dry plains and vast, decayed mega-cities that testify
+  magnetic runes, and hololithic displays of abstract art still active after millennia.
+- **Naduesh:** a world inhabited by humans, of hot, dry plains and vast, decayed mega-cities that testify
   to an impressive technological achievement. The mega-cities are labyrinthine structures beneath
   huge, pillar-supported domes. Most of the population lives as a tribal society away from the
   cyclopean mega-cities, following herds of herbivores while waging bitter war on each other for
@@ -595,13 +568,13 @@ souls await the arrival of missionary zealots and great auto-temples.
   surface has been barren for millennia, devastated by shellfire, greedy exploitation, and the passage
   of the hive-vehicles. Despite their armament and extraordinary vehicle-cities, the people of Zayth
   have fallen far behind their ancestors' knowledge in everything but war; the knowledge needed to
-  build their hive-vehicles has long been lost. Generators and engine vaults are guarded by hereditary
-  engineer orders that preserve the traditions and culture of each clan-fortress.
+  build their hive-vehicles has long been lost. Great generators and engine vaults are permanently
+  sealed by copper doors or guarded by hereditary Engine Orders that preserve the traditions and culture of each clan-fortress.
 - **Raakata:** a ruin world reachable only through a shifting, treacherous warp region. Its collapsed,
   empty hives are said to be laden with untouched relics of the Dark Age of Technology, while vox
   transmissions in alien tongues, mangled binary code, and static noise can be heard in the vacuum
-  around Raakata. Its human population consists of feral, vicious savages who paint themselves with
-  ash and rusty powder; the knowledge of their ancestors, who built the crumbling hives and the
+  around Raakata. Its human population consists of feral, vicious savages who daub themselves with
+  ash and powdered rust; the knowledge of their ancestors, who built the crumbling hives and the
   treasures rotting within them, has long been lost to them. Everything known about Raakata comes from
   the reports of **Toros Umboldt**, who claimed the discovery for himself but failed to find the world
   again on two later expeditions — all traces of his earlier visit had been erased by the shifting
@@ -609,7 +582,7 @@ souls await the arrival of missionary zealots and great auto-temples.
 - **Vaporius:** Everything known about Vaporius and its strange people comes from rumours in Port
   Wander and Footfall. Vaporius is said to be a world of red deserts, shimmering turquoise seas, and
   great cities of copper towers, enamelled domes, and buildings covered in colourful glass, metal, and
-  ceramic tiles. Its human population is large, with proud, almost feline features and brightly
+  ceramic tiles. Its human population is tall, with proud, almost feline features and brightly
   cyan-coloured eyes; they wear shimmering robes that subtly change colour. Rule over Vaporius is said
   to lie in the hands of **Priest-Kings**, who control the distribution of water, venerated as divine
   life-force. It is said that decades ago a group of missionaries travelled to Vaporius to break the
@@ -635,14 +608,14 @@ bold Rogue Traders who dare to claim them.
   to the limits of geo-auspex probes. The surface is lashed by immense storms and laid waste by
   ancient strip mining; huge towers channel geothermal heat through massive shafts into the turbulent
   atmosphere, driving raging storm belts. Ten citadels rise from the crust, each as massive as a hive,
-  empty but for the whispering dust of dead xenos; kilometre-long corridors are filled with niches
+  empty but for the whispering dust of dead xenos; corridors tens of kilometres long are filled with niches
   holding desiccated xenos corpses, their flesh still threaded with filaments leading into the vast
   machines.
 - **Orn:** Everything known about Orn comes from the Disciples of Thule, who were drawn to Orn's
-  web-forests by emanations from a dormant warp engine in a half-buried xenos ship. There the
+  tangle-forests by emanations from a dormant warp engine in a half-buried xenos ship. There the
   Explorators discovered a warlike, almost feral xenos race using the strange ship as a kind of city
   or nest; the xenos used tech-devices as relics and hunted, tore apart, and devoured survey servitors
-  dropped from orbit. The Thuleans marked the world with the rune of unyielding refusal, declared it
+  dropped from orbit. The Thuleans marked the world with the rune of intransigence, declared it
   anathema to humanity, and moved on.
 - **The Rifts of Hecaton:** an unnatural darkness in the far depths of the Koronus Expanse, like the
   wrath of long-fallen gods cast over the worlds there. Their presence casts a long shadow over the
@@ -692,18 +665,56 @@ the Ork war machine are the **Mekboyz**, ingenious but unreliable craftsmen, mas
 together scrap and plunder into terrifyingly effective starships, war machines, and weapons — even
 if they do not always work exactly as intended.
 
-**Ork Freebooterz** (see Undred-Undred Teef above) dominate the greenskin presence of the Koronus
-Expanse; their attacks are brutal and direct, their greed for plunder boundless, their organisation
-beyond the level of individual ships rare, except around particularly charismatic Kaptins. Even the
-relatively well-explored systems near the Maw have felt the sting of Ork piracy — Footfall itself has
-in the past been attacked by Ork Kaptins commanding enough gunships and kroozers.
+**Ork Freebooterz:** Some claim the Ork are no great spacefaring race, their ships and weapons merely
+unreliable constructions of scrap and plundered parts from other races — others point out that Ork
+are found in every corner of the galaxy, and that the supposed limits of their technology have not
+stopped them from ranking among the galaxy's most feared and effective pirates. Their ships are
+massively armed and crammed with battle-hungry Ork; Ork rarely organise beyond the level of a single
+ship, but small fleets can form around particularly charismatic or successful leaders (Kaptins). In
+the Expanse, Ork are most often encountered in small raiding ships roughly the size of an imperial
+escort vessel — deceptively small, for the ship is always packed with a green tide of Ork, so that any
+boarding attempt can only go one way. Ork Freebooter attacks are usually brutal and direct: the ships
+charge the enemy with all weapons firing before ramming and boarding. This does not preclude
+cleverness — Ork often lurk in asteroid fields at the edges of systems to ambush convoys from hiding,
+or raid inhabited worlds and stations, plundering and burning them before withdrawing into a debris
+field. When aiming for a big fight, they will brutalise a world or station and simply wait to see who
+or what appears to defend it.
+
+**Morgaash Kulgraz and Da Wurldbraka:** An up-and-coming Kaptin seeking to unite other Freebooterz
+under a single banner, with the goal of raising himself to overlord of Undred-Undred Teef. Morgaash
+Kulgraz first appeared aboard a heavily damaged space hulk, the *Fist of Gork*, crammed with loot from
+other parts of the galaxy — no one knows how long the hulk had drifted in the warp before that. As a
+cunning master of ship-to-ship combat, Morgaash seized control of the largest and most powerful ship
+in the system, the mighty battlekroozer **Da Wurldbraka**, and crewed it with the strongest, most
+aggressive Boyz of other Kaptins, including as many psychic Ork Weirdboyz as he could find. Da
+Wurldbraka quickly became as legendary as its Kaptin — a nightmarish sight that spreads panic among
+smugglers and Rogue Traders alike. Morgaash strikes fast and with full force in every raid, allowing
+handfuls of survivors to spread his infamy across the Expanse; armed with weapons of baleful and
+bizarre cast, Da Wurldbraka constantly surprises its enemies with the breadth of its capabilities. Most ships in the
+Expanse can only hope to withdraw in time before the dark xenos ship ends the battle by crippling its
+opponent and its Kaptin personally appearing on the enemy bridge.
+
+**The Rising Green Tide of the Expanse:** Ork Freebooterz lurk throughout the Koronus Expanse. From
+crude stations built in asteroid fields or debris clouds, numerous Freebooter Kaptins lead their
+fleets to loot whatever they can find and fight whoever crosses their path. Even the relatively
+explored systems close to the Maw have felt the iron fist of Ork piracy — in the past Footfall itself
+has come under attack from Ork Kaptins powerful enough to command great swarms of gunships and
+kroozers. Luckily for those journeying into the Expanse, the Freebooter fleets are haphazard and
+without unified purpose, and often war upon their own kind. The Orks dominate a tract of worlds known
+as Undred-Undred Teef (see above), spawning like a plague, and the rising tally of sacked worlds and
+vessels suggests their numbers are growing. The more Orks there are, the bigger and meaner an Ork
+must be to lead them; the more powerful the leader (a "Warboss"), the more likely he is to gather a
+huge force and batter his way across the stars. No such supreme leader has yet emerged in
+Undred-Undred Teef, but one of the most prominent Freebooterz, Morgaash Kulgraz, is making a bid for
+overall leadership, exploiting the numerical superiority of the Flash Gitz and Freebooterz there and
+being bigger and harder than all the other warbosses.
 
 ### The Stryxis
 
 The Stryxis are a sparse, nomadic race with a reputation as unreliable traders, wanderers, and
 occasional slavers and pirates. Rarely encountered in the Koronus Expanse, their reputation is dark.
-Physically, the Stryxis are hideous beneath ragged, tawny cloths and trinkets, described by human
-observers as gaunt, many-eyed creatures resembling a human-sized, skinned canine embryo. Yet they
+Physically, the Stryxis are hideous beneath ragged, bone-coloured cloths and trinkets, described by human
+observers as gangling, many-eyed creatures resembling a human-sized, skinned dog embryo. Yet they
 communicate effortlessly with willing humans through a shared language of greed, curiosity, and
 self-interest. As collectors and compulsive hoarders, they possess a wealth of technology stolen and
 traded from countless races. They love trade, judge things solely by their perceived rarity, and
@@ -711,13 +722,14 @@ appear to care about neither conquest, territory, nor even their own species —
 avarice and petty intrigue. Nevertheless, they should not be underestimated: they are extremely
 dangerous and cunning, hiding sharp intellects behind eccentric behaviour, and do not hesitate to
 betray those they trade with when a large profit presents itself. The Stryxis trade with almost
-anyone, human or xenos, even followers of the Ruinous Powers — but the Eldar despise them and kill
-them wherever they can.
+anyone, human or xenos, even followers of the Ruinous Powers — but they despise the Eldar, killing them if
+they can and avoiding them otherwise.
 
 The Stryxis inhabit wandering caravans of ships, often salvaged patchwork vessels and hollowed-out
 asteroids, equipped with stolen or traded technology. These caravans contain relatively few adult
 Stryxis, but larger numbers of slaves, mercenaries, "acquisitions", and genetically altered servant
-creatures. Nothing is known about young Stryxis, sex variants, or other cultural aspects — when
+creatures. Aside from the adults, who constantly politic and backstab each other for rank in the caravans, no
+young Stryxis, gender variations, or other culture have ever been encountered — when
 asked, the Stryxis only tell endless, often contradictory lies. Stryxis caravans interest Rogue
 Traders for their diverse trading opportunities, and because, as tireless wanderers and collectors,
 they often possess hoards of secrets, legends, and information whose contacts reach beyond the
@@ -774,11 +786,12 @@ blood and souls, some cross the warp and roam the Koronus Expanse as single ship
   Karrad Vall, the Faceless Lord. Some whisper he was once an Adept of the Munitorium, a tithe-master
   who fell to the Dark Gods; others claim he was a trusted admiral of the Battlefleet Calixis. What is
   known is that Karrad Vall crossed the Maw in 794.M41 and immediately bombarded Footfall and battled
-  Calligos Winterscale — his small fleet broke through the assembled defences. He then vanished
-  without a trace for over a decade. Vall's fleet, called **"the Wolfpack"** (not to be confused with
-  the imperial ship class of the same name), consists of a brutalised selection of captured or
-  salvaged imperial ships, steered by the arts of vassal witches and powerful demon-pacts. Known
-  ships of Vall's fleet include the *Excruciation*, *Gift of Despair*, *Mortis Ex Astra*, and
+  Calligos Winterscale — his small fleet broke through the assembled defences. He then cast several
+  last taunting messages in his wake before vanishing without a trace for the next decade. Vall's
+  fleet, called **"the Wolfpack"**, consists of a brutalised selection of imperial ships taken in
+  raids or pulled as hulks from the void and refitted, steered by the craft of vassal sorcerers and
+  powerful daemon-pacts. Known
+  ships of Vall's fleet include the *Excrucian*, *Gift of Despair*, *Mortis Ex Astra*, and
   *Optimus Nemesis*. All actions by the Reavers so far have aimed at gaining resources to expand
   Vall's pirate fleet: ships, weapons, and slaves.
 - **Followers of False Gods:** There are worlds in the Koronus Expanse whose inhabitants have fallen
@@ -841,7 +854,8 @@ Corsair bands are the **Children of Thorns** and the **Crow Spirits**.
   silence, led by witches wrapped in pale rags with tall helms of gleaming bone. Their ships appear
   like pale dead things, driven by a cold, broken will; they strike from the depths of the void at
   ships, colonies, and stations in the Foundling Worlds, the Accursed Demesne, and the Unbeholden
-  Reaches, disguised and unseen until it is too late. They kill with cold precision and then withdraw
+  Reaches, cloaked and unseen until it is too late, borne on a storm within the warp and real space that
+  boils and screams with ethereal voices. They kill with cold precision and then withdraw
   without taking plunder. Who leads them and what their purpose is remains unknown; some suspect they
   guard something or prevent its discovery. At least one Inquisitor of the Ordo Xenos suspects a
   connection to a notorious Eldar Corsair of the Calixis Sector, **Ulthyr Ellarion**.
@@ -850,7 +864,7 @@ Corsair bands are the **Children of Thorns** and the **Crow Spirits**.
 > legend of the Koronus Expanse is as notorious as the *Whisper of Anaris*. This ghost ship has been
 > raiding the Expanse for centuries; its appearance is considered an omen of unholy misfortune.
 > Tattered, ethereal sails drive the Eclipse-class cruiser out of the depths of the void, concealed by
-> holofield technology far more effective than that of most Eldar ships. Its powerful pulsar lances
+> holofield technology far more effective than that of most Eldar ships. Its potent pulse lances
 > have shattered ships throughout the Expanse; on some worlds, a sighting of the Whisper of Anaris
 > triggers a wave of prayer and offerings to drive the ghost ship away. The first reported encounter
 > comes from the Rogue Trader **Aspyce Chorda**, on a supply run to Lucin's Breath. The only certainty
@@ -903,7 +917,7 @@ weathered to dust — warn of xenos sorcery and ancient corruption: they speak o
 The Yu'vath were a plague upon the Calyx Expanse in the era of Lord-Militant Angevin, before the
 founding of the Calixis Sector in the fourth century of the 39th Millennium. The warp-worshipping
 Yu'vath enslaved worlds through abominable xenos sorcery and consumed the lives and souls of corrupted
-human slaves to build, on the homeworlds of the Calyx, horrors that the chroniclers of the Angevin
+human slaves to build, upon the Calyx Hell Worlds, horrors that the chroniclers of the Angevin
 Crusade refused to record. The warp-saturated Yu'vath and their tormented slave armies ground down the
 Crusade's forces for decades before finally being annihilated by General (later Saint) Drusus and the
 Adeptus Astartes. Even today, the chronicles of the Angevin Crusade's victories over the Yu'vath are
@@ -913,17 +927,17 @@ Calixis Sector.
 ### Halo Artefacts
 
 Halo Artefacts (also called Halo Devices) have been known for millennia to select archheretics,
-apostates, and the Holy Ordos of the Inquisition, ever since respected Explorators and Rogue Traders
+recidivists, and the Holy Ordos of the Inquisition, ever since respected Explorators and Rogue Traders
 of antiquity returned from the Halo Stars with these devices, along with stories of corpse stars and
 disturbing pict-recordings of dead xenos worlds. The Artefacts resist all tech-analysis and are nearly
 immune to age and damage. The corrupt among the imperial masses long ago discovered that some of these
 xenos devices can grant eternal life through dark transformation of body and mind — the body is
 restored to youth, and time no longer weakens the flesh. Other Halo Artefacts possess stranger,
-greater powers, whose unholy might lies behind the rise of some notorious archheretics. Over the
-centuries, perhaps a few dozen Artefacts have changed hands for vast sums, and the opening of the
+greater powers, whose unholy might lies behind the rise of some notorious archheretics. Since the
+Calixis Sector came into being, perhaps a few score Artefacts have changed hands for vast sums, and the opening of the
 Koronus Expanse in the 41st Millennium has further increased their number. Halo Artefacts take many
 forms, most small and easily mistaken for strange jewellery, pieces of armour, or abstract miniature
-sculpture — some irregular spheres, some segmented ovoids, some beetle-like objects; all unmistakably
+sculpture — some irregular spheres, some segmented ovoids a handbreadth wide, some small scarab-like objects; all unmistakably
 of xenos origin, made of unidentifiable metallic material, with surface patterns resembling insect
 carapace or reptile skin.
 
@@ -970,10 +984,9 @@ others destroy them on sight, wary that this predatory species might gain a foot
 
 - **Aspyce Chorda:** ruthless in negotiation as in battle — a dangerous woman who does not hesitate to
   cruelly remind others why they should fear her. Form and elegance matter to her; human life scarcely
-  at all, except when it fills her coffers. When, in 754.M41, she raided the pirates of Iniquity to
-  conclude the Harvest of Reavers, survivors were crudely lobotomised and shipped as slave-serfs to
-  Chorda's holdings. In a dispute over resources with Calligos Winterscale in 754.M41 (note: the text
-  cites 785.M41 for the conflict itself), she sparked a violent war, ruthless of the cost to her crews.
+  at all, except when it fills her coffers. When she ravaged the pirates of Iniquity at the close of the
+  Harvest of Reavers in 754.M41, survivors were crudely lobotomised and shipped as slave-serfs to
+  Chorda's holdings. When vying for resources with Calligos Winterscale in 785.M41, she sparked a violent war, ruthless of the cost to her crews.
   The Chorda line is of piratical origin; her descendants differ from the pirates hunted by the
   Battlefleet Calixis only by their Warrant of Trade and noble birth. Legend has it that a young
   Aspyce Chorda once captured her own siblings and forced them into hidden cryo-vaults to secure her
@@ -1006,7 +1019,7 @@ others destroy them on sight, wary that this predatory species might gain a foot
   own heart, seeking a deeper connection to the God-Emperor and a higher purpose than mere wealth. His
   successes as a Rogue Trader have in any case been modest, with numerous disappointing and costly
   expeditions by his small fleet into the nearby Expanse. Umboldt believes himself under a penance of
-  misfortune meant to lead him to enlightenment.
+  ill luck sent by the saints to guide him to enlightenment.
 - **Tanak Valcetti:** presents himself as a man of refinement, for whom the hardships of expeditions
   into the dangerous Expanse are simply not something one discusses. A noble, he believes, must appear
   unconcerned by danger, possess knowledge like a sage, and stand far above the crude urges of lesser
@@ -1017,7 +1030,7 @@ others destroy them on sight, wary that this predatory species might gain a foot
   followers. The wealth of the Valcetti family is currently sustained through steady exploitation of
   worlds in the Expanse and large investments in trade between the Scarus and Calixis Sectors. Tanak
   Valcetti and his sons depart for years at a time into the Koronus Expanse, leaving the administration
-  of his fortified estate and his investments in Port Wander to his seneschal.
+  of his armoured estate and his investments in Port Wander to his seneschal.
 
 ### Lost Lineages of the Koronus Expanse and its Environs
 
@@ -1029,7 +1042,7 @@ entirely by a single death:
   a genocidal madman and scourge of those seeking to escape the Imperium's judgement. Vanished in the
   Rifts of Hecaton in 201.M41.
 - **Deed Lineage:** the Ordo Xenos burned **Amphian Deed** at the stake in 803.M41 for his role in the
-  Halo-of-Darkness cult, ending his line.
+  Halo of Darkness cult, ending his line.
 - **Dewain Lineage:** died out on the deathbed of **Parsimus Dewain** in 498.M41, as this great man
   left no heir.
 - **Haarlock Lineage:** destroyed from within by the blood-stained **Erasmus Haarlock**, who vanished
@@ -1040,8 +1053,8 @@ entirely by a single death:
   discovered an intact Standard Template Construct, in 388.M41.
 - **Urussalin Lineage:** lost in the void with **Roodmar Urussalin**, presumably slain by Ork in
   718.M41.
-- **Renuka Lineage:** **Veronique Renuka** was declared outlaw for her involvement in an uprising
-  attempt on the Calixian hive world Cyclopia in 179.M41. Her descendants are said to still operate as
+- **Renuka Lineage:** **Veronique Renuka** was declared outlaw for her involvement in an attempted
+  coup on the Calixian hive world Cyclopia in 179.M41. Her descendants are said to still operate as
   pirates at the edge of the Unbeholden Reaches.
 
 ---
@@ -1050,13 +1063,10 @@ entirely by a single death:
 
 Chapter XIII (The Koronus Expanse) has been fully transcribed (PDF pages 339–366 / book pages
 335–362, 28/28 pages) and fully converted to English. Pure background/lore chapter with no game
-mechanics and no numeric tables with rules values — as with the German original, the running text has
-been condensed appropriately while all place names, factions, persons, events, and classifications
-have been fully preserved. The map double-pages (book pages 338–339) were freshly image-verified
-directly against `page342_0.jpg` and `page343_0.jpg` prior to this English conversion; all place
-names and world-classification symbols in that section reflect that verification and have not been
-re-checked again here — only the German connecting prose was translated into English. The note on
-similarly coloured symbols (Pleasure World/Frontier World, Penal World/War World) and the note on the
-possibly reordered two-column OCR layout on pages 351/352 (Charnel Stars/Accursed Demesne/
-Undred-Undred Teef/Processional of the Damned) are carried over unchanged from the German version, as
-they describe residual source-quality caveats rather than translation issues.
+mechanics and no numeric tables with rules values — the running text has been condensed
+appropriately while all place names, factions, persons, events, dates, and classifications have been
+preserved. On 2026-09-30 every page, including the map spread (book pages 338–339) and its symbol
+legend, was re-checked against the page images; world classifications, names, and dates were
+corrected where they differed from the book. The Ork Freebooterz material sits under "The Ork
+Menace", as in the book. The remaining caveat on the map (Pleasure World vs. Frontier World colours,
+labels cut off at the scan edges) is recorded in the note below the map lists.
