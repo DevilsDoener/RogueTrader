@@ -1,6 +1,6 @@
 # Chapter II: Career Paths
 
-> Source: Rogue Trader Core Rulebook, Chapter II, book pages 35–72 (PDF pages 39–76).
+> Source: Rogue Trader Core Rulebook, Chapter II, book pages 35–72 (PDF pages 39–76). Re-verified against the page images 2026-09-30.
 
 ## Basics
 
@@ -11,14 +11,14 @@ Each Career Path section contains: **Description**, **Rank Chart**, **Characteri
 
 | Career | Description | Page |
 |---|---|---|
-| Arch-militant | Warrior without equal, leader of soldiers | 44 |
+| Arch-militant | Warriors without peer, leaders of soldiers | 44 |
 | Astropath Transcendent | Communicators of the Imperium, soul-bound psykers | 48 |
-| Explorator | Master of machines, seeker of ancient technology | 52 |
-| Missionary | Ambassador of the Emperor's word, healer and leader | 56 |
+| Explorator | Masters of machinery, seekers of ancient technology | 52 |
+| Missionary | Emissaries of the Emperor's word, healers and leaders | 56 |
 | Navigator | Mutants, pilots of the warp | 60 |
-| Rogue Trader | Master of starships, leader, diplomat, rogue | 40 |
-| Seneschal | Keeper of secret knowledge, subtle investigator | 64 |
-| Void-master | Pilot, gunner and master of the void | 68 |
+| Rogue Trader | Masters of starships, leaders, diplomats, and rogues | 40 |
+| Seneschal | Keepers of secret knowledge, subtle investigators | 64 |
+| Void-master | Pilots, gunners, and masters of space | 68 |
 
 ### Three Types of Advances
 - **Characteristic Advance** — increases the raw stats
@@ -28,10 +28,10 @@ Each Career Path section contains: **Description**, **Rank Chart**, **Characteri
 ### Characteristic Advance
 Every Characteristic Advance purchased grants **+5** to the Characteristic. There are four tiers that **must be taken in this order**:
 
-1. **Simple** — a small unfolding of potential
-2. **Intermediate** — a marked improvement
-3. **Trained** — active, focused work on one's own ability
-4. **Expert** — the limit of natural ability
+1. **Simple** — a small fulfilment of your potential
+2. **Intermediate** — a significant improvement to your capabilities
+3. **Trained** — active, focused effort upon improving your prowess
+4. **Expert** — the limit of your natural capabilities
 
 Costs are **cumulative**: for +10 you pay for Simple **and** Intermediate (not just the Intermediate cost).
 *Example:* Willpower 34 → Simple (250 xp) → 39 → Intermediate (500 xp) → 44. Total 750 xp.
@@ -101,13 +101,13 @@ Bearer of a sacred Warrant that empowers them to trade, explore and wage war bey
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
 | Weapon Skill | 100 | 250 | 500 | 750 |
-| Ballistic Skill | 250 | 500 | 750 | 1.000 |
-| Strength | 500 | 750 | 1.000 | 2.500 |
-| Toughness | 500 | 750 | 1.000 | 2.500 |
-| Agility | 250 | 500 | 750 | 1.000 |
+| Ballistic Skill | 250 | 500 | 750 | 1,000 |
+| Strength | 500 | 750 | 1,000 | 2,500 |
+| Toughness | 500 | 750 | 1,000 | 2,500 |
+| Agility | 250 | 500 | 750 | 1,000 |
 | Intelligence | 100 | 250 | 500 | 750 |
-| Perception | 250 | 500 | 750 | 1.000 |
-| Willpower | 250 | 500 | 750 | 1.000 |
+| Perception | 250 | 500 | 750 | 1,000 |
+| Willpower | 250 | 500 | 750 | 1,000 |
 | Fellowship | 100 | 250 | 500 | 750 |
 
 ### Rank 1 Rogue Trader Advances
@@ -320,21 +320,21 @@ Warriors for whom a life of bloodshed and war is no death sentence but a calling
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Common Lore (War) (Int), Dodge (Ag), Intimidate (S), Scholastic Lore (Tactica Imperialis) (Int), Secret Tongue (Military) (Int), Speak Language (Low Gothic) (Int)
 - **Starting Talents:** Basic Weapon Training (Universal), Pistol Weapon Training (Universal), Melee Weapon Training (Universal), Thrown Weapon Training (Universal), Sound Constitution
-- **Starting Gear:** Good-Craftsmanship Hellgun **or** best-Craftsmanship Hunting Rifle **or** two Bolt Pistols; plus a good-Craftsmanship primitive melee weapon of choice with a Mono upgrade. Micro-bead, Void Suit, Enforcer Light Carapace Armour, spent bolt-shell keepsake, Medikit, manacles. Data-slate full of outstanding bounties **or** Arms Coffer **or** 3 doses of Stimm.
+- **Starting Gear:** Good-Craftsmanship Hellgun **or** best-Craftsmanship Hunting Rifle **or** two Bolt Pistols; plus a good-Craftsmanship primitive melee weapon of choice with a Mono upgrade. Micro-bead, Void Suit, Enforcer Light Carapace Armour, bolt shell keepsake, Medikit, manacles. Data-slate full of outstanding bounties **or** Arms Coffer **or** 3 doses of Stimm.
 
 ### Arch-militant Characteristic Advances
 
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
-| Weapon Skill | 250 | 500 | 750 | 1.000 |
+| Weapon Skill | 250 | 500 | 750 | 1,000 |
 | Ballistic Skill | 100 | 250 | 500 | 750 |
 | Strength | 100 | 250 | 500 | 750 |
-| Toughness | 250 | 500 | 750 | 1.000 |
+| Toughness | 250 | 500 | 750 | 1,000 |
 | Agility | 100 | 250 | 500 | 750 |
-| Intelligence | 500 | 750 | 1.000 | 2.500 |
-| Perception | 500 | 750 | 1.000 | 2.500 |
-| Willpower | 500 | 750 | 1.000 | 2.500 |
-| Fellowship | 250 | 500 | 750 | 1.000 |
+| Intelligence | 500 | 750 | 1,000 | 2,500 |
+| Perception | 500 | 750 | 1,000 | 2,500 |
+| Willpower | 500 | 750 | 1,000 | 2,500 |
+| Fellowship | 250 | 500 | 750 | 1,000 |
 
 ### Rank 1 Arch-militant Advances
 
@@ -553,15 +553,15 @@ Few rise above their duties; the strongest and most self-assured serve alongside
 
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
-| Weapon Skill | 500 | 750 | 1.000 | 2.500 |
-| Ballistic Skill | 500 | 750 | 1.000 | 2.500 |
-| Strength | 250 | 500 | 750 | 1.000 |
-| Toughness | 250 | 500 | 750 | 1.000 |
-| Agility | 250 | 500 | 750 | 1.000 |
+| Weapon Skill | 500 | 750 | 1,000 | 2,500 |
+| Ballistic Skill | 500 | 750 | 1,000 | 2,500 |
+| Strength | 250 | 500 | 750 | 1,000 |
+| Toughness | 250 | 500 | 750 | 1,000 |
+| Agility | 250 | 500 | 750 | 1,000 |
 | Intelligence | 100 | 250 | 500 | 750 |
-| Perception | 250 | 500 | 750 | 1.000 |
+| Perception | 250 | 500 | 750 | 1,000 |
 | Willpower | 100 | 250 | 500 | 750 |
-| Fellowship | 500 | 750 | 1.000 | 2.500 |
+| Fellowship | 500 | 750 | 1,000 | 2,500 |
 
 ### Rank 1 Astropath Transcendent Advances
 
@@ -781,15 +781,15 @@ Explorators are more independent and curious than other followers of the Machine
 
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
-| Weapon Skill | 250 | 500 | 750 | 1.000 |
-| Ballistic Skill | 250 | 500 | 750 | 1.000 |
+| Weapon Skill | 250 | 500 | 750 | 1,000 |
+| Ballistic Skill | 250 | 500 | 750 | 1,000 |
 | Strength | 100 | 250 | 500 | 750 |
 | Toughness | 100 | 250 | 500 | 750 |
-| Agility | 500 | 750 | 1.000 | 2.500 |
+| Agility | 500 | 750 | 1,000 | 2,500 |
 | Intelligence | 100 | 250 | 500 | 750 |
-| Perception | 500 | 750 | 1.000 | 2.500 |
-| Willpower | 250 | 500 | 750 | 1.000 |
-| Fellowship | 500 | 750 | 1.000 | 2.500 |
+| Perception | 500 | 750 | 1,000 | 2,500 |
+| Willpower | 250 | 500 | 750 | 1,000 |
+| Fellowship | 500 | 750 | 1,000 | 2,500 |
 
 ### Rank 1 Explorator Advances
 
@@ -1009,12 +1009,12 @@ Missionaries are frequently attached to Rogue Traders. They must examine alien c
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
 | Weapon Skill | 100 | 250 | 500 | 750 |
-| Ballistic Skill | 500 | 750 | 1.000 | 2.500 |
-| Strength | 250 | 500 | 750 | 1.000 |
-| Toughness | 250 | 500 | 750 | 1.000 |
-| Agility | 250 | 500 | 750 | 1.000 |
-| Intelligence | 500 | 750 | 1.000 | 2.500 |
-| Perception | 250 | 500 | 750 | 1.000 |
+| Ballistic Skill | 500 | 750 | 1,000 | 2,500 |
+| Strength | 250 | 500 | 750 | 1,000 |
+| Toughness | 250 | 500 | 750 | 1,000 |
+| Agility | 250 | 500 | 750 | 1,000 |
+| Intelligence | 500 | 750 | 1,000 | 2,500 |
+| Perception | 250 | 500 | 750 | 1,000 |
 | Willpower | 100 | 250 | 500 | 750 |
 | Fellowship | 100 | 250 | 500 | 750 |
 
@@ -1236,15 +1236,15 @@ The price: Navigators who serve long enough decay physically, go mad, mutate, an
 
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
-| Weapon Skill | 500 | 750 | 1.000 | 2.500 |
-| Ballistic Skill | 250 | 500 | 750 | 1.000 |
-| Strength | 250 | 500 | 750 | 1.000 |
-| Toughness | 250 | 500 | 750 | 1.000 |
-| Agility | 500 | 750 | 1.000 | 2.500 |
+| Weapon Skill | 500 | 750 | 1,000 | 2,500 |
+| Ballistic Skill | 250 | 500 | 750 | 1,000 |
+| Strength | 250 | 500 | 750 | 1,000 |
+| Toughness | 250 | 500 | 750 | 1,000 |
+| Agility | 500 | 750 | 1,000 | 2,500 |
 | Intelligence | 100 | 250 | 500 | 750 |
 | Perception | 100 | 250 | 500 | 750 |
 | Willpower | 100 | 250 | 500 | 750 |
-| Fellowship | 500 | 750 | 1.000 | 2.500 |
+| Fellowship | 500 | 750 | 1,000 | 2,500 |
 
 ### Rank 1 Navigator Advances
 
@@ -1465,14 +1465,14 @@ Most Seneschals favour a "hands-on" approach and trust no knowledge they cannot 
 
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
-| Weapon Skill | 250 | 500 | 750 | 1.000 |
-| Ballistic Skill | 250 | 500 | 750 | 1.000 |
-| Strength | 500 | 750 | 1.000 | 2.500 |
-| Toughness | 250 | 500 | 750 | 1.000 |
-| Agility | 250 | 500 | 750 | 1.000 |
+| Weapon Skill | 250 | 500 | 750 | 1,000 |
+| Ballistic Skill | 250 | 500 | 750 | 1,000 |
+| Strength | 500 | 750 | 1,000 | 2,500 |
+| Toughness | 250 | 500 | 750 | 1,000 |
+| Agility | 250 | 500 | 750 | 1,000 |
 | Intelligence | 100 | 250 | 500 | 750 |
 | Perception | 100 | 250 | 500 | 750 |
-| Willpower | 500 | 750 | 1.000 | 2.500 |
+| Willpower | 500 | 750 | 1,000 | 2,500 |
 | Fellowship | 100 | 250 | 500 | 750 |
 
 ### Rank 1 Seneschal Advances
@@ -1686,21 +1686,21 @@ Void-masters are a rare breed even among voidfarers — one must have distinguis
 ### Starting Skills, Talents & Gear
 - **Starting Skills:** Common Lore (Imperial Navy, War) (Int), Forbidden Lore (Xenos) (Int), Navigation (Stellar) (Int), Pilot (Space Craft, Flyers) (Ag), Scholastic Lore (Astromancy) (Int), Speak Language (Low Gothic) (Int)
 - **Starting Talents:** Pistol Weapon Training (Universal), Melee Weapon Training (Universal), Nerves of Steel
-- **Starting Gear:** Best-Craftsmanship Mono-sword **or** common-Craftsmanship Power Sword; best-Craftsmanship Hand Cannon **or** common-Craftsmanship Bolt Pistol. Guard Flak Armour. Micro-bead, Void Suit, blessed ship's token, re-breather, Imperial Navy uniform **or** beggar's coat, 2 bottles of Amasec, pict-recorder, vox-caster.
+- **Starting Gear:** Best-Craftsmanship Mono-sword **or** common-Craftsmanship Power Sword; best-Craftsmanship Hand Cannon **or** common-Craftsmanship Bolt Pistol. Guard Flak Armour. Micro-bead, Void Suit, blessed ship token, re-breather, Imperial Navy uniform **or** beggar's cloak, 2 bottles of Amasec, pict-recorder, vox-caster.
 
 ### Void-master Characteristic Advances
 
 | Characteristic | Simple | Intermediate | Trained | Expert |
 |---|---|---|---|---|
-| Weapon Skill | 250 | 500 | 750 | 1.000 |
+| Weapon Skill | 250 | 500 | 750 | 1,000 |
 | Ballistic Skill | 100 | 250 | 500 | 750 |
-| Strength | 250 | 500 | 750 | 1.000 |
-| Toughness | 250 | 500 | 750 | 1.000 |
+| Strength | 250 | 500 | 750 | 1,000 |
+| Toughness | 250 | 500 | 750 | 1,000 |
 | Agility | 100 | 250 | 500 | 750 |
-| Intelligence | 500 | 750 | 1.000 | 2.500 |
-| Perception | 250 | 500 | 750 | 1.000 |
+| Intelligence | 500 | 750 | 1,000 | 2,500 |
+| Perception | 250 | 500 | 750 | 1,000 |
 | Willpower | 100 | 250 | 500 | 750 |
-| Fellowship | 500 | 750 | 1.000 | 2.500 |
+| Fellowship | 500 | 750 | 1,000 | 2,500 |
 
 ### Rank 1 Void-master Advances
 
@@ -1909,18 +1909,18 @@ Void-masters are a rare breed even among voidfarers — one must have distinguis
 Each Career additionally possesses a unique special ability.
 
 ### Rogue Trader — Exceptional Leader
-As a **Free Action once per round**, the Rogue Trader may grant an ally they can see and who can hear them **+10%** on any test.
+As a **Free Action once per round**, the Rogue Trader may grant an ally they can see and who can hear them **+10%** to any one test.
 
 ### Arch-militant — Weapon Master
 Choose **a single** weapon class. With a weapon of that class, the Arch-militant gains **+10% to the hit roll, +2 damage, and +2 Initiative** in combat.
 
 ### Astropath Transcendent
-- **Soul-Bound to the Emperor:** +20 to Willpower when resisting Possession, on any opposed Willpower Test against a daemon, and on any Willpower Test against a Talent, Psychic Power, special ability, or effect of daemonic origin. When rolling on the **Perils of the Warp** table, an additional d10 is rolled and any d10 is discarded in favour of the more favourable result.
+- **Soul-Bound to the Emperor:** The Astropath Transcendent is soul-bound to the Emperor during a complex ritual on Terra. Gains +20 to Willpower when resisting Possession, on any opposed Willpower Test against a daemon, and on any Willpower Test against a Talent, Psychic Power, special ability, or effect of daemonic origin. An additional d10 is rolled when rolling on the **Perils of the Warp** table, and any one d10 may be discarded for a more favourable result.
 - **Psychic Powers:** Begins with access to techniques of the **Telepathic Discipline**, with the technique **Astral Telepathy** (p. 162) and two further techniques of the Telepathic Discipline. Starting **Psy Rating 2**.
-- **See Without Eyes:** Blind, but perceives without physical senses. Functionally treated as though they could see normally (including colours, blocked by walls). Effects that target vision (flash grenades, cameleoline) have **no** effect. Cannot perceive **Untouchables** (p. 156) at all.
+- **See Without Eyes:** Blind, but perceives without physical senses. Functionally treated as though they could see normally (including colours, blocked by walls). Not affected by effects that target vision, such as blind grenades and cameleoline. Completely incapable of seeing **Untouchables** (p. 156).
 
 ### Explorator — Explorator Implants
-Begins with the Trait **Mechanicus Implants** (p. 366) and may choose up to **two additional** bionic implants of common Craftsmanship (p. 147). For **200 xp**, the Craftsmanship of an implant may be raised by one tier (common → good). Maximum **twice** (common → good → best), and only **during character creation**.
+Begins with the Trait **Mechanicus Implants** (p. 366) and may choose up to **two additional** bionic implants of common Craftsmanship (p. 147). For **200 xp**, the Craftsmanship of one of the bionic implants may be raised by one level (increasing from common to good costs 200 xp). Maximum **twice** (common → good → best), and only **during character creation**.
 
 ### Missionary — Pure Faith
 Begins with the Talent **Pure Faith** (details p. 104).

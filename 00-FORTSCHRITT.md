@@ -2,7 +2,7 @@
 
 > Diese Datei dokumentiert, welche Seiten des Regelbuchs bereits ausgewertet wurden,
 > damit die Arbeit in einer neuen Session nahtlos fortgesetzt werden kann.
-> **Letzte Aktualisierung: Kapitel VIII (PDF 191–232) Seite für Seite gegengeprüft — 42/42 Seiten,
+> **Letzte Aktualisierung (30.09.2026): alle 408 PDF-Seiten erneut Seite für Seite gegengeprüft, siehe Abschnitt 7.** Vorheriger Stand: Kapitel VIII (PDF 191–232) Seite für Seite gegengeprüft — 42/42 Seiten,
 > Methode Fließtext per OCR + Zahlentabellen per Bild. Das mit Abstand fehlerreichste Kapitel
 > bisher: mehrere falsche Zahlenwerte (Warpsbane Hull, Ryza Plasma Battery Power, Shard Cannon/
 > Micro Laser Defence Grid/Gravity Sails, Default-Manoeuvre-Drehwinkel), 2 komplett fehlende
@@ -1345,3 +1345,32 @@ Log-Eintrag in einem neuen Abschnitt (4f, 4g, …) ergänzt.
 - Sämtliche Seiten erhalten eine dokumentierte Zuordnung. Regelwerte, Tabellen,
   Definitionen, Schauplätze, Fraktionen, Profile und andere Nachschlagedaten werden
   übernommen; erzählerischer Fließtext darf sinngemäß verdichtet werden.
+
+---
+
+## 7. Vollständiger Gegencheck aller 408 Seiten (30.09.2026)
+
+Alle 20 Inhaltsdateien wurden am 30.09.2026 erneut Seite für Seite gegen die
+Scanbilder geprüft (Seitenbilder direkt aus dem PDF extrahiert, OCR nur als
+Lesehilfe). Korrigiert wurden falsche Zahlen- und Tabellenwerte, sinnverkehrte oder
+falsch wiedergegebene Regeln sowie fehlende Inhalte; Überschriften blieben stabil,
+außer wo die Überschrift selbst eine falsche Buchseite nannte.
+
+| Datei(en) | PDF | Wichtigste Korrekturen |
+|---|---|---|
+| `00-Foreword.md`, `00-Inhaltsverzeichnis-und-Einleitung.md`, `16-Index.md` | 1–15, 397–408 | Buchseiten in fünf Foreword-Überschriften, Charakterbogen-/Schiffsbogenfelder, Credits |
+| `01-Charaktererschaffung.md` | 16–38 | Namenstabellen, Table 1-5, Temperamente, Dark-Heresy-Rangvergleich |
+| `02-Karrierewege.md` | 39–76 | Tausendertrennzeichen der Steigerungstabellen, Startausrüstung |
+| `03-Skills.md`, `04-Talents.md` | 77–112 | Tech-Use †, Litany of Hate, Purge the Unclean, Voraussetzungs-Abweichungen dokumentiert |
+| `05-Armoury.md` | 113–156 | Laspistol RoF S/–/–, Shotgun Pistol Clip 1, Plasma Maximal +2 Pen, Upgrade-Eignung |
+| `06-Psychic-Powers.md`, `07-Navigator-Powers.md` | 157–190 | Werte/Reichweiten der Kräfte, Tabellen-Inkonsistenz 6-9/6-15 dokumentiert |
+| `08-Starships.md` | 191–232 | Komponentenwerte, fehlende Regelgruppen; Ryza-Power 7 vs. 8 dokumentiert |
+| `09-Playing-The-Game.md` | 233–288 | Righteous Fury, Stun, Fatigue, Damaging Cover, Dodge gegen Salven; Table 9-32 und Beispiel-Endeavours ergänzt |
+| `10-The-Game-Master.md`, `11-The-Imperium.md`, `12-Rogue-Traders.md` | 289–338 | Raumfahrt, Warp-Navigation, Kartenzusammenfassung, Sidebar Accounts ergänzt |
+| `13-The-Koronus-Expanse.md` | 339–366 | Weltklassifikationen, Kartenlegende, Daten; drei sinnverkehrte Passagen |
+| `14-*.md`, `15-Into-The-Maw.md` | 367–396 | Alle Statblöcke bestätigt; Seitenverweise und Text |
+
+Offen bzw. bewusst belassen (Fehler oder Lücken im gedruckten Buch): Name „Jama“/„Jaina“
+(Table 1-4), Table 10-7 „Damned“ (gedruckt 0, Text 100 — 100 übernommen), überlappende
+Bereiche in Table 9-41, fehlendes Space-Hulk-Ergebnis 8, teils verdeckte Kartenbeschriftungen
+in Kapitel XIII, Tippfehler „Chapter VII“ beim Hoverer.

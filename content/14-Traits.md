@@ -2,7 +2,7 @@
 
 > PDF bookmark: **Traits**
 > Binding page range: PDF 368–372 (book pages 364–368)
-> Status of full transcription: **fully captured, verified against page images**
+> Status of full transcription: **fully captured, verified against page images** (re-verified against page images 2026-09-30)
 
 ## Chapter XIV: Adversaries & Aliens (Introduction)
 
@@ -180,8 +180,8 @@ Armour Points per hit location. This number is listed alongside the Trait.
 >   can transmit the voice in a variety of ways. Respirators can appear as
 >   simple grille units or elaborate mask-like carvings.
 > - **Cyber-mantle** — a framework of metal, cabling, and impulse
->   transmitters bolted onto the spine and lower ribcage. Along with other
->   implants, this mantle serves as a subdermal anchor point. Among some
+>   transmitters bolted onto the spine and lower ribcage. As further implants
+>   are gained, this mantle serves as a subdermal anchor point. Among some
 >   servants of the Omnissiah, the cyber-mantle is often referred to as
 >   "the true flesh." One would have to look beneath the red robes of a
 >   Tech-Priest to see what a cyber-mantle looks like — so no one admits to
@@ -190,7 +190,7 @@ Armour Points per hit location. This number is listed alongside the Trait.
 >   module called a Potentia Coil. This mass can store energy and generate
 >   various types of fields. Coils come in many forms, from small crystal
 >   stacks to bulky electrical galvinators salvaged from vehicle engines.
->   Many hunches within the Adeptus Mechanicus are attributed to a
+>   Many a hunchback within the Adeptus Mechanicus is blamed upon a
 >   primitive coil.
 > - **Cranial Circuitry** — a series of linked processors, implants, and
 >   cortical circuits that enhance mental faculties. Most sit in a housing
@@ -265,8 +265,8 @@ Shield).
 >
 > As always, questions about damage to or removal of implants and their
 > effects on an Explorator's Talents should be decided by the Game Master.
-> No doubt this wise and venerable person will arrive at a generally
-> acceptable, healthy answer.
+> No doubt this wise and august person will provide a common-sense
+> answer, agreeable to all.
 
 #### Quadruped
 
@@ -444,7 +444,7 @@ the Holy quality. Force Fields still work normally against these attacks.
 | Unnatural Senses | Perceive surroundings by uncanny means. |
 | Unnatural Speed | Double Agility Bonus for purpose of determining movement. |
 | Warp Instability | Creature must deal damage if damaged, or be cast back into the Warp. |
-| Warp Weapon | Creature's attacks ignore armour. |
+| Warp Weapons | Creature's attacks ignore armour. |
 
 > Note: The order of the table rows exactly matches the printed original (not
 > strictly alphabetical throughout, due to the two-column layout of the

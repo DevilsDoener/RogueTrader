@@ -3,7 +3,8 @@
 > Source: *Rogue Trader Core Rulebook*, PDF pages 1–15.  
 > Page system: book page + 4 = PDF page (from book page 1 onwards).  
 > This document covers the front matter, the complete printed table of
-> contents, and the rules-relevant material from the introduction.
+> contents, and the rules-relevant material from the introduction.  
+> Re-verified against the page images on 2026-09-30 (all printed contents page numbers checked).
 
 ## Seiteninventar PDF 1–15
 
@@ -37,6 +38,9 @@
 - Publisher: Christian T. Petersen
 - Cover Art: Andrea Uderzo
 - Art Direction: Zoë Robinson
+- Production Manager: Gabe Laulunen
+- Games Workshop: Licensing Manager Owen Rees; Licensing & Acquired Rights Manager Erik Mogensen; Head of Legal & Licensing Andy Jones; Intellectual Property Manager Alan Merrett
+- Printed in the USA; Fantasy Flight Games, 1975 West County Road B2, Roseville, MN 55113
 
 ## Complete Printed Table of Contents
 
@@ -174,7 +178,7 @@ The numbers are printed book pages; add **+4** for the PDF page.
 - The Sounds of Shipboard Life – 189
 - Anatomy of a Starship – 189
 - Representing and Generating Characteristics – 189
-- The Thin Skin Against the Void – 190
+- The Thin Skin Against The Void – 190
 - Components – 191
 - Constructing a starship – 193
 - Hulls – 193
@@ -420,6 +424,7 @@ Prüfpunkte innerhalb von Kapitel XIV behandelt.
 - `2d10`: two ten-sided dice; the results are added together.
 - `d%` or `1d100`: two d10, one read as the tens digit, one as the ones digit.
 - On a percentile roll, `00` and `0` together mean **100**, not 0.
+- Rolling `2d10` is not a percentage roll: simply add the two dice.
 - `1d5`: roll `1d10`, divide by 2 and round up.
 
 ### Table A-1: Percentage Roll Examples
@@ -434,9 +439,11 @@ Prüfpunkte innerhalb von Kapitel XIV behandelt.
 
 ## Kartenübersicht PDF 2–3
 
-Die Vorsatzkarte zeigt die großen Zonen der Koronus Expanse und den Zugang durch den
+Die Vorsatzkarte zeigt die großen Zonen der Koronus Expanse und den Zugang durch die
 Koronus Passage („The Maw“). Beschriftete Großräume sind unter anderem Rifts of
-Hecaton, Heathen Stars, Unbeholden Reaches, Accursed Demesne, Winterscale’s Realm,
-The Cauldron, Foundling Worlds, God-Emperor’s Scourge, Screaming Vortex und Void
-Dancer’s Roil. Ein Ausschnitt hebt die Route zwischen Port Wander und Footfall hervor.
+Hecaton, Phaineal Echoes, Unbeholden Reaches, Accursed Demesne, Alenic Depths,
+Winterscale’s Realm, The Cauldron, Foundling Worlds, God-Emperor’s Scourge, Warp Shoals,
+Screaming Vortex und Void Dancer’s Roil (dazu Randvermerke wie „Here be Daemons“ und
+„Beware the Siren Star“). Ein kreisrunder Ausschnitt hebt die Koronus Passage mit der Route
+zwischen Port Wander und Footfall sowie Ragged Worlds hervor.
 Die Regionen werden in Kapitel XIII inhaltlich vertieft.

@@ -1,7 +1,7 @@
 # Chapter 15 - Into The Maw
 
 > PDF bookmark: **Chapter 15 - Into The Maw**
-> Binding page range: PDF 383–396 / book pages 379–393
+> Binding page range: PDF 383–396 / book pages 379–392
 > Full transcription status: **content fully captured**
 
 This chapter contains the complete introductory adventure "Into the Maw" for Rogue Trader.
@@ -14,6 +14,11 @@ values, conditions, rewards) have been carried over in full.
 ---
 
 ## Introduction (book pages 379–380)
+
+> *Within the depths of winter's heart / Beyond the burning world's start / In darkest
+> darkness does it lie / Beneath stygian skies and winking eye / Here the trail does grow
+> cold / and rests Lor's folly full of gold* — Excerpt from Lord Fordamere's "Tales of the
+> Expanse"
 
 "Into the Maw" is an introductory Rogue Trader adventure for starting-level characters.
 It serves as an entry point into the game's rules and themes, offers guidance for novice
@@ -65,7 +70,7 @@ are the adventure's central source of Profit.
 
 ---
 
-## PART ONE: THE RIDDLE OF THE RIGHTEOUS PATH (book pages 380–384)
+## PART ONE: THE RIDDLE OF THE RIGHTEOUS PATH (book pages 381–385)
 
 > "Rogue Trader lives and dies by the strength of his deeds." — Vos Karlorn, Lord-Captain
 > of the Emperor's Testament
@@ -105,7 +110,7 @@ Trader line through a dynasty seal and the oaths of service. Dray was once a dec
 officer aboard the **Emperor's Testament** under **Vos Karlorn**, part of the
 great-grandfather's fleet. During an expedition the ship was caught in a violent warp
 storm and blown far off course; in an unknown system, the ship's astropath picked up a
-centuries-old (at least 1,500 years) distress call — an "echo in the warp" — from a lost
+distress call hundreds if not thousands of years old — an "echo in the warp" — from a lost
 Imperial vessel. It turned out to be an astropathic marker from the legendary Righteous
 Path.
 
@@ -162,7 +167,7 @@ swooping down to steal it:
 surviving armsmen surrender. Their leader is **Arbitrator-Sergeant Targos**, humourless
 and unimaginative. He questions the Explorers as a formality (such incidents are common
 in Port Wander and rarely pursued), but politely asks them, given their status, to
-accompany him to the Adeptus Arbites district complex. The Explorers are under no
+accompany him to the Adeptus Arbites Precinct Complex. The Explorers are under no
 compulsion (their rank protects them from arrest without higher authority); if they
 refuse, Targos leaves unfazed with his men (and the armsmen, living and dead).
 
@@ -241,7 +246,7 @@ beat them to the treasure.
   crew is **Veteran** (p. 214). In addition to his crew, Hadarak can take one
   Manoeuvre, Shooting, or Extended Action himself each turn. Statblock under "Important
   NPCs" below.
-- **Lady Ash:** A silent, pale-skinned psyker of unknown origin; whether she is truly
+- **Lady Ash:** A silent, pale-skinned psyker whose origins and homeworld are known only to Hadarak; whether she is truly
   mute or simply chooses not to speak is unclear. Unconditionally (but one-sidedly)
   devoted to Hadarak, who values her only as long as she is useful. A telekinetic and
   unbonded rogue psyker, never registered by Imperial authority. Almost always
@@ -343,7 +348,7 @@ tangible reward.
 
 ---
 
-## PART THREE: INTO WINTER'S HEART (book pages 387–393)
+## PART THREE: INTO WINTER'S HEART (book pages 387–391)
 
 > "The void is the very embodiment of the unknown; a living, breathing darkness that
 > hides whole worlds within its folds." — from "Travels in Darkness" by Relicartos Rynar
@@ -506,7 +511,8 @@ Explorers can detect the ambush before it strikes (see the Concealment skill, p.
 otherwise they are surprised. Like the Explorers, the armsmen (Oathsworn Bodyguard
 profile) wear void suits.
 
-On reaching the ship, its core is sealed behind massive energy seals connected directly
+They can enter the ship through a massive hull breach in its side; the lower decks are a
+dark, silent mess of twisted corridors and ruptured bulkheads. The ship's core is sealed behind massive energy seals connected directly
 to the bridge and still humming with power. The Explorers must either return with heavy
 equipment to break the seals, or reach the bridge to open them from there.
 
@@ -579,8 +585,8 @@ he holds no personal grudge against the Explorers, but will not underestimate th
 second encounter; the GM can use him as a recurring adversary. If Lady Ash escapes, she
 finds her way back to Hadarak — and is unlikely to be far from him at a future meeting.
 
-**Part Three** is an Objective (its Trait is not clearly legible in the original);
-completing it awards **500 Achievement Points**.
+**Part Three** is an Objective with the **Exploration** Trait; completing it awards
+**500 Achievement Points**.
 
 ---
 
@@ -665,7 +671,7 @@ All three statblocks were verified against the page image (book page 392).
 
 ## Status
 
-Chapter XV (PDF 383–396 / book pages 379–393) has been **fully translated into English**
+Chapter XV (PDF 383–396 / book pages 379–392) has been **fully translated into English**
 from the previously completed German transcription: introduction, the legend of the
 Righteous Path, all three adventure parts (Riddle of the Righteous Path, Across a
 Storm-Wracked Sky, Into Winter's Heart), all four Objectives, Rewards, and all three NPC
@@ -677,4 +683,5 @@ and the English OCR text (`tmp/ocr/page383.txt`–`page388.txt`), confirming the
 source's accuracy — no new factual discrepancies were found. Purely descriptive/
 read-aloud text (market scenery, mood-setting) remains condensed as in the German
 version; all facts relevant to play (locations, NPC values, conditions, rewards) are
-fully included. Filename unchanged.
+fully included. Filename unchanged. Re-verified against page images PDF 383–396
+on 2026-09-30.

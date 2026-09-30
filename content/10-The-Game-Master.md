@@ -22,8 +22,10 @@ impartially and makes sure everyone has a good time. He also plays every NPC in 
   Playing the Game is particularly important, since it covers the game's core mechanics.
 - **Know the plot.** The GM does not need to know every detail of a scenario in advance, but he
   should know at least where it begins and where it is heading. A plot can be as simple as
-  delivering a rare cargo past a renegade Imperial captain, or as complex as undermining the
-  authority of several planetary governors to destabilise an entire region. Any preparation is
+  taking a rare cargo of Corvenos Fleshcloth to the shrine world of Fasillica past a renegade
+  Imperial fleet captain, or as complex as undermining the
+  authority of each of the planetary governors of Seven Systems to destabilise the entire
+  region and create a market for cheap off-world weapons. Any preparation is
   rarely wasted, and pre-written adventures (such as the one in Chapter XV: Into the Maw) can
   also be used.
 - **Choosing the GM.** Ideally a volunteer; often the person who organised the game or owns the
@@ -31,8 +33,8 @@ impartially and makes sure everyone has a good time. He also plays every NPC in 
   contributing their own adventures.
 
 **Delegating to players:** players can help with logistics (dice, snacks, and so on) and add
-depth to the setting — for example, writing up the background of their own character's home
-world, which both eases the GM's workload and enriches the group's adventures. Being prepared
+depth to the setting — for example, writing up the background of the dismal hive world of Cesti Gros that one
+character hails from, which both eases the GM's workload and enriches the group's adventures. Being prepared
 also means making sure the group has everything it needs to play (dice, paper, miniatures);
 some GMs like to keep players' character sheets between sessions so they don't go missing.
 
@@ -102,7 +104,7 @@ profit and the acquisition of wealth, often combined with exploration, conflict,
 ### Rogue Trader dynasties
 
 A Rogue Trader and his crew are more than a captain and his crew — they are part of a grand
-legacy often stretching back centuries. All the PCs, not just the Rogue Trader player, are part
+legacy often stretching back hundreds or even thousands of years. All the PCs, not just the Rogue Trader player, are part
 of this dynasty and are recognised as rare, chosen individuals with the power to shape the very
 destiny of the Imperium. The GM should therefore spread the focus of his adventures and plots
 across all the characters rather than centring everything on the Rogue Trader alone.
@@ -184,20 +186,21 @@ are two ways to handle mass combat: the Detailed Method and the Simple Method.
 The GM groups similar combatants on each side into **units** of between 3 and 20 combatants. A
 unit acts like a single individual, armed with the most common weapon and armour of its members,
 with Wounds equal to its number of members plus a damage bonus of +1 for every 4 members. For
-example, a company of 40 guardsmen with lasguns, 6 heavy bolter weapon teams, and 20 veteran
-shotgunners would form three units: 20 lasgun-armed guardsmen (20 Wounds, +5 damage bonus), a
-heavy-bolter team (12 Wounds — i.e. 6 members — +3 damage bonus), and 20 veterans with shotguns
-(20 Wounds, +5 damage bonus).
+example, if the characters are accompanied by an Imperial Guard company of 40 guardsmen with
+lasguns, 6 guardsmen heavy bolter weapon teams, and 20 guardsmen veterans with shotguns, these
+would be divided into four units: two units of guardsmen with lasguns (20 Wounds each, +5 damage
+bonus), a unit of guardsmen with heavy bolters (12 Wounds, +3 damage bonus), and a unit of
+veteran guardsmen with shotguns (20 Wounds, +5 damage bonus). The GM can then play out the combat
+using the normal rules with the following exceptions:
 
-Special rules:
 - Units always act after individuals (PCs, powerful creatures) in the Initiative order.
 - All units act simultaneously in Initiative, unless a unit has surprise or another special
   advantage.
 - A unit reduced to 0 Wounds can no longer fight (though the GM may rule some members survive).
 - Individuals cannot fight units directly and vice versa — single members of a unit can attack
   individuals, and individuals can single out members of a unit as targets.
-- Units make all other Tests (e.g. Fear Tests) as a single entity; social/influence Skills can
-  likewise be used against a unit as if it were an individual.
+- In addition to combat rolls, units make all other Tests (e.g. Fear Tests) as a single entity;
+  likewise, PCs can use social and influence Skills on a unit as if it were an individual.
 
 ### The Simple Method
 
@@ -221,6 +224,8 @@ Usually a player doesn't need to Test to interact with NPCs — he simply rolepl
 and the outcome follows from the conversation between player and GM. A Test becomes necessary
 when failure would carry consequences, or when a player is trying to make an NPC do something
 they would not ordinarily do. Ultimately, when a Test is required is up to the GM.
+
+*Example:* Lord-Captain Rylar Mane is trying to convince a local PDF Excise-Captain to allow him to unload his cargo planetside without a full inspection. Because this is not in the Excise-Captain's interests (not to mention potentially illegal), the GM decides Mane must make a Charm Test to convince him.
 
 ### Dispositions
 
@@ -255,7 +260,7 @@ successful Test, the player affects a number of individuals equal to his Fellows
 Three interlinking areas: **Fear** (immediate reaction to frightening events), **Insanity**
 (long-term mental effects), and **Corruption** (the insidious influence of the warp and
 forbidden knowledge). During combat, only the Fear rules apply — Insanity and Corruption are
-resolved afterwards.
+resolved afterwards. Facing a boarding party of dishevelled human pirates, though dangerous, is not enough to call for a Fear Test; the same party comprised of ravening warp entities or hideous alien xenos would certainly warrant one.
 
 ### Fear Tests
 
@@ -330,21 +335,23 @@ A character's **Degree of Madness** is determined by **Table 10-5: The Insanity 
 | 100+ | Terminally Insane | character retires from play |
 
 **Mental Trauma:** each time a character gains 10 Insanity Points, he makes a **Willpower Test**
-(modified per the table above). On a failure, roll `1d100` (+10 per Degree of Failure) on
-**Table 10-6: Mental Traumas**:
+(modified per the table above). If the Test is passed, the character copes with his experience
+without extra ill effect. If it is failed, roll `1d100` (+10 per Degree of Failure) on
+**Table 10-6: Mental Traumas**; the result is applied in the aftermath of any encounter that
+inflicted the Insanity Points:
 
 | Roll | Result |
 |---|---|
 | 01–40 | Withdrawn and quiet: -10 to all Fellowship-based Tests for 3d10 hours. |
 | 41–70 | Compulsively performs an action (fevered praying, cleaning a weapon, reciting verse) and pays little attention to anything else; -10 to all Intelligence-, Fellowship-, or Perception-based Tests for 3d10 hours. |
-| 71–100 | Constantly fearful and jumpy: +10 to Perception-based Tests, -10 to Willpower, for 1d5 days; gains a temporary Severe Phobia lasting 1d5 days. |
-| 101–120 | Extremely agitated: must pass a Willpower Test before any Test or suffer -10 to it; in combat all Tests automatically suffer -10; lasts 1d5 days. |
-| 121–130 | Vivid, extreme nightmares whenever sleeping; exhausted by lack of sleep, gains a level of Fatigue the next day and for 1d10 days; lasts 1d5 days. |
-| 131–140 | Struck dumb, unable to speak, for 1d5 days. |
-| 141–150 | Distressed and unfocused, refuses to eat or drink: -10 to all Characteristics (none may drop below 1) for 1d10 days. |
-| 151–160 | Temporarily hysterically blind or deaf for 1d10 days. |
-| 161–170 | Completely traumatised and virtually unresponsive — cannot initiate actions but can be gently led — for 1d10 days. |
-| 171+ | (see table 161–170 result; extreme cases as above) |
+| 71–100 | Constantly fearful, seeing danger everywhere, and extremely jumpy: +10 to all Perception-based Tests and -10 to Willpower for the next 1d5 days. |
+| 101–120 | Suffers a temporary Severe Phobia (see Disorders); lasts 1d5 days. |
+| 121–130 | Reacts to the slightest stress by becoming extremely agitated: when performing any task that involves a Test, must first pass a Willpower Test or suffer -10 to the Test; if he gets into combat, all Tests during combat automatically suffer -10; lasts 1d5 days. |
+| 131–140 | Vivid, extreme nightmares whenever he tries to sleep: the next day and for the next 1d10 days he is exhausted by lack of sleep and gains a level of Fatigue; lasts 1d5 days. |
+| 141–150 | Struck dumb, unable to speak; lasts 1d5 days. |
+| 151–160 | Extremely distressed and unfocused, refuses to eat or drink: -10 to all Characteristics (no Characteristic can be reduced below 1) for 1d10 days. |
+| 161–170 | Temporarily hysterically blind or deaf; lasts 1d10 days. |
+| 171+ | Completely traumatised and virtually unresponsive — cannot initiate actions but may be gently led; lasts 1d10 days. |
 
 **Gaining Mental Disorders:** a character automatically gains a new disorder (or a worsened
 version of an existing one) at 40 IP (**Minor Disorder**), 60 IP (**Severe Disorder**), and 80 IP
@@ -374,17 +381,23 @@ Willpower to ignore its effects for the encounter. **Minor** disorders grant +10
 - **Horrific Nightmares** (Minor/Severe): must pass a Willpower Test after a stressful day or
   gain a level of Fatigue the next day.
 
+*Example (trauma):* Rylar Mane is captured by Eldar Corsairs and tortured aboard their vessel. This raises his Insanity Points to 10, forcing a Trauma Test: a Willpower Test at -10. If he fails he rolls on the Mental Trauma table; if he gains another 10 IP (total 20) he must test again, and at 40 he would also gain his first disorder.
+
 **Removing Insanity Points:** with the GM's permission, a character may spend 100 XP to remove 1
 Insanity Point. A character never drops below a Degree of Madness he has already reached, and
 never loses disorders already gained. This should be represented in-game (prayer, fasting,
 penance, long-term palliative care, recuperation in pleasant surroundings, contemplation of holy
-works).
+works or other articles of faith, such as the Credo Omnissiah for Mechanicus characters).
 
 ### Corruption
 
 The most insidious threat to humanity is the corrupting taint of Chaos. Encounters with
 daemons, dark rituals, and even mere knowledge that such things exist are all paths to
 corruption.
+
+*Example (removing IP):* having escaped the Eldar Corsairs, Rylar Mane recovers on the shrine world of Chilautox, nursed by the cloud-maidens of the Temple of Seven Virtues; the GM lets his player spend 500 XP to reduce his IP by 5.
+
+*Chaos and the Common Citizen (sidebar):* the Corruption rules are for Player Characters; Rogue Traders and their followers are people of destiny and purpose, exactly the sort the Ruinous Powers seek to corrupt slowly. For most, the touch of Chaos brings summary destruction, madness, mutation, and death.
 
 **Corruption Points (CP)** work almost exactly like Insanity Points, except they arise from
 exposure to the warp, dark rituals, cursed artefacts, and daemonic influence, and lead to
@@ -424,29 +437,31 @@ On a failure, roll `1d100` on **Table 10-8: Malignancies**:
 | 26–30 | **Morbid:** mind filled with macabre visions; Intelligence reduced by 1d10. |
 | 31–33 | **Witch-mark:** a small, concealable physical deformity or mutation — enough to warrant the stake if discovered. |
 | 34–45 | **Fell Obsession:** as the Obsession Disorder, but with a sinister or malign focus (finger-bone trophies, ritual scarification, meaningless vivisection). |
-| 46–50 | **Hatred:** an implacable hatred of a single group, individual, or social class. |
-| 51–55 | **Irrational Nausea:** must Test Toughness on encountering the object of his revulsion or suffer -10 to all Tests while it remains present. |
+| 46–50 | **Hatred:** an implacable hatred of a single group, individual, or social class; will never side with or aid them without explicit orders or other vital cause, and even then only grudgingly. |
+| 51–55 | **Irrational Nausea:** sick at the sight or sound of some otherwise innocuous thing (prayer books, holy items, bare flesh, human laughter, fresh food, shellfish); must Test Toughness on encountering the object of his revulsion or suffer -10 to all Tests as long as he remains in its presence. |
 | 56–60 | **Wasted Frame:** corpse-like pallor, wasting muscles; Strength reduced by 1d10. |
 | 61–63 | **Night Terrors:** daemonic visions in sleep — as Horrific Nightmares. |
-| 64–70 | **Poor Health:** petty illnesses and phantom pains; Toughness reduced by 1d10. |
+| 64–70 | **Poor Health:** petty illnesses and phantom pains, and wounds never seem to heal fully; Toughness reduced by 1d10. |
 | 71–75 | **Distrustful:** -10 to Fellowship Tests when dealing with strangers. |
 | 76–80 | **Malign Sight:** the world seems to darken and rot; Perception reduced by 1d10. |
 | 81–83 | **Ashen Taste:** food and drink taste disgusting; doubles the negative effects of Fatigue levels. |
-| 84–90 | **Bloodlust:** after being wounded in combat, must Test Willpower to allow enemies to flee rather than kill them outright. |
+| 84–90 | **Bloodlust:** murderous rage is never far from his mind; after being wounded in combat, must Test Willpower to incapacitate or allow his enemies to flee, rather than kill them outright, even if his intent is otherwise. |
 | 91–93 | **Blackouts:** inexplicable blackouts — the GM decides what happens during them. |
-| 94–00 | **Strange Addiction:** addicted to something bizarre (drinking blood, the taste of widows' tears); acts as a Minor Compulsion. |
+| 94–00 | **Strange Addiction:** addicted to something bizarre (eating rose petals, drinking blood, the taste of widows' tears); acts like a Minor Compulsion (see Disorders), but is freakish enough to cause serious suspicion if found out. |
 
 If a player rolls a result he has already suffered, he rolls again.
 
 **Mutation:** for every 30 CP a character gains, he Tests against two Characteristics of his
-choice; on failure he suffers a random Minor Mutation (see Chapter XIV: Adversaries & Aliens).
-He may never test against the same Characteristic twice to resist mutation, and should note on
+choice; if he fails either Test he suffers a random Minor Mutation (only one, even if both Tests
+are failed; see Chapter XIV: Adversaries & Aliens). He may never test against the same Characteristic twice to resist mutation, and should note on
 his character sheet which Characteristics have already been used.
+
+*Example:* Rylar Mane discovers the cloud-maidens of Chilautox are part of a vile Chaos cult and falls afoul of one of their dark rituals, raising his CP to 31. He makes his first Malignancy Test (Willpower) and, on a failure, rolls on the Malignancy table; he must test again at 61 and 91. Reaching 30+ CP also requires a mutation test: he chooses Strength and Fellowship; failing either gives one mutation (only one, even if both fail), and he may never test against Strength or Fellowship again.
 
 ---
 
-**Status:** Chapter X (The Game Master) fully transcribed and cross-checked against the page
-images (PDF pages 289–304 / book pages 285–300). All eight tables (10-1 Encounter Difficulty,
+**Status:** Chapter X (The Game Master) re-verified page by page against the page images
+2026-09-30 (PDF pages 289–304 / book pages 285–300). All eight tables (10-1 Encounter Difficulty,
 10-2 Dispositions, 10-3 Fear Test Difficulties, 10-4 Shock Table, 10-5 Insanity Track, 10-6
 Mental Traumas, 10-7 Corruption Track, 10-8 Malignancies) have been verified directly against
 scanned page images and are now confirmed correct — this corrects several values that a prior

@@ -231,7 +231,7 @@ Unlike Lure of the Void, here you receive **all** the traits listed for an optio
 
 ### Ship-lorn
 - **Against All Odds:** Survival Skill (or an increase of one level, if already possessed) **or** Dark Soul Talent. Additionally: when spending a Fate Point to heal Wounds (p. 233), you may reroll, and the second result must be accepted.
-- **Ill-starred:** Starting Fate Points permanently **−1**; −5 on Fellowship Tests toward Void Born, Rogue Traders, and other void-farers, provided they know the reputation.
+- **Ill-starred:** Starting Fate Points permanently **−1**; −5 on Fellowship Tests when interacting with the Void Born, Rogue Traders, and other void-farers who are not personal friends, if they have heard of your background and reputation.
 
 ### Dark Voyage
 - **Things Man Was Not Meant to Know:** a Forbidden Lore Skill fitting the experience (or an increase of one level to an existing one) **or** Resistance (Fear) Talent.
@@ -259,7 +259,7 @@ Unlike Lure of the Void, here you receive **all** the traits listed for an optio
 | Roll | Item |
 |---|---|
 | 01–20 | **Archeotech Laspistol** — a weapon of unknown origin and great antiquity; a best-Craftsmanship archeotech laspistol |
-| 21–40 | **Angevin Era Chainsword** — an ancient blade bearing Crusade purity seals and kill-marks; a best-Craftsmanship chainsword |
+| 21–40 | **Angevin Era Chainsword** — an ancient blade bearing Crusade purity seals and kill-marks, supposedly used against dire xenos in the cleansing of the Drusus Marches; a best-Craftsmanship chainsword |
 | 41–60 | **Ancestral Seal** — +10% on all Interaction Skill Tests when the seal is displayed and dealing with Imperial citizens or organisations |
 | 61–80 | **Saint-blessed Carapace Armour** — a best-Craftsmanship set of carapace armour |
 | 81–00 | **Reliquary of Saint Drusus** — +20% on all Interaction Skill Tests when the reliquary is displayed and dealing with members of the Ministorum |
@@ -282,9 +282,10 @@ Eight Career Paths: **Arch-militant, Astropath Transcendent, Explorator, Mission
 
 ### Relationship to Dark Heresy
 - Both games use the same core mechanics and the same universe.
-- A Rank 1 Rogue Trader character corresponds roughly to a Dark Heresy character with 5,000 xp spent.
+- A Rank 5 Dark Heresy character with 5,000 xp is the equivalent of a Rank 1 Rogue Trader character with 5,000 xp (p. 34). This starting xp is primarily of concern when bringing Dark Heresy characters into Rogue Trader.
+- Rogue Trader characters begin at a higher power level than starting-out Dark Heresy characters; a Rank 1 Rogue Trader character is roughly equivalent to a Dark Heresy character that has spent 5,000 xp on advances.
 - Correspondingly: Dark Heresy characters with 5,000–5,500 xp join a starting Rogue Trader group; a Rank 2 Rogue Trader corresponds to Dark Heresy Acolytes with 6,500–7,000 xp.
-- A Rogue Trader character in a Dark Heresy campaign should have at least **1,000 Thrones income per month**. Non-crew members (passengers) continue to receive their monthly income and gain Profit Factor only at the GM's discretion.
+- A Rogue Trader character in a Dark Heresy campaign should have at least **1,000 Thrones income per month**. Where Dark Heresy characters are not part of the crew (e.g. travelling as passengers), they continue to accrue their monthly income as normal and gain Profit Factor only at the GM's discretion. A Rogue Trader character who serves an Inquisitor could be very down on his luck, so the GM may want to adjust that character's income downward.
 
 ---
 
@@ -305,17 +306,17 @@ chosen or determined with 1d100.
 | 07–12 | Bron | Cort | Aphesius | Casmirre | Blade |
 | 13–18 | Carno | Emil | Cornelius | Gillam | Cutter |
 | 19–24 | Hob | Harmon | Darrius | Haddon | Echo |
-| 25–30 | Gil | Jaego | Fortunus | Jonstonne | Gant |
+| 25–30 | Gil | Jace | Fortunus | Jonstonne | Gant |
 | 31–36 | Jorn | Lucius | Godwinne | Kennoch | Hal |
 | 37–42 | Kerghan | Malakai | Holt | Mordechai | Jak |
 | 43–48 | Lok | Nathin | Jarrion | Orthesian | Mord |
-| 49–54 | Marn | Remi | Macharius | Patromeus | Notch |
+| 49–54 | Marn | Remi | Macharius | Patronus | Notch |
 | 55–60 | Pak | Roland | Quinilli | Ramirez | Rook |
 | 61–66 | Quinn | Solar | Regias | Sebastion | Sawyer |
 | 67–72 | Stiehr | Theodore | Sarvus | Siegmund | Serge |
-| 73–78 | Thale | Vorgar | Tristan | Torian | Stubbs |
+| 73–78 | Thale | Vorgen | Tristan | Torian | Stubbs |
 | 79–84 | Vir | Ysarille | Victris | Vendigroth | Torque |
-| 85–90 | Ziel | Zacharie | Xanator | Yorke | Veche |
+| 85–90 | Ziel | Zacharie | Xanatov | Yorke | Veche |
 | 91–00 | Reroll on Table 1-4 | – | – | – | – |
 
 ### Table 1-4: Example Female Names
@@ -324,19 +325,19 @@ chosen or determined with 1d100.
 |---|---|---|---|---|---|
 | 01–06 | Attie | Barbaretta | Anarette | Anastasia | Astra |
 | 07–12 | Besse | Cynthia | Carnelia | Cymbry | Blur |
-| 13–18 | Flur | Diane | Dominique | Esailla | Celle |
-| 19–24 | Halia | Dorath | Faydra | Iloneyse | Crimson |
+| 13–18 | Flur | Diane | Dominique | Esailla | Ceile |
+| 19–24 | Halia | Dorath | Faydra | Iioneyse | Crimson |
 | 25–30 | Jessie | Elisabet | Inessa | Janelle | Flora |
 | 31–36 | Karina | Faye | Janthine | Lorayne | Guile |
 | 37–42 | Marra | Genevie | Lucretia | Katyaina | Luna |
 | 43–48 | Narine | Isabelle | Marcella | Miriam | Mia |
-| 49–54 | Oviina | Jayne | Jaina | Nadeyese | Poise |
+| 49–54 | Ovina | Jayne | Jama | Nadeyese | Poise |
 | 55–60 | Ralle | Josette | Noradine | Petriam | Rosa |
 | 61–66 | Salia | Noemi | Regina | Serafina | Sola |
 | 67–72 | Tassa | Odette | Symonne | Tarvanna | Trenne |
 | 73–78 | Unna | Shandra | Winter | Undynne | Val |
 | 79–84 | Vyn | Tanda | Yolande | Victrix | Xandra |
-| 85–90 | Yasha | Zolla | Zimora | Zephyr | Zelle |
+| 85–90 | Yasha | Zolla | Zamora | Zephyr | Zelle |
 | 91–00 | Reroll on Table 1-3 | – | – | – | – |
 
 > Note on the original print: the last two table rows refer in the printed text to
@@ -349,15 +350,15 @@ The development is structured by six guiding questions:
 
 1. **What Is Your Demeanour?** Personality and typical reaction to pressure.
    Suggested temperaments:
-   - **Bilious:** suspicious, bitter and wrathful, yet watchful.
-   - **Cardinal:** seeks balance, but struggles with quick, important decisions.
-   - **Choleric:** active and commanding, easily provoked.
-   - **Fixed:** solid, unyielding, and set in his views.
-   - **Melancholic:** thoughtful, introverted, and prone to gloom.
-   - **Mutable:** unpredictable, undisciplined, rebellious.
-   - **Phlegmatic:** practical and cautious, serious and reserved.
-   - **Sanguine:** confident and optimistic, sometimes moody.
-   - **Supine:** loyal, devoted, and easily led.
+   - **Bilious:** suspicious, bitter, and angry, yet very watchful and aware.
+   - **Cardinal:** seeks careful balance in all things, yet often struggles to make a vital choice rapidly.
+   - **Choleric:** always active and taking charge, yet easy to provoke to anger.
+   - **Fixed:** solid, unyielding, and definitive in all things; considered and settled of opinion.
+   - **Melancholic:** thoughtful, introspective, and prone to fits of gloom.
+   - **Mutable:** unpredictable, undisciplined, and rebellious, defined by opposition to ideals.
+   - **Phlegmatic:** practical and careful, yet very serious and reserved.
+   - **Sanguine:** confident and optimistic, but prone to visions and flights of whimsy.
+   - **Supine:** loyal, devout, and easily led.
 2. **Why Are You a Leader Aboard a Rogue Trader Vessel?** Origin of one's own
    leadership role: chance, favour, deliberate rise, recruited talent, purchased
    position, escape, or personal interest in the mission.
@@ -378,7 +379,7 @@ Roll **1d10** on Table 1-5. The GM may also simply choose, or have a player roll
 
 ### Table 1-5: Starting Profit Factor and Ship Points
 
-| Roll | Profit Factor | Ship Points | Description |
+| Roll | Profit Factor | Ship Points | Example |
 |---|---|---|---|
 | 1 | 60 | 30 | Although the dynasty does not command a powerful starship, it possesses great resources |
 | 2–3 | 50 | 40 | A good ship and a wealthy purse promise great things for this dynasty |
@@ -428,10 +429,8 @@ the exact Mutations selection range 01–75 were corrected/completed.
 
 ## Status
 
-Re-verified against page images on 2026-08-18 for the English conversion. Spot-checked
-pages: 020 (Origin Path Chart), 034 (Table 1-2: Heirloom Items, Starting Experience text),
-037 (Table 1-5: Starting Profit Factor and Ship Points, Ambition/Hatreds text). All
-numeric values and table contents matched the existing (previously German) transcription
-exactly — **no discrepancies found**. Full content translated to English prose while
-preserving all rules, values, and tables 1:1; book page citations retained (translated
-"S." → "p."). Chapter I (PDF 16–38, book pages 12–34) is complete and image-verified.
+Re-verified against the page images on 2026-09-30 (all of PDF pages 16–38, book pages 12–34):
+Origin Path Chart, all Home World, Birthright, Lure of the Void, Trials and Travails and
+Motivation effects, characteristic modifiers, starting Wounds and Fate Point tables,
+Tables 1-1 to 1-5 and the example table on book page 14 match the scan. Book page
+citations retained. Chapter I is complete and image-verified.

@@ -3,6 +3,8 @@
 > Source: *Rogue Trader Core Rulebook*, PDF pages 1–14 (PDF bookmark **Foreword**).
 > Page system: book page + 4 = PDF page. The pages before book page 1 belong to the
 > front matter and have no book-page numbering of their own.
+> Re-verified page by page against the scanned page images on 2026-09-30 (book-page numbers in the
+> section headings corrected: book page = PDF page − 4).
 > Method: running text verified against OCR (`tmp/ocr/page001.txt` to `page014.txt`)
 > **and** against the original page images (`page001_0.jpg` to `page014_0.jpg`, found in
 > an older session scratchpad and re-checked for this pass). Image quality is good on
@@ -14,7 +16,7 @@
 > section: the foreword by the Games Workshop representative and the introductory
 > fluff/narrative text before Chapter I.
 
-## Foreword by Alan Merrett (book page 2, PDF page 10)
+## Foreword by Alan Merrett (book page 6, PDF page 10)
 
 The foreword is written by Alan Merrett (Intellectual Property Manager at Games Workshop
 at the time of publication) and tells the story of how the name "Rogue Trader" came to be:
@@ -54,7 +56,7 @@ at the time of publication) and tells the story of how the name "Rogue Trader" c
   thanks Fantasy Flight Games for making it happen.
 - Closing line: *"May all your endeavours bear profit!"* — Alan Merrett, Games Workshop.
 
-## Setting prolog (book page 3, PDF page 11)
+## Setting prolog (book page 7, PDF page 11)
 
 Following the foreword is a single illustrated page (styled as a torn, hand-lettered
 scroll) carrying the classic, literary Warhammer 40,000 introductory text about the 41st
@@ -71,7 +73,7 @@ only its content is summarized. (Unlike in the previous session, the page image 
 entry was available and fully legible; the summary above is drawn directly from it, not
 from the earlier, badly garbled OCR.)
 
-## Ambition Knows No Bounds – Introduction (book pages 4–5, PDF pages 12–13)
+## Ambition Knows No Bounds – Introduction (book pages 8–9, PDF pages 12–13)
 
 The book's actual introduction (headed "Ambition Knows No Bounds") welcomes readers to
 *Rogue Trader*, a roleplaying game of exploration, risk, and savage might set in the
@@ -108,7 +110,7 @@ decaying far future of Warhammer 40,000:
   (such as from Games Workshop's Citadel Warhammer 40,000 range) can help visualize
   combat, but are not required.
 
-## What's in this Book? – Chapter overview (book pages 5–6, PDF pages 13–14)
+## What's in this Book? – Chapter overview (book pages 9–10, PDF pages 13–14)
 
 Per the introduction, the book is divided into fifteen chapters plus the introduction
 itself. The book's own short description of each chapter:

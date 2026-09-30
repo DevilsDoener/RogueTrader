@@ -1,7 +1,7 @@
 # Chapter IV: Talents
 
 > Source: Rogue Trader Core Rulebook, Chapter IV, book pages 89–108 (PDF pages 93–112).
-> **Status: chapter fully captured.**
+> **Status: chapter fully captured; re-verified against page images 2026-09-30.**
 
 ## Fundamentals
 
@@ -499,7 +499,7 @@ The Explorer may use Psyniscience as a Free Action.
 ### Independent Targeting
 **Prerequisite:** Ballistic Skill 40
 
-When firing two weapons as part of the same action, the targets need not be within 10 metres of each other.
+When firing two weapons as part of the same action, the targets need not be less than 10 metres apart (as printed; Table 4-1 words it as targets "further than 10m apart").
 
 ### Into the Jaws of Hell
 **Prerequisite:** Iron Discipline
@@ -552,7 +552,7 @@ On the Initiative roll, the Explorer adds double his Agility Bonus. With **Unnat
 ### Litany of Hate
 **Prerequisite:** Hatred (any)
 
-As a Full Action, the Explorer may use a Charm Test to extend the benefit of his Hatred Talent to nearby allies. Success grants a target +10 on Weapon Skill against the hated enemies for each point of Fellowship Bonus. The effect lasts the entire encounter.
+As a Full Action, the Explorer may use a Charm Test to extend the benefit of his Hatred Talent to nearby allies. Success confers +10 on Weapon Skill when fighting hated foes to one target per point of the Explorer's Fellowship Bonus. The effect lasts the entire encounter.
 
 ### Logis Implant
 The Explorer spends his Reaction for the Round and makes a Tech-Use Test. On success, he gains +10 on all Weapon Skill and Ballistic Skill Tests until the end of his next turn. Afterwards, he must pass a Toughness Test or gain 1 Fatigue.
@@ -691,7 +691,7 @@ Called Shots with a melee weapon do not suffer the usual −20 penalty.
 After 10 minutes of meditation and ritual invocation, the Explorer may make a Tech-Use Test; on success he heals `1d5` Damage. A roll of 96–100 overloads the implants: for one week, neither Autosanguine nor Prosanguine can be used.
 
 ### Psy Rating
-The Psy Rating ranges from 1 to 10. The Talent can be taken multiple times and increases the current Psy Rating by 1 each time; this does not automatically grant additional Psychic Powers. Full rules: Chapter VI.
+The Psy Rating ranges from 1 to 10. The Talent can be taken multiple times and increases the current Psy Rating by 1 each time; this does not automatically grant additional Psychic Powers. Psy Rating 1 is the lowest to warrant the attention of the Scholastia Psykana and the Black Ships; 10 is among the most powerful in the human sphere. An Astropath Transcendent begins play with Psy Rating 2. Full rules: Chapter VI.
 
 ### Psychic Discipline †
 **Talent Groups:** Psy Rating
@@ -714,7 +714,7 @@ The Explorer is always immune to **Daemonic Presence**, including its negative W
 
 - As a Half Action and for a Fate Point, the Explorer makes an Opposed Willpower Test against a Warp Entity. On success, it is pushed back `2 × Willpower Bonus` metres and cannot approach closer than that distance for `2d5` Rounds.
 - As a Full Action and for a Fate Point, he can use an Opposed Willpower Test to drive a possessing Warp Entity out of its host. It appears next to the former host and cannot possess it again for `2 × Willpower Bonus` hours.
-- As a Full Action, he can burn a Fate Point to directly confront the Warp Entity. A successful Willpower Test deals `Willpower Bonus` Damage plus a further `Willpower Bonus` per Degree of Success. On failure, the Explorer takes Damage equal to his Willpower Bonus. This Damage is reduced by neither Toughness nor Armour.
+- As a Full Action, he can burn a Fate Point to directly confront the Warp Entity. A successful Willpower Test deals `Willpower Bonus` Damage plus a further `Willpower Bonus` per Degree of Success. On a failed Test, the Warp Entity takes Damage equal to the character's Willpower Bonus. Damage inflicted by this method is not reduced by the creature's Toughness or Armour.
 
 ### Quick Draw
 The Explorer can Ready a Pistol, Basic-class Ranged Weapon, or one-handed melee weapon as a Free Action.
@@ -896,8 +896,13 @@ The Explorer gains +10 on any Skill Test for Investigation, as well as on the **
   the detailed text lists `Tech-Use +20, Mechanicus or Explorator Implants`.
 - **Whispers:** Table 4-1 lists `Int 40, Fel 30`; the detailed text lists
   `Intelligence 45, Fellowship 35`.
+- **Blessed Radiance:** Table 4-1 lists `Pure Faith, Divine Ministration, The Emperor Protects or Wrath of the Righteous`;
+  the detailed text lists `Purge the Unclean, Divine Ministration, The Emperor Protects or Wrath of the Righteous`.
+- **Prosanguine:** Table 4-1 lists no prerequisite (—); the detailed text lists `Autosanguine`.
+- **Mechadendrite Use, Rite of Awe, Rite of Fear, Rite of Pure Thought:** Table 4-1 lists `Mechanicus Implants`;
+  the detailed text lists `Explorator`.
 
-Both versions remain documented because the original prints them inconsistently;
+All versions remain documented because the original prints them inconsistently;
 a GM ruling is needed for actual play.
 
 ## Page Inventory and Cross-Check

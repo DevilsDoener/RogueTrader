@@ -47,6 +47,6 @@ full random table **Table 14-3: Mutations**, which is referenced there
 ---
 
 **Status:** Table 14-3: Mutations fully and faithfully transcribed from the
-page image PDF 373 (all 34 rows, roll ranges 01–05 through 00). 1/1 page
-verified against the image. No numeric values uncertain — the page was
+page image PDF 373 (all 29 rows, roll ranges 01–05 through 00). 1/1 page
+verified against the image; re-verified against page images 2026-09-30. No numeric values uncertain — the page was
 clearly legible.
