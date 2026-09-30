@@ -44,6 +44,13 @@
 
   --rt-radius: 3px;
   --rt-radius-lg: 6px;
+  --rt-radius-pill: 999px;
+
+  /* Shared effects: the lifted-card hover shadow, the focus ring of the
+     search fields, and the translucent "blank dossier" fill. */
+  --rt-shadow-lift: 0 8px 20px color-mix(in srgb, var(--rt-bg) 70%, transparent);
+  --rt-focus-ring: 0 0 0 3px color-mix(in srgb, var(--rt-focus) 28%, transparent);
+  --rt-fill-blank: color-mix(in srgb, var(--rt-panel) 45%, transparent);
 
   --rt-font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman", serif;
   --rt-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -308,7 +315,7 @@ label {
   list-style: none;
   margin: 0 0 0.5rem;
   padding: 0.5rem 0.75rem;
-  background: rgba(179, 84, 63, 0.15);
+  background: color-mix(in srgb, var(--rt-danger) 15%, transparent);
   border: 1px solid var(--rt-danger);
   border-radius: var(--rt-radius);
   color: var(--rt-danger-bright);
@@ -475,31 +482,6 @@ label {
 .page-sheet .content {
   max-width: none;
   padding: 1.25rem clamp(0.75rem, 2vw, 1.5rem);
-}
-
-/* ---------------------------------------------------------------------
-   Messages
-   --------------------------------------------------------------------- */
-
-.messages {
-  list-style: none;
-  margin: 0 0 1.5rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.message {
-  padding: 0.75rem 1rem;
-  border-radius: var(--rt-radius);
-  background: var(--rt-panel);
-  border: 1px solid var(--rt-border);
-}
-
-.message-error {
-  border-color: var(--rt-danger);
-  color: var(--rt-danger-bright);
 }
 
 /* ---------------------------------------------------------------------
@@ -708,10 +690,6 @@ mark {
 
 .wiki-search-form input {
   flex: 1 1 auto;
-}
-
-.wiki-toc {
-  margin-bottom: 1.5rem;
 }
 
 .wiki-article {
@@ -1188,7 +1166,7 @@ mark {
    the two panel-coloured mask shadows the sticky field keeps. */
 .wiki-section-nav input[type="search"].wiki-toc-filter:focus {
   border-color: var(--rt-focus);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rt-focus) 28%, transparent),
+  box-shadow: var(--rt-focus-ring),
     0 -0.6rem 0 0.35rem var(--rt-panel), 0 0.25rem 0 0.35rem var(--rt-panel);
   outline: none;
 }
@@ -1241,10 +1219,7 @@ mark {
    (the global `mark` rule); `clone` keeps the pill intact across a line
    break. */
 .wiki-article mark.wiki-hit {
-  background: var(--rt-gold);
-  color: var(--rt-text-on-gold);
   padding: 0 0.12em;
-  border-radius: 2px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -1360,7 +1335,7 @@ mark {
   flex: none;
   min-width: 1.6rem;
   padding: 0 0.4rem;
-  border-radius: 999px;
+  border-radius: var(--rt-radius-pill);
   background: var(--rt-bg-elevated);
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
@@ -1445,7 +1420,7 @@ mark {
   min-height: 2.25rem;
   padding: 0 0.9rem;
   border: 1px solid var(--rt-border);
-  border-radius: 999px;
+  border-radius: var(--rt-radius-pill);
   background: var(--rt-panel-raised);
   color: var(--rt-gold-bright);
   font-size: 0.9rem;
@@ -1509,7 +1484,7 @@ mark {
 
 .library-search input[type="search"]:focus {
   border-color: var(--rt-focus);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rt-focus) 28%, transparent);
+  box-shadow: var(--rt-focus-ring);
   outline: none;
 }
 
@@ -1623,7 +1598,7 @@ mark {
 .library-card:focus-within {
   border-color: var(--rt-gold-dim);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--rt-bg) 70%, transparent);
+  box-shadow: var(--rt-shadow-lift);
 }
 
 .library-card-numeral {
@@ -1764,7 +1739,7 @@ mark {
   border-color: var(--rt-gold-dim);
   border-top-color: var(--rt-gold);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--rt-bg) 70%, transparent);
+  box-shadow: var(--rt-shadow-lift);
 }
 
 .crew-card-head {
@@ -1886,7 +1861,7 @@ mark {
   padding: 0.3rem 0.8rem;
   background: var(--rt-panel-raised);
   border: 1px solid var(--rt-border);
-  border-radius: 999px;
+  border-radius: var(--rt-radius-pill);
 }
 
 .crew-stat-label {
@@ -1946,7 +1921,7 @@ mark {
 
 /* The create form: a blank dossier waiting to be filled. */
 .crew-card-create {
-  background: color-mix(in srgb, var(--rt-panel) 45%, transparent);
+  background: var(--rt-fill-blank);
   border: 1px dashed var(--rt-border-strong);
   border-top: 2px dashed var(--rt-gold-dim);
 }
@@ -2081,7 +2056,7 @@ mark {
   border-color: var(--rt-gold-dim);
   border-top-color: var(--rt-gold);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--rt-bg) 70%, transparent);
+  box-shadow: var(--rt-shadow-lift);
 }
 
 .bridge-crew-tile.is-latest {
@@ -2228,7 +2203,7 @@ mark {
   gap: 0.35rem;
   min-height: 9rem;
   padding: 1rem;
-  background: color-mix(in srgb, var(--rt-panel) 45%, transparent);
+  background: var(--rt-fill-blank);
   border: 1px dashed var(--rt-border-strong);
   border-top: 2px dashed var(--rt-gold-dim);
   border-radius: var(--rt-radius-lg);
@@ -2746,7 +2721,7 @@ dialog.auspex input.auspex-input::-webkit-search-cancel-button {
 }
 
 /* ---------------------------------------------------------------------
-   Sheet pages: chrome around Task 7's viewer only.
+   Sheet pages: chrome around the sheet viewer only.
    The `.sheet-viewer-root`, `.sheet-toolbar`, `.sheet-viewport`,
    `.sheet-canvas*`, `.sheet-field`, `.sheet-input` selectors and everything
    under them are intentionally left untouched here -- they live entirely
