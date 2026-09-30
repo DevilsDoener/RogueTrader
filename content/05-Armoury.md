@@ -3,7 +3,7 @@
 > Source: Rogue Trader Core Rulebook, Chapter V, book pages 109–152 (PDF pages 113–156).
 > **Status: Availability, Craftsmanship, Wealth/Ammunition, Weapon Profiles,
 > Weapon Craftsmanship and all Weapon Special Qualities captured; content fully
-> transcribed and image-verified against all 44 pages.**
+> transcribed and image-verified against all 44 pages; re-verified against the page images 2026-09-30.**
 
 ## Availability
 
@@ -117,7 +117,7 @@ Acquiring a weapon includes an ongoing supply of its standard ammunition. On exp
 
 ### Weapons Without the Matching Talent
 
-Without the appropriate Weapon Training, a -20 penalty applies to the relevant Test; Ranged Weapons additionally count as Unreliable. For Flame weapons the target instead gains +20 to its Agility Test.
+Each weapon class is used with its own Talent: Pistol Training, Basic Weapon Training, or Heavy Weapon Training, each in the matching group (Las, Bolt, Melta, Plasma, Flame, or Primitive). Without the appropriate Weapon Training, a -20 penalty applies to the relevant Test; Ranged Weapons additionally count as Unreliable. For Flame weapons the target instead gains +20 to its Agility Test.
 
 ## Table 5-4: Ranged Weapons
 
@@ -132,7 +132,7 @@ Without the appropriate Weapon Training, a -20 penalty applies to the relevant T
 | Las Gauntlets | Pistol | 50m | S/4/- | `1d10+4 E` | 1 | 20 | Full | Reliable | 3 | Very Rare |
 | Lascarbine (Locke) | Basic | 60m | S/2/- | `1d10+3 E` | 0 | 40 | 2 Full | Reliable | 2.5 | Scarce |
 | Lasgun | Basic | 100m | S/3/- | `1d10+3 E` | 0 | 60 | Full | Reliable | 4 | Common |
-| Laspistol | Pistol | 30m | S/2/- | `1d10+2 E` | 0 | 30 | Full | Reliable | 1.5 | Common |
+| Laspistol | Pistol | 30m | S/-/- | `1d10+2 E` | 0 | 30 | Full | Reliable | 1.5 | Common |
 | Long-las | Basic | 150m | S/-/- | `1d10+3 E` | 1 | 40 | Full | Accurate, Reliable | 4.5 | Scarce |
 | Man Portable Lascannon | Heavy | 300m | S/-/- | `5d10+10 E` | 10 | 5 | 2 Full | - | 55 | Very Rare |
 
@@ -149,7 +149,7 @@ Without the appropriate Weapon Training, a -20 penalty applies to the relevant T
 | Naval Shotcannon | Heavy | 40m | S/3/- | `2d10+4 I` | 0 | 24 | 2 Full | Scatter, Unreliable | 7 | Scarce |
 | Pump-Action Shotgun | Basic | 30m | S/-/- | `1d10+4 I` | 0 | 8 | 2 Full | Scatter | 5 | Average |
 | Shotgun | Basic | 30m | S/-/- | `1d10+4 I` | 0 | 2 | 2 Full | Scatter | 5 | Common |
-| Shotgun Pistol | Pistol | 10m | S/-/- | `1d10+4 I` | 0 | 2 | Full | Reliable, Scatter | 1 | Average |
+| Shotgun Pistol | Pistol | 10m | S/-/- | `1d10+4 I` | 0 | 1 | Full | Reliable, Scatter | 1 | Average |
 | Stub Automatic | Pistol | 30m | S/3/- | `1d10+3 I` | 0 | 9 | Full | - | 1.5 | Plentiful |
 | Stub Revolver | Pistol | 30m | S/-/- | `1d10+3 I` | 0 | 6 | 2 Full | Reliable | 1 | Plentiful |
 
@@ -197,12 +197,13 @@ Las Power Packs can be recharged on-site from most energy sources: a **Tech-Use 
 
 The individual descriptions of the weapons listed in Table 5-4 are condensed here to their rules-relevant statements; origin, appearance, and typical users are flavour and are not repeated individually.
 
+- **Hellpistol and Hellgun (Lucius-pattern):** use a 10 kg backpack power source rather than a standard plug-in pack, even the Hellpistol; reloading is impractical. Hellguns can also be linked to larger backpack power sources (see Ammunition).
 - **Hand Cannon:** without a two-handed grip or Recoil Glove, -10 to Ballistic Skill Tests.
 - **Lascarbine:** when fired one-handed, only -10 applies instead of the usual -20 for Basic Weapons.
 - **Shotgun Pistol:** without a two-handed grip or Recoil Glove, -10 to Ballistic Skill Tests (recoil).
 - **Naval Pistol:** loses the `Tearing` Quality without its special ammunition; this ammunition cannot be combined with other special types.
 - **Naval Shotcannon:** must be mounted or fired from a braced position.
-- **Plasma – Maximal Mode:** +10 m Range, +1d10 Damage, and consumes 3 shots. The weapon gains `Recharge`; if it has `Blast`, its value increases by 2.
+- **Plasma – Maximal Mode:** +10 m Range, +1d10 Damage, +2 Pen, and consumes 3 shots. The weapon gains `Recharge`; if it has `Blast`, its value increases by 2.
 - **Sling with Grenade:** replaces Damage with the grenade's effect, Range drops to 7 m; a Jam forces an additional roll following the grenade misfire rules (p. 126).
 
 ## Grenades and Missiles
@@ -246,7 +247,7 @@ Grenades are thrown using Ballistic Skill (no special Talent required). Their Ra
 | Virus Grenade | Thrown / SB×3 | `3d10 I` | 0 | Toxic; mutagenic infection | 0.5 | Extremely Rare |
 
 - **Hallucinogen:** every creature within 10 m tests Toughness `Difficult (-10)`; a Respirator or sealed armour grant +20. On failure, roll on Table 5-5 for `1d10` Rounds.
-- **Photon Flash:** those affected test Toughness; on failure they are blind for a number of Rounds equal to their Degrees of Failure.
+- **Photon Flash:** detonates like a small star, blinding anyone nearby and overloading most vision protection systems such as visors; those caught without eye protection are usually left temporarily blinded and defenceless. Good Craftsmanship Photo-visors/Photo-contacts make the wearer immune.
 - **Smoke:** creates a visual barrier, but no protection against sensors not based on sight.
 - **Stun:** those affected test Toughness `Challenging (+0)`; Photo-Visors or sealed armour grant +20. On failure, `1d5` Rounds `Stunned`.
 - **Virus:** the grenade deals Damage; from the second Round onward, a new target (friend or foe) is randomly determined within `1d5` metres and tested for Damage again (a fresh Damage roll for the mutated plague). This continues until no more Damage is caused or `1d10` Rounds have passed.
@@ -349,17 +350,17 @@ A character with Trade (Armourer) can upgrade a weapon with a successful Test. W
 - **Fire Selector:** up to three Clips; choose the desired Clip at the start of the Turn. For Bolt/SP Pistols or Basic Weapons.
 - **Forearm Mounting:** keeps the hands free, Range -30%. For Primitive, Las, SP, Bolt, or Melta Pistols.
 - **Melee Attachment:** a Basic Ranged Weapon counts as a Spear in melee.
-- **Mono:** Primitive no longer applies, Pen +2; on Power Weapons only effective when the Power Field is off.
-- **Motion Predictor:** +10 Ballistic Skill during Semi-/Full Auto.
-- **Omni-scope:** combines Preysense, Red-Dot, and Telescopic Sight; counts as one Sight.
-- **Overcharge Pack:** Las Damage +1, Clip halved.
-- **Photo-scope:** no Darkness penalties.
-- **Preysense-scope:** no Darkness penalties, +20 to vision-based Perception at night.
-- **Red-Dot Laser Sight:** +10 Ballistic Skill on Single Shot.
-- **Silencer:** Awareness Tests to hear the shots suffer an additional -20 and only apply at half the normal distance.
-- **Suspensors:** Weight halved; user counts as `Auto-stabilised`, always braced, Semi-/Full Auto as a Half Action.
-- **Telescopic Sight:** ignores the Long and Extreme Range penalties when Aiming as a Full Action.
-- **Vox Operated:** trigger, Fire Selector, and Fire Mode operated via coded voice command.
+- **Mono:** Primitive no longer applies, Pen +2; on Power Weapons only effective when the Power Field is off. For any Primitive close combat weapon.
+- **Motion Predictor:** +10 Ballistic Skill during Semi-/Full Auto. For any non-Primitive Ranged Weapon capable of Semi-Auto or Full Auto fire.
+- **Omni-scope:** combines Preysense, Red-Dot, and Telescopic Sight; counts as one Sight, and a gun may only have one sight. For Basic Las, Solid Projectile, Bolt, Primitive, or Plasma weapons.
+- **Overcharge Pack:** Las Damage +1, Clip halved. For Pistol (Las) or Basic (Las) weapons.
+- **Photo-scope:** no Darkness penalties. Counts as a sight (one per gun); for Basic Las, Solid Projectile, Bolt, Primitive, or Plasma weapons.
+- **Preysense-scope:** no Darkness penalties, +20 to vision-based Perception at night. Counts as a sight (one per gun); for Basic Las, Solid Projectile, Bolt, Primitive, or Plasma weapons.
+- **Red-Dot Laser Sight:** +10 Ballistic Skill on Single Shot. Counts as a sight (one per gun); for Pistol or Basic Las, Solid Projectile, Bolt, Primitive, or Plasma weapons.
+- **Silencer:** Awareness Tests to hear the shots suffer an additional -20 and only apply at half the normal distance. For Stub Revolvers, Stub Automatics, Hand Cannons, Autoguns, and Hunting Rifles.
+- **Suspensors:** Weight halved; user counts as `Auto-stabilised`, always braced, Semi-/Full Auto as a Half Action. For any Heavy weapon.
+- **Telescopic Sight:** ignores the Long and Extreme Range penalties when Aiming as a Full Action. Counts as a sight (one per gun); for Basic Las, Solid Projectile, Bolt, Primitive, or Plasma weapons.
+- **Vox Operated:** trigger, Fire Selector, and Fire Mode operated via coded voice command (each receiver usually keyed to one voice pattern). For any non-Primitive Pistol, Basic, Grenade, or Heavy weapon.
 
 ## Ammunition
 
@@ -465,9 +466,9 @@ Armour Points (AP) apply only to the covered Hit Locations. Armour with AP 7+ ca
 | Charm | - | Average |
 | Chrono | - | Abundant |
 | Clip/Drop Harness | 2 | Common |
-| Clothing (Common) | - | Abundant* |
-| Clothing (Merchant Guilder) | - | Average* |
-| Clothing (Noble) | - | Scarce* |
+| Clothing and Adornment (Common) | - | Abundant* |
+| Clothing and Adornment (Merchant Guilder) | - | Average* |
+| Clothing and Adornment (Noble) | - | Scarce* |
 | Filtration Plugs | - | Common |
 | Night Cloak | 2 | Average |
 | Photo-visors/Photo-contacts | 0.5 | Scarce |
@@ -481,11 +482,11 @@ Armour Points (AP) apply only to the covered Hit Locations. Armour with AP 7+ ca
 | Void Suit | 8 | Plentiful |
 | Void Suit (Selenite) | 25 | Scarce |
 
-\* Availability may vary depending on mode and local culture.
+\* Clothing and Adornment may have any appropriate Availability, depending on how much the Explorer chooses to spend on apparel.
 
 - **Backpack:** carries up to 50 kg.
 - **Cameleoline Cloak:** +20 Concealment; while stationary, Range to the wearer counts as one Bracket further.
-- **Charm:** at the GM's discretion, can once ward off a random misfortune.
+- **Charm:** no tangible benefits; when the plot calls for something bad to happen to a random character, at the GM's discretion a character with a Charm is exempt. If all characters carry Charms, the GM chooses which are the most potent. Cost is entirely up to the GM and haggling.
 - **Clip/Drop Harness:** +30 Climb; on failure, no fall occurs.
 - **Filtration Plugs:** +20 Toughness against gases.
 - **Night Cloak:** +30 Concealment in darkness; after an hour of exertion, a Challenging Toughness Test or Fatigue.
@@ -540,7 +541,7 @@ More than one dose of the same Drug within 24 hours requires, from the second do
 | Demolition Charge | 1 | Scarce | `3d10 X` per kg, +2 Damage/kg, Blast radius 5 m/kg |
 | Diagnostor | 4 | Very Rare | +20 Medicae/Perception for diagnosis; success provides countermeasures |
 | Glow-globe/Lamp Pack | 0.5 | Abundant | light for `1d5` hours |
-| Grapnel | 2 | Average | hook/magnetic grapnel with winch for climbing; can also be used improvised as a thrown weapon like a single-shot Crossbow |
+| Grapnel | 2 | Average | hooked or magnetic grapnel on a 100 m wire; once attached, the user can climb the line manually or use a powered winch; can also be used improvised as a thrown weapon like a single-shot Crossbow |
 | Grapplehawk | - | Very Rare | flying cyber-familiar in bird-of-prey form (p. 375); glides to the target and attacks with talons and electro-shocks; suspensors briefly support even a human's weight |
 | Grav Chute | 15 | Rare | safe guided fall, can hover up to 1 minute; power lasts 1 hour |
 | Jump Pack | 25 | Rare | Pilot (Personal); safe falls, short jumps, or Flyer (12) for up to 1 minute; power lasts 1 hour |
@@ -620,7 +621,7 @@ Bonuses and penalties from Bionics apply only to Tests performed with the affect
 - **Calculus Logi Upgrade:** +10 Literacy, Logic, and Scholastic Lore.
 - **Cortex Implants:** Common permanent `1d10` loss to WS, BS, Ag, Int, and Fel plus `1d10` Insanity; Poor effectively turns the wearer into a Servitor; Good grants Unnatural Intelligence (×2), Cogitator functions, and `1d10` Insanity.
 - **Cranial Armour:** +1 AP Head, stacks with Armour.
-- **Cybernetic Senses:** Poor -20 to related Tests; Good Heightened Sense and +20 against attacks on that sense.
+- **Cybernetic Senses:** Common duplicates the approximate human range of the sense with no further game effects; Poor -20 to related Tests; Good Heightened Sense and +20 against attacks on that sense. Basic and advanced cybernetic eyes may also include magnifying lenses (counts as a Telescopic Sight), a full Photo-visor, and/or Dark Sight; cybernetic hearing may include an internal Micro-bead.
 - **Locator Matrix:** provides direction, position, speed, altitude, and time.
 - **Manipulator Mechadendrite:** +20 Strength, can anchor as a Free Action, functions as a Club dealing `1d5+2 I` Primitive; no fine work possible; requires a Talent.
 - **Medicae Mechadendrite:** +10 Medicae, six Drug-Injectors, can stop Blood Loss as a Half Action, Amputation Challenging (+0), Chainscalpel `1d5 R`, +10 Interrogation; requires a Talent.
