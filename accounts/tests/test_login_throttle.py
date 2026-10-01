@@ -216,3 +216,45 @@ def test_usernames_share_a_throttle_regardless_of_case_and_whitespace(client, us
     throttle = LoginThrottle.objects.get()
     assert throttle.failure_count == 5
     assert throttle.blocked_until is not None
+
+
+@pytest.mark.django_db
+def test_recording_a_failure_purges_expired_rows_of_other_keys(client, user_factory, monkeypatch):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+    start = timezone.now()
+    _freeze_now(monkeypatch, start)
+    client.post(login_url, {"username": "drifter", "password": "wrong"})
+    for _ in range(5):
+        client.post(login_url, {"username": "blocked", "password": "wrong"})
+    assert LoginThrottle.objects.count() == 2
+
+    # 15 minutes on: the lone failure has expired, the block (set at ``start``
+    # for one window) has too, so a new failure leaves only its own row.
+    _freeze_now(monkeypatch, start + timedelta(minutes=15))
+    client.post(login_url, {"username": "crew", "password": "wrong"})
+
+    assert LoginThrottle.objects.count() == 1
+    assert LoginThrottle.objects.get().failure_count == 1
+
+
+@pytest.mark.django_db
+def test_purging_keeps_active_blocks_and_current_windows(client, user_factory, monkeypatch):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+    start = timezone.now()
+    _freeze_now(monkeypatch, start)
+    client.post(login_url, {"username": "recent", "password": "wrong"})
+    _freeze_now(monkeypatch, start + timedelta(minutes=10))
+    for _ in range(5):
+        client.post(login_url, {"username": "blocked", "password": "wrong"})
+
+    # ``blocked`` opened its window 10 minutes ago and is blocked until +25.
+    _freeze_now(monkeypatch, start + timedelta(minutes=16))
+    client.post(login_url, {"username": "crew", "password": "wrong"})
+
+    assert LoginThrottle.objects.count() == 2  # blocked + crew; "recent" expired
+    blocked = LoginThrottle.objects.exclude(failure_count=1).get()
+    assert blocked.failure_count == 5
+    assert blocked.blocked_until == start + timedelta(minutes=25)
+

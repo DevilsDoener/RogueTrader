@@ -11,6 +11,7 @@ from ipaddress import ip_address
 
 from django.conf import settings
 from django.db import IntegrityError, transaction
+from django.db.models import Q
 
 from .models import LoginThrottle
 
@@ -60,8 +61,21 @@ def is_blocked(key_hash: str, now) -> bool:
     return False
 
 
+def _purge_expired(now) -> None:
+    """Delete rows whose window has run out and that are not blocking anyone.
+
+    Such a row would be restarted from scratch on its next failure anyway, so
+    removing it changes no lockout decision; it only stops rows for
+    one-off usernames and addresses from piling up.
+    """
+    LoginThrottle.objects.filter(window_started_at__lte=now - THROTTLE_WINDOW).filter(
+        Q(blocked_until__isnull=True) | Q(blocked_until__lte=now)
+    ).delete()
+
+
 @transaction.atomic
 def record_failure(key_hash: str, now) -> None:
+    _purge_expired(now)
     throttle = LoginThrottle.objects.select_for_update().filter(key_hash=key_hash).first()
     if throttle is None:
         try:
