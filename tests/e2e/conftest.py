@@ -1,6 +1,6 @@
 """Shared fixtures for Playwright-driven end-to-end tests.
 
-There is no pytest-playwright plugin in this project (see requirements.txt)
+There is no pytest-playwright plugin in this project (see requirements-dev.in)
 -- these fixtures drive ``playwright.sync_api`` directly against Django's
 ``live_server`` fixture (pytest-django), so a real Chromium instance talks
 to a real HTTP server backed by the test database.
@@ -24,12 +24,9 @@ normal pytest thread, untouched by Playwright's event loop.
 from __future__ import annotations
 
 import concurrent.futures
-import uuid
 
 import pytest
 from playwright.sync_api import sync_playwright
-
-from sheets.models import CharacterSheet, ShipSheet
 
 DEFAULT_PASSWORD = "Valid-Password-42!"
 
@@ -145,63 +142,22 @@ def second_page(_playwright_worker):
     _playwright_worker.close_context(context)
 
 
+# The live server answers from another thread, so these tests need a
+# flushed (not rolled-back) database. The overrides below take the root
+# conftest's fixture of the same name and add ``transactional_db``; ``owner``,
+# ``other_user``, ``portal_admin`` and ``character_factory`` build on them.
 @pytest.fixture
-def user_factory(transactional_db):
-    def create_user(**attributes):
-        from django.contrib.auth import get_user_model
-
-        password = attributes.pop("password", DEFAULT_PASSWORD)
-        attributes.setdefault("must_change_password", False)
-        username = attributes.pop("username", None) or f"user-{uuid.uuid4().hex[:8]}"
-        return get_user_model().objects.create_user(
-            username=username, password=password, **attributes
-        )
-
-    return create_user
+def user_factory(transactional_db, user_factory):
+    return user_factory
 
 
 @pytest.fixture
-def owner(user_factory):
-    return user_factory(username=f"owner-{uuid.uuid4().hex[:8]}")
-
-
-@pytest.fixture
-def other_user(user_factory):
-    return user_factory(username=f"other-{uuid.uuid4().hex[:8]}")
-
-
-@pytest.fixture
-def portal_admin(user_factory):
-    return user_factory(username=f"admin-{uuid.uuid4().hex[:8]}", is_portal_admin=True)
-
-
-@pytest.fixture
-def character_factory(user_factory):
-    def create_character(*, owner=None, display_name="", **attributes):
-        if owner is None:
-            owner = user_factory()
-        return CharacterSheet.objects.create(owner=owner, display_name=display_name, **attributes)
-
-    return create_character
-
-
-@pytest.fixture
-def ship_sheet(transactional_db):
-    """Returns the migration-seeded shared ship rather than creating a
-    second, rival active row (see the identical fixture and comment in
-    ``sheets/tests/conftest.py``).
-
-    Falls back to creating one if it's missing: unlike the plain ``db``
-    fixture used elsewhere (wrapped in a rolled-back transaction),
-    ``transactional_db`` flushes the database between tests without
-    re-running data migrations, so the very first flush in a session
-    deletes the row the ``0002_seed_shared_ship`` migration created --
-    this keeps every test in this module able to rely on "the" active ship
-    existing, matching what a real deployment always has.
-    """
-    return ShipSheet.objects.filter(is_active=True).first() or ShipSheet.objects.create(
-        display_name="Gemeinsames Schiff", is_active=True
-    )
+def ship_sheet(transactional_db, ship_sheet):
+    """The root fixture's migration-seeded ship. ``transactional_db`` flushes
+    the database between tests without re-running data migrations, so after
+    the first flush the root fixture's create-if-missing fallback is what
+    keeps "the" active ship available here."""
+    return ship_sheet
 
 
 def login_via_browser(page, live_server, *, username, password=DEFAULT_PASSWORD):
