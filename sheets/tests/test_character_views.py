@@ -309,3 +309,22 @@ def test_sheet_viewer_coordinates_keep_decimal_points_under_the_german_locale(
     assert styles
     assert all(re.fullmatch(r"left: [\d.]+%; top: [\d.]+%; width: [\d.]+%; height: [\d.]+%;", s) for s in styles)
 
+
+@pytest.mark.django_db
+def test_character_list_shows_the_update_time_in_german_local_time(
+    client, user_factory, character_factory
+):
+    from datetime import datetime, timezone as dt_timezone
+
+    owner = user_factory()
+    character = character_factory(owner=owner, display_name="Own")
+    # Stored in UTC; 23:30 UTC on 15 January is 00:30 on the 16th in Berlin (CET).
+    type(character).objects.filter(pk=character.pk).update(
+        updated_at=datetime(2026, 1, 15, 23, 30, tzinfo=dt_timezone.utc)
+    )
+    client.force_login(owner)
+
+    html = client.get("/characters/").content.decode()
+
+    assert "16.01.2026 00:30" in html
+
