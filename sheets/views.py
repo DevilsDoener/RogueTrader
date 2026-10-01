@@ -22,6 +22,7 @@ from django.views import View
 
 from core.mixins import PortalAdminRequiredMixin
 
+from . import characteristics, movement
 from .cards import character_card
 from .forms import CharacterCreateForm
 from .models import CharacterSheet, SheetChange, ShipSheet
@@ -44,6 +45,23 @@ SHIP_HISTORY_PAGE_SIZE = 50
 #: the ``_sheet_shell.html`` viewer and toggles destructive actions on
 #: ``read_only``.
 DETAIL_TEMPLATE_NAME = "sheets/character_detail.html"
+
+
+def _character_client_rules() -> dict:
+    """The server-side sheet rules the viewer mirrors for its instant preview.
+
+    Emitted as JSON next to the sheet (``_sheet_shell.html``) so the browser
+    reads the same constants the server enforces instead of keeping copies.
+    The server's ``calculated_fields`` answer stays authoritative.
+    """
+    return {
+        "movement": {
+            "source": movement.SOURCE,
+            "factors": movement.FACTORS,
+            "max_digits": movement.MAX_DIGITS,
+        },
+        "counterparts": characteristics.COUNTERPARTS,
+    }
 
 
 def _owned_characters(user) -> QuerySet[CharacterSheet]:
@@ -99,6 +117,7 @@ def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> 
         "read_only": read_only,
         "pages": _page_contexts(character, CHARACTER_PAGE_IDS),
         "field_update_url_template": field_update_url_template,
+        "client_rules": _character_client_rules(),
     }
 
 

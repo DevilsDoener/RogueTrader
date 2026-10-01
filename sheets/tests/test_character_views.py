@@ -328,3 +328,46 @@ def test_character_list_shows_the_update_time_in_german_local_time(
 
     assert "16.01.2026 00:30" in html
 
+
+@pytest.mark.django_db
+def test_character_sheet_ships_the_server_rules_to_the_viewer(
+    client, user_factory, portal_admin, character_factory
+):
+    """The viewer's instant previews read the server's constants, not copies."""
+    import json
+    import re
+
+    from sheets import characteristics, movement
+
+    owner = user_factory()
+    character = character_factory(owner=owner, display_name="Own")
+    expected = {
+        "movement": {
+            "source": movement.SOURCE,
+            "factors": movement.FACTORS,
+            "max_digits": movement.MAX_DIGITS,
+        },
+        "counterparts": characteristics.COUNTERPARTS,
+    }
+
+    for viewer, url in (
+        (owner, f"/characters/{character.id}/"),
+        (portal_admin, f"/portal-admin/characters/{character.id}/"),
+    ):
+        client.force_login(viewer)
+        html = client.get(url).content.decode()
+        match = re.search(
+            r'<script id="sheet-client-rules" type="application/json">(.*?)</script>', html
+        )
+        assert match, url
+        assert json.loads(match.group(1)) == expected
+
+
+@pytest.mark.django_db
+def test_ship_sheet_has_no_character_rules(client, owner, ship_sheet):
+    client.force_login(owner)
+
+    html = client.get(f"/ships/{ship_sheet.pk}/").content.decode()
+
+    assert "sheet-client-rules" not in html
+

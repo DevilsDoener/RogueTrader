@@ -46,27 +46,32 @@
   if (document.fonts) document.fonts.ready.then(fitShipFields);
   window.addEventListener("resize", fitShipFields);
 
-  const movementFactors = {
-    c2_movement_full_move: 2, c2_movement_charge: 3, c2_movement_run: 6
-  };
+  // Movement factors and the characteristic counterpart map come from the
+  // server (sheets/movement.py, sheets/characteristics.py) as JSON next to
+  // the sheet, so the instant preview below can never drift from the rules
+  // the server enforces. Pages without them (the ship sheet) skip the previews.
+  const rulesEl = document.getElementById("sheet-client-rules");
+  const rules = rulesEl ? JSON.parse(rulesEl.textContent) : {};
+  const movementRules = rules.movement || null;
+  const movementDigits = movementRules
+    ? new RegExp("^\\d{1," + movementRules.max_digits + "}$")
+    : null;
+  const characteristicCounterparts = rules.counterparts || {};
+
   function updateMovement(input) {
-    if (input.dataset.fieldId !== "c2_movement_half_move") return;
-    const valid = /^\d{1,6}$/.test(input.value);
-    for (const [id, factor] of Object.entries(movementFactors)) {
+    if (!movementRules || input.dataset.fieldId !== movementRules.source) return;
+    const valid = movementDigits.test(input.value);
+    for (const [id, factor] of Object.entries(movementRules.factors)) {
       const target = root.querySelector('[data-field-id="' + id + '"]');
       if (!target) continue;
       target.value = valid ? String(Number(input.value) * factor) : "";
       updateHasValue(target);
     }
   }
-  const characteristicPattern = /^c([12])_(ws|bs|s|t|ag|int|per|wp|fel)_(value|adv_[1-4])$/;
   function characteristicCounterpart(input) {
-    const match = characteristicPattern.exec(input.dataset.fieldId || "");
-    if (!match) return null;
-    const otherPage = match[1] === "1" ? "2" : "1";
-    return root.querySelector(
-      '[data-field-id="c' + otherPage + '_' + match[2] + '_' + match[3] + '"]'
-    );
+    const counterpartId = characteristicCounterparts[input.dataset.fieldId || ""];
+    if (!counterpartId) return null;
+    return root.querySelector('[data-field-id="' + counterpartId + '"]');
   }
   function updateCharacteristic(input) {
     const target = characteristicCounterpart(input);

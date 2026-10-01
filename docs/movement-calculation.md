@@ -5,7 +5,9 @@ Die drei Ergebnisse sind schreibgeschützte Textfelder. Half Move akzeptiert
 nichtnegative ganze Zahlen bis sechs Stellen oder einen leeren Wert. Die
 Ergebnisfelder erlauben sieben Stellen, damit auch das maximale Ergebnis passt.
 
-Der Browser zeigt Ergebnisse unmittelbar beim Eingeben an. Der Server berechnet
+Der Browser zeigt Ergebnisse unmittelbar beim Eingeben an; Faktoren und Stellenzahl
+liest er als JSON aus `sheets/movement.py` (`sheet-client-rules` im Bogen), es gibt
+keine zweite Kopie im JavaScript. Der Server berechnet
 und speichert sie zusammen mit Half Move in einer atomaren Transaktion. Direkte
 API-Schreibversuche auf Ergebnisfelder werden abgewiesen. Alle vier Änderungen
 werden versioniert und protokolliert; ein Versionskonflikt ändert keinen Wert.

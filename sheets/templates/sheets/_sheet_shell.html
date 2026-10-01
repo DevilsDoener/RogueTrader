@@ -1,7 +1,8 @@
 {% comment %}The sheet viewer frame shared by character_detail.html and ship_detail.html:
    zoom toolbar, save status (editable sheets only) and the _sheet_viewer.html pages.
    Needs ``read_only``, ``pages`` and, for an editable sheet,
-   ``field_update_url_template``.{% endcomment %}
+   ``field_update_url_template``. A sheet with server-side rules the viewer
+   previews (the character sheet) also passes ``client_rules``.{% endcomment %}
   <div class="sheet-viewer-frame">
     <div
       id="sheet-viewer-root"
@@ -23,3 +24,4 @@
       {% include "sheets/_sheet_viewer.html" %}
     </div>
   </div>
+  {% if client_rules %}{{ client_rules|json_script:"sheet-client-rules" }}{% endif %}
