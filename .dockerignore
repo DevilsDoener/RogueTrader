@@ -22,3 +22,15 @@ pytest-of-*
 pytest-cache-files-*
 .claude
 .planning
+
+# Development-only: agent folders, calibration tools, host-side backup
+# scripts, the browser tests and the dev dependency lock. Nothing the app
+# imports or serves at runtime lives here.
+.agents
+.codex
+.mcp.json
+tools
+scripts
+tests
+conftest.py
+requirements-dev.*

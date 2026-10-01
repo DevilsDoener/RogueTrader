@@ -157,12 +157,20 @@ migration.
 
 ```powershell
 py -m venv .venv
-.\.venv\Scripts\pip install -r requirements.txt
+.\.venv\Scripts\pip install -r requirements.txt -r requirements-dev.txt
 .\.venv\Scripts\python -m playwright install chromium
 .\.venv\Scripts\python manage.py migrate
 .\.venv\Scripts\python manage.py bootstrap_admin --username <admin-username>
 .\.venv\Scripts\python manage.py runserver
 ```
+
+`requirements.txt` holds what the app needs at runtime (it is all the Docker
+image installs); `requirements-dev.txt` adds the test and tooling packages
+(pytest, pytest-django, Playwright, Pillow). Both are hash-pinned lock files
+compiled from `requirements.in` and `requirements-dev.in` with pip-tools
+(`pip-compile --generate-hashes --strip-extras`, under Python 3.13 like the
+image); recompile `requirements.txt` first, since the dev lock is
+constrained by it.
 
 These direct `manage.py` commands do not read `.env` — it is consumed by
 Docker Compose only. Nothing extra is needed for the wiki:

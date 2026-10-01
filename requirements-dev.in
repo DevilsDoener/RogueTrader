@@ -1,0 +1,12 @@
+# Test and tooling dependencies, layered on the runtime lock. Install both:
+#   pip install -r requirements.txt -r requirements-dev.txt
+-c requirements.txt
+Pillow>=11,<13
+pytest>=8,<10
+pytest-django>=4,<6
+playwright>=1.50,<2
+# Windows-only dependencies of Django (tzdata) and pytest (colorama). The locks
+# are compiled on Linux, which leaves them out; listing them here gives them
+# hashes, so the hash-checked install also works on a Windows dev machine.
+colorama
+tzdata
