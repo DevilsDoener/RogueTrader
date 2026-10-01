@@ -240,7 +240,8 @@ shared-ship editing and conflict resolution, wiki search, and persistence
 across a simulated restart) against a real headless Chromium browser and a
 real HTTP server. `tests/e2e/test_visual_regression.py` compares each
 sheet page's rendered canvas against its extracted background image
-(`tests/visual/*.png` are the latest captured renders, rewritten on every run)
+(`tests/visual/*.png` are the latest captured renders, rewritten on every run and
+not tracked in git)
 and checks that every schema field -- checkboxes specifically included --
 stays correctly positioned inside the scaled canvas at the minimum and wide
 supported desktop sizes. `tests/e2e/test_sheet_zoom.py` covers the zoom

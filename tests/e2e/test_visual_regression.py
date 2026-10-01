@@ -12,7 +12,7 @@ ship-page) two independent guarantees are checked:
    source asset are resampling/compression noise, never a shifted field, an
    extra visible box, or wrong ship-page rotation. Each render is also saved to
    ``tests/visual/<page>.png`` for manual inspection; those files are latest
-   captured renders, rewritten on every run, not baselines.
+   captured renders, rewritten on every run, not baselines, and git-ignored.
    ``test_checked_checkbox_keeps_artwork_and_position`` covers the checked
    state (a black X, or a round fill for pips) the same way and additionally
    pins the checkbox's exact position; one variant runs through the read-only

@@ -14,6 +14,8 @@ staticfiles/
 *.onetoc2
 graphify-out/
 pytest-of-*/
+# Browser-test renders: written on every run, read by nothing.
+tests/visual/*.png
 .coverage
 htmlcov/
 playwright-report/
