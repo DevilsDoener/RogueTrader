@@ -1,7 +1,6 @@
 # Chapter IV: Talents
 
-> Source: Rogue Trader Core Rulebook, Chapter IV, book pages 89–108 (PDF pages 93–112).
-> **Status: chapter fully captured; re-verified against page images 2026-09-30.**
+*Rogue Trader Core Rulebook, pages 89–108.*
 
 ## Fundamentals
 
@@ -902,29 +901,4 @@ The Explorer gains +10 on any Skill Test for Investigation, as well as on the **
 - **Mechadendrite Use, Rite of Awe, Rite of Fear, Rite of Pure Thought:** Table 4-1 lists `Mechanicus Implants`;
   the detailed text lists `Explorator`.
 
-All versions remain documented because the original prints them inconsistently;
-a GM ruling is needed for actual play.
-
-## Page Inventory and Cross-Check
-
-| PDF pages | Book pages | Content | Check |
-|---|---:|---|---|
-| 93 | 89 | Chapter IV divider page | visually checked |
-| 94 | 90 | Fundamentals, Gaining Talents, Talent Groups and Prerequisites | visually checked |
-| 95–97 | 91–93 | Table 4-1: Talents, complete | visually checked |
-| 98–112 | 94–108 | all Talent Descriptions from Air of Authority to Wrath of the Righteous | visually checked |
-
-**Cross-check coverage:** PDF 93–112 = **20/20 pages**. The overview table,
-Talent Groups, prerequisites, numeric values, action types and all detailed
-descriptions have been checked against the scanned page images.
-
-## Status
-
-Chapter IV is transcribed in full and matches the level of detail of the
-previously verified German version — no content was condensed or omitted in
-translation. Table 4-1 (all Talents) and every detailed Talent description
-have been re-verified directly against the page images (PDF 96, 97, 103, 106,
-109, 111, 112 among others) during this English conversion. The printed
-Master Enginseer and Whispers prerequisite discrepancies were both confirmed
-exactly as documented (Table 4-1 vs. detailed text) against the scans, and no
-further discrepancies were found.
+The book prints these values inconsistently; a GM ruling is needed for actual play.

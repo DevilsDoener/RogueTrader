@@ -1,7 +1,6 @@
 # Chapter VI: Psychic Powers
 
-> Source: *Rogue Trader Core Rulebook*, book pages 153–172 / PDF pages 157–176.
-> Flavour text is condensed; rules values, technique prerequisites and random tables are preserved as a full reference.
+*Rogue Trader Core Rulebook, pages 153–172.*
 
 ## Psykers and Psychic Ability
 
@@ -272,9 +271,3 @@ Prerequisites: Telekinetic Weapon ← Force Bolt; Telekinetic Shield ← Telekin
 - Untouchable lowers the Psy Rating of every psyker within 5 m by 5.
 - Sorcery remains unchanged, but uses the Sorcerer row of the Psychic Strength table.
 - Daemons and Warp Entities with Daemonic/Stuff of Nightmares use only Unfettered; Phenomena occur at GM's discretion, but they themselves suffer neither its drawbacks nor Perils.
-
----
-
-## Status
-
-Chapter VI (book pages 153–172 / PDF pages 157–176) is fully transcribed in English. All 15 numeric tables (6-1 through 6-15) were re-verified against the page images (PDF pages 157–176) on 2026-09-30. Historical and atmospheric psyker flavour text remains condensed; all rules-relevant content, tables, and Techniques are present, including the previously documented correction (Chronological Incontinence: `1d5` permanent Toughness Damage) and previously closed rule gaps (max. 3 Disciplines per Psy Rating 1+, the Power Scale rule, the full Table 6-4 prerequisite chain, and the detailed Puppet Master/Reprogram consequences).

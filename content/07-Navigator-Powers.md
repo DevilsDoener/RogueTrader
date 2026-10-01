@@ -1,7 +1,6 @@
 # Chapter VII: Navigators
 
-> Source: *Rogue Trader Core Rulebook*, book pages 173–186 / PDF pages 177–190.
-> History and House flavour are condensed; Lineage rules, Powers, Mutations, and Warp Navigation are fully captured as a game reference.
+*Rogue Trader Core Rulebook, pages 173–186.*
 
 ## Navigator Gene, Warp Eye, and Navis Nobilite
 
@@ -209,9 +208,3 @@ A Gellar Field Failure should be treated as a serious horror event: Daemonic Inc
 ### Stage Five: Leaving the Warp
 
 Hard (-20) Perception determines the accuracy of the exit point. Success reaches the intended location; failure deviates, becoming increasingly dangerous with more DoF.
-
----
-
-## Status
-
-Chapter VII (book pages 173–186 / PDF pages 177–190) is fully transcribed in English. All four numeric tables (7-1 through 7-4) were re-verified against the page images (PDF pages 177–190) on 2026-09-30. House history and atmospheric Navigator flavour remain condensed; the four Lineages, all nine Navigator Powers, the Mutation Test, and all Warp Navigation tables are present, including the previously documented correction (Unchecked Mutation: Challenging (+0), not Challenging (-10)) and the previously closed rule gap ("The Eye is Open" — Navigators suffer no Corruption Points from Warp Shock).

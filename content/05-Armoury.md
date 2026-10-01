@@ -1,9 +1,6 @@
 # Chapter V: Armoury
 
-> Source: Rogue Trader Core Rulebook, Chapter V, book pages 109–152 (PDF pages 113–156).
-> **Status: Availability, Craftsmanship, Wealth/Ammunition, Weapon Profiles,
-> Weapon Craftsmanship and all Weapon Special Qualities captured; content fully
-> transcribed and image-verified against all 44 pages; re-verified against the page images 2026-09-30.**
+*Rogue Trader Core Rulebook, pages 109–152.*
 
 ## Availability
 
@@ -194,8 +191,6 @@ Each weapon class is used with its own Talent: Pistol Training, Basic Weapon Tra
 Las Power Packs can be recharged on-site from most energy sources: a **Tech-Use Test** is sufficient if a suitable source is available; charge time depends on that source's output and is typically several hours (GM's discretion). Alternatively a pack can be recharged over an open fire — this takes at least a day, **permanently** halves the Clip size the first time it is done, and removes the `Reliable` Quality (or grants `Unreliable`, if the weapon previously had neither Reliable nor Unreliable). Every recharge done this way also carries a **30% chance** of rendering the pack permanently unusable.
 
 ### Supplementary Weapon Rules and Patterns
-
-The individual descriptions of the weapons listed in Table 5-4 are condensed here to their rules-relevant statements; origin, appearance, and typical users are flavour and are not repeated individually.
 
 - **Hellpistol and Hellgun (Lucius-pattern):** use a 10 kg backpack power source rather than a standard plug-in pack, even the Hellpistol; reloading is impractical. Hellguns can also be linked to larger backpack power sources (see Ammunition).
 - **Hand Cannon:** without a two-handed grip or Recoil Glove, -10 to Ballistic Skill Tests.
@@ -641,25 +636,3 @@ Bonuses and penalties from Bionics apply only to Tests performed with the affect
 ### Implantation
 
 Implantation requires suitable resources, skilled labour, and usually a high-quality Medicae Facility. It takes `2d10` days minus Toughness Bonus, minimum one day. The GM may let it succeed automatically or require Medicae/Tech-Use Tests with risks such as permanent crippling or Blood Loss.
-
----
-
-## Status
-
-Chapter V coverage: book pages 109–152 / PDF pages 113–156, fully translated to English. Weapon flavour text is condensed; all tables, profiles, and rules-relevant special effects are captured. This is a full re-transcription of the previously fully image-verified (44/44 pages) German version, translated into English while preserving all documented corrections versus the raw OCR (e.g. Naval Pistol Tearing-only-with-special-ammo note, Harlequin's Kiss no-SB-to-Damage note, Power Sword/Ghost Sword +15 Parry total, Las Power Pack field-recharge penalties, Utility Mechadendrite incense burner drawback, etc.) and all previously-filled rule gaps. A representative sample of pages (113, 117, 121, 125, 131, 135, 139, 140, 142, 144, 146, 148, 152) was re-checked directly against the page images during this English conversion and matched the German reference values exactly; no discrepancies were found.
-
-### Final Audit (gameplay-critical weapon/armour tables)
-
-A cell-by-cell re-check was performed directly against the PDF page images (PDF pages 113–144, book pages 109–140) for every table used live at the table:
-
-- **Table 5-3 (Craftsmanship and Time Taken):** CORRECTED. The source (p. 112 / PDF 116) shows "—" (no multiplier, i.e. baseline) for Common Craftsmanship, not "×1" as previously transcribed. Fixed.
-- **Table 5-4 (Ranged Weapons — Las, Solid Projectile, Bolt, Melta, Plasma, Flame, Primitive Weapons, Launchers)**, p. 118–119 / PDF 122–123: verified clean, every cell (Class, Range, RoF, Damage, Pen, Clip, Rld, Special, kg, Availability) matches the source exactly, including the previously-documented Belasco Dueling Pistol weight (1.5 kg).
-- **Table 5-6 (Grenades and Missiles)**, p. 127 / PDF 131: verified clean.
-- **Table 5-7 (Exotic Weapons)**, p. 128 / PDF 132: verified clean, including the previously-documented Kroot Rifle (Melee) stat line and Shuriken Pistol weight (1.2 kg).
-- **Table 5-8 (Melee Weapons)**, p. 131 / PDF 135: verified clean.
-- **Table 5-9 (Weapon Upgrades)**, p. 133 / PDF 137: verified clean.
-- **Table 5-10 (Ammo) and Table 5-11 (Unusual Ammunition)**, p. 135–136 / PDF 139–140: verified clean.
-- **Table 5-12 (Armour)**, p. 138 / PDF 142: verified clean, every AP/Location/kg/Availability cell matches.
-- **Table 5-13 (Gear)** (spot-checked while on the same page range, not on the original priority list): CORRECTED. "Clothing (Merchant Guilded)" was a misspelling of the source's "Clothing (Merchant Guilder)". Fixed.
-
-Verdict: one genuine data error found and corrected (Table 5-3), plus one incidental spelling fix outside the priority scope (Table 5-13). All other priority tables (5-4, 5-6, 5-7, 5-8, 5-9, 5-10, 5-11, 5-12) are confirmed correct cell-by-cell against the source images with no further changes needed.

@@ -1,6 +1,6 @@
 # Chapter III: Skills
 
-> Source: Rogue Trader Core Rulebook, Chapter III, book pages 73–88 (PDF pages 77–92); re-verified against page images 2026-09-30.
+*Rogue Trader Core Rulebook, pages 73–88.*
 
 ## Gaining Skills
 
@@ -454,8 +454,7 @@ Trade Tests can represent hours, weeks, or months; **examining an item to recall
 > **Printed list discrepancy:** the Skill Group line in the original lists
 > **Trader (Fel)** but does not include **Scrimshawer**. Conversely, the
 > individual descriptions immediately following include **Scrimshawer**
-> while there is no separate description for **Trader**. Both are preserved
-> here exactly as printed on book page 88.
+> while there is no separate description for **Trader**. Both are printed this way on book page 88.
 
 **Skill Use:** variable depending on task and complexity.
 
@@ -465,42 +464,3 @@ Once an animal has been broken to its master's will — or a partnership has for
 For wild animals, or those trained for hostility and aggression, a **Full Action** changes disposition by **one level per two Degrees of Success**, up to a maximum of **three levels**. GMs may impose penalties for animals that are particularly well trained or have uncommon Willpower and Intelligence.
 **No use** against cyber-animals, psy-bonded animals, or any creature with true sentience.
 **Skill Use:** variable depending on task and complexity.
-
----
-
-## Page Inventory and Cross-Check
-
-| PDF pages | Book pages | Content | Check |
-|---|---:|---|---|
-| 77 | 73 | Chapter III divider page | visually checked |
-| 78 | 74 | Gaining Skills; Basic and Advanced Skills | visually checked |
-| 79 | 75 | Table 3-1: Skills | visually checked |
-| 80 | 76 | Skill Descriptors and Skill Groups | visually checked |
-| 81–92 | 77–88 | all Skill Descriptions, Special Uses and specialisations | visually checked |
-
-**Cross-check coverage:** PDF 77–92 = **16/16 pages**. Table 3-1, all
-48 Skill entries, Descriptor rules, Skill Groups, detailed descriptions and Special
-Uses have been checked against the scanned page images.
-
-## Status
-
-Chapter III is transcribed in full and matches the level of detail of the
-previously verified German version — no content was condensed or omitted in
-translation. Table 3-1 (all 48 Skills), the Skill Descriptors, all Skill Group
-specialisation lists (Common Lore, Forbidden Lore, Scholastic Lore, Ciphers,
-Secret Tongue, Speak Language, Trade), and every individual Skill description
-with its Special Uses have been re-verified directly against the page images
-(PDF 79, 88, 92 among others) during this English conversion; no discrepancies
-beyond the already-documented printed Trade/Scrimshawer inconsistency were found.
-
-### Final Audit (gameplay-critical tables)
-
-Table 3-1 is used for every Skill Test in the game, so it was re-checked cell by
-cell against the page image a second time (PDF 79 / book page 75), independent of
-the earlier full-chapter verification:
-
-- **Table 3-1** — all 48 rows (Skill, Type, Characteristic, Descriptor): verified,
-  no changes. Every entry matches the source image exactly.
-
-Verdict: Table 3-1 is confirmed fully correct; no corrections were needed in this
-audit pass.
