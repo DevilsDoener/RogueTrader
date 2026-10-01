@@ -608,6 +608,7 @@
         title: (currentEntry && headingTitle(currentEntry.heading)) || fullTitle,
         chapter: chapterTitle,
         url: path + (section ? "#" + section.id : ""),
+        ts: lastWrite,
       });
     }
 

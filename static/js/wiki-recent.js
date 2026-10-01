@@ -8,7 +8,7 @@
  * - RTWikiText: the case/ss folding and all-tokens matching behind the
  *   Bibliothek filter and the chapter outline filter.
  *
- * Stored shape: a JSON array, newest first, of {title, chapter, url}; one
+ * Stored shape: a JSON array, newest first, of {title, chapter, url, ts}; one
  * entry per chapter path, at most MAX. The data is under the reader's control
  * (and any other script on the origin), so only same-site wiki paths are ever
  * handed out as link targets. Every storage access is guarded: without

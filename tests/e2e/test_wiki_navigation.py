@@ -295,6 +295,8 @@ def test_leaving_a_chapter_records_the_reading_position(
     assert stored[0]["url"] == "/wiki/playing-the-game/#sec-healing"
     assert stored[0]["title"] == "Healing"
     assert stored[0]["chapter"] == "Playing the Game"
+    assert isinstance(stored[0]["ts"], int)
+    assert stored[0]["ts"] > 0
     paths = [entry["url"].split("#")[0] for entry in stored]
     assert paths.count("/wiki/playing-the-game/") == 1
     assert page.inner_text(".library-recent-title") == "Healing"
