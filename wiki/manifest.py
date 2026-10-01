@@ -75,12 +75,10 @@ CHAPTERS: Tuple[ChapterEntry, ...] = (
     ChapterEntry("16-Index.md", "index", band=BAND_APPENDIX, search_weight=0.3),
 )
 
-#: Markdown files under the content root that are deliberately not served.
-#: ``00-FORTSCHRITT.md`` is the transcription work log; ``00-INDEX.md`` is a
-#: hand-written routing aid that the generated overview replaces.
-KNOWN_EXCLUDED: frozenset = frozenset(
-    {"00-FORTSCHRITT.md", "00-INDEX.md"}
-)
+#: Markdown files under the content root that are deliberately not served
+#: (listed here so ``check_wiki_content`` does not warn about them). Every
+#: file currently under ``content/`` is a chapter, so this is empty.
+KNOWN_EXCLUDED: frozenset = frozenset()
 
 ALLOWLIST: Tuple[str, ...] = tuple(entry.source_name for entry in CHAPTERS)
 

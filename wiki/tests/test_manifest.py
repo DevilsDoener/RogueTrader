@@ -138,10 +138,10 @@ def test_an_unlisted_markdown_file_is_a_warning(tmp_path, settings):
     assert all(isinstance(problem, CheckWarning) for problem in problems)
 
 
-def test_deliberately_excluded_files_do_not_warn(tmp_path, settings):
+def test_deliberately_excluded_files_do_not_warn(tmp_path, settings, monkeypatch):
+    monkeypatch.setattr("wiki.checks.KNOWN_EXCLUDED", frozenset({"99-Notes.md"}))
     (tmp_path / "01-One.md").write_text("# One", encoding="utf-8")
-    for name in manifest.KNOWN_EXCLUDED:
-        (tmp_path / name).write_text("# Not a chapter", encoding="utf-8")
+    (tmp_path / "99-Notes.md").write_text("# Not a chapter", encoding="utf-8")
     settings.WIKI_CONTENT_ROOT = tmp_path
     settings.WIKI_CONTENT_ALLOWLIST = ["01-One.md"]
 
