@@ -67,7 +67,7 @@
             {% endif %}
           </li>
           <li>
-            <a href="{% url 'sheets:character_list' %}" {% if request.resolver_match.url_name == 'character_list' %}aria-current="page"{% endif %}>
+            <a href="{% url 'sheets:character_list' %}" {% if request.resolver_match.url_name|slice:':10' == 'character_' %}aria-current="page"{% endif %}>
               Charaktere
             </a>
           </li>
