@@ -35,3 +35,12 @@ def test_root_then_dashboard_redirects_password_change_required_users(client, us
 
     assert dashboard_response.status_code == 302
     assert dashboard_response.url == reverse("accounts:change_required")
+
+
+def test_django_admin_is_not_mounted(client, user_factory):
+    """The portal has its own account management; Django's admin stays off."""
+    assert client.get("/admin/").status_code == 404
+    client.force_login(user_factory(username="root", is_staff=True, is_superuser=True))
+    assert client.get("/admin/").status_code == 404
+    assert client.get("/admin/login/").status_code == 404
+
