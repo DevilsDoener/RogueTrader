@@ -26,7 +26,7 @@ from .services import (
     update_managed_user,
 )
 
-GENERIC_LOGIN_ERROR = "Invalid username or password."
+GENERIC_LOGIN_ERROR = "Benutzername oder Passwort ungültig."
 
 
 def _log_login_event(event_kind: str, *, username: str, source_ip: str) -> None:

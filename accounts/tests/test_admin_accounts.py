@@ -327,7 +327,7 @@ def test_invalid_account_forms_rerender_with_errors(client, portal_admin, user_f
         assert response.status_code == 200
         assert response.templates[0].name == "accounts/user_form.html"
     assert create.context["form"].errors == {
-        "username": ["A user with that username already exists."]
+        "username": ["Dieser Benutzername ist bereits vergeben."]
     }
     assert list(edit.context["form"].errors) == ["username"]
     assert list(reset.context["form"].errors) == ["temporary_password"]
@@ -383,3 +383,28 @@ def test_manageable_property_and_queryset_agree(user_factory, flags, manageable)
 
     assert user.is_manageable is manageable
     assert manageable_users().filter(pk=user.pk).exists() is manageable
+
+
+@pytest.mark.django_db
+def test_account_forms_are_german(client, portal_admin, user_factory):
+    crew_member = user_factory(username="crew-member")
+    client.force_login(portal_admin)
+
+    create = client.get(reverse("accounts:admin_user_create")).content.decode()
+    edit = client.get(
+        reverse("accounts:admin_user_edit", kwargs={"pk": crew_member.pk})
+    ).content.decode()
+    reset = client.get(
+        reverse("accounts:admin_user_reset_password", kwargs={"pk": crew_member.pk})
+    ).content.decode()
+
+    assert "Benutzername" in create and "Tempor&auml;res Passwort" in create.replace("ä", "&auml;")
+    assert "Benutzername" in edit and "Aktiv" in edit
+    assert "Tempor&auml;res Passwort" in reset.replace("ä", "&auml;")
+    for page in (create, edit, reset):
+        assert "Username" not in page and "Password" not in page and "Active" not in page
+
+    blank = client.post(reverse("accounts:admin_user_create"), {})
+    # Django's own messages follow LANGUAGE_CODE.
+    assert blank.context["form"].errors["username"] == ["Dieses Feld ist zwingend erforderlich."]
+

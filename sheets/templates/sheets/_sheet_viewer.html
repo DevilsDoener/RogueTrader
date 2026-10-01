@@ -1,4 +1,4 @@
-{% load static %}
+{% load static l10n %}
 {% comment %}Bare include fragment (no <!doctype>/<html>/<body>) rendering the pages of
    any sheet (character or ship). Fields render from the schema in declared
    order, never from stored DB keys -- each entry of ``page.fields`` is a
@@ -10,6 +10,9 @@
    read_only is true every input stays disabled and sheet-viewer.js never
    attaches listeners to it, so the admin view issues no field requests at
    all.{% endcomment %}
+{% comment %}Percent coordinates are Decimals: under a German locale they would render with a
+   decimal comma, which is not valid CSS.{% endcomment %}
+{% localize off %}
 <div class="sheet-viewport" id="sheet-viewport">
   <div class="sheet-canvas-wrapper" id="sheet-canvas-wrapper">
     {% for page in pages %}
@@ -72,3 +75,4 @@
     {% endfor %}
   </div>
 </div>
+{% endlocalize %}

@@ -6,8 +6,10 @@ from .models import User
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(required=False)
-    password = forms.CharField(required=False, strip=False, widget=forms.PasswordInput)
+    username = forms.CharField(label="Benutzername", required=False)
+    password = forms.CharField(
+        label="Passwort", required=False, strip=False, widget=forms.PasswordInput
+    )
 
 
 class RequiredPasswordChangeForm(PasswordChangeForm):
@@ -15,19 +17,23 @@ class RequiredPasswordChangeForm(PasswordChangeForm):
         password = self.cleaned_data["new_password1"]
         if self.user.check_password(password):
             raise forms.ValidationError(
-                "Your new password must be different from your current password."
+                "Das neue Passwort muss sich vom aktuellen Passwort unterscheiden."
             )
         return password
 
 
 class ManagedUserCreateForm(forms.Form):
-    username = forms.CharField(max_length=User._meta.get_field("username").max_length)
-    temporary_password = forms.CharField(strip=False, widget=forms.PasswordInput)
+    username = forms.CharField(
+        label="Benutzername", max_length=User._meta.get_field("username").max_length
+    )
+    temporary_password = forms.CharField(
+        label="Temporäres Passwort", strip=False, widget=forms.PasswordInput
+    )
 
     def clean_username(self):
         username = self.cleaned_data["username"]
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("A user with that username already exists.")
+            raise forms.ValidationError("Dieser Benutzername ist bereits vergeben.")
         return username
 
     def clean_temporary_password(self):
@@ -41,10 +47,13 @@ class ManagedUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("username", "is_active")
+        labels = {"username": "Benutzername", "is_active": "Aktiv"}
 
 
 class TemporaryPasswordForm(forms.Form):
-    temporary_password = forms.CharField(strip=False, widget=forms.PasswordInput)
+    temporary_password = forms.CharField(
+        label="Temporäres Passwort", strip=False, widget=forms.PasswordInput
+    )
 
     def __init__(self, *args, user, **kwargs):
         super().__init__(*args, **kwargs)

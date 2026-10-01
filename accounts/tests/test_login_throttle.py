@@ -15,7 +15,7 @@ def test_login_blocks_after_five_failures_and_uses_generic_error(client, user_fa
     for _ in range(5):
         response = client.post(login_url, {"username": "crew", "password": "wrong"})
         assert response.status_code == 200
-        assert "Invalid username or password." in response.content.decode()
+        assert "Benutzername oder Passwort ungültig." in response.content.decode()
 
     response = client.post(
         login_url,
@@ -24,7 +24,7 @@ def test_login_blocks_after_five_failures_and_uses_generic_error(client, user_fa
 
     throttle = LoginThrottle.objects.get()
     assert response.status_code == 200
-    assert "Invalid username or password." in response.content.decode()
+    assert "Benutzername oder Passwort ungültig." in response.content.decode()
     assert throttle.failure_count == 5
     assert throttle.blocked_until > timezone.now()
 
@@ -89,7 +89,7 @@ def test_invalid_x_real_ip_falls_back_to_remote_address(
     )
 
     assert response.status_code == 200
-    assert "Invalid username or password." in response.content.decode()
+    assert "Benutzername oder Passwort ungültig." in response.content.decode()
     throttle = LoginThrottle.objects.get()
     assert throttle.failure_count == 5
     assert throttle.blocked_until > timezone.now()
@@ -118,7 +118,7 @@ def test_unknown_and_wrong_password_logins_have_same_error(client, user_factory)
     unknown = client.post(login_url, {"username": "unknown", "password": "wrong"})
     wrong_password = client.post(login_url, {"username": "crew", "password": "wrong"})
 
-    assert "Invalid username or password." in unknown.content.decode()
+    assert "Benutzername oder Passwort ungültig." in unknown.content.decode()
     assert unknown.context["form"].non_field_errors() == wrong_password.context["form"].non_field_errors()
 
 
@@ -172,7 +172,7 @@ def test_a_block_lasts_one_window_and_then_lifts(client, user_factory, monkeypat
         login_url, {"username": "crew", "password": "Correct-Password-42!"}
     )
     assert still_blocked.status_code == 200
-    assert "Invalid username or password." in still_blocked.content.decode()
+    assert "Benutzername oder Passwort ungültig." in still_blocked.content.decode()
     assert LoginThrottle.objects.get().failure_count == 5
 
     _freeze_now(monkeypatch, start + timedelta(minutes=15, seconds=1))
@@ -199,7 +199,7 @@ def test_an_expired_block_restarts_the_window_on_the_next_failure(
     response = client.post(login_url, {"username": "crew", "password": "wrong"})
 
     throttle = LoginThrottle.objects.get()
-    assert "Invalid username or password." in response.content.decode()
+    assert "Benutzername oder Passwort ungültig." in response.content.decode()
     assert throttle.failure_count == 1
     assert throttle.window_started_at == later
     assert throttle.blocked_until is None

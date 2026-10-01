@@ -52,7 +52,7 @@ def test_required_change_rejects_current_temporary_password(client, user_factory
 
     user.refresh_from_db()
     assert response.status_code == 200
-    assert "different from your current password" in response.content.decode()
+    assert "sich vom aktuellen Passwort unterscheiden" in response.content.decode()
     assert user.must_change_password is True
     assert user.check_password(temporary_password)
     assert client.get("/dashboard/").url == reverse("accounts:change_required")

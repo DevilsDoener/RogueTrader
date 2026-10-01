@@ -100,7 +100,7 @@ def test_throttle_blocked_login_emits_a_safe_audit_record(client, user_factory, 
 
     messages = _audit_messages(caplog)
     assert blocked_response.status_code == 200
-    assert "Invalid username or password." in blocked_response.content.decode()
+    assert "Benutzername oder Passwort ungültig." in blocked_response.content.decode()
     assert messages[-1] == "login_throttle_blocked username='crew' source_ip=192.0.2.30"
     assert password not in "\n".join(messages)
 

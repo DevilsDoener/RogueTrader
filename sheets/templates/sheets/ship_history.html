@@ -24,7 +24,7 @@
       <tbody>
         {% for row in rows %}
           <tr data-change-id="{{ row.change.id }}">
-            <td>{{ row.change.changed_at }}</td>
+            <td>{{ row.change.changed_at|date:'d.m.Y H:i' }}</td>
             <td>{{ row.change.actor.username|default:"—" }}</td>
             <td>{{ row.field_label }}</td>
             <td>

@@ -290,3 +290,22 @@ def test_character_list_query_count_does_not_grow_per_character(
     for index in range(3):
         character_factory(owner=owner, display_name=f"More {index}", values=FILLED_VALUES)
     assert _query_count(client, "/characters/") == baseline
+
+
+@pytest.mark.django_db
+def test_sheet_viewer_coordinates_keep_decimal_points_under_the_german_locale(
+    client, user_factory, character_factory
+):
+    """Percent positions are Decimals; a localised decimal comma is invalid CSS."""
+    import re
+
+    owner = user_factory()
+    character = character_factory(owner=owner, display_name="Own")
+    client.force_login(owner)
+
+    html = client.get(f"/characters/{character.id}/").content.decode()
+
+    styles = re.findall(r'class="sheet-field"\s+style="([^"]+)"', html)
+    assert styles
+    assert all(re.fullmatch(r"left: [\d.]+%; top: [\d.]+%; width: [\d.]+%; height: [\d.]+%;", s) for s in styles)
+

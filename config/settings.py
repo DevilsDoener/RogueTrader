@@ -225,7 +225,7 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.ScryptPasswordHasher',
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'de-de'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
