@@ -191,6 +191,50 @@ This writes `db-<UTC timestamp>.sqlite3` and a matching
 already exist — the script deliberately does not create directory trees
 or guess a location on your behalf.
 
+### Automatic daily backups
+
+The `backup` service in `compose.yaml` runs `python manage.py backup_db` once
+when it starts and then every 24 hours (a failed run is retried after an
+hour). It uses the same image as the portal and mounts the `portal-data`
+volume read-only, because the command only reads the live database.
+
+- **Where:** `./backups` next to `compose.yaml` on the host (mounted as
+  `/backups`, `BACKUP_DIR` inside the container), so the copies survive the
+  loss of the `portal-data` volume. The directory is git-ignored. On a Linux
+  host create it before the first start and make it writable for the
+  container user: `mkdir backups; chown 10001 backups`.
+- **Format:** `db-YYYYMMDD-HHMMSS.sqlite3`, a consistent copy made with
+  SQLite's online backup API while the portal keeps running. The command runs
+  `PRAGMA integrity_check` on the copy and fails (non-zero exit, copy
+  deleted) if the result is not `ok`.
+- **Retention:** copies older than `BACKUP_KEEP_DAYS` (default 14, env var,
+  by file modification time) are deleted after each successful backup.
+- **Still off-host:** `./backups` is on the same machine. Copy it to separate
+  storage as described below, or the guest is still a single point of loss.
+
+Trigger one by hand:
+
+```powershell
+docker compose run --rm backup python manage.py backup_db
+# or inside the running service
+docker compose exec backup python manage.py backup_db
+```
+
+Restore a copy from this folder:
+
+```powershell
+docker compose stop portal backup
+docker compose cp .\backups\db-20260101-020000.sqlite3 portal:/data/db.sqlite3
+docker compose up -d portal backup
+```
+
+`docker compose cp` works on a stopped container and writes into its
+`/data` volume. Keep the current database aside first (copy it out with
+`docker compose cp portal:/data/db.sqlite3 .`) if you are not sure the copy is
+the right one. `scripts/restore.ps1` (section 8) is the checksum-verified
+variant with an automatic recovery copy, but it needs the manifest written by
+`scripts/backup.ps1` next to the file, which the daily copies do not have.
+
 **Schedule:** run this at least daily via Windows Task Scheduler /
 `cron` / a Proxmox host cron job, pointed at storage outside the Proxmox
 guest running the portal (e.g. a separate backup target, NAS, or Proxmox

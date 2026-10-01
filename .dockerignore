@@ -34,3 +34,4 @@ scripts
 tests
 conftest.py
 requirements-dev.*
+backups

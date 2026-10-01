@@ -1,6 +1,7 @@
 services:
   portal:
     build: .
+    image: rogue-trader-portal
     restart: unless-stopped
     ports:
       - "${APP_BIND_ADDRESS:-127.0.0.1}:8000:8000"
@@ -26,6 +27,39 @@ services:
       # (DJANGO_SECRET_KEY), the full .git history, the dev SQLite database
       # under data/, and scripts/ read-only inside the container.
       - ./content:/content/wiki:ro
+
+  # Daily SQLite backups (docs/operations.md, section "Backups"). Same image and
+  # same data volume as the portal; the volume is mounted read-only because the
+  # command only reads the live database. Copies land in ./backups on the host
+  # so they survive the loss of the portal-data volume. The first backup runs at
+  # start, then one every 24 hours; a failed run is retried after an hour.
+  backup:
+    image: rogue-trader-portal
+    restart: unless-stopped
+    # Settings loading needs the same three variables as the portal; the
+    # secret key is used for nothing else here.
+    environment:
+      DATABASE_PATH: /data/db.sqlite3
+      BACKUP_DIR: /backups
+      BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS:-14}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-false}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+    volumes:
+      - portal-data:/data:ro
+      - ./backups:/backups
+    command:
+      - sh
+      - -c
+      - |
+        while true; do
+          if python manage.py backup_db; then
+            sleep 86400
+          else
+            echo "backup_db FAILED - retrying in one hour" >&2
+            sleep 3600
+          fi
+        done
 
 volumes:
   portal-data:

@@ -202,6 +202,14 @@ DATABASES = {
     }
 }
 
+# Daily SQLite backups (``manage.py backup_db``, see docs/operations.md). The
+# default sits next to the database; compose.yaml points it at a host bind
+# mount so backups survive the loss of the data volume.
+BACKUP_DIR = Path(
+    os.environ.get("BACKUP_DIR") or Path(str(DATABASES["default"]["NAME"])).parent / "backups"
+)
+BACKUP_KEEP_DAYS = int(os.environ.get("BACKUP_KEEP_DAYS") or 14)
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
