@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 
 from sheets.cards import character_card
 from sheets.models import CharacterSheet, ShipSheet
-from wiki.content import get_repository
+from wiki.content import get_repository_or_none
 
 #: The dashboard's character selection only ever shows a short,
 #: recency-ordered slice -- the full roster lives at ``sheets:character_list``.
@@ -45,13 +45,11 @@ def dashboard(request):
         .order_by("-updated_at")[:DASHBOARD_CHARACTER_LIMIT]
     )
     ship = ShipSheet.objects.filter(is_active=True).order_by("id").first()
-    try:
-        shortcuts = get_repository().dashboard_shortcuts()
-    except RuntimeError:
-        # The wiki content repository failed to initialize at startup (see
-        # WikiConfig.ready()) -- drop the shortcuts rather than 500ing the
-        # whole dashboard.
-        shortcuts = ()
+    # Without a wiki repository (startup failed to load it, see
+    # WikiConfig.ready()) the shortcuts are dropped rather than 500ing the
+    # whole dashboard.
+    repository = get_repository_or_none()
+    shortcuts = repository.dashboard_shortcuts() if repository is not None else ()
 
     return render(
         request,

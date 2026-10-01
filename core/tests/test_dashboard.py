@@ -327,10 +327,7 @@ def test_rule_shortcuts_render_grouped_with_section_hrefs(
 def test_rule_shortcuts_are_omitted_when_the_wiki_is_unavailable(
     client, owner, monkeypatch
 ):
-    def broken():
-        raise RuntimeError("not initialized")
-
-    monkeypatch.setattr("core.views.get_repository", broken)
+    monkeypatch.setattr("wiki.content._repository", None)
     client.force_login(owner)
 
     response = client.get(reverse("dashboard"))
