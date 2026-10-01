@@ -322,3 +322,12 @@ def test_missing_staticfiles_manifest_does_not_crash_static_lookups(tmp_path):
     assert storage.manifest_strict is False
     name = storage.stored_name("portal.css")
     assert name != "portal.css"
+
+
+def test_password_hashers_are_argon2_with_the_django_default_as_fallback():
+    from config import settings as project_settings
+
+    assert project_settings.PASSWORD_HASHERS == [
+        "django.contrib.auth.hashers.Argon2PasswordHasher",
+        "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    ]
