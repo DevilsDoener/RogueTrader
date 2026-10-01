@@ -24,7 +24,7 @@ If `$ARGUMENTS` is empty, run the full suite:
 | Group | Path |
 |---|---|
 | Accounts (auth, user admin, audit) | `accounts/tests` |
-| Core (dashboard, health, mixins) | `core/tests` |
+| Core (dashboard, health, settings, Auspex shell) | `core/tests` |
 | Sheets (schema, layout, calibration, patch service) | `sheets/tests` |
 | Wiki (Markdown loading, search) | `wiki/tests` |
 | Browser end-to-end (Playwright/Chromium) | `tests/e2e` |
@@ -38,6 +38,10 @@ before a build, a push, and before claiming the work is done.
 
 - `pytest.ini` already sets `DJANGO_SETTINGS_MODULE` and excludes `.git`,
   `.venv`, `.worktrees`, `tmp/` and pytest cache dirs from collection.
+- The test packages live in `requirements-dev.txt` (the Docker image only
+  installs `requirements.txt`); install both into the venv before testing.
+- Shared fixtures (users, characters, ship, wiki-repository restore, fast
+  test password hasher) live in the root `conftest.py`.
 - Playwright needs its browser once per checkout:
   `.venv/Scripts/python.exe -m playwright install chromium`.
 - After a layout change also run
