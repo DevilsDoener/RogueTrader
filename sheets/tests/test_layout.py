@@ -70,6 +70,18 @@ def test_explicit_presentation_does_not_depend_on_field_name():
     assert FieldSpec.from_dict(raw).checkbox_style == "pip"
 
 
+def test_align_is_derived_from_text_style_and_legacy_key_is_still_accepted():
+    raw = dict(source()["templates"]["weapon"]["name"], id="field", label="Field")
+    raw.pop("text_style", None)
+    raw.pop("align", None)
+    assert FieldSpec.from_dict(raw).align == "left"
+    assert FieldSpec.from_dict(dict(raw, text_style="center")).align == "center"
+    # Legacy fallback: an explicit ``align: center`` alone still means centred text.
+    legacy = FieldSpec.from_dict(dict(raw, align="center"))
+    assert (legacy.text_style, legacy.align) == ("center", "center")
+    assert FieldSpec.from_dict(dict(raw, align="left")).align == "left"
+
+
 @pytest.mark.parametrize("style", [{"text_style": "typo"}, {"checkbox_style": "typo"},
                                   {"text_style": "characteristic", "align": "left"}])
 def test_invalid_presentation_is_rejected(style):

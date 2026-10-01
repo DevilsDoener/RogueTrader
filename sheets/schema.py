@@ -78,16 +78,18 @@ class FieldSpec:
     height: Decimal
     max_length: int
     label: str
-    #: How typed text sits in the field box. "left" (default) keeps the
-    #: historic bottom-left-on-the-printed-line layout; "center" centres the
-    #: value in the box (used for the characteristic value boxes and the
-    #: experience totals, which have no printed line to sit on).
-    align: str = "left"
+    #: How the value is styled: "line" sits bottom-left on the printed line,
+    #: "center" / "characteristic" centre it in the box (see :attr:`align`).
     text_style: str = "line"
     checkbox_style: str = "square"
     input_mode: str = "text"
     read_only: bool = False
     hit_padding: tuple[int, int, int, int] = (0, 0, 0, 0)
+
+    @property
+    def align(self) -> str:
+        """Horizontal text alignment, derived from :attr:`text_style`."""
+        return "left" if self.text_style == "line" else "center"
 
     @classmethod
     def from_dict(cls, payload: Mapping[str, Any]) -> "FieldSpec":
@@ -144,6 +146,8 @@ class FieldSpec:
         checkbox_style = payload.get("checkbox_style", "square")
         _require(checkbox_style in ("square", "pip"),
                  f"field {field_id!r}: invalid checkbox_style {checkbox_style!r}")
+        # ``align`` is derived from ``text_style``; a stored ``align`` key is
+        # still accepted (legacy layouts) but must agree with it.
         expected_align = "left" if text_style == "line" else "center"
         align = payload.get("align", expected_align)
         _require(
@@ -177,7 +181,6 @@ class FieldSpec:
             height=height,
             max_length=max_length,
             label=label,
-            align=align,
             text_style=text_style,
             checkbox_style=checkbox_style,
             input_mode=input_mode,
