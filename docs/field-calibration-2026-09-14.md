@@ -18,7 +18,7 @@ Die Source-Pixel-Messungen liegen für Texte in `tests/fixtures/text-line-rectan
 
 `python -m sheets.layout --check` bestätigt die Übereinstimmung von Layoutquellen und generierten Daten. Der Vergleich mit `tmp/calibration-before` bestätigt für alle bisherigen Felder unveränderte IDs, Arten und Reihenfolge. Der ergänzende Review fand keine relevanten neuen Fehler und keine wesentlichen Überschneidungen der 46 zusätzlichen Felder.
 
-Abdeckungskarten: `tmp/field-coverage/`. 424 Checkbox-Detailausschnitte: `tests/visual/checkbox-contacts/`. Browserbilder: `tests/visual/`. Die Werkzeuge `tools/render_field_coverage.py` und `tools/render_checkbox_contacts.py` erzeugen die Prüfabbildungen erneut.
+Abdeckungskarten: `tmp/field-coverage/`. 424 Checkbox-Detailausschnitte: `tests/visual/checkbox-contacts/` (nicht versioniert, wird von `tools/render_checkbox_contacts.py` erzeugt). Browserbilder: `tests/visual/`. Die Werkzeuge `tools/render_field_coverage.py` und `tools/render_checkbox_contacts.py` erzeugen die Prüfabbildungen erneut.
 
 ## Bekannte getrennte Einschränkung
 

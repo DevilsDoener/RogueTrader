@@ -93,6 +93,8 @@ printed text lines.
 `tools/render_checkbox_contacts.py` reads the checkbox fixture and the three
 original WebP assets, but never the production schemas. It creates full-page
 overlays and original-pixel contact crops in `tests/visual/checkbox-contacts/`.
+That folder is git-ignored output: it is not tracked, so regenerate it with the tool
+whenever you need the images.
 `tools/render_field_coverage.py` draws the full field coverage map over the
 original artwork.
 

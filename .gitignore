@@ -22,3 +22,4 @@ playwright-report/
 test-results/
 pytest-cache-files-*/
 backups/
+tests/visual/checkbox-contacts/
