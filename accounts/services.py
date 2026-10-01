@@ -24,7 +24,7 @@ def _require_portal_admin(actor) -> None:
 
 
 def _require_manageable_user(user) -> None:
-    if user.is_staff or user.is_superuser:
+    if not user.is_manageable:
         raise PermissionDenied("Django administrator accounts cannot be managed here.")
 
 

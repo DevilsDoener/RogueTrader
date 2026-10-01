@@ -9,6 +9,18 @@ class User(AbstractUser):
     def can_view_all_characters(self) -> bool:
         return self.is_authenticated and self.is_portal_admin
 
+    @property
+    def is_manageable(self) -> bool:
+        """Whether portal admins may manage this account. Django staff and
+        superusers are never manageable; ``manageable_users()`` is the same
+        rule as a queryset."""
+        return not (self.is_staff or self.is_superuser)
+
+
+def manageable_users():
+    """The accounts portal admins may manage (see ``User.is_manageable``)."""
+    return User.objects.filter(is_staff=False, is_superuser=False)
+
 
 class LoginThrottle(models.Model):
     key_hash = models.CharField(max_length=64, unique=True)

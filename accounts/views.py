@@ -1,14 +1,5 @@
-import hashlib
-import hmac
-import logging
-from datetime import timedelta
-from ipaddress import ip_address
-
-from django.conf import settings
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -18,6 +9,7 @@ from django.views.generic import ListView
 
 from core.mixins import PortalAdminRequiredMixin
 
+from . import throttle
 from .forms import (
     LoginForm,
     ManagedUserCreateForm,
@@ -25,8 +17,9 @@ from .forms import (
     RequiredPasswordChangeForm,
     TemporaryPasswordForm,
 )
-from .models import LoginThrottle, User
+from .models import manageable_users
 from .services import (
+    audit_logger,
     create_managed_user,
     reset_temporary_password,
     set_user_active,
@@ -34,29 +27,6 @@ from .services import (
 )
 
 GENERIC_LOGIN_ERROR = "Invalid username or password."
-THROTTLE_WINDOW = timedelta(minutes=15)
-THROTTLE_LIMIT = 5
-audit_logger = logging.getLogger("accounts.audit")
-
-
-def _client_source_address(request) -> str:
-    forwarded_address = request.META.get("HTTP_X_REAL_IP")
-    try:
-        return str(ip_address(forwarded_address))
-    except (TypeError, ValueError):
-        pass
-
-    try:
-        return str(ip_address(request.META.get("REMOTE_ADDR")))
-    except (TypeError, ValueError):
-        return "unknown"
-
-
-def _throttle_key(request, username: str) -> str:
-    normalized_identifier = username.strip().casefold()
-    source_ip = _client_source_address(request)
-    message = f"{normalized_identifier}\x00{source_ip}".encode()
-    return hmac.new(settings.SECRET_KEY.encode(), message, hashlib.sha256).hexdigest()
 
 
 def _log_login_event(event_kind: str, *, username: str, source_ip: str) -> None:
@@ -68,42 +38,6 @@ def _log_login_event(event_kind: str, *, username: str, source_ip: str) -> None:
     )
 
 
-def _is_blocked(key_hash: str, now) -> bool:
-    throttle = LoginThrottle.objects.filter(key_hash=key_hash).first()
-    if throttle is None:
-        return False
-    if throttle.blocked_until and throttle.blocked_until > now:
-        return True
-    if now - throttle.window_started_at >= THROTTLE_WINDOW:
-        throttle.failure_count = 0
-        throttle.window_started_at = now
-        throttle.blocked_until = None
-        throttle.save(update_fields=["failure_count", "window_started_at", "blocked_until"])
-    return False
-
-
-@transaction.atomic
-def _record_login_failure(key_hash: str, now) -> None:
-    throttle = LoginThrottle.objects.select_for_update().filter(key_hash=key_hash).first()
-    if throttle is None:
-        try:
-            with transaction.atomic():
-                throttle = LoginThrottle.objects.create(
-                    key_hash=key_hash,
-                    window_started_at=now,
-                )
-        except IntegrityError:
-            throttle = LoginThrottle.objects.select_for_update().get(key_hash=key_hash)
-    if now - throttle.window_started_at >= THROTTLE_WINDOW:
-        throttle.window_started_at = now
-        throttle.failure_count = 0
-        throttle.blocked_until = None
-    throttle.failure_count += 1
-    if throttle.failure_count >= THROTTLE_LIMIT:
-        throttle.blocked_until = now + THROTTLE_WINDOW
-    throttle.save()
-
-
 def login_view(request):
     form = LoginForm(request.POST or None)
     # ``next`` arrives as a GET query param on the initial redirect from
@@ -112,10 +46,10 @@ def login_view(request):
     next_url = request.POST.get("next") or request.GET.get("next", "")
     if request.method == "POST" and form.is_valid():
         username = form.cleaned_data["username"]
-        source_ip = _client_source_address(request)
-        key_hash = _throttle_key(request, username)
+        source_ip = throttle.client_address(request)
+        key_hash = throttle.throttle_key(username, source_ip)
         now = timezone.now()
-        if _is_blocked(key_hash, now):
+        if throttle.is_blocked(key_hash, now):
             _log_login_event(
                 "login_throttle_blocked",
                 username=username,
@@ -129,7 +63,7 @@ def login_view(request):
                 password=form.cleaned_data["password"],
             )
             if user is None:
-                _record_login_failure(key_hash, now)
+                throttle.record_failure(key_hash, now)
                 _log_login_event(
                     "login_failure",
                     username=username,
@@ -137,7 +71,7 @@ def login_view(request):
                 )
                 form.add_error(None, GENERIC_LOGIN_ERROR)
             else:
-                LoginThrottle.objects.filter(key_hash=key_hash).delete()
+                throttle.reset(key_hash)
                 login(request, user)
                 _log_login_event(
                     "login_success",
@@ -173,90 +107,94 @@ def change_required(request):
     return render(request, "accounts/force_password_change.html", {"form": form})
 
 
+def _manageable_user_or_404(pk):
+    return get_object_or_404(manageable_users(), pk=pk)
+
+
+def _keep_own_session(request, user) -> None:
+    """Keep an admin logged in after changing their own account."""
+    if user.pk == request.user.pk:
+        update_session_auth_hash(request, user)
+
+
 class PortalAdminUserListView(PortalAdminRequiredMixin, ListView):
-    model = User
     context_object_name = "users"
     template_name = "accounts/user_list.html"
-    ordering = "username"
 
     def get_queryset(self):
-        return User.objects.filter(is_staff=False, is_superuser=False).order_by(self.ordering)
+        return manageable_users().order_by("username")
 
 
-class PortalAdminUserCreateView(PortalAdminRequiredMixin, View):
+class _ManagedUserFormView(PortalAdminRequiredMixin, View):
+    """GET shows the form; a valid POST runs ``save()`` and returns to the
+    account list, an invalid one shows the form again with its errors."""
+
     template_name = "accounts/user_form.html"
 
-    def get(self, request):
-        return render(request, self.template_name, {"form": ManagedUserCreateForm()})
+    def get_form(self, data=None):
+        raise NotImplementedError
 
-    def post(self, request):
-        form = ManagedUserCreateForm(request.POST)
+    def save(self, form) -> None:
+        raise NotImplementedError
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, {"form": self.get_form()})
+
+    def post(self, request, **kwargs):
+        form = self.get_form(request.POST)
         if form.is_valid():
-            create_managed_user(
-                actor=request.user,
-                username=form.cleaned_data["username"],
-                temporary_password=form.cleaned_data["temporary_password"],
-            )
+            self.save(form)
             return redirect("accounts:admin_user_list")
         return render(request, self.template_name, {"form": form})
 
 
-class PortalAdminUserUpdateView(PortalAdminRequiredMixin, View):
-    template_name = "accounts/user_form.html"
+class PortalAdminUserCreateView(_ManagedUserFormView):
+    def get_form(self, data=None):
+        return ManagedUserCreateForm(data)
 
-    def get(self, request, pk):
-        user = get_object_or_404(User.objects.filter(is_staff=False, is_superuser=False), pk=pk)
-        return render(request, self.template_name, {"form": ManagedUserForm(instance=user)})
+    def save(self, form) -> None:
+        create_managed_user(
+            actor=self.request.user,
+            username=form.cleaned_data["username"],
+            temporary_password=form.cleaned_data["temporary_password"],
+        )
 
-    def post(self, request, pk):
-        user = get_object_or_404(User.objects.filter(is_staff=False, is_superuser=False), pk=pk)
-        form = ManagedUserForm(request.POST, instance=user)
-        if form.is_valid():
-            update_managed_user(
-                actor=request.user,
-                user=user,
-                username=form.cleaned_data["username"],
-                active=form.cleaned_data["is_active"],
-            )
-            return redirect("accounts:admin_user_list")
-        return render(request, self.template_name, {"form": form})
+
+class PortalAdminUserUpdateView(_ManagedUserFormView):
+    def get_form(self, data=None):
+        self.user = _manageable_user_or_404(self.kwargs["pk"])
+        return ManagedUserForm(data, instance=self.user)
+
+    def save(self, form) -> None:
+        update_managed_user(
+            actor=self.request.user,
+            user=self.user,
+            username=form.cleaned_data["username"],
+            active=form.cleaned_data["is_active"],
+        )
+
+
+class PortalAdminPasswordResetView(_ManagedUserFormView):
+    def get_form(self, data=None):
+        self.user = _manageable_user_or_404(self.kwargs["pk"])
+        return TemporaryPasswordForm(data, user=self.user)
+
+    def save(self, form) -> None:
+        reset_temporary_password(
+            actor=self.request.user,
+            user=self.user,
+            temporary_password=form.cleaned_data["temporary_password"],
+        )
+        _keep_own_session(self.request, self.user)
 
 
 class PortalAdminUserActionView(PortalAdminRequiredMixin, View):
-    action = None
+    """Deactivate or reactivate an account; the route sets ``active``."""
+
+    active = None
 
     def post(self, request, pk):
-        user = get_object_or_404(User.objects.filter(is_staff=False, is_superuser=False), pk=pk)
-        if self.action == "deactivate":
-            set_user_active(actor=request.user, user=user, active=False)
-            if user.pk == request.user.pk:
-                update_session_auth_hash(request, user)
-        elif self.action == "reactivate":
-            set_user_active(actor=request.user, user=user, active=True)
-            if user.pk == request.user.pk:
-                update_session_auth_hash(request, user)
-        else:
-            raise PermissionDenied
+        user = _manageable_user_or_404(pk)
+        set_user_active(actor=request.user, user=user, active=self.active)
+        _keep_own_session(request, user)
         return redirect("accounts:admin_user_list")
-
-
-class PortalAdminPasswordResetView(PortalAdminRequiredMixin, View):
-    template_name = "accounts/user_form.html"
-
-    def get(self, request, pk):
-        user = get_object_or_404(User.objects.filter(is_staff=False, is_superuser=False), pk=pk)
-        return render(request, self.template_name, {"form": TemporaryPasswordForm(user=user)})
-
-    def post(self, request, pk):
-        user = get_object_or_404(User.objects.filter(is_staff=False, is_superuser=False), pk=pk)
-        form = TemporaryPasswordForm(request.POST, user=user)
-        if form.is_valid():
-            reset_temporary_password(
-                actor=request.user,
-                user=user,
-                temporary_password=form.cleaned_data["temporary_password"],
-            )
-            if user.pk == request.user.pk:
-                update_session_auth_hash(request, user)
-            return redirect("accounts:admin_user_list")
-        return render(request, self.template_name, {"form": form})

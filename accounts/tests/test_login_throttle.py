@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 import pytest
 from django.urls import reverse
 from django.utils import timezone
@@ -131,3 +133,86 @@ def test_too_long_unknown_username_uses_the_generic_login_error(client, user_fac
     assert too_long.status_code == 200
     assert too_long.context["form"].errors.get("username") is None
     assert too_long.context["form"].non_field_errors() == wrong_password.context["form"].non_field_errors()
+
+
+def _freeze_now(monkeypatch, moment):
+    monkeypatch.setattr("django.utils.timezone.now", lambda: moment)
+
+
+@pytest.mark.django_db
+def test_failures_older_than_the_window_start_a_new_count(client, user_factory, monkeypatch):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+    start = timezone.now()
+    _freeze_now(monkeypatch, start)
+    for _ in range(4):
+        client.post(login_url, {"username": "crew", "password": "wrong"})
+
+    _freeze_now(monkeypatch, start + timedelta(minutes=15))
+    client.post(login_url, {"username": "crew", "password": "wrong"})
+
+    throttle = LoginThrottle.objects.get()
+    assert throttle.failure_count == 1
+    assert throttle.window_started_at == start + timedelta(minutes=15)
+    assert throttle.blocked_until is None
+
+
+@pytest.mark.django_db
+def test_a_block_lasts_one_window_and_then_lifts(client, user_factory, monkeypatch):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+    start = timezone.now()
+    _freeze_now(monkeypatch, start)
+    for _ in range(5):
+        client.post(login_url, {"username": "crew", "password": "wrong"})
+    assert LoginThrottle.objects.get().blocked_until == start + timedelta(minutes=15)
+
+    _freeze_now(monkeypatch, start + timedelta(minutes=14, seconds=59))
+    still_blocked = client.post(
+        login_url, {"username": "crew", "password": "Correct-Password-42!"}
+    )
+    assert still_blocked.status_code == 200
+    assert "Invalid username or password." in still_blocked.content.decode()
+    assert LoginThrottle.objects.get().failure_count == 5
+
+    _freeze_now(monkeypatch, start + timedelta(minutes=15, seconds=1))
+    lifted = client.post(login_url, {"username": "crew", "password": "Correct-Password-42!"})
+
+    assert lifted.status_code == 302
+    assert lifted.url == "/dashboard/"
+    assert LoginThrottle.objects.count() == 0
+
+
+@pytest.mark.django_db
+def test_an_expired_block_restarts_the_window_on_the_next_failure(
+    client, user_factory, monkeypatch
+):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+    start = timezone.now()
+    _freeze_now(monkeypatch, start)
+    for _ in range(5):
+        client.post(login_url, {"username": "crew", "password": "wrong"})
+
+    later = start + timedelta(minutes=16)
+    _freeze_now(monkeypatch, later)
+    response = client.post(login_url, {"username": "crew", "password": "wrong"})
+
+    throttle = LoginThrottle.objects.get()
+    assert "Invalid username or password." in response.content.decode()
+    assert throttle.failure_count == 1
+    assert throttle.window_started_at == later
+    assert throttle.blocked_until is None
+
+
+@pytest.mark.django_db
+def test_usernames_share_a_throttle_regardless_of_case_and_whitespace(client, user_factory):
+    user_factory(username="crew", password="Correct-Password-42!")
+    login_url = reverse("accounts:login")
+
+    for username in ("crew", "CREW", " Crew ", "crew", "cReW"):
+        client.post(login_url, {"username": username, "password": "wrong"})
+
+    throttle = LoginThrottle.objects.get()
+    assert throttle.failure_count == 5
+    assert throttle.blocked_until is not None

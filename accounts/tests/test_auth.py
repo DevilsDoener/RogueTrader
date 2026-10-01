@@ -94,3 +94,22 @@ def test_logout_requires_a_post_request(client, user_factory):
 
     assert response.status_code == 405
     assert client.get("/dashboard/").status_code == 200
+
+
+@pytest.mark.django_db
+def test_temporary_password_users_reach_only_the_change_login_logout_and_root(
+    client, user_factory
+):
+    user = user_factory(password="Temp-Only-42!", must_change_password=True)
+    client.force_login(user)
+    change_url = reverse("accounts:change_required")
+
+    assert client.get(change_url).status_code == 200
+    assert client.get(reverse("accounts:login")).status_code == 200
+    assert client.get(reverse("root")).url == reverse("dashboard")
+    for blocked in (reverse("dashboard"), reverse("wiki:index"), reverse("sheets:character_list")):
+        response = client.get(blocked)
+        assert (response.status_code, response.url) == (302, change_url)
+    logout = client.post(reverse("accounts:logout"))
+    assert logout.url == reverse("accounts:login")
+    assert client.get(reverse("dashboard")).url.startswith(reverse("accounts:login"))
