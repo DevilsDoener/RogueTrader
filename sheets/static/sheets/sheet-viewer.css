@@ -239,22 +239,6 @@
   cursor: pointer;
 }
 
-/* Test-only overlay: outlines every schema field rectangle so a human
-   reviewer (or tests/e2e/test_visual_regression.py's overlay-bounds check)
-   can see exactly where each printed control's clickable/typeable area
-   sits relative to the background artwork underneath it. No template ever
-   applies ".sheet-viewer-debug" -- it is only ever added at runtime via
-   page.evaluate() from a test. */
-.sheet-viewer-debug .sheet-field {
-  outline: 1px solid rgba(220, 20, 20, 0.85);
-  background: rgba(220, 20, 20, 0.12);
-}
-
-.sheet-viewer-debug .sheet-field:has(.sheet-checkbox) {
-  outline-color: rgba(20, 110, 220, 0.9);
-  background: rgba(20, 110, 220, 0.18);
-}
-
 /* Hit labels expand only interaction; the original circle is still painted
    by the unchanged input. Source-pixel padding scales with the canvas. */
 .sheet-pip-hit { position: absolute; cursor: pointer; z-index: 0; }
