@@ -655,7 +655,6 @@ def test_suggestions_only_link_to_wiki_and_search_pages(
             {"title": "Search", "chapter": "X", "numeral": "", "path": [], "snippet_html": "x",
              "url": "/search/?q=talent"},
         ],
-        "search_url": "/search/?q=talent",
     }
     page.route(
         "**/search/suggest/**",

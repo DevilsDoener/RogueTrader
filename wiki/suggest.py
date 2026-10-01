@@ -23,10 +23,6 @@ MAX_HITS = 6
 HIT_CANDIDATES = 12
 
 
-def _search_url(query: str) -> str:
-    return reverse("wiki:search") + "?" + urlencode({"q": query})
-
-
 def _section_url(chapter_slug: str, section_id: str, query: str) -> str:
     base = reverse("wiki:chapter", args=[chapter_slug])
     return f"{base}?{urlencode({'q': query})}#sec-{section_id}"
@@ -90,7 +86,6 @@ def suggest(repository, query: str) -> dict:
         "chapters": [],
         "sections": [],
         "hits": [],
-        "search_url": _search_url(query),
     }
     if len("".join(query.split())) < MIN_QUERY_LENGTH:
         return result

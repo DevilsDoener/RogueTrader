@@ -45,13 +45,13 @@ def _anchor_of(url):
     return url.split("#sec-", 1)[1]
 
 
-def test_short_query_returns_empty_lists_but_a_search_url(repository):
+def test_short_query_returns_empty_lists(repository):
     result = suggest(repository, "w" * (MIN_QUERY_LENGTH - 1))
 
     assert result["chapters"] == []
     assert result["sections"] == []
     assert result["hits"] == []
-    assert result["search_url"] == reverse("wiki:search") + "?q=w"
+    assert set(result) == {"query", "chapters", "sections", "hits"}
 
 
 def test_spaces_do_not_count_towards_the_minimum_length(repository):
@@ -239,7 +239,6 @@ def test_short_query_over_http_is_ok_and_empty(client, user_factory, installed):
     assert response.status_code == 200
     data = response.json()
     assert data["chapters"] == data["sections"] == data["hits"] == []
-    assert data["search_url"] == reverse("wiki:search") + "?q=w"
 
 
 @pytest.mark.django_db
@@ -280,8 +279,6 @@ def test_markup_in_the_query_comes_back_only_as_json_data(
     assert response["Content-Type"].startswith("application/json")
     data = response.json()
     assert data["query"] == query
-    assert _query_of(data["search_url"]) == query
-    assert "<script>" not in data["search_url"]
 
 
 @pytest.mark.django_db
