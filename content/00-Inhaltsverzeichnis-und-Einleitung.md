@@ -1,50 +1,10 @@
 # Rogue Trader – Contents and Introduction
 
-> Source: *Rogue Trader Core Rulebook*, PDF pages 1–15.  
-> Page system: book page + 4 = PDF page (from book page 1 onwards).  
-> This document covers the front matter, the complete printed table of
-> contents, and the rules-relevant material from the introduction.  
-> Re-verified against the page images on 2026-09-30 (all printed contents page numbers checked).
-
-## Seiteninventar PDF 1–15
-
-| PDF | Buchseite | Inhalt |
-|---:|---:|---|
-| 1 | – | Frontcover |
-| 2–3 | – | Doppelseitige Karte der Koronus Expanse |
-| 4 | – | FFG-Werbeseite („Enjoy“) |
-| 5 | 1 | Innentitel |
-| 6 | 2 | Credits, Copyright, ISBN und Produktdaten |
-| 7–9 | 3–5 | Gedrucktes Inhaltsverzeichnis |
-| 10 | 6 | Foreword von Alan Merrett |
-| 11 | 7 | Setting-Prolog „It is the 41st Millennium…“ |
-| 12 | 8 | „Ambition Knows No Bounds“; Was ist ein Rollenspiel?; Spielmaterial |
-| 13 | 9 | Kapitelübersicht I–IX |
-| 14 | 10 | Kapitelübersicht X–XV; Game Dice; Table A-1 |
-| 15 | 11 | Trenntitelseite Kapitel I mit den Schritten der Charaktererschaffung |
-
-## Bibliografische Kerndaten
-
-- Titel: **Rogue Trader Core Rulebook**
-- Verlag: Fantasy Flight Games; Lizenz von Games Workshop
-- Copyright-Ausgabe: 2009
-- ISBN: **978-1-58994-675-0**
-- Product Code: **RT01**
-- Print ID: **01**
-- Designed by: Michael Hurley und Ross Watson; zusätzliche Konzepte von Jay Little
-  und Sam Stewart
-- Lead Developer: Ross Watson
-- Managing Developer: Michael Hurley
-- Publisher: Christian T. Petersen
-- Cover Art: Andrea Uderzo
-- Art Direction: Zoë Robinson
-- Production Manager: Gabe Laulunen
-- Games Workshop: Licensing Manager Owen Rees; Licensing & Acquired Rights Manager Erik Mogensen; Head of Legal & Licensing Andy Jones; Intellectual Property Manager Alan Merrett
-- Printed in the USA; Fantasy Flight Games, 1975 West County Road B2, Roseville, MN 55113
+*Rogue Trader Core Rulebook, front matter and introduction.*
 
 ## Complete Printed Table of Contents
 
-The numbers are printed book pages; add **+4** for the PDF page.
+The numbers are printed book pages.
 
 ### Introduction – Ambition Knows No Bounds
 
@@ -373,38 +333,6 @@ The numbers are printed book pages; add **+4** for the PDF page.
 - The Bridge of the Righteous Path – 391
 - Important NPCs – 392
 
-## Vollständige PDF-Lesezeichenstruktur
-
-Die PDF-Navigation enthält genau die folgenden **20 Lesezeichen**. Diese Liste wird
-zusätzlich zum ausführlichen gedruckten Inhaltsverzeichnis als Vollständigkeitscheck
-verwendet:
-
-1. Foreword
-2. Chapter 1 - Character Creation
-3. Chapter 2 - Career Paths
-4. Chapter 3 - Skills
-5. Chapter 4 - Talents
-6. Chapter 5 - Armoury
-7. Chapter 6 - Psychic Powers
-8. Chapter 7 - Navigators
-9. Chapter 8 - Starships
-10. Chapter 9 - Playing The Game
-11. Chapter 10 - The Game Master
-12. Chapter 11 - The Imperium
-13. Chapter 12 - Rogue Traders
-14. Chapter 13 - The Koronus Expanse
-15. Chapter 14 - Adversaries & Aliens
-16. Traits
-17. Mutations
-18. Allies, Enemies & Rivals
-19. Chapter 15 - Into The Maw
-20. Index
-
-**Strukturhinweis:** `Traits`, `Mutations` und `Allies, Enemies & Rivals` sind in
-der PDF-Navigation eigenständige Lesezeichen. Im gedruckten Inhaltsverzeichnis sind
-sie zugleich Kapitel XIV zugeordnet. Beim Gegencheck werden sie daher als eigene
-Prüfpunkte innerhalb von Kapitel XIV behandelt.
-
 ## Introduction: Key Points
 
 - *Rogue Trader* is a roleplaying game about exploration, risk, power, wealth and
@@ -436,14 +364,3 @@ Prüfpunkte innerhalb von Kapitel XIV behandelt.
 | 2 | 0 | 20 |
 | 0 | 2 | 2 |
 | 0 | 0 | 100 |
-
-## Kartenübersicht PDF 2–3
-
-Die Vorsatzkarte zeigt die großen Zonen der Koronus Expanse und den Zugang durch die
-Koronus Passage („The Maw“). Beschriftete Großräume sind unter anderem Rifts of
-Hecaton, Phaineal Echoes, Unbeholden Reaches, Accursed Demesne, Alenic Depths,
-Winterscale’s Realm, The Cauldron, Foundling Worlds, God-Emperor’s Scourge, Warp Shoals,
-Screaming Vortex und Void Dancer’s Roil (dazu Randvermerke wie „Here be Daemons“ und
-„Beware the Siren Star“). Ein kreisrunder Ausschnitt hebt die Koronus Passage mit der Route
-zwischen Port Wander und Footfall sowie Ragged Worlds hervor.
-Die Regionen werden in Kapitel XIII inhaltlich vertieft.

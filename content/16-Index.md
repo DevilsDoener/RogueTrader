@@ -1,32 +1,20 @@
 # Index
 
-> Source: *Rogue Trader Core Rulebook*, PDF pages 397–408 (PDF bookmark **Index**; the four index
-> pages are book pages 393–396, followed by unnumbered closing pages).
-> Re-verified against the page images on 2026-09-30.
-> Method: running text via OCR (`tmp/ocr/page397.txt` to `page408.txt`); the character
-> sheet pages (PDF 401–403) were additionally re-checked against the original page images
-> (`page401_0.jpg`, `page402_0.jpg`, `page403_0.jpg`), located in an older session
-> scratchpad. All three images are sharp and fully legible.
+*Rogue Trader Core Rulebook, book pages 393–396 and unnumbered closing pages.*
 
-## Alphabetical Index (PDF 397–400, book pages 393–396)
+## Alphabetical Index (book pages 393–396)
 
 These four pages carry the book's printed alphabetical subject index (entries from
-"Acquisition Tests" to "Zero Gravity" with their book-page references). Such an index has
-no independent value for this digital, topic-structured knowledge base: its page
-references point to the printed book pages of the original, not to this file structure,
-and every referenced piece of content is already fully captured in the relevant chapter
-files (01–15). The index is therefore **not** transcribed entry by entry, only documented
-as present.
+"Acquisition Tests" to "Zero Gravity" with their book-page references). Its page
+references point to the printed book pages; the index is not reproduced entry by entry.
 
-## Character Sheet (PDF 401–402, unmarked closing pages)
+## Character Sheet (unmarked closing pages)
 
 Directly after the index comes the two-page official character sheet, cleared for
 photocopying ("Permission granted to photocopy for [...] © Games Workshop Ltd 2009, also
-for download at [...]"). Since this project is itself building a character sheet, its
-layout is recorded here in full as a reference. All fields below are confirmed directly
-against the page images (`page401_0.jpg`, `page402_0.jpg`), not just the OCR text.
+for download at [...]"). Its layout is recorded here in full as a reference.
 
-### Front page (PDF 401)
+### Front page
 
 - Header row: **Character Name**, **Player Name** / **Career Path**, **Rank**, **Home
   World**, **Motivation** / **Description**
@@ -59,7 +47,7 @@ against the page images (`page401_0.jpg`, `page402_0.jpg`), not just the OCR tex
   out as a small table with columns **Power / Sustain / Range** per entry
 - **Profit Factor**: Starting / Current, plus **Misfortunes**
 
-### Back page (PDF 402)
+### Back page
 
 - **Movement**, each value defined by a formula tied to Agility Bonus (AB) or Strength
   Bonus (SB): Half Move (AB × 1), Full Move (AB × 2), Charge (AB × 3), Run (AB × 6),
@@ -88,22 +76,11 @@ against the page images (`page401_0.jpg`, `page402_0.jpg`), not just the OCR tex
 - **Mutations** (free-text field)
 - **Lifting**: three separate fields — **Lift**, **Carry**, **Push**
 
-The field list above is now confirmed complete and accurate directly from the page
-images; the previous, OCR-only pass had correctly captured nearly all fields but had not
-been able to confirm the exact Skills column structure (Basic/Trained/+10%/+20%/Bonus),
-the precise Movement formulas (AB/SB multipliers), the three separate Lifting fields, or
-that the Weapons section is five independent boxes rather than one shared table.
+## Starship Sheet
 
-## Starship Sheet (PDF 403)
-
-The previous (German-language, OCR-only) pass could not identify this page: it described
-only "a grid of empty circle/box symbols with no legible OCR labels" and left its purpose
-unresolved, since no page image was available at the time. With the page image
-(`page403_0.jpg`) now recovered from an older session scratchpad and fully legible, the
-page can be identified conclusively: **it is a third page of the character sheet set, a
-dedicated Starship stat sheet**, laid out in the same visual style as the front/back
-character sheet pages (landscape orientation, with a ship's silhouette in the centre).
-Its fields:
+This page is a third page of the character sheet set, **a dedicated Starship stat
+sheet**, laid out in the same visual style as the front/back character sheet pages
+(landscape orientation, with a ship's silhouette in the centre). Its fields:
 
 - Header data: **Name, Class, Speed, Manoeuvrability, Detection, Hull**
 - **Turret Rating, Shields, Armour, Hull Integrity** (Hull Integrity carries Total and Current values)
@@ -120,11 +97,7 @@ Its fields:
   **Location** grid of circles for each slot across **Dorsal, Prow, Keel, Port,
   Starboard**
 
-This resolves what was previously an open question in the knowledge base and is a useful
-additional reference for the project's own character-sheet design, alongside the
-personal-character sheet fields above.
-
-## Back-Cover Advertising Material (PDF 404–408)
+## Back-Cover Advertising Material
 
 The final pages of the PDF contain no more Rogue Trader rules content:
 
@@ -143,18 +116,3 @@ The final pages of the PDF contain no more Rogue Trader rules content:
   the Origin Path system, rules for social interaction, profit, combat, starships, and
   psychic powers, the background material written by Andy Hoare, and the included
   starting adventure. Plus ISBN 978-1-58994-675-0 and barcode.
-
-## Status
-
-PDF pages 397–408 fully reviewed: 12/12 pages (re-checked against the page images 2026-09-30). The printed alphabetical index (PDF
-397–400) was deliberately **not** transcribed entry by entry (see rationale above), only
-recorded as present. The character sheet (PDF 401–402) has been fully captured as a field
-list and cross-checked against the page images — this reference can be used when
-designing this project's own character sheet. The previously unresolved grid on PDF 403
-has now been identified with the recovered page image: it is a Starship stat sheet, the
-character sheet set's third page, and its full field layout is recorded above. PDF
-404–408 contain no Rogue Trader rules material (third-party advertising, a blank page, the map
-spread, back-cover blurb) and are only briefly summarized for completeness. This file has been
-rewritten in English as part of the project-wide English conversion; the Starship-sheet
-identification is the only substantive new finding from this pass, made possible by
-locating the PDF 403 page image that was unavailable previously.

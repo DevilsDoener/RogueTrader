@@ -1,22 +1,8 @@
 # Foreword
 
-> Source: *Rogue Trader Core Rulebook*, PDF pages 1–14 (PDF bookmark **Foreword**).
-> Page system: book page + 4 = PDF page. The pages before book page 1 belong to the
-> front matter and have no book-page numbering of their own.
-> Re-verified page by page against the scanned page images on 2026-09-30 (book-page numbers in the
-> section headings corrected: book page = PDF page − 4).
-> Method: running text verified against OCR (`tmp/ocr/page001.txt` to `page014.txt`)
-> **and** against the original page images (`page001_0.jpg` to `page014_0.jpg`, found in
-> an older session scratchpad and re-checked for this pass). Image quality is good on
-> every page in this range, including the Foreword itself and the setting-prolog page —
-> both were re-read directly from the scan, not just from OCR.
-> The page inventory for this section (bibliographic data, full table of contents, Game
-> Dice, Table A-1) is already captured in `00-Inhaltsverzeichnis-und-Einleitung.md` and is
-> not repeated here. This file instead transcribes the actual **running text** of this
-> section: the foreword by the Games Workshop representative and the introductory
-> fluff/narrative text before Chapter I.
+*Rogue Trader Core Rulebook, pages 6–10.*
 
-## Foreword by Alan Merrett (book page 6, PDF page 10)
+## Foreword by Alan Merrett (book page 6)
 
 The foreword is written by Alan Merrett (Intellectual Property Manager at Games Workshop
 at the time of publication) and tells the story of how the name "Rogue Trader" came to be:
@@ -56,7 +42,7 @@ at the time of publication) and tells the story of how the name "Rogue Trader" c
   thanks Fantasy Flight Games for making it happen.
 - Closing line: *"May all your endeavours bear profit!"* — Alan Merrett, Games Workshop.
 
-## Setting prolog (book page 7, PDF page 11)
+## Setting prolog (book page 7)
 
 Following the foreword is a single illustrated page (styled as a torn, hand-lettered
 scroll) carrying the classic, literary Warhammer 40,000 introductory text about the 41st
@@ -66,14 +52,12 @@ of a million worlds; his battlefleets crossing the warp guided by the Astronomic
 Adeptus Astartes, Imperial Guard, Inquisition, and Adeptus Mechanicus holding the line
 against aliens, heretics, mutants, and worse; and the reader cast as an explorer aboard a
 Rogue Trader ship, empowered by an ancient warrant of trade and a warp-capable vessel to
-venture into uncharted voids in search of fortune and glory. For copyright reasons the
-wording itself is not quoted here beyond the single short phrase above — this is the
-well-known standard scene-setting text used across other Warhammer 40,000 publications, and
-only its content is summarized. (Unlike in the previous session, the page image for this
-entry was available and fully legible; the summary above is drawn directly from it, not
-from the earlier, badly garbled OCR.)
+venture into uncharted voids in search of fortune and glory. The wording itself is not
+quoted here beyond the single short phrase above — this is the well-known standard
+scene-setting text used across other Warhammer 40,000 publications, and only its content is
+summarized.
 
-## Ambition Knows No Bounds – Introduction (book pages 8–9, PDF pages 12–13)
+## Ambition Knows No Bounds – Introduction (book pages 8–9)
 
 The book's actual introduction (headed "Ambition Knows No Bounds") welcomes readers to
 *Rogue Trader*, a roleplaying game of exploration, risk, and savage might set in the
@@ -110,7 +94,7 @@ decaying far future of Warhammer 40,000:
   (such as from Games Workshop's Citadel Warhammer 40,000 range) can help visualize
   combat, but are not required.
 
-## What's in this Book? – Chapter overview (book pages 9–10, PDF pages 13–14)
+## What's in this Book? – Chapter overview (book pages 9–10)
 
 Per the introduction, the book is divided into fifteen chapters plus the introduction
 itself. The book's own short description of each chapter:
@@ -156,23 +140,4 @@ itself. The book's own short description of each chapter:
 
 Following this is the "Dice" section with the basic rules for `1d10`, `2d10`, percentage
 rolls (`d%`/`1d100`), and `1d5`, with worked examples (a fragmentation grenade dealing
-`2d10` Explosive Damage; `1d5` knockback distance). This section, along with Table A-1
-(Percentage Roll Examples), is already fully captured in
-`00-Inhaltsverzeichnis-und-Einleitung.md` and is not duplicated here.
-
-## Status
-
-PDF pages 1–14 fully reviewed against both the OCR raw text (`tmp/ocr/page001.txt` to
-`page014.txt`) and the original page images (`page001_0.jpg` to `page014_0.jpg`), which
-were located in an older session scratchpad and are legible for this entire range: 14/14
-pages. Pages 1–4 (cover, double-page map, advertisement) contain no relevant running
-text. Page 5 (inside title page) and pages 7–9 (printed table of contents) are pure front
-matter/TOC and already captured in `00-Inhaltsverzeichnis-und-Einleitung.md`. The actual
-running text (foreword, setting prolog, introductory essay, chapter descriptions) is
-reproduced above in full content, though condensed rather than quoted verbatim. The
-setting prolog (PDF page 11) is summarized rather than quoted for copyright reasons; unlike
-in the previous (German-language) pass, the page image was available this time and fully
-legible, so the summary above is now confirmed directly against the scan rather than
-relying on badly garbled OCR. This file has been rewritten in English as part of the
-project-wide English conversion; no factual content changed from the prior German version
-except the prolog summary, which is now image-verified.
+`2d10` Explosive Damage; `1d5` knockback distance).

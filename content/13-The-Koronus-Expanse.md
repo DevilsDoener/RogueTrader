@@ -1,11 +1,6 @@
 # Chapter XIII: The Koronus Expanse
 
-> PDF bookmark: **Chapter 13 - The Koronus Expanse**
-> Source: PDF pages 339–366 (book pages 335–362)
-> Status: content fully captured; re-verified page by page against the page images 2026-09-30
-> (including the map spread and its legend). Pure background/lore chapter with no game
-> mechanics (no numeric tables with rules values) — running text has been condensed appropriately;
-> all names, places, factions, persons, and events are fully preserved.
+*Rogue Trader Core Rulebook, pages 335–362.*
 
 ## Introduction
 
@@ -94,12 +89,11 @@ crossed except via a few stable warp routes. The largest and most easily navigab
 the **Koronus Passage**, more commonly called "the Maw", which leads through the Great Warp Storms
 into the dark unknown of the Koronus Expanse.
 
-### The Map Double-Pages (book pages 338–339 / PDF 342–343)
+### The Map Double-Pages (book pages 338–339)
 
 The double-page spread shows a large-format, stylised star chart of the Koronus Expanse with
-place names and world-classification symbols, without accompanying running text. The following
-information was verified directly against the map image (symbols per the legend printed on the
-second map page).
+place names and world-classification symbols, without accompanying running text. The symbols follow the legend printed on the
+second map page.
 
 **World symbol legend:** Agri-world (dark green circle), Feudal World (gold/orange circle), Feral
 World (light green circle), Pleasure World (crimson circle), Penal World (red circle with a white
@@ -143,11 +137,6 @@ Worlds):**
 - **Foundling Worlds:** Magoros (Unclassified), Ritammeron (Feudal World), Rain (Unclassified),
   Grace (Unclassified), Septagonic Voids (Special), Salvar II (Cemetery World), Iniquity (Mining
   World), The Tempest of Scorn (Special).
-
-> Note: Pleasure World (crimson) and Frontier World (bright red) differ only by a subtle colour
-> nuance in the print; those assignments are a best visual match against the legend. A few labels
-> are cut off at the page edges of the scan and cannot be read in full: "Char…" and "Repton…" at the
-> right edge of map page 1, and a nebula label "…peror's …ge" at the left edge of map page 2.
 
 ## Port Wander: Gateway to the Expanse
 
@@ -1056,17 +1045,3 @@ entirely by a single death:
 - **Renuka Lineage:** **Veronique Renuka** was declared outlaw for her involvement in an attempted
   coup on the Calixian hive world Cyclopia in 179.M41. Her descendants are said to still operate as
   pirates at the edge of the Unbeholden Reaches.
-
----
-
-## Status
-
-Chapter XIII (The Koronus Expanse) has been fully transcribed (PDF pages 339–366 / book pages
-335–362, 28/28 pages) and fully converted to English. Pure background/lore chapter with no game
-mechanics and no numeric tables with rules values — the running text has been condensed
-appropriately while all place names, factions, persons, events, dates, and classifications have been
-preserved. On 2026-09-30 every page, including the map spread (book pages 338–339) and its symbol
-legend, was re-checked against the page images; world classifications, names, and dates were
-corrected where they differed from the book. The Ork Freebooterz material sits under "The Ork
-Menace", as in the book. The remaining caveat on the map (Pleasure World vs. Frontier World colours,
-labels cut off at the scan edges) is recorded in the note below the map lists.

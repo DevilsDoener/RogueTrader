@@ -1,7 +1,6 @@
 # Chapter I: Character Creation
 
-> Source: Rogue Trader Core Rulebook, Chapter I, book pages 12–34 (PDF pages 16–38).
-> All information taken exclusively from the rulebook.
+*Rogue Trader Core Rulebook, pages 12–34.*
 
 ## Sequence (7 Stages)
 
@@ -340,9 +339,8 @@ chosen or determined with 1d100.
 | 85–90 | Yasha | Zolla | Zamora | Zephyr | Zelle |
 | 91–00 | Reroll on Table 1-3 | – | – | – | – |
 
-> Note on the original print: the last two table rows refer in the printed text to
-> "Table 1-11" and "Table 1-10" respectively. These clearly mean the directly
-> facing Tables 1-4 and 1-3; that mapping is used here.
+> Note: the last two table rows refer in print to "Table 1-11" and "Table 1-10"
+> respectively. These mean the directly facing Tables 1-4 and 1-3.
 
 ### Nature (pp. 32–33)
 
@@ -398,39 +396,3 @@ Individual Origin Path choices change the starting Profit Factor directly (Noble
 
 - Every character may make **one Acquisition** (p. 272) using the **group's Profit Factor** for a single item from Chapter V: Armoury, with an **Acquisition Modifier of +0**.
 - Optional (at the GM's discretion): any number of items of **common Availability** and **common Craftsmanship**. Not recommended for beginner groups (time-consuming).
-
----
-
-## Page Coverage and Cross-check
-
-| PDF | Book | Content Captured |
-|---:|---:|---|
-| 16 | 12 | Chapter opener, role of the Explorers, Creating Your Explorer |
-| 17 | 13 | Stages 1–7, 500-xp note |
-| 18 | 14 | Characteristics, Bonuses, rolling method, example, point allocation |
-| 19 | 15 | Origin Path rules, Intersections, GM options, duplicate Skills/Talents |
-| 20 | 16 | complete Origin Path Chart |
-| 21–27 | 17–23 | Death World, Void Born, Forge World, Hive World, Imperial World, Noble Born |
-| 28 | 24 | Noble Born, Table 1-1, start of Birthright |
-| 29 | 25 | remaining Birthrights, start of Lure of the Void |
-| 30–31 | 26–27 | all Lure-of-the-Void choices, start of Trials and Travails |
-| 32–33 | 28–29 | all Trials and Travails, all Motivations |
-| 34 | 30 | Table 1-2, Career, Starting Experience, Stage 4 |
-| 35 | 31 | name types, Tables 1-3 and 1-4 in full |
-| 36–37 | 32–33 | all six Nature guiding questions, Table 1-5, Profit Factor |
-| 38 | 34 | Ship Points, Stage 6, Dark Heresy compatibility |
-
-Cross-check on 16.08.2026: **PDF 16–38 = 23/23 pages** individually checked against the
-scanned image. All Tables 1-1 through 1-5 as well as the unnumbered example table on
-book page 14 are captured. The complete name tables, all Nature guiding questions, and
-the exact Mutations selection range 01–75 were corrected/completed.
-
----
-
-## Status
-
-Re-verified against the page images on 2026-09-30 (all of PDF pages 16–38, book pages 12–34):
-Origin Path Chart, all Home World, Birthright, Lure of the Void, Trials and Travails and
-Motivation effects, characteristic modifiers, starting Wounds and Fate Point tables,
-Tables 1-1 to 1-5 and the example table on book page 14 match the scan. Book page
-citations retained. Chapter I is complete and image-verified.

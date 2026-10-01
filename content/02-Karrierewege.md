@@ -1,6 +1,6 @@
 # Chapter II: Career Paths
 
-> Source: Rogue Trader Core Rulebook, Chapter II, book pages 35–72 (PDF pages 39–76). Re-verified against the page images 2026-09-30.
+*Rogue Trader Core Rulebook, pages 35–72.*
 
 ## Basics
 
@@ -1938,32 +1938,3 @@ May spend a **Fate Point** to automatically succeed at any **Ciphers, Lore, or L
 - **Mastery of Gunnery:** may reroll any failed tests on **Shooting Actions** (p. 215) aboard a starship.
 - **Mastery of Augurs:** may reroll any failed tests for **Detection** aboard a starship.
 - **Mastery of Small Craft:** may reroll any failed **Pilot Tests** with Small Craft (Shuttles, Heavy Lifters, Guncutters, Starfighters, Bombers, etc.).
-
----
-
-## Page Inventory and Cross-Check
-
-| PDF Pages | Book Pages | Content | Check |
-|---|---:|---|---|
-| 39 | 35 | Chapter II divider title | visually checked |
-| 40–43 | 36–39 | Career and Advance base rules, Tables 2-1 and 2-2, Elite Advances | visually checked |
-| 44–47 | 40–43 | Rogue Trader: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 48–51 | 44–47 | Arch-militant: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 52–55 | 48–51 | Astropath Transcendent: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 56–59 | 52–55 | Explorator: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 60–63 | 56–59 | Missionary: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 64–67 | 60–63 | Navigator: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 68–71 | 64–67 | Seneschal: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 72–75 | 68–71 | Void-master: description, starting data, Characteristics, Ranks 1–8 | visually checked |
-| 76 | 72 | Special Abilities of all eight Careers | visually checked |
-
-**Cross-check coverage:** PDF 39–76 = **38/38 pages**. All eight
-Characteristic Advance tables, all 64 Rank tables, starting data, and Special
-Abilities were cross-checked against the scanned page images. PDF page 77 is
-the Chapter III divider title page and belongs to the following page inventory.
-
-## Status
-
-- **Full transcription complete:** This file has been fully translated into English. All German prose (headers, career flavor text, rule explanations, table column headers, gear descriptions) has been converted to natural English; all skill, talent, and characteristic names were already in English and were left unchanged to match the character sheet.
-- **Chapter scope:** Rogue Trader Core Rulebook, Chapter II ("Career Paths"), PDF pages 39–76 / book pages 35–72. Covers all eight careers: Rogue Trader, Arch-militant, Astropath Transcendent, Explorator, Missionary, Navigator, Seneschal, Void-master — each with flavor text, Characteristic Advance cost table, Rank 1–8 Advance tables, Starting Skills/Talents/Gear, and Special Abilities.
-- **Image verification:** All eight Characteristic Advance tables and all 64 Rank Advance tables (8 careers × 8 ranks), plus all Starting Skills/Talents/Gear blocks and the Special Abilities section, were spot-checked directly against the scanned page images (`page045_0.jpg` through `page076_0.jpg`). **No numeric or content discrepancies were found** — every Cost, Type, and Prerequisite value in the file matches the source scans exactly.

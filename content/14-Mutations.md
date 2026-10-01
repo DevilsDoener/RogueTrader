@@ -1,13 +1,10 @@
 # Mutations
 
-> PDF bookmark: **Mutations**
-> Binding page range: PDF 373 (book page 369)
-> Status of full transcription: **fully captured, verified against page images**
+*Rogue Trader Core Rulebook, page 369.*
 
 The introductory rules on mutations ("Mutations," "Gaining Mutations,"
-"Mutation") physically remain on PDF page 372 per the binding page split and
-are therefore captured at the end of `14-Traits.md`. This file contains the
-full random table **Table 14-3: Mutations**, which is referenced there
+"Mutation") are found at the end of the Traits section. This page contains the
+random table **Table 14-3: Mutations**, which is referenced there
 (1d100, duplicate results are always re-rolled).
 
 ## Table 14-3: Mutations
@@ -43,10 +40,3 @@ full random table **Table 14-3: Mutations**, which is referenced there
 | 98 | **Shadow Kin:** The mutant now has only a tenuous hold on our reality and, though gaunt and haggard, can partially shift into the Warp at will. He gains the Phase Trait and reduces Strength and Toughness by 10 each. |
 | 99 | **Corrosive Bile:** The mutant can vomit forth burning bile, flesh-eating maggots, or some other horrific substance instead of attacking normally in melee. The mutant must test Ballistic Skill to use this mutation. Using it is a full action. The attack can be dodged but not parried. On a successful Test, the attack deals 1d10+2 R (or E) Tearing damage. |
 | 00 | **Hellspawn:** Suffused with the energies of the Warp, the mutant is more daemon than man. He gains the Daemonic, Fear (2), and From Beyond Traits. |
-
----
-
-**Status:** Table 14-3: Mutations fully and faithfully transcribed from the
-page image PDF 373 (all 29 rows, roll ranges 01–05 through 00). 1/1 page
-verified against the image; re-verified against page images 2026-09-30. No numeric values uncertain — the page was
-clearly legible.

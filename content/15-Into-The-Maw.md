@@ -1,15 +1,8 @@
 # Chapter 15 - Into The Maw
 
-> PDF bookmark: **Chapter 15 - Into The Maw**
-> Binding page range: PDF 383–396 / book pages 379–392
-> Full transcription status: **content fully captured**
+*Rogue Trader Core Rulebook, pages 379–392.*
 
 This chapter contains the complete introductory adventure "Into the Maw" for Rogue Trader.
-It was first written up from raw OCR text; the most important numeric values (NPC
-statblocks, difficulty levels, Achievement Points, distances) were additionally verified
-against the page images (book pages 385, 387, 391, 392). Pure atmosphere/read-aloud text
-has been condensed in substance, while all facts relevant to GM play (locations, NPC
-values, conditions, rewards) have been carried over in full.
 
 ---
 
@@ -608,8 +601,6 @@ finds her way back to Hadarak — and is unlikely to be far from him at a future
 
 ## Important NPCs (book page 392) — Statblocks
 
-All three statblocks were verified against the page image (book page 392).
-
 ### Hadarak Fel
 
 | WS | BS | S | T | Ag | Int | Per | WP | Fel |
@@ -663,25 +654,5 @@ All three statblocks were verified against the page image (book page 392).
 
 > Note: For Orbest Dray, use the **Voidfarer** profile (p. 372); for the armsmen, the
 > **Oathsworn Bodyguard** profile (p. 372); for the Orks, the Ork profile (p. 377); and
-> for Hadarak's Battle Servitors, their profile (p. 374) — these statblocks themselves
-> fall outside Chapter XV's page range and can be found/verified in
-> `14-Adversaries-and-Aliens.md` and `14-Allies-Enemies-and-Rivals.md`.
-
----
-
-## Status
-
-Chapter XV (PDF 383–396 / book pages 379–392) has been **fully translated into English**
-from the previously completed German transcription: introduction, the legend of the
-Righteous Path, all three adventure parts (Riddle of the Righteous Path, Across a
-Storm-Wracked Sky, Into Winter's Heart), all four Objectives, Rewards, and all three NPC
-statblocks (Hadarak Fel, Lady Ash, Pyrexia). While rewriting, the epigraphs, headings,
-the flicker cycle of the Magoros star (102 minutes / 58 seconds), the Rewards text, and
-all three statblocks were additionally cross-checked directly against the original
-English page images (`page385_0.jpg`, `page389_0.jpg`, `page391_0.jpg`, `page396_0.jpg`)
-and the English OCR text (`tmp/ocr/page383.txt`–`page388.txt`), confirming the German
-source's accuracy — no new factual discrepancies were found. Purely descriptive/
-read-aloud text (market scenery, mood-setting) remains condensed as in the German
-version; all facts relevant to play (locations, NPC values, conditions, rewards) are
-fully included. Filename unchanged. Re-verified against page images PDF 383–396
-on 2026-09-30.
+> for Hadarak's Battle Servitors, their profile (p. 374) — these statblocks are found in
+> Chapter XIV.

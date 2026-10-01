@@ -1,8 +1,6 @@
 # Allies, Enemies & Rivals
 
-> PDF bookmark: **Allies, Enemies & Rivals**
-> Binding page range: PDF 374–382 (book pages 370–378)
-> Status of full transcription: **fully captured, verified against page images** (re-verified against page images 2026-09-30)
+*Rogue Trader Core Rulebook, pages 370–378.*
 
 > *"Looking for DeCol you say? Well I knows three by that name, one's a stubjack,
 > the other a scrivener and the third, well her I'd rather not speak of… unless
@@ -234,8 +232,8 @@ Scavenger) (Int).
 **Talents:** Basic Weapon Training (Primitive), Frenzy, Jaded, Resistance
 (Poisons).
 
-**Traits:** Mutation (roll once on Table 14-2 [recte 14-3] Mutation on page
-369, results above 50 are re-rolled).
+**Traits:** Mutation (roll once on Table 14-3 Mutation on page
+369, results above 50 are re-rolled; note: the book prints "Table 14-2").
 
 **Weapons:** Improvised club (1d10+1 I; Primitive).
 
@@ -861,18 +859,3 @@ kills, it immediately regains 1d5 lost Wounds (this cannot heal it above
 its starting value).
 
 **Weapons:** Chill Talons (1d10+3 R, Tearing, Toxic, Warp Weapon).
-
----
-
-**Status:** All sections (The Masses of Humanity, Servitors, The Xenos, From
-Beyond) including all statblocks — Colonist, Adept, Bloodskinner,
-Entertainer, Hired Gun, Scum, Voidfarer, Free Trader Captain, Mutant
-Outcast, Mutant Abomination, Navy Officer, Oathsworn Bodyguard, Renegade,
-Void Pirate Captain, Warp Witch, Battle Servitor (Charron-Pattern),
-Grapplehawk (Falax-Pattern), Servitor Drone, Servo Skull, Eldar Corsair, Ork
-Freebooter, Kroot Mercenary, and Warp Predator (Ebon Geist) — fully and
-faithfully transcribed from the page images PDF 374–382 (9/9 pages verified
-against images). All characteristics, Wounds, Skills, Talents, Traits,
-weapon profiles, and gear carried over 1:1; accompanying flavour text
-(faction/archetype introductions) translated faithfully into English with
-light condensation, without losing any rules content.

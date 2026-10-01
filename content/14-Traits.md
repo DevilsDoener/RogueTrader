@@ -1,8 +1,6 @@
 # Traits
 
-> PDF bookmark: **Traits**
-> Binding page range: PDF 368–372 (book pages 364–368)
-> Status of full transcription: **fully captured, verified against page images** (re-verified against page images 2026-09-30)
+*Rogue Trader Core Rulebook, pages 364–368.*
 
 ## Chapter XIV: Adversaries & Aliens (Introduction)
 
@@ -446,11 +444,7 @@ the Holy quality. Force Fields still work normally against these attacks.
 | Warp Instability | Creature must deal damage if damaged, or be cast back into the Warp. |
 | Warp Weapons | Creature's attacks ignore armour. |
 
-> Note: The order of the table rows exactly matches the printed original (not
-> strictly alphabetical throughout, due to the two-column layout of the
-> individual descriptions).
-
-## Mutations (Introduction — physically on PDF 372, see 14-Mutations.md for Table 14-3)
+## Mutations (Introduction)
 
 One of the most pervasive signs of corruption in the Imperium is the
 manifestation of mutations. These subtle or not-so-subtle alterations of
@@ -476,16 +470,4 @@ them with Experience Points.
 
 Whenever a mutation occurs, roll on **Table 14-3: Mutations** to determine
 which kind of mutation is gained. Duplicate results are always re-rolled.
-(The full Table 14-3 is on PDF page 373 and is captured in
-`14-Mutations.md`.)
-
----
-
-**Status:** The chapter introduction as well as all individual Trait
-descriptions (Auto-stabilised through Warp Weapon), the sidebars "Trait:
-Mechanicus Implants" and "Explorator Abilities in Game Terms," Table 14-1
-(Traits summary) and Table 14-2 (Size) fully and faithfully transcribed from
-the page images PDF 368–372 (5/5 pages verified against images). The
-Mutations introduction ("Mutations," "Gaining Mutations," "Mutation")
-physically remains on PDF 372 per the binding page split and was therefore
-kept here; the actual Table 14-3 follows in `14-Mutations.md` (PDF 373).
+(The full Table 14-3 is on book page 369.)
