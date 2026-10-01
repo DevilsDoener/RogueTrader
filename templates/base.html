@@ -2,6 +2,11 @@
 <html lang="{% block html_lang %}de{% endblock %}">
 <head>
   <meta charset="utf-8">
+  {% if user.is_authenticated and not user.must_change_password %}
+    {% comment %}Read by the sheet viewer's autosave (sheet-viewer.js) so it does
+       not depend on the logout form's hidden input.{% endcomment %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+  {% endif %}
   <script>document.documentElement.classList.add("js");</script>
   <title>{% block title %}Rogue Trader Portal{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/portal.css' %}">

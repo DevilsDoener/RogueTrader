@@ -101,6 +101,8 @@
   // ---- Autosave / conflict handling ----
 
   function getCsrfToken() {
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    if (meta && meta.content) return meta.content;
     const input = document.querySelector('input[name="csrfmiddlewaretoken"]');
     return input ? input.value : "";
   }
