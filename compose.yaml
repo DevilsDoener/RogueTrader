@@ -48,6 +48,19 @@ services:
     volumes:
       - portal-data:/data:ro
       - ./backups:/backups
+    # The image's own healthcheck probes gunicorn, which this service does
+    # not run. Healthy here means: a backup newer than 26 hours exists.
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import glob, os, sys, time; f = glob.glob('/backups/db-*.sqlite3'); sys.exit(0 if f and time.time() - max(map(os.path.getmtime, f)) < 26 * 3600 else 1)"
+      interval: 30m
+      timeout: 10s
+      start_period: 5m
+      start_interval: 10s
+      retries: 1
     command:
       - sh
       - -c
