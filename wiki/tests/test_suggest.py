@@ -298,3 +298,32 @@ def test_a_title_with_markup_is_returned_as_a_plain_string(
     # render it, and it renders strings as text.
     assert section["title"] == "Use <b>Bold</b> Moves"
     assert "&lt;" not in section["title"] and "<mark>" not in section["title"]
+
+
+def test_hits_expand_word_prefixes_from_three_letters(make_repository):
+    repository = make_repository(
+        {
+            "04-Talents.md": (
+                "# Chapter IV: Talents\nIntro.\n\n"
+                "## Damage\nRoll on the hit locations table to see where it lands.\n"
+            ),
+        },
+    )
+
+    result = suggest(repository, "hit loc")
+
+    assert [hit["title"] for hit in result["hits"]] == ["Damage"]
+
+
+def test_the_search_page_still_needs_four_letters_for_prefix_expansion(make_repository):
+    repository = make_repository(
+        {
+            "04-Talents.md": (
+                "# Chapter IV: Talents\nIntro.\n\n"
+                "## Damage\nRoll on the hit locations table to see where it lands.\n"
+            ),
+        },
+    )
+
+    assert repository.search("hit loc") == ()
+    assert [hit.title for hit in repository.search("hit loca")] == ["Damage"]

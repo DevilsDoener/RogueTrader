@@ -274,18 +274,21 @@ class SearchIndex:
         self._entries = tuple(entries)
         self._vocabulary = tuple(vocabulary)
 
-    def _expand(self, term: str) -> Dict[str, float]:
+    def _expand(
+        self, term: str, prefix_min_length: int = PREFIX_MIN_LENGTH
+    ) -> Dict[str, float]:
         """Query term -> {variant: weight}.
 
         The typed word and any curated alias count fully; words that merely
         start with it count for less, so "laspistol" still ranks an exact
-        "laspistol" above "laspistols".
+        "laspistol" above "laspistols". ``prefix_min_length`` is the shortest term
+        that expands this way; the search page keeps ``PREFIX_MIN_LENGTH``.
         """
         variants: Dict[str, float] = {term: 1.0}
         for alias in QUERY_ALIASES.get(term, ()):
             variants.setdefault(alias, 1.0)
 
-        if len(term) >= PREFIX_MIN_LENGTH and self._vocabulary:
+        if len(term) >= prefix_min_length and self._vocabulary:
             start = bisect.bisect_left(self._vocabulary, term)
             for candidate in self._vocabulary[start:]:
                 if not candidate.startswith(term):
@@ -309,7 +312,12 @@ class SearchIndex:
             terms.update(QUERY_ALIASES.get(token, ()))
         return tuple(sorted(term for term in terms if len(term) >= MIN_QUERY_LENGTH))
 
-    def search(self, query: str, limit: Optional[int] = 30) -> Tuple[SearchResult, ...]:
+    def search(
+        self,
+        query: str,
+        limit: Optional[int] = 30,
+        prefix_min_length: int = PREFIX_MIN_LENGTH,
+    ) -> Tuple[SearchResult, ...]:
         if not is_searchable(query):
             return ()
 
@@ -317,7 +325,7 @@ class SearchIndex:
         if not terms:
             return ()
 
-        expanded = [self._expand(term) for term in terms]
+        expanded = [self._expand(term, prefix_min_length) for term in terms]
 
         scored: List[Tuple[float, int, int, object, object, Tuple[str, ...]]] = []
         for chapter, section, title_tokens, body_tokens in self._entries:

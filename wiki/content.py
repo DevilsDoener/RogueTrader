@@ -33,7 +33,7 @@ from .manifest import (
 )
 from .markdown import SafeMarkdownRenderer
 from .outline import MIN_SECTION_LEVEL, OutlineNode, parse_outline
-from .search import SearchIndex, build_search_index
+from .search import PREFIX_MIN_LENGTH, SearchIndex, build_search_index
 
 logger = logging.getLogger(__name__)
 
@@ -278,8 +278,15 @@ class WikiRepository:
         )
         return previous, following
 
-    def search(self, query: str, limit: Optional[int] = 30):
-        return self._search_index.search(query, limit=limit)
+    def search(
+        self,
+        query: str,
+        limit: Optional[int] = 30,
+        prefix_min_length: int = PREFIX_MIN_LENGTH,
+    ):
+        return self._search_index.search(
+            query, limit=limit, prefix_min_length=prefix_min_length
+        )
 
     def highlight_terms(self, query: str) -> Tuple[str, ...]:
         return self._search_index.highlight_terms(query)

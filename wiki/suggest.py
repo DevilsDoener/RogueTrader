@@ -22,6 +22,11 @@ MAX_HITS = 6
 #: dropped, so that a few overlaps do not leave the hit list short.
 HIT_CANDIDATES = 12
 
+#: The palette expands word prefixes from three letters ("hit loc" finds
+#: "Hit Locations"), one fewer than the search page, because it is typed
+#: into live and shows only a handful of hits.
+SUGGEST_PREFIX_MIN_LENGTH = 3
+
 
 def _section_url(chapter_slug: str, section_id: str, query: str) -> str:
     base = reverse("wiki:chapter", args=[chapter_slug])
@@ -120,7 +125,9 @@ def suggest(repository, query: str) -> dict:
     ]
 
     hits = []
-    for hit in repository.search(query, limit=HIT_CANDIDATES):
+    for hit in repository.search(
+        query, limit=HIT_CANDIDATES, prefix_min_length=SUGGEST_PREFIX_MIN_LENGTH
+    ):
         if (hit.chapter_slug, hit.section_id) in listed:
             continue
         chapter = repository.get_chapter(hit.chapter_slug)

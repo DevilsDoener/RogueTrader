@@ -168,3 +168,20 @@ def test_the_page_number_index_no_longer_tops_a_common_word():
 
     assert results
     assert results[0].chapter_slug != "index"
+
+
+# --- configurable prefix length --------------------------------------------
+
+
+def test_prefix_expansion_length_is_a_parameter_defaulting_to_the_search_page_value(
+    make_repository,
+):
+    repository = make_repository(
+        {"01-Chapter.md": "# Chapter\n\n## Damage\nRoll on the hit locations table.\n"}
+    )
+
+    # Default: three letters are too short to expand ("loc" != "locations").
+    assert repository.search("hit loc") == ()
+    assert repository.search("hit loc", prefix_min_length=PREFIX_MIN_LENGTH) == ()
+    # Lowered to three, the same query expands and finds the section.
+    assert _titles(repository.search("hit loc", prefix_min_length=3)) == ["Damage"]
