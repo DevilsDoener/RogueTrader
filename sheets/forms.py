@@ -13,3 +13,4 @@ class CharacterCreateForm(forms.ModelForm):
         model = CharacterSheet
         fields = ("display_name",)
         labels = {"display_name": "Name"}
+        error_messages = {"display_name": {"required": "Bitte einen Namen angeben."}}

@@ -57,7 +57,7 @@ def test_create_character_requires_display_name(client, user_factory, display_na
     response = client.post("/characters/", {"display_name": display_name})
     assert response.status_code == 200
     assert not CharacterSheet.objects.exists()
-    assert response.context["form"].errors == {"display_name": ["This field is required."]}
+    assert response.context["form"].errors == {"display_name": ["Bitte einen Namen angeben."]}
 
 
 @pytest.mark.django_db
