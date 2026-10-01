@@ -11,6 +11,7 @@ import pytest
 from django.db import connection
 from django.test.utils import CaptureQueriesContext
 
+from sheets.models import CharacterSheet
 from sheets.tests.helpers import assert_contains, assert_not_contains
 
 
@@ -22,6 +23,7 @@ def test_admin_foreign_character_is_read_only(client, portal_admin, character_fa
     assert response.status_code == 200
     assert response.context["read_only"] is True
     assert client.post(f"/characters/{sheet.id}/delete/").status_code == 404
+    assert CharacterSheet.objects.filter(pk=sheet.id).exists()
 
 
 @pytest.mark.django_db

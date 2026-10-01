@@ -1,11 +1,10 @@
 import pytest
 
 from sheets.models import CharacterSheet
-from sheets.permissions import can_mutate_character, can_view_character
+from sheets.permissions import can_mutate_character
 from sheets.services import (
     SheetNotFound,
     delete_character,
-    get_character_for_view,
     patch_character_field,
     patch_ship_field,
 )
@@ -21,16 +20,10 @@ def test_normal_user_gets_sheet_not_found_for_others_character(character_sheet, 
             value="Voss",
             base_version=0,
         )
-    with pytest.raises(SheetNotFound):
-        get_character_for_view(sheet_id=character_sheet.id, actor=other_user)
 
 
 @pytest.mark.django_db(transaction=True)
-def test_admin_can_read_but_not_patch_or_delete_others_character(character_sheet, portal_admin):
-    # Admin can read.
-    sheet = get_character_for_view(sheet_id=character_sheet.id, actor=portal_admin)
-    assert sheet.id == character_sheet.id
-
+def test_admin_cannot_patch_or_delete_others_character(character_sheet, portal_admin):
     # Admin cannot patch -- indistinguishable from the sheet not existing.
     with pytest.raises(SheetNotFound):
         patch_character_field(
@@ -49,10 +42,8 @@ def test_admin_can_read_but_not_patch_or_delete_others_character(character_sheet
 
 
 @pytest.mark.django_db(transaction=True)
-def test_owner_can_read_and_mutate_own_character(character_sheet, owner):
-    sheet = get_character_for_view(sheet_id=character_sheet.id, actor=owner)
-    assert can_view_character(owner, sheet)
-    assert can_mutate_character(owner, sheet)
+def test_owner_can_mutate_own_character(character_sheet, owner):
+    assert can_mutate_character(owner, character_sheet)
 
     result = patch_character_field(
         sheet_id=character_sheet.id,

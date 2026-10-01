@@ -6,9 +6,6 @@ class User(AbstractUser):
     is_portal_admin = models.BooleanField(default=False)
     must_change_password = models.BooleanField(default=True)
 
-    def can_view_all_characters(self) -> bool:
-        return self.is_authenticated and self.is_portal_admin
-
     @property
     def is_manageable(self) -> bool:
         """Whether portal admins may manage this account. Django staff and

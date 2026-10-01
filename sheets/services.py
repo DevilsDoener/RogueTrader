@@ -20,7 +20,6 @@ from .models import CharacterSheet, ShipSheet, SheetChange
 from .permissions import (
     can_mutate_character,
     can_mutate_ship,
-    can_view_character,
     can_view_ship,
 )
 
@@ -31,7 +30,6 @@ __all__ = [
     "FieldConflict",
     "patch_character_field",
     "patch_ship_field",
-    "get_character_for_view",
     "get_ship_for_view",
     "get_active_ship",
     "delete_character",
@@ -110,19 +108,6 @@ def _validate_ship_field(field_id: str, value) -> None:
         page_schema.validate_value(field_id, value)
     except schema.SchemaError as exc:
         raise FieldValidationError(field_id=field_id, message=str(exc)) from exc
-
-
-def get_character_for_view(*, sheet_id: uuid.UUID, actor) -> CharacterSheet:
-    """Fetch a character sheet for reading, respecting view permissions."""
-    try:
-        sheet = CharacterSheet.objects.get(pk=sheet_id)
-    except CharacterSheet.DoesNotExist as exc:
-        raise SheetNotFound(f"No character sheet {sheet_id}") from exc
-
-    if not can_view_character(actor, sheet):
-        raise SheetNotFound(f"No character sheet {sheet_id}")
-
-    return sheet
 
 
 def get_ship_for_view(*, sheet_id: uuid.UUID, actor) -> ShipSheet:
@@ -266,7 +251,7 @@ def patch_character_field(
 
     # Permission check happens before anything else is revealed about the
     # sheet's contents. Mutation is owner-only: a portal admin can *read* a
-    # character they don't own (see get_character_for_view) but attempting
+    # character they don't own (through the separate admin views) but attempting
     # to mutate or delete it is indistinguishable from the sheet not
     # existing at all -- the service only ever raises SheetNotFound /
     # FieldValidationError / FieldConflict, never a separate
