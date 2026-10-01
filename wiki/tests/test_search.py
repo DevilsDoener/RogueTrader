@@ -1,6 +1,7 @@
 import pytest
 
-from wiki.search import SNIPPET_ELLIPSIS, SNIPPET_MAX_LENGTH, _make_snippet
+from wiki.search import SNIPPET_ELLIPSIS, SNIPPET_MAX_LENGTH, _make_snippet, is_searchable
+from wiki.suggest import suggest
 
 
 @pytest.fixture
@@ -123,3 +124,21 @@ def test_snippet_escaping_survives_the_word_trimming():
 
     assert "&lt;b&gt;&amp;amp; <mark>plasma</mark>&lt;/b&gt;" in snippet
     assert "<b>" not in snippet
+
+
+@pytest.mark.parametrize(
+    "query",
+    ["", None, "a", " a ", "\ta\t", "\u00a0a\u00a0", " \t\u00a0 "],
+)
+def test_whitespace_of_any_kind_does_not_count_towards_the_minimum_length(query, one_chapter):
+    repository = one_chapter("# Chapter\nA plasma weapon.")
+
+    assert not is_searchable(query)
+    assert repository.search(query) == ()
+    assert repository.highlight_terms(query) == ()
+    assert suggest(repository, query or "")["hits"] == []
+
+
+def test_two_visible_characters_are_searchable():
+    assert is_searchable("pl")
+    assert is_searchable(" p l ")

@@ -10,7 +10,7 @@ from django.views.generic import TemplateView, View
 
 from .content import get_repository
 from .manifest import BANDS
-from .search import MIN_QUERY_LENGTH
+from .search import MIN_QUERY_LENGTH, is_searchable
 from .suggest import suggest
 
 #: Hits shown on the results page; the rest are reachable via the chapter facets.
@@ -155,9 +155,7 @@ class WikiSearchView(LoginRequiredMixin, TemplateView):
         context["quick_links"] = repository.quick_links()
         # Distinguishes "too short to search" from "searched, found nothing",
         # which the template could not tell apart from an empty result tuple.
-        context["query_too_short"] = bool(query) and (
-            len(query.replace(" ", "")) < MIN_QUERY_LENGTH
-        )
+        context["query_too_short"] = bool(query) and not is_searchable(query)
         context["min_query_length"] = MIN_QUERY_LENGTH
         return context
 

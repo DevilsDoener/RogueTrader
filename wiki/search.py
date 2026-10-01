@@ -31,6 +31,14 @@ SNIPPET_RADIUS = 90
 SNIPPET_MAX_LENGTH = 180
 MIN_QUERY_LENGTH = 2
 
+
+def is_searchable(query: Optional[str]) -> bool:
+    """Whether ``query`` has enough non-whitespace characters to search for.
+
+    The one length rule shared by search, suggestions and the search page.
+    """
+    return len("".join((query or "").split())) >= MIN_QUERY_LENGTH
+
 #: Saturation constant for body term frequency: f * (k + 1) / (f + k). Higher
 #: k means counts keep mattering for longer; 1.5 caps a runaway repeat while
 #: still ranking three mentions above one.
@@ -293,16 +301,16 @@ class SearchIndex:
         prefix expansion ``search`` applies: highlighting every word that merely
         starts with the query would paint half a page for a short term.
         """
-        if len((query or "").replace(" ", "")) < MIN_QUERY_LENGTH:
+        if not is_searchable(query):
             return ()
         terms: Set[str] = set()
         for token in tokenize(query):
             terms.add(token)
             terms.update(QUERY_ALIASES.get(token, ()))
-        return tuple(sorted(term for term in terms if len(term) >= 2))
+        return tuple(sorted(term for term in terms if len(term) >= MIN_QUERY_LENGTH))
 
     def search(self, query: str, limit: Optional[int] = 30) -> Tuple[SearchResult, ...]:
-        if len((query or "").replace(" ", "")) < MIN_QUERY_LENGTH:
+        if not is_searchable(query):
             return ()
 
         terms = sorted(set(tokenize(query)))

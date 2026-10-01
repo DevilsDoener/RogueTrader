@@ -12,7 +12,7 @@ from urllib.parse import urlencode
 
 from django.urls import reverse
 
-from .search import MIN_QUERY_LENGTH, tokenize
+from .search import is_searchable, tokenize
 
 MAX_CHAPTERS = 4
 MAX_SECTIONS = 6
@@ -87,7 +87,7 @@ def suggest(repository, query: str) -> dict:
         "sections": [],
         "hits": [],
     }
-    if len("".join(query.split())) < MIN_QUERY_LENGTH:
+    if not is_searchable(query):
         return result
 
     tokens = query.casefold().split()
