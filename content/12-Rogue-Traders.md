@@ -1,10 +1,6 @@
 # Chapter XII: Rogue Traders
 
-> PDF bookmark: **Chapter 12 - Rogue Traders**
-> Source: PDF pages 323–338 (book pages 319–334)
-> Status: re-verified against the page images 2026-09-30. Pure background/lore chapter
-> with no game mechanics — flavour prose is condensed; names, dates, and named facts of the
-> sidebars are listed in the section "Sidebar Accounts" at the end.
+*Rogue Trader Core Rulebook, pages 319–334.*
 
 ## Rogue Traders — Basics
 
@@ -137,9 +133,3 @@ own homeworld, and above all the chance to establish a lineage, with oneself as 
 - **The Fate of Colony XK-119:** in the closing months of the 40th millennium Rogue Trader Kinker Drub received the Warrant and the obligation to reclaim Colony XK-119, a small facility on a satellite of an unnamed gas giant several weeks' travel into the Koronus Expanse, retaken by an alien race. With a composite Adeptus Astartes task force of a dozen squads from as many Chapters attached, Drub crushed the alien fleet, found the colony built in the ruins of an alien city and colonists tampering with alien technology, and set out to hunt the remaining xenos; Drub and his Astartes were never seen by any human again.
 - **One Man's Junk Is Another Man's Fortune:** Rogue Trader Baxilik Kim was granted his Warrant on condition that an Adeptus Mechanicus Explorator fleet accompany him for the first three years. The Explorators sought only pre-Imperium human artefacts and rejected alien ones, which Kim collected, sold to collectors of proscribed items on his return, and then went back to the Koronus Expanse with private backing to resume harvesting the explorators' cast-offs.
 - **The Reward of Galfit's Treachery:** Lord Galfit of the Line of Magnum served five decades on the fleet general's staff and made powerful enemies in the Calixis Sector high command, who engineered his Warrant expecting him to overstep his authority. Three years after entering the Koronus Expanse he claimed a newly discovered world for himself and quietly disposed of the Imperial servants with him; a decade later an Adeptus Mechanicus survey fleet found his vessel in orbit crewed only by shrivelled corpses, Galfit seated upright on the command throne, killed by poison released into the environmental systems. A single lifeboat had been jettisoned; no clue to the assassin was found.
-
----
-
-**Status:** Chapter XII (Rogue Traders) re-verified against the page images 2026-09-30 (PDF pages
-323–338 / book pages 319–334). Pure background/lore chapter with no game mechanics; flavour prose
-is condensed, the seven sidebar accounts are summarised in "Sidebar Accounts" above.

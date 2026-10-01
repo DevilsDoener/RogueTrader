@@ -1,11 +1,6 @@
 # Chapter XI: The Imperium
 
-> PDF bookmark: **Chapter 11 - The Imperium**
-> Source: PDF pages 305–322 (book pages 301–318)
-> Status: fully transcribed. This chapter is pure background/setting material with no game
-> mechanics, so it is rendered as a thorough but compact prose reference rather than a
-> word-for-word translation — every institution, classification, and concept from the book is
-> covered.
+*Rogue Trader Core Rulebook, pages 301–318.*
 
 ## The Imperium of Man
 
@@ -367,11 +362,3 @@ worship of the Ruinous Powers and led half the Imperium's forces against the Emp
 Only Horus's death and the banishment of his followers into the **Eye of Terror** ended the
 uprising; even ten thousand years later, a constant vigil is kept around the Eye of Terror, from
 which Chaos fleets still launch raids and, occasionally, major incursions into the Imperium.
-
----
-
-**Status:** Chapter XI (The Imperium) re-verified against the page images 2026-09-30 (PDF pages
-305–322 / book pages 301–318). This is a pure background/lore chapter with no game mechanics,
-so it is presented as a complete, accurate prose reference covering every institution,
-classification, and concept in the source rather than a literal line-by-line translation. No
-numeric tables required verification in this chapter.

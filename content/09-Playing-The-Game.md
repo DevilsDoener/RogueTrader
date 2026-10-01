@@ -1,8 +1,6 @@
 # Chapter IX: Playing the Game
 
-> Source: Rogue Trader Core Rulebook, Chapter IX, book pages 229–284 (PDF pages 233–288).
-> Body text is condensed where noted; rules values, modifiers, and tables are captured in full as a reference.
-> Re-verified page by page against the page images (PDF 233–288) on 2026-09-30.
+*Rogue Trader Core Rulebook, pages 229–284.*
 
 ## Tests: The Basic Mechanic
 
@@ -423,7 +421,7 @@ Some Psychic Powers, poisons, diseases, and other hazards bypass Wounds entirely
 
 ### Critical Effect Tables (Tables 9-11 to 9-26)
 
-> Fully verified word-for-word against the page images (PDF pages 256–263 / book pages 252–259) and translated. For every combination of **Damage Type** (Energy, Explosive, Impact, Rending) and **hit zone** (Arm, Body, Head, Leg), a separate table exists with Critical Damage levels 1 through 10+.
+> For every combination of **Damage Type** (Energy, Explosive, Impact, Rending) and **hit zone** (Arm, Body, Head, Leg), a separate table exists with Critical Damage levels 1 through 10+.
 
 #### Table 9-11: Energy Critical Effects — Arm
 
@@ -1018,7 +1016,7 @@ As a benchmark, an encounter that requires some effort from the Explorers but pl
 
 ### Example Endeavours
 
-The chapter presents four common Endeavour types (Establish an Imperial Colony, Exploit a Resource World, Establish a Cold Trade from Dead Xenos Worlds, Establish a Trade Route), each with example requirements and two specific Endeavours. The narrative texts are condensed here (full scenario texts: book pp. 279–283); sizes, PF rewards, objectives, and themes are as in the book:
+The chapter presents four common Endeavour types (Establish an Imperial Colony, Exploit a Resource World, Establish a Cold Trade from Dead Xenos Worlds, Establish a Trade Route), each with example requirements and two specific Endeavours. Full scenario texts: book pp. 279–283; sizes, PF rewards, objectives, and themes are as in the book:
 
 | Type | Endeavour | Size / PF | Objective 1 (Themes) | Objective 2 (Themes) | Objective 3 (Themes) |
 |---|---|---|---|---|---|
@@ -1045,6 +1043,8 @@ If a Misfortune occurs, regardless of its size, the GM then rolls on **Table 9-4
 | 50–65 | Nuisance Misfortune | 1 |
 | 66–90 | Grim Misfortune | 2 |
 | 90–00 | Calamitous Misfortune | 1d5 |
+
+Note: Table 9-41 prints the overlapping ranges 66–90 and 90–00.
 
 **The Cost of Misfortunes:** as soon as a Misfortune is created, Profit Factor is reduced by the amount shown above. If the players act rapidly to overcome a Misfortune, some or all of this loss can be restored — so the GM should record the amount of PF lost with each new Misfortune.
 
@@ -1074,30 +1074,3 @@ If a Misfortune occurs, regardless of its size, the GM then rolls on **Table 9-4
 | 96–100 | The Rogue Trader receives an unexplained and unexpected visitation from highly ranked members of the Inquisition, an event guaranteed to harm his prospects when word gets out. |
 
 **Overcoming Misfortunes:** When a Misfortune occurs, the Explorers can either deal with it or ignore it. Ignoring a Misfortune means the Profit Factor lost is permanent, and at the GM's discretion, there may be other consequences as well. If the Explorers choose to deal with the Misfortune, they must allocate time and resources to combating it — perhaps at the expense of current Endeavours or missions. It then falls to the GM to decide if they acted swiftly and decisively enough to overcome the Misfortune; if so, he should allow them to recover any Profit Factor lost to it.
-
----
-
-**Status:** Chapter IX (Playing the Game) fully transcribed in English (PDF pages 233–288 / book pages 229–284).
-
-- The Critical Effect tables (9-11 to 9-26) were freshly re-transcribed directly from the page images (PDF 256–263) into English (not back-translated from German), confirming the prior German transcription was accurate.
-- The following tables were freshly checked against page images during this English conversion pass and corrected/completed where the prior German draft was an approximation, excerpt, or flagged as uncertain: **Table 9-3** (Test Difficulty — full 13-step scale confirmed, including Trivial/Simple/Routine/Arduous/Hellish steps the German draft had omitted or guessed), **Table 9-27 to 9-29** (Exploration/Investigation), **Table 9-30 and 9-31** (Movement, full AB 0–10 ranges), **Table 9-33** (Carrying/Lifting/Pushing, full SB+TB 0–20 range), **Table 9-34** (Profit and Power, full list), **Table 9-35** (Acquisition Modifiers, all three sub-tables in full), **Table 9-36 to 9-38** (Starship Component Acquisitions, Acquisition Quality, Acquisition Rarity — fully transcribed, previously only referenced), **Table 9-39 and 9-40** (Endeavour Scale and Achievement Point Awards, full and corrected values), and **Table 9-41 and 9-42** (Misfortunes — the German draft's guessed ranges/values for Table 9-41 were incorrect and have been replaced with the verified values, and Table 9-42's full 20-entry list has been transcribed in full for the first time).
-- The Endeavour example texts (chapter flavour, pp. 279–284) remain deliberately condensed, as they are pure narrative seed content without rule values.
-- No remaining uncertainties: all tables in this chapter have now been either directly transcribed from page images or carried over from the already-verified Critical Effect tables.
-
-### Final Audit (gameplay-critical tables)
-
-A cell-by-cell re-verification of the tables used most often live at the table, checked directly against the page images (PDF pages 233–263 / book pages 229–259).
-
-- **Table 9-1 (Skill Tests):** corrected. Row order fixed to match the book, and the Mastered Skill row was wrong — it read "full Characteristic or +20" but the book gives **+10 or +20** (and the row applies to Mastered *Basic or Advanced* Skills).
-- **Table 9-2 (Characteristics Tests):** corrected. The **Weapon Skill** row was missing entirely (a table of characteristic test examples with no example for Weapon Skill). Several example texts were also loose paraphrases; replaced with the book's exact examples.
-- **Table 9-3 (Test Difficulty):** verified, no changes. All 13 steps and modifiers match exactly.
-- **Table 9-4 (Combat Actions):** corrected — significant gaps. Nine action rows were missing outright (**Grapple, Jump or Leap, Manoeuvre, Multiple Attacks, Parry, Reload, Standard Attack, Suppressing Fire, Use a Skill**). Also fixed: Knock-Down's Type was listed as Full but is actually **Half**; Semi-Auto Burst's bonus was listed as **+20 BS** but should be **+10 BS** (the surrounding prose already had this right, only the table row was wrong); Called Shot, Guarded Attack, and Tactical Advance were missing the **Concentration** subtype; Focus Power's Type/Subtype were overspecified versus the book's literal "Varies"/"Varies".
-- **Table 9-5 (Multiple Hits):** verified, no changes.
-- **Table 9-6 (Hit Locations):** verified, no changes.
-- **Table 9-7 (Cover Examples):** corrected — three of five cover types were missing entirely (Armour-glas/Generatoria pipes/thin metal = AP 4; Cogitator bank/stasis pod = AP 12; Armaplas/bulkhead/Plasteel = AP 32). Only the AP 8 and AP 16 rows were present before.
-- **Table 9-8 (Combat Difficulty Summary):** corrected — the actual table was missing entirely; only a bullet-point prose summary of the same rules existed. Added the full table (Difficulty / Skill Modifier / Example) with all 7 rows (Easy through Very Hard) and their example lists, verified against the page image. The existing prose bullets were left in place as supplementary detail.
-- **Table 9-9 (Target Size Modifiers):** verified, no changes.
-- **Table 9-10 (Effects of Zero Characteristic Scores):** corrected — this table had been wrongly collapsed. Six different Characteristics (Weapon Skill, Ballistic Skill, Strength, Agility, Perception, Fellowship) had been merged into one row reading "Tests with this Characteristic are not possible," which is only actually true for Weapon Skill and Ballistic Skill. The real effects are distinct and more severe: **Strength 0** = the character collapses unconscious; **Agility 0** = paralysed and helpless, no Actions possible; **Perception 0** = -30 penalty to all Tests except Toughness (not "no tests"); **Fellowship 0** = catatonic, cannot speak. Rebuilt as nine separate rows matching the book exactly.
-- **Tables 9-11 to 9-26 (Critical Effect tables):** spot-checked (9-11, 9-12, 9-17, 9-18, 9-23, 9-24 against page images, 2-3 rows each). All matched the book exactly (dice notation, thresholds, and effects) — no changes needed. Consistent with the "fully verified" note already on record for this table block.
-
-**Confidence:** High. The gap in Tables 9-2, 9-4, 9-7, 9-8, and 9-10 came from earlier passes silently condensing or dropping rows rather than mistranscribing values — all now restored in full and checked cell-by-cell against the source images. Tables 9-3, 9-5, 9-6, 9-9, and the spot-checked Critical Effect tables were already accurate.

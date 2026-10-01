@@ -1,11 +1,6 @@
 # Chapter X: The Game Master
 
-> PDF bookmark: **Chapter 10 - The Game Master**
-> Source: PDF pages 289–304 (book pages 285–300)
-> Status: fully transcribed and verified. GM advice and flavour text are condensed to their
-> essential meaning; all rule-mechanical values and tables have been checked directly against
-> the page images and corrected where earlier OCR-based drafts were uncertain (see Status note
-> at the end of this file).
+*Rogue Trader Core Rulebook, pages 285–300.*
 
 ## The Role of the Game Master
 
@@ -457,14 +452,3 @@ are failed; see Chapter XIV: Adversaries & Aliens). He may never test against th
 his character sheet which Characteristics have already been used.
 
 *Example:* Rylar Mane discovers the cloud-maidens of Chilautox are part of a vile Chaos cult and falls afoul of one of their dark rituals, raising his CP to 31. He makes his first Malignancy Test (Willpower) and, on a failure, rolls on the Malignancy table; he must test again at 61 and 91. Reaching 30+ CP also requires a mutation test: he chooses Strength and Fellowship; failing either gives one mutation (only one, even if both fail), and he may never test against Strength or Fellowship again.
-
----
-
-**Status:** Chapter X (The Game Master) re-verified page by page against the page images
-2026-09-30 (PDF pages 289–304 / book pages 285–300). All eight tables (10-1 Encounter Difficulty,
-10-2 Dispositions, 10-3 Fear Test Difficulties, 10-4 Shock Table, 10-5 Insanity Track, 10-6
-Mental Traumas, 10-7 Corruption Track, 10-8 Malignancies) have been verified directly against
-scanned page images and are now confirmed correct — this corrects several values that a prior
-OCR-only pass had flagged as uncertain (notably the exact Insanity Track and Corruption Track
-thresholds/degree names, and the full XP values in Table 10-1). GM guidance and flavour text are
-condensed to their essential meaning; no rule values remain unverified.

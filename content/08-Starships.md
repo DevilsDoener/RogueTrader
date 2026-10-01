@@ -1,7 +1,6 @@
 # Chapter VIII: Starships
 
-> Source: *Rogue Trader Core Rulebook*, book pages 187–228 / PDF pages 191–232.
-> **Status of this file:** fully transcribed; re-verified against the page images 2026-09-30.
+*Rogue Trader Core Rulebook, pages 187–228.*
 
 ## Starship Characteristics
 
@@ -154,6 +153,8 @@ Macrobatteries can score multiple hits; Lances are precise and penetrate armour 
 | Starbreaker Lance Weapon | All | 6 | 4 | 2 | 1 | `1d10+2` | 3 | 5 |
 | Titanforge Lance Weapon | All | 9 | 4 | 2 | 1 | `1d10+4` | 3 | 6 |
 | Titanforge Lance Battery | All | 13 | 6 | 2 | 2 | `1d10+4` | 3 | 6 |
+
+Note: the Table 8-5 summary listing prints Power 8 for the Ryza Pattern Plasma Battery; Table 8-4 prints Power 7 (used here).
 
 The Mars Pattern Macrocannon Broadside must occupy a Port or Starboard slot (`Broadside` Quality). Lances on a Frigate-sized hull or smaller must be installed in a Prow slot; without a Prow slot, a hull cannot carry a lance at all.
 
@@ -441,40 +442,3 @@ None of the restoration methods can exceed the respective **maximum value** (whi
 - **Starvation:** a separate, more severe stage — occurs only once a ship has been travelling for more than **one year**, or its supplies have been drastically reduced. From then on, daily **1 damage to Crew Population and 2 to Morale**, until a habitable planet or other resupply source is found.
 - **Extended Repairs (outside a port):** the ship finds a hidden anchorage and spends several weeks (set by the Captain) on repairs. Each week, the officer in charge makes a Tech-Use Test; DoS and DoF are tallied across the whole period. If Degrees of Failure outweigh Degrees of Success at the end, the repair fails. If Degrees of Success outweigh (or equal) them, it succeeds: the ship regenerates `1d5` Hull Integrity (not above maximum) **and** all damaged/depressurised/unpowered Components are fully restored. Destroyed Components must be repurchased and replaced.
 - **Repairs at an Inhabited World/Station:** for every full 5 points of Hull Integrity restored, an Acquisition Test at **-10** is required; these Tests are made sequentially — if one fails, the available resources are temporarily exhausted (Explorers must wait `1d5` weeks or seek repairs elsewhere). These Acquisition Tests do **not** count against the normal Acquisitions limit per session. Every point of Hull Integrity restored costs **1 day** of repair time; every successful repair also restores all damaged/depressurised/unpowered Components. New Components (upgrades or replacements for Destroyed ones) are purchased normally and additionally require `1d5` days of installation time per Component.
-
----
-
-**Status:** Chapter VIII (book pages 187–228 / PDF pages 191–232) fully transcribed into English and cross-checked against page images (spot-verified against the source scans, including all previously documented corrections: Warpsbane Hull, Ryza Pattern Plasma Battery Power 7, Shard Cannon Battery/Micro Laser Defence Grid/Gravity Sails stats, the 90°/45° default manoeuvre turn split, and the Ghost Field/Runecaster Xeno-tech Components). All hulls, essential/supplemental/archeotech/xeno-tech Components, NPC vessels, combat rules (Manoeuvre/Extended Actions, Ramming, Boarding, Stern Chase, Silent Running), weapons and damage, Critical Hits, Crew Population/Morale, and environmental hazards are covered. In-universe flavour text (ship history blurbs, illustrative examples) is condensed; all rules content is complete.
-
-### Final Audit (gameplay-critical tables)
-
-The tables used constantly during actual space combat were re-checked cell by
-cell against the page images a second time, independent of the earlier
-full-chapter verification:
-
-- **The eight hull stat blocks** (Baseline Characteristics + Weapon Capacity for
-  Jericho, Vagabond, Hazeroth, Havoc, Sword, Tempest, Dauntless, and Lunar), PDF
-  199–200 / book pages 195–196: verified, no changes — all 8 hulls match the
-  source images exactly.
-- **Table 8-4** (Lances and Macrobatteries — Strength/Damage/Crit Rating/Range for
-  all 8 Weapon Components), PDF 206 / book page 202: verified, no changes,
-  including Ryza Pattern Plasma Battery Power 7. Note: the source book's separate
-  Table 8-5 summary listing (PDF 208 / book page 204) prints Power 8 for the same
-  weapon — a genuine printing inconsistency between the two source tables. This
-  file deliberately takes its weapon stats only from the dedicated weapons table
-  (8-4, Power 7) and does not duplicate weapon numbers in the component overview,
-  so that inconsistency cannot surface here.
-- **Table 8-9** (NPC Crew Ratings), PDF 219 / book page 214: verified, no changes.
-- **Table 8-10** (Manoeuvre Actions) and **Table 8-11** (Extended Actions), PDF 221
-  / book page 217: verified, no changes — every Test (Challenging/Hard/Difficult/
-  Opposed) and Skill pairing matches the source images exactly.
-- **Table 8-12** (Critical Hits, all 12 results including Space Hulk, Plasma Drive
-  Explosion, and Warp Drive Explosion), PDF 223 / book page 219: one small gap
-  closed — the Catastrophic Damage entry (roll 11) was missing the book's note
-  that a ship with no Warp Drive suffers a Plasma Drive Explosion instead of a
-  Warp Drive Explosion on a roll of 10.
-
-Verdict: only one small gap found and fixed (the Catastrophic Damage no-Warp-Drive
-clause); everything else checked — all 8 hull stat blocks, Table 8-4, Table 8-9,
-Table 8-10, and Table 8-11 — is confirmed cell-for-cell correct against the source
-images.
