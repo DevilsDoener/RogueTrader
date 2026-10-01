@@ -1,0 +1,27 @@
+{% load static %}<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Anfrage abgelehnt &ndash; Rogue Trader Portal</title>
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}">
+</head>
+<body>
+  {% comment %}Replaces Django's built-in CSRF failure page, whose German text
+     addresses the reader formally ("Sie"). The portal speaks "du".{% endcomment %}
+  <main class="content content-bare">
+    <div class="auth-card">
+      <h1>Anfrage abgelehnt</h1>
+      <p>Deine Anfrage konnte nicht bestätigt werden. Meist ist die Seite zu lange offen gewesen, oder dein Browser hat das Sicherheits-Cookie nicht mitgeschickt.</p>
+      {% if no_referer %}
+        <p>Dein Browser hat bei dieser HTTPS-Anfrage keinen &bdquo;Referer&ldquo;-Header gesendet, den das Portal zur Prüfung braucht. Erlaube diesen Header für diese Seite oder deaktiviere Erweiterungen, die ihn entfernen.</p>
+      {% endif %}
+      {% if no_cookie %}
+        <p>Das Portal braucht für Formulare ein Sicherheits-Cookie. Erlaube Cookies für diese Seite und versuche es erneut.</p>
+      {% endif %}
+      <p>Lade die Seite neu und schicke das Formular noch einmal ab.</p>
+      {% if DEBUG %}<p><small>{{ reason }}</small></p>{% endif %}
+      <p><a class="button button-primary" href="/">Zur Kommandobrücke</a></p>
+    </div>
+  </main>
+</body>
+</html>

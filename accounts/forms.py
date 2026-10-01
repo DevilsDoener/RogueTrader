@@ -13,6 +13,20 @@ class LoginForm(forms.Form):
 
 
 class RequiredPasswordChangeForm(PasswordChangeForm):
+    # Django's German catalogue addresses people impersonally or formally
+    # ("Bitte ... eingeben", "Ihr ..."); the portal speaks "du" throughout.
+    error_messages = {
+        **PasswordChangeForm.error_messages,
+        "password_mismatch": "Die beiden neuen Passwörter stimmen nicht überein.",
+        "password_incorrect": "Dein aktuelles Passwort stimmt nicht. Gib es bitte noch einmal ein.",
+    }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["new_password2"].help_text = (
+            "Gib dasselbe neue Passwort zur Bestätigung noch einmal ein."
+        )
+
     def clean_new_password1(self):
         password = self.cleaned_data["new_password1"]
         if self.user.check_password(password):
