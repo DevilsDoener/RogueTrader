@@ -366,6 +366,34 @@ docker compose stop portal backup
 .\scripts\restore.ps1 -BackupFile .\backups\db-20260101-020000.sqlite3
 docker compose up -d portal backup
 ```
+### Backups außer Haus (off-host copy)
+
+`scripts/offsite-backup.ps1` copies the newest finished daily copy from
+`./backups` to a second location — by default `$env:OneDrive\RogueTrader-Backups`,
+which OneDrive syncs to the cloud. It verifies the copy's SHA-256 against the
+source, skips copies already present, removes copies older than `-KeepDays`
+(default 30) from the target, warns when the newest local backup is older than
+30 hours (backup service not running?), and appends to `offsite-backup.log` in
+the target. It only reads `./backups`; it never touches the containers or the
+live database. Pass `-Target` for another folder (NAS, USB drive).
+
+On the current Windows host it runs as the scheduled task
+**"RogueTrader Offsite Backup"** (current user, daily 13:00 and at logon,
+missed runs are caught up). To recreate it:
+
+```powershell
+$script = (Resolve-Path .\scripts\offsite-backup.ps1).Path
+$action = New-ScheduledTaskAction -Execute powershell.exe -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$script`""
+$triggers = @((New-ScheduledTaskTrigger -Daily -At 13:00), (New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"))
+$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
+Register-ScheduledTask -TaskName "RogueTrader Offsite Backup" -Action $action -Trigger $triggers -Settings $settings -Force
+```
+
+Check it with `Get-ScheduledTaskInfo -TaskName "RogueTrader Offsite Backup"`
+(`LastTaskResult` 0) and the log in the target folder. The copies contain the
+account password hashes (no sessions), so the target should be storage only
+you can read.
+
 **Schedule:** run this at least daily via Windows Task Scheduler /
 `cron` / a Proxmox host cron job, pointed at storage outside the Proxmox
 guest running the portal (e.g. a separate backup target, NAS, or Proxmox
