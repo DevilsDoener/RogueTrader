@@ -10,7 +10,8 @@ Verbindliche Vorgaben für die Feld-/Overlay-Arbeit an den Bögen
 - Der Maßstab kombiniert Einpassen in die Spaltenbreite mit der Zoomstufe des
   Nutzers (Bedienelemente in der Werkzeugleiste, 30–100 % in 10er-Schritten,
   Vorgabe 100 %, gemerkt im Browser). Ohne JavaScript rendert die Leinwand
-  flüssig mit `width:100%`.
+  flüssig mit `width:100%`. Das Modell im Detail: `docs/sheet-calibration.md`
+  („Rendering model“).
 - Die **Optik des Bogens bleibt unverändert** – gleiches Hintergrundbild,
   Feldpositionen werden an den tatsächlichen Druck angepasst.
 
@@ -33,16 +34,10 @@ Verbindliche Vorgaben für die Feld-/Overlay-Arbeit an den Bögen
 
 ## Darstellung (explizite Metadaten, nicht Feldnamen)
 
-Die Darstellung wird ausschließlich über Schema-Eigenschaften gesteuert.
-Feldnamen wie `_value` oder `_adv_` bestimmen sie **nicht** mehr.
-
-| Eigenschaft | Wert | Wirkung |
-|---|---|---|
-| `text_style` | `line` | Text unten links auf der Linie (Standard) |
-| `text_style` | `center` | Text mittig in der Box, normale Schriftgröße |
-| `text_style` | `characteristic` | Text mittig und größer (zweistelliger Wert) |
-| `checkbox_style` | `square` | Eckiges gedrucktes Kästchen (Standard) |
-| `checkbox_style` | `pip` | Runder gedruckter Aufstiegspunkt |
+Die Darstellung wird ausschließlich über Schema-Eigenschaften gesteuert
+(`text_style`, `checkbox_style` u. a.; Werte und Wirkung: Tabelle in
+`docs/sheet-layout.md`). Feldnamen wie `_value` oder `_adv_` bestimmen sie
+**nicht** mehr. Welches Feld welchen Stil bekommt:
 
 - **Characteristics**: `text_style: "characteristic"`. **Experience/XP** und
   Werteboxen ohne gedruckte Linie (Bewegung, Lifting, Fate): `"center"`.
@@ -60,36 +55,32 @@ Feldnamen wie `_value` oder `_adv_` bestimmen sie **nicht** mehr.
   diese in der Originalgrafik leicht versetzt sind.
 - **Ungekreuzt fügt ein Feld keine sichtbare Fläche hinzu** – der gedruckte
   Bogen sieht aus wie ohne Overlay.
-- `hit_padding: [links, oben, rechts, unten]` vergrößert nur die **Klickfläche**
-  einer Checkbox (Pixel der Originalgrafik, 0–200). Die gedruckten Kreise und
-  ihre Füllung bleiben unverändert; Pads dürfen keine Nachbarcontrols
-  überdecken.
+- `hit_padding` vergrößert nur die **Klickfläche** einer Checkbox (Format und
+  Grenzen: `docs/sheet-layout.md`). Die gedruckten Kreise und ihre Füllung
+  bleiben unverändert; Pads dürfen keine Nachbarcontrols überdecken.
 
-## Zahlenfelder
-- `input_mode: "numeric"` erlaubt leere Eingaben oder nichtnegative ganze
-  Zahlen als Text und setzt im Browser die passende Eingabemethode. Die
-  Ressourcen-/Kapazitätsfelder des Schiffsbogens nutzen diesen Modus.
+## Zahlenfelder und Textanpassung
+- `input_mode: "numeric"` (Definition: `docs/sheet-layout.md`) erlaubt leere
+  Eingaben oder nichtnegative ganze Zahlen als Text. Die Ressourcen-/
+  Kapazitätsfelder des Schiffsbogens nutzen diesen Modus.
 - **Charakterwerte** sind leer oder ein- bis zweistellig (`0`–`99`,
-  einschließlich `00`). Direkte API-Eingaben werden gleich geprüft.
+  einschließlich `00`); direkte API-Eingaben werden gleich geprüft
+  (`docs/characteristic-sync.md`).
 - Die Schrift von Schiffs-Textfeldern verkleinert sich bei Bedarf, bis der
   komplette Wert in die gedruckte Fläche passt, und kehrt bei kürzeren Werten
   zur Ausgangsgröße zurück.
 
 ## Synchronisierte Charakterwerte
-Die neun Charakterwerte und ihre je vier Adv.-Taken-Kreise sind auf
-Charakterseite 1 und 2 **dasselbe Feld**. Eine Änderung erscheint sofort auf
-der anderen Seite, wird atomar mit dem Ausgangsfeld gespeichert, erhält
-dieselbe Feldversion (damit Konflikte erkannt werden) und steht doppelt im
-Änderungsprotokoll. Beim Verschieben oder Neuanlegen dieser Felder die
-Kopplung nicht aufbrechen. Details: `docs/characteristic-sync.md`.
+Die neun Charakterwerte und ihre Adv.-Taken-Kreise sind auf Charakterseite 1
+und 2 **dasselbe Feld**. Beim Verschieben oder Neuanlegen dieser Felder die
+Kopplung nicht aufbrechen. Verhalten und Datenmodell:
+`docs/characteristic-sync.md`.
 
 ## Berechnete Bewegungsfelder
-Half Move ist der einzige Eingabewert. Full Move = ×2, Charge = ×3, Run = ×6
-sind **schreibgeschützt** (`read_only: true`), werden im Browser sofort
-vorausberechnet und serverseitig gemeinsam mit Half Move in einer Transaktion
-geschrieben. Direkte API-Schreibversuche auf die Ergebnisfelder werden
-abgewiesen; ein leerer Half Move leert die Ergebnisse. Details:
-`docs/movement-calculation.md`.
+Half Move ist der einzige Eingabewert; Full Move, Charge und Run sind
+**schreibgeschützt** (`read_only: true`) und werden berechnet. Beim
+Verschieben oder Neuanlegen dieser Felder die Zuordnung nicht aufbrechen.
+Formeln und Verhalten: `docs/movement-calculation.md`.
 
 ## Arbeitsweise (so gehe ich vor)
 - **Seite für Seite.** Für jede Seite eine **Abdeckungskarte** erzeugen
@@ -123,8 +114,7 @@ abgewiesen; ein leerer Half Move leert die Ergebnisse. Details:
   `.venv/Scripts/python.exe -m pytest` (Unit + Playwright-e2e).
 
 ## Lokal testen
-- DB-Ordner anlegen (`data/`), `manage.py migrate`, Test-Nutzer + Charakter
-  anlegen, `manage.py runserver 127.0.0.1:8000` (DEBUG=true). Login unter
-  `/account/login/`. Bei CSS-Änderungen im Browser **hart neu laden**
-  (Cache), und den Server neu starten, damit das gecachte Schema (`lru_cache`)
-  neu geladen wird.
+- Einrichtung und Start: README, Abschnitt „Local setup“ (der DB-Ordner `data/`
+  muss vorhanden sein; Login unter `/account/login/`). Test-Nutzer und
+  Charakter anlegen. Bei CSS-Änderungen im Browser **hart neu laden** (Cache),
+  und den Server neu starten, damit das gecachte Schema neu geladen wird.

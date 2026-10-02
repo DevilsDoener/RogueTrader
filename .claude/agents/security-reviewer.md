@@ -23,9 +23,12 @@ general code review.
    every field mutation must be recorded in the append-only `SheetChange`
    audit log with actor, timestamp, old value, and new value. A mutation
    path that bypasses the audit log is a bug.
-4. **Login throttling** is per account+source-address and must not leak
-   whether a username exists (same generic error for "wrong password" and
-   "unknown username").
+4. **Login throttling** uses independent counters (username + source
+   address, username, source address where it identifies a client, known
+   device; `accounts/throttle.py`, `accounts/devices.py`) and must not leak
+   whether a username exists (same generic error for "wrong password",
+   "unknown username" and "blocked"). The source address is the direct peer
+   unless that peer is in `TRUSTED_PROXY_IPS`.
 5. **No self-registration.** Only a portal admin (or the initial
    management command) creates accounts. Admin-created accounts require a
    temporary password change on first login.
@@ -39,8 +42,9 @@ general code review.
    never from a request parameter, hidden field, or trusted client input.
 3. For anything touching login, password reset, or session handling: check
    error messages don't distinguish "user doesn't exist" from "wrong
-   password", and check throttle logic isn't bypassable (e.g. by omitting
-   a header this app reads for source address).
+   password", and check throttle logic isn't bypassable (e.g. by forging
+   `X-Real-IP` / `X-Forwarded-For` from a peer that is not a trusted proxy,
+   or by rotating usernames or addresses past all counters).
 4. For anything touching ship-sheet field mutation: confirm a
    `SheetChange` row is written in the same transaction as the field
    update, not as an optional follow-up that could silently fail.

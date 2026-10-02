@@ -39,8 +39,8 @@ Hinweis am Dateianfang. Dazu gehören:
 | Berechnete Bewegungsfelder | `docs/movement-calculation.md` |
 | Zuordnung der Fertigkeitskästchen (gelöst, Migration 0007) | `docs/checkbox-row-mapping.md` |
 | Wiki-Kapitel: Liste, Reihenfolge, Slug, Gruppierung | `wiki/manifest.py` |
-| Betrieb, Deployment, Backup, Kontowiederherstellung | `docs/operations.md` |
-| Einrichtung, Abnahmeliste, Projektüberblick | `README.md` |
+| Betrieb, Deployment, Backup, Kontowiederherstellung, Sicherheits-Header, Login-Schutz | `docs/operations.md` |
+| Einrichtung, CI (Abschnitt „CI“), Abnahmeliste, Projektüberblick | `README.md` |
 | Regelwerk-Wissensbasis (`content/`) | `00-FORTSCHRITT.md` |
 
 ## Grundregeln
@@ -51,8 +51,10 @@ Hinweis am Dateianfang. Dazu gehören:
   `.venv/Scripts/python.exe -m sheets.layout` ausführen. Direkt geänderte
   `sheets/data/*.json` werden beim nächsten Generieren überschrieben.
 - **Berechtigungsgrenzen sind die folgenreichste Fehlerklasse.** Änderungen an
-  `services.py`, `permissions.py` oder View-Mixins unter `accounts/` und
-  `sheets/` halten die in `project-conventions` beschriebenen Grenzen exakt ein.
+  `services.py` und `permissions.py` (`accounts/`, `sheets/`), an den Views und
+  Mixins (`core/mixins.py`), an `accounts/middleware.py` und am Login-Schutz
+  (`accounts/throttle.py`, `accounts/devices.py`) halten die in
+  `project-conventions` beschriebenen Grenzen exakt ein.
 - **`.env` wird nicht von Agenten bearbeitet** (ein `PreToolUse`-Hook verweigert
   das). `.env.example` ist die dokumentierte Vorlage.
 - **Keine festen Gesamtzahlen in aktive Dokumente schreiben.** Feld- und
@@ -61,9 +63,14 @@ Hinweis am Dateianfang. Dazu gehören:
 - **Fremde Dateien nicht anfassen und nicht einchecken:** `Notizbuch öffnen.onetoc2`
   (OneNote) und `graphify-out/`.
 - **Agenten-Werkzeuge doppelt gepflegt:** `.claude/` (Claude Code) und
-  `.agents/` + `.codex/` (Codex) enthalten dieselben Skills, Review-Agents und
-  MCP-Server (`.mcp.json` ↔ `.codex/config.toml`). Wer eine Seite ändert, zieht
-  die andere nach; `.claude/` ist die Vorlage.
+  `.agents/` + `.codex/` (Codex) enthalten dieselben Skills
+  (`.claude/skills/*/SKILL.md` ↔ `.agents/skills/*/SKILL.md`, bis auf den
+  Pfad des Nachbar-Skills), Review-Agents (`.claude/agents/*.md` ↔
+  `.codex/agents/*.toml`, dort steht der Text unverändert in
+  `developer_instructions`) und MCP-Server (`.mcp.json` ↔
+  `.codex/config.toml`). Wer eine Seite ändert, zieht die andere nach;
+  `.claude/` ist die Vorlage. Die Hooks in `.claude/settings.json` haben auf der
+  Codex-Seite keine Entsprechung.
 
 ## Tests
 
@@ -95,9 +102,8 @@ Bei Layoutänderungen zusätzlich:
 
 Ein `PostToolUse`-Hook startet nach jeder Python-Änderung unter `accounts/`,
 `core/`, `sheets/` oder `wiki/` automatisch die Tests der betroffenen App.
-Migrationen, `.venv/`, `tmp/` und `graphify-out/` lösen ihn nicht aus.
+Migrationen, `.venv/`, `.worktrees/`, `tmp/`, `staticfiles/` und `graphify-out/`
+lösen ihn nicht aus.
 
 Behauptungen wie „fertig“, „grün“ oder „behoben“ erst nach einem tatsächlich
 gelaufenen Kommando mit sichtbarer Ausgabe.
-
-## Imported Claude Cowork project instructions

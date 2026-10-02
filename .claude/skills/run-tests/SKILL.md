@@ -29,6 +29,7 @@ If `$ARGUMENTS` is empty, run the full suite:
 | Wiki (Markdown loading, search) | `wiki/tests` |
 | Browser end-to-end (Playwright/Chromium) | `tests/e2e` |
 | Visual regression | `tests/e2e/test_visual_regression.py` |
+| Container files (Dockerfile / compose pins) | `tests/test_container_files.py` |
 
 The full run (no path argument) includes every group above, browser tests
 included. While iterating, run just the app you touched; run the full suite
@@ -47,8 +48,9 @@ reflowed. A finding that is intentional gets a targeted
 
 ## Notes
 
-- `pytest.ini` already sets `DJANGO_SETTINGS_MODULE` and excludes `.git`,
-  `.venv`, `.worktrees`, `tmp/` and pytest cache dirs from collection.
+- `pytest.ini` already sets `DJANGO_SETTINGS_MODULE` and keeps dot-directories
+  (`.git`, `.venv`, `.worktrees`), `tmp/`, `staticfiles/`, `graphify-out/` and
+  pytest cache/temp dirs out of collection.
 - The test packages live in `requirements-dev.txt` (the Docker image only
   installs `requirements.txt`); install both into the venv before testing.
 - Shared fixtures (users, characters, ship, wiki-repository restore, fast
@@ -60,5 +62,7 @@ reflowed. A finding that is intentional gets a targeted
   and exits 1 on stale generated files, 2 on an invalid source.
 - A `PostToolUse` hook already runs the affected app's tests after any
   Python edit under `accounts/`, `core/`, `sheets/` or `wiki/`.
+- CI runs the same checks plus `manage.py check` and
+  `manage.py makemigrations --check --dry-run` (README, section "CI").
 - Run from Git Bash or plain PowerShell, not WSL -- WSL cannot resolve this
   checkout's git worktree layout.

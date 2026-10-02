@@ -78,8 +78,8 @@ infinite HTTPS redirect loops, or all clients sharing one login throttle):
   (`accounts.W001`). Setting `TRUSTED_PROXY_IPS` is still recommended: it
   restores the per-address limit and real addresses in the log.
 
-Set both variables in `.env` (and pass them through in `compose.yaml`'s
-`environment:` block, like `PUBLIC_BASE_URL`).
+Set both variables in `.env`; `compose.yaml` already passes them on to the
+container.
 
 **Which value is "the proxy as the container sees it"?**
 
@@ -202,10 +202,12 @@ unless the Traefik sits behind another proxy.
   `HSTS_PRELOAD=1` adds `preload` (the domain may be submitted to browsers'
   preload list, which is practically permanent, and requires
   `includeSubDomains`). Leave them off unless you want exactly that.
-- **Response headers set by the portal itself.** Every response carries a
-  strict `Content-Security-Policy` (scripts, styles, images, fonts and
-  connections only from the portal's own origin; no framing; no `<base>` or
-  plugin content) and a `Permissions-Policy` that switches off camera,
+- **Response headers set by the portal itself** (`config/security_headers.py`).
+  Every response carries a strict `Content-Security-Policy` (scripts, styles,
+  fonts and connections only from the portal's own origin, images also from
+  `data:` URIs; inline styling only as `style` attributes, which the sheet
+  viewer uses for field geometry; no framing; no `<base>` or plugin content)
+  and a `Permissions-Policy` that switches off camera,
   microphone, geolocation, payment and USB, next to `X-Frame-Options: DENY`,
   `X-Content-Type-Options: nosniff` and the referrer and opener policies. The
   proxy must not strip or replace them. Nothing needs configuring; if you ever
@@ -345,6 +347,8 @@ volume read-only, because the command only reads the live database.
   again (a stolen backup cannot yield a logged-in session either).
 - **Retention:** copies older than `BACKUP_KEEP_DAYS` (default 14, env var,
   by file modification time) are deleted after each successful backup.
+- **Health:** the service's healthcheck is healthy while a copy newer than 26
+  hours exists in `/backups`; `docker compose ps` shows `unhealthy` otherwise.
 - **Still off-host:** `./backups` is on the same machine. Copy it to separate
   storage as described below, or the guest is still a single point of loss.
 
@@ -366,6 +370,7 @@ docker compose stop portal backup
 .\scripts\restore.ps1 -BackupFile .\backups\db-20260101-020000.sqlite3
 docker compose up -d portal backup
 ```
+
 ### Backups außer Haus (off-host copy)
 
 `scripts/offsite-backup.ps1` copies the newest finished daily copy from
@@ -501,6 +506,7 @@ To rehearse the `backup.ps1` path as well, set `COMPOSE_FILE` and
 `COMPOSE_PROJECT_NAME` in your shell to the drill's values before running
 `.\scripts\backup.ps1 -Destination <existing folder>`, then restore the pair
 it wrote.
+
 ## 9. Logs
 
 ```powershell
@@ -524,10 +530,14 @@ docker compose exec portal tail -n 50 /data/logs/audit.log
 ```
 
 Set `AUDIT_LOG_FILE` in the environment to move it; in development
-(`DJANGO_DEBUG=true`) the file is off unless that variable is set. If you ever
-run gunicorn with several workers, switch rotation off or move the file to
-syslog/a collector instead: rotation by several processes at once is not
-safe. The `backup` service mounts `/data` read-only and never writes audit
+(`DJANGO_DEBUG=true`) the file is off unless that variable is set. The image
+runs three gunicorn workers (see the `Dockerfile`) and all of them append to
+this one file. Python's rotating file handler does not coordinate between
+processes, so around a rotation a few records can land in an already-rotated
+file and a rotation can push the oldest file out early; the console copy in
+`docker compose logs` has every record while the container lives. If the
+audit trail has to be gap-free, ship the records to syslog or a collector
+instead. The `backup` service mounts `/data` read-only and never writes audit
 records, so it is not affected.
 
 What is recorded (event kind, username(s), the throttle's source address for
@@ -537,10 +547,11 @@ requests; usernames are cut at 150 characters):
   `password_changed` (the user's own change);
 - `managed_account_created`, `_updated` (with `old_username`, `new_username`,
   `active`), `_deactivated`, `_reactivated`, `_password_reset`;
-- `managed_account_denied` (an admin tried something the rules forbid:
-  deactivating themselves, resetting their own password, deactivating the
-  last active portal admin) and `admin_access_denied` (a non-admin was
-  refused on a `/portal-admin/` route, with method and path);
+- `managed_account_denied` (an account action the rules forbid: an admin
+  deactivating themselves, resetting their own password or deactivating the
+  last active portal admin, or a non-admin / an unmanageable account on the
+  management routes) and `admin_access_denied` (a non-admin was refused on a
+  `/portal-admin/` route, with method and path);
 - `bootstrap_admin_created`.
 
 Passwords, password fields, session identifiers/cookies, CSRF tokens,
@@ -548,10 +559,10 @@ character or ship field values, and sheet contents are never logged.
 
 ## 10. Restart after Markdown edits
 
-The Wiki content served under `WIKI_CONTENT_ROOT` is read from the
-repository's Markdown source files at process start. After editing any of
-those Markdown files, restart the container so the new content is picked
-up:
+The wiki content served under `WIKI_CONTENT_ROOT` (in the container the
+read-only mount of `./content`) is read from the Markdown source files at
+process start. After editing any of those Markdown files, restart the
+container so the new content is picked up:
 
 ```powershell
 docker compose restart portal

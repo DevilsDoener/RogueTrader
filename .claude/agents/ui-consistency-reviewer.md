@@ -39,7 +39,8 @@ the `project-conventions` skill's content first if available, or read
    browser defaults is the most common drift found in past audits (e.g.
    `.ship-history-pagination` originally shipped with no CSS at all).
 7. **Desktop-only is intentional, don't "fix" it.** This app is
-   deliberately scoped to desktop browsers >=1024px (see the design spec).
+   deliberately scoped to desktop browsers >=1024px (see the
+   `project-conventions` skill).
    Missing mobile breakpoints in `portal.css` are not a bug unless the
    task explicitly asks for mobile support.
 

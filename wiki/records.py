@@ -30,7 +30,7 @@ class WikiSection:
     level: int = MIN_SECTION_LEVEL
     #: The heading's inline markup, already sanitized. Falls back to the plain
     #: title. Rendered by the template so no `id` attribute ever has to pass
-    #: through the Bleach allowlist.
+    #: through the nh3 allowlist.
     title_html: str = ""
     children: tuple[WikiSection, ...] = ()
     #: Titles of the enclosing headings, outermost first. The intro node is

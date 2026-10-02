@@ -116,11 +116,9 @@ reference at a **0 px per-edge tolerance** (tightened from 2 px on
 
 ## Checked-state appearance
 
-A checked `square` checkbox renders a **black X** (inset SVG at 70 %, centred);
-a checked `pip` renders a **filled black circle** covering the whole field box.
-Unchecked controls draw nothing at all -- native checkbox chrome is suppressed
-in `sheet-viewer.css`, so the printed artwork looks exactly as it does without
-the overlay. The printed box or circle stays the only border.
+Specified in [charakterbogen-feld-anforderungen.md](charakterbogen-feld-anforderungen.md)
+("Checkbox-Darstellung"); the checkmarks are `data:` SVGs and the native
+checkbox chrome is suppressed in `sheets/static/sheets/sheet-viewer.css`.
 
 ## Typography
 
@@ -135,7 +133,6 @@ The median normalized visible-glyph size is 1.047% of canvas width. Testing
 started at the requested `1cqw`, whose rendered Times New Roman glyphs were
 about one third too small. The final shared CSS size is `1.53cqw`; browser
 pixel-difference measurements put its visible glyph height within two
-original pixels of the normalized source median on all three pages.
-
-Ship text fields additionally shrink their font until the full current value
-fits the printed area, and return to the base size for shorter values.
+original pixels of the normalized source median on all three pages. The
+shrink-to-fit of ship text fields on top of this base size is described in
+[charakterbogen-feld-anforderungen.md](charakterbogen-feld-anforderungen.md).

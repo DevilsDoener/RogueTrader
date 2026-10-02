@@ -2,7 +2,7 @@
 
 The heading is rendered HERE rather than inside the sanitized body HTML. That
 is deliberate: it means the anchor `id` is built from our own slug in template
-context, so no `id` attribute ever has to be admitted through the Bleach
+context, so no `id` attribute ever has to be admitted through the nh3
 allowlist in wiki/markdown.py. The `sec-` prefix keeps these ids from
 colliding with the shell's own element ids or with a DOM global.
 

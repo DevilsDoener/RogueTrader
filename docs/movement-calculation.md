@@ -19,6 +19,7 @@ bewahrt abweichende frühere Werte im Änderungsprotokoll. Nicht numerische Altw
 werden nicht geraten oder automatisch umgedeutet. Der nächste gültige Half-Move-
 Eintrag berechnet diese Ergebnisse.
 
-Prüfungen: normale Werte, 0, leere Eingabe, oberer Wertebereich, unzulässige Eingaben,
-direkte Ergebnisänderungen, Versionskonflikte, Datenmigration und zwei Browsertests
-mit Speichern/Neuladen sowie Konfliktübernahme.
+Prüfungen (`sheets/tests/test_movement_calculation.py`,
+`tests/e2e/test_movement_calculation.py`): normale Werte, 0, leere Eingabe, oberer
+Wertebereich, unzulässige Eingaben, direkte Ergebnisänderungen, Versionskonflikte,
+Datenmigration sowie Browsertests mit Speichern/Neuladen und Konfliktübernahme.

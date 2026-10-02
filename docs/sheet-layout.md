@@ -12,10 +12,15 @@ Anwendung, Kalibrierungstests und vorhandene Werkzeuge weiterhin lesen.
 3. Mit `.venv/Scripts/python.exe -m sheets.layout --check` prüfen, dass Quelle
    und erzeugte Dateien übereinstimmen. Dieser Befehl schreibt nichts und liefert
    bei veralteten Dateien Exitcode 1, bei ungültigen Quellen Exitcode 2.
-4. `.venv/Scripts/python.exe -m pytest sheets/tests/test_layout.py
-   sheets/tests/test_schema.py sheets/tests/test_field_calibration.py` ausführen.
-   Den Befehl in einer Zeile eingeben. Bei sichtbaren Änderungen zusätzlich die
-   Browsertests unter `tests/e2e/` ausführen und die Kalibrierung kontrollieren.
+4. Die Layout-, Schema- und Kalibrierungstests ausführen (ein Befehl, eine Zeile):
+
+   ```bash
+   .venv/Scripts/python.exe -m pytest -q sheets/tests/test_layout.py sheets/tests/test_schema.py sheets/tests/test_field_calibration.py
+   ```
+
+   Bei sichtbaren Änderungen zusätzlich die Browsertests unter `tests/e2e/`
+   ausführen und die Kalibrierung kontrollieren
+   (`docs/sheet-calibration.md`).
 5. Den laufenden Django-Prozess neu starten (Schema-Cache) und bei CSS-Änderungen
    die Browserseite vollständig neu laden.
 
@@ -96,18 +101,17 @@ Sie müssen in die Layout-Quelle zurückübertragen werden:
 `lokale Position = gemessene Seitenposition - Bereichsanker`. Ein direkt geändertes
 `sheets/data/*.json` wird beim nächsten Generieren überschrieben.
 
-## Prüfung dieses Umbaus
+## Laufende Prüfung
 
-Der Prüfbericht zur Umstellung auf Layout-Quellen steht (historisch) in
-`docs/sheet-layout-verification-2026-09-14.md`. Laufend prüfen
-`python -m sheets.layout --check` und die Schema-Tests, dass die erzeugten
-Dateien zu den Layout-Quellen passen.
-
+`python -m sheets.layout --check` und die Schema-Tests stellen fest, dass die
+erzeugten Dateien zu den Layout-Quellen passen. Der Prüfbericht zur Umstellung
+auf Layout-Quellen ist Historie:
+`docs/sheet-layout-verification-2026-09-14.md`.
 
 ## Zahlen und zusätzliche Klickflächen
 
 `input_mode: "numeric"` akzeptiert leere Eingaben oder nichtnegative ganze
-Zahlen als Text und setzt im Browser die passende Eingabemethode. Die neun
+Zahlen als Text und setzt im Browser die passende Eingabemethode. Die
 Ressourcen-/Kapazitätsfelder des Schiffs verwenden diesen Modus.
 
 `hit_padding: [links, oben, rechts, unten]` erweitert nur die Klickfläche von
@@ -115,13 +119,8 @@ Checkboxen. Die Werte sind Pixel der Originalgrafik (0 bis 200) und skalieren
 mit der festen Leinwand. Eine transparente, mit dem Input verknüpfte
 Beschriftungsfläche lässt die gedruckten Kreise und ihre Füllung unverändert.
 Die Pads dürfen keine benachbarten Controls überdecken; ein Test prüft dies
-für sämtliche Schiffs-Felder.
-
-Die Schrift von Schiffs-Textfeldern verkleinert sich bei Bedarf bis der
-komplette aktuelle Wert in die gedruckte Fläche passt. Kürzere Werte verwenden
-wieder die ursprüngliche Schriftgröße. Eingaben, Konfliktauflösung und die
-initiale Größenanpassung berücksichtigen diese Anpassung.
-
+für sämtliche Schiffs-Felder. Das Verhalten der Schiffs-Textfelder (Schrift
+passt sich dem Wert an) steht in `docs/charakterbogen-feld-anforderungen.md`.
 
 ## Berechnete Bewegungsfelder
 

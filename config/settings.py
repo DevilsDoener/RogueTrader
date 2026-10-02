@@ -337,8 +337,9 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Nothing else in front of this app serves static files (no nginx/CDN --
 # see docs/operations.md, the reverse proxy only forwards to the portal),
-# so WhiteNoise serves portal.css/portal.js/sheet-viewer.{css,js} and the
-# three sheet background .webp images directly from the app process in
+# so WhiteNoise serves portal.css, the scripts under static/js/ and
+# sheets/static/sheets/ (sheet-viewer.css/js, ...) and the three sheet
+# background .webp images directly from the app process in
 # production, with cache-busting hashed filenames and gzip/brotli
 # compression via the manifest storage backend below. The manifest
 # (staticfiles.json) only exists once `collectstatic` has run (the

@@ -21,8 +21,9 @@ subject documents are:
 - **Calibration, fixtures, manifest:** [`docs/sheet-calibration.md`](docs/sheet-calibration.md)
 - **Shared characteristics:** [`docs/characteristic-sync.md`](docs/characteristic-sync.md)
 - **Computed movement fields:** [`docs/movement-calculation.md`](docs/movement-calculation.md)
-- **Open skill-checkbox mapping:** [`docs/checkbox-row-mapping.md`](docs/checkbox-row-mapping.md)
-- **Operations (Proxmox deployment, backups, restores, account recovery):** [`docs/operations.md`](docs/operations.md)
+- **Skill-checkbox row mapping (resolved, migration 0007):** [`docs/checkbox-row-mapping.md`](docs/checkbox-row-mapping.md)
+- **Operations (Proxmox deployment, backups, restores, account recovery, security headers, login protection):** [`docs/operations.md`](docs/operations.md)
+- **CI:** the [CI](#ci) section below
 
 The original design spec
 ([`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`](docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md))
@@ -44,10 +45,13 @@ process start into an immutable in-memory tree, so requests never touch disk.
   later heading becomes a navigable section, whatever its level. Chapters whose
   sub-sections are written as `#` rather than `##` therefore still break apart
   properly.
+- **Markdown is rendered defensively** (`wiki/markdown.py`): markdown-it-py with
+  raw HTML switched off, then the nh3 sanitizer against a small allowlist of
+  tags, attributes and link protocols.
 - **Every heading is linkable.** Anchors are derived from the heading text and,
   where a heading repeats, qualified with its parent — so reordering content
   does not move someone's bookmark. The anchor is written by the template, so
-  no `id` attribute passes through the HTML sanitizer.
+  no `id` attribute passes through the nh3 sanitizer.
 - **Each chapter page carries its outline as a menu** beside the article,
   sticky and scrolling on its own, with sub-sections folded away until asked
   for. A section whose children are really a glossary renders as a compact
@@ -137,27 +141,31 @@ migration.
 
 ## Sheet viewer behaviour
 
+Each point links to the document that specifies it.
+
 - **Zoom:** the toolbar offers 30 %–100 % in 10 % steps (default 100 %,
   remembered per browser). The level is combined with fit-to-column-width into
   a single `transform: scale()` on `.sheet-canvas`, so the artwork and every
   field move as one unit and cannot drift apart. There is no pan mode; pages
   scroll with the document. Without JavaScript the canvas falls back to a
-  fluid full-width render.
+  fluid full-width render ([`docs/sheet-calibration.md`](docs/sheet-calibration.md)).
 - **Checked state:** square checkboxes draw a black X, advance pips and the
-  ship's round weapon markings draw a filled black circle. An unchecked
-  control draws nothing — the printed sheet looks untouched.
+  ship's round weapon markings a filled black circle; an unchecked control
+  draws nothing, so the printed sheet looks untouched
+  ([`docs/charakterbogen-feld-anforderungen.md`](docs/charakterbogen-feld-anforderungen.md)).
 - **Shared characteristics:** the nine characteristic values and their advance
-  pips are one field across character pages 1 and 2. An edit shows up on the
-  other page immediately and is saved atomically with the same field version.
-- **Computed movement:** Half Move is the only input; Full Move (×2),
-  Charge (×3) and Run (×6) are read-only, previewed live in the browser and
-  written server-side in one transaction. Direct API writes to the results are
-  rejected.
+  pips are one field across character pages 1 and 2
+  ([`docs/characteristic-sync.md`](docs/characteristic-sync.md)).
+- **Computed movement:** Half Move is the only input; Full Move, Charge and Run
+  are read-only and calculated server-side, with a live browser preview
+  ([`docs/movement-calculation.md`](docs/movement-calculation.md)).
 - **Numeric fields:** the ship's resource/capacity fields and the character
-  values accept only empty input or non-negative integers.
-- **Concurrency:** every field edit is versioned; a conflicting edit opens the
-  conflict panel instead of overwriting. Every ship-sheet mutation is recorded
-  in an append-only audit log.
+  values accept only empty input or non-negative integers
+  ([`docs/sheet-layout.md`](docs/sheet-layout.md)).
+- **Concurrency and history:** every field edit is versioned; a conflicting
+  edit opens the conflict panel instead of overwriting. Every field change of a
+  character or the ship is written to the append-only `SheetChange` log; the
+  ship's is browsable under `/ships/<id>/history/`.
 
 ## Local setup
 
@@ -165,6 +173,7 @@ migration.
 py -m venv .venv
 .\.venv\Scripts\pip install -r requirements.txt -r requirements-dev.txt
 .\.venv\Scripts\python -m playwright install chromium
+New-Item -ItemType Directory -Force data   # the SQLite file's folder (git-ignored)
 .\.venv\Scripts\python manage.py migrate
 .\.venv\Scripts\python manage.py bootstrap_admin --username <admin-username>
 .\.venv\Scripts\python manage.py runserver
@@ -202,16 +211,18 @@ otherwise the login throttle cannot tell clients apart behind the proxy
 (it then skips its per-address counter; see section 11 there).
 
 Every response carries a strict `Content-Security-Policy` and a
-`Permissions-Policy` (`config/security_headers.py`): scripts and stylesheets
-load only from the portal's own `/static/` files, there is no inline script and
-no third-party origin. A new page therefore has to put its JavaScript in a file
-under `static/js/` or `sheets/static/sheets/`; `core/tests/test_security_headers.py`
-fails on an inline `<script>`, an `on...=` handler or a `<style>` block, and
-`tests/e2e/test_csp.py` fails on any blocked resource. In production the
-`DJANGO_SECRET_KEY` must be at least 50 characters with at least 5 distinct
-ones, and the optional HSTS switches (`ENABLE_HSTS`, `HSTS_INCLUDE_SUBDOMAINS`,
-`HSTS_PRELOAD`) are described in `.env.example` and
-[`docs/operations.md`](docs/operations.md) section 3.
+`Permissions-Policy` (`config/security_headers.py`; what the proxy must leave
+alone is in [`docs/operations.md`](docs/operations.md) section 3). Scripts and
+stylesheets load only from the portal's own files under `/static/`, there is no
+inline script and no third-party origin; the only inline styling is the
+per-element `style` attribute that positions the sheet fields. A new page
+therefore has to put its JavaScript in a file under `static/js/` or
+`sheets/static/sheets/`; `core/tests/test_security_headers.py` fails on an
+inline `<script>`, an `on...=` handler or a `<style>` block, and
+`tests/e2e/test_csp.py` fails on any blocked resource. The production-only
+requirements (strong `DJANGO_SECRET_KEY`, explicit `DJANGO_ALLOWED_HOSTS`, the
+opt-in HSTS switches) are in `.env.example` and
+[`docs/operations.md`](docs/operations.md) sections 3 and 4.
 
 ## Running the acceptance suite
 
@@ -237,6 +248,10 @@ layout.
 
 # Django system checks, including the wiki content tree.
 .\.venv\Scripts\python manage.py check
+
+# No model change without a migration (CI runs this too). It reads the
+# migration history from the database; DATABASE_PATH may point at a scratch file.
+.\.venv\Scripts\python manage.py makemigrations --check --dry-run
 
 # Production-shaped Django deployment check (run with DJANGO_DEBUG=false
 # and the other production env vars from .env.example set).
@@ -314,12 +329,17 @@ written into the checkout. From the repository root in Git Bash (adjust the
 Playwright tag if `requirements-dev.txt` pins another version):
 
 ```bash
-MSYS_NO_PATHCONV=1 docker run --rm --ipc=host --user 1001:1001   -e HOME=/tmp/home -e PATH=/tmp/home/.local/bin:/usr/local/bin:/usr/bin:/bin   -e DATABASE_PATH=/tmp/check.sqlite3   -v "$PWD:/src:ro" mcr.microsoft.com/playwright/python:v1.62.0-noble bash -c '
+MSYS_NO_PATHCONV=1 docker run --rm --ipc=host --user 1001:1001 \
+  -e HOME=/tmp/home -e PATH=/tmp/home/.local/bin:/usr/local/bin:/usr/bin:/bin \
+  -e DATABASE_PATH=/tmp/check.sqlite3 \
+  -v "$PWD:/src:ro" mcr.microsoft.com/playwright/python:v1.62.0-noble bash -c '
     set -e; mkdir -p /tmp/work $HOME && cd /tmp/work
     tar -C /src --exclude=.venv --exclude=.git --exclude=.worktrees --exclude=tmp -cf - . | tar -xf -
     pip install -q --user --require-hashes -r requirements.txt -r requirements-dev.txt
     python -m playwright install chromium
-    ruff check . && python -m pytest -q       && python -m sheets.layout --check && python manage.py check       && python manage.py makemigrations --check --dry-run'
+    ruff check . && python -m pytest -q \
+      && python -m sheets.layout --check && python manage.py check \
+      && python manage.py makemigrations --check --dry-run'
 ```
 
 The Docker job can be reproduced with `docker build .` followed by the `docker
@@ -370,9 +390,10 @@ run` and `curl http://localhost:8000/healthz/` steps from `ci.yml`.
 >   (Dorsal/Prow/Keel/Port/Starboard). These were all placed from measured
 >   grid pitches — one wrong constant silently shifts an entire block.
 >
-> Note that some persistent skill-checkbox IDs are known to name the wrong
-> printed row; that is a deliberate open data question, not a geometry bug.
-> See [`docs/checkbox-row-mapping.md`](docs/checkbox-row-mapping.md) before
+> The persistent skill-checkbox IDs on page 1 once named the wrong printed row
+> in two blocks; migration 0007 realigned them. If a skill box still seems to
+> belong to a neighbouring row, compare with
+> [`docs/checkbox-row-mapping.md`](docs/checkbox-row-mapping.md) before
 > reporting it.
 
 The acceptance checklist has three explicit categories. Items marked

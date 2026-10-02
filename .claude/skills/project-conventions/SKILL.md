@@ -44,13 +44,19 @@ useful for "why", never authoritative for "what is true now".
 - Django's default `form.as_p` / `non_field_errors` renders a plain
   `<ul class="errorlist">` -- this has a real style rule in `portal.css`,
   don't reintroduce unstyled error output.
+- **No inline script, no `on...=` handler, no `<style>` block, no third-party
+  origin in any template**: every response carries a strict
+  Content-Security-Policy (`config/security_headers.py`). JavaScript goes in a
+  file under `static/js/` or `sheets/static/sheets/`; the only inline styling
+  allowed is a `style=""` attribute (sheet-field geometry).
+  `core/tests/test_security_headers.py` and `tests/e2e/test_csp.py` enforce it.
 
 ## Desktop-only scope (deliberate, not an oversight)
 
 The original design spec
 (`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`) states:
 "Die Webanwendung unterstuetzt Desktop-Browser ab 1024 px." `.app-shell` is
-a fixed two-column grid with no responsive breakpoints by design. Do not
+a fixed two-column grid with no mobile or narrow-screen breakpoints by design. Do not
 add mobile/responsive support to the portal shell without an explicit,
 separate decision from the project owner -- past audits have flagged the
 missing breakpoints as a bug when it is actually intentional scope.
@@ -97,22 +103,28 @@ missing breakpoints as a bug when it is actually intentional scope.
 - **Shared ship sheet(s)**: every authenticated user may view and
   field-edit the shared ship sheet(s). Every field mutation is written to
   an append-only `SheetChange` audit log (actor, timestamp, old/new value).
-- Login is throttled per account+source address without revealing whether
-  a username exists (`accounts/models.py: LoginThrottle`).
+- Login is throttled by independent counters (username + source address,
+  username, source address where it identifies a client, known device cookie;
+  `accounts/throttle.py`, `accounts/devices.py`, rows in
+  `accounts/models.py: LoginThrottle`) without revealing whether a username
+  exists. The source address is the direct peer unless the peer is listed in
+  `TRUSTED_PROXY_IPS`; details in `docs/operations.md` sections 2 and 11.
 - No self-registration. The first admin is created via a management
   command; admin-created accounts get a temporary password and must change
   it on first login (`ForcePasswordChangeMiddleware`).
 
-When touching `services.py`, `permissions.py`, or any view mixin under
-`accounts/` or `sheets/`, preserve these boundaries exactly -- this is the
+When touching `services.py` or `permissions.py` (`accounts/`, `sheets/`),
+`core/mixins.py`, the views that use it, `accounts/middleware.py` or the login
+throttle, preserve these boundaries exactly -- this is the
 highest-consequence bug class in this app.
 
 ## Tests and file boundaries
 
 - Run tests with the project venv from the repo root
   (`.venv/Scripts/python.exe -m pytest -q`). The test groups, commands and
-  notes are kept in `.claude/skills/run-tests/SKILL.md` (and the duties in
-  `AGENTS.md`) -- do not restate them here.
+  notes (including the lint step) are kept in
+  `.claude/skills/run-tests/SKILL.md` (and the duties in `AGENTS.md`; the CI
+  jobs in the README) -- do not restate them here.
 - `.env` is never edited by an agent (a `PreToolUse` hook denies it);
   `.env.example` is the documented template.
 - `Notizbuch öffnen.onetoc2` files (OneNote) and `graphify-out/` are
