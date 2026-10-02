@@ -7,20 +7,36 @@ surrogate raises ``UnicodeEncodeError`` when a page is encoded, which would
 turn every page showing the value into a 500).
 
 Rejected: lone surrogates (not UTF-8 encodable), C0/C1 control characters
-(NUL, newline, tab, ESC, ...; every sheet input is single-line) and the bidi
+(NUL, newline, tab, ESC, ...; every sheet input is single-line), the bidi
 embedding/override/isolate characters U+202A-202E and U+2066-2069, which can
-make one user's value read differently in the admin list and the history.
+make one user's value read differently in the admin list and the history, and
+the other invisible or line-breaking characters: U+061C, U+200B, U+200E,
+U+200F (marks and zero-width space), U+2028/U+2029 (line and paragraph
+separator) and U+FEFF. U+200C/U+200D (zero-width non-joiner / joiner) stay
+allowed because emoji sequences and some scripts need them.
+
+The source holds these characters only as backslash-u escapes, never literally.
 """
 from __future__ import annotations
 
 import re
 
-_UNSAFE = re.compile("[\x00-\x1f\x7f-\x9f‪-‮⁦-⁩\ud800-\udfff]")
+_UNSAFE = re.compile(
+    "[\x00-\x1f\x7f-\x9f"  # C0 / C1 controls
+    "\u061c\u200b\u200e\u200f"  # Arabic letter mark, zero-width space, LRM, RLM
+    "\u2028\u2029"  # line and paragraph separator
+    "\u202a-\u202e\u2066-\u2069"  # bidi embedding, override and isolate controls
+    "\ufeff"  # byte order mark / zero-width no-break space
+    "\ud800-\udfff]"  # lone surrogates
+)
 
-_BIDI_CONTROLS = frozenset("‪‫‬‭‮⁦⁧⁨⁩")
+_BIDI_CONTROLS = frozenset(
+    "\u061c\u200e\u200f\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069"
+)
+_INVISIBLE = frozenset("\u200b\ufeff")
 
 #: Shown instead of a stored lone surrogate.
-REPLACEMENT = "�"
+REPLACEMENT = "\ufffd"
 
 
 def _is_surrogate(char: str) -> bool:
@@ -37,6 +53,8 @@ def unsafe_text_problem(text: str) -> str | None:
         return "not valid UTF-8 text"
     if char in _BIDI_CONTROLS:
         return "bidirectional control character"
+    if char in _INVISIBLE:
+        return "invisible character"
     return "control character"
 
 

@@ -174,3 +174,34 @@ def test_history_rows_fall_back_to_the_field_id_for_unknown_fields(owner, ship_s
     assert rows[0]["field_label"] == TEXT_FIELD.label
     assert rows[1]["field_label"] == "retired_field"
     assert rows[1]["detail_url"].endswith(f"/history/{unknown.pk}/")
+
+
+#: Invisible / line-breaking characters, spelled with chr() so the test source
+#: itself holds none of them literally.
+INVISIBLE_CHARACTERS = [
+    pytest.param(chr(code), id=f"U+{code:04X}")
+    for code in (0x061C, 0x200B, 0x200E, 0x200F, 0x2028, 0x2029, 0xFEFF)
+]
+
+
+@pytest.mark.parametrize("bad", INVISIBLE_CHARACTERS)
+def test_invisible_and_line_separator_characters_are_rejected(bad):
+    with pytest.raises(schema.SchemaError, match="ungültige Zeichen"):
+        TEXT_FIELD.validate_value(f"ab{bad}cd")
+    assert unsafe_text_problem(bad) is not None
+    assert display_text(f"ab{bad}cd") == "abcd"
+
+
+def test_zero_width_joiners_stay_allowed_for_emoji_sequences():
+    family = "👨" + chr(0x200D) + "👩" + chr(0x200D) + "👧"
+    TEXT_FIELD.validate_value(family)
+    assert display_text(family) == family
+
+
+def test_textsafety_source_holds_no_literal_invisible_characters():
+    from pathlib import Path
+
+    from sheets import textsafety
+
+    source = Path(textsafety.__file__).read_text(encoding="utf-8")
+    assert source.isascii()

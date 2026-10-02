@@ -171,6 +171,7 @@ def _apply_field_patch(
     validate,
     on_value_applied=None,
     calculated_fields: dict | None = None,
+    derived_consistent=None,
 ) -> PatchResult:
     """Shared fetch-locked-sheet -> version-compare -> conflict -> mutate ->
     audit sequence used by both :func:`patch_character_field` and
@@ -191,7 +192,10 @@ def _apply_field_patch(
     passed through to :attr:`PatchResult.calculated_fields`.
 
     Writing the value a field already holds is a no-op: nothing is saved or
-    audited and the field's current version is returned.
+    audited and the field's current version is returned. That shortcut applies
+    only while ``derived_consistent(sheet, field_id, value)`` (if given) says
+    every server-derived counterpart already holds its derived value; if one
+    has drifted, the write goes through so the derived fields are resynced.
     """
     validate(field_id, value)
 
@@ -205,7 +209,8 @@ def _apply_field_patch(
             current_version=current_version,
         )
 
-    if field_id in sheet.values and type(old_value) is type(value) and old_value == value:
+    unchanged = field_id in sheet.values and type(old_value) is type(value) and old_value == value
+    if unchanged and (derived_consistent is None or derived_consistent(sheet, field_id, value)):
         return PatchResult(
             field_id=field_id,
             value=value,
@@ -298,6 +303,14 @@ def patch_character_field(
             )
         return extra_fields
 
+    def derived_consistent(locked, changed_id, changed_value) -> bool:
+        return all(
+            target in locked.values
+            and type(locked.values[target]) is type(derived_value)
+            and locked.values[target] == derived_value
+            for target, derived_value in _derived_character_values(changed_id, changed_value)
+        )
+
     return _apply_field_patch(
         sheet,
         actor=actor,
@@ -307,6 +320,7 @@ def patch_character_field(
         validate=_validate_character_field,
         on_value_applied=apply_character_values,
         calculated_fields=calculated,
+        derived_consistent=derived_consistent,
     )
 
 

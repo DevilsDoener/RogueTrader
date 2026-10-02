@@ -78,3 +78,67 @@ def test_existing_values_recalculated_and_archived(character_factory):
     assert invalid.values["c2_movement_run"] == "old"
     run_migration_step(migration.calculate_existing)
     assert character.changes.count() == 3
+
+
+@pytest.mark.django_db
+def test_rewriting_half_move_with_a_drifted_result_resyncs_it(character_sheet, owner):
+    result = patch_character_field(
+        sheet_id=character_sheet.pk, actor=owner, field_id=SOURCE, value="5", base_version=0
+    )
+    character_sheet.refresh_from_db()
+    character_sheet.values["c2_movement_charge"] = "1"  # drifted out of band
+    character_sheet.save()
+
+    again = patch_character_field(
+        sheet_id=character_sheet.pk,
+        actor=owner,
+        field_id=SOURCE,
+        value="5",
+        base_version=result.version,
+    )
+
+    character_sheet.refresh_from_db()
+    assert character_sheet.values["c2_movement_charge"] == "15"
+    assert again.version == result.version + 1
+    assert again.calculated_fields["c2_movement_charge"]["value"] == "15"
+
+
+@pytest.mark.django_db
+def test_rewriting_half_move_when_the_results_are_in_sync_stays_a_noop(character_sheet, owner):
+    result = patch_character_field(
+        sheet_id=character_sheet.pk, actor=owner, field_id=SOURCE, value="5", base_version=0
+    )
+    changes = character_sheet.changes.count()
+
+    again = patch_character_field(
+        sheet_id=character_sheet.pk,
+        actor=owner,
+        field_id=SOURCE,
+        value="5",
+        base_version=result.version,
+    )
+
+    assert again.version == result.version
+    assert character_sheet.changes.count() == changes
+
+
+@pytest.mark.django_db
+def test_rewriting_a_characteristic_with_a_drifted_counterpart_resyncs_it(character_sheet, owner):
+    result = patch_character_field(
+        sheet_id=character_sheet.pk, actor=owner, field_id="c1_ws_value", value="40", base_version=0
+    )
+    character_sheet.refresh_from_db()
+    character_sheet.values["c2_ws_value"] = "7"
+    character_sheet.save()
+
+    again = patch_character_field(
+        sheet_id=character_sheet.pk,
+        actor=owner,
+        field_id="c1_ws_value",
+        value="40",
+        base_version=result.version,
+    )
+
+    character_sheet.refresh_from_db()
+    assert character_sheet.values["c2_ws_value"] == "40"
+    assert again.version == result.version + 1
