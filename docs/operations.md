@@ -377,7 +377,8 @@ docker compose up -d portal backup
 `./backups` to a second location — by default `$env:OneDrive\RogueTrader-Backups`,
 which OneDrive syncs to the cloud. It verifies the copy's SHA-256 against the
 source, skips copies already present, removes copies older than `-KeepDays`
-(default 30) from the target, warns when the newest local backup is older than
+(default 30) from the target (only on a run without errors, so a failing run
+never ages out the copies that may be the last ones), warns when the newest local backup is older than
 30 hours (backup service not running?), and appends to `offsite-backup.log` in
 the target. It only reads `./backups`; it never touches the containers or the
 live database. Pass `-Target` for another folder (NAS, USB drive).

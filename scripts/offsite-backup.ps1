@@ -187,7 +187,11 @@ try {
         }
     }
 
-    if ($targetOk) {
+    # Retention only runs on a clean pass: when no new copy arrived (no local
+    # backup, checksum mismatch) the older copies in the target may be the only
+    # ones left and must not age out.
+    $failed = @($script:problems | Where-Object { $_.Level -eq 'error' }).Count -gt 0
+    if ($targetOk -and -not $failed) {
         $cutoff = (Get-Date).AddDays(-$KeepDays)
         Get-ChildItem -Path $Target -Filter 'db-*.sqlite3' -File |
             Where-Object { $_.LastWriteTime -lt $cutoff } |
