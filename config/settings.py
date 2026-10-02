@@ -33,7 +33,15 @@ _WEAK_SECRET_KEYS = {
     "insecure",
     "replace-with-a-long-random-secret",
 }
-_MINIMUM_PRODUCTION_SECRET_LENGTH = 32
+# Django's own ``check --deploy`` bar (security.W009): 50 characters, at least
+# 5 of them distinct. Enforced at boot instead of merely warned about.
+_MINIMUM_PRODUCTION_SECRET_LENGTH = 50
+_MINIMUM_PRODUCTION_SECRET_UNIQUE_CHARS = 5
+# The Dockerfile runs ``collectstatic`` at build time with a random 74-character
+# key starting with this prefix. It has to pass the checks then, but the string
+# must never run a real deployment, so it is refused unless the build step says
+# (DOCKER_BUILD_STEP=1, set inline on that one RUN command only).
+_BUILD_PLACEHOLDER_PREFIX = "docker-build-placeholder"
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 if not SECRET_KEY:
@@ -49,10 +57,19 @@ elif not DEBUG:
         _normalized_secret in _WEAK_SECRET_KEYS
         or _normalized_secret.startswith("django-insecure-")
         or len(SECRET_KEY) < _MINIMUM_PRODUCTION_SECRET_LENGTH
+        or len(set(SECRET_KEY)) < _MINIMUM_PRODUCTION_SECRET_UNIQUE_CHARS
+        or (
+            _normalized_secret.startswith(_BUILD_PLACEHOLDER_PREFIX)
+            and os.environ.get("DOCKER_BUILD_STEP") != "1"
+        )
     ):
         raise ImproperlyConfigured(
-            "DJANGO_SECRET_KEY must be a strong, non-default secret "
-            "(at least 32 characters) when DJANGO_DEBUG is false"
+            "DJANGO_SECRET_KEY must be a strong, non-default secret when "
+            f"DJANGO_DEBUG is false: at least {_MINIMUM_PRODUCTION_SECRET_LENGTH} "
+            f"characters (yours has {len(SECRET_KEY)}), at least "
+            f"{_MINIMUM_PRODUCTION_SECRET_UNIQUE_CHARS} different ones, not a "
+            "placeholder from .env.example or the Dockerfile. Generate one with: "
+            "python -c \"import secrets; print(secrets.token_urlsafe(50))\""
         )
 
 # ALLOWED_HOSTS must be provided explicitly in production. The
@@ -140,8 +157,11 @@ SECURE_REDIRECT_EXEMPT = [r"^healthz/$"]
 # -- an incorrect HSTS header cannot be easily undone by clients.
 ENABLE_HSTS = os.environ.get("ENABLE_HSTS", "0") == "1"
 SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365 if ENABLE_HSTS else 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = ENABLE_HSTS
-SECURE_HSTS_PRELOAD = ENABLE_HSTS
+# includeSubDomains and preload widen that to every subdomain of the registrable
+# domain and invite submission to browsers' preload list; each is its own
+# opt-in (default off) and only has an effect together with ENABLE_HSTS=1.
+SECURE_HSTS_INCLUDE_SUBDOMAINS = ENABLE_HSTS and os.environ.get("HSTS_INCLUDE_SUBDOMAINS", "0") == "1"
+SECURE_HSTS_PRELOAD = ENABLE_HSTS and os.environ.get("HSTS_PRELOAD", "0") == "1"
 
 # The audit trail (``accounts.audit``) goes to the console like everything else
 # and, in production, also to a size-rotating file that survives container

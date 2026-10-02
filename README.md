@@ -69,9 +69,13 @@ process start into an immutable in-memory tree, so requests never touch disk.
   search. The client is `static/js/auspex.js`.
 - **The Bibliothek (`/wiki/`)** groups the chapters into the bands Front Matter,
   Chapters and Appendix. Each `ChapterEntry` in `wiki/manifest.py` declares its
-  own `numeral` and `band` (`wiki/views.py` only groups the cards per band, in
-  the order of `BANDS`); every numbered chapter shares the Chapters band. Typing in its filter narrows the cards live, marks the matching
-  sections (level-2 ones included), and bands without a match disappear.
+  own `numeral` and `band` (`WikiRepository.library_bands` in `wiki/content.py`
+  only groups the cards per band, in the order of `BANDS`); every numbered
+  chapter shares the Chapters band. Typing in its filter narrows the cards live
+  (`static/js/wiki-library.js`; the case and `ss` folding and the
+  all-words matching it shares with the chapter outline filter live in
+  `static/js/wiki-text.js`), marks the matching sections (level-2 ones
+  included), and bands without a match disappear.
   The "Quick Links" chips come from `QUICK_LINKS` in
   `wiki/manifest.py` (the partial is `wiki/templates/wiki/_quick_links.html`);
   edit that tuple to change them. The Kommandobrücke (`/dashboard/`) carries no
@@ -193,6 +197,18 @@ Usernames are ASCII letters, digits and `@ . + - _` and unique ignoring case
 (`Alice` is taken once `alice` exists). Behind a reverse proxy, set
 `TRUSTED_PROXY_IPS` (see [`docs/operations.md`](docs/operations.md) section 2);
 otherwise the login throttle sees only the proxy's address.
+
+Every response carries a strict `Content-Security-Policy` and a
+`Permissions-Policy` (`config/security_headers.py`): scripts and stylesheets
+load only from the portal's own `/static/` files, there is no inline script and
+no third-party origin. A new page therefore has to put its JavaScript in a file
+under `static/js/` or `sheets/static/sheets/`; `core/tests/test_security_headers.py`
+fails on an inline `<script>`, an `on...=` handler or a `<style>` block, and
+`tests/e2e/test_csp.py` fails on any blocked resource. In production the
+`DJANGO_SECRET_KEY` must be at least 50 characters with at least 5 distinct
+ones, and the optional HSTS switches (`ENABLE_HSTS`, `HSTS_INCLUDE_SUBDOMAINS`,
+`HSTS_PRELOAD`) are described in `.env.example` and
+[`docs/operations.md`](docs/operations.md) section 3.
 
 ## Running the acceptance suite
 

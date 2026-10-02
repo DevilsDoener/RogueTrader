@@ -39,7 +39,11 @@ COPY . .
 # runtime. The key is a build-only placeholder: labelled as such, longer than
 # the 50-character production floor, and different on every build (random
 # suffix), so there is no fixed string anyone could reuse for a real deployment.
-RUN DJANGO_SECRET_KEY="docker-build-placeholder-not-a-real-secret-$(python -c 'import secrets; print(secrets.token_urlsafe(32))')" \
+# DOCKER_BUILD_STEP=1 (also inline, also build-only) is the one thing that lets
+# config/settings.py accept a key with this "docker-build-placeholder" prefix;
+# at runtime such a key is refused.
+RUN DOCKER_BUILD_STEP=1 \
+    DJANGO_SECRET_KEY="docker-build-placeholder-not-a-real-secret-$(python -c 'import secrets; print(secrets.token_urlsafe(32))')" \
     DJANGO_ALLOWED_HOSTS=localhost \
     python manage.py collectstatic --noinput \
     && chmod -R go-w /app \

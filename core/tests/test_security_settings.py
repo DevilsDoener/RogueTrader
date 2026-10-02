@@ -27,6 +27,9 @@ _ENV_VARS = (
     "DJANGO_ALLOWED_HOSTS",
     "PUBLIC_BASE_URL",
     "ENABLE_HSTS",
+    "HSTS_INCLUDE_SUBDOMAINS",
+    "HSTS_PRELOAD",
+    "DOCKER_BUILD_STEP",
 )
 
 # A secret that is long and random enough to pass the production strength
@@ -97,6 +100,62 @@ def test_production_rejects_a_short_secret(settings_from_env):
         settings_from_env(**{**PRODUCTION_ENV, "DJANGO_SECRET_KEY": "short"})
 
 
+def test_production_rejects_a_secret_below_djangos_own_deploy_bar(settings_from_env):
+    # 49 characters: the old 32-character floor accepted this, check --deploy
+    # (security.W009) wants 50.
+    with pytest.raises(ImproperlyConfigured, match="at least 50 characters"):
+        settings_from_env(**{**PRODUCTION_ENV, "DJANGO_SECRET_KEY": "abcdefghij" * 4 + "abcdefghi"})
+
+
+@pytest.mark.parametrize("key", ["a" * 60, "ab" * 40, "abcd" * 20])
+def test_production_rejects_a_secret_with_fewer_than_five_distinct_characters(
+    settings_from_env, key
+):
+    with pytest.raises(ImproperlyConfigured, match="different"):
+        settings_from_env(**{**PRODUCTION_ENV, "DJANGO_SECRET_KEY": key})
+
+
+def test_the_failure_message_names_the_length_and_how_to_fix_it(settings_from_env):
+    with pytest.raises(ImproperlyConfigured) as caught:
+        settings_from_env(**{**PRODUCTION_ENV, "DJANGO_SECRET_KEY": "x1y2z3" * 5})
+
+    message = str(caught.value)
+    assert "yours has 30" in message
+    assert "token_urlsafe(50)" in message
+
+
+_BUILD_PLACEHOLDER = (
+    "docker-build-placeholder-not-a-real-secret-Zk3fQ9vLx2mWp7TnB4cRj8yHd5sGa1eUo6iVb0NqXtMwK"
+)
+
+
+def test_the_dockerfile_build_placeholder_is_refused_at_runtime(settings_from_env):
+    assert len(_BUILD_PLACEHOLDER) >= 50
+    with pytest.raises(ImproperlyConfigured):
+        settings_from_env(**{**PRODUCTION_ENV, "DJANGO_SECRET_KEY": _BUILD_PLACEHOLDER})
+
+
+def test_the_dockerfile_build_placeholder_is_accepted_in_the_build_step(settings_from_env):
+    # collectstatic at image build time runs with this key and the flag the
+    # Dockerfile sets inline on that one RUN command.
+    settings = settings_from_env(
+        **{**PRODUCTION_ENV, "DJANGO_SECRET_KEY": _BUILD_PLACEHOLDER, "DOCKER_BUILD_STEP": "1"}
+    )
+
+    assert settings.SECRET_KEY == _BUILD_PLACEHOLDER
+
+
+def test_the_dockerfile_sets_the_build_flag_only_inline_on_the_placeholder_step():
+    lines = (REPO_ROOT / "Dockerfile").read_text(encoding="utf-8").splitlines()
+    uses = [line for line in lines if "DOCKER_BUILD_STEP=1" in line and line[0] != "#"]
+
+    assert uses == ["RUN DOCKER_BUILD_STEP=1 \\"]
+    assert lines[lines.index(uses[0]) + 1].strip().startswith(
+        'DJANGO_SECRET_KEY="docker-build-placeholder'
+    )
+    assert not any(line.startswith("ENV") and "DOCKER_BUILD_STEP" in line for line in lines)
+
+
 def test_production_rejects_a_missing_secret(settings_from_env):
     env = dict(PRODUCTION_ENV)
     del env["DJANGO_SECRET_KEY"]
@@ -114,7 +173,7 @@ def test_production_accepts_an_explicit_secret_with_only_the_required_variables(
     # without; PUBLIC_BASE_URL and ENABLE_HSTS fall back to defaults.
     settings = settings_from_env(
         DJANGO_DEBUG="false",
-        DJANGO_SECRET_KEY="test-only-secret-key-that-is-long-enough-1234",
+        DJANGO_SECRET_KEY="test-only-secret-key-that-is-long-enough-1234567890-abcdefghij",
         DJANGO_ALLOWED_HOSTS="portal.example.com",
     )
     assert settings.DEBUG is False
@@ -234,8 +293,40 @@ def test_hsts_is_enabled_only_when_flag_is_set(settings_from_env):
 
     with_hsts = settings_from_env(**PRODUCTION_ENV)
     assert with_hsts.SECURE_HSTS_SECONDS == 31536000
-    assert with_hsts.SECURE_HSTS_INCLUDE_SUBDOMAINS is True
-    assert with_hsts.SECURE_HSTS_PRELOAD is True
+
+
+def test_hsts_does_not_cover_subdomains_or_preload_unless_asked(settings_from_env):
+    settings = settings_from_env(**PRODUCTION_ENV)
+
+    assert settings.SECURE_HSTS_INCLUDE_SUBDOMAINS is False
+    assert settings.SECURE_HSTS_PRELOAD is False
+
+
+def test_hsts_subdomains_and_preload_are_separate_switches(settings_from_env):
+    subdomains = settings_from_env(**{**PRODUCTION_ENV, "HSTS_INCLUDE_SUBDOMAINS": "1"})
+    assert subdomains.SECURE_HSTS_INCLUDE_SUBDOMAINS is True
+    assert subdomains.SECURE_HSTS_PRELOAD is False
+
+    preload = settings_from_env(**{**PRODUCTION_ENV, "HSTS_PRELOAD": "1"})
+    assert preload.SECURE_HSTS_INCLUDE_SUBDOMAINS is False
+    assert preload.SECURE_HSTS_PRELOAD is True
+
+
+def test_hsts_extras_without_enable_hsts_stay_off(settings_from_env):
+    settings = settings_from_env(
+        **{**PRODUCTION_ENV, "ENABLE_HSTS": "0", "HSTS_INCLUDE_SUBDOMAINS": "1", "HSTS_PRELOAD": "1"}
+    )
+
+    assert settings.SECURE_HSTS_SECONDS == 0
+    assert settings.SECURE_HSTS_INCLUDE_SUBDOMAINS is False
+    assert settings.SECURE_HSTS_PRELOAD is False
+
+
+def test_compose_passes_the_hsts_switches_through():
+    compose_text = (REPO_ROOT / "compose.yaml").read_text(encoding="utf-8")
+
+    assert "HSTS_INCLUDE_SUBDOMAINS: ${HSTS_INCLUDE_SUBDOMAINS:-0}" in compose_text
+    assert "HSTS_PRELOAD: ${HSTS_PRELOAD:-0}" in compose_text
 
 
 def test_mime_sniffing_protection_is_enabled(production_settings):

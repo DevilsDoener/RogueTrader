@@ -182,9 +182,25 @@ unless the Traefik sits behind another proxy.
   nothing else should ever be able to reach the portal directly.
 - Once the proxy is verified to serve HTTPS correctly end-to-end, set
   `ENABLE_HSTS=1` in `.env` and redeploy (see §5). This turns on a
-  one-year `Strict-Transport-Security` header. Because browsers cache HSTS
-  aggressively and it's hard to undo, verify HTTPS works first with
-  `ENABLE_HSTS=0`, then flip it on.
+  one-year `Strict-Transport-Security` header (`max-age` only). Because
+  browsers cache HSTS aggressively and it's hard to undo, verify HTTPS works
+  first with `ENABLE_HSTS=0`, then flip it on.
+  Two further switches, both default `0` and only effective together with
+  `ENABLE_HSTS=1`, widen it: `HSTS_INCLUDE_SUBDOMAINS=1` adds
+  `includeSubDomains` (every subdomain of the registrable domain, e.g. an
+  internal `http://nas.example.com`, is then forced to HTTPS too) and
+  `HSTS_PRELOAD=1` adds `preload` (the domain may be submitted to browsers'
+  preload list, which is practically permanent, and requires
+  `includeSubDomains`). Leave them off unless you want exactly that.
+- **Response headers set by the portal itself.** Every response carries a
+  strict `Content-Security-Policy` (scripts, styles, images, fonts and
+  connections only from the portal's own origin; no framing; no `<base>` or
+  plugin content) and a `Permissions-Policy` that switches off camera,
+  microphone, geolocation, payment and USB, next to `X-Frame-Options: DENY`,
+  `X-Content-Type-Options: nosniff` and the referrer and opener policies. The
+  proxy must not strip or replace them. Nothing needs configuring; if you ever
+  add a CDN, web font or analytics script to the proxy or the templates, the
+  browser refuses it until `config/security_headers.py` is changed on purpose.
 
 ## 4. First-time setup
 
@@ -196,8 +212,12 @@ unless the Traefik sits behind another proxy.
 
    Edit `.env` and set at minimum:
    - `DJANGO_SECRET_KEY` — a long random value (see the generator command
-     in `.env.example`). The placeholder value is rejected on startup
-     whenever `DJANGO_DEBUG=false`.
+     in `.env.example`). With `DJANGO_DEBUG=false` the portal refuses to
+     start unless the key has at least 50 characters, at least 5 distinct
+     ones, and is neither a placeholder from `.env.example` nor the image's
+     build-time placeholder (`docker-build-placeholder...`). The error names
+     your key's length. Changing the key later signs everybody out (session
+     logins are tied to it) and nothing else.
    - `DJANGO_ALLOWED_HOSTS` — the exact hostname(s) the proxy forwards as
      `Host`, comma-separated. Also required (no default) in production.
    - `PUBLIC_BASE_URL` — the full public URL including scheme, e.g.
@@ -304,12 +324,15 @@ volume read-only, because the command only reads the live database.
 - **Where:** `./backups` next to `compose.yaml` on the host (mounted as
   `/backups`, `BACKUP_DIR` inside the container), so the copies survive the
   loss of the `portal-data` volume. The directory is git-ignored. On a Linux
-  host create it before the first start and make it writable for the
-  container user: `mkdir backups; chown 10001 backups`.
+  host create it before the first start, owner-only, and make it writable for
+  the container user: `mkdir -m 700 backups; chown 10001 backups` (the copies
+  hold every password hash, so no other local user should read them).
 - **Format:** `db-YYYYMMDD-HHMMSS.sqlite3`, a consistent copy made with
   SQLite's online backup API while the portal keeps running. The command runs
   `PRAGMA integrity_check` on the copy and fails (non-zero exit, copy
-  deleted) if the result is not `ok`.
+  deleted) if the result is not `ok`. The files are written as `0600`, and the
+  copy contains **no login sessions**: after a restore everybody has to log in
+  again (a stolen backup cannot yield a logged-in session either).
 - **Retention:** copies older than `BACKUP_KEEP_DAYS` (default 14, env var,
   by file modification time) are deleted after each successful backup.
 - **Still off-host:** `./backups` is on the same machine. Copy it to separate

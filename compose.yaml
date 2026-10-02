@@ -31,6 +31,8 @@ services:
       # silently defeat that check for the docker compose deployment path.
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
       ENABLE_HSTS: ${ENABLE_HSTS:-0}
+      HSTS_INCLUDE_SUBDOMAINS: ${HSTS_INCLUDE_SUBDOMAINS:-0}
+      HSTS_PRELOAD: ${HSTS_PRELOAD:-0}
       # Which peers may tell the portal the real client address (login
       # throttle, audit log); empty = nobody, the direct peer is used. See
       # docs/operations.md section 2.
