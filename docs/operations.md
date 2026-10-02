@@ -34,10 +34,9 @@ through the proxy.
 
 ## 2. Required proxy headers
 
-The reverse proxy MUST forward three things on every request, or the portal
-will misbehave (wrong CSRF validation, wrong `request.build_absolute_uri`
-results, infinite HTTPS redirect loops, or all clients sharing one login
-throttle):
+The reverse proxy MUST forward these on every request, or the portal will
+misbehave (wrong CSRF validation, wrong `request.build_absolute_uri` results,
+infinite HTTPS redirect loops, or all clients sharing one login throttle):
 
 - **`Host`**: the original hostname the browser requested (e.g.
   `rogue-trader.example.com`), unmodified. Do not have the proxy rewrite
@@ -49,24 +48,128 @@ throttle):
   request is secure. Never expose the portal's port directly to anything
   that isn't this trusted proxy, or a client could forge this header and
   bypass HTTPS enforcement.
-- **`X-Real-IP`**: the single client address seen by the trusted reverse
-  proxy. The proxy MUST overwrite this header from its actual peer address;
-  it must never append to or preserve a browser-supplied value. The portal
-  accepts exactly one valid IPv4 or IPv6 address, normalizes it for login
-  throttling and audit logs, and falls back to the direct proxy peer address
-  when the header is missing or invalid. It deliberately does not parse a
-  comma-separated forwarding chain.
+- **The client address**, in one header the proxy *sets itself* (see the
+  recipes below) -- plus the setting that tells the portal which peer may
+  be believed:
 
-Example nginx proxy fragment:
+  | Variable | Default | Meaning |
+  | --- | --- | --- |
+  | `TRUSTED_PROXY_IPS` | empty | Comma-separated IPs/CIDRs of the proxy **as the container sees it** (the direct peer, `REMOTE_ADDR`). |
+  | `TRUSTED_PROXY_HEADER` | `x-real-ip` | `x-real-ip` (one address the proxy overwrites) or `x-forwarded-for` (the rightmost entry that is not itself a trusted proxy). |
+
+  **By default the portal ignores both headers** and uses the direct peer
+  address for the login throttle and the audit log. Only when the peer is
+  listed in `TRUSTED_PROXY_IPS` is the configured header believed (a missing
+  or malformed header falls back to the peer). Only the one configured
+  header is ever read, so a client cannot smuggle an address through the
+  other one. If you leave `TRUSTED_PROXY_IPS` empty behind a proxy, nothing
+  breaks, but every player then shares the proxy's address for the
+  per-address login limit (see section 11) and the audit log shows the
+  proxy's address; `manage.py check --deploy` warns about this
+  (`accounts.W001`).
+
+Set both variables in `.env` (and pass them through in `compose.yaml`'s
+`environment:` block, like `PUBLIC_BASE_URL`).
+
+**Which value is "the proxy as the container sees it"?**
+
+- Proxy on the **same host** as the container, port published as
+  `127.0.0.1:8000:8000`: Docker NAT shows the container the compose
+  network's gateway, usually in `172.16.0.0/12`. Use
+  `TRUSTED_PROXY_IPS=127.0.0.1,::1,172.16.0.0/12`. Only the local proxy can
+  reach the port, so trusting the whole Docker range is safe.
+- Proxy in a **separate guest** (section 1): the proxy guest's address, e.g.
+  `TRUSTED_PROXY_IPS=10.0.0.2`.
+- Not sure? Do the smoke test below; the audit log shows what the portal
+  sees as `source_ip`.
+
+### Recipes
+
+nginx (`X-Real-IP` mode, the default):
 
 ```nginx
 location / {
     proxy_pass http://127.0.0.1:8000;  # or the guest's private address
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;   # replaces whatever the client sent
+}
+```
+
+Optionally cap login attempts at the proxy as well (nginx, `http {}` level,
+then inside `server {}`):
+
+```nginx
+limit_req_zone $binary_remote_addr zone=portal_login:10m rate=30r/m;
+
+location = /account/login/ {
+    limit_req zone=portal_login burst=10 nodelay;
+    proxy_pass http://127.0.0.1:8000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Real-IP $remote_addr;
 }
 ```
+
+Caddy (`X-Real-IP` mode, the default). Caddy sets `Host` and
+`X-Forwarded-Proto` itself but does **not** set `X-Real-IP`, so add it
+explicitly; `header_up` replaces any value the client sent:
+
+```caddyfile
+rogue-trader.example.com {
+    reverse_proxy 127.0.0.1:8000 {
+        header_up X-Real-IP {remote_host}
+    }
+}
+```
+
+If Caddy itself sits behind another proxy or CDN, tell it about that
+(`trusted_proxies` in the global `servers` options) or `{remote_host}` is
+the CDN's address.
+
+Traefik (`X-Forwarded-For` mode). Traefik does not give you an `X-Real-IP`
+you can rely on, but it replaces `X-Forwarded-*` headers from untrusted
+clients and appends the real peer to `X-Forwarded-For`, which is exactly what
+the portal's rightmost-untrusted rule reads. Set
+`TRUSTED_PROXY_HEADER=x-forwarded-for` in `.env`. A file-provider
+configuration needs nothing special (`Host` is passed through by default,
+`X-Forwarded-Proto` is set by Traefik):
+
+```yaml
+http:
+  routers:
+    rogue-trader:
+      rule: Host(`rogue-trader.example.com`)
+      entryPoints: [websecure]
+      tls: {}
+      service: rogue-trader
+  services:
+    rogue-trader:
+      loadBalancer:
+        servers:
+          - url: http://127.0.0.1:8000
+```
+
+Do not list your own trusted IPs in Traefik's `forwardedHeaders.trustedIPs`
+unless the Traefik sits behind another proxy.
+
+### Smoke test after any proxy change
+
+1. From a machine that is **not** the proxy, send one failed login with
+   forged address headers through the public URL (bash):
+
+   ```bash
+   URL=https://rogue-trader.example.com
+   curl -s -o /dev/null -c jar.txt "$URL/account/login/"
+   TOKEN=$(awk '$6=="csrftoken"{print $7}' jar.txt)
+   curl -s -o /dev/null -b jar.txt -H "X-CSRFToken: $TOKEN" -H "Referer: $URL/account/login/"         -H "X-Real-IP: 1.2.3.4" -H "X-Forwarded-For: 5.6.7.8"         -d "username=smoke&password=x" "$URL/account/login/"
+   ```
+
+2. `docker compose logs --no-color --tail 5 portal` shows
+   `login_failure username='smoke' source_ip=<your real address>`. If it shows
+   `1.2.3.4` or `5.6.7.8`, the proxy is not overwriting the header; if it
+   shows the proxy's/Docker gateway's address, `TRUSTED_PROXY_IPS` does not
+   match the peer.
 
 ## 3. TLS and firewalling
 
@@ -284,13 +387,41 @@ docker compose logs --no-color -f portal
 
 `config/settings.py` configures `django.request` (technical errors) and
 `django.security` (security-relevant middleware events) to log to the
-container's console, which `docker compose logs` captures. The dedicated
-`accounts.audit` logger records login success, login failure, throttle blocks,
-and managed-account create, update, deactivate, reactivate, and password-reset
-actions. Those records contain only the event kind, relevant username(s), and
-the normalized client source address for login events. Passwords, password
-fields, session identifiers/cookies, CSRF tokens, character or ship field
-values, and sheet contents are never logged.
+container's console, which `docker compose logs` captures.
+
+The dedicated `accounts.audit` logger is the audit trail. It goes to the
+console **and**, in production, to a size-rotating file that survives
+`docker compose up -d --build` (which re-creates the container and drops its
+console log): `AUDIT_LOG_FILE`, by default `logs/audit.log` next to the
+database, i.e. `/data/logs/audit.log` in the `portal-data` volume. It rotates
+at 5 MiB and keeps 5 old files (`audit.log.1` ... `audit.log.5`). Read it with:
+
+```powershell
+docker compose exec portal tail -n 50 /data/logs/audit.log
+```
+
+Set `AUDIT_LOG_FILE` in the environment to move it; in development
+(`DJANGO_DEBUG=true`) the file is off unless that variable is set. If you ever
+run gunicorn with several workers, switch rotation off or move the file to
+syslog/a collector instead: rotation by several processes at once is not
+safe. The `backup` service mounts `/data` read-only and never writes audit
+records, so it is not affected.
+
+What is recorded (event kind, username(s), the throttle's source address for
+requests; usernames are cut at 150 characters):
+
+- `login_success`, `login_failure`, `login_throttle_blocked`, `logout`,
+  `password_changed` (the user's own change);
+- `managed_account_created`, `_updated` (with `old_username`, `new_username`,
+  `active`), `_deactivated`, `_reactivated`, `_password_reset`;
+- `managed_account_denied` (an admin tried something the rules forbid:
+  deactivating themselves, resetting their own password, deactivating the
+  last active portal admin) and `admin_access_denied` (a non-admin was
+  refused on a `/portal-admin/` route, with method and path);
+- `bootstrap_admin_created`.
+
+Passwords, password fields, session identifiers/cookies, CSRF tokens,
+character or ship field values, and sheet contents are never logged.
 
 ## 10. Restart after Markdown edits
 
@@ -327,3 +458,56 @@ exception. Losing *some* chapters is caught earlier, by `manage.py check`.
 > and will silently override future manifest changes. Delete that line from
 > `.env`. (Agents are blocked from editing `.env`, so this has to be done by
 > hand.)
+
+## 11. Login protection, sessions and database locking
+
+**Login throttle.** Three counters, each over a 15-minute window, all kept in
+the database (keys are HMACs, no username or address in clear):
+
+| Counter | Limit | Why |
+| --- | --- | --- |
+| username + source address | 5 failures | what a player who mistypes meets |
+| username, any address | 20 failures | an attacker who rotates addresses still has a ceiling per account |
+| source address, any username | 20 failures | a flood of made-up usernames stops before it costs a password hash each |
+
+When a counter has reached its limit the attempt is refused with the same
+"Benutzername oder Passwort ungültig." as any wrong password (no way to tell
+"blocked" from "wrong"), and **no password hash is computed**. A block lifts
+by itself after 15 minutes. Consequences to know about:
+
+- Anyone can lock a *username* out for 15 minutes by failing 20 logins
+  against it; that is the price of a ceiling that address rotation cannot
+  dodge. If a player is locked out and cannot wait, clear the counters:
+  `docker compose exec portal python manage.py shell -c "from accounts.models import LoginThrottle; LoginThrottle.objects.all().delete()"`.
+- Players behind one shared address (one household, one NAT) share the
+  per-address budget of 20. Without `TRUSTED_PROXY_IPS` (section 2) that
+  is *every* player.
+- The same mechanism limits wrong "current password" attempts on the
+  password-change page (10 per 15 minutes per account).
+
+**Passwords.** Argon2 is preferred; PBKDF2 stays in `PASSWORD_HASHERS` only so
+old hashes still verify, and they upgrade to Argon2 on the next successful
+login. Django equalises the response time of an unknown username by hashing a
+dummy password with the *preferred* hasher, so unknown and Argon2 accounts
+take equally long; an account whose hash is still PBKDF2 would take
+measurably longer and so reveal that it exists. To check whether any such
+account is left:
+`docker compose exec portal python manage.py shell -c "from accounts.models import User; print(list(User.objects.exclude(password__startswith='argon2$').values_list('username', flat=True)))"`.
+Reset those accounts (portal admin UI) and the question is closed.
+
+**Sessions.** A login lasts 14 days from the *last request* (the expiry
+slides, `SESSION_SAVE_EVERY_REQUEST`), so players who play regularly are not
+signed out and an abandoned cookie dies after two weeks. Expired session rows
+stay in the database until `manage.py clearsessions` removes them; it runs
+daily in the `backup` service's loop in `compose.yaml`, and by hand:
+
+```powershell
+docker compose exec portal python manage.py clearsessions
+```
+
+**Database locking.** SQLite allows one writer at a time. The portal opens
+every write transaction with `BEGIN IMMEDIATE` and waits up to 20 seconds
+for the lock, so two players saving at the same moment queue up and the
+second one gets the normal "someone else changed this field" conflict (409)
+instead of a "database is locked" error (500). Nothing to configure.
+

@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from accounts.models import manageable_users
 from accounts.services import (
+    AccountRuleViolation,
     create_managed_user,
     reset_temporary_password,
     set_user_active,
@@ -274,34 +275,109 @@ def test_account_list_shows_managed_accounts_sorted_by_username(
 
 
 @pytest.mark.django_db
-def test_portal_admin_stays_logged_in_after_resetting_their_own_password(client, portal_admin):
+def test_portal_admin_cannot_reset_their_own_password_through_the_admin_views(
+    client, portal_admin
+):
     client.force_login(portal_admin)
+    old_hash = portal_admin.password
 
     reset = client.post(
         reverse("accounts:admin_user_reset_password", kwargs={"pk": portal_admin.pk}),
         {"temporary_password": "Replacement-Password-42!"},
     )
-    follow_up = client.get(reverse("accounts:change_required"))
 
     portal_admin.refresh_from_db()
-    assert reset.status_code == 302
-    assert reset.url == reverse("accounts:admin_user_list")
-    assert portal_admin.must_change_password is True
-    assert follow_up.status_code == 200
+    assert reset.status_code == 200
+    assert "Dein eigenes Passwort kannst du hier nicht zurücksetzen." in reset.content.decode()
+    assert portal_admin.password == old_hash
+    assert portal_admin.must_change_password is False
 
 
 @pytest.mark.django_db
-def test_portal_admin_can_deactivate_their_own_account(client, portal_admin):
+def test_portal_admin_cannot_deactivate_their_own_account(client, portal_admin, user_factory):
+    user_factory(username="second-admin", is_portal_admin=True)
     client.force_login(portal_admin)
 
     response = client.post(
-        reverse("accounts:admin_user_deactivate", kwargs={"pk": portal_admin.pk})
+        reverse("accounts:admin_user_deactivate", kwargs={"pk": portal_admin.pk}),
+        follow=True,
     )
 
     portal_admin.refresh_from_db()
-    assert response.status_code == 302
-    assert response.url == reverse("accounts:admin_user_list")
-    assert portal_admin.is_active is False
+    assert response.redirect_chain == [(reverse("accounts:admin_user_list"), 302)]
+    assert portal_admin.is_active is True
+    assert "Du kannst dein eigenes Konto nicht deaktivieren." in response.content.decode()
+
+
+@pytest.mark.django_db
+def test_unticking_aktiv_in_the_own_edit_form_is_refused(client, portal_admin, user_factory):
+    user_factory(username="second-admin", is_portal_admin=True)
+    client.force_login(portal_admin)
+
+    response = client.post(
+        reverse("accounts:admin_user_edit", kwargs={"pk": portal_admin.pk}),
+        {"username": portal_admin.username},
+    )
+
+    portal_admin.refresh_from_db()
+    assert response.status_code == 200
+    assert "Du kannst dein eigenes Konto nicht deaktivieren." in response.content.decode()
+    assert portal_admin.is_active is True
+
+
+@pytest.mark.django_db
+def test_the_last_active_portal_admin_cannot_be_deactivated(user_factory, portal_admin):
+    # The actor's request raced with their own deactivation: the object is a
+    # portal admin but no longer active, so ``portal_admin`` is the last one.
+    stale_actor = user_factory(username="stale-admin", is_portal_admin=True, is_active=False)
+
+    with pytest.raises(AccountRuleViolation, match="letzte aktive Portal-Administrator"):
+        set_user_active(actor=stale_actor, user=portal_admin, active=False)
+
+    portal_admin.refresh_from_db()
+    assert portal_admin.is_active is True
+
+
+@pytest.mark.django_db
+def test_a_colleague_admin_stays_manageable(client, portal_admin, user_factory):
+    colleague = user_factory(username="colleague", is_portal_admin=True)
+    client.force_login(portal_admin)
+
+    reset = client.post(
+        reverse("accounts:admin_user_reset_password", kwargs={"pk": colleague.pk}),
+        {"temporary_password": "Replacement-Password-42!"},
+    )
+    deactivate = client.post(
+        reverse("accounts:admin_user_deactivate", kwargs={"pk": colleague.pk})
+    )
+
+    colleague.refresh_from_db()
+    assert reset.status_code == 302 and deactivate.status_code == 302
+    assert colleague.must_change_password is True
+    assert colleague.is_active is False
+
+
+@pytest.mark.django_db
+def test_denied_account_attempts_are_audited(client, portal_admin, user_factory, caplog):
+    user_factory(username="second-admin", is_portal_admin=True)
+    player = user_factory(username="player")
+    client.force_login(portal_admin)
+
+    with caplog.at_level("INFO", logger="accounts.audit"):
+        client.post(reverse("accounts:admin_user_deactivate", kwargs={"pk": portal_admin.pk}))
+        client.force_login(player)
+        denied = client.get(reverse("accounts:admin_user_list"))
+
+    assert denied.status_code == 403
+    messages = [r.getMessage() for r in caplog.records if r.name == "accounts.audit"]
+    assert (
+        "managed_account_denied actor='portal-admin' action=deactivate-self target='portal-admin'"
+        in messages
+    )
+    assert any(
+        m.startswith("admin_access_denied username='player' method=GET path=/portal-admin/accounts/")
+        for m in messages
+    )
 
 
 @pytest.mark.django_db

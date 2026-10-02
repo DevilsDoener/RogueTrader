@@ -8,6 +8,7 @@ requires a strong ``DJANGO_SECRET_KEY`` and explicit ``DJANGO_ALLOWED_HOSTS``.
 
 import os
 import secrets
+from ipaddress import ip_network
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
@@ -82,6 +83,31 @@ PUBLIC_BASE_URL = os.environ.get("PUBLIC_BASE_URL", "http://127.0.0.1:8000")
 # trust that header to know a request was actually secure.
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
+# Which peers may tell us the real client address (login throttle, audit log).
+# Empty by default: the client address is then the direct peer, REMOTE_ADDR, and
+# any X-Real-IP / X-Forwarded-For header is ignored. Behind the reverse proxy
+# list the proxy as seen from the container (comma-separated IPs or CIDRs, see
+# docs/operations.md section 2); only then is TRUSTED_PROXY_HEADER believed.
+# "x-real-ip" (a header the proxy overwrites) or "x-forwarded-for" (the
+# rightmost entry that is not itself a trusted proxy).
+TRUSTED_PROXY_IPS = [
+    entry.strip()
+    for entry in os.environ.get("TRUSTED_PROXY_IPS", "").split(",")
+    if entry.strip()
+]
+for _proxy_entry in TRUSTED_PROXY_IPS:
+    try:
+        ip_network(_proxy_entry, strict=False)
+    except ValueError:
+        raise ImproperlyConfigured(
+            f"TRUSTED_PROXY_IPS entry {_proxy_entry!r} is not an IP address or CIDR network"
+        ) from None
+TRUSTED_PROXY_HEADER = (os.environ.get("TRUSTED_PROXY_HEADER") or "x-real-ip").strip().lower()
+if TRUSTED_PROXY_HEADER not in ("x-real-ip", "x-forwarded-for"):
+    raise ImproperlyConfigured(
+        "TRUSTED_PROXY_HEADER must be 'x-real-ip' or 'x-forwarded-for'"
+    )
+
 # CSRF_TRUSTED_ORIGINS must include the scheme (e.g. "https://example.com"),
 # which PUBLIC_BASE_URL already carries. Trailing slashes are stripped --
 # Django requires an origin with no path component, and both
@@ -117,6 +143,17 @@ SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365 if ENABLE_HSTS else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = ENABLE_HSTS
 SECURE_HSTS_PRELOAD = ENABLE_HSTS
 
+# The audit trail (``accounts.audit``) goes to the console like everything else
+# and, in production, also to a size-rotating file that survives container
+# re-creation: AUDIT_LOG_FILE, default ``logs/audit.log`` next to the database
+# (the /data volume). In development it is off unless AUDIT_LOG_FILE is set.
+# The directory is only created when the first record is written.
+_database_file = Path(os.environ.get("DATABASE_PATH") or BASE_DIR / "data" / "db.sqlite3")
+_default_audit_log = None if DEBUG else _database_file.parent / "logs" / "audit.log"
+AUDIT_LOG_FILE = os.environ.get("AUDIT_LOG_FILE") or _default_audit_log
+AUDIT_LOG_MAX_BYTES = 5 * 1024 * 1024
+AUDIT_LOG_BACKUP_COUNT = 5
+
 # Technical errors are logged; nothing here logs request bodies, so
 # passwords, session values, and sheet content are never captured.
 LOGGING = {
@@ -132,12 +169,31 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "default",
         },
+        **(
+            {
+                "audit_file": {
+                    "class": "accounts.auditlog.AuditFileHandler",
+                    "filename": str(AUDIT_LOG_FILE),
+                    "maxBytes": AUDIT_LOG_MAX_BYTES,
+                    "backupCount": AUDIT_LOG_BACKUP_COUNT,
+                    "formatter": "default",
+                },
+            }
+            if AUDIT_LOG_FILE
+            else {}
+        ),
     },
     "root": {
         "handlers": ["console"],
         "level": "INFO",
     },
     "loggers": {
+        "accounts.audit": {
+            # Console output comes from the root logger via propagation.
+            "handlers": ["audit_file"] if AUDIT_LOG_FILE else [],
+            "level": "INFO",
+            "propagate": True,
+        },
         "django.request": {
             "handlers": ["console"],
             "level": "ERROR",
@@ -171,6 +227,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'accounts.middleware.ForcePasswordChangeMiddleware',
+    'accounts.middleware.AdminAccessAuditMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -199,6 +256,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.environ.get("DATABASE_PATH", BASE_DIR / "data" / "db.sqlite3"),
+        'OPTIONS': {
+            # Take SQLite's write lock when a transaction *begins* and wait up
+            # to 20 s for it. With the default deferred BEGIN, two writers that
+            # both read first fail the second one at once with "database is
+            # locked" (HTTP 500) instead of queueing -- and then seeing the
+            # first one's version and answering 409.
+            'transaction_mode': 'IMMEDIATE',
+            'timeout': 20,
+        },
     }
 }
 
@@ -229,6 +295,12 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
 ]
+
+# Sessions last 14 days from the *last request* (sliding), so an active player
+# is never signed out mid-campaign while an abandoned cookie expires. Expired
+# rows are only removed by ``manage.py clearsessions`` (docs/operations.md).
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
+SESSION_SAVE_EVERY_REQUEST = True
 
 LANGUAGE_CODE = 'de-de'
 TIME_ZONE = 'Europe/Berlin'

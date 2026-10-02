@@ -21,6 +21,6 @@ def manageable_users():
 
 class LoginThrottle(models.Model):
     key_hash = models.CharField(max_length=64, unique=True)
-    window_started_at = models.DateTimeField()
+    window_started_at = models.DateTimeField(db_index=True)
     failure_count = models.PositiveSmallIntegerField(default=0)
     blocked_until = models.DateTimeField(blank=True, null=True)

@@ -4,6 +4,11 @@
 
 {% block content %}
   <h1>Portal-Konten</h1>
+  {% if messages %}
+    <ul class="errorlist">
+      {% for message in messages %}<li role="alert">{{ message }}</li>{% endfor %}
+    </ul>
+  {% endif %}
   <div class="page-actions">
     <a class="button button-primary" href="{% url 'accounts:admin_user_create' %}">Konto anlegen</a>
   </div>

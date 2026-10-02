@@ -2,7 +2,11 @@ from getpass import getpass
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
+
+from accounts import usernames
+from accounts.services import audit_logger
 
 
 class Command(BaseCommand):
@@ -13,11 +17,14 @@ class Command(BaseCommand):
         parser.add_argument("--password")
 
     def handle(self, *args, **options):
-        username = options["username"]
         password = options["password"] or getpass("Password: ")
         user_model = get_user_model()
-        if user_model.objects.filter(username=username).exists():
-            raise CommandError(f"User '{username}' already exists.")
+        try:
+            username = usernames.clean_username(options["username"])
+        except ValidationError as error:
+            if error.code == "unique":
+                raise CommandError(f"User '{options['username'].strip()}' already exists.") from error
+            raise CommandError("; ".join(error.messages)) from error
         user = user_model(
             username=username,
             is_portal_admin=True,
@@ -28,4 +35,5 @@ class Command(BaseCommand):
         validate_password(password, user)
         user.set_password(password)
         user.save()
+        audit_logger.info("bootstrap_admin_created username=%r", username)
         self.stdout.write(self.style.SUCCESS(f"Created portal administrator '{username}'."))

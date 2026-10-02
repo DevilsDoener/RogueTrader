@@ -4,7 +4,17 @@ import pytest
 from django.urls import reverse
 from django.utils import timezone
 
+from accounts import throttle as throttle_module
 from accounts.models import LoginThrottle
+
+GENERIC_ERROR = "Benutzername oder Passwort ungültig."
+TEST_CLIENT_ADDRESS = "127.0.0.1"
+
+
+def pair_row(username, source_ip=TEST_CLIENT_ADDRESS):
+    """The (username, address) counter row."""
+    counters = throttle_module.login_counters(username, source_ip)
+    return LoginThrottle.objects.filter(key_hash=counters.pair.key_hash).first()
 
 
 @pytest.mark.django_db
@@ -22,7 +32,7 @@ def test_login_blocks_after_five_failures_and_uses_generic_error(client, user_fa
         {"username": "crew", "password": "Correct-Password-42!"},
     )
 
-    throttle = LoginThrottle.objects.get()
+    throttle = pair_row("crew")
     assert response.status_code == 200
     assert "Benutzername oder Passwort ungültig." in response.content.decode()
     assert throttle.failure_count == 5
@@ -30,9 +40,10 @@ def test_login_blocks_after_five_failures_and_uses_generic_error(client, user_fa
 
 
 @pytest.mark.django_db
-def test_valid_x_real_ip_addresses_have_independent_username_throttles(
-    client, user_factory
+def test_x_real_ip_from_a_trusted_proxy_gives_independent_username_throttles(
+    client, user_factory, settings
 ):
+    settings.TRUSTED_PROXY_IPS = ["10.0.0.5"]
     user_factory(username="crew", password="Correct-Password-42!")
     login_url = reverse("accounts:login")
     proxy_address = "10.0.0.5"
@@ -54,7 +65,8 @@ def test_valid_x_real_ip_addresses_have_independent_username_throttles(
 
     assert response.status_code == 302
     assert response.url == "/dashboard/"
-    assert LoginThrottle.objects.count() == 1
+    assert pair_row("crew", "192.0.2.10") is not None
+    assert pair_row("crew", "192.0.2.11") is None  # the success reset only its own pair
 
 
 @pytest.mark.django_db
@@ -63,8 +75,9 @@ def test_valid_x_real_ip_addresses_have_independent_username_throttles(
     ["not-an-ip", "192.0.2.10, 198.51.100.20"],
 )
 def test_invalid_x_real_ip_falls_back_to_remote_address(
-    client, user_factory, untrusted_header
+    client, user_factory, untrusted_header, settings
 ):
+    settings.TRUSTED_PROXY_IPS = ["10.0.0.5"]
     user_factory(username="crew", password="Correct-Password-42!")
     login_url = reverse("accounts:login")
     proxy_address = "10.0.0.5"
@@ -90,7 +103,7 @@ def test_invalid_x_real_ip_falls_back_to_remote_address(
 
     assert response.status_code == 200
     assert "Benutzername oder Passwort ungültig." in response.content.decode()
-    throttle = LoginThrottle.objects.get()
+    throttle = pair_row("crew", proxy_address)
     assert throttle.failure_count == 5
     assert throttle.blocked_until > timezone.now()
 
@@ -107,7 +120,7 @@ def test_successful_login_resets_failure_count(client, user_factory):
     )
 
     assert response.status_code == 302
-    assert LoginThrottle.objects.count() == 0
+    assert pair_row("crew") is None
 
 
 @pytest.mark.django_db
@@ -151,7 +164,7 @@ def test_failures_older_than_the_window_start_a_new_count(client, user_factory, 
     _freeze_now(monkeypatch, start + timedelta(minutes=15))
     client.post(login_url, {"username": "crew", "password": "wrong"})
 
-    throttle = LoginThrottle.objects.get()
+    throttle = pair_row("crew")
     assert throttle.failure_count == 1
     assert throttle.window_started_at == start + timedelta(minutes=15)
     assert throttle.blocked_until is None
@@ -165,7 +178,7 @@ def test_a_block_lasts_one_window_and_then_lifts(client, user_factory, monkeypat
     _freeze_now(monkeypatch, start)
     for _ in range(5):
         client.post(login_url, {"username": "crew", "password": "wrong"})
-    assert LoginThrottle.objects.get().blocked_until == start + timedelta(minutes=15)
+    assert pair_row("crew").blocked_until == start + timedelta(minutes=15)
 
     _freeze_now(monkeypatch, start + timedelta(minutes=14, seconds=59))
     still_blocked = client.post(
@@ -173,14 +186,14 @@ def test_a_block_lasts_one_window_and_then_lifts(client, user_factory, monkeypat
     )
     assert still_blocked.status_code == 200
     assert "Benutzername oder Passwort ungültig." in still_blocked.content.decode()
-    assert LoginThrottle.objects.get().failure_count == 5
+    assert pair_row("crew").failure_count == 5
 
     _freeze_now(monkeypatch, start + timedelta(minutes=15, seconds=1))
     lifted = client.post(login_url, {"username": "crew", "password": "Correct-Password-42!"})
 
     assert lifted.status_code == 302
     assert lifted.url == "/dashboard/"
-    assert LoginThrottle.objects.count() == 0
+    assert pair_row("crew") is None
 
 
 @pytest.mark.django_db
@@ -198,7 +211,7 @@ def test_an_expired_block_restarts_the_window_on_the_next_failure(
     _freeze_now(monkeypatch, later)
     response = client.post(login_url, {"username": "crew", "password": "wrong"})
 
-    throttle = LoginThrottle.objects.get()
+    throttle = pair_row("crew")
     assert "Benutzername oder Passwort ungültig." in response.content.decode()
     assert throttle.failure_count == 1
     assert throttle.window_started_at == later
@@ -213,7 +226,7 @@ def test_usernames_share_a_throttle_regardless_of_case_and_whitespace(client, us
     for username in ("crew", "CREW", " Crew ", "crew", "cReW"):
         client.post(login_url, {"username": username, "password": "wrong"})
 
-    throttle = LoginThrottle.objects.get()
+    throttle = pair_row("crew")
     assert throttle.failure_count == 5
     assert throttle.blocked_until is not None
 
@@ -227,15 +240,16 @@ def test_recording_a_failure_purges_expired_rows_of_other_keys(client, user_fact
     client.post(login_url, {"username": "drifter", "password": "wrong"})
     for _ in range(5):
         client.post(login_url, {"username": "blocked", "password": "wrong"})
-    assert LoginThrottle.objects.count() == 2
+    assert pair_row("drifter") is not None and pair_row("blocked") is not None
 
     # 15 minutes on: the lone failure has expired, the block (set at ``start``
-    # for one window) has too, so a new failure leaves only its own row.
+    # for one window) has too, so a new failure leaves only its own rows.
     _freeze_now(monkeypatch, start + timedelta(minutes=15))
     client.post(login_url, {"username": "crew", "password": "wrong"})
 
-    assert LoginThrottle.objects.count() == 1
-    assert LoginThrottle.objects.get().failure_count == 1
+    assert pair_row("drifter") is None and pair_row("blocked") is None
+    assert pair_row("crew").failure_count == 1
+    assert {row.failure_count for row in LoginThrottle.objects.all()} == {1}
 
 
 @pytest.mark.django_db
@@ -253,8 +267,9 @@ def test_purging_keeps_active_blocks_and_current_windows(client, user_factory, m
     _freeze_now(monkeypatch, start + timedelta(minutes=16))
     client.post(login_url, {"username": "crew", "password": "wrong"})
 
-    assert LoginThrottle.objects.count() == 2  # blocked + crew; "recent" expired
-    blocked = LoginThrottle.objects.exclude(failure_count=1).get()
+    assert pair_row("recent") is None  # expired
+    assert pair_row("crew").failure_count == 1
+    blocked = pair_row("blocked")
     assert blocked.failure_count == 5
     assert blocked.blocked_until == start + timedelta(minutes=25)
 

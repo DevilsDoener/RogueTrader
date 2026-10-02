@@ -2,14 +2,40 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.password_validation import validate_password
 
+from . import usernames
 from .models import User
+
+LOGIN_USERNAME_MAX_LENGTH = usernames.USERNAME_MAX_LENGTH
+LOGIN_PASSWORD_MAX_LENGTH = 4096
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label="Benutzername", required=False)
-    password = forms.CharField(
-        label="Passwort", required=False, strip=False, widget=forms.PasswordInput
+    """Over-long input is not a field error: that would be a second, more
+    specific message than the generic one every other refusal gets. It sets
+    ``credentials_too_long`` instead and the view counts it as a failed login
+    without hashing anything."""
+
+    username = forms.CharField(
+        label="Benutzername",
+        required=False,
+        widget=forms.TextInput(attrs={"maxlength": LOGIN_USERNAME_MAX_LENGTH}),
     )
+    password = forms.CharField(
+        label="Passwort",
+        required=False,
+        strip=False,
+        widget=forms.PasswordInput(attrs={"maxlength": LOGIN_PASSWORD_MAX_LENGTH}),
+    )
+
+    credentials_too_long = False
+
+    def clean(self):
+        cleaned = super().clean()
+        self.credentials_too_long = (
+            len(cleaned.get("username", "")) > LOGIN_USERNAME_MAX_LENGTH
+            or len(cleaned.get("password", "")) > LOGIN_PASSWORD_MAX_LENGTH
+        )
+        return cleaned
 
 
 class RequiredPasswordChangeForm(PasswordChangeForm):
@@ -21,14 +47,26 @@ class RequiredPasswordChangeForm(PasswordChangeForm):
         "password_incorrect": "Dein aktuelles Passwort stimmt nicht. Gib es bitte noch einmal ein.",
     }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, locked=False, **kwargs):
+        # ``locked``: too many wrong current passwords lately. The form then
+        # refuses with the ordinary "wrong password" message and hashes nothing.
+        self.locked = locked
         super().__init__(*args, **kwargs)
         self.fields["new_password2"].help_text = (
             "Gib dasselbe neue Passwort zur Bestätigung noch einmal ein."
         )
 
+    def clean_old_password(self):
+        if self.locked:
+            raise forms.ValidationError(
+                self.error_messages["password_incorrect"], code="password_incorrect"
+            )
+        return super().clean_old_password()
+
     def clean_new_password1(self):
         password = self.cleaned_data["new_password1"]
+        if self.locked:
+            return password
         if self.user.check_password(password):
             raise forms.ValidationError(
                 "Das neue Passwort muss sich vom aktuellen Passwort unterscheiden."
@@ -36,19 +74,27 @@ class RequiredPasswordChangeForm(PasswordChangeForm):
         return password
 
 
-class ManagedUserCreateForm(forms.Form):
+class _UsernameFormMixin:
+    """Create and edit validate a name with the same rule (``usernames``)."""
+
+    existing_user = None
+
+    def clean_username(self):
+        return usernames.clean_username(
+            self.cleaned_data["username"], existing=self.existing_user
+        )
+
+
+class ManagedUserCreateForm(_UsernameFormMixin, forms.Form):
     username = forms.CharField(
-        label="Benutzername", max_length=User._meta.get_field("username").max_length
+        label="Benutzername",
+        help_text=usernames.USERNAME_HELP_TEXT,
+        # Over-long names get the validator's German message, not Django's.
+        widget=forms.TextInput(attrs={"maxlength": usernames.USERNAME_MAX_LENGTH}),
     )
     temporary_password = forms.CharField(
         label="Temporäres Passwort", strip=False, widget=forms.PasswordInput
     )
-
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("Dieser Benutzername ist bereits vergeben.")
-        return username
 
     def clean_temporary_password(self):
         password = self.cleaned_data["temporary_password"]
@@ -57,11 +103,22 @@ class ManagedUserCreateForm(forms.Form):
         return password
 
 
-class ManagedUserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ("username", "is_active")
-        labels = {"username": "Benutzername", "is_active": "Aktiv"}
+class ManagedUserForm(_UsernameFormMixin, forms.Form):
+    """Edit an account. A plain form (not a ``ModelForm``) on purpose: the
+    instance keeps its old name until the service saves it, so the audit log
+    can record old -> new."""
+
+    username = forms.CharField(
+        label="Benutzername",
+        help_text=usernames.USERNAME_HELP_TEXT,
+        widget=forms.TextInput(attrs={"maxlength": usernames.USERNAME_MAX_LENGTH}),
+    )
+    is_active = forms.BooleanField(label="Aktiv", required=False)
+
+    def __init__(self, *args, instance, **kwargs):
+        kwargs.setdefault("initial", {"username": instance.username, "is_active": instance.is_active})
+        super().__init__(*args, **kwargs)
+        self.existing_user = instance
 
 
 class TemporaryPasswordForm(forms.Form):

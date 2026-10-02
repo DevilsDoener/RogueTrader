@@ -189,6 +189,11 @@ Every account is admin-created (`bootstrap_admin` creates the first one);
 there is no self-registration. A newly-created account gets a temporary
 password and must set its own password on first login.
 
+Usernames are ASCII letters, digits and `@ . + - _` and unique ignoring case
+(`Alice` is taken once `alice` exists). Behind a reverse proxy, set
+`TRUSTED_PROXY_IPS` (see [`docs/operations.md`](docs/operations.md) section 2);
+otherwise the login throttle sees only the proxy's address.
+
 ## Running the acceptance suite
 
 All commands below assume the project's own `.venv`
