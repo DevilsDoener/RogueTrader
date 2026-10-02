@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
 from sheets.cards import character_card
-from sheets.models import CharacterSheet, ShipSheet
+from sheets.permissions import characters_owned_by
+from sheets.services import get_active_ship
 from wiki.content import get_repository_or_none
 
 #: The dashboard's character selection only ever shows a short,
@@ -40,11 +41,11 @@ def dashboard(request):
     portal-admin routes are for).
     """
     characters = (
-        CharacterSheet.objects.filter(owner=request.user)
+        characters_owned_by(request.user)
         .defer("field_versions")
         .order_by("-updated_at")[:DASHBOARD_CHARACTER_LIMIT]
     )
-    ship = ShipSheet.objects.filter(is_active=True).order_by("id").first()
+    ship = get_active_ship()
     # Without a wiki repository (startup failed to load it, see
     # WikiConfig.ready()) the shortcuts are dropped rather than 500ing the
     # whole dashboard.

@@ -105,7 +105,13 @@ def _validate_character_field(field_id: str, value) -> None:
 def _validate_ship_field(field_id: str, value) -> None:
     page_schema = schema.load_schema(schema.SHIP_PAGE_ID)
     try:
-        page_schema.validate_value(field_id, value)
+        field_spec = page_schema.field_by_id(field_id)
+    except schema.SchemaError as exc:
+        raise FieldValidationError(field_id=field_id, message=str(exc)) from exc
+    if field_spec.read_only:
+        raise FieldValidationError(field_id=field_id, message="Dieses Feld ist schreibgeschützt.")
+    try:
+        field_spec.validate_value(value)
     except schema.SchemaError as exc:
         raise FieldValidationError(field_id=field_id, message=str(exc)) from exc
 
@@ -132,6 +138,29 @@ def get_active_ship() -> ShipSheet | None:
     return ShipSheet.objects.filter(is_active=True).order_by("id").first()
 
 
+def _record_change(sheet, *, actor, field_id: str, old_value, new_value) -> None:
+    """The one place that writes a :class:`~sheets.models.SheetChange` row:
+    the target foreign key (``character`` or ``ship``) follows the sheet's type,
+    and the row always carries the sheet's current version.
+    """
+    target = {"character": sheet} if isinstance(sheet, CharacterSheet) else {"ship": sheet}
+    SheetChange.objects.create(
+        actor=actor,
+        field_id=field_id,
+        old_value=old_value,
+        new_value=new_value,
+        resulting_version=sheet.version,
+        **target,
+    )
+
+
+def _saved_at(sheet) -> datetime:
+    """A character's auto_now ``updated_at`` was just refreshed by ``save()``;
+    the ship has no timestamp column of its own.
+    """
+    return sheet.updated_at if isinstance(sheet, CharacterSheet) else timezone.now()
+
+
 def _apply_field_patch(
     sheet,
     *,
@@ -140,7 +169,6 @@ def _apply_field_patch(
     value,
     base_version: int,
     validate,
-    audit_kwargs: dict,
     on_value_applied=None,
     calculated_fields: dict | None = None,
 ) -> PatchResult:
@@ -152,15 +180,18 @@ def _apply_field_patch(
     inside an active transaction, and any permission check must already have
     passed -- this helper only owns the concurrency-critical part that is
     identical for both sheet types. ``validate`` raises
-    :class:`FieldValidationError` for an unknown/invalid field. ``audit_kwargs``
-    supplies the ``character=``/``ship=`` foreign key pair for the
-    :class:`~sheets.models.SheetChange` record. ``on_value_applied``, if
+    :class:`FieldValidationError` for an unknown/invalid field. The audit
+    :class:`~sheets.models.SheetChange` is written by :func:`_record_change`.
+    ``on_value_applied``, if
     given, runs *after* the conflict check passes but *before* saving, so a
     caller can apply model-specific side effects (e.g. syncing
     ``CharacterSheet.display_name``) exactly once, only on a successful
     write -- it returns any extra field names that need to be added to
     ``update_fields``. ``calculated_fields`` (filled in by that callback) is
     passed through to :attr:`PatchResult.calculated_fields`.
+
+    Writing the value a field already holds is a no-op: nothing is saved or
+    audited and the field's current version is returned.
     """
     validate(field_id, value)
 
@@ -174,6 +205,15 @@ def _apply_field_patch(
             current_version=current_version,
         )
 
+    if field_id in sheet.values and type(old_value) is type(value) and old_value == value:
+        return PatchResult(
+            field_id=field_id,
+            value=value,
+            version=current_version,
+            saved_at=_saved_at(sheet),
+            calculated_fields={},
+        )
+
     sheet.version += 1
     sheet.values[field_id] = value
     sheet.field_versions[field_id] = sheet.version
@@ -182,24 +222,13 @@ def _apply_field_patch(
         update_fields.extend(on_value_applied(sheet, field_id, value) or [])
     sheet.save(update_fields=update_fields)
 
-    SheetChange.objects.create(
-        actor=actor,
-        field_id=field_id,
-        old_value=old_value,
-        new_value=value,
-        resulting_version=sheet.version,
-        **audit_kwargs,
-    )
-
-    # A character's auto_now ``updated_at`` was just refreshed by save();
-    # the ship has no timestamp column of its own.
-    saved_at = sheet.updated_at if isinstance(sheet, CharacterSheet) else timezone.now()
+    _record_change(sheet, actor=actor, field_id=field_id, old_value=old_value, new_value=value)
 
     return PatchResult(
         field_id=field_id,
         value=value,
         version=sheet.version,
-        saved_at=saved_at,
+        saved_at=_saved_at(sheet),
         calculated_fields=calculated_fields if calculated_fields is not None else {},
     )
 
@@ -229,14 +258,7 @@ def _write_derived_field(
     old_value = sheet.values.get(field_id)
     sheet.values[field_id] = value
     sheet.field_versions[field_id] = sheet.version
-    SheetChange.objects.create(
-        character=sheet,
-        actor=actor,
-        field_id=field_id,
-        old_value=old_value,
-        new_value=value,
-        resulting_version=sheet.version,
-    )
+    _record_change(sheet, actor=actor, field_id=field_id, old_value=old_value, new_value=value)
     calculated[field_id] = {"value": value, "version": sheet.version}
 
 
@@ -283,7 +305,6 @@ def patch_character_field(
         value=value,
         base_version=base_version,
         validate=_validate_character_field,
-        audit_kwargs={"character": sheet, "ship": None},
         on_value_applied=apply_character_values,
         calculated_fields=calculated,
     )
@@ -312,7 +333,6 @@ def patch_ship_field(
         value=value,
         base_version=base_version,
         validate=_validate_ship_field,
-        audit_kwargs={"character": None, "ship": sheet},
     )
 
 

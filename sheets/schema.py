@@ -21,6 +21,8 @@ from functools import cached_property, lru_cache
 from pathlib import Path
 from typing import Any, Literal, Mapping, Sequence
 
+from .textsafety import unsafe_text_problem
+
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
 #: The two pages whose fields together make up one character sheet.
@@ -43,6 +45,14 @@ _QUANTUM = Decimal("0.0001")
 _HUNDRED = Decimal("100")
 
 
+#: The 422 text for a value with control, bidi or non-UTF-8 characters
+#: (see :mod:`sheets.textsafety`).
+UNSAFE_TEXT_MESSAGE = (
+    "Der Text enthält ungültige Zeichen (Steuerzeichen, Zeilenumbrüche, "
+    "Richtungsumschalter oder nicht darstellbare Zeichen)."
+)
+
+
 class SchemaError(ValueError):
     """Raised when a schema JSON payload fails structural or value validation."""
 
@@ -60,6 +70,112 @@ def _quantize_coordinate(value: Any, *, field_id: str, name: str) -> Decimal:
             f"field {field_id!r}: {name} is not a valid number: {value!r}"
         ) from exc
     return decimal_value.quantize(_QUANTUM, rounding=ROUND_HALF_UP)
+
+
+def _parse_identity(payload: Mapping[str, Any]) -> tuple[str, FieldKind]:
+    """The required keys, the field id and its kind."""
+    for key in ("id", "kind", "x", "y", "width", "height", "max_length", "label"):
+        _require(key in payload, f"field is missing required key {key!r}: {payload!r}")
+
+    field_id = payload["id"]
+    _require(
+        isinstance(field_id, str) and field_id.strip() != "",
+        f"field id must be a non-empty string, got {field_id!r}",
+    )
+
+    kind = payload["kind"]
+    _require(
+        kind in _VALID_KINDS,
+        f"field {field_id!r}: kind must be one of {_VALID_KINDS}, got {kind!r}",
+    )
+    return field_id, kind
+
+
+def _parse_geometry(
+    payload: Mapping[str, Any], field_id: str
+) -> tuple[Decimal, Decimal, Decimal, Decimal]:
+    """``x``, ``y``, ``width``, ``height`` as quantized percentages inside the image."""
+    x = _quantize_coordinate(payload["x"], field_id=field_id, name="x")
+    y = _quantize_coordinate(payload["y"], field_id=field_id, name="y")
+    width = _quantize_coordinate(payload["width"], field_id=field_id, name="width")
+    height = _quantize_coordinate(payload["height"], field_id=field_id, name="height")
+
+    _require(width > 0, f"field {field_id!r}: width must be positive, got {width}")
+    _require(height > 0, f"field {field_id!r}: height must be positive, got {height}")
+    _require(0 <= x < _HUNDRED, f"field {field_id!r}: x out of bounds [0, 100): {x}")
+    _require(0 <= y < _HUNDRED, f"field {field_id!r}: y out of bounds [0, 100): {y}")
+    _require(
+        x + width <= _HUNDRED,
+        f"field {field_id!r}: x + width exceeds 100: {x} + {width} = {x + width}",
+    )
+    _require(
+        y + height <= _HUNDRED,
+        f"field {field_id!r}: y + height exceeds 100: {y} + {height} = {y + height}",
+    )
+    return x, y, width, height
+
+
+def _parse_content(payload: Mapping[str, Any], field_id: str) -> tuple[int, str]:
+    """``max_length`` and the human ``label``."""
+    max_length = payload["max_length"]
+    _require(
+        isinstance(max_length, int) and not isinstance(max_length, bool) and max_length > 0,
+        f"field {field_id!r}: max_length must be a positive integer, got {max_length!r}",
+    )
+
+    label = payload["label"]
+    _require(
+        isinstance(label, str) and label.strip() != "",
+        f"field {field_id!r}: label must be a non-empty string, got {label!r}",
+    )
+    return max_length, label
+
+
+def _parse_styles(
+    payload: Mapping[str, Any], field_id: str, kind: FieldKind
+) -> tuple[str, str]:
+    """``text_style`` and ``checkbox_style`` (and the legacy ``align`` they must agree with)."""
+    text_style = payload.get(
+        "text_style", "center" if payload.get("align") == "center" else "line"
+    )
+    _require(text_style in ("line", "center", "characteristic"),
+             f"field {field_id!r}: invalid text_style {text_style!r}")
+    checkbox_style = payload.get("checkbox_style", "square")
+    _require(checkbox_style in ("square", "pip"),
+             f"field {field_id!r}: invalid checkbox_style {checkbox_style!r}")
+    # ``align`` is derived from ``text_style``; a stored ``align`` key is
+    # still accepted (legacy layouts) but must agree with it.
+    expected_align = "left" if text_style == "line" else "center"
+    align = payload.get("align", expected_align)
+    _require(
+        align in ("left", "center"),
+        f"field {field_id!r}: align must be 'left' or 'center', got {align!r}",
+    )
+    _require(align == expected_align,
+             f"field {field_id!r}: align conflicts with text_style")
+    _require(kind == "text" or text_style == "line",
+             f"field {field_id!r}: checkbox cannot have text_style {text_style!r}")
+    _require(kind == "checkbox" or checkbox_style == "square",
+             f"field {field_id!r}: text field cannot have checkbox_style {checkbox_style!r}")
+    return text_style, checkbox_style
+
+
+def _parse_flags(
+    payload: Mapping[str, Any], field_id: str, kind: FieldKind
+) -> tuple[bool, str, tuple[int, int, int, int]]:
+    """``read_only``, ``input_mode`` and the checkbox ``hit_padding``."""
+    read_only = payload.get("read_only", False)
+    _require(type(read_only) is bool and (kind == "text" or not read_only),
+             f"field {field_id!r}: invalid read_only")
+    input_mode = payload.get("input_mode", "text")
+    _require(input_mode in ("text", "numeric"), f"field {field_id!r}: invalid input_mode")
+    _require(kind == "text" or input_mode == "text", f"field {field_id!r}: checkbox input_mode")
+    hit_padding = payload.get("hit_padding", [0, 0, 0, 0])
+    _require(isinstance(hit_padding, (list, tuple)) and len(hit_padding) == 4
+             and all(type(n) is int and 0 <= n <= 200 for n in hit_padding),
+             f"field {field_id!r}: invalid hit_padding")
+    _require(kind == "checkbox" or not any(hit_padding), f"field {field_id!r}: text hit_padding")
+    return read_only, input_mode, tuple(hit_padding)
 
 
 @dataclass(frozen=True)
@@ -93,85 +209,14 @@ class FieldSpec:
 
     @classmethod
     def from_dict(cls, payload: Mapping[str, Any]) -> "FieldSpec":
-        for key in ("id", "kind", "x", "y", "width", "height", "max_length", "label"):
-            _require(key in payload, f"field is missing required key {key!r}: {payload!r}")
-
-        field_id = payload["id"]
-        _require(
-            isinstance(field_id, str) and field_id.strip() != "",
-            f"field id must be a non-empty string, got {field_id!r}",
-        )
-
-        kind = payload["kind"]
-        _require(
-            kind in _VALID_KINDS,
-            f"field {field_id!r}: kind must be one of {_VALID_KINDS}, got {kind!r}",
-        )
-
-        x = _quantize_coordinate(payload["x"], field_id=field_id, name="x")
-        y = _quantize_coordinate(payload["y"], field_id=field_id, name="y")
-        width = _quantize_coordinate(payload["width"], field_id=field_id, name="width")
-        height = _quantize_coordinate(payload["height"], field_id=field_id, name="height")
-
-        _require(width > 0, f"field {field_id!r}: width must be positive, got {width}")
-        _require(height > 0, f"field {field_id!r}: height must be positive, got {height}")
-        _require(0 <= x < _HUNDRED, f"field {field_id!r}: x out of bounds [0, 100): {x}")
-        _require(0 <= y < _HUNDRED, f"field {field_id!r}: y out of bounds [0, 100): {y}")
-        _require(
-            x + width <= _HUNDRED,
-            f"field {field_id!r}: x + width exceeds 100: {x} + {width} = {x + width}",
-        )
-        _require(
-            y + height <= _HUNDRED,
-            f"field {field_id!r}: y + height exceeds 100: {y} + {height} = {y + height}",
-        )
-
-        max_length = payload["max_length"]
-        _require(
-            isinstance(max_length, int) and not isinstance(max_length, bool) and max_length > 0,
-            f"field {field_id!r}: max_length must be a positive integer, got {max_length!r}",
-        )
-
-        label = payload["label"]
-        _require(
-            isinstance(label, str) and label.strip() != "",
-            f"field {field_id!r}: label must be a non-empty string, got {label!r}",
-        )
-
-        text_style = payload.get(
-            "text_style", "center" if payload.get("align") == "center" else "line"
-        )
-        _require(text_style in ("line", "center", "characteristic"),
-                 f"field {field_id!r}: invalid text_style {text_style!r}")
-        checkbox_style = payload.get("checkbox_style", "square")
-        _require(checkbox_style in ("square", "pip"),
-                 f"field {field_id!r}: invalid checkbox_style {checkbox_style!r}")
-        # ``align`` is derived from ``text_style``; a stored ``align`` key is
-        # still accepted (legacy layouts) but must agree with it.
-        expected_align = "left" if text_style == "line" else "center"
-        align = payload.get("align", expected_align)
-        _require(
-            align in ("left", "center"),
-            f"field {field_id!r}: align must be 'left' or 'center', got {align!r}",
-        )
-        _require(align == expected_align,
-                 f"field {field_id!r}: align conflicts with text_style")
-        _require(kind == "text" or text_style == "line",
-                 f"field {field_id!r}: checkbox cannot have text_style {text_style!r}")
-        _require(kind == "checkbox" or checkbox_style == "square",
-                 f"field {field_id!r}: text field cannot have checkbox_style {checkbox_style!r}")
-
-        read_only = payload.get("read_only", False)
-        _require(type(read_only) is bool and (kind == "text" or not read_only),
-                 f"field {field_id!r}: invalid read_only")
-        input_mode = payload.get("input_mode", "text")
-        _require(input_mode in ("text", "numeric"), f"field {field_id!r}: invalid input_mode")
-        _require(kind == "text" or input_mode == "text", f"field {field_id!r}: checkbox input_mode")
-        hit_padding = payload.get("hit_padding", [0, 0, 0, 0])
-        _require(isinstance(hit_padding, (list, tuple)) and len(hit_padding) == 4
-                 and all(type(n) is int and 0 <= n <= 200 for n in hit_padding),
-                 f"field {field_id!r}: invalid hit_padding")
-        _require(kind == "checkbox" or not any(hit_padding), f"field {field_id!r}: text hit_padding")
+        # The parsers run in this order, so the first failing rule wins
+        # exactly as it always has (error messages and precedence are pinned
+        # by the schema tests).
+        field_id, kind = _parse_identity(payload)
+        x, y, width, height = _parse_geometry(payload, field_id)
+        max_length, label = _parse_content(payload, field_id)
+        text_style, checkbox_style = _parse_styles(payload, field_id, kind)
+        read_only, input_mode, hit_padding = _parse_flags(payload, field_id, kind)
         return cls(
             id=field_id,
             kind=kind,
@@ -185,30 +230,28 @@ class FieldSpec:
             checkbox_style=checkbox_style,
             input_mode=input_mode,
             read_only=read_only,
-            hit_padding=tuple(hit_padding),
+            hit_padding=hit_padding,
         )
 
     def validate_value(self, value: Any) -> None:
         """Raise ``SchemaError`` if ``value`` is not valid for this field."""
         if self.kind == "checkbox":
             if not isinstance(value, bool):
-                raise SchemaError(
-                    f"field {self.id!r}: checkbox value must be a JSON boolean, got {value!r}"
-                )
+                raise SchemaError(f"field {self.id!r}: checkbox value must be a JSON boolean")
             return
 
         # kind == "text"
         if not isinstance(value, str):
-            raise SchemaError(
-                f"field {self.id!r}: text value must be a string, got {value!r}"
-            )
-        if self.input_mode == "numeric" and value and not (value.isascii() and value.isdigit()):
-            raise SchemaError(f"field {self.id!r}: enter a non-negative whole number")
+            raise SchemaError(f"field {self.id!r}: text value must be a string")
         if len(value) > self.max_length:
             raise SchemaError(
                 f"field {self.id!r}: text value exceeds max_length "
                 f"{self.max_length} ({len(value)} characters)"
             )
+        if unsafe_text_problem(value) is not None:
+            raise SchemaError(UNSAFE_TEXT_MESSAGE)
+        if self.input_mode == "numeric" and value and not (value.isascii() and value.isdigit()):
+            raise SchemaError(f"field {self.id!r}: enter a non-negative whole number")
 
 
 @dataclass(frozen=True)

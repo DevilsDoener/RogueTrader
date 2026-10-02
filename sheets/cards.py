@@ -9,6 +9,7 @@ from __future__ import annotations
 from collections.abc import Collection
 
 from .models import CharacterSheet
+from .textsafety import display_text
 
 #: The nine characteristics shown on a card, in sheet order.
 #: Labels are the book's English abbreviations.
@@ -43,7 +44,7 @@ def _card_value(values: dict, field_id: str) -> str:
     value = values.get(field_id)
     if isinstance(value, bool) or not isinstance(value, (str, int, float)):
         return ""
-    return str(value).strip()
+    return display_text(str(value)).strip()
 
 
 def character_card(
@@ -59,7 +60,7 @@ def character_card(
     only its name, dates and actions.
     """
     values = character.values if isinstance(character.values, dict) else {}
-    name = (character.display_name or "").strip() or "Unbenannter Charakter"
+    name = display_text(character.display_name or "").strip() or "Unbenannter Charakter"
 
     career = _card_value(values, "c1_career_path")
     rank = _card_value(values, "c1_rank")

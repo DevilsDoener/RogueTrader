@@ -1,9 +1,8 @@
 """Owner-scoped character CRUD and separate read-only admin viewing.
 
-Every owner-facing lookup starts from ``_owned_characters(request.user)`` (a thin
-wrapper over ``CharacterSheet.objects.filter(owner=...)``) so a character owned by
-someone else is indistinguishable from one that doesn't exist (404), matching the
-permission model in ``sheets/permissions.py``.
+Every owner-facing lookup starts from ``characters_owned_by(request.user)``
+(``sheets/permissions.py``) so a character owned by someone else is
+indistinguishable from one that doesn't exist (404).
 The admin routes are entirely separate views/URLs -- they are never reused for
 owner mutation -- and only ever render the sheet read-only.
 """
@@ -13,20 +12,18 @@ import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import QuerySet
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.templatetags.static import static
-from django.urls import reverse
 from django.views import View
 
 from core.mixins import PortalAdminRequiredMixin
 
-from . import characteristics, movement
+from . import viewer
 from .cards import character_card
 from .forms import CharacterCreateForm
+from .history import format_value, history_rows
 from .models import CharacterSheet, SheetChange, ShipSheet
-from .schema import CHARACTER_PAGE_IDS, SHIP_PAGE_ID, SchemaError, load_schema
+from .permissions import characters_owned_by
 from .services import (
     FieldConflict,
     FieldValidationError,
@@ -47,80 +44,6 @@ SHIP_HISTORY_PAGE_SIZE = 50
 DETAIL_TEMPLATE_NAME = "sheets/character_detail.html"
 
 
-def _character_client_rules() -> dict:
-    """The server-side sheet rules the viewer mirrors for its instant preview.
-
-    Emitted as JSON next to the sheet (``_sheet_shell.html``) so the browser
-    reads the same constants the server enforces instead of keeping copies.
-    The server's ``calculated_fields`` answer stays authoritative.
-    """
-    return {
-        "movement": {
-            "source": movement.SOURCE,
-            "factors": movement.FACTORS,
-            "max_digits": movement.MAX_DIGITS,
-        },
-        "counterparts": characteristics.COUNTERPARTS,
-    }
-
-
-def _owned_characters(user) -> QuerySet[CharacterSheet]:
-    """The single owner-scoped queryset every owner-facing lookup starts from."""
-    return CharacterSheet.objects.filter(owner=user)
-
-
-def _page_contexts(sheet: CharacterSheet | ShipSheet, page_ids: tuple[str, ...]) -> list[dict]:
-    """One dict per rendered page for ``sheets/_sheet_viewer.html``.
-
-    ``fields`` pairs every schema field (in declared order) with the sheet's
-    stored value and version for it, so the template never looks up stored
-    keys itself -- unknown stored keys are simply never rendered.
-    """
-    values = sheet.values or {}
-    versions = sheet.field_versions or {}
-    pages = []
-    for page_id in page_ids:
-        page_schema = load_schema(page_id)
-        pages.append(
-            {
-                "page_id": page_id,
-                "image_url": static(f"sheets/images/{page_id}.webp"),
-                "width": page_schema.image_width,
-                "height": page_schema.image_height,
-                "fields": [
-                    (field_spec, values.get(field_spec.id), versions.get(field_spec.id))
-                    for field_spec in page_schema.fields
-                ],
-            }
-        )
-    return pages
-
-
-def _character_viewer_context(character: CharacterSheet, *, read_only: bool) -> dict:
-    """Build the context consumed by ``sheets/character_detail.html`` (which
-    itself includes ``sheets/_sheet_viewer.html``).
-
-    Renders both background pages with overlay inputs; when ``read_only``
-    is false those inputs are live and backed by the interactive
-    autosave/conflict-resolution behaviour in ``sheet-viewer.js``.
-    """
-    field_update_url_template = None
-    if not read_only:
-        # A single reversed URL with a placeholder field id, filled in
-        # client-side per field -- keeps the URL structure defined in one
-        # place (urls.py) instead of duplicated in JS.
-        field_update_url_template = reverse(
-            "sheets:character_field_update", args=[character.pk, "__FIELD_ID__"]
-        )
-    return {
-        "character": character,
-        "read_only": read_only,
-        "pages": _page_contexts(character, CHARACTER_PAGE_IDS),
-        "field_update_url_template": field_update_url_template,
-        "client_rules": _character_client_rules(),
-    }
-
-
 class CharacterListCreateView(LoginRequiredMixin, View):
     """``GET/POST /characters/`` -- list the caller's own characters, create a new one."""
 
@@ -128,7 +51,7 @@ class CharacterListCreateView(LoginRequiredMixin, View):
 
     def _render(self, request, form):
         characters = (
-            _owned_characters(request.user).defer("field_versions").order_by("display_name")
+            characters_owned_by(request.user).defer("field_versions").order_by("display_name")
         )
         return render(
             request,
@@ -156,8 +79,53 @@ class CharacterDetailView(LoginRequiredMixin, View):
     """``GET /characters/<uuid>/`` -- read/write viewer for the caller's own character."""
 
     def get(self, request, pk):
-        character = get_object_or_404(_owned_characters(request.user), pk=pk)
-        return render(request, DETAIL_TEMPLATE_NAME, _character_viewer_context(character, read_only=False))
+        character = get_object_or_404(characters_owned_by(request.user), pk=pk)
+        return render(request, DETAIL_TEMPLATE_NAME, viewer.character_context(character, read_only=False))
+
+
+#: A legitimate field-update body (``value`` of at most a few hundred
+#: characters plus an integer version) is well under 1 KB; anything bigger is
+#: rejected before it is parsed.
+MAX_FIELD_BODY_BYTES = 4096
+
+
+def _json_error(message: str, status: int) -> JsonResponse:
+    return JsonResponse({"error": message}, status=status)
+
+
+def _parse_patch_body(request):
+    """Parse and check the field-update JSON envelope.
+
+    Returns ``(value, base_version)``, or the :class:`JsonResponse` (400/413)
+    to send back instead. The request must be ``application/json`` and at
+    most :data:`MAX_FIELD_BODY_BYTES` long, with exactly ``value`` and an
+    integer ``base_version``.
+    """
+    if request.content_type != "application/json":
+        return _json_error("Content-Type must be application/json", 400)
+
+    try:
+        declared_length = int(request.META.get("CONTENT_LENGTH") or 0)
+    except ValueError:
+        return _json_error("Ungültige Anfrage.", 400)
+    if declared_length > MAX_FIELD_BODY_BYTES:
+        return _json_error("Die Anfrage ist zu groß.", 413)
+    raw = request.body
+    if len(raw) > MAX_FIELD_BODY_BYTES:
+        return _json_error("Die Anfrage ist zu groß.", 413)
+
+    try:
+        payload = json.loads(raw.decode("utf-8") or "null")
+    except (ValueError, UnicodeDecodeError, RecursionError):
+        return _json_error("Malformed JSON body", 400)
+
+    if not isinstance(payload, dict) or set(payload.keys()) != {"value", "base_version"}:
+        return _json_error("Body must contain exactly 'value' and 'base_version'", 400)
+
+    base_version = payload["base_version"]
+    if not isinstance(base_version, int) or isinstance(base_version, bool):
+        return _json_error("base_version must be an integer", 400)
+    return payload["value"], base_version
 
 
 def _field_update_response(request, patch_fn, **patch_kwargs):
@@ -166,35 +134,18 @@ def _field_update_response(request, patch_fn, **patch_kwargs):
     :func:`patch_ship_field`; ``patch_kwargs`` supplies everything it needs
     except ``value``/``base_version``, which come from the parsed body.
 
-    Only parses/validates the JSON envelope and translates the service's
-    exceptions to the response contract (200/409/422/404) -- it never
-    reveals whether a sheet the caller can't mutate even exists. The request
-    must be ``application/json`` with exactly ``value`` and an integer
-    ``base_version``. CSRF protection is enforced globally by
-    ``CsrfViewMiddleware``.
+    Parses the envelope (:func:`_parse_patch_body`), calls the service and
+    translates its exceptions to the response contract (200/409/422/404) --
+    it never reveals whether a sheet the caller can't mutate even exists.
+    CSRF protection is enforced globally by ``CsrfViewMiddleware``.
     """
-    if request.content_type != "application/json":
-        return JsonResponse(
-            {"error": "Content-Type must be application/json"}, status=400
-        )
+    parsed = _parse_patch_body(request)
+    if isinstance(parsed, JsonResponse):
+        return parsed
+    value, base_version = parsed
 
     try:
-        payload = json.loads(request.body.decode("utf-8") or "null")
-    except (ValueError, UnicodeDecodeError):
-        return JsonResponse({"error": "Malformed JSON body"}, status=400)
-
-    if not isinstance(payload, dict) or set(payload.keys()) != {"value", "base_version"}:
-        return JsonResponse(
-            {"error": "Body must contain exactly 'value' and 'base_version'"},
-            status=400,
-        )
-
-    base_version = payload["base_version"]
-    if not isinstance(base_version, int) or isinstance(base_version, bool):
-        return JsonResponse({"error": "base_version must be an integer"}, status=400)
-
-    try:
-        result = patch_fn(value=payload["value"], base_version=base_version, **patch_kwargs)
+        result = patch_fn(value=value, base_version=base_version, **patch_kwargs)
     except SheetNotFound as exc:
         raise Http404() from exc
     except FieldValidationError as exc:
@@ -260,11 +211,11 @@ class CharacterDeleteView(LoginRequiredMixin, View):
     template_name = "sheets/character_confirm_delete.html"
 
     def get(self, request, pk):
-        character = get_object_or_404(_owned_characters(request.user), pk=pk)
+        character = get_object_or_404(characters_owned_by(request.user), pk=pk)
         return render(request, self.template_name, {"character": character})
 
     def post(self, request, pk):
-        character = get_object_or_404(_owned_characters(request.user), pk=pk)
+        character = get_object_or_404(characters_owned_by(request.user), pk=pk)
         delete_character(sheet_id=character.pk, actor=request.user)
         return redirect("sheets:character_list")
 
@@ -292,7 +243,7 @@ class AdminCharacterDetailView(PortalAdminRequiredMixin, View):
 
     def get(self, request, pk):
         character = get_object_or_404(CharacterSheet, pk=pk)
-        return render(request, DETAIL_TEMPLATE_NAME, _character_viewer_context(character, read_only=True))
+        return render(request, DETAIL_TEMPLATE_NAME, viewer.character_context(character, read_only=True))
 
 
 # ---------------------------------------------------------------------------
@@ -313,36 +264,6 @@ def _ship_or_404(pk, user) -> ShipSheet:
         return get_ship_for_view(sheet_id=pk, actor=user)
     except SheetNotFound as exc:
         raise Http404() from exc
-
-
-def _ship_viewer_context(ship: ShipSheet) -> dict:
-    """Build the context consumed by ``sheets/ship_detail.html`` (which
-    includes the shared ``sheets/_sheet_viewer.html`` fragment). The ship
-    viewer is always editable -- there is no read-only ship view.
-    """
-    return {
-        "ship": ship,
-        "read_only": False,
-        "pages": _page_contexts(ship, (SHIP_PAGE_ID,)),
-        "field_update_url_template": reverse(
-            "sheets:ship_field_update", args=[ship.pk, "__FIELD_ID__"]
-        ),
-    }
-
-
-def _format_history_value(value) -> str:
-    """Render a stored field value for the (privacy-conscious) audit history
-    detail fragment. Booleans (checkbox fields) render as the German
-    "markiert"/"nicht markiert" rather than True/False; everything else is
-    rendered as plain text and left to the template to HTML-escape. ``None``
-    (a field that had never been set before this change) renders as an
-    em dash rather than the string "None".
-    """
-    if isinstance(value, bool):
-        return "markiert" if value else "nicht markiert"
-    if value is None:
-        return "–"
-    return str(value)
 
 
 class ShipRedirectView(LoginRequiredMixin, View):
@@ -370,7 +291,7 @@ class ShipDetailView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         ship = _ship_or_404(pk, request.user)
-        return render(request, "sheets/ship_detail.html", _ship_viewer_context(ship))
+        return render(request, "sheets/ship_detail.html", viewer.ship_context(ship))
 
 
 class ShipFieldUpdateView(_FieldUpdateView):
@@ -400,26 +321,10 @@ class ShipHistoryListView(LoginRequiredMixin, View):
     def get(self, request, pk):
         ship = _ship_or_404(pk, request.user)
 
-        page_schema = load_schema(SHIP_PAGE_ID)
         changes = ship.changes.select_related("actor").order_by("-changed_at", "-id")
         paginator = Paginator(changes, SHIP_HISTORY_PAGE_SIZE)
         page_obj = paginator.get_page(request.GET.get("page"))
-
-        rows = []
-        for change in page_obj.object_list:
-            try:
-                field_label = page_schema.field_by_id(change.field_id).label
-            except SchemaError:
-                field_label = change.field_id
-            rows.append(
-                {
-                    "change": change,
-                    "field_label": field_label,
-                    "detail_url": reverse(
-                        "sheets:ship_history_detail", args=[ship.pk, change.pk]
-                    ),
-                }
-            )
+        rows = history_rows(ship, page_obj.object_list)
 
         return render(
             request,
@@ -448,7 +353,7 @@ class ShipHistoryDetailView(LoginRequiredMixin, View):
             self.template_name,
             {
                 "change": change,
-                "old_display": _format_history_value(change.old_value),
-                "new_display": _format_history_value(change.new_value),
+                "old_display": format_value(change.old_value),
+                "new_display": format_value(change.new_value),
             },
         )

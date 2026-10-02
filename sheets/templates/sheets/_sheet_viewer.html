@@ -3,7 +3,7 @@
    any sheet (character or ship). Fields render from the schema in declared
    order, never from stored DB keys -- each entry of ``page.fields`` is a
    (field spec, stored value, stored version) triple built by
-   sheets.views._page_contexts, so unknown stored keys are simply never
+   sheets.viewer.page_contexts, so unknown stored keys are simply never
    rendered. The context supplies ``pages``/``read_only``.
    The owning page (character_detail.html / ship_detail.html) renders this
    inside the sheet shell and wires up autosave via sheet-viewer.js; when
