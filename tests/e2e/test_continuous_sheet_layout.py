@@ -70,7 +70,11 @@ def _rendered_glyph_height_in_source_pixels(page, field_id, source_width):
     )
     blank = Image.open(io.BytesIO(input_locator.screenshot())).convert("RGB")
     diff = ImageChops.difference(filled, blank).convert("L")
-    mask = diff.point(lambda value: 255 if value >= 5 else 0)
+    # The glyph edge is where a pixel is at least half covered. A lower cut-off
+    # also counts the faint anti-aliasing fringe, whose extent depends on the
+    # platform's rasteriser: Chromium on Linux (Liberation Serif standing in
+    # for Times New Roman) adds a one-pixel fringe row that Windows does not.
+    mask = diff.point(lambda value: 255 if value >= 128 else 0)
     bbox = mask.getbbox()
     assert bbox is not None, field_id
     rendered_height = bbox[3] - bbox[1]
