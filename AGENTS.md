@@ -37,7 +37,7 @@ Hinweis am Dateianfang. Dazu gehören:
 | Kalibrierung, Fixtures, Manifest | `docs/sheet-calibration.md` |
 | Synchronisierte Charakterwerte | `docs/characteristic-sync.md` |
 | Berechnete Bewegungsfelder | `docs/movement-calculation.md` |
-| Offene Zuordnung der Fertigkeitskästchen | `docs/checkbox-row-mapping.md` |
+| Zuordnung der Fertigkeitskästchen (gelöst, Migration 0007) | `docs/checkbox-row-mapping.md` |
 | Wiki-Kapitel: Liste, Reihenfolge, Slug, Gruppierung | `wiki/manifest.py` |
 | Betrieb, Deployment, Backup, Kontowiederherstellung | `docs/operations.md` |
 | Einrichtung, Abnahmeliste, Projektüberblick | `README.md` |
@@ -88,3 +88,5 @@ Migrationen, `.venv/`, `tmp/` und `graphify-out/` lösen ihn nicht aus.
 
 Behauptungen wie „fertig“, „grün“ oder „behoben“ erst nach einem tatsächlich
 gelaufenen Kommando mit sichtbarer Ausgabe.
+
+## Imported Claude Cowork project instructions
