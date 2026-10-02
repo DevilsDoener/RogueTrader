@@ -170,7 +170,7 @@ py -m venv .venv
 
 `requirements.txt` holds what the app needs at runtime (it is all the Docker
 image installs); `requirements-dev.txt` adds the test and tooling packages
-(pytest, pytest-django, Playwright, Pillow). Both are hash-pinned lock files
+(pytest, pytest-django, Playwright, Pillow, Ruff). Both are hash-pinned lock files
 compiled from `requirements.in` and `requirements-dev.in` with pip-tools
 (`pip-compile --generate-hashes --strip-extras`, under Python 3.13 like the
 image); recompile `requirements.txt` first, since the dev lock is
@@ -225,6 +225,10 @@ layout.
 
 # Single app while iterating (accounts | core | sheets | wiki).
 .\.venv\Scripts\python -m pytest -q sheets/tests
+
+# Lint (Ruff; configuration in ruff.toml). Must end with "All checks passed!".
+# Linter only -- the codebase is not auto-formatted, so do not run `ruff format`.
+.\.venv\Scripts\python -m ruff check .
 
 # Generated schemas are in sync with the layout sources.
 .\.venv\Scripts\python -m sheets.layout --check

@@ -34,6 +34,17 @@ The full run (no path argument) includes every group above, browser tests
 included. While iterating, run just the app you touched; run the full suite
 before a build, a push, and before claiming the work is done.
 
+## Lint
+
+```bash
+.venv/Scripts/python.exe -m ruff check .
+```
+
+Ruff runs as a linter only (`ruff.toml`); it must end with `All checks passed!`
+before a commit. Do not run `ruff format` -- the codebase is deliberately not
+reflowed. A finding that is intentional gets a targeted
+`# noqa: CODE  reason`, never a blanket ignore.
+
 ## Notes
 
 - `pytest.ini` already sets `DJANGO_SETTINGS_MODULE` and excludes `.git`,

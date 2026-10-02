@@ -80,6 +80,13 @@ Browser- und Sichtprüfungen:
 .venv/Scripts/python.exe -m pytest -q
 ```
 
+Vor jedem Commit zusätzlich das Linting (Ruff, Konfiguration in `ruff.toml`;
+nur `ruff check`, **kein** `ruff format`):
+
+```bash
+.venv/Scripts/python.exe -m ruff check .
+```
+
 Bei Layoutänderungen zusätzlich:
 
 ```bash
