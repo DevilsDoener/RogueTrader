@@ -24,9 +24,10 @@ normal pytest thread, untouched by Playwright's event loop.
 from __future__ import annotations
 
 import concurrent.futures
+import time
 
 import pytest
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Page, TimeoutError as PlaywrightTimeoutError, sync_playwright
 
 from wiki.content import WikiRepository, get_repository, set_repository_for_tests
 
@@ -63,6 +64,8 @@ class _ThreadedProxy:
         object.__setattr__(self, "_target", target)
 
     def __getattr__(self, name):
+        if name == "wait_for_function" and isinstance(self._target, Page):
+            return self._wait_for_function
         attr = getattr(self._target, name)
         if not callable(attr):
             return _wrap(self._worker, attr)
@@ -74,6 +77,32 @@ class _ThreadedProxy:
             return _wrap(self._worker, result)
 
         return method
+
+    def _wait_for_function(self, expression, *, arg=None, timeout=30_000, **_ignored):
+        """``Page.wait_for_function`` that works under the portal's CSP.
+
+        Playwright's own implementation ``eval``s the predicate inside the page,
+        which ``script-src 'self'`` (no ``unsafe-eval``) refuses. ``evaluate``
+        goes through the debugging protocol instead, so the predicate is polled
+        with it: the same expression/function rules, same truthiness, same
+        timeout error. This keeps the whole e2e suite running with the policy
+        enforced rather than bypassing it.
+        """
+        page, real_arg = self._target, _unwrap(arg)
+        deadline = time.monotonic() + timeout / 1000
+
+        def poll():
+            while True:
+                result = page.evaluate(expression, real_arg)
+                if result:
+                    return result
+                if time.monotonic() > deadline:
+                    raise PlaywrightTimeoutError(
+                        f"Page.wait_for_function: Timeout {timeout}ms exceeded."
+                    )
+                page.wait_for_timeout(50)
+
+        return _wrap(self._worker, self._worker.run(poll))
 
     def __repr__(self):  # pragma: no cover - debugging aid only
         return f"_ThreadedProxy({self._target!r})"

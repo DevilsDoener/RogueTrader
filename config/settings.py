@@ -220,6 +220,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # First, so static files served by WhiteNoise and redirects carry the CSP.
+    'config.security_headers.SecurityHeadersMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
