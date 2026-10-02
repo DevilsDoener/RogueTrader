@@ -498,8 +498,10 @@ Reset those accounts (portal admin UI) and the question is closed.
 **Sessions.** A login lasts 14 days from the *last request* (the expiry
 slides, `SESSION_SAVE_EVERY_REQUEST`), so players who play regularly are not
 signed out and an abandoned cookie dies after two weeks. Expired session rows
-stay in the database until `manage.py clearsessions` removes them; it runs
-daily in the `backup` service's loop in `compose.yaml`, and by hand:
+stay in the database until `manage.py clearsessions` removes them; it runs once
+every time the portal container starts (the image's start command, before
+gunicorn; the `backup` service mounts the data volume read-only and cannot),
+and by hand:
 
 ```powershell
 docker compose exec portal python manage.py clearsessions

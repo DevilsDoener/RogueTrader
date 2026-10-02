@@ -50,10 +50,26 @@ def test_the_build_secret_is_a_labelled_placeholder_above_the_production_floor(d
 
 
 def test_gunicorn_runs_several_workers_with_a_timeout_and_an_access_log(dockerfile):
-    cmd = dockerfile[dockerfile.index("\nCMD ") :]
+    cmd = dockerfile[dockerfile.rindex("CMD [") :]
 
-    for fragment in ('"--workers", "3"', '"--timeout", "30"', '"--access-logfile", "-"'):
+    for fragment in ("exec gunicorn", "--workers 3", "--timeout 30", "--access-logfile -"):
         assert fragment in cmd
+
+
+def test_expired_sessions_are_cleared_once_before_gunicorn_starts(dockerfile):
+    cmd = dockerfile[dockerfile.rindex("CMD [") :]
+
+    assert cmd.index("manage.py clearsessions") < cmd.index("exec gunicorn")
+    # A failure (no tables yet) must not stop the portal from starting.
+    assert "clearsessions ||" in cmd
+
+
+def test_the_portal_receives_the_proxy_and_audit_settings(services):
+    block = services["portal"]
+
+    for name in ("TRUSTED_PROXY_IPS", "TRUSTED_PROXY_HEADER", "AUDIT_LOG_FILE"):
+        assert f"{name}: $" in block
+    assert "${AUDIT_LOG_FILE:-/data/logs/audit.log}" in block
 
 
 @pytest.mark.parametrize("name", ["portal", "backup"])

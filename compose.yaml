@@ -31,6 +31,13 @@ services:
       # silently defeat that check for the docker compose deployment path.
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
       ENABLE_HSTS: ${ENABLE_HSTS:-0}
+      # Which peers may tell the portal the real client address (login
+      # throttle, audit log); empty = nobody, the direct peer is used. See
+      # docs/operations.md section 2.
+      TRUSTED_PROXY_IPS: ${TRUSTED_PROXY_IPS:-}
+      TRUSTED_PROXY_HEADER: ${TRUSTED_PROXY_HEADER:-x-real-ip}
+      # Audit trail (sign-ins, admin actions) in the writable data volume.
+      AUDIT_LOG_FILE: ${AUDIT_LOG_FILE:-/data/logs/audit.log}
     volumes:
       - portal-data:/data
       # Only the wiki's Markdown chapters are mounted -- never the whole
