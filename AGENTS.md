@@ -60,6 +60,10 @@ Hinweis am Dateianfang. Dazu gehören:
   nur datierte Prüfberichte halten ihre historischen Zahlen fest.
 - **Fremde Dateien nicht anfassen und nicht einchecken:** `Notizbuch öffnen.onetoc2`
   (OneNote) und `graphify-out/`.
+- **Agenten-Werkzeuge doppelt gepflegt:** `.claude/` (Claude Code) und
+  `.agents/` + `.codex/` (Codex) enthalten dieselben Skills, Review-Agents und
+  MCP-Server (`.mcp.json` ↔ `.codex/config.toml`). Wer eine Seite ändert, zieht
+  die andere nach; `.claude/` ist die Vorlage.
 
 ## Tests
 
