@@ -58,7 +58,10 @@ try {
 
     $timestamp = (Get-Date).ToUniversalTime().ToString("yyyyMMdd-HHmmss")
     $backupFileName = "db-$timestamp.sqlite3"
-    $containerTempPath = "/tmp/backup-$timestamp.sqlite3"
+    # Staged in the data volume, not /tmp: the container's /tmp is a tmpfs (see
+    # compose.yaml) and `docker cp` cannot read tmpfs mounts. The file is removed
+    # again below.
+    $containerTempPath = "/data/backup-$timestamp.sqlite3.tmp"
     $destFile = Join-Path $Destination $backupFileName
     $manifestFile = "$destFile.manifest.json"
 
@@ -92,7 +95,9 @@ if result != "ok":
 print(result)
 "@
 
-    $output = docker compose exec -T $Service python -c $backupScript
+    # The code goes in via stdin: Windows PowerShell 5.1 strips the double
+    # quotes out of arguments passed to native programs, so `python -c` breaks.
+    $output = $backupScript | docker compose exec -T $Service python -
     $backupExitCode = $LASTEXITCODE
     if ($backupExitCode -ne 0) {
         docker compose exec -T $Service rm -f $containerTempPath | Out-Null

@@ -356,21 +356,16 @@ docker compose run --rm backup python manage.py backup_db
 docker compose exec backup python manage.py backup_db
 ```
 
-Restore a copy from this folder:
+Restore a copy from this folder with `scripts/restore.ps1` (section 8). It
+takes both kinds of copies: the daily ones here have no manifest, so the
+checksum step is skipped (and the script says so); the integrity check
+always runs.
 
 ```powershell
 docker compose stop portal backup
-docker compose cp .\backups\db-20260101-020000.sqlite3 portal:/data/db.sqlite3
+.\scripts\restore.ps1 -BackupFile .\backups\db-20260101-020000.sqlite3
 docker compose up -d portal backup
 ```
-
-`docker compose cp` works on a stopped container and writes into its
-`/data` volume. Keep the current database aside first (copy it out with
-`docker compose cp portal:/data/db.sqlite3 .`) if you are not sure the copy is
-the right one. `scripts/restore.ps1` (section 8) is the checksum-verified
-variant with an automatic recovery copy, but it needs the manifest written by
-`scripts/backup.ps1` next to the file, which the daily copies do not have.
-
 **Schedule:** run this at least daily via Windows Task Scheduler /
 `cron` / a Proxmox host cron job, pointed at storage outside the Proxmox
 guest running the portal (e.g. a separate backup target, NAS, or Proxmox
@@ -378,40 +373,89 @@ Backup Server dataset) so a lost guest does not also lose its backups.
 Retain enough history to recover from a slow-to-notice data problem, not
 just the most recent crash.
 
-## 8. Restore rehearsal
+## 8. Restore and restore rehearsal
 
 Practice this periodically against disposable test data, not only when a
 real incident happens.
 
-`scripts/restore.ps1` requires the container to be **stopped** first
-(restoring into a database the app is actively writing to would corrupt
-it):
+`scripts/restore.ps1` accepts both kinds of backup copies:
+
+| Copy | Made by | Manifest | Checksum step |
+|---|---|---|---|
+| `db-<UTC timestamp>.sqlite3` + `.manifest.json` | `scripts/backup.ps1` | yes | SHA-256 compared with the manifest; mismatch aborts |
+| `db-YYYYMMDD-HHMMSS.sqlite3` | `backup` service (`manage.py backup_db`) | no | **skipped** - the script prints "NOT VERIFIED"; only the integrity check protects against a damaged file |
+
+A file without a manifest whose name is not `db-YYYYMMDD-HHMMSS.sqlite3` is
+refused. Which file to restore is never guessed; you name it.
+
+Both the **`portal` and the `backup` service must be stopped** first: the
+backup service mounts the same volume, and a restore into a database that is
+in use would corrupt it. The script refuses to run (and tells you what to
+stop) while either one is running, restarting or paused:
 
 ```powershell
-docker compose stop portal
+docker compose stop portal backup
 .\scripts\restore.ps1 -BackupFile D:\backups\rogue-trader-portal\db-20260101-020000.sqlite3
-docker compose up -d portal
+docker compose up -d portal backup
 ```
 
 The script:
 
-1. Refuses to run if the service is still reported as running.
-2. Recomputes the backup file's SHA-256 and compares it against its
-   `.manifest.json` — refuses to proceed on a mismatch.
+1. Refuses to run if the portal or the backup service is still running.
+2. For `backup.ps1` copies: recomputes the SHA-256 and compares it against
+   the `.manifest.json`. For daily copies: skips this and says so.
 3. Runs `PRAGMA integrity_check` against the backup file itself, via a
-   disposable one-off container (this works even with the service
+   disposable one-off container (this works even with the services
    stopped).
-4. Copies whatever database currently exists in the volume to
-   `db.sqlite3.recovery-<UTC timestamp>` *before* touching anything, so a
-   bad restore is itself always reversible. This recovery copy is never
-   deleted automatically — remove it yourself once you've confirmed the
-   restore is good.
-5. Only then copies the validated backup over the live database.
+4. Copies whatever database currently exists in the volume - together with
+   a leftover `db.sqlite3-journal`, `-wal` or `-shm` - to the recovery set
+   `db.sqlite3.recovery-<UTC timestamp>[-journal|-wal|-shm]` *before*
+   touching anything, so a bad restore is itself always reversible. The
+   recovery set is never deleted automatically - remove it yourself once
+   you've confirmed the restore is good.
+5. Only then copies the validated backup next to the live database, removes
+   the stale `-journal`/`-wal`/`-shm` files (they belong to the old database
+   and must not be replayed onto the restored one), renames the copy over
+   `db.sqlite3` and compares the SHA-256 of the result with the backup.
 
-After `docker compose up -d portal`, confirm `/healthz/` and spot-check
-recently restored content before considering the rehearsal (or a real
-recovery) complete.
+**Logins after a restore:** daily copies contain no login sessions (section
+7), so after restoring one **everybody has to log in again**. A copy from
+`backup.ps1` is a plain copy and still holds the sessions of its time.
 
+After `docker compose up -d portal backup`, confirm `/healthz/` and
+spot-check recently restored content before considering the rehearsal (or a
+real recovery) complete.
+
+### Wiederherstellung üben (restore drill)
+
+Rehearse against a throwaway compose project, never the live one. The script
+takes `-ProjectName` (compose project, `docker compose -p`) and `-ComposeFile`
+(`docker compose -f`); without them it works on the normal project as before.
+
+1. Copy `compose.yaml` to a scratch folder and edit the copy: remove
+   `build: .`, change the published port (e.g. `127.0.0.1:18000:8000`), drop
+   the `./content` mount and set `WIKI_STRICT_CONTENT: "false"`. The copy's own
+   `./backups` is the drill's backup folder and the project gets its own
+   `portal-data` volume. Set `DJANGO_SECRET_KEY` (a throwaway value of 50+
+   characters), `DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost` and
+   `PUBLIC_BASE_URL` in your shell for the drill.
+2. Copy a backup file into the drill folder and seed the drill volume from it:
+   `docker compose -f <copy> -p rtdrill run --rm --no-deps -v <file>:/tmp/seed.sqlite3:ro portal python -c "import shutil; shutil.copy2('/tmp/seed.sqlite3','/data/db.sqlite3')"`
+   (from Windows PowerShell 5.1 pipe the code in via `python -` instead).
+   Start it (`up -d`) and check `http://127.0.0.1:18000/healthz/` and the data.
+3. Change a value, then `docker compose -f <copy> -p rtdrill stop portal backup`.
+4. `.\scripts\restore.ps1 -BackupFile <the backup> -ProjectName rtdrill -ComposeFile <copy>`
+5. `up -d portal backup` again, check `/healthz/` and compare the data with
+   the backup (for example a SHA-256 of a canonical JSON dump of the
+   `sheets_charactersheet` / `sheets_shipsheet` values plus the table row
+   counts, taken before the change and after the restore - both must be equal).
+6. Tear it down completely: `docker compose -f <copy> -p rtdrill down -v`,
+   then delete the scratch folder.
+
+To rehearse the `backup.ps1` path as well, set `COMPOSE_FILE` and
+`COMPOSE_PROJECT_NAME` in your shell to the drill's values before running
+`.\scripts\backup.ps1 -Destination <existing folder>`, then restore the pair
+it wrote.
 ## 9. Logs
 
 ```powershell
