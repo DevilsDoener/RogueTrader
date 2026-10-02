@@ -53,8 +53,12 @@
 {% endblock %}
 
 {% block extra_scripts %}
+  {% comment %}Deferred scripts run in document order: the highlight marks go in
+     first (only when the page arrived from a search), then the reader sets up
+     around them.{% endcomment %}
   {% if highlight_terms %}
     {{ highlight_terms|json_script:"wiki-highlight-terms" }}
+    <script src="{% static 'js/wiki-highlight.js' %}" defer></script>
   {% endif %}
   <script src="{% static 'js/wiki-reader.js' %}" defer></script>
 {% endblock %}

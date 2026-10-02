@@ -55,8 +55,33 @@
     return query.replace(/\s+/g, "").length >= MIN_QUERY_LENGTH;
   }
 
+  /* encodeURIComponent throws a URIError on a lone surrogate (a half-pasted
+     emoji). Replace each one with U+FFFD first, so a broken paste cannot
+     stop the palette from updating. */
+  function encodeQuery(query) {
+    var clean = query;
+    if (typeof query.toWellFormed === "function") {
+      clean = query.toWellFormed();
+    } else {
+      clean = "";
+      for (var i = 0; i < query.length; i += 1) {
+        var unit = query.charCodeAt(i);
+        var next = query.charCodeAt(i + 1);
+        if (unit >= 0xd800 && unit <= 0xdbff && next >= 0xdc00 && next <= 0xdfff) {
+          clean += query.charAt(i) + query.charAt(i + 1);
+          i += 1;
+        } else if (unit >= 0xd800 && unit <= 0xdfff) {
+          clean += String.fromCharCode(0xfffd);
+        } else {
+          clean += query.charAt(i);
+        }
+      }
+    }
+    return encodeURIComponent(clean);
+  }
+
   function fullSearchHref(query) {
-    return query.trim() ? searchUrl + "?q=" + encodeURIComponent(query) : searchUrl;
+    return query.trim() ? searchUrl + "?q=" + encodeQuery(query) : searchUrl;
   }
 
   function isTypingTarget(element) {
@@ -321,7 +346,7 @@
     var own = new AbortController();
     controller = own;
     setScanning(true);
-    fetch(suggestUrl + "?q=" + encodeURIComponent(query), {
+    fetch(suggestUrl + "?q=" + encodeQuery(query), {
       credentials: "same-origin",
       headers: { Accept: "application/json" },
       signal: own.signal,

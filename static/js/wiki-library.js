@@ -8,7 +8,7 @@
 
   var RECENT_LIMIT = 3;
 
-  // Folding and token matching: static/js/wiki-recent.js (loaded before this).
+  // Folding and token matching: static/js/wiki-text.js (loaded before this).
   var fold = window.RTWikiText.fold;
   var matchesAll = window.RTWikiText.matchesAll;
 

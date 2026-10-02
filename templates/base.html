@@ -7,7 +7,7 @@
        not depend on the logout form's hidden input.{% endcomment %}
     <meta name="csrf-token" content="{{ csrf_token }}">
   {% endif %}
-  <script>document.documentElement.classList.add("js");</script>
+  <script src="{% static 'js/js-class.js' %}"></script>
   <title>{% block title %}Rogue Trader Portal{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/portal.css' %}">
   {% block extra_head %}{% endblock %}
@@ -110,19 +110,7 @@
     </main>
   {% endif %}
 
-  <script>
-    // Prevent double-submits: disable a form's submit button as soon as it's
-    // submitted. Does not touch the sheet viewer's autosave, which saves via
-    // fetch() on individual fields rather than a native form submit.
-    document.addEventListener("submit", function (event) {
-      var form = event.target;
-      if (!(form instanceof HTMLFormElement)) return;
-      var submitButton = form.querySelector('button[type="submit"]');
-      if (submitButton && !submitButton.disabled) {
-        submitButton.disabled = true;
-      }
-    });
-  </script>
+  <script defer src="{% static 'js/no-double-submit.js' %}"></script>
 
   {% if user.is_authenticated and not user.must_change_password %}
     {% comment %}Auspex: the Ctrl+K / "/" command palette (static/js/auspex.js).
@@ -151,9 +139,11 @@
         </div>
       </div>
     </dialog>
-    {% comment %}Deferred scripts run in document order: the shared
-       rt-wiki-recent helper must precede auspex.js and every page's
-       extra_scripts (wiki-reader.js, wiki-library.js).{% endcomment %}
+    {% comment %}Deferred scripts run in document order: the shared helpers
+       (wiki-text.js: RTWikiText, wiki-recent.js: RTWikiRecent) must precede
+       auspex.js and every page's extra_scripts (wiki-highlight.js,
+       wiki-reader.js, wiki-library.js).{% endcomment %}
+    <script defer src="{% static 'js/wiki-text.js' %}"></script>
     <script defer src="{% static 'js/wiki-recent.js' %}"></script>
     <script defer src="{% static 'js/auspex.js' %}"></script>
   {% endif %}

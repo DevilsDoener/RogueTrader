@@ -28,6 +28,8 @@ import concurrent.futures
 import pytest
 from playwright.sync_api import sync_playwright
 
+from wiki.content import WikiRepository, get_repository, set_repository_for_tests
+
 DEFAULT_PASSWORD = "Valid-Password-42!"
 
 _PRIMITIVE_TYPES = (str, int, float, bool, bytes, type(None))
@@ -285,3 +287,21 @@ def all_text_metrics(page):
     return page.locator(".sheet-text:not(.sheet-text--center)").evaluate_all(
         f"(inputs) => inputs.map({_TEXT_METRICS_JS})"
     )
+
+
+@pytest.fixture
+def real_corpus(settings):
+    """Serve the real ``content/`` chapters to the live server for one test.
+
+    The wiki e2e files (library filter, chapter reader, Auspex palette) check
+    behaviour on the chapters a reader actually sees; the previous repository
+    is restored afterwards.
+    """
+    original_repository = get_repository()
+    settings.WIKI_CONTENT_ROOT = settings.BASE_DIR / "content"
+    settings.WIKI_CONTENT_ALLOWLIST = settings.WIKI_DEFAULT_CONTENT_ALLOWLIST
+    set_repository_for_tests(WikiRepository.load())
+    try:
+        yield
+    finally:
+        set_repository_for_tests(original_repository)
