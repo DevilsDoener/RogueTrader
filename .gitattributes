@@ -1,0 +1,22 @@
+# Text files are stored with LF in the repository. What the working tree gets is
+# up to the platform (CRLF with core.autocrlf=true on Windows, LF on Linux/CI).
+* text=auto
+
+# Windows PowerShell scripts keep CRLF in every checkout.
+*.ps1 text eol=crlf
+
+# The calibration manifest (tests/fixtures/checkbox-calibration-manifest.json)
+# pins the SHA-256 of this file as it looks with CRLF endings. Git stores it
+# with LF, so pin the working-tree form to CRLF: the digest then matches on
+# Windows and on Linux/CI alike. See docs/sheet-calibration.md.
+tests/fixtures/checkbox-rectangles.json text eol=crlf
+
+# Binary files: never touch line endings, never diff as text.
+*.png binary
+*.webp binary
+*.jpeg binary
+*.jpg binary
+*.pdf binary
+*.sqlite3 binary
+*.ico binary
+*.onetoc2 binary

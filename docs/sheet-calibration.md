@@ -107,9 +107,12 @@ loading. The schema test compares every schema checkbox rect against that
 reference at a **0 px per-edge tolerance** (tightened from 2 px on
 2026-08-25).
 
-> Note: the repo uses `core.autocrlf=true` and HEAD stores the fixture with
-> LF, but the manifest records the **CRLF** digest. Keep that convention when
-> re-touching the fixture.
+> Note: HEAD stores `checkbox-rectangles.json` with LF, but the manifest
+> records the digest of its **CRLF** form. `.gitattributes` pins that one
+> file to `eol=crlf`, so every checkout (Windows with `core.autocrlf=true`,
+> Linux CI) materialises the CRLF bytes the digest was computed over. Keep
+> that attribute, and compute a new digest from the CRLF working-tree file,
+> when re-touching the fixture. The WebP sources are binary and hashed as-is.
 
 ## Checked-state appearance
 
