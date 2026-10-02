@@ -3,6 +3,17 @@ services:
     build: .
     image: rogue-trader-portal
     restart: unless-stopped
+    # Container hardening: no privilege gain, no Linux capabilities (gunicorn
+    # on port 8000 and sqlite need none), and a read-only root filesystem. The
+    # only writable places are the mounted volumes and a tmpfs /tmp (gunicorn's
+    # worker heartbeat files).
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
     ports:
       - "${APP_BIND_ADDRESS:-127.0.0.1}:8000:8000"
     environment:
@@ -36,6 +47,16 @@ services:
   backup:
     image: rogue-trader-portal
     restart: unless-stopped
+    # Container hardening: no privilege gain, no Linux capabilities (the backup
+    # job needs none), and a read-only root filesystem. The
+    # only writable places are the mounted volumes and a tmpfs /tmp (scratch space).
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
     # Settings loading needs the same three variables as the portal; the
     # secret key is used for nothing else here.
     environment:
@@ -65,12 +86,17 @@ services:
       - sh
       - -c
       - |
+        # PID 1 is this shell: without a handler SIGTERM is ignored and
+        # "docker stop" waits ten seconds before killing it. Sleeping in the
+        # background and waiting on it lets the trap run at once; a running
+        # backup finishes first, so a stop never leaves a half-written copy.
+        trap 'exit 0' TERM INT
         while true; do
           if python manage.py backup_db; then
-            sleep 86400
+            sleep 86400 & wait $$!
           else
             echo "backup_db FAILED - retrying in one hour" >&2
-            sleep 3600
+            sleep 3600 & wait $$!
           fi
         done
 
