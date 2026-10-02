@@ -1,4 +1,5 @@
 import logging
+import os
 
 import pytest
 from django.urls import reverse
@@ -193,11 +194,11 @@ def test_bootstrap_admin_is_audited_without_the_password(caplog):
     assert messages == ["bootstrap_admin_created username='gm'"]
 
 
-def test_audit_file_handler_writes_rotates_and_creates_its_directory_lazily(tmp_path):
+def test_audit_file_handler_appends_and_creates_its_directory_lazily(tmp_path):
     from accounts.auditlog import AuditFileHandler
 
     log_file = tmp_path / "missing-dir" / "audit.log"
-    handler = AuditFileHandler(str(log_file), maxBytes=200, backupCount=2)
+    handler = AuditFileHandler(str(log_file))
     logger = logging.getLogger("accounts.audit.handler-test")
     logger.propagate = False
     logger.addHandler(handler)
@@ -209,6 +210,28 @@ def test_audit_file_handler_writes_rotates_and_creates_its_directory_lazily(tmp_
         logger.removeHandler(handler)
         handler.close()
 
-    assert log_file.exists()
-    assert (tmp_path / "missing-dir" / "audit.log.1").exists()
-    assert "login_failure" in log_file.read_text(encoding="utf-8")
+    # One file, never rotated by the handler (rotation is the start command's job).
+    assert [path.name for path in log_file.parent.iterdir()] == ["audit.log"]
+    assert log_file.read_text(encoding="utf-8").count("login_failure") == 12
+
+
+def test_audit_file_handler_reopens_a_file_that_was_rotated_away(tmp_path):
+    from accounts.auditlog import AuditFileHandler
+
+    log_file = tmp_path / "audit.log"
+    handler = AuditFileHandler(str(log_file))
+    logger = logging.getLogger("accounts.audit.reopen-test")
+    logger.propagate = False
+    logger.addHandler(handler)
+    try:
+        logger.warning("before")
+        if os.name == "nt":
+            handler.close()  # Windows cannot rename an open file
+        log_file.replace(tmp_path / "audit.log.1")
+        logger.warning("after")
+    finally:
+        logger.removeHandler(handler)
+        handler.close()
+
+    assert "before" in (tmp_path / "audit.log.1").read_text(encoding="utf-8")
+    assert "after" in log_file.read_text(encoding="utf-8")

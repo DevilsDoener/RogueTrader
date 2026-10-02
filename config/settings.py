@@ -166,10 +166,13 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = (
 SECURE_HSTS_PRELOAD = ENABLE_HSTS and os.environ.get("HSTS_PRELOAD", "0") == "1"
 
 # The audit trail (``accounts.audit``) goes to the console like everything else
-# and, in production, also to a size-rotating file that survives container
-# re-creation: AUDIT_LOG_FILE, default ``logs/audit.log`` next to the database
-# (the /data volume). In development it is off unless AUDIT_LOG_FILE is set.
-# The directory is only created when the first record is written.
+# and, in production, also to a file that survives container re-creation:
+# AUDIT_LOG_FILE, default ``logs/audit.log`` next to the database (the /data
+# volume). In development it is off unless AUDIT_LOG_FILE is set. The
+# directory is only created when the first record is written. The handler only
+# appends (several gunicorn workers share the file); the size limit and backup
+# count below are applied once per container start by
+# ``manage.py rotate_audit_log``, before the workers fork.
 _database_file = Path(os.environ.get("DATABASE_PATH") or BASE_DIR / "data" / "db.sqlite3")
 _default_audit_log = None if DEBUG else _database_file.parent / "logs" / "audit.log"
 AUDIT_LOG_FILE = os.environ.get("AUDIT_LOG_FILE") or _default_audit_log
@@ -196,8 +199,6 @@ LOGGING = {
                 "audit_file": {
                     "class": "accounts.auditlog.AuditFileHandler",
                     "filename": str(AUDIT_LOG_FILE),
-                    "maxBytes": AUDIT_LOG_MAX_BYTES,
-                    "backupCount": AUDIT_LOG_BACKUP_COUNT,
                     "formatter": "default",
                 },
             }

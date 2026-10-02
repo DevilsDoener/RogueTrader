@@ -1,12 +1,12 @@
 """Durable storage for the ``accounts.audit`` records."""
 import contextlib
 import os
-from logging.handlers import RotatingFileHandler
+from logging.handlers import WatchedFileHandler
 from pathlib import Path
 
 
-class AuditFileHandler(RotatingFileHandler):
-    """A size-rotating log file that is only touched when a record arrives.
+class AuditFileHandler(WatchedFileHandler):
+    """An append-only log file that is only touched when a record arrives.
 
     ``config/settings.py`` builds the logging config in every process that
     loads the settings -- including the backup container, which mounts the
@@ -14,6 +14,13 @@ class AuditFileHandler(RotatingFileHandler):
     directory and opening the file lazily (and tolerating a failure, which
     ``logging`` reports on stderr without raising) keeps those processes, and
     the test suite, from needing a writable log directory.
+
+    The handler never rotates. gunicorn runs several worker processes that all
+    append to this file, and in-process rotation is not safe across processes.
+    Rotation happens once per container start, before gunicorn forks, in
+    ``manage.py rotate_audit_log``. Being a ``WatchedFileHandler``, a worker
+    reopens the file by itself if it was moved away or replaced meanwhile
+    (for example by an operator running that command by hand).
     """
 
     def __init__(self, filename, **kwargs):

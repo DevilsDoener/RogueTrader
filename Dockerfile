@@ -59,11 +59,13 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD ["python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz/', timeout=3).status == 200 else 1)"]
 
 # Start: remove expired login sessions once (the backup service mounts the
-# data volume read-only and cannot), then become gunicorn (exec: it is PID 1 and
-# receives docker's SIGTERM). A failing clearsessions -- e.g. before the first
-# migrate -- must not keep the portal down.
+# data volume read-only and cannot), rotate the audit log once (the workers
+# only append to it; in-process rotation is not safe across processes), then
+# become gunicorn (exec: it is PID 1 and receives docker's SIGTERM). A failing
+# clearsessions -- e.g. before the first migrate -- or rotate_audit_log must
+# not keep the portal down.
 #
 # Three sync workers: one slow request no longer starves the portal, the health
 # check and the sheet autosave. The wiki repository is loaded in every worker
 # (no --preload), roughly 60 MB each; --timeout 30 kills a stuck one.
-CMD ["sh", "-c", "python manage.py clearsessions || echo 'clearsessions failed - starting anyway' >&2; exec gunicorn --bind 0.0.0.0:8000 --workers 3 --timeout 30 --access-logfile - config.wsgi:application"]
+CMD ["sh", "-c", "python manage.py clearsessions || echo 'clearsessions failed - starting anyway' >&2; python manage.py rotate_audit_log || echo 'rotate_audit_log failed - starting anyway' >&2; exec gunicorn --bind 0.0.0.0:8000 --workers 3 --timeout 30 --access-logfile - config.wsgi:application"]

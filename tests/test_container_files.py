@@ -64,6 +64,14 @@ def test_expired_sessions_are_cleared_once_before_gunicorn_starts(dockerfile):
     assert "clearsessions ||" in cmd
 
 
+def test_the_audit_log_is_rotated_once_before_gunicorn_forks(dockerfile):
+    cmd = dockerfile[dockerfile.rindex("CMD [") :]
+
+    assert cmd.index("manage.py rotate_audit_log") < cmd.index("exec gunicorn")
+    # Like clearsessions: a failure must not stop the portal from starting.
+    assert "rotate_audit_log ||" in cmd
+
+
 def test_the_portal_receives_the_proxy_and_audit_settings(services):
     block = services["portal"]
 

@@ -492,7 +492,7 @@ def test_the_audit_log_file_is_created_owner_only(tmp_path, monkeypatch):
 
     monkeypatch.setattr(auditlog.os, "open", recording_open)
     log_file = tmp_path / "logs" / "audit.log"
-    handler = auditlog.AuditFileHandler(str(log_file), maxBytes=10_000, backupCount=1)
+    handler = auditlog.AuditFileHandler(str(log_file))
     logger = logging.getLogger("accounts.audit.mode-test")
     logger.propagate = False
     logger.addHandler(handler)
@@ -514,7 +514,7 @@ def test_an_existing_world_readable_audit_log_is_tightened(tmp_path):
     log_file = tmp_path / "audit.log"
     log_file.write_text("old\n", encoding="utf-8")
     log_file.chmod(0o644)
-    handler = auditlog.AuditFileHandler(str(log_file), maxBytes=10_000, backupCount=1)
+    handler = auditlog.AuditFileHandler(str(log_file))
     logger = logging.getLogger("accounts.audit.mode-test-2")
     logger.propagate = False
     logger.addHandler(handler)

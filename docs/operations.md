@@ -518,27 +518,39 @@ docker compose logs --no-color -f portal
 container's console, which `docker compose logs` captures.
 
 The dedicated `accounts.audit` logger is the audit trail. It goes to the
-console **and**, in production, to a size-rotating file that survives
+console **and**, in production, to a file that survives
 `docker compose up -d --build` (which re-creates the container and drops its
 console log): `AUDIT_LOG_FILE`, by default `logs/audit.log` next to the
-database, i.e. `/data/logs/audit.log` in the `portal-data` volume. It rotates
-at 5 MiB and keeps 5 old files (`audit.log.1` ... `audit.log.5`); the files
+database, i.e. `/data/logs/audit.log` in the `portal-data` volume. The files
 are created readable by the portal user only (mode 0600). Read it with:
 
 ```powershell
 docker compose exec portal tail -n 50 /data/logs/audit.log
 ```
 
+Rotation. The image runs three gunicorn workers (see the `Dockerfile`) and all
+of them append to this one file, so no worker rotates it: Python's rotating
+file handler does not coordinate between processes and would lose records
+around a rotation. The handler only appends (`WatchedFileHandler`, which also
+reopens the file if it is moved or replaced underneath it). Instead the start
+command runs `python manage.py rotate_audit_log` once, before gunicorn forks:
+if `audit.log` is larger than 5 MiB it becomes `audit.log.1`, the older files
+shift up to `audit.log.5` and the oldest is deleted, and a fresh empty
+`audit.log` (mode 0600, like the rotated files) is started. The limits are
+`AUDIT_LOG_MAX_BYTES` and `AUDIT_LOG_BACKUP_COUNT` in `config/settings.py`.
+The command never stops the boot: on an error it prints a warning on stderr
+(visible in `docker compose logs`) and the portal starts anyway. Consequence:
+the file is only trimmed when the container starts, so between restarts it can
+grow past 5 MiB. To rotate by hand while the portal runs, use
+`docker compose exec portal python manage.py rotate_audit_log`; the workers
+pick up the new file by themselves. The `backup` service mounts `/data`
+read-only, never writes audit records and does not rotate.
+
 Set `AUDIT_LOG_FILE` in the environment to move it; in development
-(`DJANGO_DEBUG=true`) the file is off unless that variable is set. The image
-runs three gunicorn workers (see the `Dockerfile`) and all of them append to
-this one file. Python's rotating file handler does not coordinate between
-processes, so around a rotation a few records can land in an already-rotated
-file and a rotation can push the oldest file out early; the console copy in
-`docker compose logs` has every record while the container lives. If the
-audit trail has to be gap-free, ship the records to syslog or a collector
-instead. The `backup` service mounts `/data` read-only and never writes audit
-records, so it is not affected.
+(`DJANGO_DEBUG=true`) the file is off unless that variable is set (the command
+then does nothing). The console copy in `docker compose logs` has every record
+while the container lives. If the audit trail has to be gap-free or
+tamper-resistant, ship the records to syslog or a collector instead.
 
 What is recorded (event kind, username(s), the throttle's source address for
 requests; usernames are cut at 150 characters):

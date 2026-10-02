@@ -72,13 +72,16 @@ def test_bad_proxy_settings_fail_the_start(load_settings, env):
         load_settings(**PRODUCTION_ENV, **env)
 
 
-def test_production_writes_a_rotating_audit_file_next_to_the_database(load_settings):
+def test_production_writes_an_audit_file_next_to_the_database(load_settings):
     loaded = load_settings(**PRODUCTION_ENV, DATABASE_PATH="/data/db.sqlite3")
 
     handler = loaded.LOGGING["handlers"]["audit_file"]
     assert handler["class"] == "accounts.auditlog.AuditFileHandler"
     assert handler["filename"].replace("\\", "/") == "/data/logs/audit.log"
-    assert handler["maxBytes"] > 0 and handler["backupCount"] >= 2
+    # Rotation is not the handler's job (several workers share the file): the
+    # limits are settings for ``manage.py rotate_audit_log``.
+    assert "maxBytes" not in handler and "backupCount" not in handler
+    assert loaded.AUDIT_LOG_MAX_BYTES > 0 and loaded.AUDIT_LOG_BACKUP_COUNT >= 2
     audit_logger = loaded.LOGGING["loggers"]["accounts.audit"]
     assert audit_logger["handlers"] == ["audit_file"]
     assert audit_logger["propagate"] is True  # the console handler stays in the root logger
