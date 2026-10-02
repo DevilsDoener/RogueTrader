@@ -12,8 +12,8 @@ def check_trusted_proxy(app_configs, **kwargs):
     return [
         CheckWarning(
             "TRUSTED_PROXY_IPS is empty: every login attempt and audit record is "
-            "attributed to the reverse proxy's address, so all players share one "
-            "per-address login budget.",
+            "attributed to the reverse proxy's (or Docker gateway's) address, and the "
+            "login throttle cannot count failures per client address.",
             hint="Set TRUSTED_PROXY_IPS to the proxy's address as the container "
             "sees it (docs/operations.md, section 2).",
             id=PROXY_NOT_TRUSTED,

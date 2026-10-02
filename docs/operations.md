@@ -45,9 +45,13 @@ infinite HTTPS redirect loops, or all clients sharing one login throttle):
   to the proxy was HTTPS. `config/settings.py` sets
   `SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")`, so
   Django trusts this header (and only this header) to decide whether a
-  request is secure. Never expose the portal's port directly to anything
-  that isn't this trusted proxy, or a client could forge this header and
-  bypass HTTPS enforcement.
+  request is secure. This header is trusted from **any** peer; it is not
+  gated by `TRUSTED_PROXY_IPS` (a deliberate decision: gating it would
+  cause redirect loops for deployments that have not set that variable
+  yet). The protection is network-level: never expose the portal's port
+  directly to anything that isn't this trusted proxy (the default
+  `127.0.0.1` bind does exactly that), or a client could forge this header
+  and bypass HTTPS enforcement.
 - **The client address**, in one header the proxy *sets itself* (see the
   recipes below) -- plus the setting that tells the portal which peer may
   be believed:
@@ -62,11 +66,17 @@ infinite HTTPS redirect loops, or all clients sharing one login throttle):
   listed in `TRUSTED_PROXY_IPS` is the configured header believed (a missing
   or malformed header falls back to the peer). Only the one configured
   header is ever read, so a client cannot smuggle an address through the
-  other one. If you leave `TRUSTED_PROXY_IPS` empty behind a proxy, nothing
-  breaks, but every player then shares the proxy's address for the
-  per-address login limit (see section 11) and the audit log shows the
-  proxy's address; `manage.py check --deploy` warns about this
-  (`accounts.W001`).
+  other one. If `TRUSTED_PROXY_IPS` is empty and the portal sits behind a
+  proxy -- or behind Docker Desktop's port forwarding, where every request
+  arrives from the one bridge-gateway address -- all players share that one
+  private address. The portal then does **not** count failures per address
+  (it could not tell clients apart, and 20 failed logins with made-up names
+  would lock everybody out): only the per-username limits apply, and a
+  browser that has logged in before is recognised by its device cookie (see
+  section 11). The audit log shows the proxy's/gateway's address as
+  `source_ip` for everyone; `manage.py check --deploy` warns about this
+  (`accounts.W001`). Setting `TRUSTED_PROXY_IPS` is still recommended: it
+  restores the per-address limit and real addresses in the log.
 
 Set both variables in `.env` (and pass them through in `compose.yaml`'s
 `environment:` block, like `PUBLIC_BASE_URL`).
@@ -417,7 +427,8 @@ console **and**, in production, to a size-rotating file that survives
 `docker compose up -d --build` (which re-creates the container and drops its
 console log): `AUDIT_LOG_FILE`, by default `logs/audit.log` next to the
 database, i.e. `/data/logs/audit.log` in the `portal-data` volume. It rotates
-at 5 MiB and keeps 5 old files (`audit.log.1` ... `audit.log.5`). Read it with:
+at 5 MiB and keeps 5 old files (`audit.log.1` ... `audit.log.5`); the files
+are created readable by the portal user only (mode 0600). Read it with:
 
 ```powershell
 docker compose exec portal tail -n 50 /data/logs/audit.log
@@ -484,27 +495,53 @@ exception. Losing *some* chapters is caught earlier, by `manage.py check`.
 
 ## 11. Login protection, sessions and database locking
 
-**Login throttle.** Three counters, each over a 15-minute window, all kept in
+**Login throttle.** Four counters, each over a 15-minute window, all kept in
 the database (keys are HMACs, no username or address in clear):
 
 | Counter | Limit | Why |
 | --- | --- | --- |
 | username + source address | 5 failures | what a player who mistypes meets |
 | username, any address | 20 failures | an attacker who rotates addresses still has a ceiling per account |
-| source address, any username | 20 failures | a flood of made-up usernames stops before it costs a password hash each |
+| source address, any username | 20 failures | a flood of made-up usernames stops before it costs a password hash each; **only where the address identifies a client** (below) |
+| device (known browser) | 10 failures | a browser with a valid device cookie for the username is judged by this counter instead of the shared username and address ones |
+
+*Where the address identifies a client:* the address came from the trusted
+proxy header (`TRUSTED_PROXY_IPS`, section 2), or the direct peer is a public
+address. A private, loopback, link-local or carrier-grade-NAT peer (Docker
+Desktop's gateway, an untrusted LAN proxy) is shared by all players, so the
+per-address counter is skipped there; an empty `REMOTE_ADDR` likewise. IPv6
+clients are counted by their /64 network, IPv4-mapped IPv6 as the IPv4
+address.
+
+*Device cookie.* After a successful login the portal sets `rt_device`: signed
+(`SECRET_KEY`, dedicated salt), `HttpOnly`, `SameSite=Lax`, `Secure` as the
+session cookie is, valid 90 days and renewed by every login. It lists the
+accounts this browser has signed in to (up to five) plus a random device id and
+holds no password. Someone who burns an account's shared budgets from
+elsewhere cannot lock out that account's owner in a browser they used before;
+a new device or a cleared browser does not have the cookie and waits out the
+block (or an admin clears it, below). The device counter and the
+username+address counter still count the known browser's failures (on a shared
+address only the device counter can block it).
 
 When a counter has reached its limit the attempt is refused with the same
 "Benutzername oder Passwort ungültig." as any wrong password (no way to tell
 "blocked" from "wrong"), and **no password hash is computed**. A block lifts
 by itself after 15 minutes. Consequences to know about:
 
-- Anyone can lock a *username* out for 15 minutes by failing 20 logins
-  against it; that is the price of a ceiling that address rotation cannot
-  dodge. If a player is locked out and cannot wait, clear the counters:
+- Anyone can lock a *username* out for 15 minutes for browsers without the
+  device cookie by failing 20 logins against it from a few addresses (5 on
+  a shared address); that is the price of a ceiling that address rotation
+  cannot dodge. A blocked attempt is logged once per counter and window
+  (`login_throttle_blocked`), so repeated hammering cannot flush the audit
+  files; watch for it on existing usernames. If a player is locked out and
+  cannot wait, clear the counters:
   `docker compose exec portal python manage.py shell -c "from accounts.models import LoginThrottle; LoginThrottle.objects.all().delete()"`.
-- Players behind one shared address (one household, one NAT) share the
-  per-address budget of 20. Without `TRUSTED_PROXY_IPS` (section 2) that
-  is *every* player.
+- Players behind one public shared address (one household, one NAT) share
+  the per-address budget of 20. On a private/shared peer address (Docker
+  Desktop without `TRUSTED_PROXY_IPS`, section 2) there is no per-address
+  budget at all, and the username+address counter acts as a 5-failure
+  per-username counter for browsers without the device cookie.
 - The same mechanism limits wrong "current password" attempts on the
   password-change page (10 per 15 minutes per account).
 

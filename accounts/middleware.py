@@ -44,10 +44,10 @@ class AdminAccessAuditMiddleware:
         response = self.get_response(request)
         if response.status_code == 403 and request.path.startswith("/portal-admin/"):
             audit_logger.warning(
-                "admin_access_denied username=%r method=%s path=%s source_ip=%s",
+                "admin_access_denied username=%r method=%s path=%r source_ip=%s",
                 request.user.get_username()[:150],
                 request.method,
-                request.path,
+                request.path[:200],
                 throttle.client_address(request),
             )
         return response

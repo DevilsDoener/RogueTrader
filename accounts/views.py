@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -10,7 +11,7 @@ from django.views.generic import ListView
 
 from core.mixins import PortalAdminRequiredMixin
 
-from . import throttle
+from . import devices, throttle
 from .forms import (
     LoginForm,
     ManagedUserCreateForm,
@@ -53,20 +54,43 @@ def _safe_next(request) -> str:
     return "dashboard"
 
 
+def _log_blocked_once(keys, *, username: str, source_ip: str) -> None:
+    """Log a blocked attempt, but only the first one per blocking counter and window.
+
+    Otherwise one client hammering a blocked login could fill the rotating audit
+    files and push the interesting records out. The memory is per worker process,
+    so a restart or another worker may log once more -- that is fine.
+    """
+    fresh = [
+        cache.add(f"login-blocked-logged:{key}", 1, int(throttle.THROTTLE_WINDOW.total_seconds()))
+        for key in keys
+    ]
+    if any(fresh):
+        _log_login_event("login_throttle_blocked", username=username, source_ip=source_ip)
+
+
 def _authenticate_throttled(request, form):
     """The signed-in user, or ``None`` after adding the generic error to ``form``.
 
     Order matters: the counters are read before any password is hashed, so a
     blocked attempt costs no Argon2 run; a failure is recorded before the
-    refusal; a success resets only the (username, address) counter.
+    refusal; a success resets only the (username, address) and device counters.
+    A browser holding a device cookie for the username is judged by its own
+    device counter instead of the shared per-username and per-address ones.
     """
     username = form.cleaned_data["username"]
-    source_ip = throttle.client_address(request)
-    counters = throttle.login_counters(username, source_ip)
+    source = throttle.client_source(request)
+    counters = throttle.login_counters(
+        username,
+        source.bucket,
+        distinguishes=source.distinguishes,
+        device_id=devices.device_id_for(request, username),
+    )
     now = timezone.now()
 
-    if throttle.is_blocked(counters, now):
-        _log_login_event("login_throttle_blocked", username=username, source_ip=source_ip)
+    blocking = throttle.blocking_keys(counters, now)
+    if blocking:
+        _log_blocked_once(blocking, username=username, source_ip=source.address)
         form.add_error(None, GENERIC_LOGIN_ERROR)
         return None
 
@@ -75,13 +99,15 @@ def _authenticate_throttled(request, form):
         user = authenticate(request, username=username, password=form.cleaned_data["password"])
     if user is None:
         throttle.record_failure(counters, now)
-        _log_login_event("login_failure", username=username, source_ip=source_ip)
+        _log_login_event("login_failure", username=username, source_ip=source.address)
         form.add_error(None, GENERIC_LOGIN_ERROR)
         return None
 
     throttle.reset(counters.pair)
+    if counters.device is not None:
+        throttle.reset(counters.device)
     login(request, user)
-    _log_login_event("login_success", username=user.get_username(), source_ip=source_ip)
+    _log_login_event("login_success", username=user.get_username(), source_ip=source.address)
     return user
 
 
@@ -92,8 +118,11 @@ def login_view(request):
     # as a hidden POST field so it survives the form submission too.
     next_url = request.POST.get("next") or request.GET.get("next", "")
     if request.method == "POST" and form.is_valid():
-        if _authenticate_throttled(request, form) is not None:
-            return redirect(_safe_next(request))
+        user = _authenticate_throttled(request, form)
+        if user is not None:
+            response = redirect(_safe_next(request))
+            devices.remember(response, request, user.get_username())
+            return response
     return render(request, "accounts/login.html", {"form": form, "next": next_url})
 
 

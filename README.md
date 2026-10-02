@@ -196,7 +196,8 @@ password and must set its own password on first login.
 Usernames are ASCII letters, digits and `@ . + - _` and unique ignoring case
 (`Alice` is taken once `alice` exists). Behind a reverse proxy, set
 `TRUSTED_PROXY_IPS` (see [`docs/operations.md`](docs/operations.md) section 2);
-otherwise the login throttle sees only the proxy's address.
+otherwise the login throttle cannot tell clients apart behind the proxy
+(it then skips its per-address counter; see section 11 there).
 
 Every response carries a strict `Content-Security-Policy` and a
 `Permissions-Policy` (`config/security_headers.py`): scripts and stylesheets

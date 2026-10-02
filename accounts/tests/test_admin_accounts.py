@@ -375,7 +375,7 @@ def test_denied_account_attempts_are_audited(client, portal_admin, user_factory,
         in messages
     )
     assert any(
-        m.startswith("admin_access_denied username='player' method=GET path=/portal-admin/accounts/")
+        m.startswith("admin_access_denied username='player' method=GET path='/portal-admin/accounts/")
         for m in messages
     )
 

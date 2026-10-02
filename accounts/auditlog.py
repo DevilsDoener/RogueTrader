@@ -19,4 +19,12 @@ class AuditFileHandler(RotatingFileHandler):
 
     def _open(self):
         os.makedirs(os.path.dirname(self.baseFilename), exist_ok=True)
+        # The log names accounts and addresses: owner-only, not the umask default.
+        # Created (also after a rotation) with 0600 before the stream opens it;
+        # a file left over from an older version is tightened too.
+        os.close(os.open(self.baseFilename, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600))
+        try:
+            os.chmod(self.baseFilename, 0o600)
+        except OSError:  # not ours to change (read-only volume, foreign owner)
+            pass
         return super()._open()

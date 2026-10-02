@@ -12,6 +12,7 @@ from accounts import throttle
 PASSWORD = "Correct-Password-42!"
 GENERIC_ERROR = "Benutzername oder Passwort ungültig."
 LOGIN_URL = "/account/login/"
+PUBLIC_ADDRESS = "198.51.100.77"  # a public peer: the address tells clients apart
 
 
 def _post(client, username, password="wrong", **meta):
@@ -136,10 +137,10 @@ def test_a_few_failures_from_other_addresses_do_not_lock_the_real_player(client,
 def test_a_username_flood_from_one_address_stops_before_any_hashing(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
     for number in range(throttle.LOGIN_SOURCE_LIMIT):
-        _post(client, f"ghost-{number}")
+        _post(client, f"ghost-{number}", REMOTE_ADDR=PUBLIC_ADDRESS)
 
     with mock.patch("accounts.views.authenticate") as authenticate:
-        response = _post(client, "crew", PASSWORD)
+        response = _post(client, "crew", PASSWORD, REMOTE_ADDR=PUBLIC_ADDRESS)
 
     authenticate.assert_not_called()
     assert response.status_code == 200
@@ -150,7 +151,7 @@ def test_a_username_flood_from_one_address_stops_before_any_hashing(client, user
 def test_an_address_flood_does_not_block_other_addresses(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
     for number in range(throttle.LOGIN_SOURCE_LIMIT):
-        _post(client, f"ghost-{number}")
+        _post(client, f"ghost-{number}", REMOTE_ADDR=PUBLIC_ADDRESS)
 
     response = _post(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
 
