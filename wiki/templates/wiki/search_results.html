@@ -43,7 +43,7 @@
                  depending on the anchor scheme.{% endcomment %}
               <a class="search-hit-title" href="{% url 'wiki:chapter' result.chapter_slug %}?q={{ query|urlencode }}#sec-{{ result.section_id }}">{{ result.title }}</a>
               <p class="search-hit-path">{% if chapter.numeral %}{{ chapter.numeral }} &middot; {% endif %}{{ chapter.short_title }}{% for part in result.path %} <span aria-hidden="true">&rsaquo;</span> {{ part }}{% endfor %}</p>
-              <p class="search-hit-snippet">{{ result.snippet|safe }}</p>
+              <p class="search-hit-snippet">{{ result.snippet }}</p>
             </li>
           {% endfor %}
         </ol>

@@ -3,7 +3,7 @@
 Pure functions over a ``WikiRepository`` so they can be tested without HTTP.
 Everything returned is plain data: titles and paths are raw strings for the
 client to render as text, and ``snippet_html`` is the one field that carries
-markup (already escaped by ``wiki.search``, with ``<mark>`` around the match).
+markup (already escaped by ``wiki.snippets``, with ``<mark>`` around the match).
 """
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from urllib.parse import urlencode
 
 from django.urls import reverse
 
-from .search import is_searchable, tokenize
+from .search import clamp_query, is_searchable, tokenize
 
 MAX_CHAPTERS = 4
 MAX_SECTIONS = 6
@@ -85,7 +85,12 @@ def _matching_sections(
 
 
 def suggest(repository, query: str) -> dict:
-    """JSON-ready suggestions for ``query``: chapters, sections and full-text hits."""
+    """JSON-ready suggestions for ``query``: chapters, sections and full-text hits.
+
+    An over-long query is cut by ``clamp_query`` first; the echoed ``query``
+    and the links built from it are the clamped one.
+    """
+    query = clamp_query(query)
     result = {
         "query": query,
         "chapters": [],

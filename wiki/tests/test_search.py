@@ -1,6 +1,7 @@
 import pytest
 
-from wiki.search import SNIPPET_ELLIPSIS, SNIPPET_MAX_LENGTH, _make_snippet, is_searchable
+from wiki.search import is_searchable
+from wiki.snippets import SNIPPET_ELLIPSIS, SNIPPET_MAX_LENGTH, make_snippet as _make_snippet
 from wiki.suggest import suggest
 
 

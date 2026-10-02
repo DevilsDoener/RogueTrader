@@ -1,0 +1,99 @@
+"""German query terms mapped onto the English vocabulary of the book.
+
+A plain data table, kept apart from the ranking code because it is meant to
+grow and is edited by people who do not touch the scoring.
+"""
+from __future__ import annotations
+
+from typing import Dict, Tuple
+
+#: German query terms mapped onto the English vocabulary of the book. Meant to
+#: grow: add whatever your table actually says out loud. Keys are casefolded
+#: and umlaut variants are listed explicitly, because the tokenizer does not
+#: fold them.
+QUERY_ALIASES: Dict[str, Tuple[str, ...]] = {
+    # Characteristics
+    "stärke": ("strength",),
+    "staerke": ("strength",),
+    "widerstand": ("toughness",),
+    "zähigkeit": ("toughness",),
+    "gewandtheit": ("agility",),
+    "beweglichkeit": ("agility",),
+    "intelligenz": ("intelligence",),
+    "wahrnehmung": ("perception",),
+    "willenskraft": ("willpower",),
+    "charisma": ("fellowship",),
+    "kampfgeschick": ("weapon", "skill"),
+    # Core play
+    "fertigkeit": ("skill",),
+    "fertigkeiten": ("skill",),
+    "talent": ("talent",),
+    "talente": ("talent",),
+    "merkmal": ("trait",),
+    "merkmale": ("trait",),
+    "probe": ("test",),
+    "würfel": ("dice", "roll"),
+    "wuerfel": ("dice", "roll"),
+    "erfahrung": ("experience",),
+    "rang": ("rank",),
+    "karriere": ("career",),
+    "karrierewege": ("career",),
+    "charakter": ("character",),
+    "charaktererschaffung": ("character", "creation"),
+    "schicksalspunkt": ("fate",),
+    "schicksalspunkte": ("fate",),
+    "profitfaktor": ("profit",),
+    # Combat
+    "waffe": ("weapon",),
+    "waffen": ("weapon",),
+    "rüstung": ("armour", "armor"),
+    "ruestung": ("armour", "armor"),
+    "schaden": ("damage",),
+    "treffer": ("hit",),
+    "angriff": ("attack",),
+    "deckung": ("cover",),
+    "ausweichen": ("dodge",),
+    "parieren": ("parry",),
+    "initiative": ("initiative",),
+    "reichweite": ("range",),
+    "munition": ("ammunition", "clip"),
+    "wunde": ("wound",),
+    "wunden": ("wound",),
+    "erschöpfung": ("fatigue",),
+    "erschoepfung": ("fatigue",),
+    "furcht": ("fear",),
+    "bewegung": ("movement",),
+    "geschwindigkeit": ("speed",),
+    "kritisch": ("critical",),
+    "kritischer": ("critical",),
+    "gift": ("toxic", "poison"),
+    "feuer": ("fire",),
+    "heilung": ("healing", "medicae"),
+    # Corruption and the warp
+    "korruption": ("corruption",),
+    "verderbnis": ("corruption",),
+    "wahnsinn": ("insanity",),
+    "mutation": ("mutation",),
+    "psioniker": ("psyker",),
+    "psi": ("psychic",),
+    "warp": ("warp",),
+    "navigator": ("navigator",),
+    # Ships and trade
+    "schiff": ("ship", "starship", "voidship"),
+    "schiffe": ("ship", "starship", "voidship"),
+    "raumschiff": ("starship", "voidship"),
+    "rumpf": ("hull",),
+    "schild": ("shield",),
+    "schilde": ("shield",),
+    "antrieb": ("drive", "engine"),
+    "besatzung": ("crew",),
+    "kapitän": ("captain",),
+    "kapitaen": ("captain",),
+    "händler": ("trader",),
+    "haendler": ("trader",),
+    "handel": ("trade",),
+    "planet": ("planet",),
+    "gegner": ("adversary", "enemy"),
+    "verbündete": ("allies",),
+    "verbuendete": ("allies",),
+}

@@ -9,7 +9,8 @@ mentions a word once over the section the rules are actually in.
 import pytest
 
 from wiki.content import WikiRepository
-from wiki.search import PREFIX_MIN_LENGTH, QUERY_ALIASES
+from wiki.aliases import QUERY_ALIASES
+from wiki.index import PREFIX_MIN_LENGTH
 
 
 def _titles(results):

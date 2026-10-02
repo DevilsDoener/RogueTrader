@@ -11,7 +11,8 @@ unsafe link protocols. Safety is enforced in one place, deliberately:
   tag instead of silently falling back to literal bracket text for
   "unsafe-looking" URLs.
 - Bleach then cleans the rendered HTML against a small allowlist of
-  tags/attributes/protocols. This is the *only* layer that decides which
+  tags/attributes/protocols (the ``href`` rule is a callable inside that
+  allowlist, see ``_is_safe_href``). This is the *only* layer that decides which
   link protocols are permitted, so the rule stays in one auditable place
   instead of being split between two libraries with different opinions.
   ``img`` is deliberately not in ``ALLOWED_TAGS`` below -- image syntax is
@@ -70,13 +71,47 @@ def _allow_column_alignment_class(tag: str, name: str, value: str) -> bool:
     return name == "class" and value in _ALIGNMENT_CLASS_VALUES
 
 
+ALLOWED_PROTOCOLS = ["http", "https", "mailto"]
+
+_URI_SCHEME_RE = re.compile(r"^([a-zA-Z][a-zA-Z0-9+.\-]*):")
+#: What browsers drop from a URL before reading its scheme or authority.
+_URI_IGNORED_RE = re.compile(r"[\x00-\x20\x7f-\x9f]")
+#: Two slashes (a backslash counts as one) start a network-path reference.
+_AUTHORITY_START_RE = re.compile(r"^[/\\]{2}")
+
+
+def _is_safe_href(value: str) -> bool:
+    """Whether a link destination may stay: allowed scheme, or same-site.
+
+    Bleach's own protocol check misses two shapes: a protocol-relative
+    ``//host/x`` (no scheme at all, so it passes as "relative" and the browser
+    sends the reader to another host) and a digit-only pseudo scheme such as
+    ``tel:123`` (``urlparse`` reads it as ``host:port``). So the value is
+    checked here first, after dropping the whitespace and control characters
+    a browser ignores: a destination either starts with an allowed scheme or
+    has no scheme and is not ``//``-led (a backslash counts as a slash).
+    """
+    value = _URI_IGNORED_RE.sub("", value)
+    if _AUTHORITY_START_RE.match(value):
+        return False
+    scheme = _URI_SCHEME_RE.match(value)
+    if scheme:
+        return scheme.group(1).lower() in ALLOWED_PROTOCOLS
+    return True
+
+
+def _allow_link_attribute(tag: str, name: str, value: str) -> bool:
+    """``a`` keeps ``title`` and a ``href`` that passes ``_is_safe_href``."""
+    if name == "title":
+        return True
+    return name == "href" and _is_safe_href(value)
+
+
 ALLOWED_ATTRIBUTES = {
-    "a": ["href", "title"],
+    "a": _allow_link_attribute,
     "th": _allow_column_alignment_class,
     "td": _allow_column_alignment_class,
 }
-
-ALLOWED_PROTOCOLS = ["http", "https", "mailto"]
 
 #: At and above this column count a table is laid out at its natural width
 #: inside a scrolling container instead of being squeezed into the article.
