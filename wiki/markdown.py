@@ -215,7 +215,10 @@ def _clean(raw_html: str) -> str:
         nh3.clean(
             raw_html,
             tags=set(ALLOWED_TAGS),
-            attributes={tag: set(names) for tag, names in ALLOWED_ATTRIBUTES.items()},
+            # nh3 (ammonia) admits ``lang`` and ``title`` on every allowed tag
+            # unless the generic ``"*"`` entry says otherwise.
+            attributes={"*": set()}
+            | {tag: set(names) for tag, names in ALLOWED_ATTRIBUTES.items()},
             attribute_filter=_filter_attribute,
             url_schemes=set(ALLOWED_PROTOCOLS),
             link_rel=None,

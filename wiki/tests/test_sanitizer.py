@@ -150,6 +150,21 @@ def test_a_cell_class_must_be_exactly_one_generated_value():
     assert '<td class="wiki-col-center">d</td>' in cleaned
 
 
+def test_only_the_allowlisted_attributes_survive_on_every_tag():
+    """nh3 would keep ``lang`` and ``title`` anywhere; the allowlist says otherwise."""
+    cleaned = _clean(
+        '<p lang="de" title="t" dir="rtl" hidden>p</p>'
+        '<a lang="de" href="/x" title="kept" dir="rtl">a</a>'
+        '<table><tr><td lang="de" title="t">c</td></tr></table>'
+    )
+
+    assert "lang=" not in cleaned
+    assert "dir=" not in cleaned
+    assert "hidden" not in cleaned
+    assert cleaned.count("title=") == 1
+    assert '<a href="/x" title="kept">a</a>' in cleaned
+
+
 def test_class_is_not_allowed_outside_table_cells():
     cleaned = _clean(
         '<p class="wiki-col-right">p</p><a class="wiki-col-left" href="/x">a</a>'
