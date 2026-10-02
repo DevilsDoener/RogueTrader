@@ -1,6 +1,6 @@
 """Link destinations: http(s), mailto and same-site stay; everything else loses its href.
 
-Audit finding I1: bleach's protocol list alone let a protocol-relative
+Audit finding I1: a scheme allowlist alone let a protocol-relative
 ``//host/x`` and the digit-only pseudo scheme ``tel:123`` through.
 """
 import pytest

@@ -1,6 +1,6 @@
 Django>=5.2,<5.3
 argon2-cffi>=23,<26
-bleach>=6,<7
 gunicorn>=23,<24
 markdown-it-py>=3,<5
+nh3>=0.3,<0.4
 whitenoise>=6,<7

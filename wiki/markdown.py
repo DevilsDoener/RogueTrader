@@ -10,24 +10,25 @@ unsafe link protocols. Safety is enforced in one place, deliberately:
   ``_build_parser``) so that link syntax always parses into a real ``<a>``
   tag instead of silently falling back to literal bracket text for
   "unsafe-looking" URLs.
-- Bleach then cleans the rendered HTML against a small allowlist of
-  tags/attributes/protocols (the ``href`` rule is a callable inside that
-  allowlist, see ``_is_safe_href``). This is the *only* layer that decides which
+- nh3 (a binding of the Rust HTML sanitizer ammonia) then cleans the rendered
+  HTML against a small allowlist of tags/attributes/protocols. Its
+  ``attribute_filter`` hook (see ``_filter_attribute``) constrains attribute
+  *values* on top of the allowlist. This is the *only* layer that decides which
   link protocols are permitted, so the rule stays in one auditable place
   instead of being split between two libraries with different opinions.
   ``img`` is deliberately not in ``ALLOWED_TAGS`` below -- image syntax is
   parsed the same permissive way as links (see ``_build_parser``), but
-  Bleach then strips the resulting ``<img>`` tag entirely, so Markdown
+  nh3 then strips the resulting ``<img>`` tag entirely, so Markdown
   image syntax currently renders as nothing rather than a picture.
 
-Two table-specific passes sit either side of Bleach:
+Two table-specific passes sit either side of the sanitizer:
 
 - *Before*, a core rule rewrites markdown-it's column-alignment ``style``
   attribute into one of three fixed class names (``_table_alignment_to_class``).
-  Bleach has no ``style`` in ``ALLOWED_ATTRIBUTES``, so the alignment declared
-  by ``|---:|`` would be dropped silently. The class names are generated
-  here, never copied from the document, and ``ALLOWED_ATTRIBUTES`` admits
-  them through a *value*-checking callable rather than a bare attribute name.
+  The sanitizer has no ``style`` in ``ALLOWED_ATTRIBUTES``, so the alignment
+  declared by ``|---:|`` would be dropped silently. The class names are
+  generated here, never copied from the document, and ``_filter_attribute``
+  admits only those exact values rather than any ``class``.
 - *After*, ``_wrap_tables`` puts each table in a horizontally scrollable
   container. It runs on already-sanitized HTML on purpose: the wrapper is
   entirely our own markup and therefore never needs ``div`` or a general
@@ -37,10 +38,10 @@ from __future__ import annotations
 
 import re
 
-import bleach
+import nh3
 from markdown_it import MarkdownIt
 
-ALLOWED_TAGS = [
+ALLOWED_TAGS = frozenset({
     "h1", "h2", "h3", "h4", "h5", "h6",
     "p", "br", "hr",
     "strong", "em",
@@ -49,7 +50,7 @@ ALLOWED_TAGS = [
     "blockquote",
     "table", "thead", "tbody", "tr", "th", "td",
     "a",
-]
+})
 
 #: markdown-it expresses a table column's alignment as an inline style on each
 #: cell. Map those three values onto class names we control.
@@ -61,17 +62,7 @@ _ALIGNMENT_CLASSES = {
 _ALIGNMENT_CLASS_VALUES = frozenset(_ALIGNMENT_CLASSES.values())
 
 
-def _allow_column_alignment_class(tag: str, name: str, value: str) -> bool:
-    """Admit only the exact alignment classes this module generates.
-
-    Bleach accepts a callable per tag, which lets the allowlist constrain the
-    *value* and not merely the attribute name -- a bare ``{"td": ["class"]}``
-    would let any class through.
-    """
-    return name == "class" and value in _ALIGNMENT_CLASS_VALUES
-
-
-ALLOWED_PROTOCOLS = ["http", "https", "mailto"]
+ALLOWED_PROTOCOLS = frozenset({"http", "https", "mailto"})
 
 _URI_SCHEME_RE = re.compile(r"^([a-zA-Z][a-zA-Z0-9+.\-]*):")
 #: What browsers drop from a URL before reading its scheme or authority.
@@ -83,7 +74,7 @@ _AUTHORITY_START_RE = re.compile(r"^[/\\]{2}")
 def _is_safe_href(value: str) -> bool:
     """Whether a link destination may stay: allowed scheme, or same-site.
 
-    Bleach's own protocol check misses two shapes: a protocol-relative
+    The sanitizer's own protocol check misses a protocol-relative
     ``//host/x`` (no scheme at all, so it passes as "relative" and the browser
     sends the reader to another host) and a digit-only pseudo scheme such as
     ``tel:123`` (``urlparse`` reads it as ``host:port``). So the value is
@@ -100,18 +91,31 @@ def _is_safe_href(value: str) -> bool:
     return True
 
 
-def _allow_link_attribute(tag: str, name: str, value: str) -> bool:
-    """``a`` keeps ``title`` and a ``href`` that passes ``_is_safe_href``."""
-    if name == "title":
-        return True
-    return name == "href" and _is_safe_href(value)
-
-
+#: Attributes the sanitizer may keep, per tag. Everything else -- ``id``,
+#: ``name``, ``style``, ``rel``, ``target``, event handlers -- is dropped.
+#: ``class`` is admitted on cells only, and ``_filter_attribute`` narrows it to
+#: the three values this module generates.
 ALLOWED_ATTRIBUTES = {
-    "a": _allow_link_attribute,
-    "th": _allow_column_alignment_class,
-    "td": _allow_column_alignment_class,
+    "a": frozenset({"href", "title"}),
+    "th": frozenset({"class"}),
+    "td": frozenset({"class"}),
 }
+
+
+def _filter_attribute(tag: str, name: str, value: str) -> str | None:
+    """nh3 ``attribute_filter``: constrain attribute *values*, not just names.
+
+    ``None`` drops the attribute. Runs on every attribute of an allowed tag,
+    before the allowlist and the scheme check, so it must never *add* trust:
+    an attribute it passes through still has to be on ``ALLOWED_ATTRIBUTES``.
+    """
+    if name == "class":
+        # A bare ``{"td": {"class"}}`` would let any class through.
+        return value if value in _ALIGNMENT_CLASS_VALUES else None
+    if name == "href":
+        return value if _is_safe_href(value) else None
+    return value
+
 
 #: At and above this column count a table is laid out at its natural width
 #: inside a scrolling container instead of being squeezed into the article.
@@ -131,7 +135,7 @@ def _table_alignment_to_class(state) -> None:
     Table cell tokens are top-level in the token stream (not ``inline``
     children), so one flat pass reaches every cell. Clearing ``attrs`` first
     means any attribute a future markdown-it version adds is dropped here by
-    construction rather than relying on Bleach to catch it.
+    construction rather than relying on the sanitizer to catch it.
     """
     for token in state.tokens:
         if token.type not in ("th_open", "td_open"):
@@ -146,10 +150,10 @@ def _table_alignment_to_class(state) -> None:
 def _wrap_tables(html: str) -> str:
     """Wrap each table in a horizontally scrollable container.
 
-    Runs *after* Bleach, so the input is already sanitized and this wrapper is
+    Runs *after* the sanitizer, so the input is already clean and this wrapper is
     entirely our own markup. That is what keeps ``div`` and a general ``class``
     attribute out of the allowlist. Two properties make the string-level match
-    safe: Bleach strips every attribute from ``<table>``, so the opening tag is
+    safe: the sanitizer strips every attribute from ``<table>``, so the opening tag is
     always exactly ``<table>``; and a literal ``<table>`` in the Markdown source
     is escaped to text by ``html: False`` long before it could look like a tag.
     GFM tables cannot nest, so the non-greedy match cannot straddle two tables.
@@ -171,7 +175,7 @@ def _wrap_tables(html: str) -> str:
 def _build_parser() -> MarkdownIt:
     parser = MarkdownIt("gfm-like", {"html": False, "linkify": False, "typographer": False})
     # Always parse link/image syntax into real <a>/<img> tags, even for
-    # unsafe-looking destinations, so that Bleach -- our single source of
+    # unsafe-looking destinations, so that the sanitizer -- our single source of
     # truth for protocol filtering -- gets a chance to strip the attribute.
     # Otherwise markdown-it-py's own validator silently falls back to
     # rendering the raw "[text](javascript:...)" syntax as literal text,
@@ -181,13 +185,42 @@ def _build_parser() -> MarkdownIt:
     return parser
 
 
+#: A whole tag, or one of the two things nh3 writes differently from the
+#: serializer this module used before it (see ``_match_serialization``).
+#: ammonia escapes ``<`` and ``>`` inside attribute values, so ``[^<>]*``
+#: always spans exactly one tag.
+_SERIALIZATION_RE = re.compile(r'<[^<>]*>|"')
+
+
+def _match_serialization(cleaned: str) -> str:
+    """Write nh3's output the way the previous sanitizer (bleach) did.
+
+    The two differ in exactly two places for markdown-it's output, which only
+    ever carries the entities ``&amp; &lt; &gt; &quot;`` and literal
+    characters. nh3 writes a text-node ``"`` literally where bleach kept
+    ``&quot;``, and writes U+00A0 as ``&nbsp;`` where bleach kept the
+    character. Mapping both back keeps every section of the corpus
+    byte-identical, so cached or diffed output does not change with the
+    sanitizer. Attribute values already carry ``&quot;`` from markdown-it and
+    stay as nh3 wrote them, as do the delimiting quotes of a tag.
+    """
+    cleaned = cleaned.replace("&nbsp;", "\u00a0")
+    return _SERIALIZATION_RE.sub(
+        lambda match: "&quot;" if match.group(0) == '"' else match.group(0), cleaned
+    )
+
+
 def _clean(raw_html: str) -> str:
-    return bleach.clean(
-        raw_html,
-        tags=ALLOWED_TAGS,
-        attributes=ALLOWED_ATTRIBUTES,
-        protocols=ALLOWED_PROTOCOLS,
-        strip=True,
+    return _match_serialization(
+        nh3.clean(
+            raw_html,
+            tags=set(ALLOWED_TAGS),
+            attributes={tag: set(names) for tag, names in ALLOWED_ATTRIBUTES.items()},
+            attribute_filter=_filter_attribute,
+            url_schemes=set(ALLOWED_PROTOCOLS),
+            link_rel=None,
+            strip_comments=True,
+        )
     )
 
 

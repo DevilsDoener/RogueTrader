@@ -2,7 +2,7 @@
 
 Every heading is an outline node, so its body HTML contains no heading tag at
 all and the anchor ``id`` is written in template context. That is what lets
-``wiki/markdown.py`` keep ``id`` out of the Bleach allowlist entirely -- a
+``wiki/markdown.py`` keep ``id`` out of the sanitizer allowlist entirely -- a
 value copied from the document could otherwise shadow a DOM global or one of
 the shell's own element ids.
 """

@@ -2,7 +2,7 @@
 
 Raw HTML and unsafe link protocols never survive. Tables get a scroll wrapper
 and a layout mode, and the column alignment declared by ``|---:|`` becomes a
-class: markdown-it expresses it as an inline ``style``, which Bleach strips.
+class: markdown-it expresses it as an inline ``style``, which the sanitizer strips.
 """
 import pytest
 
@@ -71,16 +71,10 @@ def test_left_and_center_alignment_produce_their_own_classes():
 
 def test_a_cell_class_we_did_not_generate_is_stripped():
     """The allowlist checks the class *value*, not just the attribute name."""
-    import bleach
+    from wiki.markdown import _clean
 
-    from wiki.markdown import ALLOWED_ATTRIBUTES, ALLOWED_PROTOCOLS, ALLOWED_TAGS
-
-    cleaned = bleach.clean(
-        '<table><tr><td class="evil">x</td><td class="wiki-col-right">y</td></tr></table>',
-        tags=ALLOWED_TAGS,
-        attributes=ALLOWED_ATTRIBUTES,
-        protocols=ALLOWED_PROTOCOLS,
-        strip=True,
+    cleaned = _clean(
+        '<table><tr><td class="evil">x</td><td class="wiki-col-right">y</td></tr></table>'
     )
 
     assert 'class="evil"' not in cleaned
@@ -88,7 +82,7 @@ def test_a_cell_class_we_did_not_generate_is_stripped():
 
 
 def test_literal_table_markup_in_the_source_is_escaped_and_not_wrapped():
-    """The wrapper runs after Bleach on a string match, so this must hold."""
+    """The wrapper runs after the sanitizer on a string match, so this must hold."""
     html = SafeMarkdownRenderer().render("<table><tr><td>raw</td></tr></table>")
 
     assert "wiki-table-scroll" not in html
