@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Verlauf: {{ ship.display_name }} &ndash; Rogue Trader Portal{% endblock %}
 
@@ -55,27 +56,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-  <script>
-    // Expand-on-demand: old/new values are only ever fetched (from an
-    // authenticated route) once a user explicitly opens a row -- they are
-    // never present in the initial page load.
-    document.querySelectorAll(".ship-history-expand").forEach(function (button) {
-      button.addEventListener("click", function () {
-        var row = button.closest("tr");
-        var detailRow = row.nextElementSibling;
-        if (!detailRow) return;
-        if (!detailRow.hidden) {
-          detailRow.hidden = true;
-          return;
-        }
-        var cell = detailRow.querySelector("td");
-        fetch(button.dataset.detailUrl, { credentials: "same-origin" })
-          .then(function (response) { return response.text(); })
-          .then(function (html) {
-            cell.innerHTML = html;
-            detailRow.hidden = false;
-          });
-      });
-    });
-  </script>
+  <script src="{% static 'sheets/ship-history.js' %}" defer></script>
 {% endblock %}

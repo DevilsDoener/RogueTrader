@@ -1,5 +1,5 @@
-/* Field autosave and conflict resolution for the responsive sheet
- * viewer. This file is loaded on both the owner's editable
+/* Field previews, autosave and conflict resolution for the sheet viewer.
+ * This file is loaded on both the owner's editable
  * view and the portal admin's read-only view; the `data-read-only`
  * attribute on #sheet-viewer-root gates all of the autosave wiring so the
  * admin view never issues a single field request.
@@ -51,7 +51,16 @@
   // the sheet, so the instant preview below can never drift from the rules
   // the server enforces. Pages without them (the ship sheet) skip the previews.
   const rulesEl = document.getElementById("sheet-client-rules");
-  const rules = rulesEl ? JSON.parse(rulesEl.textContent) : {};
+  let rules = {};
+  if (rulesEl) {
+    try {
+      rules = JSON.parse(rulesEl.textContent) || {};
+    } catch (error) {
+      // Without the rules only the instant previews are lost; the server
+      // still computes and returns every derived value.
+      rules = {};
+    }
+  }
   const movementRules = rules.movement || null;
   const movementDigits = movementRules
     ? new RegExp("^\\d{1," + movementRules.max_digits + "}$")
@@ -65,7 +74,7 @@
       const target = root.querySelector('[data-field-id="' + id + '"]');
       if (!target) continue;
       target.value = valid ? String(Number(input.value) * factor) : "";
-      updateHasValue(target);
+      refreshField(target);
     }
   }
   function characteristicCounterpart(input) {
@@ -80,17 +89,20 @@
       target.checked = input.checked;
     } else {
       target.value = input.value;
-      updateHasValue(target);
+      refreshField(target);
     }
   }
-  function updateHasValue(input) {
+  // Brings a text field's presentation in line with its current value: the
+  // "has-value" class, the ship font fit and (for Half Move) the derived
+  // movement fields, which are refreshed in turn.
+  function refreshField(input) {
     if (input.type === "checkbox") return;
     input.classList.toggle("has-value", input.value.trim() !== "");
     fitShipText(input);
     updateMovement(input);
   }
 
-  root.querySelectorAll(".sheet-text").forEach(updateHasValue);
+  root.querySelectorAll(".sheet-text").forEach(refreshField);
 
   if (readOnly) {
     // Admin view: no autosave wiring is attached below, so no field request
@@ -115,19 +127,15 @@
     if (statusEl) statusEl.textContent = text;
   }
 
-  // Per-field monotonic request token: each save captures the token in
-  // flight at send time, and a response is only applied if it's still the
-  // most recent token issued for that field -- otherwise a newer local
-  // edit is already in flight and this (older) response is dropped so it
-  // cannot clobber it.
-  const fieldTokens = new Map();
-  const debounceTimers = new Map();
-
-  function nextToken(fieldId) {
-    const token = (fieldTokens.get(fieldId) || 0) + 1;
-    fieldTokens.set(fieldId, token);
-    return token;
-  }
+  // Saves are serialized per field: while a request for a field is in
+  // flight, further edits only mark the field as "queued" and the newest
+  // value is sent once the response (and with it the new version) is in. Two
+  // requests for one field never race, so a user can never conflict with
+  // their own previous save.
+  const inFlight = new Set();
+  const queued = new Set();
+  // fieldId -> {timer, input}: edits waiting for the 600 ms debounce.
+  const pendingSaves = new Map();
 
   function closeConflictPanel(input) {
     const entry = conflictPanels.get(input);
@@ -190,7 +198,7 @@
         input.checked = Boolean(conflict.current_value);
       } else {
         input.value = conflict.current_value == null ? "" : String(conflict.current_value);
-        updateHasValue(input);
+        refreshField(input);
       }
       updateCharacteristic(input);
       input.dataset.version = String(conflict.current_version);
@@ -225,11 +233,32 @@
     return input.type === "checkbox" ? input.checked : input.value;
   }
 
-  function saveField(input) {
+  function applyDerivedFields(input, value, calculated) {
+    for (const [id, derived] of Object.entries(calculated || {})) {
+      const target = root.querySelector('[data-field-id="' + id + '"]');
+      if (!target) continue;
+      target.dataset.version = String(derived.version);
+      // A newer unsaved input must retain its live preview.
+      if (readValue(input) === value) {
+        if (target.type === "checkbox") {
+          target.checked = Boolean(derived.value);
+        } else {
+          target.value = derived.value;
+          refreshField(target);
+        }
+      }
+    }
+  }
+
+  function saveField(input, options) {
     const fieldId = input.dataset.fieldId;
+    if (inFlight.has(fieldId)) {
+      queued.add(fieldId);
+      return;
+    }
     const value = readValue(input);
     const baseVersion = parseInt(input.dataset.version, 10) || 0;
-    const token = nextToken(fieldId);
+    inFlight.add(fieldId);
 
     setStatus("Speichert…");
 
@@ -241,65 +270,69 @@
       },
       body: JSON.stringify({ value: value, base_version: baseVersion }),
       credentials: "same-origin",
+      keepalive: Boolean(options && options.keepalive),
     })
-      .then((response) => response.json().then((data) => ({ status: response.status, data: data })))
+      .then((response) =>
+        response.json().then(
+          (data) => ({ status: response.status, data: data }),
+          () => ({ status: response.status, data: null })
+        )
+      )
+      .catch(() => ({ status: 0, data: null }))
       .then((result) => {
-        if (fieldTokens.get(fieldId) !== token) {
-          // A newer save for this field has since been issued; this
-          // response is stale and must not touch the field's state.
-          return;
-        }
-        if (result.status === 200) {
+        inFlight.delete(fieldId);
+        const resave = queued.delete(fieldId);
+        if (result.status === 200 && result.data) {
           input.dataset.version = String(result.data.version);
-          for (const [id, derived] of Object.entries(result.data.calculated_fields || {})) {
-            const target = root.querySelector('[data-field-id="' + id + '"]');
-            if (!target) continue;
-            target.dataset.version = String(derived.version);
-            // A newer unsaved input must retain its live preview.
-            if (readValue(input) === value) {
-              if (target.type === "checkbox") {
-                target.checked = Boolean(derived.value);
-              } else {
-                target.value = derived.value;
-                updateHasValue(target);
-              }
-            }
-          }
+          applyDerivedFields(input, value, result.data.calculated_fields);
           closeConflictPanel(input);
           setStatus("Gespeichert");
-        } else if (result.status === 409) {
+        } else if (result.status === 409 && result.data) {
+          // The newest value is shown in the conflict panel; do not
+          // overwrite the other change behind the user's back.
           setStatus("Fehler");
           showConflictPanel(input, result.data);
+          return;
         } else {
           setStatus("Fehler");
         }
-      })
-      .catch(() => {
-        if (fieldTokens.get(fieldId) !== token) return;
-        setStatus("Fehler");
+        if (resave) saveField(input);
       });
   }
 
   function scheduleSave(input) {
     const fieldId = input.dataset.fieldId;
-    const existing = debounceTimers.get(fieldId);
-    if (existing) clearTimeout(existing);
+    const existing = pendingSaves.get(fieldId);
+    if (existing) clearTimeout(existing.timer);
     const timer = setTimeout(() => {
-      debounceTimers.delete(fieldId);
+      pendingSaves.delete(fieldId);
       saveField(input);
     }, 600);
-    debounceTimers.set(fieldId, timer);
+    pendingSaves.set(fieldId, { timer: timer, input: input });
   }
 
-  function flushPendingSave(input) {
+  function flushPendingSave(input, options) {
     const fieldId = input.dataset.fieldId;
-    const existing = debounceTimers.get(fieldId);
+    const existing = pendingSaves.get(fieldId);
     if (existing) {
-      clearTimeout(existing);
-      debounceTimers.delete(fieldId);
-      saveField(input);
+      clearTimeout(existing.timer);
+      pendingSaves.delete(fieldId);
+      saveField(input, options);
     }
   }
+
+  // Closing or hiding the tab within the debounce window must not drop the
+  // last keystrokes: send them now, with keepalive so the request survives
+  // the page being unloaded.
+  function flushAllPendingSaves() {
+    for (const entry of Array.from(pendingSaves.values())) {
+      flushPendingSave(entry.input, { keepalive: true });
+    }
+  }
+  window.addEventListener("pagehide", flushAllPendingSaves);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") flushAllPendingSaves();
+  });
 
   root.querySelectorAll(".sheet-input").forEach((input) => {
     if (input.readOnly) return;
@@ -310,7 +343,7 @@
       });
     } else {
       input.addEventListener("input", () => {
-        updateHasValue(input);
+        refreshField(input);
         updateCharacteristic(input);
         scheduleSave(input);
       });
