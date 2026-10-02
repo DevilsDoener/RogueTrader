@@ -7,7 +7,7 @@
     same disk as the live database. This script copies the newest one to a
     second location (by default the OneDrive folder, which syncs it to the
     cloud), skips files already copied, and deletes copies in the target that
-    are older than -KeepDays. It only reads .\backups and never touches the
+    are older than -KeepDays (never the newest one). It only reads .\backups and never touches the
     live database or the containers.
 
     Nobody reads the log, so problems raise a visible Windows notification
@@ -192,8 +192,12 @@ try {
     # ones left and must not age out.
     $failed = @($script:problems | Where-Object { $_.Level -eq 'error' }).Count -gt 0
     if ($targetOk -and -not $failed) {
+        # The newest copy in the target is never pruned, however old it is:
+        # if the local backups stop, it is the last restorable state.
         $cutoff = (Get-Date).AddDays(-$KeepDays)
         Get-ChildItem -Path $Target -Filter 'db-*.sqlite3' -File |
+            Sort-Object LastWriteTime -Descending |
+            Select-Object -Skip 1 |
             Where-Object { $_.LastWriteTime -lt $cutoff } |
             ForEach-Object {
                 Remove-Item $_.FullName -Force
