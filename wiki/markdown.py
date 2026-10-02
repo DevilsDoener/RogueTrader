@@ -155,7 +155,7 @@ def _wrap_tables(html: str) -> str:
     GFM tables cannot nest, so the non-greedy match cannot straddle two tables.
     """
 
-    def _wrap(match: "re.Match[str]") -> str:
+    def _wrap(match: re.Match[str]) -> str:
         table_html = match.group(0)
         first_row = _FIRST_ROW_RE.search(table_html)
         columns = len(_CELL_RE.findall(first_row.group(1))) if first_row else 0

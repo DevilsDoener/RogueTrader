@@ -1,6 +1,6 @@
 """Authoring must preserve geometry and reject ambiguous generated layouts."""
-from copy import deepcopy
 import json
+from copy import deepcopy
 
 import pytest
 
@@ -29,7 +29,11 @@ def test_section_offsets_preserve_persistent_identity_and_template_defaults():
     original = deepcopy(payload)
     result = compile_source(payload)["fields"][0]
     assert (result["x"], result["y"], result["width"]) == (12, 23, 20)
-    assert (result["id"], result["label"], result["max_length"]) == ("saved_weapon_name", "Weapon", 60)
+    assert (result["id"], result["label"], result["max_length"]) == (
+        "saved_weapon_name",
+        "Weapon",
+        60,
+    )
     assert payload == original
 
 
@@ -92,7 +96,7 @@ def test_invalid_presentation_is_rejected(style):
 
 
 def test_checked_in_schemas_match_editable_sources():
-    from sheets.layout import build_layouts, LAYOUT_DIR, DATA_DIR
+    from sheets.layout import DATA_DIR, LAYOUT_DIR, build_layouts
     assert build_layouts(LAYOUT_DIR, DATA_DIR, check=True) == []
 
 

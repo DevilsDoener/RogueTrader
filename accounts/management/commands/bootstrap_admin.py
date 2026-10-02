@@ -23,7 +23,9 @@ class Command(BaseCommand):
             username = usernames.clean_username(options["username"])
         except ValidationError as error:
             if error.code == "unique":
-                raise CommandError(f"User '{options['username'].strip()}' already exists.") from error
+                raise CommandError(
+                    f"User '{options['username'].strip()}' already exists."
+                ) from error
             raise CommandError("; ".join(error.messages)) from error
         user = user_model(
             username=username,

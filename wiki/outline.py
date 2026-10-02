@@ -18,8 +18,8 @@ handled correctly by construction.
 from __future__ import annotations
 
 import re
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from typing import Callable, List, Optional, Sequence, Tuple
 
 from django.utils.text import slugify
 
@@ -43,7 +43,7 @@ class OutlineNode:
     plain_text: str
     html: str
     is_intro: bool
-    children: Tuple["OutlineNode", ...]
+    children: tuple[OutlineNode, ...]
 
 
 @dataclass
@@ -53,8 +53,8 @@ class _Draft:
     level: int
     title: str
     title_token: object
-    body: List[object]
-    children: List["_Draft"]
+    body: list[object]
+    children: list[_Draft]
     is_intro: bool = False
     base_slug: str = ""
     anchor: str = ""
@@ -69,11 +69,11 @@ def _heading_level(tag: str) -> int:
 
 def _plain_text(tokens: Sequence[object]) -> str:
     """Readable text of a block-token slice, for the search index."""
-    blocks: List[str] = []
+    blocks: list[str] = []
     for token in tokens:
         if getattr(token, "type", None) != "inline":
             continue
-        fragments: List[str] = []
+        fragments: list[str] = []
         for child in getattr(token, "children", None) or []:
             if child.type in ("text", "code_inline"):
                 fragments.append(child.content)
@@ -86,17 +86,17 @@ def _plain_text(tokens: Sequence[object]) -> str:
     return " ".join(" ".join(blocks).split())
 
 
-def _split_headings(tokens: Sequence[object]) -> Tuple[Optional[object], List[_Draft]]:
+def _split_headings(tokens: Sequence[object]) -> tuple[object | None, list[_Draft]]:
     """Return the chapter-title inline token and a flat list of heading drafts.
 
     Only headings at the top nesting level split content; a ``##`` inside a
     blockquote or a list item keeps ``token.level > 0`` and stays part of the
     body it sits in.
     """
-    title_token: Optional[object] = None
+    title_token: object | None = None
     title_seen = False
-    drafts: List[_Draft] = []
-    current: Optional[_Draft] = None
+    drafts: list[_Draft] = []
+    current: _Draft | None = None
     intro = _Draft(
         level=MIN_SECTION_LEVEL,
         title="",
@@ -150,10 +150,10 @@ def _split_headings(tokens: Sequence[object]) -> Tuple[Optional[object], List[_D
     return title_token, drafts
 
 
-def _nest(drafts: Sequence[_Draft]) -> List[_Draft]:
+def _nest(drafts: Sequence[_Draft]) -> list[_Draft]:
     """Turn the flat heading list into a tree using a level stack."""
-    roots: List[_Draft] = []
-    stack: List[_Draft] = []
+    roots: list[_Draft] = []
+    stack: list[_Draft] = []
     for draft in drafts:
         if draft.is_intro:
             roots.append(draft)
@@ -206,14 +206,14 @@ def _assign_anchors(roots: Sequence[_Draft]) -> None:
 
 
 def _drop_editorial(
-    drafts: List[_Draft], should_drop: Callable[[str], bool]
-) -> Tuple[List[_Draft], int]:
+    drafts: list[_Draft], should_drop: Callable[[str], bool]
+) -> tuple[list[_Draft], int]:
     """Remove top-level editorial sections, subtree and all.
 
     Only depth 1 is considered: a legitimately-named deeper heading (a "Status"
     subsection inside real rules content) must not disappear silently.
     """
-    kept: List[_Draft] = []
+    kept: list[_Draft] = []
     dropped = 0
     for draft in drafts:
         if not draft.is_intro and should_drop(draft.title):
@@ -223,8 +223,8 @@ def _drop_editorial(
     return kept, dropped
 
 
-def _build(drafts: Sequence[_Draft], renderer, chapter_title: str) -> Tuple[OutlineNode, ...]:
-    nodes: List[OutlineNode] = []
+def _build(drafts: Sequence[_Draft], renderer, chapter_title: str) -> tuple[OutlineNode, ...]:
+    nodes: list[OutlineNode] = []
     for draft in drafts:
         children = _build(draft.children, renderer, chapter_title)
         title = chapter_title if draft.is_intro else draft.title
@@ -249,8 +249,8 @@ def parse_outline(
     renderer,
     *,
     source_name: str = "",
-    should_drop_section: Optional[Callable[[str], bool]] = None,
-) -> Tuple[str, Tuple[OutlineNode, ...], int]:
+    should_drop_section: Callable[[str], bool] | None = None,
+) -> tuple[str, tuple[OutlineNode, ...], int]:
     """Parse one chapter into ``(title, top_level_nodes, dropped_count)``.
 
     ``title`` falls back to ``source_name``'s stem when the file has no H1.

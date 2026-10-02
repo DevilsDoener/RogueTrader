@@ -186,7 +186,8 @@ def test_account_list_exposes_all_management_actions_with_csrf(client, portal_ad
     crew_member.is_active = False
     crew_member.save(update_fields=["is_active"])
     inactive_content = client.get(reverse("accounts:admin_user_list")).content.decode()
-    assert reverse("accounts:admin_user_reactivate", kwargs={"pk": crew_member.pk}) in inactive_content
+    reactivate_url = reverse("accounts:admin_user_reactivate", kwargs={"pk": crew_member.pk})
+    assert reactivate_url in inactive_content
 
 
 @pytest.mark.django_db
@@ -375,7 +376,9 @@ def test_denied_account_attempts_are_audited(client, portal_admin, user_factory,
         in messages
     )
     assert any(
-        m.startswith("admin_access_denied username='player' method=GET path='/portal-admin/accounts/")
+        m.startswith(
+            "admin_access_denied username='player' method=GET path='/portal-admin/accounts/"
+        )
         for m in messages
     )
 
@@ -414,7 +417,11 @@ def test_invalid_account_forms_rerender_with_errors(client, portal_admin, user_f
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     "route_name",
-    ["accounts:admin_user_create", "accounts:admin_user_edit", "accounts:admin_user_reset_password"],
+    [
+        "accounts:admin_user_create",
+        "accounts:admin_user_edit",
+        "accounts:admin_user_reset_password",
+    ],
 )
 def test_account_form_pages_render_an_unbound_form(client, portal_admin, user_factory, route_name):
     crew_member = user_factory(username="crew-member")

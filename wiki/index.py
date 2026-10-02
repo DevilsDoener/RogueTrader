@@ -21,7 +21,8 @@ from __future__ import annotations
 
 import bisect
 from collections import Counter
-from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Set, Tuple
+from collections.abc import Iterable, Sequence
+from typing import NamedTuple
 
 from .aliases import QUERY_ALIASES
 from .records import WikiChapter, WikiSection
@@ -56,8 +57,8 @@ class IndexedSection(NamedTuple):
 
     chapter: WikiChapter
     section: WikiSection
-    title_tokens: Dict[str, int]
-    body_tokens: Dict[str, int]
+    title_tokens: dict[str, int]
+    body_tokens: dict[str, int]
 
 
 class _Scored(NamedTuple):
@@ -65,7 +66,7 @@ class _Scored(NamedTuple):
     chapter_ordinal: int
     section_ordinal: int
     entry: IndexedSection
-    matched: Tuple[str, ...]
+    matched: tuple[str, ...]
 
 
 def _saturate(count: int) -> float:
@@ -76,8 +77,8 @@ def _saturate(count: int) -> float:
 
 
 def _score_entry(
-    entry: IndexedSection, expanded: Sequence[Dict[str, float]]
-) -> Optional[Tuple[float, Tuple[str, ...]]]:
+    entry: IndexedSection, expanded: Sequence[dict[str, float]]
+) -> tuple[float, tuple[str, ...]] | None:
     """Score one section against the expanded query terms.
 
     Returns ``(weighted score, matched variants)`` or ``None`` when some query
@@ -86,7 +87,7 @@ def _score_entry(
     widens what counts as a match for one term.
     """
     total = 0.0
-    matched: Set[str] = set()
+    matched: set[str] = set()
     for variants in expanded:
         best = 0.0
         best_variant = None
@@ -124,7 +125,7 @@ class SearchIndex:
 
     def _expand(
         self, term: str, prefix_min_length: int = PREFIX_MIN_LENGTH
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Query term -> {variant: weight}.
 
         The typed word and any curated alias count fully; words that merely
@@ -132,7 +133,7 @@ class SearchIndex:
         "laspistol" above "laspistols". ``prefix_min_length`` is the shortest term
         that expands this way; the search page keeps ``PREFIX_MIN_LENGTH``.
         """
-        variants: Dict[str, float] = {term: 1.0}
+        variants: dict[str, float] = {term: 1.0}
         for alias in QUERY_ALIASES.get(term, ()):
             variants.setdefault(alias, 1.0)
 
@@ -145,7 +146,7 @@ class SearchIndex:
                     variants[candidate] = PREFIX_WEIGHT
         return variants
 
-    def highlight_terms(self, query: str) -> Tuple[str, ...]:
+    def highlight_terms(self, query: str) -> tuple[str, ...]:
         """Words a results page should mark in a section for ``query``.
 
         The typed words plus their curated aliases, deliberately without the
@@ -155,7 +156,7 @@ class SearchIndex:
         query = clamp_query(query)
         if not is_searchable(query):
             return ()
-        terms: Set[str] = set()
+        terms: set[str] = set()
         for token in query_tokens(query):
             terms.add(token)
             terms.update(QUERY_ALIASES.get(token, ()))
@@ -164,9 +165,9 @@ class SearchIndex:
     def search(
         self,
         query: str,
-        limit: Optional[int] = 30,
+        limit: int | None = 30,
         prefix_min_length: int = PREFIX_MIN_LENGTH,
-    ) -> Tuple[SearchResult, ...]:
+    ) -> tuple[SearchResult, ...]:
         query = clamp_query(query)
         if not is_searchable(query):
             return ()
@@ -177,7 +178,7 @@ class SearchIndex:
 
         expanded = [self._expand(term, prefix_min_length) for term in terms]
 
-        scored: List[_Scored] = []
+        scored: list[_Scored] = []
         for entry in self._entries:
             outcome = _score_entry(entry, expanded)
             if outcome is None:
@@ -207,7 +208,7 @@ class SearchIndex:
 
 def build_search_index(chapters: Iterable[WikiChapter]) -> SearchIndex:
     entries = []
-    vocabulary: Set[str] = set()
+    vocabulary: set[str] = set()
     for chapter in chapters:
         for section in chapter.sections:
             title_tokens = Counter(tokenize(section.title))

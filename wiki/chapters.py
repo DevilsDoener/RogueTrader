@@ -7,9 +7,9 @@ which files to read and keeps the result.
 from __future__ import annotations
 
 import re
+from collections.abc import Iterator
 from itertools import count
 from pathlib import Path
-from typing import Dict, Iterator, Tuple
 
 from django.conf import settings
 from django.utils.text import slugify
@@ -20,14 +20,14 @@ from .outline import OutlineNode, parse_outline
 from .records import WikiChapter, WikiSection
 
 
-def editorial_patterns() -> Tuple[re.Pattern, ...]:
+def editorial_patterns() -> tuple[re.Pattern, ...]:
     return tuple(
         re.compile(pattern)
         for pattern in settings.WIKI_EDITORIAL_SECTION_PATTERNS
     )
 
 
-def _unique_slug(base_slug: str, seen: Dict[str, int]) -> str:
+def _unique_slug(base_slug: str, seen: dict[str, int]) -> str:
     count_so_far = seen.get(base_slug, 0)
     seen[base_slug] = count_so_far + 1
     if count_so_far == 0:
@@ -35,7 +35,7 @@ def _unique_slug(base_slug: str, seen: Dict[str, int]) -> str:
     return f"{base_slug}-{count_so_far + 1}"
 
 
-def _chapter_slug(entry: ChapterEntry, source_name: str, seen: Dict[str, int]) -> str:
+def _chapter_slug(entry: ChapterEntry, source_name: str, seen: dict[str, int]) -> str:
     """The chapter's URL slug, unique among the chapters seen so far.
 
     The slug comes from the manifest so that renaming a Markdown file cannot
@@ -50,14 +50,14 @@ def _chapter_slug(entry: ChapterEntry, source_name: str, seen: Dict[str, int]) -
     return _unique_slug(slugify(name_part) or slugify(file_stem) or "chapter", seen)
 
 
-def _flatten(sections: Tuple[WikiSection, ...]) -> Iterator[WikiSection]:
+def _flatten(sections: tuple[WikiSection, ...]) -> Iterator[WikiSection]:
     for section in sections:
         yield section
         yield from _flatten(section.children)
 
 
 def _to_section(
-    node: OutlineNode, ordinals: Iterator[int], parent_titles: Tuple[str, ...] = ()
+    node: OutlineNode, ordinals: Iterator[int], parent_titles: tuple[str, ...] = ()
 ) -> WikiSection:
     # Pre-order, so a section's ordinal matches its position in the flattened
     # tuple the search index sorts on.
@@ -82,9 +82,9 @@ def parse_chapter(
     text: str,
     ordinal: int,
     renderer: SafeMarkdownRenderer,
-    chapter_slugs_seen: Dict[str, int],
-    editorial_patterns: Tuple[re.Pattern, ...] = (),
-) -> Tuple[WikiChapter, int]:
+    chapter_slugs_seen: dict[str, int],
+    editorial_patterns: tuple[re.Pattern, ...] = (),
+) -> tuple[WikiChapter, int]:
     def should_drop(title: str) -> bool:
         folded = title.casefold().strip()
         return any(pattern.match(folded) for pattern in editorial_patterns)

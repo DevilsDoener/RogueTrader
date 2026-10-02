@@ -1,6 +1,8 @@
 """Durable storage for the ``accounts.audit`` records."""
+import contextlib
 import os
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
 
 class AuditFileHandler(RotatingFileHandler):
@@ -18,13 +20,13 @@ class AuditFileHandler(RotatingFileHandler):
         super().__init__(filename, delay=True, encoding="utf-8", **kwargs)
 
     def _open(self):
-        os.makedirs(os.path.dirname(self.baseFilename), exist_ok=True)
+        path = Path(self.baseFilename)
+        path.parent.mkdir(parents=True, exist_ok=True)
         # The log names accounts and addresses: owner-only, not the umask default.
         # Created (also after a rotation) with 0600 before the stream opens it;
         # a file left over from an older version is tightened too.
         os.close(os.open(self.baseFilename, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600))
-        try:
-            os.chmod(self.baseFilename, 0o600)
-        except OSError:  # not ours to change (read-only volume, foreign owner)
-            pass
+        # Not ours to change (read-only volume, foreign owner): tolerated.
+        with contextlib.suppress(OSError):
+            path.chmod(0o600)
         return super()._open()

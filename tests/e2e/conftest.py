@@ -36,7 +36,7 @@ DEFAULT_PASSWORD = "Valid-Password-42!"
 _PRIMITIVE_TYPES = (str, int, float, bool, bytes, type(None))
 
 
-def _wrap(worker: "_PlaywrightWorker", value):
+def _wrap(worker: _PlaywrightWorker, value):
     if isinstance(value, _PRIMITIVE_TYPES):
         return value
     if isinstance(value, list):
@@ -59,7 +59,7 @@ class _ThreadedProxy:
 
     __slots__ = ("_worker", "_target")
 
-    def __init__(self, worker: "_PlaywrightWorker", target):
+    def __init__(self, worker: _PlaywrightWorker, target):
         object.__setattr__(self, "_worker", worker)
         object.__setattr__(self, "_target", target)
 

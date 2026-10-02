@@ -132,7 +132,10 @@ def test_unknown_and_wrong_password_logins_have_same_error(client, user_factory)
     wrong_password = client.post(login_url, {"username": "crew", "password": "wrong"})
 
     assert "Benutzername oder Passwort ungültig." in unknown.content.decode()
-    assert unknown.context["form"].non_field_errors() == wrong_password.context["form"].non_field_errors()
+    assert (
+        unknown.context["form"].non_field_errors()
+        == wrong_password.context["form"].non_field_errors()
+    )
 
 
 @pytest.mark.django_db
@@ -145,7 +148,10 @@ def test_too_long_unknown_username_uses_the_generic_login_error(client, user_fac
 
     assert too_long.status_code == 200
     assert too_long.context["form"].errors.get("username") is None
-    assert too_long.context["form"].non_field_errors() == wrong_password.context["form"].non_field_errors()
+    assert (
+        too_long.context["form"].non_field_errors()
+        == wrong_password.context["form"].non_field_errors()
+    )
 
 
 def _freeze_now(monkeypatch, moment):

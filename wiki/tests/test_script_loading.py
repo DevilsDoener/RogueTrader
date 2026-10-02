@@ -81,7 +81,8 @@ def _positions(content, *names):
 def test_chapter_scripts_load_in_dependency_order(client, user_factory, installed):
     client.force_login(user_factory())
 
-    content = client.get(reverse("wiki:chapter", args=["chapter"]), {"q": "weapon"}).content.decode()
+    response = client.get(reverse("wiki:chapter", args=["chapter"]), {"q": "weapon"})
+    content = response.content.decode()
     positions = _positions(
         content, "wiki-text", "wiki-recent", "auspex", "wiki-highlight", "wiki-reader"
     )

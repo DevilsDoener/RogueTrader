@@ -22,7 +22,7 @@ class WikiConfig(AppConfig):
 
         try:
             content.initialize_repository()
-        except Exception:  # noqa: BLE001 - startup must not crash the whole app
+        except Exception:  # startup must not crash the whole app
             logger.exception("Failed to initialize the wiki content repository at startup.")
             # In a deployed container a failure here means the content mount is
             # wrong and every wiki page would 500 or come back empty. Failing to

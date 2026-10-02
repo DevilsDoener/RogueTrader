@@ -56,7 +56,9 @@ def test_empty_and_too_short_queries_are_told_apart(repository):
 
 
 def test_the_result_list_is_capped(make_repository):
-    sections = "".join(f"## Entry {index}\nweapon text\n\n" for index in range(SEARCH_RESULTS_LIMIT + 5))
+    sections = "".join(
+        f"## Entry {index}\nweapon text\n\n" for index in range(SEARCH_RESULTS_LIMIT + 5)
+    )
     repository = make_repository({"01-Chapter.md": f"# Chapter\n\n{sections}"})
 
     page = build_search_page(repository, "weapon")

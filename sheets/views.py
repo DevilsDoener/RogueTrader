@@ -80,7 +80,9 @@ class CharacterDetailView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         character = get_object_or_404(characters_owned_by(request.user), pk=pk)
-        return render(request, DETAIL_TEMPLATE_NAME, viewer.character_context(character, read_only=False))
+        return render(
+            request, DETAIL_TEMPLATE_NAME, viewer.character_context(character, read_only=False)
+        )
 
 
 #: A legitimate field-update body (``value`` of at most a few hundred
@@ -243,7 +245,9 @@ class AdminCharacterDetailView(PortalAdminRequiredMixin, View):
 
     def get(self, request, pk):
         character = get_object_or_404(CharacterSheet, pk=pk)
-        return render(request, DETAIL_TEMPLATE_NAME, viewer.character_context(character, read_only=True))
+        return render(
+            request, DETAIL_TEMPLATE_NAME, viewer.character_context(character, read_only=True)
+        )
 
 
 # ---------------------------------------------------------------------------

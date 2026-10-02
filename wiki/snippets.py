@@ -9,7 +9,7 @@ literal ``<mark>``. The result is returned as ``SafeString`` from the single
 from __future__ import annotations
 
 import html
-from typing import List, Sequence, Tuple
+from collections.abc import Sequence
 
 from django.utils.safestring import SafeString, mark_safe
 
@@ -18,7 +18,7 @@ SNIPPET_MAX_LENGTH = 180
 SNIPPET_ELLIPSIS = "…"
 
 
-def _casefold_with_offsets(text: str) -> Tuple[str, List[int]]:
+def _casefold_with_offsets(text: str) -> tuple[str, list[int]]:
     """Casefold ``text`` and map every folded index back to its source index.
 
     Casefolding can lengthen a string ("ß" becomes "ss"), so an offset
@@ -31,8 +31,8 @@ def _casefold_with_offsets(text: str) -> Tuple[str, List[int]]:
         # casefold never yields an empty string for a character, so equal
         # lengths mean every character folded to exactly one.
         return folded, list(range(len(text) + 1))
-    pieces: List[str] = []
-    origin: List[int] = []
+    pieces: list[str] = []
+    origin: list[int] = []
     for index, char in enumerate(text):
         piece = char.casefold()
         pieces.append(piece)

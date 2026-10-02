@@ -7,6 +7,8 @@ nonexistent one (404) when reached through these routes.
 """
 from __future__ import annotations
 
+from datetime import UTC
+
 import pytest
 from django.db import connection
 from django.test.utils import CaptureQueriesContext
@@ -114,7 +116,9 @@ def test_user_cannot_delete_another_users_character(client, user_factory, charac
 
 
 @pytest.mark.django_db
-def test_delete_via_get_shows_confirmation_and_does_not_delete(client, user_factory, character_factory):
+def test_delete_via_get_shows_confirmation_and_does_not_delete(
+    client, user_factory, character_factory
+):
     owner = user_factory()
     character = character_factory(owner=owner, display_name="Own")
     client.force_login(owner)
@@ -124,7 +128,9 @@ def test_delete_via_get_shows_confirmation_and_does_not_delete(client, user_fact
 
 
 @pytest.mark.django_db
-def test_get_on_another_users_delete_confirmation_is_not_found(client, user_factory, character_factory):
+def test_get_on_another_users_delete_confirmation_is_not_found(
+    client, user_factory, character_factory
+):
     owner = user_factory()
     other = user_factory()
     character = character_factory(owner=other, display_name="Hidden")
@@ -214,7 +220,12 @@ def test_character_list_card_partial_values_skip_missing_parts(
     character_factory(
         owner=owner,
         display_name="Half Done",
-        values={"c1_career_path": "Seneschal", "c1_ws_value": "30", "c2_wounds_total": "12", "c1_rank": ""},
+        values={
+            "c1_career_path": "Seneschal",
+            "c1_ws_value": "30",
+            "c2_wounds_total": "12",
+            "c1_rank": "",
+        },
     )
     client.force_login(owner)
     html = client.get("/characters/").content.decode()
@@ -307,20 +318,21 @@ def test_sheet_viewer_coordinates_keep_decimal_points_under_the_german_locale(
 
     styles = re.findall(r'class="sheet-field"\s+style="([^"]+)"', html)
     assert styles
-    assert all(re.fullmatch(r"left: [\d.]+%; top: [\d.]+%; width: [\d.]+%; height: [\d.]+%;", s) for s in styles)
+    pattern = r"left: [\d.]+%; top: [\d.]+%; width: [\d.]+%; height: [\d.]+%;"
+    assert all(re.fullmatch(pattern, s) for s in styles)
 
 
 @pytest.mark.django_db
 def test_character_list_shows_the_update_time_in_german_local_time(
     client, user_factory, character_factory
 ):
-    from datetime import datetime, timezone as dt_timezone
+    from datetime import datetime
 
     owner = user_factory()
     character = character_factory(owner=owner, display_name="Own")
     # Stored in UTC; 23:30 UTC on 15 January is 00:30 on the 16th in Berlin (CET).
     type(character).objects.filter(pk=character.pk).update(
-        updated_at=datetime(2026, 1, 15, 23, 30, tzinfo=dt_timezone.utc)
+        updated_at=datetime(2026, 1, 15, 23, 30, tzinfo=UTC)
     )
     client.force_login(owner)
 

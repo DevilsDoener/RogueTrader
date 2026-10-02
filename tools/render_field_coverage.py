@@ -25,7 +25,10 @@ def main():
         schema = json.loads((ROOT / f"sheets/data/{page}.json").read_text(encoding="utf-8"))
         old = {}
         if args.baseline:
-            old = {f["id"]: f for f in json.loads((args.baseline / f"{page}.json").read_text(encoding="utf-8"))["fields"]}
+            baseline_schema = json.loads(
+                (args.baseline / f"{page}.json").read_text(encoding="utf-8")
+            )
+            old = {f["id"]: f for f in baseline_schema["fields"]}
         im = Image.open(ROOT / f"sheets/static/sheets/images/{page}.webp").convert("RGB")
         draw = ImageDraw.Draw(im)
         changed = 0
@@ -33,7 +36,11 @@ def main():
             different = bool(args.baseline) and any(field.get(k) != old.get(field["id"], {}).get(k)
                 for k in ("x", "y", "width", "height", "checkbox_style"))
             changed += different
-            color = (0, 150, 40) if different else (20, 90, 220) if field["kind"] == "checkbox" else (220, 40, 40)
+            color = (
+                (0, 150, 40)
+                if different
+                else (20, 90, 220) if field["kind"] == "checkbox" else (220, 40, 40)
+            )
             rect = (round(field["x"] * im.width / 100), round(field["y"] * im.height / 100),
                     round((field["x"] + field["width"]) * im.width / 100) - 1,
                     round((field["y"] + field["height"]) * im.height / 100) - 1)

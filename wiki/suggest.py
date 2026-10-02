@@ -7,7 +7,6 @@ markup (already escaped by ``wiki.snippets``, with ``<mark>`` around the match).
 """
 from __future__ import annotations
 
-from typing import List, Set
 from urllib.parse import urlencode
 
 from django.urls import reverse
@@ -42,12 +41,12 @@ def _section_rank(title: str, query: str, first_token: str) -> int:
     return 2
 
 
-def _contains_all(tokens: List[str], text: str) -> bool:
+def _contains_all(tokens: list[str], text: str) -> bool:
     folded = text.casefold()
     return all(token in folded for token in tokens)
 
 
-def _matching_chapters(repository, tokens: List[str]) -> list:
+def _matching_chapters(repository, tokens: list[str]) -> list:
     found = []
     for chapter in repository.chapters():
         if _contains_all(tokens, chapter.title):
@@ -63,7 +62,7 @@ def _repeats_chapter(chapter, section) -> bool:
 
 
 def _matching_sections(
-    repository, tokens: List[str], query: str, listed: Set[str]
+    repository, tokens: list[str], query: str, listed: set[str]
 ) -> list:
     """The best ``MAX_SECTIONS`` (chapter, section) pairs for the title match.
 

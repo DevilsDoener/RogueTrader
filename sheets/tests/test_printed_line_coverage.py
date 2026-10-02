@@ -1,7 +1,9 @@
 """Regression checks against independently measured printed lines on all three sheets."""
-import pytest
 import json
 from pathlib import Path
+
+import pytest
+
 from sheets.schema import load_schema
 
 
@@ -29,14 +31,19 @@ def test_page_2_pips_follow_printed_circle_centres_not_a_flat_row():
     first = schema.field_by_id("c2_ws_adv_1")
     last = schema.field_by_id("c2_fel_adv_4")
     # Visually measured from the original artwork; the final circle is lower.
-    assert float((first.y + first.height / 2) * schema.image_height / 100) == pytest.approx(836, abs=1)
+    centre_y = float((first.y + first.height / 2) * schema.image_height / 100)
+    assert centre_y == pytest.approx(836, abs=1)
     assert float((last.y + last.height / 2) * schema.image_height / 100) > 837
 
 
 def test_ship_printed_round_markers_use_round_fills():
     schema = load_schema("ship-page")
     for field in schema.fields:
-        if field.kind == "checkbox" and "capacity" not in field.id and field.id.startswith("ship_weapon_"):
+        if (
+            field.kind == "checkbox"
+            and "capacity" not in field.id
+            and field.id.startswith("ship_weapon_")
+        ):
             assert field.checkbox_style == "pip", field.id
 
 

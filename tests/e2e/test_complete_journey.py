@@ -184,11 +184,17 @@ def _run_journey(page, second_page, live_server, ship_sheet):
 
     # ---- Step 3: both users are forced through their first-login password change.
     login_via_browser(page, live_server, username=user_a_username, password=USER_A_TEMP_PASSWORD)
-    _force_password_change(page, old_password=USER_A_TEMP_PASSWORD, new_password=USER_A_NEW_PASSWORD)
+    _force_password_change(
+        page, old_password=USER_A_TEMP_PASSWORD, new_password=USER_A_NEW_PASSWORD
+    )
     assert "/dashboard/" in page.url
 
-    login_via_browser(second_page, live_server, username=user_b_username, password=USER_B_TEMP_PASSWORD)
-    _force_password_change(second_page, old_password=USER_B_TEMP_PASSWORD, new_password=USER_B_NEW_PASSWORD)
+    login_via_browser(
+        second_page, live_server, username=user_b_username, password=USER_B_TEMP_PASSWORD
+    )
+    _force_password_change(
+        second_page, old_password=USER_B_TEMP_PASSWORD, new_password=USER_B_NEW_PASSWORD
+    )
     assert "/dashboard/" in second_page.url
 
     # ---- Step 4: each user creates multiple private characters.
@@ -197,7 +203,9 @@ def _run_journey(page, second_page, live_server, ship_sheet):
     _set_text_field(page, "c1_character_name", "Lucian Voss, Rogue Trader")
     _create_character_via_ui(page, live_server, display_name="Second Explorer")
 
-    user_b_char1_url = _create_character_via_ui(second_page, live_server, display_name="Brother Bruno")
+    user_b_char1_url = _create_character_via_ui(
+        second_page, live_server, display_name="Brother Bruno"
+    )
     second_page.wait_for_selector('[data-field-id="c1_character_name"]')
     _set_text_field(second_page, "c1_character_name", "Brother Bruno, Missionary")
 
@@ -320,13 +328,16 @@ def _run_journey(page, second_page, live_server, ship_sheet):
     page.wait_for_selector('[data-field-id="c1_character_name"]')
     assert page.input_value('[data-field-id="c1_character_name"]') == "Lucian Voss, Rogue Trader"
 
-    login_via_browser(second_page, live_server, username=user_b_username, password=USER_B_NEW_PASSWORD)
+    login_via_browser(
+        second_page, live_server, username=user_b_username, password=USER_B_NEW_PASSWORD
+    )
     second_page.goto(f"{live_server.url}/characters/")
     assert "Brother Bruno" in second_page.content()
 
     second_page.goto(user_b_char1_url)
     second_page.wait_for_selector('[data-field-id="c1_character_name"]')
-    assert second_page.input_value('[data-field-id="c1_character_name"]') == "Brother Bruno, Missionary"
+    name_field = second_page.input_value('[data-field-id="c1_character_name"]')
+    assert name_field == "Brother Bruno, Missionary"
 
     page.goto(ship_url)
     page.wait_for_selector('[data-field-id="ship_name"]')

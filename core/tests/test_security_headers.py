@@ -17,7 +17,15 @@ from config.security_headers import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SKIPPED_DIRS = {".venv", "staticfiles", "node_modules", "graphify-out", "tmp", "tests", "__pycache__"}
+SKIPPED_DIRS = {
+    ".venv",
+    "staticfiles",
+    "node_modules",
+    "graphify-out",
+    "tmp",
+    "tests",
+    "__pycache__",
+}
 SKIPPED_DIRS |= {".superpowers", ".claude", ".agents", ".codex", "docs", "content"}
 
 

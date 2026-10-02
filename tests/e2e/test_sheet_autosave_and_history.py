@@ -24,7 +24,9 @@ _SLOW_FIRST_RESPONSE_JS = """() => {
     calls += 1;
     const slow = calls === 1;
     return original(...args).then(
-      (response) => (slow ? new Promise((done) => setTimeout(() => done(response), 1500)) : response)
+      (response) => (
+        slow ? new Promise((done) => setTimeout(() => done(response), 1500)) : response
+      )
     );
   };
 }"""
@@ -78,7 +80,8 @@ def test_pending_edits_are_sent_when_the_page_is_hidden(
         page.evaluate("window.dispatchEvent(new Event('pagehide'))")
     else:
         page.evaluate(
-            "Object.defineProperty(document, 'visibilityState', {value: 'hidden', configurable: true});"
+            "Object.defineProperty(document, 'visibilityState',"
+            " {value: 'hidden', configurable: true});"
             "document.dispatchEvent(new Event('visibilitychange'))"
         )
 
@@ -111,7 +114,9 @@ def test_history_details_are_shown_as_text_not_markup(page, live_server, user_fa
     )
     details = page.evaluate("document.querySelector('#ship-history-table dl').innerText")
     assert payload in details and "<b>fett</b>" in details
-    assert not page.evaluate("!!document.querySelector('#ship-history-table img, #ship-history-table b')")
+    assert not page.evaluate(
+        "!!document.querySelector('#ship-history-table img, #ship-history-table b')"
+    )
     assert page.evaluate("window.__pwned") is None
 
 
@@ -128,5 +133,7 @@ def test_history_details_failure_shows_a_short_german_message(
         ".includes('Die Details konnten nicht geladen werden.')",
         timeout=5000,
     )
-    assert not page.evaluate("!!document.querySelector('#ship-history-table input, #ship-history-table form')")
+    assert not page.evaluate(
+        "!!document.querySelector('#ship-history-table input, #ship-history-table form')"
+    )
     assert not page.evaluate("!!document.querySelector('#ship-history-table dl')")

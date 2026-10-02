@@ -7,9 +7,9 @@ section origins translate fields without scaling them.
 from __future__ import annotations
 
 import argparse
+import json
 from copy import deepcopy
 from decimal import Decimal, InvalidOperation
-import json
 from pathlib import Path
 
 from sheets.schema import DATA_DIR, KNOWN_PAGE_IDS, SchemaError, SheetSchema
@@ -107,7 +107,9 @@ def build_layouts(source_dir: Path, output_dir: Path, *, check: bool = False) ->
                 stale.append(page_id)
         else:
             output_dir.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            path.write_text(
+                json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+            )
     return stale
 
 

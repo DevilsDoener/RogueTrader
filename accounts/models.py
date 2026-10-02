@@ -19,7 +19,7 @@ def manageable_users():
     return User.objects.filter(is_staff=False, is_superuser=False)
 
 
-class LoginThrottle(models.Model):
+class LoginThrottle(models.Model):  # noqa: DJ008 - internal counter row, never displayed
     key_hash = models.CharField(max_length=64, unique=True)
     window_started_at = models.DateTimeField(db_index=True)
     failure_count = models.PositiveSmallIntegerField(default=0)

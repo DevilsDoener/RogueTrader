@@ -5,13 +5,11 @@ grow and is edited by people who do not touch the scoring.
 """
 from __future__ import annotations
 
-from typing import Dict, Tuple
-
 #: German query terms mapped onto the English vocabulary of the book. Meant to
 #: grow: add whatever your table actually says out loud. Keys are casefolded
 #: and umlaut variants are listed explicitly, because the tokenizer does not
 #: fold them.
-QUERY_ALIASES: Dict[str, Tuple[str, ...]] = {
+QUERY_ALIASES: dict[str, tuple[str, ...]] = {
     # Characteristics
     "stärke": ("strength",),
     "staerke": ("strength",),

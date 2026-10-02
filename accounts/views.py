@@ -5,8 +5,8 @@ from django.core.cache import cache
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.views.decorators.http import require_POST
 from django.views import View
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
 from core.mixins import PortalAdminRequiredMixin

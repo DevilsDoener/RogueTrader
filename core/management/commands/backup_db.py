@@ -52,7 +52,7 @@ def _strip_sessions(path: Path) -> None:
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?", (SESSION_TABLE,)
         ).fetchone()
         if has_table:
-            connection.execute(f'DELETE FROM "{SESSION_TABLE}"')
+            connection.execute(f'DELETE FROM "{SESSION_TABLE}"')  # noqa: S608 - module constant
             connection.commit()
         # One self-contained file: no -wal/-shm left behind next to the copy.
         connection.execute("PRAGMA journal_mode = DELETE")
@@ -116,14 +116,14 @@ class Command(BaseCommand):
 
         try:
             self._copy(source, temp)
-            os.chmod(temp, 0o600)
+            temp.chmod(0o600)
             _strip_sessions(temp)
             result = _integrity_check(temp)
             if result != ["ok"]:
                 raise CommandError(
                     f"Integrity check failed for the backup copy: {'; '.join(result)}"
                 )
-            os.replace(temp, target)
+            temp.replace(target)
         except BaseException:
             # Includes KeyboardInterrupt/SystemExit: never leave a partial file.
             _remove_with_sidecars(temp)
@@ -152,7 +152,7 @@ class Command(BaseCommand):
             if path == keep or not path.is_file():
                 continue
             if path.stat().st_mtime < cutoff:
-                os.remove(path)
+                path.unlink()
                 removed.append(path)
         # Debris of a run that was killed before it could clean up.
         for path in backup_dir.glob(f"{BACKUP_PREFIX}*{BACKUP_SUFFIX}{TEMP_SUFFIX}"):

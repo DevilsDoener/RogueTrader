@@ -160,7 +160,9 @@ SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365 if ENABLE_HSTS else 0
 # includeSubDomains and preload widen that to every subdomain of the registrable
 # domain and invite submission to browsers' preload list; each is its own
 # opt-in (default off) and only has an effect together with ENABLE_HSTS=1.
-SECURE_HSTS_INCLUDE_SUBDOMAINS = ENABLE_HSTS and os.environ.get("HSTS_INCLUDE_SUBDOMAINS", "0") == "1"
+SECURE_HSTS_INCLUDE_SUBDOMAINS = (
+    ENABLE_HSTS and os.environ.get("HSTS_INCLUDE_SUBDOMAINS", "0") == "1"
+)
 SECURE_HSTS_PRELOAD = ENABLE_HSTS and os.environ.get("HSTS_PRELOAD", "0") == "1"
 
 # The audit trail (``accounts.audit``) goes to the console like everything else

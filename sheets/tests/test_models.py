@@ -3,7 +3,7 @@ import uuid
 import pytest
 from django.db import IntegrityError, transaction
 
-from sheets.models import CharacterSheet, ShipSheet, SheetChange
+from sheets.models import CharacterSheet, SheetChange, ShipSheet
 
 
 @pytest.mark.django_db
@@ -31,30 +31,28 @@ def test_ship_sheet_defaults():
 @pytest.mark.django_db
 def test_sheet_change_requires_exactly_one_target(character_sheet, ship_sheet, owner):
     # Neither target set.
-    with pytest.raises(IntegrityError):
-        with transaction.atomic():
-            SheetChange.objects.create(
-                character=None,
-                ship=None,
-                actor=owner,
-                field_id="c1_character_name",
-                old_value=None,
-                new_value="Lucian",
-                resulting_version=1,
-            )
+    with pytest.raises(IntegrityError), transaction.atomic():
+        SheetChange.objects.create(
+            character=None,
+            ship=None,
+            actor=owner,
+            field_id="c1_character_name",
+            old_value=None,
+            new_value="Lucian",
+            resulting_version=1,
+        )
 
     # Both targets set.
-    with pytest.raises(IntegrityError):
-        with transaction.atomic():
-            SheetChange.objects.create(
-                character=character_sheet,
-                ship=ship_sheet,
-                actor=owner,
-                field_id="c1_character_name",
-                old_value=None,
-                new_value="Lucian",
-                resulting_version=1,
-            )
+    with pytest.raises(IntegrityError), transaction.atomic():
+        SheetChange.objects.create(
+            character=character_sheet,
+            ship=ship_sheet,
+            actor=owner,
+            field_id="c1_character_name",
+            old_value=None,
+            new_value="Lucian",
+            resulting_version=1,
+        )
 
     # Exactly one target set is fine.
     change = SheetChange.objects.create(

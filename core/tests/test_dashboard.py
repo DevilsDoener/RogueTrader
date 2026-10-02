@@ -12,8 +12,8 @@ from datetime import timedelta
 
 import pytest
 from django.db import connection
-from django.test.utils import CaptureQueriesContext
 from django.template.loader import render_to_string
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 

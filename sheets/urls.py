@@ -12,7 +12,11 @@ urlpatterns = [
         views.CharacterFieldUpdateView.as_view(),
         name="character_field_update",
     ),
-    path("characters/<uuid:pk>/delete/", views.CharacterDeleteView.as_view(), name="character_delete"),
+    path(
+        "characters/<uuid:pk>/delete/",
+        views.CharacterDeleteView.as_view(),
+        name="character_delete",
+    ),
     path(
         "portal-admin/characters/",
         views.AdminCharacterListView.as_view(),

@@ -72,7 +72,7 @@ def _get_page_count(pdf_path: Path, pdftoppm_path: Path) -> int:
         raise FileNotFoundError(
             f"Expected pdfinfo alongside pdftoppm at {pdfinfo_path}, but it does not exist."
         )
-    result = subprocess.run(
+    result = subprocess.run(  # noqa: S603 - fixed argv, no shell
         [str(pdfinfo_path), str(pdf_path)],
         capture_output=True,
         text=True,
@@ -114,7 +114,7 @@ def _render_page(
         str(pdf_path),
         str(output_prefix),
     ])
-    subprocess.run(cmd, check=True, capture_output=True)
+    subprocess.run(cmd, check=True, capture_output=True)  # noqa: S603 - fixed argv, no shell
     png_path = output_prefix.with_suffix(".png")
     if not png_path.exists():
         raise RuntimeError(f"pdftoppm did not produce the expected output at {png_path}")
@@ -249,7 +249,10 @@ def main(argv: list[str] | None = None) -> int:
         "--output",
         required=True,
         type=Path,
-        help="Directory to write character-page-1.webp, character-page-2.webp, ship-page.webp into.",
+        help=(
+            "Directory to write character-page-1.webp, character-page-2.webp, "
+            "ship-page.webp into."
+        ),
     )
     parser.add_argument(
         "--dpi",

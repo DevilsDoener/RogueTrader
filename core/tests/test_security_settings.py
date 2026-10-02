@@ -314,7 +314,12 @@ def test_hsts_subdomains_and_preload_are_separate_switches(settings_from_env):
 
 def test_hsts_extras_without_enable_hsts_stay_off(settings_from_env):
     settings = settings_from_env(
-        **{**PRODUCTION_ENV, "ENABLE_HSTS": "0", "HSTS_INCLUDE_SUBDOMAINS": "1", "HSTS_PRELOAD": "1"}
+        **{
+            **PRODUCTION_ENV,
+            "ENABLE_HSTS": "0",
+            "HSTS_INCLUDE_SUBDOMAINS": "1",
+            "HSTS_PRELOAD": "1",
+        }
     )
 
     assert settings.SECURE_HSTS_SECONDS == 0

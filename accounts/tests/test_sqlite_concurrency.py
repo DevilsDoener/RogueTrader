@@ -25,7 +25,7 @@ def probe(tmp_path_factory):
         "DATABASE_PATH": str(tmp_path_factory.mktemp("race") / "race.sqlite3"),
         "DJANGO_DEBUG": "true",
     }
-    result = subprocess.run(
+    result = subprocess.run(  # noqa: S603 - fixed argv: this interpreter and a sibling script
         [sys.executable, str(Path(__file__).with_name("concurrency_probe.py"))],
         capture_output=True,
         text=True,

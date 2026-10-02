@@ -86,7 +86,12 @@ def test_weiterlesen_appears_only_with_a_stored_reading_position(
     assert page.is_hidden(".library-recent")
 
     entries = [
-        {"title": "Degrees of Success", "chapter": "Playing the Game", "url": "/wiki/playing-the-game/#sec-x", "ts": 3},
+        {
+            "title": "Degrees of Success",
+            "chapter": "Playing the Game",
+            "url": "/wiki/playing-the-game/#sec-x",
+            "ts": 3,
+        },
         {"title": "Evil", "chapter": "Elsewhere", "url": "https://example.com/wiki/", "ts": 2},
         # "/\host" is protocol-relative to a browser, despite the "/wiki/".
         {"title": "Sneaky", "chapter": "Elsewhere", "url": "/\\evil.example/wiki/", "ts": 2},

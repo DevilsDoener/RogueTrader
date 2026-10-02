@@ -124,11 +124,17 @@ def test_ship_read_only_field_cannot_be_written(monkeypatch, user_factory, ship_
     )
     fake = dataclasses.replace(real, fields=locked)
     monkeypatch.setattr(
-        services.schema, "load_schema", lambda page_id: fake if page_id == schema.SHIP_PAGE_ID else real
+        services.schema,
+        "load_schema",
+        lambda page_id: fake if page_id == schema.SHIP_PAGE_ID else real,
     )
     with pytest.raises(services.FieldValidationError, match="schreibgeschützt"):
         services.patch_ship_field(
-            sheet_id=ship_sheet.id, actor=user_factory(), field_id="ship_class", value="x", base_version=0
+            sheet_id=ship_sheet.id,
+            actor=user_factory(),
+            field_id="ship_class",
+            value="x",
+            base_version=0,
         )
     ship_sheet.refresh_from_db()
     assert "ship_class" not in ship_sheet.values
@@ -141,16 +147,15 @@ def test_characters_owned_by_agrees_with_can_mutate_character(owner, user_factor
     stranger = user_factory()
     admin = user_factory(is_portal_admin=True)
     for user in (owner, stranger, admin):
-        assert characters_owned_by(user).filter(pk=character_sheet.pk).exists() == can_mutate_character(
-            user, character_sheet
-        )
+        owned = characters_owned_by(user).filter(pk=character_sheet.pk).exists()
+        assert owned == can_mutate_character(user, character_sheet)
     assert list(characters_owned_by(owner)) == [character_sheet]
 
 
 def test_layout_field_keys_match_the_field_spec():
     from sheets.layout import FIELD_KEYS
 
-    assert FIELD_KEYS == {f.name for f in dataclasses.fields(schema.FieldSpec)} | {"align"}
+    assert {f.name for f in dataclasses.fields(schema.FieldSpec)} | {"align"} == FIELD_KEYS
 
 
 # ---- Extracted viewer/history helpers (P2) --------------------------------
@@ -168,8 +173,12 @@ def test_viewer_contexts_have_the_documented_shape(character_sheet, ship_sheet):
 
 @pytest.mark.django_db
 def test_history_rows_fall_back_to_the_field_id_for_unknown_fields(owner, ship_sheet):
-    known = SheetChange.objects.create(ship=ship_sheet, actor=owner, field_id="ship_class", resulting_version=1)
-    unknown = SheetChange.objects.create(ship=ship_sheet, actor=owner, field_id="retired_field", resulting_version=2)
+    known = SheetChange.objects.create(
+        ship=ship_sheet, actor=owner, field_id="ship_class", resulting_version=1
+    )
+    unknown = SheetChange.objects.create(
+        ship=ship_sheet, actor=owner, field_id="retired_field", resulting_version=2
+    )
     rows = history.history_rows(ship_sheet, [known, unknown])
     assert rows[0]["field_label"] == TEXT_FIELD.label
     assert rows[1]["field_label"] == "retired_field"

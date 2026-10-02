@@ -113,7 +113,8 @@ def test_backup_fails_when_the_database_file_is_missing(tmp_path, monkeypatch):
 def live_db_with_sessions(live_db):
     connection = sqlite3.connect(live_db)
     connection.execute(
-        "CREATE TABLE django_session (session_key TEXT PRIMARY KEY, session_data TEXT, expire_date TEXT)"
+        "CREATE TABLE django_session "
+        "(session_key TEXT PRIMARY KEY, session_data TEXT, expire_date TEXT)"
     )
     connection.executemany(
         "INSERT INTO django_session VALUES (?, ?, '2099-01-01')",
@@ -213,7 +214,11 @@ def test_stale_temp_files_of_a_killed_run_are_cleaned_up(live_db, tmp_path):
 def test_the_copy_is_chmodded_owner_only_and_the_umask_is_restored(live_db, tmp_path, monkeypatch):
     modes = []
     real_chmod = os.chmod
-    monkeypatch.setattr(os, "chmod", lambda path, mode, *a, **kw: (modes.append(mode), real_chmod(path, mode, *a, **kw))[1])
+    monkeypatch.setattr(
+        os,
+        "chmod",
+        lambda path, mode, *a, **kw: (modes.append(mode), real_chmod(path, mode, *a, **kw))[1],
+    )
     before = os.umask(0o022)
     try:
         call_command("backup_db", backup_dir=str(tmp_path / "backups"))

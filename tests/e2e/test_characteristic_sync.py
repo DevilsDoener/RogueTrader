@@ -2,7 +2,6 @@ import pytest
 
 from .conftest import open_character, open_ship, wait_saved
 
-
 pytestmark = pytest.mark.django_db(transaction=True)
 
 

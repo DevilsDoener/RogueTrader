@@ -141,10 +141,11 @@ def _assert_checkbox_position(page, page_id, field_id, context_label):
     assert measured["withinCanvas"], (
         f"{page_id} checkbox {field_id} left the canvas bounds at {context_label}"
     )
-    assert measured["x"] == pytest.approx(expected["x"] / 100, abs=PROPORTION_TOLERANCE), context_label
-    assert measured["y"] == pytest.approx(expected["y"] / 100, abs=PROPORTION_TOLERANCE), context_label
-    assert measured["w"] == pytest.approx(expected["width"] / 100, abs=PROPORTION_TOLERANCE), context_label
-    assert measured["h"] == pytest.approx(expected["height"] / 100, abs=PROPORTION_TOLERANCE), context_label
+    tolerance = PROPORTION_TOLERANCE
+    assert measured["x"] == pytest.approx(expected["x"] / 100, abs=tolerance), context_label
+    assert measured["y"] == pytest.approx(expected["y"] / 100, abs=tolerance), context_label
+    assert measured["w"] == pytest.approx(expected["width"] / 100, abs=tolerance), context_label
+    assert measured["h"] == pytest.approx(expected["height"] / 100, abs=tolerance), context_label
 
 
 def _assert_matches_background(screenshot_bytes: bytes, background_path: Path, *, save_as: str):

@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
 
 MIN_QUERY_LENGTH = 2
 
@@ -24,7 +23,7 @@ _TOKEN_RE = re.compile(r"\w+", re.UNICODE)
 _WORD_RE = re.compile(r"\S+")
 
 
-def clamp_query(query: Optional[str]) -> str:
+def clamp_query(query: str | None) -> str:
     """``query`` cut to ``MAX_QUERY_LENGTH`` characters and ``MAX_QUERY_TOKENS`` words."""
     query = (query or "")[:MAX_QUERY_LENGTH]
     words = list(_WORD_RE.finditer(query))
@@ -33,7 +32,7 @@ def clamp_query(query: Optional[str]) -> str:
     return query
 
 
-def is_searchable(query: Optional[str]) -> bool:
+def is_searchable(query: str | None) -> bool:
     """Whether ``query`` has enough non-whitespace characters to search for.
 
     The one length rule shared by search, suggestions and the search page.
@@ -41,12 +40,12 @@ def is_searchable(query: Optional[str]) -> bool:
     return len("".join((query or "").split())) >= MIN_QUERY_LENGTH
 
 
-def tokenize(text: str) -> List[str]:
+def tokenize(text: str) -> list[str]:
     """Casefolded Unicode word tokens."""
     return _TOKEN_RE.findall((text or "").casefold())
 
 
-def query_tokens(query: Optional[str]) -> List[str]:
+def query_tokens(query: str | None) -> list[str]:
     """The first ``MAX_QUERY_TOKENS`` word tokens of the (clamped) query."""
     return tokenize(clamp_query(query))[:MAX_QUERY_TOKENS]
 
@@ -60,4 +59,4 @@ class SearchResult:
     score: float
     #: Ancestor headings of the section, outermost first (empty for a top-level
     #: section or the intro).
-    path: Tuple[str, ...] = ()
+    path: tuple[str, ...] = ()

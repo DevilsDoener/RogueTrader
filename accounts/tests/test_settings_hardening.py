@@ -54,7 +54,9 @@ def test_trusted_proxies_default_to_none(load_settings):
 
 def test_trusted_proxies_are_parsed_from_a_comma_list(load_settings):
     loaded = load_settings(
-        **PRODUCTION_ENV, TRUSTED_PROXY_IPS=" 127.0.0.1, 172.16.0.0/12 ,::1", TRUSTED_PROXY_HEADER="X-Forwarded-For"
+        **PRODUCTION_ENV,
+        TRUSTED_PROXY_IPS=" 127.0.0.1, 172.16.0.0/12 ,::1",
+        TRUSTED_PROXY_HEADER="X-Forwarded-For",
     )
 
     assert loaded.TRUSTED_PROXY_IPS == ["127.0.0.1", "172.16.0.0/12", "::1"]

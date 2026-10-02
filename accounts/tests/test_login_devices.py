@@ -37,7 +37,7 @@ def _request(remote_addr, **headers):
     return RequestFactory().get("/", **meta)
 
 
-def _logged_in_device_cookie(user_factory, username="alice", address=_public(10)):
+def _logged_in_device_cookie(user_factory, username="alice", address=_public(10)):  # noqa: B008 - pure helper, evaluated once on purpose
     """A fresh browser that signed in once as ``username`` (and so holds the cookie)."""
     user_factory(username=username, password=PASSWORD)
     owner_browser = Client()
@@ -59,7 +59,9 @@ def _blocked(response):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("peer", [DOCKER_GATEWAY, "127.0.0.1", "192.168.65.1", "10.1.2.3", "fd00::1"])
+@pytest.mark.parametrize(
+    "peer", [DOCKER_GATEWAY, "127.0.0.1", "192.168.65.1", "10.1.2.3", "fd00::1"]
+)
 def test_ghost_username_flood_from_one_private_address_does_not_lock_real_players(
     client, user_factory, peer
 ):
@@ -88,7 +90,9 @@ def test_a_trusted_proxy_header_address_is_counted_per_client(client, user_facto
     for number in range(throttle.LOGIN_SOURCE_LIMIT):
         _post(client, f"ghost-{number}", REMOTE_ADDR=DOCKER_GATEWAY, HTTP_X_REAL_IP=_public(5))
 
-    attacker = _post(client, "alice", PASSWORD, REMOTE_ADDR=DOCKER_GATEWAY, HTTP_X_REAL_IP=_public(5))
+    attacker = _post(
+        client, "alice", PASSWORD, REMOTE_ADDR=DOCKER_GATEWAY, HTTP_X_REAL_IP=_public(5)
+    )
     other_client = _post(
         client, "alice", PASSWORD, REMOTE_ADDR=DOCKER_GATEWAY, HTTP_X_REAL_IP=_public(6)
     )
@@ -205,7 +209,9 @@ def test_a_username_flood_from_one_ipv6_slash_64_hits_the_address_limit(client, 
 
 
 @pytest.mark.django_db
-def test_a_successful_login_sets_a_signed_httponly_lax_device_cookie(client, user_factory, settings):
+def test_a_successful_login_sets_a_signed_httponly_lax_device_cookie(
+    client, user_factory, settings
+):
     settings.SESSION_COOKIE_SECURE = True
     user_factory(username="alice", password=PASSWORD)
 

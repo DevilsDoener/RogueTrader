@@ -131,7 +131,10 @@ def test_reverse_drops_values_of_the_new_row_and_keeps_others(character_factory)
             "c1_skill_drive_custom_1_bonus": "10",
             "c1_character_name": "Keep",
         },
-        field_versions={"c1_skill_forbidden_lore_custom_3_basic": 3, "c1_skill_drive_custom_1_bonus": 4},
+        field_versions={
+            "c1_skill_forbidden_lore_custom_3_basic": 3,
+            "c1_skill_drive_custom_1_bonus": 4,
+        },
     )
 
     run_migration_step(migration.backwards)

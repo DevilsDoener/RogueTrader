@@ -9,7 +9,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from functools import cached_property
-from typing import Dict, Tuple
 
 from django.conf import settings
 
@@ -33,10 +32,10 @@ class WikiSection:
     #: title. Rendered by the template so no `id` attribute ever has to pass
     #: through the Bleach allowlist.
     title_html: str = ""
-    children: Tuple["WikiSection", ...] = ()
+    children: tuple[WikiSection, ...] = ()
     #: Titles of the enclosing headings, outermost first. The intro node is
     #: not a heading and never appears here.
-    parent_titles: Tuple[str, ...] = ()
+    parent_titles: tuple[str, ...] = ()
     #: True for the single implicit section built from the content between the
     #: H1 title and the first following heading. Its title always equals the
     #: chapter title, so templates use this flag -- not string comparison
@@ -66,10 +65,10 @@ class WikiChapter:
     slug: str
     title: str
     source_name: str
-    sections: Tuple[WikiSection, ...]
+    sections: tuple[WikiSection, ...]
     ordinal: int
     #: Top-level sections only; each carries its own ``children``.
-    outline: Tuple[WikiSection, ...] = ()
+    outline: tuple[WikiSection, ...] = ()
     #: Roman numeral and Bibliothek band from wiki/manifest.py.
     numeral: str = ""
     band: str = BAND_CHAPTERS
@@ -82,7 +81,7 @@ class WikiChapter:
         return stripped or self.title
 
     @cached_property
-    def navigable_sections(self) -> Tuple[WikiSection, ...]:
+    def navigable_sections(self) -> tuple[WikiSection, ...]:
         """Top-level sections a reader can jump to, excluding the intro.
 
         The intro carries the chapter title and no heading of its own, so
@@ -91,9 +90,9 @@ class WikiChapter:
         return tuple(section for section in self.outline if not section.is_intro)
 
     @cached_property
-    def sections_by_id(self) -> Dict[str, WikiSection]:
+    def sections_by_id(self) -> dict[str, WikiSection]:
         """Every section keyed by its anchor id (the first one wins)."""
-        by_id: Dict[str, WikiSection] = {}
+        by_id: dict[str, WikiSection] = {}
         for section in self.sections:
             by_id.setdefault(section.id, section)
         return by_id

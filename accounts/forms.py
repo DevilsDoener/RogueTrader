@@ -116,7 +116,9 @@ class ManagedUserForm(_UsernameFormMixin, forms.Form):
     is_active = forms.BooleanField(label="Aktiv", required=False)
 
     def __init__(self, *args, instance, **kwargs):
-        kwargs.setdefault("initial", {"username": instance.username, "is_active": instance.is_active})
+        kwargs.setdefault(
+            "initial", {"username": instance.username, "is_active": instance.is_active}
+        )
         super().__init__(*args, **kwargs)
         self.existing_user = instance
 

@@ -8,8 +8,8 @@ mentions a word once over the section the rules are actually in.
 """
 import pytest
 
-from wiki.content import WikiRepository
 from wiki.aliases import QUERY_ALIASES
+from wiki.content import WikiRepository
 from wiki.index import PREFIX_MIN_LENGTH
 
 
@@ -87,7 +87,9 @@ def test_an_alias_does_not_loosen_the_and_between_terms(make_repository):
     """Both concepts must still occur in the same section."""
     repository = make_repository(
         {
-            "01-Chapter.md": "# Chapter\n\n## Weapons\nThe weapon fires.\n\n## Cover\nTake cover.\n",
+            "01-Chapter.md": (
+                "# Chapter\n\n## Weapons\nThe weapon fires.\n\n## Cover\nTake cover.\n"
+            ),
         },
     )
 

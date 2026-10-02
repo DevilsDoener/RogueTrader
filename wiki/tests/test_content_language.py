@@ -20,7 +20,7 @@ GERMAN_FUNCTION_WORDS = frozenset(
     """der das den dem des eine einen einem eines und oder nicht ist sind waren
     wird werden kann muss wenn dann auch noch nur bei mit von zu fuer aus dieser
     diese dieses sich nach ueber unter durch gegen ohne zum zur beim seine ihre
-    als wie sehr schon bereits jedoch aber sondern damit dass""".split()
+    als wie sehr schon bereits jedoch aber sondern damit dass""".split()  # noqa: SIM905 - a word list reads best as prose
 )
 GERMAN_FUNCTION_WORDS = GERMAN_FUNCTION_WORDS - {"den"}
 

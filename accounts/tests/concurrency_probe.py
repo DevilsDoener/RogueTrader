@@ -9,13 +9,13 @@ import json
 import os
 import sys
 import threading
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 sys.path.insert(0, os.environ["PROJECT_ROOT"])
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-import django  # noqa: E402
-from django.conf import settings  # noqa: E402
+import django
+from django.conf import settings
 
 if os.environ.get("PROBE_DEFERRED_BEGIN"):
     # Reproduce the pre-fix behaviour (SQLite's default deferred BEGIN).
@@ -75,7 +75,7 @@ statuses = run_parallel(post_field, players)
 ship.refresh_from_db()
 
 counter = throttle.login_counters("crew", "192.0.2.1").pair
-now = datetime.now(timezone.utc)
+now = datetime.now(UTC)
 run_parallel(lambda _: throttle.record_failure([counter], now), range(16))
 row = LoginThrottle.objects.get(key_hash=counter.key_hash)
 

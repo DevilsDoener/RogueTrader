@@ -7,13 +7,12 @@ printed marking surface independently of the responsive implementation.
 """
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 from collections import OrderedDict
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
-
 
 ROOT = Path(__file__).resolve().parents[1]
 REFERENCE_PATH = ROOT / "tests" / "fixtures" / "checkbox-rectangles.json"
@@ -132,8 +131,8 @@ def main():
 
         groups: OrderedDict[str, list[tuple[str, list[int]]]] = OrderedDict()
         for field_id, rect in rectangles.items():
-            assert 0 <= rect[0] < rect[2] <= source.width
-            assert 0 <= rect[1] < rect[3] <= source.height
+            assert 0 <= rect[0] < rect[2] <= source.width  # noqa: S101 - dev-tool invariant check
+            assert 0 <= rect[1] < rect[3] <= source.height  # noqa: S101 - dev-tool invariant check
             groups.setdefault(_group_name(page_id, field_id), []).append((field_id, rect))
             rendered += 1
 

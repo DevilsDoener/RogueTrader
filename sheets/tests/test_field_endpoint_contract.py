@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import json
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 import pytest
 
@@ -174,7 +174,9 @@ def test_get_method_not_allowed(client, endpoint):
 @pytest.mark.django_db
 def test_non_json_content_type_returns_400(client, endpoint):
     client.force_login(endpoint.actor)
-    response = client.post(endpoint.url(endpoint.text_field), data={"value": "x", "base_version": 0})
+    response = client.post(
+        endpoint.url(endpoint.text_field), data={"value": "x", "base_version": 0}
+    )
     assert response.status_code == 400
 
 

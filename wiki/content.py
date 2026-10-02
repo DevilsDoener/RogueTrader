@@ -15,11 +15,11 @@ from __future__ import annotations
 import logging
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 from django.conf import settings
 
 from .chapters import editorial_patterns as load_editorial_patterns, parse_chapter
+from .index import PREFIX_MIN_LENGTH, SearchIndex, build_search_index
 from .manifest import (
     BANDS,
     DASHBOARD_SHORTCUTS,
@@ -29,7 +29,6 @@ from .manifest import (
 )
 from .markdown import SafeMarkdownRenderer
 from .records import WikiChapter, WikiSection
-from .index import PREFIX_MIN_LENGTH, SearchIndex, build_search_index
 
 logger = logging.getLogger(__name__)
 
@@ -68,19 +67,19 @@ def _library_card(chapter: WikiChapter) -> dict:
 class WikiRepository:
     """Immutable, in-memory view over the allow-listed wiki chapters."""
 
-    def __init__(self, chapters: Tuple[WikiChapter, ...], search_index: SearchIndex):
+    def __init__(self, chapters: tuple[WikiChapter, ...], search_index: SearchIndex):
         self._chapters = tuple(chapters)
         self._by_slug = {chapter.slug: chapter for chapter in self._chapters}
         self._search_index = search_index
 
     @classmethod
-    def load(cls) -> "WikiRepository":
+    def load(cls) -> WikiRepository:
         root = Path(settings.WIKI_CONTENT_ROOT)
         allowlist = list(settings.WIKI_CONTENT_ALLOWLIST)
         renderer = SafeMarkdownRenderer()
         editorial_patterns = load_editorial_patterns()
-        chapter_slugs_seen: Dict[str, int] = {}
-        chapters: List[WikiChapter] = []
+        chapter_slugs_seen: dict[str, int] = {}
+        chapters: list[WikiChapter] = []
         dropped_total = 0
 
         for ordinal, filename in enumerate(allowlist):
@@ -92,7 +91,9 @@ class WikiRepository:
                 continue
             except (OSError, UnicodeDecodeError) as exc:
                 logger.error(
-                    "Skipping unreadable wiki content file %s (%s)", filename, exc.__class__.__name__
+                    "Skipping unreadable wiki content file %s (%s)",
+                    filename,
+                    exc.__class__.__name__,
                 )
                 continue
 
@@ -100,7 +101,7 @@ class WikiRepository:
                 chapter, dropped = parse_chapter(
                     filename, text, ordinal, renderer, chapter_slugs_seen, editorial_patterns
                 )
-            except Exception:  # noqa: BLE001 - one bad chapter must not break the rest
+            except Exception:  # one bad chapter must not break the rest
                 logger.exception("Failed to parse wiki content file, skipping: %s", filename)
                 continue
 
@@ -116,11 +117,11 @@ class WikiRepository:
         search_index = build_search_index(chapters)
         return cls(tuple(chapters), search_index)
 
-    def chapters(self) -> Tuple[WikiChapter, ...]:
+    def chapters(self) -> tuple[WikiChapter, ...]:
         return self._chapters
 
     @cached_property
-    def library_bands(self) -> List[dict]:
+    def library_bands(self) -> list[dict]:
         """The manifest's bands in order, each with its chapters' cards.
 
         Every numbered chapter (I-XV, including the four files of XIV) shares
@@ -132,10 +133,10 @@ class WikiRepository:
             cards[chapter.band].append(_library_card(chapter))
         return [{"name": name, "cards": cards[name]} for name in BANDS if cards[name]]
 
-    def get_chapter(self, slug: str) -> Optional[WikiChapter]:
+    def get_chapter(self, slug: str) -> WikiChapter | None:
         return self._by_slug.get(slug)
 
-    def neighbours(self, slug: str) -> Tuple[Optional[WikiChapter], Optional[WikiChapter]]:
+    def neighbours(self, slug: str) -> tuple[WikiChapter | None, WikiChapter | None]:
         """The chapters before and after ``slug`` in reading order."""
         chapter = self._by_slug.get(slug)
         if chapter is None:
@@ -150,19 +151,19 @@ class WikiRepository:
     def search(
         self,
         query: str,
-        limit: Optional[int] = 30,
+        limit: int | None = 30,
         prefix_min_length: int = PREFIX_MIN_LENGTH,
     ):
         return self._search_index.search(
             query, limit=limit, prefix_min_length=prefix_min_length
         )
 
-    def highlight_terms(self, query: str) -> Tuple[str, ...]:
+    def highlight_terms(self, query: str) -> tuple[str, ...]:
         return self._search_index.highlight_terms(query)
 
     def _resolve_links(
-        self, links: Tuple[QuickLink, ...]
-    ) -> Tuple[Tuple[QuickLink, WikiChapter], ...]:
+        self, links: tuple[QuickLink, ...]
+    ) -> tuple[tuple[QuickLink, WikiChapter], ...]:
         """``links`` paired with their chapter, minus any whose target is gone."""
         resolved = []
         for link in links:
@@ -173,13 +174,13 @@ class WikiRepository:
             resolved.append((link, chapter))
         return tuple(resolved)
 
-    def quick_links(self) -> Tuple[Tuple[QuickLink, WikiChapter], ...]:
+    def quick_links(self) -> tuple[tuple[QuickLink, WikiChapter], ...]:
         """Curated quick links whose target still exists in the loaded book."""
         return self._resolve_links(QUICK_LINKS)
 
     def dashboard_shortcuts(
         self,
-    ) -> Tuple[Tuple[ShortcutGroup, Tuple[Tuple[QuickLink, WikiChapter], ...]], ...]:
+    ) -> tuple[tuple[ShortcutGroup, tuple[tuple[QuickLink, WikiChapter], ...]], ...]:
         """The dashboard's shortcut groups with their resolvable links.
 
         Same rule as ``quick_links()``: a link whose target is missing is
@@ -193,7 +194,7 @@ class WikiRepository:
         return tuple(resolved)
 
 
-_repository: Optional[WikiRepository] = None
+_repository: WikiRepository | None = None
 
 
 def initialize_repository() -> None:
@@ -211,7 +212,7 @@ def get_repository() -> WikiRepository:
     return _repository
 
 
-def get_repository_or_none() -> Optional[WikiRepository]:
+def get_repository_or_none() -> WikiRepository | None:
     """The repository, or ``None`` where startup did not initialise it."""
     return _repository
 

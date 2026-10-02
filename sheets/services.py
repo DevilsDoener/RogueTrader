@@ -16,7 +16,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from . import characteristics, movement, schema
-from .models import CharacterSheet, ShipSheet, SheetChange
+from .models import CharacterSheet, SheetChange, ShipSheet
 from .permissions import (
     can_mutate_character,
     can_mutate_ship,
@@ -95,7 +95,9 @@ def _find_character_field_spec(field_id: str) -> schema.FieldSpec:
 def _validate_character_field(field_id: str, value) -> None:
     field_spec = _find_character_field_spec(field_id)
     if field_spec.read_only:
-        raise FieldValidationError(field_id=field_id, message="Dieses Feld wird aus Half Move berechnet.")
+        raise FieldValidationError(
+            field_id=field_id, message="Dieses Feld wird aus Half Move berechnet."
+        )
     try:
         field_spec.validate_value(value)
     except schema.SchemaError as exc:

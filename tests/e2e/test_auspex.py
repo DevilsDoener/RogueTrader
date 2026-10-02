@@ -226,7 +226,12 @@ def test_the_empty_palette_lists_recent_reading(page, live_server, owner, real_c
     assert page.get_attribute(PALETTE_INPUT, "aria-expanded") == "false"
 
     entries = [
-        {"title": "Healing", "chapter": "Playing the Game", "url": "/wiki/playing-the-game/#sec-healing", "ts": 3},
+        {
+            "title": "Healing",
+            "chapter": "Playing the Game",
+            "url": "/wiki/playing-the-game/#sec-healing",
+            "ts": 3,
+        },
         {"title": "Evil", "chapter": "Elsewhere", "url": "https://example.com/wiki/", "ts": 2},
         {"title": "Sneaky", "chapter": "Elsewhere", "url": "/\\evil.example/wiki/", "ts": 1},
     ]
@@ -285,12 +290,34 @@ def test_suggestions_only_link_to_wiki_and_search_pages(
     payload = {
         "query": "talent",
         "chapters": [
-            {"title": "Proto", "short_title": "Proto", "numeral": "", "url": "//evil.example/wiki/"},
-            {"title": "Slash", "short_title": "Slash", "numeral": "", "url": "/\\evil.example/wiki/"},
+            {
+                "title": "Proto",
+                "short_title": "Proto",
+                "numeral": "",
+                "url": "//evil.example/wiki/",
+            },
+            {
+                "title": "Slash",
+                "short_title": "Slash",
+                "numeral": "",
+                "url": "/\\evil.example/wiki/",
+            },
         ],
         "sections": [
-            {"title": "Script", "chapter": "X", "numeral": "", "path": [], "url": "javascript:alert(1)"},
-            {"title": "Talents", "chapter": "Talents", "numeral": "IV", "path": [], "url": "/wiki/talents/"},
+            {
+                "title": "Script",
+                "chapter": "X",
+                "numeral": "",
+                "path": [],
+                "url": "javascript:alert(1)",
+            },
+            {
+                "title": "Talents",
+                "chapter": "Talents",
+                "numeral": "IV",
+                "path": [],
+                "url": "/wiki/talents/",
+            },
         ],
         "hits": [
             {"title": "Absolute", "chapter": "X", "numeral": "", "path": [], "snippet_html": "x",

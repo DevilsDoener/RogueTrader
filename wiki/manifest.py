@@ -17,13 +17,12 @@ without ``django.setup()``: no Django imports at module scope.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Tuple
 
 #: The Bibliothek bands, in the order the overview shows them.
 BAND_FRONT_MATTER = "Front Matter"
 BAND_CHAPTERS = "Chapters"
 BAND_APPENDIX = "Appendix"
-BANDS: Tuple[str, ...] = (BAND_FRONT_MATTER, BAND_CHAPTERS, BAND_APPENDIX)
+BANDS: tuple[str, ...] = (BAND_FRONT_MATTER, BAND_CHAPTERS, BAND_APPENDIX)
 
 
 @dataclass(frozen=True)
@@ -43,7 +42,7 @@ class ChapterEntry:
     search_weight: float = 1.0
 
 
-CHAPTERS: Tuple[ChapterEntry, ...] = (
+CHAPTERS: tuple[ChapterEntry, ...] = (
     ChapterEntry(
         "00-Foreword.md", "foreword", band=BAND_FRONT_MATTER, search_weight=0.3
     ),
@@ -80,9 +79,9 @@ CHAPTERS: Tuple[ChapterEntry, ...] = (
 #: file currently under ``content/`` is a chapter, so this is empty.
 KNOWN_EXCLUDED: frozenset = frozenset()
 
-ALLOWLIST: Tuple[str, ...] = tuple(entry.source_name for entry in CHAPTERS)
+ALLOWLIST: tuple[str, ...] = tuple(entry.source_name for entry in CHAPTERS)
 
-_BY_SOURCE: Dict[str, ChapterEntry] = {entry.source_name: entry for entry in CHAPTERS}
+_BY_SOURCE: dict[str, ChapterEntry] = {entry.source_name: entry for entry in CHAPTERS}
 
 
 def entry_for(source_name: str) -> ChapterEntry:
@@ -122,7 +121,7 @@ _STARSHIP_COMBAT = QuickLink("Starship Combat", "starships", "starship-combat")
 #: Rules the table looks up mid-session. Labels are English (book content); targets are
 #: section anchors (``sec-<id>``) checked against the real corpus by
 #: wiki/tests/test_navigation_data.py.
-QUICK_LINKS: Tuple[QuickLink, ...] = (
+QUICK_LINKS: tuple[QuickLink, ...] = (
     QuickLink("Tests", "playing-the-game", "tests-the-basic-mechanic"),
     _DEGREES_OF_SUCCESS,
     _COMBAT_ACTIONS,
@@ -144,7 +143,7 @@ class ShortcutGroup:
     title: str
     #: Icon key the dashboard maps to an inline SVG (core/_shortcut_glyph.html).
     glyph: str
-    links: Tuple[QuickLink, ...]
+    links: tuple[QuickLink, ...]
 
 
 #: The Kommandobrücke's rule shortcuts: the tables looked up most at the table,
@@ -152,7 +151,7 @@ class ShortcutGroup:
 #: labels, ``sec-<id>`` targets, checked against the real corpus by
 #: wiki/tests/test_navigation_data.py; unresolvable links are dropped by
 #: ``WikiRepository.dashboard_shortcuts()``.
-DASHBOARD_SHORTCUTS: Tuple[ShortcutGroup, ...] = (
+DASHBOARD_SHORTCUTS: tuple[ShortcutGroup, ...] = (
     ShortcutGroup(
         "Combat",
         "combat",

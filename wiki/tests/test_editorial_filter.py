@@ -7,7 +7,6 @@ audit trail -- stay untouched.
 """
 import pytest
 
-
 EDITORIAL_HEADINGS = (
     "Status",
     "Page Inventory and Cross-Check",

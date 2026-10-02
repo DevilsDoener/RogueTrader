@@ -15,11 +15,12 @@ regardless of the pixel resolution the image is ultimately rendered at.
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
-from functools import cached_property, lru_cache
+from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
+from functools import cache, cached_property
 from pathlib import Path
-from typing import Any, Literal, Mapping, Sequence
+from typing import Any, Literal
 
 from .textsafety import unsafe_text_problem
 
@@ -208,7 +209,7 @@ class FieldSpec:
         return "left" if self.text_style == "line" else "center"
 
     @classmethod
-    def from_dict(cls, payload: Mapping[str, Any]) -> "FieldSpec":
+    def from_dict(cls, payload: Mapping[str, Any]) -> FieldSpec:
         # The parsers run in this order, so the first failing rule wins
         # exactly as it always has (error messages and precedence are pinned
         # by the schema tests).
@@ -264,7 +265,7 @@ class SheetSchema:
     fields: tuple[FieldSpec, ...]
 
     @classmethod
-    def from_dict(cls, payload: Mapping[str, Any]) -> "SheetSchema":
+    def from_dict(cls, payload: Mapping[str, Any]) -> SheetSchema:
         _require("page_id" in payload, "schema is missing required key 'page_id'")
         page_id = payload["page_id"]
         _require(
@@ -285,7 +286,9 @@ class SheetSchema:
             f"{page_id}: image.width must be a positive integer, got {image_width!r}",
         )
         _require(
-            isinstance(image_height, int) and not isinstance(image_height, bool) and image_height > 0,
+            isinstance(image_height, int)
+            and not isinstance(image_height, bool)
+            and image_height > 0,
             f"{page_id}: image.height must be a positive integer, got {image_height!r}",
         )
 
@@ -329,7 +332,7 @@ class SheetSchema:
         self.field_by_id(field_id).validate_value(value)
 
 
-@lru_cache(maxsize=None)
+@cache
 def load_schema(page_id: str) -> SheetSchema:
     """Load and cache the :class:`SheetSchema` for ``page_id``.
 

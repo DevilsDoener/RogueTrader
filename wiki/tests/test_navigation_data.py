@@ -1,5 +1,7 @@
 """Server-side data behind the Auspex navigation: ancestry, numerals, search
 paths, unlimited search, highlight terms and curated quick links."""
+from dataclasses import FrozenInstanceError
+
 import pytest
 
 from wiki.content import WikiChapter, WikiRepository, WikiSection
@@ -177,7 +179,7 @@ def test_quick_link_is_a_frozen_value():
     assert (link.label, link.chapter_slug, link.section_id) == (
         "Tests", "playing-the-game", "tests-the-basic-mechanic",
     )
-    with pytest.raises(Exception):
+    with pytest.raises(FrozenInstanceError):
         link.label = "x"
 
 

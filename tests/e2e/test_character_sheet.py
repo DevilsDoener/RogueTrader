@@ -220,7 +220,9 @@ def test_disabled_admin_view_emits_no_field_requests(
     login_via_browser(page, live_server, username=portal_admin.username)
 
     field_requests = []
-    page.on("request", lambda req: field_requests.append(req.url) if "/fields/" in req.url else None)
+    page.on(
+        "request", lambda req: field_requests.append(req.url) if "/fields/" in req.url else None
+    )
 
     page.goto(f"{live_server.url}/portal-admin/characters/{character.id}/")
     page.wait_for_selector('[data-field-id="c1_character_name"]')

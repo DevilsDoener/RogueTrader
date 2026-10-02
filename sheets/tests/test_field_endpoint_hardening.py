@@ -65,7 +65,9 @@ def test_text_with_umlauts_and_emoji_is_accepted(client, endpoint):
 def test_oversized_body_returns_413(client, endpoint):
     client.force_login(endpoint.actor)
     body = json.dumps({"value": "x" * 5000, "base_version": 0})
-    response = client.post(endpoint.url(endpoint.text_field), data=body, content_type="application/json")
+    response = client.post(
+        endpoint.url(endpoint.text_field), data=body, content_type="application/json"
+    )
     assert response.status_code == 413
     assert "zu groß" in response.json()["error"]
 

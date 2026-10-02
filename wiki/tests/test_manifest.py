@@ -4,8 +4,7 @@ It is both the security filter and the reading order, so these tests pin its
 shape and compare it against what is actually on disk.
 """
 from django.conf import settings
-from django.core.checks import Error
-from django.core.checks import Warning as CheckWarning
+from django.core.checks import Error, Warning as CheckWarning
 
 from wiki import manifest
 from wiki.checks import MISSING_FILE, MISSING_ROOT, UNLISTED_FILE, check_wiki_content
