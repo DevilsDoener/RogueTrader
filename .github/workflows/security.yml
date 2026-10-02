@@ -1,0 +1,40 @@
+name: Security audit
+
+on:
+  schedule:
+    # Mondays, 05:17 UTC.
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pip-audit:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      # Installed in this job only; it is not a project dependency.
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      # Any known vulnerability in a locked package fails the run. The locks
+      # carry hashes, so pip-audit checks them as pinned, without resolving.
+      - name: Audit runtime dependencies
+        run: pip-audit --requirement requirements.txt --require-hashes --disable-pip
+
+      - name: Audit development dependencies
+        run: pip-audit --requirement requirements-dev.txt --require-hashes --disable-pip

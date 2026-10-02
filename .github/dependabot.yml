@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # Keeps the SHA-pinned actions in .github/workflows current. Dependabot
+  # rewrites both the commit SHA and the "# vX.Y.Z" comment.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # Keeps the digest-pinned base image in the Dockerfile current.
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: build
+
+  # Deliberately no `pip` ecosystem. requirements.txt and requirements-dev.txt
+  # are hash-locked pip-compile output, and the dev lock is layered on the
+  # runtime lock with `-c requirements.txt`; Dependabot cannot regenerate that
+  # pair consistently (it would bump one file against a stale constraint). The
+  # locks are refreshed by hand with pip-compile (see README, "CI"), and the
+  # weekly pip-audit workflow (.github/workflows/security.yml) reports any
+  # known vulnerability in them.

@@ -1,5 +1,7 @@
 # Rogue Trader Portal
 
+[![CI](https://github.com/DevilsDoener/RogueTrader/actions/workflows/ci.yml/badge.svg)](https://github.com/DevilsDoener/RogueTrader/actions/workflows/ci.yml)
+
 A self-hosted Django portal for a private Rogue Trader game group: a
 read-only, searchable wiki of the rulebook, isolated per-user character
 sheets, and one shared ship sheet, the sheets rendered as pixel-aligned
@@ -279,6 +281,49 @@ unique per chapter, every chapter navigable, no section grown back into an
 unnavigable monolith — and `wiki/tests/test_content_language.py` measures the
 text the wiki actually *serves*, so a chapter cannot quietly revert to German
 and an encoding mistake cannot creep back in.
+
+## CI
+
+GitHub Actions (`.github/workflows/`) runs on every push to and pull request
+against `main`; a newer run for the same ref cancels the older one, and every
+job has read-only repository access. Actions are pinned by commit SHA.
+
+| Job | What it does |
+|---|---|
+| **Lint** | `ruff check .` on Python 3.12, after a hash-checked install of both lock files (`pip install --require-hashes -r requirements.txt -r requirements-dev.txt`). |
+| **Test** (Python 3.12 and 3.13) | The same hash-checked install, Chromium via `playwright install --with-deps`, then the full `pytest -q` (unit, integration, Playwright end-to-end, visual regression), `python -m sheets.layout --check`, `manage.py check` and `manage.py makemigrations --check --dry-run`. 3.12 is the development interpreter, 3.13 the one in the Docker image. If a test fails, the renders in `tests/visual/` are uploaded as an artifact. |
+| **Docker image** | Builds the image, starts it the production way (`DJANGO_DEBUG=false`, read-only root filesystem, no capabilities, a throwaway secret key generated in the job) and waits for `/healthz/` to return 200. |
+
+`.github/workflows/security.yml` runs `pip-audit` against both lock files every
+Monday (and on demand) and fails on any known vulnerability.
+
+Dependabot (`.github/dependabot.yml`) updates the pinned actions and the
+digest-pinned base image weekly. It does **not** manage the Python locks:
+`requirements-dev.txt` is layered on `requirements.txt` with `-c`, and
+Dependabot cannot regenerate that hash-locked pair consistently. Refresh them by
+hand with `pip-compile` as described under *Local setup*, and let the weekly
+`pip-audit` run tell you when that is due.
+
+### Reproducing the CI run locally
+
+The test job is Linux, so a Windows-only pass proves less than it seems (POSIX
+file modes, path separators, a non-root user). The image below is Playwright's
+own Linux image for the locked version, Python 3.12 like the CI job. It runs
+as a non-root user, like a GitHub runner, and works on a copy so nothing is
+written into the checkout. From the repository root in Git Bash (adjust the
+Playwright tag if `requirements-dev.txt` pins another version):
+
+```bash
+MSYS_NO_PATHCONV=1 docker run --rm --ipc=host --user 1001:1001   -e HOME=/tmp/home -e PATH=/tmp/home/.local/bin:/usr/local/bin:/usr/bin:/bin   -e DATABASE_PATH=/tmp/check.sqlite3   -v "$PWD:/src:ro" mcr.microsoft.com/playwright/python:v1.62.0-noble bash -c '
+    set -e; mkdir -p /tmp/work $HOME && cd /tmp/work
+    tar -C /src --exclude=.venv --exclude=.git --exclude=.worktrees --exclude=tmp -cf - . | tar -xf -
+    pip install -q --user --require-hashes -r requirements.txt -r requirements-dev.txt
+    python -m playwright install chromium
+    ruff check . && python -m pytest -q       && python -m sheets.layout --check && python manage.py check       && python manage.py makemigrations --check --dry-run'
+```
+
+The Docker job can be reproduced with `docker build .` followed by the `docker
+run` and `curl http://localhost:8000/healthz/` steps from `ci.yml`.
 
 ## Manual acceptance checklist
 

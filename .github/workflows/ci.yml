@@ -1,0 +1,159 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Least privilege: the jobs only read the repository.
+permissions:
+  contents: read
+
+# A newer run for the same ref supersedes the one still running.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Tests and checks run in debug mode (no real secrets anywhere); the Docker
+  # job below deliberately runs the image the production way instead.
+  DJANGO_DEBUG: "true"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      - name: Install locked dependencies
+        run: pip install --require-hashes -r requirements.txt -r requirements-dev.txt
+
+      # Linter only: the codebase is deliberately not auto-formatted.
+      - name: ruff check
+        run: python -m ruff check .
+
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.12 is the development interpreter, 3.13 the one in the Docker image.
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      - name: Install locked dependencies
+        run: pip install --require-hashes -r requirements.txt -r requirements-dev.txt
+
+      # The browser build is determined by the locked Playwright version, so the
+      # dev lock is the cache key. The system libraries are installed on every
+      # run (apt, not cached).
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('requirements-dev.txt') }}
+
+      - name: Install Chromium and its system libraries
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: python -m playwright install --with-deps chromium
+
+      - name: Install Chromium system libraries only (browser restored from cache)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: python -m playwright install-deps chromium
+
+      # Full suite: unit, integration, Playwright end-to-end and the visual
+      # regression tests.
+      - name: pytest
+        run: python -m pytest -q
+
+      - name: Sheet schemas match the layout sources
+        run: python -m sheets.layout --check
+
+      - name: Django system checks
+        run: python manage.py check
+
+      # makemigrations also reads the migration history from the database; a
+      # fresh checkout has no data/ directory, so point it at a scratch file.
+      - name: No model changes without a migration
+        env:
+          DATABASE_PATH: ${{ runner.temp }}/migrations-check.sqlite3
+        run: python manage.py makemigrations --check --dry-run
+
+      # The visual tests rewrite tests/visual/*.png on every run; on a failure
+      # these are the renders to look at.
+      - name: Upload visual renders
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: visual-renders-py${{ matrix.python-version }}
+          path: |
+            tests/visual/*.png
+            tests/visual/checkbox-contacts/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build the image
+        run: docker build --tag rogue-trader-portal:ci .
+
+      # Runs the image the production way (DJANGO_DEBUG=false from the image),
+      # with the hardening from compose.yaml, a throwaway secret generated in
+      # this job and nothing else.
+      - name: Start the container and wait for /healthz/
+        run: |
+          secret="$(openssl rand -hex 40)"
+          echo "::add-mask::${secret}"
+          docker run --detach --name portal \
+            --read-only --tmpfs /tmp \
+            --cap-drop ALL --security-opt no-new-privileges:true \
+            --publish 127.0.0.1:8000:8000 \
+            --env DJANGO_SECRET_KEY="${secret}" \
+            --env DJANGO_ALLOWED_HOSTS=localhost \
+            rogue-trader-portal:ci
+          for attempt in $(seq 1 30); do
+            status="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              http://localhost:8000/healthz/ || true)"
+            echo "attempt ${attempt}: HTTP ${status}"
+            if [ "${status}" = "200" ]; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::/healthz/ did not return 200 within 60 seconds"
+          exit 1
+
+      - name: Container logs
+        if: failure()
+        run: docker logs portal
