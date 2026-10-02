@@ -870,33 +870,39 @@
       "width": 79,
       "height": 42
     },
-    "c1_skill_evaluate_bonus": {
+    "c1_skill_drive_custom_1_bonus": {
       "x": 936,
       "y": 2202,
       "width": 79,
       "height": 42
     },
-    "c1_skill_forbidden_lore_bonus": {
+    "c1_skill_evaluate_bonus": {
       "x": 936,
       "y": 2247,
       "width": 79,
       "height": 42
     },
-    "c1_skill_forbidden_lore_custom_1_bonus": {
+    "c1_skill_forbidden_lore_bonus": {
       "x": 937,
       "y": 2337,
       "width": 79,
       "height": 42
     },
-    "c1_skill_forbidden_lore_custom_2_bonus": {
+    "c1_skill_forbidden_lore_custom_1_bonus": {
       "x": 937,
       "y": 2383,
       "width": 79,
       "height": 42
     },
-    "c1_skill_forbidden_lore_custom_3_bonus": {
+    "c1_skill_forbidden_lore_custom_2_bonus": {
       "x": 937,
       "y": 2429,
+      "width": 79,
+      "height": 42
+    },
+    "c1_skill_forbidden_lore_custom_3_bonus": {
+      "x": 937,
+      "y": 2475,
       "width": 79,
       "height": 42
     },
@@ -972,49 +978,49 @@
       "width": 79,
       "height": 42
     },
-    "c1_skill_performer_custom_2_bonus": {
+    "c1_skill_pilot_bonus": {
       "x": 2380,
       "y": 1514,
       "width": 78,
       "height": 41
     },
-    "c1_skill_pilot_bonus": {
+    "c1_skill_pilot_custom_1_bonus": {
       "x": 2381,
       "y": 1560,
       "width": 78,
       "height": 42
     },
-    "c1_skill_pilot_custom_1_bonus": {
+    "c1_skill_pilot_custom_2_bonus": {
       "x": 2381,
       "y": 1606,
       "width": 78,
       "height": 42
     },
-    "c1_skill_pilot_custom_2_bonus": {
+    "c1_skill_psyniscience_bonus": {
       "x": 2381,
       "y": 1652,
       "width": 78,
       "height": 40
     },
-    "c1_skill_psyniscience_bonus": {
+    "c1_skill_scholastic_lore_bonus": {
       "x": 2381,
       "y": 1744,
       "width": 79,
       "height": 42
     },
-    "c1_skill_scholastic_lore_bonus": {
+    "c1_skill_scholastic_lore_custom_1_bonus": {
       "x": 2381,
       "y": 1790,
       "width": 78,
       "height": 42
     },
-    "c1_skill_scholastic_lore_custom_1_bonus": {
+    "c1_skill_scholastic_lore_custom_2_bonus": {
       "x": 2381,
       "y": 1836,
       "width": 78,
       "height": 42
     },
-    "c1_skill_scholastic_lore_custom_2_bonus": {
+    "c1_skill_scholastic_lore_custom_3_bonus": {
       "x": 2380,
       "y": 1883,
       "width": 79,

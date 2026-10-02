@@ -744,125 +744,149 @@
       911,
       2198
     ],
-    "c1_skill_evaluate_basic": [
+    "c1_skill_drive_custom_1_basic": [
       673,
       2202,
       715,
       2244
     ],
-    "c1_skill_evaluate_trained": [
+    "c1_skill_drive_custom_1_trained": [
       740,
       2202,
       782,
       2244
     ],
-    "c1_skill_evaluate_plus10": [
+    "c1_skill_drive_custom_1_plus10": [
       802,
       2203,
       845,
       2245
     ],
-    "c1_skill_evaluate_plus20": [
+    "c1_skill_drive_custom_1_plus20": [
       869,
       2202,
       911,
       2244
     ],
-    "c1_skill_forbidden_lore_basic": [
+    "c1_skill_evaluate_basic": [
       673,
       2248,
       715,
       2290
     ],
-    "c1_skill_forbidden_lore_trained": [
+    "c1_skill_evaluate_trained": [
       740,
       2248,
       782,
       2290
     ],
-    "c1_skill_forbidden_lore_plus10": [
+    "c1_skill_evaluate_plus10": [
       805,
       2248,
       847,
       2290
     ],
-    "c1_skill_forbidden_lore_plus20": [
+    "c1_skill_evaluate_plus20": [
       869,
       2247,
       911,
       2289
     ],
-    "c1_skill_forbidden_lore_custom_1_basic": [
+    "c1_skill_forbidden_lore_basic": [
       673,
       2338,
       716,
       2380
     ],
-    "c1_skill_forbidden_lore_custom_1_trained": [
+    "c1_skill_forbidden_lore_trained": [
       741,
       2338,
       783,
       2380
     ],
-    "c1_skill_forbidden_lore_custom_1_plus10": [
+    "c1_skill_forbidden_lore_plus10": [
       805,
       2338,
       848,
       2380
     ],
-    "c1_skill_forbidden_lore_custom_1_plus20": [
+    "c1_skill_forbidden_lore_plus20": [
       870,
       2337,
       912,
       2379
     ],
-    "c1_skill_forbidden_lore_custom_2_basic": [
+    "c1_skill_forbidden_lore_custom_1_basic": [
       674,
       2384,
       716,
       2425
     ],
-    "c1_skill_forbidden_lore_custom_2_trained": [
+    "c1_skill_forbidden_lore_custom_1_trained": [
       741,
       2383,
       783,
       2425
     ],
-    "c1_skill_forbidden_lore_custom_2_plus10": [
+    "c1_skill_forbidden_lore_custom_1_plus10": [
       805,
       2383,
       848,
       2425
     ],
-    "c1_skill_forbidden_lore_custom_2_plus20": [
+    "c1_skill_forbidden_lore_custom_1_plus20": [
       870,
       2383,
       912,
       2425
     ],
-    "c1_skill_forbidden_lore_custom_3_basic": [
+    "c1_skill_forbidden_lore_custom_2_basic": [
       674,
       2430,
       716,
       2471
     ],
-    "c1_skill_forbidden_lore_custom_3_trained": [
+    "c1_skill_forbidden_lore_custom_2_trained": [
       738,
       2430,
       780,
       2472
     ],
-    "c1_skill_forbidden_lore_custom_3_plus10": [
+    "c1_skill_forbidden_lore_custom_2_plus10": [
       806,
       2429,
       848,
       2471
     ],
-    "c1_skill_forbidden_lore_custom_3_plus20": [
+    "c1_skill_forbidden_lore_custom_2_plus20": [
       870,
       2429,
       912,
       2471
+    ],
+    "c1_skill_forbidden_lore_custom_3_basic": [
+      674,
+      2476,
+      716,
+      2517
+    ],
+    "c1_skill_forbidden_lore_custom_3_trained": [
+      738,
+      2476,
+      780,
+      2518
+    ],
+    "c1_skill_forbidden_lore_custom_3_plus10": [
+      806,
+      2475,
+      848,
+      2517
+    ],
+    "c1_skill_forbidden_lore_custom_3_plus20": [
+      870,
+      2475,
+      912,
+      2517
     ],
     "c1_skill_gamble_basic": [
       674,
@@ -1152,193 +1176,193 @@
       2355,
       1510
     ],
-    "c1_skill_performer_custom_2_basic": [
+    "c1_skill_pilot_basic": [
       2120,
       1515,
       2162,
       1555
     ],
-    "c1_skill_performer_custom_2_trained": [
+    "c1_skill_pilot_trained": [
       2185,
       1515,
       2227,
       1555
     ],
-    "c1_skill_performer_custom_2_plus10": [
+    "c1_skill_pilot_plus10": [
       2249,
       1515,
       2291,
       1555
     ],
-    "c1_skill_performer_custom_2_plus20": [
+    "c1_skill_pilot_plus20": [
       2314,
       1514,
       2355,
       1555
     ],
-    "c1_skill_pilot_basic": [
+    "c1_skill_pilot_custom_1_basic": [
       2120,
       1561,
       2162,
       1603
     ],
-    "c1_skill_pilot_trained": [
+    "c1_skill_pilot_custom_1_trained": [
       2185,
       1561,
       2227,
       1603
     ],
-    "c1_skill_pilot_plus10": [
+    "c1_skill_pilot_custom_1_plus10": [
       2249,
       1561,
       2291,
       1603
     ],
-    "c1_skill_pilot_plus20": [
+    "c1_skill_pilot_custom_1_plus20": [
       2314,
       1561,
       2356,
       1603
     ],
-    "c1_skill_pilot_custom_1_basic": [
+    "c1_skill_pilot_custom_2_basic": [
       2120,
       1607,
       2162,
       1649
     ],
-    "c1_skill_pilot_custom_1_trained": [
+    "c1_skill_pilot_custom_2_trained": [
       2185,
       1607,
       2226,
       1649
     ],
-    "c1_skill_pilot_custom_1_plus10": [
+    "c1_skill_pilot_custom_2_plus10": [
       2249,
       1607,
       2291,
       1649
     ],
-    "c1_skill_pilot_custom_1_plus20": [
+    "c1_skill_pilot_custom_2_plus20": [
       2314,
       1607,
       2356,
       1649
     ],
-    "c1_skill_pilot_custom_2_basic": [
+    "c1_skill_psyniscience_basic": [
       2120,
       1653,
       2162,
       1693
     ],
-    "c1_skill_pilot_custom_2_trained": [
+    "c1_skill_psyniscience_trained": [
       2184,
       1653,
       2227,
       1693
     ],
-    "c1_skill_pilot_custom_2_plus10": [
+    "c1_skill_psyniscience_plus10": [
       2249,
       1653,
       2290,
       1693
     ],
-    "c1_skill_pilot_custom_2_plus20": [
+    "c1_skill_psyniscience_plus20": [
       2313,
       1653,
       2355,
       1693
     ],
-    "c1_skill_psyniscience_basic": [
+    "c1_skill_scholastic_lore_basic": [
       2120,
       1745,
       2162,
       1786
     ],
-    "c1_skill_psyniscience_trained": [
+    "c1_skill_scholastic_lore_trained": [
       2185,
       1745,
       2227,
       1786
     ],
-    "c1_skill_psyniscience_plus10": [
+    "c1_skill_scholastic_lore_plus10": [
       2249,
       1745,
       2292,
       1787
     ],
-    "c1_skill_psyniscience_plus20": [
+    "c1_skill_scholastic_lore_plus20": [
       2314,
       1745,
       2356,
       1787
     ],
-    "c1_skill_scholastic_lore_basic": [
+    "c1_skill_scholastic_lore_custom_1_basic": [
       2120,
       1791,
       2162,
       1832
     ],
-    "c1_skill_scholastic_lore_trained": [
+    "c1_skill_scholastic_lore_custom_1_trained": [
       2185,
       1791,
       2227,
       1832
     ],
-    "c1_skill_scholastic_lore_plus10": [
+    "c1_skill_scholastic_lore_custom_1_plus10": [
       2249,
       1791,
       2291,
       1832
     ],
-    "c1_skill_scholastic_lore_plus20": [
+    "c1_skill_scholastic_lore_custom_1_plus20": [
       2314,
       1791,
       2356,
       1832
     ],
-    "c1_skill_scholastic_lore_custom_1_basic": [
+    "c1_skill_scholastic_lore_custom_2_basic": [
       2120,
       1837,
       2162,
       1878
     ],
-    "c1_skill_scholastic_lore_custom_1_trained": [
+    "c1_skill_scholastic_lore_custom_2_trained": [
       2185,
       1837,
       2227,
       1878
     ],
-    "c1_skill_scholastic_lore_custom_1_plus10": [
+    "c1_skill_scholastic_lore_custom_2_plus10": [
       2249,
       1837,
       2291,
       1878
     ],
-    "c1_skill_scholastic_lore_custom_1_plus20": [
+    "c1_skill_scholastic_lore_custom_2_plus20": [
       2313,
       1837,
       2355,
       1878
     ],
-    "c1_skill_scholastic_lore_custom_2_basic": [
+    "c1_skill_scholastic_lore_custom_3_basic": [
       2119,
       1882,
       2162,
       1923
     ],
-    "c1_skill_scholastic_lore_custom_2_trained": [
+    "c1_skill_scholastic_lore_custom_3_trained": [
       2185,
       1882,
       2226,
       1923
     ],
-    "c1_skill_scholastic_lore_custom_2_plus10": [
+    "c1_skill_scholastic_lore_custom_3_plus10": [
       2249,
       1882,
       2291,
       1923
     ],
-    "c1_skill_scholastic_lore_custom_2_plus20": [
+    "c1_skill_scholastic_lore_custom_3_plus20": [
       2314,
       1882,
       2355,

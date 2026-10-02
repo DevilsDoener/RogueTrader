@@ -446,16 +446,18 @@ class TestLoadSchema:
         # range on top, free space for the value, and a "TYPE:" line at the
         # bottom; only the type line had a field, so the armour value had
         # nowhere to go. Page 2 went 175 -> 181.
-        assert len(character_page_1_schema.fields) == 495
+        # 2026-10-01: page 1 gained the fourth Forbidden Lore row (five skill
+        # fields: four checkboxes and a bonus box). Page 1 went 495 -> 500.
+        assert len(character_page_1_schema.fields) == 500
         assert len(character_page_2_schema.fields) == 181
-        assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 676
+        assert len(character_page_1_schema.fields) + len(character_page_2_schema.fields) == 681
 
     @pytest.mark.parametrize(
         ("page_id", "expected_digest"),
         [
             (
                 "character-page-1",
-                "a63556b4cc9d06574c79d1b1afc481de7ed5b8329a8f2b5068853fb578488dd4",
+                "7b2c7ac0bc6253b9ebe409129f350bd3872d0d66ff2b40d829757f59fad8e10c",
             ),
             (
                 # 2026-09-19: six c2_armour_*_ap fields inserted, each ahead of
@@ -604,7 +606,7 @@ class TestLoadSchema:
         )
         reference = json.loads(reference_path.read_text(encoding="utf-8"))
         expected_counts = {
-            "character-page-1": 292,
+            "character-page-1": 296,
             "character-page-2": 36,
             "ship-page": 28,
         }
@@ -612,7 +614,7 @@ class TestLoadSchema:
         assert {page_id: len(rectangles) for page_id, rectangles in reference.items()} == (
             expected_counts
         )
-        assert sum(expected_counts.values()) == 356
+        assert sum(expected_counts.values()) == 360
 
         for page_id, expected_rectangles in reference.items():
             schema = load_schema(page_id)
