@@ -69,16 +69,21 @@ def _heading_level(tag: str) -> int:
 
 def _plain_text(tokens: Sequence[object]) -> str:
     """Readable text of a block-token slice, for the search index."""
-    fragments: List[str] = []
+    blocks: List[str] = []
     for token in tokens:
         if getattr(token, "type", None) != "inline":
             continue
+        fragments: List[str] = []
         for child in getattr(token, "children", None) or []:
             if child.type in ("text", "code_inline"):
                 fragments.append(child.content)
             elif child.type in ("softbreak", "hardbreak"):
                 fragments.append(" ")
-    return " ".join("".join(fragments).split())
+        blocks.append("".join(fragments))
+    # Each inline token is its own block (paragraph, list item, table cell);
+    # joining them without a separator glued "...hit." and "Charge..." or
+    # adjacent table cells into one search token.
+    return " ".join(" ".join(blocks).split())
 
 
 def _split_headings(tokens: Sequence[object]) -> Tuple[Optional[object], List[_Draft]]:

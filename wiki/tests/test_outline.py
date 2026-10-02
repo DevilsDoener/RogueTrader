@@ -115,3 +115,18 @@ def test_a_chapter_without_an_h1_keeps_its_heading_structure(load_chapter):
     assert chapter.title == "05-Armoury"
     assert _titles(chapter.outline) == ["05-Armoury", "One", "Two"]
     assert chapter.outline[0].is_intro
+
+
+def test_search_text_keeps_paragraphs_and_table_cells_apart(load_chapter):
+    """Adjacent blocks used to glue into one token ("hit.Charge", "NameWeight")."""
+    chapter = load_chapter(
+        "# Chapter\n\n"
+        "## Rules\n"
+        "The attack is a hit.\n\n"
+        "Charge moves twice.\n\n"
+        "| Name | Weight |\n|---|---|\n| Compact | 1 kg |\n"
+    )
+    text = chapter.sections[0].plain_text
+    assert "hit. Charge" in text
+    assert "Name Weight Compact 1 kg" in text
+    assert "hit.Charge" not in text and "NameWeight" not in text
