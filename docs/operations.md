@@ -377,6 +377,23 @@ source, skips copies already present, removes copies older than `-KeepDays`
 the target. It only reads `./backups`; it never touches the containers or the
 live database. Pass `-Target` for another folder (NAS, USB drive).
 
+**Alerts and exit codes.** Nobody reads the log, so problems show a Windows
+toast ("Rogue Trader: Sicherung ..." with a short reason and
+"Details: offsite-backup.log"; fallbacks: balloon, then `msg.exe`) and set the
+exit code, which the scheduled task keeps as `LastTaskResult`:
+
+| Exit | Meaning | Alert when |
+|---|---|---|
+| 0 | ok | never (no toast on success) |
+| 1 | error | no local backup found, checksum mismatch, OneDrive/target folder missing, any unexpected exception |
+| 2 | warning | newest local backup older than 30 h (backup service down); the copy is still made |
+
+If the target itself is unreachable, the log goes to
+`%LOCALAPPDATA%\RogueTrader-Backups\offsite-backup.log` instead. To check that
+notifications reach you (Focus assist / "Do not disturb" can hide them), run
+`.\scripts\offsite-backup.ps1 -TestAlert`. `-Source` overrides the backup
+folder (for tests).
+
 On the current Windows host it runs as the scheduled task
 **"RogueTrader Offsite Backup"** (current user, daily 13:00 and at logon,
 missed runs are caught up). To recreate it:
