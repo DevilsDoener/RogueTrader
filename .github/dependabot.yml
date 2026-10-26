@@ -25,5 +25,5 @@ updates:
   # runtime lock with `-c requirements.txt`; Dependabot cannot regenerate that
   # pair consistently (it would bump one file against a stale constraint). The
   # locks are refreshed by hand with pip-compile (see README, "CI"), and the
-  # weekly pip-audit workflow (.github/workflows/security.yml) reports any
-  # known vulnerability in them.
+  # pip-audit workflow (.github/workflows/security.yml, manual trigger only)
+  # reports any known vulnerability in them.
