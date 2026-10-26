@@ -25,10 +25,10 @@ subject documents are:
 - **Operations (Proxmox deployment, backups, restores, account recovery, security headers, login protection):** [`docs/operations.md`](docs/operations.md)
 - **CI:** the [CI](#ci) section below
 
-The original design spec
-([`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`](docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md))
-and the implementation plans under `docs/superpowers/plans/` are **history**:
-useful for *why* a decision was made, never authoritative for what is true now.
+The original design spec and implementation plans were removed from the tree
+(they remain in the git history, e.g. `git log -- docs/superpowers`). They are
+**history**: useful for *why* a decision was made, never authoritative for what
+is true now.
 
 ## Wiki
 

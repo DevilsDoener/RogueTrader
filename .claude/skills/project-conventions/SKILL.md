@@ -15,9 +15,9 @@ have to rediscover these decisions from old spec files each session.
 `AGENTS.md` in the repo root is the binding entry point and lists the full
 precedence order. The short version: the owner's live instructions, then
 `AGENTS.md`, then the active subject documents listed there, then the code,
-schemas and tests. Everything under `docs/superpowers/specs/`,
-`docs/superpowers/plans/`, `.superpowers/brainstorm/`, `docs/archive/` and
-every dated report (`docs/*-2026-*.md`) is **history, not instruction** --
+schemas and tests. Everything under `.superpowers/brainstorm/`, every dated
+report (`docs/*-2026-*.md`) and the removed design specs/plans (still in git
+history under `docs/superpowers/`) is **history, not instruction** --
 useful for "why", never authoritative for "what is true now".
 
 ## Visual identity: "Bruecken-Hybrid"
@@ -53,8 +53,8 @@ useful for "why", never authoritative for "what is true now".
 
 ## Desktop-only scope (deliberate, not an oversight)
 
-The original design spec
-(`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`) states:
+The original design spec (removed from the tree; see git history of
+`docs/superpowers/specs/2026-08-16-rogue-trader-portal-design.md`) states:
 "Die Webanwendung unterstuetzt Desktop-Browser ab 1024 px." `.app-shell` is
 a fixed two-column grid with no mobile or narrow-screen breakpoints by design. Do not
 add mobile/responsive support to the portal shell without an explicit,

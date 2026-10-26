@@ -20,10 +20,8 @@ Historische Dokumente erklären, *warum* etwas so geworden ist. Sie sind kein
 Auftrag und keine gültige Beschreibung des Ist-Zustands. Sie tragen einen
 Hinweis am Dateianfang. Dazu gehören:
 
-- `docs/superpowers/specs/` und `docs/superpowers/plans/`
-- `.superpowers/brainstorm/`
+- `.superpowers/brainstorm/` (lokal, nicht eingecheckt)
 - datierte Prüf- und Kalibrierberichte in `docs/` (`*-2026-*.md`)
-- `docs/archive/`
 - `00-FORTSCHRITT.md` — betrifft ausschließlich die Regelwerk-Wissensbasis
   unter `content/`, nicht die Anwendung.
 

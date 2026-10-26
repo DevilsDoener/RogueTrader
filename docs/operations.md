@@ -349,8 +349,8 @@ volume read-only, because the command only reads the live database.
   by file modification time) are deleted after each successful backup.
 - **Health:** the service's healthcheck is healthy while a copy newer than 26
   hours exists in `/backups`; `docker compose ps` shows `unhealthy` otherwise.
-- **Still off-host:** `./backups` is on the same machine. Copy it to separate
-  storage as described below, or the guest is still a single point of loss.
+- **Not off-host:** `./backups` is on the same machine as the live database;
+  there is no automatic copy to separate storage.
 
 Trigger one by hand:
 
@@ -370,59 +370,6 @@ docker compose stop portal backup
 .\scripts\restore.ps1 -BackupFile .\backups\db-20260101-020000.sqlite3
 docker compose up -d portal backup
 ```
-
-### Backups außer Haus (off-host copy)
-
-`scripts/offsite-backup.ps1` copies the newest finished daily copy from
-`./backups` to a second location — by default `$env:OneDrive\RogueTrader-Backups`,
-which OneDrive syncs to the cloud. It verifies the copy's SHA-256 against the
-source, skips copies already present, removes copies older than `-KeepDays`
-(default 30) from the target (only on a run without errors, so a failing run
-never ages out the copies that may be the last ones), warns when the newest local backup is older than
-30 hours (backup service not running?), and appends to `offsite-backup.log` in
-the target. It only reads `./backups`; it never touches the containers or the
-live database. Pass `-Target` for another folder (NAS, USB drive).
-
-**Alerts and exit codes.** Nobody reads the log, so problems show a Windows
-toast ("Rogue Trader: Sicherung ..." with a short reason and
-"Details: offsite-backup.log"; fallbacks: balloon, then `msg.exe`) and set the
-exit code, which the scheduled task keeps as `LastTaskResult`:
-
-| Exit | Meaning | Alert when |
-|---|---|---|
-| 0 | ok | never (no toast on success) |
-| 1 | error | no local backup found, checksum mismatch, OneDrive/target folder missing, any unexpected exception |
-| 2 | warning | newest local backup older than 30 h (backup service down); the copy is still made |
-
-If the target itself is unreachable, the log goes to
-`%LOCALAPPDATA%\RogueTrader-Backups\offsite-backup.log` instead. To check that
-notifications reach you (Focus assist / "Do not disturb" can hide them), run
-`.\scripts\offsite-backup.ps1 -TestAlert`. `-Source` overrides the backup
-folder (for tests).
-
-On the current Windows host it runs as the scheduled task
-**"RogueTrader Offsite Backup"** (current user, daily 13:00 and at logon,
-missed runs are caught up). To recreate it:
-
-```powershell
-$script = (Resolve-Path .\scripts\offsite-backup.ps1).Path
-$action = New-ScheduledTaskAction -Execute powershell.exe -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$script`""
-$triggers = @((New-ScheduledTaskTrigger -Daily -At 13:00), (New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"))
-$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
-Register-ScheduledTask -TaskName "RogueTrader Offsite Backup" -Action $action -Trigger $triggers -Settings $settings -Force
-```
-
-Check it with `Get-ScheduledTaskInfo -TaskName "RogueTrader Offsite Backup"`
-(`LastTaskResult` 0) and the log in the target folder. The copies contain the
-account password hashes (no sessions), so the target should be storage only
-you can read.
-
-**Schedule:** run this at least daily via Windows Task Scheduler /
-`cron` / a Proxmox host cron job, pointed at storage outside the Proxmox
-guest running the portal (e.g. a separate backup target, NAS, or Proxmox
-Backup Server dataset) so a lost guest does not also lose its backups.
-Retain enough history to recover from a slow-to-notice data problem, not
-just the most recent crash.
 
 ## 8. Restore and restore rehearsal
 
