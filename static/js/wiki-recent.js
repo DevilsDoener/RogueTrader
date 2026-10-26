@@ -38,18 +38,10 @@
   }
 
   function load() {
-    var raw;
-    try {
-      raw = window.localStorage.getItem(KEY);
-    } catch (error) {
-      return [];
-    }
-    if (!raw) {
-      return [];
-    }
     var parsed;
     try {
-      parsed = JSON.parse(raw);
+      // JSON.parse(null) is null, which the array check below rejects.
+      parsed = JSON.parse(window.localStorage.getItem(KEY));
     } catch (error) {
       return [];
     }

@@ -70,6 +70,7 @@ class WikiRepository:
     def __init__(self, chapters: tuple[WikiChapter, ...], search_index: SearchIndex):
         self._chapters = tuple(chapters)
         self._by_slug = {chapter.slug: chapter for chapter in self._chapters}
+        self._index_by_slug = {chapter.slug: i for i, chapter in enumerate(self._chapters)}
         self._search_index = search_index
 
     @classmethod
@@ -138,15 +139,19 @@ class WikiRepository:
 
     def neighbours(self, slug: str) -> tuple[WikiChapter | None, WikiChapter | None]:
         """The chapters before and after ``slug`` in reading order."""
-        chapter = self._by_slug.get(slug)
-        if chapter is None:
+        index = self._index_by_slug.get(slug)
+        if index is None:
             return None, None
-        index = self._chapters.index(chapter)
         previous = self._chapters[index - 1] if index > 0 else None
         following = (
             self._chapters[index + 1] if index + 1 < len(self._chapters) else None
         )
         return previous, following
+
+    def position(self, slug: str) -> tuple[int, int] | None:
+        """``(1-based position, chapter count)`` of ``slug`` in reading order."""
+        index = self._index_by_slug.get(slug)
+        return None if index is None else (index + 1, len(self._chapters))
 
     def search(
         self,
@@ -176,7 +181,7 @@ class WikiRepository:
 
     def quick_links(self) -> tuple[tuple[QuickLink, WikiChapter], ...]:
         """Curated quick links whose target still exists in the loaded book."""
-        return self._resolve_links(QUICK_LINKS)
+        return self._quick_links
 
     def dashboard_shortcuts(
         self,
@@ -186,6 +191,17 @@ class WikiRepository:
         Same rule as ``quick_links()``: a link whose target is missing is
         dropped, and a group left without any link is dropped with it.
         """
+        return self._dashboard_shortcuts
+
+    # The repository is immutable, so both link sets are resolved once.
+    @cached_property
+    def _quick_links(self) -> tuple[tuple[QuickLink, WikiChapter], ...]:
+        return self._resolve_links(QUICK_LINKS)
+
+    @cached_property
+    def _dashboard_shortcuts(
+        self,
+    ) -> tuple[tuple[ShortcutGroup, tuple[tuple[QuickLink, WikiChapter], ...]], ...]:
         resolved = []
         for group in DASHBOARD_SHORTCUTS:
             links = self._resolve_links(group.links)

@@ -63,8 +63,6 @@ class IndexedSection(NamedTuple):
 
 class _Scored(NamedTuple):
     score: float
-    chapter_ordinal: int
-    section_ordinal: int
     entry: IndexedSection
     matched: tuple[str, ...]
 
@@ -184,11 +182,11 @@ class SearchIndex:
             if outcome is None:
                 continue
             score, matched = outcome
-            scored.append(
-                _Scored(score, entry.chapter.ordinal, entry.section.ordinal, entry, matched)
-            )
+            scored.append(_Scored(score, entry, matched))
 
-        scored.sort(key=lambda item: (-item.score, item.chapter_ordinal, item.section_ordinal))
+        scored.sort(
+            key=lambda item: (-item.score, item.entry.chapter.ordinal, item.entry.section.ordinal)
+        )
 
         results = []
         for item in scored[:limit]:

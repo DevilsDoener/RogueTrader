@@ -873,9 +873,16 @@ mark {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
   margin-bottom: 1rem;
   color: var(--rt-text-muted);
   font-size: 0.9rem;
+}
+
+.wiki-breadcrumbs-position {
+  margin-left: auto;
+  font-family: var(--rt-font-mono);
+  font-size: 0.8rem;
 }
 
 /* Previous/next chapter, shown above and below the article. */
@@ -911,8 +918,13 @@ mark {
   text-decoration: none;
 }
 
+.wiki-chapter-nav a {
+  transition: border-color var(--rt-transition-fast), background var(--rt-transition-fast);
+}
+
 .wiki-chapter-nav a:hover {
-  border-color: var(--rt-border-strong);
+  border-color: var(--rt-gold);
+  background: var(--rt-panel-raised);
 }
 
 .wiki-chapter-nav-next {
@@ -980,6 +992,8 @@ mark {
    it takes the shell's panel colours again. It scrolls on its own: the
    talents chapter alone lists 147 entries. */
 .wiki-section-nav {
+  /* Panel-coloured shadows that mask the outline scrolling under the sticky filter. */
+  --toc-mask: 0 -0.6rem 0 0.35rem var(--rt-panel), 0 0.25rem 0 0.35rem var(--rt-panel);
   position: sticky;
   top: calc(var(--rt-topbar-height) + var(--rt-wiki-sticky-nav-height) + 0.5rem);
   max-height: calc(
@@ -1099,23 +1113,38 @@ mark {
 
 .primary-nav .primary-nav-sub a {
   gap: 0.2rem;
-  min-height: 2rem;
-  padding: 0.2rem 0.55rem 0.2rem 0.35rem;
+  min-height: 1.7rem;
+  padding: 0.1rem 0.55rem 0.1rem 0.35rem;
   border-left-width: 2px;
   color: var(--rt-text-muted);
-  font-size: 0.86rem;
-  line-height: 1.25;
+  font-size: 0.85rem;
+  line-height: 1.2;
 }
 
 .primary-nav .primary-nav-sub a:hover {
   color: var(--rt-gold-bright);
 }
 
-.primary-nav-numeral {
-  flex: 0 0 2.4rem;
+/* Band headings (Front Matter / Chapters / Appendix) inside the chapter tree,
+   the same grouping the Bibliothek uses. */
+.primary-nav .primary-nav-band {
+  margin: 0.6rem 0 0.15rem 0.35rem;
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.primary-nav .primary-nav-band:first-child {
+  margin-top: 0.1rem;
+}
+
+.primary-nav-numeral {
+  flex: 0 0 2.1rem;
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
   opacity: 0.75;
 }
@@ -1156,7 +1185,7 @@ mark {
   background: var(--rt-bg-elevated);
   border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius);
-  box-shadow: 0 -0.6rem 0 0.35rem var(--rt-panel), 0 0.25rem 0 0.35rem var(--rt-panel);
+  box-shadow: var(--toc-mask);
   font-family: var(--rt-font-body);
   font-size: 0.85rem;
   transition: border-color var(--rt-transition-fast), box-shadow var(--rt-transition-fast);
@@ -1166,8 +1195,7 @@ mark {
    the two panel-coloured mask shadows the sticky field keeps. */
 .wiki-section-nav input[type="search"].wiki-toc-filter:focus {
   border-color: var(--rt-focus);
-  box-shadow: var(--rt-focus-ring),
-    0 -0.6rem 0 0.35rem var(--rt-panel), 0 0.25rem 0 0.35rem var(--rt-panel);
+  box-shadow: var(--rt-focus-ring), var(--toc-mask);
   outline: none;
 }
 

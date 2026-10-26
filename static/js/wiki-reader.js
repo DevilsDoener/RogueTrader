@@ -21,7 +21,6 @@
   // Listeners for "the reader's section changed"; the recent-position writer
   // subscribes here so the spy does not need to know about it.
   var sectionListeners = [];
-  var activeSection = null;
 
   // Folding and token matching: static/js/wiki-text.js (loaded before this).
   var fold = window.RTWikiText.fold;
@@ -251,6 +250,7 @@
     }
 
     var activeLink = null;
+    var activeSection = null;
     var spyOpened = new Set();
 
     function tocLinkFor(section) {
@@ -264,16 +264,6 @@
         node = node.parentElement && node.parentElement.closest("section[id]");
       }
       return null;
-    }
-
-    function ancestorsDetails(link) {
-      var list = [];
-      var details = link.parentElement && link.parentElement.closest("details");
-      while (details && sectionNav.contains(details)) {
-        list.push(details);
-        details = details.parentElement && details.parentElement.closest("details");
-      }
-      return list;
     }
 
     function setActiveLink(link) {
@@ -292,7 +282,7 @@
       link.setAttribute("aria-current", "location");
 
       if (!filterActive) {
-        var ancestors = ancestorsDetails(link);
+        var ancestors = ancestorsIn(link, "details");
         // Fold away what the spy itself opened for an earlier section, so the
         // outline does not end up fully expanded after one read-through.
         spyOpened.forEach(function (details) {

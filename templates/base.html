@@ -66,7 +66,8 @@
             {% if wiki_nav_chapters %}
               <ul class="primary-nav-sub" aria-label="Kapitel">
                 {% for c in wiki_nav_chapters %}
-                  <li><a href="{% url 'wiki:chapter' c.slug %}" {% if chapter.slug == c.slug %}aria-current="page"{% endif %}><span class="primary-nav-numeral" aria-hidden="true">{% if c.numeral %}{{ c.numeral }}{% else %}&sect;{% endif %}</span><span>{{ c.short_title }}</span></a></li>
+                  {% ifchanged c.band %}<li class="primary-nav-band" role="presentation">{{ c.band }}</li>{% endifchanged %}
+                  <li><a href="{% url 'wiki:chapter' c.slug %}" {% if chapter.slug == c.slug %}aria-current="page"{% endif %}><span class="primary-nav-numeral" aria-hidden="true">{% if c.numeral %}{% ifchanged c.numeral %}{{ c.numeral }}{% else %}&middot;{% endifchanged %}{% else %}&sect;{% endif %}</span><span>{{ c.short_title }}</span></a></li>
                 {% endfor %}
               </ul>
             {% endif %}

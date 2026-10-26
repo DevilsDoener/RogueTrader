@@ -376,3 +376,49 @@ def test_markup_in_the_query_only_reaches_the_page_as_escaped_json(
     assert json.loads(payload) == ["alert", "img", "onerror", "src"]
     article = content.split('class="wiki-article"', 1)[1].split("</article>", 1)[0]
     assert "onerror" not in article
+
+
+@pytest.mark.django_db
+def test_the_primary_nav_groups_chapters_under_band_headings(
+    client, user_factory, three_chapters
+):
+    """The chapter tree carries the Bibliothek's band names, once per band."""
+    nav = _primary_nav(_get(client, user_factory, "two"))
+
+    assert nav.count("primary-nav-band") == 1
+    assert 'class="primary-nav-band" role="presentation">Chapters</li>' in nav
+
+
+@pytest.mark.django_db
+def test_the_breadcrumb_shows_band_and_position(client, user_factory, three_chapters):
+    content = _get(client, user_factory, "two")
+    crumbs = content.split('class="wiki-breadcrumbs"', 1)[1].split("</nav>", 1)[0]
+
+    assert "<span>Chapters</span>" in crumbs
+    assert "2&thinsp;/&thinsp;3" in crumbs
+
+    first = _get(client, user_factory, "one")
+    assert "1&thinsp;/&thinsp;3" in first.split('class="wiki-breadcrumbs"', 1)[1]
+
+
+@pytest.mark.django_db
+def test_the_primary_nav_shows_bands_in_book_order_and_numerals_once(
+    client, user_factory, make_repository
+):
+    """Front matter, the four-file chapter XIV and the appendix, as in the book."""
+    make_repository(
+        {
+            "00-Foreword.md": "# Foreword\n\n## A\na\n",
+            "14-Mutations.md": "# Mutations\n\n## B\nb\n",
+            "14-Traits.md": "# Traits\n\n## C\nc\n",
+            "16-Index.md": "# Index\n\n## D\nd\n",
+        },
+        install=True,
+    )
+    nav = _primary_nav(_get(client, user_factory, "traits"))
+
+    positions = [nav.index(f">{label}</li>") for label in ("Front Matter", "Chapters", "Appendix")]
+    assert positions == sorted(positions)
+    assert nav.count(">XIV</span>") == 1
+    assert nav.count("&middot;") == 1
+    assert nav.count("&sect;") == 2

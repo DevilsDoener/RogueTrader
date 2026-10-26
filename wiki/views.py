@@ -59,6 +59,9 @@ class WikiChapterView(LoginRequiredMixin, TemplateView):
             raise Http404("Unknown wiki chapter.")
         previous_chapter, next_chapter = repository.neighbours(chapter.slug)
         context["chapter"] = chapter
+        context["chapter_position"], context["chapter_total"] = repository.position(
+            chapter.slug
+        )
         context["previous_chapter"] = previous_chapter
         context["next_chapter"] = next_chapter
         context["toc_max_depth"] = settings.WIKI_TOC_MAX_DEPTH

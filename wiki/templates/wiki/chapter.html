@@ -8,7 +8,10 @@
   <nav class="wiki-breadcrumbs" aria-label="Pfad">
     <a href="{% url 'wiki:index' %}">Wiki</a>
     <span aria-hidden="true">&rsaquo;</span>
+    <span>{{ chapter.band }}</span>
+    <span aria-hidden="true">&rsaquo;</span>
     <span aria-current="page">{{ chapter.title }}</span>
+    <span class="wiki-breadcrumbs-position"><span class="sr-only">Position </span>{{ chapter_position }}&thinsp;/&thinsp;{{ chapter_total }}</span>
   </nav>
 
   {% include "wiki/_chapter_nav.html" with sticky=True %}

@@ -28,9 +28,10 @@ class WikiSection:
     #: Heading level as rendered (2-6). Drives both the heading tag and the
     #: indent level in the table of contents.
     level: int = MIN_SECTION_LEVEL
-    #: The heading's inline markup, already sanitized. Falls back to the plain
-    #: title. Rendered by the template so no `id` attribute ever has to pass
-    #: through the nh3 allowlist.
+    #: The heading's inline markup, already sanitized (wiki/outline.py falls
+    #: back to the plain title when a heading has no inline markup). Rendered
+    #: by the template so no `id` attribute ever has to pass through the nh3
+    #: allowlist.
     title_html: str = ""
     children: tuple[WikiSection, ...] = ()
     #: Titles of the enclosing headings, outermost first. The intro node is
