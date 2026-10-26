@@ -328,47 +328,20 @@ or guess a location on your behalf.
 
 ### Automatic daily backups
 
-The `backup` service in `compose.yaml` runs `python manage.py backup_db` once
-when it starts and then every 24 hours (a failed run is retried after an
-hour). It uses the same image as the portal and mounts the `portal-data`
-volume read-only, because the command only reads the live database.
+There is no automatic backup service. `compose.yaml` only runs the `portal`;
+take snapshots by hand with `scripts/backup.ps1` (above). The management
+command `python manage.py backup_db` still exists (consistent, session-free,
+integrity-checked copy into `BACKUP_DIR`) and can be run on demand or from a
+job of your own.
 
-- **Where:** `./backups` next to `compose.yaml` on the host (mounted as
-  `/backups`, `BACKUP_DIR` inside the container), so the copies survive the
-  loss of the `portal-data` volume. The directory is git-ignored. On a Linux
-  host create it before the first start, owner-only, and make it writable for
-  the container user: `mkdir -m 700 backups; chown 10001 backups` (the copies
-  hold every password hash, so no other local user should read them).
-- **Format:** `db-YYYYMMDD-HHMMSS.sqlite3`, a consistent copy made with
-  SQLite's online backup API while the portal keeps running. The command runs
-  `PRAGMA integrity_check` on the copy and fails (non-zero exit, copy
-  deleted) if the result is not `ok`. The files are written as `0600`, and the
-  copy contains **no login sessions**: after a restore everybody has to log in
-  again (a stolen backup cannot yield a logged-in session either).
-- **Retention:** copies older than `BACKUP_KEEP_DAYS` (default 14, env var,
-  by file modification time) are deleted after each successful backup.
-- **Health:** the service's healthcheck is healthy while a copy newer than 26
-  hours exists in `/backups`; `docker compose ps` shows `unhealthy` otherwise.
-- **Not off-host:** `./backups` is on the same machine as the live database;
-  there is no automatic copy to separate storage.
-
-Trigger one by hand:
+Restore a copy with `scripts/restore.ps1` (section 8). The checksum step is
+skipped for copies without a manifest (the script says so); the integrity
+check always runs.
 
 ```powershell
-docker compose run --rm backup python manage.py backup_db
-# or inside the running service
-docker compose exec backup python manage.py backup_db
-```
-
-Restore a copy from this folder with `scripts/restore.ps1` (section 8). It
-takes both kinds of copies: the daily ones here have no manifest, so the
-checksum step is skipped (and the script says so); the integrity check
-always runs.
-
-```powershell
-docker compose stop portal backup
+docker compose stop portal
 .\scripts\restore.ps1 -BackupFile .\backups\db-20260101-020000.sqlite3
-docker compose up -d portal backup
+docker compose up -d portal
 ```
 
 ## 8. Restore and restore rehearsal
@@ -381,27 +354,26 @@ real incident happens.
 | Copy | Made by | Manifest | Checksum step |
 |---|---|---|---|
 | `db-<UTC timestamp>.sqlite3` + `.manifest.json` | `scripts/backup.ps1` | yes | SHA-256 compared with the manifest; mismatch aborts |
-| `db-YYYYMMDD-HHMMSS.sqlite3` | `backup` service (`manage.py backup_db`) | no | **skipped** - the script prints "NOT VERIFIED"; only the integrity check protects against a damaged file |
+| `db-YYYYMMDD-HHMMSS.sqlite3` | `manage.py backup_db` | no | **skipped** - the script prints "NOT VERIFIED"; only the integrity check protects against a damaged file |
 
 A file without a manifest whose name is not `db-YYYYMMDD-HHMMSS.sqlite3` is
 refused. Which file to restore is never guessed; you name it.
 
-Both the **`portal` and the `backup` service must be stopped** first: the
-backup service mounts the same volume, and a restore into a database that is
-in use would corrupt it. The script refuses to run (and tells you what to
+The **`portal` service must be stopped** first: a restore into a database that
+is in use would corrupt it. The script refuses to run (and tells you what to
 stop) while either one is running, restarting or paused:
 
 ```powershell
-docker compose stop portal backup
+docker compose stop portal
 .\scripts\restore.ps1 -BackupFile D:\backups\rogue-trader-portal\db-20260101-020000.sqlite3
-docker compose up -d portal backup
+docker compose up -d portal
 ```
 
 The script:
 
-1. Refuses to run if the portal or the backup service is still running.
+1. Refuses to run if the portal is still running.
 2. For `backup.ps1` copies: recomputes the SHA-256 and compares it against
-   the `.manifest.json`. For daily copies: skips this and says so.
+   the `.manifest.json`. For backup_db copies: skips this and says so.
 3. Runs `PRAGMA integrity_check` against the backup file itself, via a
    disposable one-off container (this works even with the services
    stopped).
@@ -416,11 +388,11 @@ The script:
    and must not be replayed onto the restored one), renames the copy over
    `db.sqlite3` and compares the SHA-256 of the result with the backup.
 
-**Logins after a restore:** daily copies contain no login sessions (section
+**Logins after a restore:** backup_db copies contain no login sessions (section
 7), so after restoring one **everybody has to log in again**. A copy from
 `backup.ps1` is a plain copy and still holds the sessions of its time.
 
-After `docker compose up -d portal backup`, confirm `/healthz/` and
+After `docker compose up -d portal`, confirm `/healthz/` and
 spot-check recently restored content before considering the rehearsal (or a
 real recovery) complete.
 
@@ -441,9 +413,9 @@ takes `-ProjectName` (compose project, `docker compose -p`) and `-ComposeFile`
    `docker compose -f <copy> -p rtdrill run --rm --no-deps -v <file>:/tmp/seed.sqlite3:ro portal python -c "import shutil; shutil.copy2('/tmp/seed.sqlite3','/data/db.sqlite3')"`
    (from Windows PowerShell 5.1 pipe the code in via `python -` instead).
    Start it (`up -d`) and check `http://127.0.0.1:18000/healthz/` and the data.
-3. Change a value, then `docker compose -f <copy> -p rtdrill stop portal backup`.
+3. Change a value, then `docker compose -f <copy> -p rtdrill stop portal`.
 4. `.\scripts\restore.ps1 -BackupFile <the backup> -ProjectName rtdrill -ComposeFile <copy>`
-5. `up -d portal backup` again, check `/healthz/` and compare the data with
+5. `up -d portal` again, check `/healthz/` and compare the data with
    the backup (for example a SHA-256 of a canonical JSON dump of the
    `sheets_charactersheet` / `sheets_shipsheet` values plus the table row
    counts, taken before the change and after the restore - both must be equal).
@@ -491,8 +463,7 @@ The command never stops the boot: on an error it prints a warning on stderr
 the file is only trimmed when the container starts, so between restarts it can
 grow past 5 MiB. To rotate by hand while the portal runs, use
 `docker compose exec portal python manage.py rotate_audit_log`; the workers
-pick up the new file by themselves. The `backup` service mounts `/data`
-read-only, never writes audit records and does not rotate.
+pick up the new file by themselves.
 
 Set `AUDIT_LOG_FILE` in the environment to move it; in development
 (`DJANGO_DEBUG=true`) the file is off unless that variable is set (the command
@@ -620,7 +591,7 @@ slides, `SESSION_SAVE_EVERY_REQUEST`), so players who play regularly are not
 signed out and an abandoned cookie dies after two weeks. Expired session rows
 stay in the database until `manage.py clearsessions` removes them; it runs once
 every time the portal container starts (the image's start command, before
-gunicorn; the `backup` service mounts the data volume read-only and cannot),
+gunicorn),
 and by hand:
 
 ```powershell

@@ -80,19 +80,10 @@ def test_the_portal_receives_the_proxy_and_audit_settings(services):
     assert "${AUDIT_LOG_FILE:-/data/logs/audit.log}" in block
 
 
-@pytest.mark.parametrize("name", ["portal", "backup"])
-def test_both_services_are_locked_down(services, name):
-    block = services[name]
+def test_the_portal_service_is_locked_down(services):
+    block = services["portal"]
 
     assert "no-new-privileges:true" in block
     assert re.search(r"cap_drop:\s*\n\s+- ALL", block)
     assert re.search(r"(?m)^    read_only: true\s*$", block)
     assert re.search(r"tmpfs:\s*\n\s+- /tmp", block)
-
-
-def test_the_backup_loop_handles_sigterm(services):
-    block = services["backup"]
-
-    assert "trap 'exit 0' TERM" in block
-    assert "wait $$!" in block
-    assert not re.search(r"(?m)^\s+sleep \d+\s*$", block)

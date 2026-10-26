@@ -8,19 +8,17 @@
       - a copy made by scripts\backup.ps1: db-<timestamp>.sqlite3 with a
         db-<timestamp>.sqlite3.manifest.json next to it. The SHA-256 in the
         manifest is verified before anything else happens.
-      - a daily copy made by the "backup" service (manage.py backup_db):
-        db-YYYYMMDD-HHMMSS.sqlite3 WITHOUT a manifest. There is nothing to
-        verify the checksum against, so that step is skipped -- loudly. The
-        integrity check below still runs. A file without a manifest whose
-        name does not look like a daily copy is refused.
+      - a copy made by manage.py backup_db: db-YYYYMMDD-HHMMSS.sqlite3
+        WITHOUT a manifest. There is nothing to verify the checksum against,
+        so that step is skipped -- loudly. The integrity check below still
+        runs. A file without a manifest whose name does not look like such a
+        copy is refused.
 
-    The database must not be in use, so BOTH the "portal" and the "backup"
-    service must be stopped first (the backup service holds the volume
-    mounted read-only, and a restart loop of it would race the restore).
-    Steps:
+    The database must not be in use, so the "portal" service must be stopped
+    first. Steps:
 
-      1. Refuses to run while the portal or the backup service is running
-         (or restarting/paused) and says what to stop.
+      1. Refuses to run while the portal is running (or restarting/paused)
+         and says what to stop.
       2. Validates the backup file's SHA-256 against its manifest (only for
          copies that have one).
       3. Runs PRAGMA integrity_check against the backup file itself, using a
@@ -41,7 +39,7 @@
     moved into the recovery set first. The recovery set is left in place for
     the operator to remove once the restore is confirmed good.
 
-    Login sessions: daily copies contain none, so after restoring one
+    Login sessions: backup_db copies contain none, so after restoring one
     everybody has to log in again. Copies from backup.ps1 are plain copies
     and still contain the sessions that existed at backup time.
 
@@ -50,10 +48,6 @@
 
 .PARAMETER Service
     docker compose service name to restore into. Defaults to "portal".
-
-.PARAMETER BackupService
-    docker compose service name of the daily backup job that must also be
-    stopped. Defaults to "backup".
 
 .PARAMETER ProjectName
     docker compose project name (docker compose -p). Defaults to empty, i.e.
@@ -66,9 +60,9 @@
     modified copy of the compose file (other host port, own backups folder).
 
 .EXAMPLE
-    docker compose stop portal backup
+    docker compose stop portal
     .\scripts\restore.ps1 -BackupFile .\backups\db-20260101-020000.sqlite3
-    docker compose up -d portal backup
+    docker compose up -d portal
 
 .EXAMPLE
     # Practise against a throwaway project (see docs/operations.md)
@@ -80,8 +74,6 @@ param(
     [string]$BackupFile,
 
     [string]$Service = "portal",
-
-    [string]$BackupService = "backup",
 
     [string]$ProjectName = "",
 
@@ -132,7 +124,7 @@ if (-not $hasManifest) {
 
 Push-Location $RepoRoot
 try {
-    # --- 1. Neither the portal nor the backup job may be running. ----
+    # --- 1. The portal must not be running. ---------------------------
     $active = @()
     foreach ($state in @("running", "restarting", "paused")) {
         $names = (docker compose @ComposeArgs ps --services --filter "status=$state") -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
@@ -141,9 +133,8 @@ try {
         }
         $active += @($names)
     }
-    $blocking = @($Service, $BackupService) | Where-Object { $active -contains $_ }
-    if ($blocking.Count -gt 0) {
-        Fail "Still running: $($blocking -join ', '). The database must not be in use during a restore (the backup job mounts the same volume). Stop it first with: $ComposeHint stop $Service $BackupService"
+    if ($active -contains $Service) {
+        Fail "Still running: $Service. The database must not be in use during a restore. Stop it first with: $ComposeHint stop $Service"
     }
 
     # --- 2. Manifest / SHA-256 validation (backup.ps1 copies only). ----
@@ -161,7 +152,7 @@ try {
         Write-Host "Checksum    : SHA-256 matches the manifest ($actualHash)"
     }
     else {
-        Write-Host "Backup kind : daily copy (manage.py backup_db) WITHOUT manifest"
+        Write-Host "Backup kind : backup_db copy WITHOUT manifest"
         Write-Host "Checksum    : NOT VERIFIED - there is no manifest to compare against; only the integrity check below protects against a damaged file."
         Write-Host "              SHA-256 of the file as read now: $actualHash"
     }
@@ -265,9 +256,9 @@ print("restored; stale files removed: " + (",".join(removed) or "none"))
         Write-Host "Sessions: this copy was made by backup.ps1 and still contains the login sessions of its time; users whose session has since expired log in again."
     }
     else {
-        Write-Host "Sessions: daily backups contain NO login sessions - after this restore everybody has to log in again."
+        Write-Host "Sessions: backup_db copies contain NO login sessions - after this restore everybody has to log in again."
     }
-    Write-Host "Start the services with: $ComposeHint up -d $Service $BackupService"
+    Write-Host "Start the portal with: $ComposeHint up -d $Service"
     Write-Host "Then check /healthz/ and spot-check recent data. The recovery set db.sqlite3.recovery-$timestamp* stays in the data volume until you remove it."
 }
 finally {
