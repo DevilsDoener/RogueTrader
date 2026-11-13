@@ -2,7 +2,7 @@
 # (docker pull python:3.13-slim, then copy the new digest from
 # `docker inspect --format '{{index .RepoDigests 0}}' python:3.13-slim`) and
 # rebuild.
-FROM python:3.13-slim@sha256:bb2988715db2cf7ace7b53f38f3cffbef7c7046a656bee66245eb0ed386e2e81
+FROM python:3.15-slim@sha256:65a65fc7b30b06cb6df4930fd4650697cb23f4c2698ab81fc87e4b031bc36928
 
 # DJANGO_DEBUG defaults to "false" in the image: an orchestration that forgets
 # to set it must boot as production (strict secret/host checks, secure cookies,
