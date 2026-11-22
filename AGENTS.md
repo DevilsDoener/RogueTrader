@@ -73,10 +73,12 @@ Hinweis am Dateianfang. Dazu gehören:
 
 ## Tests
 
-Während der Arbeit schnell prüfen — nur die betroffene App:
+Während der Arbeit schnell prüfen — nur die betroffene App, oder alles ohne
+Browsertests (Marker `e2e`, gesetzt in `tests/e2e/conftest.py`):
 
 ```bash
 .venv/Scripts/python.exe -m pytest -q sheets/tests
+.venv/Scripts/python.exe -m pytest -q -m "not e2e"
 ```
 
 Vor Build, Push und Abschluss immer die vollständige Suite, einschließlich

@@ -27,6 +27,7 @@ import concurrent.futures
 import contextlib
 import re
 import time
+from pathlib import Path
 
 import pytest
 from playwright.sync_api import (
@@ -59,6 +60,10 @@ def _unwrap(value):
     return value._target if isinstance(value, _ThreadedProxy) else value
 
 
+#: How often ``goto`` is tried when Chromium reports a network change.
+_NETWORK_CHANGED_RETRIES = 3
+
+
 class _ThreadedProxy:
     """Wraps a Playwright object so every call on it runs on the worker
     thread that owns Playwright's event loop, never on the caller's thread.
@@ -73,6 +78,8 @@ class _ThreadedProxy:
     def __getattr__(self, name):
         if name == "wait_for_function" and isinstance(self._target, Page):
             return self._wait_for_function
+        if name == "goto" and isinstance(self._target, Page):
+            return self._goto
         attr = getattr(self._target, name)
         if not callable(attr):
             return _wrap(self._worker, attr)
@@ -110,6 +117,30 @@ class _ThreadedProxy:
                 page.wait_for_timeout(50)
 
         return _wrap(self._worker, self._worker.run(poll))
+
+    def _goto(self, url, **kwargs):
+        """``Page.goto`` that retries when Chromium reports a network change.
+
+        Windows raises ``net::ERR_NETWORK_CHANGED`` whenever a virtual adapter
+        (Docker, WSL, VPN) comes or goes, even for localhost; the request never
+        reached the live server, so repeating it is safe. Any other error is
+        raised at once.
+        """
+        page = self._target
+
+        def navigate():
+            for attempt in range(_NETWORK_CHANGED_RETRIES):
+                try:
+                    return page.goto(url, **kwargs)
+                except PlaywrightError as error:
+                    if "ERR_NETWORK_CHANGED" not in str(error):
+                        raise
+                    if attempt == _NETWORK_CHANGED_RETRIES - 1:
+                        raise
+                    page.wait_for_timeout(200)
+            return None  # pragma: no cover - the loop always returns or raises
+
+        return _wrap(self._worker, self._worker.run(navigate))
 
     def __repr__(self):  # pragma: no cover - debugging aid only
         return f"_ThreadedProxy({self._target!r})"
@@ -166,6 +197,20 @@ class _PlaywrightWorker:
             self.run(_stop)
         finally:
             self._executor.shutdown(wait=True)
+
+
+_E2E_DIR = Path(__file__).resolve().parent
+
+
+def pytest_collection_modifyitems(config, items):
+    """Mark every browser test ``e2e`` (and the screenshot ones ``visual``),
+    so ``pytest -m "not e2e"`` gives a quick run without a browser."""
+    for item in items:
+        path = Path(str(item.fspath)).resolve()
+        if _E2E_DIR in path.parents:
+            item.add_marker(pytest.mark.e2e)
+            if path.name == "test_visual_regression.py":
+                item.add_marker(pytest.mark.visual)
 
 
 @pytest.fixture(scope="session")

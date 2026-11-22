@@ -33,8 +33,12 @@ If `$ARGUMENTS` is empty, run the full suite:
 | Container files (Dockerfile / compose pins) | `tests/test_container_files.py` |
 
 The full run (no path argument) includes every group above, browser tests
-included. While iterating, run just the app you touched; run the full suite
-before a build, a push, and before claiming the work is done.
+included. While iterating, run just the app you touched, or everything but
+the browser tests with `-m "not e2e"` (markers `e2e` and `visual` are set by
+`tests/e2e/conftest.py`; `--strict-markers` rejects typos). Run the full suite
+before a build, a push, and before claiming the work is done. Should a single
+e2e test fail only in the full run, rerun its file alone before suspecting
+the code, and fix the wait it races (see `login_via_browser`).
 
 ## Lint
 

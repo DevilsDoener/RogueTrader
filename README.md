@@ -273,8 +273,9 @@ docker compose logs --no-color portal
 
 Per-app suites live in `accounts/tests/`, `core/tests/`, `sheets/tests/`,
 `wiki/tests/` and `network/tests/`; the browser tests live in `tests/e2e/` and their latest
-captured renders in `tests/visual/`. Run the app you touched while iterating and the
-full suite before a build, a push, or calling the work done.
+captured renders in `tests/visual/`. Run the app you touched while iterating (or
+`pytest -m "not e2e"` for everything but the browser tests) and the full suite
+before a build, a push, or calling the work done.
 
 `tests/e2e/test_complete_journey.py` drives one continuous, real end-to-end
 session (bootstrap admin, create and force-change two users' passwords,
