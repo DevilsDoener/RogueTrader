@@ -48,6 +48,7 @@ could plausibly break this app:
 """
 from __future__ import annotations
 
+import re
 import uuid
 
 import pytest
@@ -84,7 +85,7 @@ def _force_password_change(page, *, old_password: str, new_password: str):
     page.fill('input[name="new_password1"]', new_password)
     page.fill('input[name="new_password2"]', new_password)
     page.click('button[type="submit"]')
-    page.wait_for_load_state("networkidle")
+    page.wait_for_url(re.compile(r"^(?!.*/account/change-required/)"))
 
 
 def _create_managed_user_via_admin_ui(page, live_server, *, username: str, temporary_password: str):
@@ -138,7 +139,7 @@ def _logout_via_post(page):
         }""",
         csrf_token,
     )
-    page.wait_for_load_state("networkidle")
+    page.wait_for_url("**/account/login/")
 
 
 def test_complete_portal_journey(page, second_page, live_server, settings, ship_sheet):
@@ -308,7 +309,7 @@ def _run_journey(page, second_page, live_server, ship_sheet):
     result_link = page.locator(".wiki-results li a").first
     assert result_link.count() == 1
     result_link.click()
-    page.wait_for_load_state("networkidle")
+    page.wait_for_url(re.compile(r"charaktererschaffung"))
     assert "charaktererschaffung" in page.url
     assert "Character Creation" in page.content()
 

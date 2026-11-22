@@ -43,6 +43,8 @@ def test_character_list_has_no_horizontal_overflow(
     page.set_viewport_size(viewport)
 
     page.goto(f"{live_server.url}/characters/")
+    page.wait_for_selector(".crew-grid")
+    assert page.url.endswith("/characters/")
 
     _assert_no_page_level_horizontal_overflow(page)
 

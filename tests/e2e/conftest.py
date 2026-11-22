@@ -24,10 +24,17 @@ normal pytest thread, untouched by Playwright's event loop.
 from __future__ import annotations
 
 import concurrent.futures
+import contextlib
+import re
 import time
 
 import pytest
-from playwright.sync_api import Page, TimeoutError as PlaywrightTimeoutError, sync_playwright
+from playwright.sync_api import (
+    Error as PlaywrightError,
+    Page,
+    TimeoutError as PlaywrightTimeoutError,
+    sync_playwright,
+)
 
 from wiki.content import WikiRepository, get_repository, set_repository_for_tests
 
@@ -127,14 +134,26 @@ class _PlaywrightWorker:
 
     def new_page(self):
         def _create():
-            context = self._browser.new_context()
+            # Reduced motion: portal.css then cuts every transition and
+            # animation to ~0, so nothing a test measures is mid-animation.
+            context = self._browser.new_context(reduced_motion="reduce")
             return context, context.new_page()
 
         context, page = self.run(_create)
         return _ThreadedProxy(self, context), _ThreadedProxy(self, page)
 
     def close_context(self, context: _ThreadedProxy):
-        self.run(context._target.close)
+        def _close():
+            # Leave every page first, so a pending autosave or suggest fetch
+            # is cancelled instead of reaching the live server while the next
+            # test's transactional_db flush is already running.
+            for open_page in context._target.pages:
+                # A crashed or already-closed page still gets closed below.
+                with contextlib.suppress(PlaywrightError):
+                    open_page.goto("about:blank")
+            context._target.close()
+
+        self.run(_close)
 
     def shutdown(self):
         def _stop():
@@ -191,12 +210,23 @@ def ship_sheet(transactional_db, ship_sheet):
     return ship_sheet
 
 
+#: Any URL that is not the login page (where a successful login lands).
+_NOT_LOGIN_PAGE = re.compile(r"^(?!.*/account/login/)")
+
+
 def login_via_browser(page, live_server, *, username, password=DEFAULT_PASSWORD):
+    """Log in through the form and wait until the browser has left the login page.
+
+    Waiting for the URL (not for "networkidle") matters: right after the click
+    the old login page is already idle, so a networkidle wait could return
+    before the POST lands, and the test's next ``goto`` would cancel the login.
+    A forced password change lands on /account/change-required/, which counts.
+    """
     page.goto(f"{live_server.url}/account/login/")
     page.fill('input[name="username"]', username)
     page.fill('input[name="password"]', password)
     page.click('button[type="submit"]')
-    page.wait_for_load_state("networkidle")
+    page.wait_for_url(_NOT_LOGIN_PAGE)
 
 
 # -- Shared browser helpers ---------------------------------------------------

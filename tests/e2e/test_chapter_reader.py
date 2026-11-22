@@ -86,7 +86,7 @@ def test_the_outline_filter_shows_a_focus_ring(page, live_server, owner, real_co
     unfocused = page.evaluate(shadow)
 
     page.focus(".wiki-toc-filter")
-    page.wait_for_timeout(250)  # past the box-shadow transition
+    page.wait_for_function(f"{shadow}.includes('0px 0px 0px 3px')")
     focused = page.evaluate(shadow)
 
     # One extra shadow layer: the 3px ring, laid over the two mask shadows.
