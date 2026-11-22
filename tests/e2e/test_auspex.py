@@ -12,19 +12,13 @@ import re
 
 import pytest
 
-from .conftest import login_via_browser
+from .conftest import login_via_browser, open_library
 
 pytestmark = pytest.mark.django_db(transaction=True)
 
 PALETTE_OPEN = "#auspex[open]"
 PALETTE_CLOSED = "#auspex:not([open])"
 PALETTE_INPUT = "#auspex .auspex-input"
-
-
-def _open_library(page, live_server, owner):
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/wiki/")
-    page.wait_for_selector("#library-filter")
 
 
 def _open_dashboard(page, live_server, owner):
@@ -96,7 +90,7 @@ def test_arrow_keys_wrap_and_ids_stay_unique(page, live_server, owner, real_corp
 def test_slash_opens_the_palette_only_outside_text_fields(
     page, live_server, owner, real_corpus
 ):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
 
     page.focus("#library-filter")
     page.keyboard.press("/")

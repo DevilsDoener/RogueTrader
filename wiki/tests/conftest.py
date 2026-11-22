@@ -28,3 +28,9 @@ def make_repository(tmp_path, settings):
         return repository
 
     return make
+
+
+@pytest.fixture(scope="module")
+def real_repository():
+    """The real rulebook corpus under ``content/``, loaded once per module."""
+    return WikiRepository.load()

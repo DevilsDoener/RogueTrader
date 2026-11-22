@@ -11,7 +11,7 @@ import json
 
 import pytest
 
-from .conftest import login_via_browser
+from .conftest import open_library
 
 pytestmark = pytest.mark.django_db(transaction=True)
 
@@ -23,16 +23,10 @@ def _details_open(page) -> bool:
     return page.eval_on_selector(f"{CARD_TALENTS} details", "element => element.open")
 
 
-def _open_library(page, live_server, owner):
-    login_via_browser(page, live_server, username=owner.username)
-    page.goto(f"{live_server.url}/wiki/")
-    page.wait_for_selector("#library-filter")
-
-
 def test_typing_filters_the_cards_and_clearing_restores_them(
     page, live_server, owner, real_corpus
 ):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
     assert page.is_visible(CARD_TALENTS)
     assert page.is_visible(CARD_STARSHIPS)
     total = page.locator(".library-card").count()
@@ -53,7 +47,7 @@ def test_typing_filters_the_cards_and_clearing_restores_them(
 def test_matching_sections_open_and_a_miss_shows_the_empty_note(
     page, live_server, owner, real_corpus
 ):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
     assert not _details_open(page)
 
     page.fill("#library-filter", "detailed talent")
@@ -70,7 +64,7 @@ def test_matching_sections_open_and_a_miss_shows_the_empty_note(
 
 
 def test_enter_starts_the_fulltext_search(page, live_server, owner, real_corpus):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
 
     page.fill("#library-filter", "talent")
     page.press("#library-filter", "Enter")
@@ -82,7 +76,7 @@ def test_enter_starts_the_fulltext_search(page, live_server, owner, real_corpus)
 def test_weiterlesen_appears_only_with_a_stored_reading_position(
     page, live_server, owner, real_corpus
 ):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
     assert page.is_hidden(".library-recent")
 
     entries = [
@@ -113,7 +107,7 @@ def test_weiterlesen_appears_only_with_a_stored_reading_position(
 def test_filtering_hides_bands_without_a_match_entirely(
     page, live_server, owner, real_corpus
 ):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
     vorspann = '.library-band:has(h2:text-is("Front Matter"))'
     kapitel = '.library-band:has(h2:text-is("Chapters"))'
     anhang = '.library-band:has(h2:text-is("Appendix"))'
@@ -134,7 +128,7 @@ def test_filtering_hides_bands_without_a_match_entirely(
 def test_a_level_two_match_is_shown_and_marked_inside_its_card(
     page, live_server, owner, real_corpus
 ):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
     card = '.library-card:has(a.library-card-title:text-is("Playing the Game"))'
     sub_link = f'{card} .library-card-subsections a:text-is("Critical Damage")'
     # Unfiltered, the level-2 entries stay out of the way.
@@ -161,7 +155,7 @@ def test_a_level_two_match_is_shown_and_marked_inside_its_card(
 def test_a_contents_list_the_reader_opened_stays_open_after_filtering(
     page, live_server, owner, real_corpus
 ):
-    _open_library(page, live_server, owner)
+    open_library(page, live_server, owner)
     page.click(f"{CARD_TALENTS} summary")
     assert _details_open(page)
 

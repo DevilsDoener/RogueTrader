@@ -10,7 +10,7 @@ import uuid
 import pytest
 from django.test import override_settings
 
-DEFAULT_PASSWORD = "Valid-Password-42!"
+from tests.support import DEFAULT_PASSWORD
 
 
 @pytest.fixture(autouse=True, scope="session")

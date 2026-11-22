@@ -37,9 +37,8 @@ from playwright.sync_api import (
     sync_playwright,
 )
 
+from tests.support import DEFAULT_PASSWORD
 from wiki.content import WikiRepository, get_repository, set_repository_for_tests
-
-DEFAULT_PASSWORD = "Valid-Password-42!"
 
 _PRIMITIVE_TYPES = (str, int, float, bool, bytes, type(None))
 
@@ -336,6 +335,13 @@ def open_ship(page, live_server, user, ship_sheet, *, values=None):
     page.goto(f"{live_server.url}/ships/{ship_sheet.id}/")
     page.wait_for_selector('[data-field-id="ship_name"]')
     return ship_sheet
+
+
+def open_library(page, live_server, user):
+    """Logs ``user`` in and opens the Bibliothek (wiki index)."""
+    login_via_browser(page, live_server, username=user.username)
+    page.goto(f"{live_server.url}/wiki/")
+    page.wait_for_selector("#library-filter")
 
 
 # All lengths below are RENDERED (post-transform) pixels: getBoundingClientRect

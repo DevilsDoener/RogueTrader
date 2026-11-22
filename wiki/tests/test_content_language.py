@@ -10,8 +10,6 @@ import re
 import pytest
 from django.conf import settings
 
-from wiki.content import WikiRepository
-
 #: Unambiguously German function words. Deliberately excludes English
 #: homographs -- "die", "war", "am", "in" and "den" all occur in ordinary
 #: English, and "a den of villainy" in the Koronus chapter would trip a
@@ -39,8 +37,8 @@ MOJIBAKE_MARKERS = ("â", "Â", "Ã")
 
 
 @pytest.fixture(scope="module")
-def repository():
-    return WikiRepository.load()
+def repository(real_repository):
+    return real_repository
 
 
 def _german_ratio(text: str) -> float:

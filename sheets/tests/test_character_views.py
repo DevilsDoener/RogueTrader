@@ -10,12 +10,11 @@ from __future__ import annotations
 from datetime import UTC
 
 import pytest
-from django.db import connection
-from django.test.utils import CaptureQueriesContext
 
 from sheets.forms import CharacterCreateForm
 from sheets.models import CharacterSheet
 from sheets.tests.helpers import assert_contains, assert_not_contains
+from tests.support import count_queries
 
 
 @pytest.mark.django_db
@@ -285,22 +284,16 @@ def test_character_list_empty_state_points_at_create_form(client, user_factory):
     assert 'id="id_display_name"' in html
 
 
-def _query_count(client, url):
-    with CaptureQueriesContext(connection) as queries:
-        assert client.get(url).status_code == 200
-    return len(queries)
-
-
 @pytest.mark.django_db
 def test_character_list_query_count_does_not_grow_per_character(
     client, owner, character_factory
 ):
     client.force_login(owner)
     character_factory(owner=owner, display_name="One", values=FILLED_VALUES)
-    baseline = _query_count(client, "/characters/")
+    baseline = count_queries(client, "/characters/")
     for index in range(3):
         character_factory(owner=owner, display_name=f"More {index}", values=FILLED_VALUES)
-    assert _query_count(client, "/characters/") == baseline
+    assert count_queries(client, "/characters/") == baseline
 
 
 @pytest.mark.django_db

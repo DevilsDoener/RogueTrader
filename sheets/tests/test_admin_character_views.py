@@ -8,11 +8,10 @@ detail view always renders the shared sheet viewer with
 from __future__ import annotations
 
 import pytest
-from django.db import connection
-from django.test.utils import CaptureQueriesContext
 
 from sheets.models import CharacterSheet
 from sheets.tests.helpers import assert_contains, assert_not_contains
+from tests.support import count_queries
 
 
 @pytest.mark.django_db
@@ -107,12 +106,6 @@ def test_owner_route_never_shows_another_owners_character(client, portal_admin, 
     assert response.status_code == 404
 
 
-def _query_count(client, url):
-    with CaptureQueriesContext(connection) as queries:
-        assert client.get(url).status_code == 200
-    return len(queries)
-
-
 @pytest.mark.django_db
 def test_admin_character_list_query_count_does_not_grow_per_character(
     client, portal_admin, character_factory
@@ -121,7 +114,7 @@ def test_admin_character_list_query_count_does_not_grow_per_character(
     # query per character.
     client.force_login(portal_admin)
     character_factory(display_name="One", values={"c1_ws_value": "1"})
-    baseline = _query_count(client, "/portal-admin/characters/")
+    baseline = count_queries(client, "/portal-admin/characters/")
     for index in range(3):
         character_factory(display_name=f"More {index}", values={"c1_ws_value": "2"})
-    assert _query_count(client, "/portal-admin/characters/") == baseline
+    assert count_queries(client, "/portal-admin/characters/") == baseline

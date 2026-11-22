@@ -11,12 +11,11 @@ import re
 from datetime import timedelta
 
 import pytest
-from django.db import connection
 from django.template.loader import render_to_string
-from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 
+from tests.support import count_queries
 from wiki.content import WikiRepository, set_repository_for_tests
 from wiki.manifest import DASHBOARD_SHORTCUTS
 
@@ -345,16 +344,10 @@ def test_every_shortcut_glyph_has_its_own_icon(group):
     assert render_to_string("core/_shortcut_glyph.html", {"glyph": group.glyph}) != fallback
 
 
-def _query_count(client, url):
-    with CaptureQueriesContext(connection) as queries:
-        assert client.get(url).status_code == 200
-    return len(queries)
-
-
 def test_dashboard_query_count_does_not_grow_per_character(client, owner, character_factory):
     client.force_login(owner)
     character_factory(owner=owner, display_name="One", values={"c1_ws_value": "1"})
-    baseline = _query_count(client, reverse("dashboard"))
+    baseline = count_queries(client, reverse("dashboard"))
     for index in range(3):
         character_factory(owner=owner, display_name=f"More {index}", values={"c1_ws_value": "2"})
-    assert _query_count(client, reverse("dashboard")) == baseline
+    assert count_queries(client, reverse("dashboard")) == baseline

@@ -10,12 +10,10 @@ import collections
 import pytest
 from django.conf import settings
 
-from wiki.content import WikiRepository
-
 
 @pytest.fixture(scope="module")
-def repository():
-    return WikiRepository.load()
+def repository(real_repository):
+    return real_repository
 
 
 def test_every_allow_listed_chapter_loads(repository):

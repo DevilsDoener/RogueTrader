@@ -4,27 +4,15 @@ import logging
 from unittest import mock
 
 import pytest
-from django.test import RequestFactory
 from django.urls import reverse
 
 from accounts import throttle
+from tests.support import post_login, request_from
 
 PASSWORD = "Correct-Password-42!"
 GENERIC_ERROR = "Benutzername oder Passwort ungültig."
 LOGIN_URL = "/account/login/"
 PUBLIC_ADDRESS = "198.51.100.77"  # a public peer: the address tells clients apart
-
-
-def _post(client, username, password="wrong", **meta):
-    return client.post(
-        reverse("accounts:login"), {"username": username, "password": password}, **meta
-    )
-
-
-def _request(remote_addr, **headers):
-    meta = {"REMOTE_ADDR": remote_addr}
-    meta.update({f"HTTP_{k.upper()}": v for k, v in headers.items()})
-    return RequestFactory().get("/", **meta)
 
 
 # ----------------------------------------------------------- source address (AUTH-1)
@@ -35,8 +23,8 @@ def test_rotating_x_real_ip_from_an_untrusted_peer_does_not_dodge_the_limit(clie
     user_factory(username="crew", password=PASSWORD)
 
     for number in range(6):
-        _post(client, "crew", HTTP_X_REAL_IP=f"198.51.100.{number + 1}")
-    response = _post(client, "crew", PASSWORD, HTTP_X_REAL_IP="198.51.100.99")
+        post_login(client, "crew", HTTP_X_REAL_IP=f"198.51.100.{number + 1}")
+    response = post_login(client, "crew", PASSWORD, HTTP_X_REAL_IP="198.51.100.99")
 
     assert response.status_code == 200
     assert GENERIC_ERROR in response.content.decode()
@@ -46,12 +34,12 @@ def test_rotating_x_real_ip_from_an_untrusted_peer_does_not_dodge_the_limit(clie
 def test_trusted_proxy_x_real_ip_is_used(settings, peer):
     settings.TRUSTED_PROXY_IPS = ["10.0.0.0/24"]
 
-    assert throttle.client_address(_request(peer, x_real_ip="203.0.113.7")) == "203.0.113.7"
+    assert throttle.client_address(request_from(peer, x_real_ip="203.0.113.7")) == "203.0.113.7"
 
 
 def test_untrusted_peer_ignores_both_proxy_headers(settings):
     settings.TRUSTED_PROXY_IPS = ["10.0.0.0/24"]
-    request = _request("192.0.2.1", x_real_ip="203.0.113.7", x_forwarded_for="203.0.113.8")
+    request = request_from("192.0.2.1", x_real_ip="203.0.113.7", x_forwarded_for="203.0.113.8")
 
     assert throttle.client_address(request) == "192.0.2.1"
 
@@ -59,22 +47,23 @@ def test_untrusted_peer_ignores_both_proxy_headers(settings):
 def test_default_trusts_no_proxy(settings):
     settings.TRUSTED_PROXY_IPS = []
 
-    assert throttle.client_address(_request("10.0.0.5", x_real_ip="203.0.113.7")) == "10.0.0.5"
+    assert throttle.client_address(request_from("10.0.0.5", x_real_ip="203.0.113.7")) == "10.0.0.5"
 
 
 def test_trusted_proxy_without_or_with_malformed_header_falls_back_to_the_peer(settings):
     settings.TRUSTED_PROXY_IPS = ["10.0.0.5"]
 
-    assert throttle.client_address(_request("10.0.0.5")) == "10.0.0.5"
-    assert throttle.client_address(_request("10.0.0.5", x_real_ip="nonsense")) == "10.0.0.5"
-    assert throttle.client_address(_request("10.0.0.5", x_real_ip="1.1.1.1, 2.2.2.2")) == "10.0.0.5"
+    assert throttle.client_address(request_from("10.0.0.5")) == "10.0.0.5"
+    assert throttle.client_address(request_from("10.0.0.5", x_real_ip="nonsense")) == "10.0.0.5"
+    two_hops = request_from("10.0.0.5", x_real_ip="1.1.1.1, 2.2.2.2")
+    assert throttle.client_address(two_hops) == "10.0.0.5"
 
 
 def test_forwarded_for_uses_the_rightmost_untrusted_entry(settings):
     settings.TRUSTED_PROXY_IPS = ["10.0.0.0/8"]
     settings.TRUSTED_PROXY_HEADER = "x-forwarded-for"
     # 6.6.6.6 was typed by the client; 192.0.2.50 is what the first proxy saw.
-    request = _request("10.0.0.5", x_forwarded_for="6.6.6.6, 192.0.2.50, 10.0.0.9")
+    request = request_from("10.0.0.5", x_forwarded_for="6.6.6.6, 192.0.2.50, 10.0.0.9")
 
     assert throttle.client_address(request) == "192.0.2.50"
 
@@ -83,13 +72,13 @@ def test_forwarded_for_ignores_x_real_ip_and_garbled_hops(settings):
     settings.TRUSTED_PROXY_IPS = ["10.0.0.5"]
     settings.TRUSTED_PROXY_HEADER = "x-forwarded-for"
 
-    assert throttle.client_address(_request("10.0.0.5", x_real_ip="203.0.113.7")) == "10.0.0.5"
-    garbled = _request("10.0.0.5", x_forwarded_for="203.0.113.7, garbage")
+    assert throttle.client_address(request_from("10.0.0.5", x_real_ip="203.0.113.7")) == "10.0.0.5"
+    garbled = request_from("10.0.0.5", x_forwarded_for="203.0.113.7, garbage")
     assert throttle.client_address(garbled) == "10.0.0.5"
 
 
 def test_missing_remote_addr_is_unknown():
-    assert throttle.client_address(_request("")) == "unknown"
+    assert throttle.client_address(request_from("")) == "unknown"
 
 
 # ------------------------------------------------ per-username counter (AUTH-1)
@@ -100,8 +89,8 @@ def test_rotating_addresses_hit_the_per_username_ceiling(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
 
     for number in range(throttle.LOGIN_USER_LIMIT):
-        _post(client, "crew", REMOTE_ADDR=f"198.51.100.{number + 1}")
-    response = _post(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
+        post_login(client, "crew", REMOTE_ADDR=f"198.51.100.{number + 1}")
+    response = post_login(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
 
     assert response.status_code == 200
     assert GENERIC_ERROR in response.content.decode()
@@ -113,8 +102,8 @@ def test_the_per_username_counter_ignores_case_and_whitespace(client, user_facto
 
     for number in range(throttle.LOGIN_USER_LIMIT):
         name = " CREW " if number % 2 else "Crew"
-        _post(client, name, REMOTE_ADDR=f"198.51.100.{number + 1}")
-    response = _post(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
+        post_login(client, name, REMOTE_ADDR=f"198.51.100.{number + 1}")
+    response = post_login(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
 
     assert GENERIC_ERROR in response.content.decode()
 
@@ -123,9 +112,9 @@ def test_the_per_username_counter_ignores_case_and_whitespace(client, user_facto
 def test_a_few_failures_from_other_addresses_do_not_lock_the_real_player(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
     for number in range(4):
-        _post(client, "crew", REMOTE_ADDR=f"198.51.100.{number + 1}")
+        post_login(client, "crew", REMOTE_ADDR=f"198.51.100.{number + 1}")
 
-    response = _post(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
+    response = post_login(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
 
     assert response.status_code == 302
 
@@ -137,10 +126,10 @@ def test_a_few_failures_from_other_addresses_do_not_lock_the_real_player(client,
 def test_a_username_flood_from_one_address_stops_before_any_hashing(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
     for number in range(throttle.LOGIN_SOURCE_LIMIT):
-        _post(client, f"ghost-{number}", REMOTE_ADDR=PUBLIC_ADDRESS)
+        post_login(client, f"ghost-{number}", REMOTE_ADDR=PUBLIC_ADDRESS)
 
     with mock.patch("accounts.views.authenticate") as authenticate:
-        response = _post(client, "crew", PASSWORD, REMOTE_ADDR=PUBLIC_ADDRESS)
+        response = post_login(client, "crew", PASSWORD, REMOTE_ADDR=PUBLIC_ADDRESS)
 
     authenticate.assert_not_called()
     assert response.status_code == 200
@@ -151,9 +140,9 @@ def test_a_username_flood_from_one_address_stops_before_any_hashing(client, user
 def test_an_address_flood_does_not_block_other_addresses(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
     for number in range(throttle.LOGIN_SOURCE_LIMIT):
-        _post(client, f"ghost-{number}", REMOTE_ADDR=PUBLIC_ADDRESS)
+        post_login(client, f"ghost-{number}", REMOTE_ADDR=PUBLIC_ADDRESS)
 
-    response = _post(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
+    response = post_login(client, "crew", PASSWORD, REMOTE_ADDR="203.0.113.250")
 
     assert response.status_code == 302
 
@@ -162,10 +151,10 @@ def test_an_address_flood_does_not_block_other_addresses(client, user_factory):
 def test_a_pair_that_is_blocked_runs_no_password_hash(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
     for _ in range(throttle.LOGIN_PAIR_LIMIT):
-        _post(client, "crew")
+        post_login(client, "crew")
 
     with mock.patch("accounts.views.authenticate") as authenticate:
-        response = _post(client, "crew", PASSWORD)
+        response = post_login(client, "crew", PASSWORD)
 
     authenticate.assert_not_called()
     assert GENERIC_ERROR in response.content.decode()
@@ -174,10 +163,10 @@ def test_a_pair_that_is_blocked_runs_no_password_hash(client, user_factory):
 @pytest.mark.django_db
 def test_blocked_and_wrong_password_responses_are_identical(client, user_factory):
     user_factory(username="crew", password=PASSWORD)
-    wrong = _post(client, "crew")
+    wrong = post_login(client, "crew")
     for _ in range(throttle.LOGIN_PAIR_LIMIT):
-        _post(client, "crew")
-    blocked = _post(client, "crew", PASSWORD)
+        post_login(client, "crew")
+    blocked = post_login(client, "crew", PASSWORD)
 
     assert wrong.context["form"].non_field_errors() == blocked.context["form"].non_field_errors()
     assert blocked.context["form"].errors.keys() == wrong.context["form"].errors.keys()
@@ -193,8 +182,8 @@ def test_oversized_credentials_are_a_generic_failure_without_hashing(client, use
     with mock.patch("accounts.views.authenticate") as authenticate, caplog.at_level(
         logging.INFO, logger="accounts.audit"
     ):
-        long_name = _post(client, "x" * 10_000)
-        long_password = _post(client, "crew", "p" * 5_000)
+        long_name = post_login(client, "x" * 10_000)
+        long_password = post_login(client, "crew", "p" * 5_000)
 
     authenticate.assert_not_called()
     for response in (long_name, long_password):
