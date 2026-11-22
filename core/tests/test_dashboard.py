@@ -267,7 +267,7 @@ def test_character_selection_offers_a_new_character_tile(client, owner, characte
 
     content = client.get(reverse("dashboard")).content.decode()
 
-    create_url = f'{reverse("sheets:character_list")}#create-character'
+    create_url = f'{reverse("sheets:character_list")}?alle=1#create-character'
     assert f'class="bridge-crew-new" href="{create_url}"' in content
     assert "Neuer Charakter" in content
     assert "Ersten Charakter erstellen" not in content
@@ -280,7 +280,7 @@ def test_character_selection_empty_state(client, owner, other_user, character_fa
     content = client.get(reverse("dashboard")).content.decode()
 
     assert "Noch keine Charaktere vorhanden." in content
-    create_url = f'{reverse("sheets:character_list")}#create-character'
+    create_url = f'{reverse("sheets:character_list")}?alle=1#create-character'
     assert f'href="{create_url}">Ersten Charakter erstellen</a>' in content
     assert "bridge-crew-tile" not in content
     assert "Not Mine" not in content

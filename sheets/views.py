@@ -14,6 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views import View
 
 from core.mixins import PortalAdminRequiredMixin
@@ -33,6 +34,7 @@ from .services import (
     get_ship_for_view,
     patch_character_field,
     patch_ship_field,
+    set_character_favorite,
 )
 
 #: How many audit rows the ship history list shows per page.
@@ -43,15 +45,30 @@ SHIP_HISTORY_PAGE_SIZE = 50
 #: ``read_only``.
 DETAIL_TEMPLATE_NAME = "sheets/character_detail.html"
 
+#: ``GET /characters/`` opens the caller's favourite straight away; with this
+#: query parameter it shows the list instead (``?alle=1``).
+SHOW_ALL_PARAM = "alle"
+
+
+def character_list_all_url() -> str:
+    """The character list that never jumps to the favourite."""
+    return f"{reverse('sheets:character_list')}?{SHOW_ALL_PARAM}=1"
+
 
 class CharacterListCreateView(LoginRequiredMixin, View):
-    """``GET/POST /characters/`` -- list the caller's own characters, create a new one."""
+    """``GET/POST /characters/`` -- list the caller's own characters, create a new one.
+
+    A plain ``GET`` redirects to the caller's favourite character, if one is
+    marked; ``?alle=1`` (:data:`SHOW_ALL_PARAM`) always shows the list.
+    """
 
     template_name = "sheets/character_list.html"
 
     def _render(self, request, form):
         characters = (
-            characters_owned_by(request.user).defer("field_versions").order_by("display_name")
+            characters_owned_by(request.user)
+            .defer("field_versions")
+            .order_by("-is_favorite", "display_name")
         )
         return render(
             request,
@@ -63,6 +80,15 @@ class CharacterListCreateView(LoginRequiredMixin, View):
         )
 
     def get(self, request):
+        if SHOW_ALL_PARAM not in request.GET:
+            favorite_pk = (
+                characters_owned_by(request.user)
+                .filter(is_favorite=True)
+                .values_list("pk", flat=True)
+                .first()
+            )
+            if favorite_pk is not None:
+                return redirect("sheets:character_detail", pk=favorite_pk)
         return self._render(request, CharacterCreateForm())
 
     def post(self, request):
@@ -219,7 +245,28 @@ class CharacterDeleteView(LoginRequiredMixin, View):
     def post(self, request, pk):
         character = get_object_or_404(characters_owned_by(request.user), pk=pk)
         delete_character(sheet_id=character.pk, actor=request.user)
-        return redirect("sheets:character_list")
+        return redirect(character_list_all_url())
+
+
+class CharacterFavoriteView(LoginRequiredMixin, View):
+    """``POST /characters/<uuid>/favorite/`` -- mark or unmark the favourite.
+
+    ``favorite=1`` marks the character (clearing the owner's previous
+    favourite), anything else clears it. ``return_to=list`` goes back to the
+    character list, otherwise to the character's sheet. Owner-scoped like
+    every other route here: someone else's character is a 404.
+    """
+
+    def post(self, request, pk):
+        try:
+            set_character_favorite(
+                sheet_id=pk, actor=request.user, favorite=request.POST.get("favorite") == "1"
+            )
+        except SheetNotFound as exc:
+            raise Http404("Character not found") from exc
+        if request.POST.get("return_to") == "list":
+            return redirect(character_list_all_url())
+        return redirect("sheets:character_detail", pk=pk)
 
 
 class AdminCharacterListView(PortalAdminRequiredMixin, View):

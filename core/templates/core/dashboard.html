@@ -30,7 +30,7 @@
       <div class="bridge-band-head">
         <h2 class="library-band-heading" id="bridge-crew-heading">Charakterauswahl</h2>
         {% if character_tiles %}
-          <a class="bridge-band-link" href="{% url 'sheets:character_list' %}">Alle Charaktere</a>
+          <a class="bridge-band-link" href="{% url 'sheets:character_list' %}?alle=1">Alle Charaktere</a>
         {% endif %}
       </div>
 
@@ -86,7 +86,7 @@
             </li>
           {% endfor %}
           <li class="bridge-crew-new-slot">
-            <a class="bridge-crew-new" href="{% url 'sheets:character_list' %}#create-character">
+            <a class="bridge-crew-new" href="{% url 'sheets:character_list' %}?alle=1#create-character">
               <span class="bridge-crew-new-mark" aria-hidden="true">+</span>
               <span class="bridge-crew-new-title">Neuer Charakter</span>
               <span class="bridge-crew-new-note">Ein Name gen&uuml;gt &ndash; alles Weitere tr&auml;gst du im Bogen ein.</span>
@@ -97,7 +97,7 @@
         <div class="crew-empty">
           <p class="crew-empty-title">Noch keine Charaktere vorhanden.</p>
           <p>Deine Crew ist noch leer. Ein Name gen&uuml;gt, alles Weitere tr&auml;gst du im Bogen ein.</p>
-          <a class="button button-primary bridge-crew-empty-action" href="{% url 'sheets:character_list' %}#create-character">Ersten Charakter erstellen</a>
+          <a class="button button-primary bridge-crew-empty-action" href="{% url 'sheets:character_list' %}?alle=1#create-character">Ersten Charakter erstellen</a>
         </div>
       {% endif %}
     </section>

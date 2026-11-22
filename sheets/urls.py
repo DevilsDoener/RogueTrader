@@ -13,6 +13,11 @@ urlpatterns = [
         name="character_field_update",
     ),
     path(
+        "characters/<uuid:pk>/favorite/",
+        views.CharacterFavoriteView.as_view(),
+        name="character_favorite",
+    ),
+    path(
         "characters/<uuid:pk>/delete/",
         views.CharacterDeleteView.as_view(),
         name="character_delete",

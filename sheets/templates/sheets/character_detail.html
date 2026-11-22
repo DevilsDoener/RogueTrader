@@ -9,9 +9,14 @@
 
 {% block content %}
   <div class="sheet-page-header">
-    <h1>{{ character.display_name|default:"Charakter" }}</h1>
+    <div class="sheet-page-title">
+      <h1>{{ character.display_name|default:"Charakter" }}</h1>
+      {% if not read_only %}
+        {% include "sheets/_favorite_button.html" with favorite_pk=character.pk favorite_on=character.is_favorite %}
+      {% endif %}
+    </div>
     {% if not read_only %}
-      <a href="{% url 'sheets:character_list' %}">&larr; Zur&uuml;ck zu deinen Charakteren</a>
+      <a href="{% url 'sheets:character_list' %}?alle=1">&larr; Alle Charaktere</a>
     {% else %}
       <a href="{% url 'sheets:admin_character_list' %}">&larr; Zur&uuml;ck zu allen Charakteren</a>
     {% endif %}

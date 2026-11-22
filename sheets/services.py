@@ -33,6 +33,7 @@ __all__ = [
     "get_ship_for_view",
     "get_active_ship",
     "delete_character",
+    "set_character_favorite",
 ]
 
 #: Updating this field also keeps CharacterSheet.display_name in sync so it
@@ -363,3 +364,29 @@ def delete_character(*, sheet_id: uuid.UUID, actor) -> None:
         raise SheetNotFound(f"No character sheet {sheet_id}")
 
     sheet.delete()
+
+
+@transaction.atomic
+def set_character_favorite(*, sheet_id: uuid.UUID, actor, favorite: bool) -> None:
+    """Make a character its owner's favourite, or clear that mark.
+
+    Only the owner may change it (anyone else gets :class:`SheetNotFound`, like
+    every other owner-scoped lookup). Marking a character clears the owner's
+    previous favourite first, so the "one favourite per owner" constraint holds.
+    Not a sheet field, so it writes no :class:`~sheets.models.SheetChange`.
+    """
+    try:
+        sheet = CharacterSheet.objects.select_for_update().get(pk=sheet_id)
+    except CharacterSheet.DoesNotExist as exc:
+        raise SheetNotFound(f"No character sheet {sheet_id}") from exc
+
+    if not can_mutate_character(actor, sheet):
+        raise SheetNotFound(f"No character sheet {sheet_id}")
+
+    if favorite:
+        CharacterSheet.objects.filter(owner_id=sheet.owner_id, is_favorite=True).exclude(
+            pk=sheet.pk
+        ).update(is_favorite=False)
+    # update() rather than save(): the mark is not a sheet edit, so it must not
+    # bump the auto_now updated_at ("zuletzt bearbeitet").
+    CharacterSheet.objects.filter(pk=sheet.pk).update(is_favorite=favorite)

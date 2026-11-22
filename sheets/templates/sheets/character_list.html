@@ -26,6 +26,7 @@
               <p class="crew-card-meta">{{ card.subtitle|join:" · " }}</p>
             {% endif %}
           </div>
+          {% include "sheets/_favorite_button.html" with favorite_pk=card.pk favorite_on=card.is_favorite return_to="list" %}
         </header>
 
         {% if card.has_characteristics %}

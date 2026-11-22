@@ -23,8 +23,21 @@ class CharacterSheet(models.Model):
     values = models.JSONField(default=dict)
     field_versions = models.JSONField(default=dict)
     version = models.PositiveBigIntegerField(default=0)
+    #: The owner's favourite opens straight away from the Charaktere tab. At
+    #: most one per owner (``one_favorite_character_per_owner``); set and
+    #: cleared only through ``sheets.services.set_character_favorite``.
+    is_favorite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["owner"],
+                condition=models.Q(is_favorite=True),
+                name="one_favorite_character_per_owner",
+            )
+        ]
 
     def __str__(self) -> str:  # pragma: no cover - trivial
         return self.display_name or str(self.id)

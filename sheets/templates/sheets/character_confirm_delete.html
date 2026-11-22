@@ -9,5 +9,5 @@
     {% csrf_token %}
     <button type="submit" class="button button-danger">L&ouml;schen best&auml;tigen</button>
   </form>
-  <a href="{% url 'sheets:character_list' %}">Abbrechen</a>
+  <a href="{% url 'sheets:character_detail' character.pk %}">Abbrechen</a>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% comment %}Star toggle for one character (sheets.views.CharacterFavoriteView).
+   Context: `favorite_pk`, `favorite_on` (bool), optional `return_to` ("list").
+   A plain POST form, so it works without JavaScript and keeps the CSP.{% endcomment %}
+<form method="post" action="{% url 'sheets:character_favorite' favorite_pk %}" class="favorite-form">
+  {% csrf_token %}
+  <input type="hidden" name="favorite" value="{% if favorite_on %}0{% else %}1{% endif %}">
+  {% if return_to %}<input type="hidden" name="return_to" value="{{ return_to }}">{% endif %}
+  <button type="submit"
+          class="favorite-button{% if favorite_on %} is-favorite{% endif %}"
+          aria-pressed="{% if favorite_on %}true{% else %}false{% endif %}"
+          title="{% if favorite_on %}Favorit entfernen{% else %}Als Favorit markieren &ndash; &ouml;ffnet sich beim Klick auf &bdquo;Charaktere&ldquo;{% endif %}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <span class="sr-only">Favorit</span>
+  </button>
+</form>

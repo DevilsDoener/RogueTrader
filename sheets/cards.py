@@ -98,4 +98,5 @@ def character_card(
         "has_characteristics": any(c["value"] for c in characteristics),
         "stats": stats,
         "updated_at": character.updated_at,
+        "is_favorite": character.is_favorite,
     }
