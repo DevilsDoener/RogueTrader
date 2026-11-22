@@ -37,6 +37,7 @@ Hinweis am Dateianfang. Dazu gehören:
 | Berechnete Bewegungsfelder | `docs/movement-calculation.md` |
 | Zuordnung der Fertigkeitskästchen (gelöst, Migration 0007) | `docs/checkbox-row-mapping.md` |
 | Wiki-Kapitel: Liste, Reihenfolge, Slug, Gruppierung | `wiki/manifest.py` |
+| Charakter-Netzwerk (Figuren, Verbindungen, Sichtbarkeit) | `docs/charakter-netzwerk.md` |
 | Betrieb, Deployment, Backup, Kontowiederherstellung, Sicherheits-Header, Login-Schutz | `docs/operations.md` |
 | Einrichtung, CI (Abschnitt „CI“), Abnahmeliste, Projektüberblick | `README.md` |
 | Regelwerk-Wissensbasis (`content/`) | `00-FORTSCHRITT.md` |
@@ -99,7 +100,7 @@ Bei Layoutänderungen zusätzlich:
 ```
 
 Ein `PostToolUse`-Hook startet nach jeder Python-Änderung unter `accounts/`,
-`core/`, `sheets/` oder `wiki/` automatisch die Tests der betroffenen App.
+`core/`, `sheets/`, `wiki/` oder `network/` automatisch die Tests der betroffenen App.
 Migrationen, `.venv/`, `.worktrees/`, `tmp/`, `staticfiles/` und `graphify-out/`
 lösen ihn nicht aus.
 

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Netzwerk &ndash; Rogue Trader Portal{% endblock %}
+{% block body_class %}page-network{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'vendor/vis-network/vis-network.min.css' %}">
+{% endblock %}
+
+{% block content %}
+  <header class="library-hero network-hero">
+    <span class="library-eyebrow">Kampagnengedächtnis</span>
+    <h1>Netzwerk</h1>
+    <p class="library-intro">Eure Hauptcharaktere und alle Figuren, denen ihr begegnet seid &ndash; mit ihren Verbindungen. Jeder sieht und pflegt das Netzwerk; jede &Auml;nderung steht im Verlauf.</p>
+    <div class="page-actions">
+      <a class="button button-primary" href="{% url 'network:figure_create' %}">Neue Figur</a>
+      <a class="button" href="{% url 'network:link_create' %}">Neue Verbindung</a>
+      <a class="button link-button" href="{% url 'network:history' %}">Verlauf</a>
+    </div>
+  </header>
+
+  {% comment %}Drawn by static/js/network-graph.js from graph.json with the
+     vendored vis-network (static/vendor/vis-network). The list below is the
+     same content without JavaScript.{% endcomment %}
+  <section class="network-stage js-only" aria-label="Netzwerk-Graph">
+    <div class="network-canvas" id="network-canvas"
+         data-graph-url="{% url 'network:graph_data' %}"
+         data-create-url="{% url 'network:figure_create' %}"></div>
+    <aside class="network-panel" id="network-panel" aria-live="polite">
+      <p class="network-panel-hint">Klicke auf eine Figur, um Details zu sehen. Ziehen verschiebt, Mausrad zoomt.</p>
+    </aside>
+    <ul class="network-legend" id="network-legend" aria-label="Legende"></ul>
+  </section>
+
+  <section class="network-lists" aria-labelledby="network-list-heading">
+    <h2 class="library-band-heading" id="network-list-heading">Alle Figuren</h2>
+    {% if main_characters %}
+      <h3 class="network-list-title">Hauptcharaktere</h3>
+      <ul class="network-list">
+        {% for character in main_characters %}
+          <li class="network-list-main">
+            <span class="network-dot is-main" aria-hidden="true"></span>
+            {% if character.owner_id == user.id %}
+              <a href="{% url 'sheets:character_detail' character.pk %}">{{ character.display_name|default:"Unbenannter Charakter" }}</a>
+            {% else %}
+              {{ character.display_name|default:"Unbenannter Charakter" }}
+            {% endif %}
+            <span class="network-list-meta">{{ character.owner.username }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="network-empty">Noch keine Hauptcharaktere &ndash; markiere deinen Charakter mit dem Stern als Favorit, dann erscheint er hier.</p>
+    {% endif %}
+
+    <h3 class="network-list-title">Nebenfiguren</h3>
+    {% if figures %}
+      <ul class="network-list">
+        {% for figure in figures %}
+          <li>
+            <a href="{% url 'network:figure_detail' figure.pk %}">{{ figure.name }}</a>
+            {% if figure.faction %}<span class="network-list-meta">{{ figure.faction }}</span>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="network-empty">Noch keine Figuren. Leg die erste an, die euch begegnet ist.</p>
+    {% endif %}
+  </section>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'vendor/vis-network/vis-data.min.js' %}" defer></script>
+  <script src="{% static 'vendor/vis-network/vis-network.min.js' %}" defer></script>
+  <script src="{% static 'js/network-graph.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% comment %}One form field: label above, then the input, help text and errors.{% endcomment %}
+<div class="network-field{% if field.errors %} has-error{% endif %}">
+  <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="network-required" aria-hidden="true">*</span>{% endif %}</label>
+  {{ field }}
+  {% if field.help_text %}<p class="network-help" id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
+  {{ field.errors }}
+</div>

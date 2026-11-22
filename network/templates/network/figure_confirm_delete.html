@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ figure.name }} l&ouml;schen &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>{{ figure.name }} l&ouml;schen?</h1>
+  <p>Die Figur{% if link_count %} und ihre {{ link_count }} Verbindung{{ link_count|pluralize:"en" }}{% endif %} verschwinden aus dem Netzwerk. Der Verlauf beh&auml;lt einen Eintrag.</p>
+  <form method="post" class="page-actions">
+    {% csrf_token %}
+    <button type="submit" class="button button-danger">L&ouml;schen best&auml;tigen</button>
+  </form>
+  <a href="{% url 'network:figure_detail' figure.pk %}">Abbrechen</a>
+{% endblock %}

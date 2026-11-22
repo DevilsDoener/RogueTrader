@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Neue Verbindung &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>Neue Verbindung</h1>
+    <a href="{% url 'network:graph' %}">&larr; Zum Netzwerk</a>
+  </div>
+  <form method="post" class="network-form" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% include "network/_field.html" with field=form.source %}
+    {% include "network/_field.html" with field=form.relation %}
+    {% include "network/_field.html" with field=form.target %}
+    <p class="network-help">Liest sich von &bdquo;Von&ldquo; zu &bdquo;Zu&ldquo;, z.&nbsp;B. Kara &rarr; Schwester von &rarr; Elias.</p>
+    <div class="page-actions">
+      <button type="submit" class="button-primary">Verbinden</button>
+    </div>
+  </form>
+{% endblock %}

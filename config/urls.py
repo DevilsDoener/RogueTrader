@@ -6,4 +6,5 @@ urlpatterns = [
     path('', include('core.urls')),
     path('', include('sheets.urls')),
     path('', include('wiki.urls')),
+    path('', include('network.urls')),
 ]

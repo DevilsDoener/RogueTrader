@@ -1246,8 +1246,53 @@ mark {
 
 /* On a chapter page "Wiki" is the open branch rather than the current page:
    gold text, but no highlight bar -- that belongs to the chapter. */
-.primary-nav a:has(+ .primary-nav-sub [aria-current="page"]) {
+.primary-nav-wiki:has(.primary-nav-sub [aria-current="page"]) > a {
   color: var(--rt-gold-bright);
+}
+
+/* The chapter tree folds under "Wiki" (closed by default). The chevron sits
+   on the right of the "Wiki" row; the link keeps the rest of the row. */
+.primary-nav-wiki {
+  position: relative;
+}
+
+.primary-nav-wiki > a {
+  padding-right: 3rem;
+}
+
+.primary-nav-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--rt-radius);
+  color: var(--rt-text-muted);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--rt-transition-fast), background var(--rt-transition-fast);
+}
+
+.primary-nav-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.primary-nav-toggle:hover {
+  background: var(--rt-panel-raised);
+  color: var(--rt-gold-bright);
+}
+
+.primary-nav-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform var(--rt-transition-fast);
+}
+
+.primary-nav-chapters[open] > .primary-nav-toggle svg {
+  transform: rotate(180deg);
 }
 
 /* Without bullets (see `.wiki-section-nav ul` above) the top level needs no
@@ -2917,4 +2962,325 @@ button[type="submit"].favorite-button.is-favorite {
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
   font-size: 0.85rem;
+}
+
+/* ---------------------------------------------------------------------
+   Netzwerk (network/): the campaign graph, its side panel and the figure
+   pages. The graph itself is drawn by static/js/network-graph.js.
+   --------------------------------------------------------------------- */
+
+.page-network .content {
+  max-width: none;
+}
+
+.network-hero .page-actions {
+  margin-top: 1.5rem;
+}
+
+.network-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.network-canvas {
+  position: relative;
+  min-height: 34rem;
+  height: 68vh;
+  background: var(--rt-bg-elevated);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+  overflow: hidden;
+}
+
+.network-canvas-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 2rem;
+  color: var(--rt-text-muted);
+  text-align: center;
+}
+
+.network-panel {
+  align-self: start;
+  max-height: 68vh;
+  overflow-y: auto;
+  padding: 1.25rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+}
+
+.network-panel-hint {
+  margin: 0;
+  color: var(--rt-text-muted);
+  font-size: 0.9rem;
+}
+
+.network-panel-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.35rem;
+}
+
+.network-panel-kind {
+  margin: 0 0 1rem;
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.75rem;
+}
+
+.network-panel-description,
+.network-description {
+  margin: 0 0 1rem;
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.network-panel-links {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid var(--rt-border);
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.network-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.network-legend {
+  grid-column: 1 / -1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  color: var(--rt-text-muted);
+  font-size: 0.85rem;
+}
+
+.network-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.network-dot {
+  display: inline-block;
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--rt-text-muted);
+}
+
+.network-dot.is-main {
+  width: 1rem;
+  height: 1rem;
+  background: var(--rt-gold);
+  box-shadow: inset 0 0 0 2px var(--rt-gold-bright);
+}
+
+.network-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0 0 1rem;
+}
+
+.network-facts dt {
+  color: var(--rt-text-muted);
+  font-size: 0.8rem;
+}
+
+.network-facts dd {
+  margin: 0.1rem 0 0;
+}
+
+.network-lists {
+  max-width: 60rem;
+}
+
+.network-list-title {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.network-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0.25rem 1.5rem;
+}
+
+.network-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+}
+
+.network-list-meta,
+.network-meta {
+  color: var(--rt-text-muted);
+  font-family: var(--rt-font-mono);
+  font-size: 0.75rem;
+}
+
+.network-empty {
+  color: var(--rt-text-muted);
+}
+
+.network-detail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.network-card {
+  padding: 1.5rem;
+  background: var(--rt-panel);
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+}
+
+.network-card-title {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+
+.network-card-subtitle {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1rem;
+}
+
+.network-connections {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.network-connections li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+  border-bottom: 1px solid var(--rt-border);
+}
+
+.network-direction {
+  flex: none;
+  width: 1.25rem;
+  color: var(--rt-gold);
+  text-align: center;
+}
+
+.network-connection-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.network-inline-form {
+  margin: 0;
+}
+
+button[type="submit"].network-remove {
+  min-height: 2rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.network-form {
+  display: grid;
+  gap: 1rem;
+  max-width: 40rem;
+}
+
+.network-link-add {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rt-border);
+}
+
+.network-field {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.network-field label {
+  margin: 0;
+}
+
+.network-field input,
+.network-field select,
+.network-field textarea {
+  width: 100%;
+  min-width: 0;
+}
+
+.network-field .errorlist {
+  margin: 0;
+}
+
+.network-field.has-error input,
+.network-field.has-error select {
+  border-color: var(--rt-danger-bright);
+}
+
+.network-required,
+.network-required-note span {
+  color: var(--rt-gold-bright);
+}
+
+.network-required-note,
+.network-help {
+  margin: 0;
+  color: var(--rt-text-muted);
+  font-size: 0.85rem;
+}
+
+.network-connection {
+  display: grid;
+  gap: 1rem;
+  margin: 0.5rem 0 0;
+  padding: 1rem 1.25rem 1.25rem;
+  border: 1px solid var(--rt-border);
+  border-radius: var(--rt-radius-lg);
+}
+
+.network-connection legend {
+  padding: 0 0.4rem;
+  color: var(--rt-text-muted);
+  font-size: 0.9rem;
+}
+
+.network-history-details {
+  color: var(--rt-text-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 1100px) {
+  .network-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .network-panel {
+    max-height: none;
+  }
 }

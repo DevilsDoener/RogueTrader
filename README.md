@@ -271,8 +271,8 @@ Invoke-RestMethod http://127.0.0.1:8000/healthz/
 docker compose logs --no-color portal
 ```
 
-Per-app suites live in `accounts/tests/`, `core/tests/`, `sheets/tests/` and
-`wiki/tests/`; the browser tests live in `tests/e2e/` and their latest
+Per-app suites live in `accounts/tests/`, `core/tests/`, `sheets/tests/`,
+`wiki/tests/` and `network/tests/`; the browser tests live in `tests/e2e/` and their latest
 captured renders in `tests/visual/`. Run the app you touched while iterating and the
 full suite before a build, a push, or calling the work done.
 

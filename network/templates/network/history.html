@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Verlauf: Netzwerk &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>Verlauf: Netzwerk</h1>
+    <a href="{% url 'network:graph' %}">&larr; Zum Netzwerk</a>
+  </div>
+
+  <div class="table-scroll">
+    <table class="data-table" id="network-history-table">
+      <thead>
+        <tr>
+          <th>Zeitpunkt</th>
+          <th>Nutzer</th>
+          <th>&Auml;nderung</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for change in page_obj %}
+          <tr>
+            <td>{{ change.changed_at|date:'d.m.Y H:i' }}</td>
+            <td>{{ change.actor.username|default:"—" }}</td>
+            <td>{{ change.get_subject_display }} {{ change.get_action_display }}: {{ change.label }}</td>
+            <td class="network-history-details">{{ change.details|linebreaksbr }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Keine &Auml;nderungen bisher.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="ship-history-pagination" aria-label="Seiten">
+      {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">Vorherige</a>{% endif %}
+      <span>Seite {{ page_obj.number }} von {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">N&auml;chste</a>{% endif %}
+    </nav>
+  {% endif %}
+{% endblock %}

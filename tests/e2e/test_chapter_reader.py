@@ -143,7 +143,20 @@ def test_the_current_chapter_is_marked_in_the_chapter_tree(
 
     assert current.count() == 1
     assert current.get_attribute("href") == "/wiki/talents/"
-    assert page.is_visible('#primary-nav .primary-nav-sub a[href="/wiki/armoury/"]')
+
+
+def test_the_chapter_tree_starts_folded_and_remembers_being_opened(
+    page, live_server, owner, real_corpus
+):
+    _open_chapter(page, live_server, owner, "/wiki/talents/")
+    armoury = '#primary-nav .primary-nav-sub a[href="/wiki/armoury/"]'
+    assert not page.is_visible(armoury)
+
+    page.click("#primary-nav .primary-nav-toggle")
+    assert page.is_visible(armoury)
+
+    page.goto(f"{live_server.url}/wiki/armoury/")
+    page.wait_for_selector(armoury, state="visible")
 
 
 def test_a_single_hit_is_counted_in_the_singular(page, live_server, owner, real_corpus):

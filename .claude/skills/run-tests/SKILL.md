@@ -27,6 +27,7 @@ If `$ARGUMENTS` is empty, run the full suite:
 | Core (dashboard, health, settings, Auspex shell) | `core/tests` |
 | Sheets (schema, layout, calibration, patch service) | `sheets/tests` |
 | Wiki (Markdown loading, search) | `wiki/tests` |
+| Netzwerk (figures, connections, graph JSON) | `network/tests` |
 | Browser end-to-end (Playwright/Chromium) | `tests/e2e` |
 | Visual regression | `tests/e2e/test_visual_regression.py` |
 | Container files (Dockerfile / compose pins) | `tests/test_container_files.py` |
@@ -61,7 +62,7 @@ reflowed. A finding that is intentional gets a targeted
   `.venv/Scripts/python.exe -m sheets.layout --check` -- it writes nothing
   and exits 1 on stale generated files, 2 on an invalid source.
 - A `PostToolUse` hook already runs the affected app's tests after any
-  Python edit under `accounts/`, `core/`, `sheets/` or `wiki/`.
+  Python edit under `accounts/`, `core/`, `sheets/`, `wiki/` or `network/`.
 - CI runs the same checks plus `manage.py check` and
   `manage.py makemigrations --check --dry-run` (README, section "CI").
 - Run from Git Bash or plain PowerShell, not WSL -- WSL cannot resolve this

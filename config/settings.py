@@ -240,6 +240,7 @@ INSTALLED_APPS = [
     'core',
     'sheets',
     'wiki',
+    'network',
 ]
 
 MIDDLEWARE = [

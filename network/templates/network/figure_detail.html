@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}{{ figure.name }} &ndash; Netzwerk &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>{{ figure.name }}</h1>
+    <a href="{% url 'network:graph' %}">&larr; Zum Netzwerk</a>
+  </div>
+
+  <div class="network-detail">
+    <section class="network-card" aria-labelledby="network-facts-heading">
+      <h2 class="sr-only" id="network-facts-heading">Angaben</h2>
+      <dl class="network-facts">
+        <div><dt>Fraktion</dt><dd>{{ figure.faction|default:"–" }}</dd></div>
+        <div><dt>Getroffen in</dt><dd>{{ figure.met_at|default:"–" }}</dd></div>
+      </dl>
+      {% if figure.description %}
+        <p class="network-description">{{ figure.description|linebreaksbr }}</p>
+      {% else %}
+        <p class="network-empty">Noch keine Beschreibung.</p>
+      {% endif %}
+      <p class="network-meta">Angelegt {{ figure.created_at|date:'d.m.Y' }}{% if figure.created_by %} von {{ figure.created_by.username }}{% endif %}</p>
+      <div class="page-actions">
+        <a class="button" href="{% url 'network:figure_edit' figure.pk %}">Bearbeiten</a>
+        <a class="button button-danger" href="{% url 'network:figure_delete' figure.pk %}">L&ouml;schen</a>
+      </div>
+    </section>
+
+    <section class="network-card" aria-labelledby="network-links-heading">
+      <h2 class="network-card-title" id="network-links-heading">Verbindungen</h2>
+      {% if connections %}
+        <ul class="network-connections">
+          {% for row in connections %}
+            <li>
+              <span class="network-direction" aria-hidden="true">{% if row.outgoing %}&rarr;{% else %}&larr;{% endif %}</span>
+              <span class="network-connection-text">
+                {% if row.outgoing %}
+                  {{ row.link.relation }}
+                  {% if row.other_figure %}<a href="{% url 'network:figure_detail' row.other_figure.pk %}">{{ row.other_label }}</a>{% else %}<strong>{{ row.other_label }}</strong>{% endif %}
+                {% else %}
+                  {% if row.other_figure %}<a href="{% url 'network:figure_detail' row.other_figure.pk %}">{{ row.other_label }}</a>{% else %}<strong>{{ row.other_label }}</strong>{% endif %}
+                  ist &bdquo;{{ row.link.relation }}&ldquo;
+                {% endif %}
+              </span>
+              <form method="post" action="{% url 'network:link_delete' row.link.pk %}" class="network-inline-form">
+                {% csrf_token %}
+                <input type="hidden" name="figure" value="{{ figure.pk }}">
+                <button type="submit" class="link-button network-remove" aria-label="Verbindung zu {{ row.other_label }} entfernen">Entfernen</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="network-empty">Noch keine Verbindungen.</p>
+      {% endif %}
+
+      <form method="post" action="{% url 'network:link_create' %}" class="network-form network-link-add" novalidate>
+        {% csrf_token %}
+        <h3 class="network-card-subtitle">Verbindung hinzuf&uuml;gen</h3>
+        {% include "network/_field.html" with field=link_form.source %}
+        {% include "network/_field.html" with field=link_form.relation %}
+        {% include "network/_field.html" with field=link_form.target %}
+        <div class="page-actions">
+          <button type="submit" class="button-primary">Verbinden</button>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock %}

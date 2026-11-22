@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_create %}Neue Figur{% else %}{{ figure.name }} bearbeiten{% endif %} &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <div class="sheet-page-header">
+    <h1>{% if is_create %}Neue Figur{% else %}{{ figure.name }} bearbeiten{% endif %}</h1>
+    {% if is_create %}
+      <a href="{% url 'network:graph' %}">&larr; Zum Netzwerk</a>
+    {% else %}
+      <a href="{% url 'network:figure_detail' figure.pk %}">&larr; Zur Figur</a>
+    {% endif %}
+  </div>
+
+  <form method="post" class="network-form" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% include "network/_field.html" with field=form.name %}
+    {% include "network/_field.html" with field=form.faction %}
+    <datalist id="network-factions">
+      {% for faction in factions %}<option value="{{ faction }}"></option>{% endfor %}
+    </datalist>
+    {% include "network/_field.html" with field=form.met_at %}
+    {% include "network/_field.html" with field=form.description %}
+    {% if is_create %}
+      <fieldset class="network-connection">
+        <legend>Verbindung (optional)</legend>
+        {% include "network/_field.html" with field=form.connect_to %}
+        {% include "network/_field.html" with field=form.relation %}
+      </fieldset>
+    {% endif %}
+    <p class="network-required-note"><span aria-hidden="true">*</span> Pflichtfeld</p>
+    <div class="page-actions">
+      <button type="submit" class="button-primary">{% if is_create %}Figur anlegen{% else %}Speichern{% endif %}</button>
+    </div>
+  </form>
+{% endblock %}

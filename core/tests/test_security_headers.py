@@ -5,6 +5,7 @@ with zero ``securitypolicyviolation`` events -- is ``tests/e2e/test_csp.py``.
 These tests pin the header itself and the templates/static files it relies on.
 """
 
+import hashlib
 import re
 from pathlib import Path
 
@@ -27,6 +28,22 @@ SKIPPED_DIRS = {
     "__pycache__",
 }
 SKIPPED_DIRS |= {".superpowers", ".claude", ".agents", ".codex", "docs", "content"}
+
+#: Third-party code shipped as-is (see its README). Its license comments name
+#: other origins, so the "no URL in our scripts" rule skips it; instead the
+#: files are pinned byte-for-byte and still checked for string evaluation.
+VENDOR_DIR = REPO_ROOT / "static" / "vendor"
+VENDORED_SHA256 = {
+    "vis-network/vis-data.min.js": (
+        "d8b143cd2f0dce0dd965ed288b4c81afa9f8d9198c637f0faafe5fedb1439ba6"
+    ),
+    "vis-network/vis-network.min.js": (
+        "06ce49495201e04fcab5ff3c8553fea23aeff7a1953ea2b737fcf28f36fe7fe5"
+    ),
+    "vis-network/vis-network.min.css": (
+        "09c5d2c8b0a8595d5aa3e5aeebb657fdda7c4b24c911c2e685628a8b7fa23cbe"
+    ),
+}
 
 
 def _directives(policy):
@@ -145,7 +162,22 @@ def test_no_script_evaluates_strings_or_names_another_origin():
     problems = [
         path.relative_to(REPO_ROOT).as_posix()
         for path in _project_files(".js")
-        if pattern.search(path.read_text(encoding="utf-8"))
+        if VENDOR_DIR not in path.parents and pattern.search(path.read_text(encoding="utf-8"))
     ]
 
     assert problems == []
+
+
+def test_vendored_files_are_the_pinned_ones_and_never_evaluate_strings():
+    shipped = {
+        path.relative_to(VENDOR_DIR).as_posix()
+        for path in VENDOR_DIR.rglob("*")
+        if path.suffix in {".js", ".css"}
+    }
+    assert shipped == set(VENDORED_SHA256)
+    for name, digest in VENDORED_SHA256.items():
+        assert hashlib.sha256((VENDOR_DIR / name).read_bytes()).hexdigest() == digest, name
+
+    evaluates = re.compile(r"\beval\s*\(|new\s+Function\s*\(|document\.write\s*\(")
+    for name in VENDORED_SHA256:
+        assert not evaluates.search((VENDOR_DIR / name).read_text(encoding="utf-8")), name

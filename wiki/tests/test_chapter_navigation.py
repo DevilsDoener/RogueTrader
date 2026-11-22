@@ -263,6 +263,14 @@ def test_the_primary_nav_lists_every_chapter_under_wiki(
 
 
 @pytest.mark.django_db
+def test_the_chapter_tree_is_folded_by_default(client, user_factory, three_chapters):
+    nav = _primary_nav(_get(client, user_factory, "two"))
+
+    assert '<details class="primary-nav-chapters" id="primary-nav-chapters">' in nav
+    assert 'class="primary-nav-toggle"' in nav
+
+
+@pytest.mark.django_db
 def test_only_the_current_chapter_is_the_current_page(
     client, user_factory, three_chapters
 ):

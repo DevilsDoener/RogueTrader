@@ -57,19 +57,28 @@
               Kommandobr&uuml;cke
             </a>
           </li>
-          <li>
+          <li class="primary-nav-wiki">
             {% comment %}On a chapter page the chapter's own sub-item carries
                aria-current, so the nav never has two current pages.{% endcomment %}
             <a href="{% url 'wiki:index' %}" {% if request.resolver_match.app_name == 'wiki' and request.resolver_match.url_name != 'chapter' %}aria-current="page"{% endif %}>
               Wiki
             </a>
             {% if wiki_nav_chapters %}
+              {% comment %}Folded by default; the chevron opens it. A plain
+                 <details> works without JavaScript; static/js/nav-chapters.js
+                 only remembers the open/closed choice across pages.{% endcomment %}
+              <details class="primary-nav-chapters" id="primary-nav-chapters">
+                <summary class="primary-nav-toggle" title="Kapitel ein-/ausklappen">
+                  <span class="sr-only">Kapitel</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
               <ul class="primary-nav-sub" aria-label="Kapitel">
                 {% for c in wiki_nav_chapters %}
                   {% ifchanged c.band %}<li class="primary-nav-band" role="presentation">{{ c.band }}</li>{% endifchanged %}
                   <li><a href="{% url 'wiki:chapter' c.slug %}" {% if chapter.slug == c.slug %}aria-current="page"{% endif %}><span class="primary-nav-numeral" aria-hidden="true">{% if c.numeral %}{% ifchanged c.numeral %}{{ c.numeral }}{% else %}&middot;{% endifchanged %}{% else %}&sect;{% endif %}</span><span>{{ c.short_title }}</span></a></li>
                 {% endfor %}
               </ul>
+              </details>
             {% endif %}
           </li>
           <li>
@@ -80,6 +89,11 @@
           <li>
             <a href="{% url 'sheets:ship_redirect' %}" {% if request.resolver_match.url_name|slice:':4' == 'ship' %}aria-current="page"{% endif %}>
               Schiff
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'network:graph' %}" {% if request.resolver_match.app_name == 'network' %}aria-current="page"{% endif %}>
+              Netzwerk
             </a>
           </li>
         </ul>
@@ -144,6 +158,7 @@
        (wiki-text.js: RTWikiText, wiki-recent.js: RTWikiRecent) must precede
        auspex.js and every page's extra_scripts (wiki-highlight.js,
        wiki-reader.js, wiki-library.js).{% endcomment %}
+    <script defer src="{% static 'js/nav-chapters.js' %}"></script>
     <script defer src="{% static 'js/wiki-text.js' %}"></script>
     <script defer src="{% static 'js/wiki-recent.js' %}"></script>
     <script defer src="{% static 'js/auspex.js' %}"></script>

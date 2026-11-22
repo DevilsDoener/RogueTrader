@@ -103,6 +103,12 @@ missing breakpoints as a bug when it is actually intentional scope.
 - **Shared ship sheet(s)**: every authenticated user may view and
   field-edit the shared ship sheet(s). Every field mutation is written to
   an append-only `SheetChange` audit log (actor, timestamp, old/new value).
+- **Netzwerk** (`network/`): every authenticated user may view and edit all
+  figures and connections; every write goes through `network/services.py`,
+  which logs it to `NetworkChange`. Main characters are each player's
+  favourite character -- the network exposes only their name and player
+  (never sheet `values`), and the sheet link only to its owner. Details:
+  `docs/charakter-netzwerk.md`.
 - Login is throttled by independent counters (username + source address,
   username, source address where it identifies a client, known device cookie;
   `accounts/throttle.py`, `accounts/devices.py`, rows in
