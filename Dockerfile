@@ -58,8 +58,7 @@ VOLUME ["/data"]
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD ["python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz/', timeout=3).status == 200 else 1)"]
 
-# Start: remove expired login sessions once (the backup service mounts the
-# data volume read-only and cannot), rotate the audit log once (the workers
+# Start: remove expired login sessions once, rotate the audit log once (the workers
 # only append to it; in-process rotation is not safe across processes), then
 # become gunicorn (exec: it is PID 1 and receives docker's SIGTERM). A failing
 # clearsessions -- e.g. before the first migrate -- or rotate_audit_log must

@@ -9,11 +9,11 @@ class AuditFileHandler(WatchedFileHandler):
     """An append-only log file that is only touched when a record arrives.
 
     ``config/settings.py`` builds the logging config in every process that
-    loads the settings -- including the backup container, which mounts the
-    data volume read-only and never writes an audit record. Creating the
-    directory and opening the file lazily (and tolerating a failure, which
-    ``logging`` reports on stderr without raising) keeps those processes, and
-    the test suite, from needing a writable log directory.
+    loads the settings -- including one-off management commands that never
+    write an audit record. Creating the directory and opening the file lazily
+    (and tolerating a failure, which ``logging`` reports on stderr without
+    raising) keeps those processes, and the test suite, from needing a
+    writable log directory.
 
     The handler never rotates. gunicorn runs several worker processes that all
     append to this file, and in-process rotation is not safe across processes.

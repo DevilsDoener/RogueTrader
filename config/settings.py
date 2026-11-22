@@ -293,9 +293,8 @@ DATABASES = {
     }
 }
 
-# Daily SQLite backups (``manage.py backup_db``, see docs/operations.md). The
-# default sits next to the database; compose.yaml points it at a host bind
-# mount so backups survive the loss of the data volume.
+# SQLite backups made by hand (``manage.py backup_db``, see docs/operations.md).
+# The default sits next to the database.
 BACKUP_DIR = Path(
     os.environ.get("BACKUP_DIR") or Path(str(DATABASES["default"]["NAME"])).parent / "backups"
 )
