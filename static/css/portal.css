@@ -354,6 +354,83 @@ label {
   margin: 0;
 }
 
+/* A confirmation after a successful admin action (Django messages, level
+   "success"); errors keep the .errorlist look above. */
+.notice {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(in srgb, var(--rt-gold) 12%, transparent);
+  border: 1px solid var(--rt-gold-dim);
+  border-radius: var(--rt-radius);
+  color: var(--rt-text);
+  font-size: 0.9rem;
+}
+
+.account-delete-list {
+  margin: 0 0 1rem;
+}
+
+.account-delete-note {
+  color: var(--rt-text-muted);
+  font-size: 0.9rem;
+}
+
+/* Portal-Konten overview (accounts/user_list.html). */
+/* Row headers (the username) read like a normal cell, not like the column
+   header row of .data-table. */
+.account-table th[scope="row"] {
+  background: transparent;
+  color: var(--rt-text);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.account-table tr.is-inactive th,
+.account-table tr.is-inactive td {
+  color: var(--rt-text-muted);
+}
+
+.account-you,
+.account-muted {
+  color: var(--rt-text-muted);
+}
+
+.account-badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--rt-border-strong);
+  border-radius: var(--rt-radius);
+  font-family: var(--rt-font-mono);
+  font-size: 0.75rem;
+}
+
+.account-badge.is-admin {
+  border-color: var(--rt-gold-dim);
+  color: var(--rt-gold-bright);
+}
+
+.account-warning {
+  color: var(--rt-gold-bright);
+}
+
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.account-actions form {
+  margin: 0;
+}
+
+.account-actions .button {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.9rem;
+}
+
 .errorlist li + li {
   margin-top: 0.25rem;
 }

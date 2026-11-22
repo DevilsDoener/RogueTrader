@@ -18,6 +18,7 @@ ADMIN_ROUTES = [
     ("accounts:admin_user_deactivate", {"pk": 1}),
     ("accounts:admin_user_reactivate", {"pk": 1}),
     ("accounts:admin_user_reset_password", {"pk": 1}),
+    ("accounts:admin_user_delete", {"pk": 1}),
 ]
 
 
@@ -491,3 +492,28 @@ def test_account_forms_are_german(client, portal_admin, user_factory):
     # Django's own messages follow LANGUAGE_CODE.
     assert blank.context["form"].errors["username"] == ["Dieses Feld ist zwingend erforderlich."]
 
+
+
+@pytest.mark.django_db
+def test_overview_shows_role_last_login_and_password_status(
+    client, portal_admin, user_factory
+):
+    from datetime import UTC, datetime
+
+    seen = user_factory(username="gesehen")
+    seen.last_login = datetime(2026, 11, 20, 18, 30, tzinfo=UTC)
+    seen.save()
+    user_factory(username="neuling", must_change_password=True)
+    client.force_login(portal_admin)
+
+    html = client.get(reverse("accounts:admin_user_list")).content.decode()
+
+    assert '<table class="data-table account-table" id="account-table">' in html
+    assert '<span class="account-badge is-admin">Admin</span>' in html
+    assert '<span class="account-badge">Spieler</span>' in html
+    assert 'datetime="2026-11-20T' in html  # shown in the portal's time zone
+    assert ">20.11.2026 " in html
+    assert "noch nie" in html
+    assert "Startpasswort &ndash; muss ge&auml;ndert werden" in html
+    assert "eigenes Passwort" in html
+    assert "(du)" in html

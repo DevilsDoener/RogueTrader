@@ -5,24 +5,74 @@
 {% block content %}
   <h1>Portal-Konten</h1>
   {% if messages %}
-    <ul class="errorlist">
-      {% for message in messages %}<li role="alert">{{ message }}</li>{% endfor %}
-    </ul>
+    {% for message in messages %}
+      {% if message.level_tag == "success" %}
+        <p class="notice" role="status">{{ message }}</p>
+      {% else %}
+        <ul class="errorlist"><li role="alert">{{ message }}</li></ul>
+      {% endif %}
+    {% endfor %}
   {% endif %}
   <div class="page-actions">
     <a class="button button-primary" href="{% url 'accounts:admin_user_create' %}">Konto anlegen</a>
   </div>
-  <ul class="plain-list">
-    {% for user in users %}
-      <li>
-        <span>{{ user.username }} &mdash; {% if user.is_active %}aktiv{% else %}inaktiv{% endif %}</span>
-        <a class="button link-button" href="{% url 'accounts:admin_user_edit' user.pk %}">Bearbeiten</a>
-        <a class="button link-button" href="{% url 'accounts:admin_user_reset_password' user.pk %}">Passwort zur&uuml;cksetzen</a>
-        <form method="post" action="{% if user.is_active %}{% url 'accounts:admin_user_deactivate' user.pk %}{% else %}{% url 'accounts:admin_user_reactivate' user.pk %}{% endif %}">
-          {% csrf_token %}
-          <button type="submit" class="button{% if user.is_active %} button-danger{% endif %}">{% if user.is_active %}Deaktivieren{% else %}Reaktivieren{% endif %}</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
+
+  <div class="table-scroll">
+    <table class="data-table account-table" id="account-table">
+      <thead>
+        <tr>
+          <th scope="col">Benutzername</th>
+          <th scope="col">Rolle</th>
+          <th scope="col">Status</th>
+          <th scope="col">Letzte Anmeldung</th>
+          <th scope="col">Passwort</th>
+          <th scope="col"><span class="sr-only">Aktionen</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr class="{% if not user.is_active %}is-inactive{% endif %}">
+            <th scope="row" class="account-name">
+              {{ user.username }}{% if user.pk == request.user.pk %} <span class="account-you">(du)</span>{% endif %}
+            </th>
+            <td>
+              {% if user.is_portal_admin %}
+                <span class="account-badge is-admin">Admin</span>
+              {% else %}
+                <span class="account-badge">Spieler</span>
+              {% endif %}
+            </td>
+            <td>{% if user.is_active %}aktiv{% else %}<span class="account-muted">inaktiv</span>{% endif %}</td>
+            <td>
+              {% if user.last_login %}
+                <time datetime="{{ user.last_login|date:'c' }}">{{ user.last_login|date:'d.m.Y H:i' }}</time>
+              {% else %}
+                <span class="account-muted">noch nie</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if user.must_change_password %}
+                <span class="account-warning">Startpasswort &ndash; muss ge&auml;ndert werden</span>
+              {% else %}
+                eigenes Passwort
+              {% endif %}
+            </td>
+            <td class="account-actions">
+              <a class="button link-button" href="{% url 'accounts:admin_user_edit' user.pk %}">Bearbeiten</a>
+              <a class="button link-button" href="{% url 'accounts:admin_user_reset_password' user.pk %}">Passwort zur&uuml;cksetzen</a>
+              <form method="post" action="{% if user.is_active %}{% url 'accounts:admin_user_deactivate' user.pk %}{% else %}{% url 'accounts:admin_user_reactivate' user.pk %}{% endif %}">
+                {% csrf_token %}
+                <button type="submit" class="button link-button">{% if user.is_active %}Deaktivieren{% else %}Reaktivieren{% endif %}</button>
+              </form>
+              {% if user.pk != request.user.pk %}
+                <a class="button button-danger" href="{% url 'accounts:admin_user_delete' user.pk %}">L&ouml;schen</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6">Noch keine Konten.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}

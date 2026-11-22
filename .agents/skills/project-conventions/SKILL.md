@@ -96,8 +96,9 @@ missing breakpoints as a bug when it is actually intentional scope.
 - **Users** only ever see/mutate their own characters. Every query and
   mutation is scoped server-side to the owner's user ID.
 - **Portal admins** can manage accounts (create/deactivate/reactivate/reset
-  password) and view (never edit or delete) all characters in a read-only
-  view. Admin write/delete endpoints only ever accept characters the admin
+  password/delete, grant or revoke the portal-admin role -- never their own
+  role, account or password, never the last active admin) and view (never
+  edit or delete) all characters in a read-only view. Admin write/delete endpoints only ever accept characters the admin
   themself owns -- admin status never grants write access to someone
   else's character.
 - **Shared ship sheet(s)**: every authenticated user may view and

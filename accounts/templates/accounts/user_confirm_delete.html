@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Konto l&ouml;schen &ndash; Rogue Trader Portal{% endblock %}
+
+{% block content %}
+  <h1>Konto &bdquo;{{ managed_user.username }}&ldquo; l&ouml;schen?</h1>
+  <div class="form-card">
+    <p>Das Konto wird endg&uuml;ltig gel&ouml;scht und kann nicht wiederhergestellt werden.</p>
+    {% if character_names %}
+      <p>Mit dem Konto werden {{ character_names|length }} Charakter{{ character_names|length|pluralize:"e" }} gel&ouml;scht:</p>
+      <ul class="account-delete-list">
+        {% for name in character_names %}<li>{{ name }}</li>{% endfor %}
+      </ul>
+    {% else %}
+      <p>Zu dem Konto geh&ouml;ren keine Charaktere.</p>
+    {% endif %}
+    <p class="account-delete-note">Eintr&auml;ge im Schiffsverlauf und im Netzwerk bleiben erhalten, dann ohne Namen. Wenn du nur den Zugang sperren willst, deaktiviere das Konto stattdessen.</p>
+    <form method="post" class="page-actions">
+      {% csrf_token %}
+      <button type="submit" class="button button-danger">Endg&uuml;ltig l&ouml;schen</button>
+      <a class="button link-button" href="{% url 'accounts:admin_user_list' %}">Abbrechen</a>
+    </form>
+  </div>
+{% endblock %}

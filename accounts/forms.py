@@ -74,6 +74,13 @@ class RequiredPasswordChangeForm(PasswordChangeForm):
         return password
 
 
+#: Shown under the "Admin" checkbox on the create and edit forms.
+ADMIN_HELP_TEXT = (
+    "Admins verwalten die Konten und sehen alle Charaktere (nur lesend). "
+    "Fremde Charaktere bearbeiten können auch sie nicht."
+)
+
+
 class _UsernameFormMixin:
     """Create and edit validate a name with the same rule (``usernames``)."""
 
@@ -95,6 +102,11 @@ class ManagedUserCreateForm(_UsernameFormMixin, forms.Form):
     temporary_password = forms.CharField(
         label="Temporäres Passwort", strip=False, widget=forms.PasswordInput
     )
+    is_portal_admin = forms.BooleanField(
+        label="Admin",
+        required=False,
+        help_text=ADMIN_HELP_TEXT,
+    )
 
     def clean_temporary_password(self):
         password = self.cleaned_data["temporary_password"]
@@ -114,10 +126,20 @@ class ManagedUserForm(_UsernameFormMixin, forms.Form):
         widget=forms.TextInput(attrs={"maxlength": usernames.USERNAME_MAX_LENGTH}),
     )
     is_active = forms.BooleanField(label="Aktiv", required=False)
+    is_portal_admin = forms.BooleanField(
+        label="Admin",
+        required=False,
+        help_text=ADMIN_HELP_TEXT,
+    )
 
     def __init__(self, *args, instance, **kwargs):
         kwargs.setdefault(
-            "initial", {"username": instance.username, "is_active": instance.is_active}
+            "initial",
+            {
+                "username": instance.username,
+                "is_active": instance.is_active,
+                "is_portal_admin": instance.is_portal_admin,
+            },
         )
         super().__init__(*args, **kwargs)
         self.existing_user = instance

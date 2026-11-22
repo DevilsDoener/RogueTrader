@@ -24,6 +24,8 @@ from .services import (
     AccountRuleViolation,
     audit_logger,
     create_managed_user,
+    delete_managed_user,
+    deletion_summary,
     reset_temporary_password,
     set_user_active,
     update_managed_user,
@@ -216,6 +218,7 @@ class PortalAdminUserCreateView(_ManagedUserFormView):
             actor=self.request.user,
             username=form.cleaned_data["username"],
             temporary_password=form.cleaned_data["temporary_password"],
+            portal_admin=form.cleaned_data["is_portal_admin"],
         )
 
 
@@ -230,6 +233,7 @@ class PortalAdminUserUpdateView(_ManagedUserFormView):
             user=self.user,
             username=form.cleaned_data["username"],
             active=form.cleaned_data["is_active"],
+            portal_admin=form.cleaned_data["is_portal_admin"],
         )
 
 
@@ -245,6 +249,31 @@ class PortalAdminPasswordResetView(_ManagedUserFormView):
             temporary_password=form.cleaned_data["temporary_password"],
         )
         _keep_own_session(self.request, self.user)
+
+
+class PortalAdminUserDeleteView(PortalAdminRequiredMixin, View):
+    """``GET`` shows what goes with the account; ``POST`` deletes it for good."""
+
+    template_name = "accounts/user_confirm_delete.html"
+
+    def get(self, request, pk):
+        user = _manageable_user_or_404(pk)
+        return render(
+            request,
+            self.template_name,
+            {"managed_user": user, **deletion_summary(user)},
+        )
+
+    def post(self, request, pk):
+        user = _manageable_user_or_404(pk)
+        username = user.get_username()
+        try:
+            delete_managed_user(actor=request.user, user=user)
+        except AccountRuleViolation as violation:
+            messages.error(request, str(violation))
+        else:
+            messages.success(request, f"Das Konto „{username}“ wurde gelöscht.")
+        return redirect("accounts:admin_user_list")
 
 
 class PortalAdminUserActionView(PortalAdminRequiredMixin, View):

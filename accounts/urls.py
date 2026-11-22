@@ -30,6 +30,11 @@ urlpatterns = [
         name="admin_user_reactivate",
     ),
     path(
+        "portal-admin/accounts/<int:pk>/delete/",
+        views.PortalAdminUserDeleteView.as_view(),
+        name="admin_user_delete",
+    ),
+    path(
         "portal-admin/accounts/<int:pk>/reset-password/",
         views.PortalAdminPasswordResetView.as_view(),
         name="admin_user_reset_password",
