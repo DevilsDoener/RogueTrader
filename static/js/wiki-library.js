@@ -18,7 +18,7 @@
       return;
     }
     // Only with JS does typing filter; the HTML placeholder promises search only.
-    input.setAttribute("placeholder", "Kapitel und Abschnitte filtern – Enter sucht im Volltext");
+    input.setAttribute("placeholder", "Kapitel und Abschnitte filtern");
     var cards = Array.from(document.querySelectorAll(".library-card"));
     var emptyNote = document.querySelector(".library-empty");
     var bands = Array.from(document.querySelectorAll(".library-band"));

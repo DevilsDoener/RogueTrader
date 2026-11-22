@@ -218,7 +218,7 @@ def test_the_search_placeholder_does_not_promise_a_live_filter_without_js(
 
     content = _get(client, user_factory)
 
-    assert 'placeholder="Kapitel, Abschnitte oder Regeln suchen&hellip;"' in content
+    assert 'placeholder="Kapitel und Regeln suchen"' in content
 
 
 @pytest.mark.django_db

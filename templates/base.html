@@ -19,7 +19,7 @@
     <div class="app-shell">
       <header class="topbar">
         <a class="brand" href="{% url 'dashboard' %}">
-          <span class="brand-mark" aria-hidden="true">&#9875;</span>
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/></svg></span>
           <span class="brand-name">Rogue&nbsp;Trader&nbsp;Portal</span>
         </a>
 
@@ -33,7 +33,7 @@
               type="search"
               name="q"
               value="{{ request.GET.q|default:'' }}"
-              placeholder="Wiki durchsuchen&hellip;"
+              placeholder="Wiki durchsuchen"
               autocomplete="off"
             >
             <kbd class="topbar-search-kbd js-only" aria-hidden="true">Strg K</kbd>
@@ -126,7 +126,7 @@
           <input class="auspex-input" type="search" role="combobox"
                  aria-label="Regelwerk durchsuchen" aria-expanded="false" aria-controls="auspex-results"
                  aria-autocomplete="list" autocomplete="off"
-                 placeholder="Regelwerk scannen&hellip;">
+                 placeholder="Regelwerk scannen">
           <kbd class="auspex-esc">Esc</kbd>
         </div>
         <div class="auspex-results" id="auspex-results" role="listbox" aria-label="Vorschläge"></div>

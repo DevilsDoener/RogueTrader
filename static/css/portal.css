@@ -46,9 +46,8 @@
   --rt-radius-lg: 6px;
   --rt-radius-pill: 999px;
 
-  /* Shared effects: the lifted-card hover shadow, the focus ring of the
-     search fields, and the translucent "blank dossier" fill. */
-  --rt-shadow-lift: 0 8px 20px color-mix(in srgb, var(--rt-bg) 70%, transparent);
+  /* Shared effects: the focus ring of the search fields and the translucent
+     "blank dossier" fill. Cards answer hover with a surface step, not a lift. */
   --rt-focus-ring: 0 0 0 3px color-mix(in srgb, var(--rt-focus) 28%, transparent);
   --rt-fill-blank: color-mix(in srgb, var(--rt-panel) 45%, transparent);
 
@@ -273,6 +272,35 @@ button:disabled:hover,
   border-color: var(--rt-border);
 }
 
+/* The topbar keeps one quiet search button and a plain sign-out link: both
+   are submit buttons, so they need the [type="submit"] qualifier to beat
+   the gold primary default above. */
+button[type="submit"].link-button {
+  background: transparent;
+  border-color: transparent;
+  color: var(--rt-text-muted);
+  font-weight: 400;
+}
+
+button[type="submit"].link-button:hover {
+  background: transparent;
+  border-color: var(--rt-border);
+  color: var(--rt-text);
+}
+
+.topbar-search button[type="submit"] {
+  background: var(--rt-panel-raised);
+  border-color: var(--rt-border-strong);
+  color: var(--rt-text);
+  font-weight: 400;
+}
+
+.topbar-search button[type="submit"]:hover {
+  background: var(--rt-panel-raised);
+  border-color: var(--rt-gold);
+  color: var(--rt-text);
+}
+
 /* :not(.sheet-input) keeps every one of these generic form rules out of
    the character/ship sheet overlay -- its inputs are absolutely
    positioned as a percentage of `.sheet-canvas` (see
@@ -375,7 +403,13 @@ label {
 }
 
 .brand-mark {
-  font-size: 1.3rem;
+  display: inline-flex;
+  color: var(--rt-gold);
+}
+
+.brand-mark svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .topbar-search {
@@ -414,8 +448,8 @@ label {
   position: sticky;
   top: var(--rt-topbar-height);
   align-self: start;
-  max-height: calc(100vh - var(--rt-topbar-height));
   overflow-y: auto;
+  height: calc(100vh - var(--rt-topbar-height));
 }
 
 .primary-nav ul {
@@ -454,9 +488,7 @@ label {
 .nav-section-label {
   margin: 1rem 0.9rem 0.4rem;
   font-family: var(--rt-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
   color: var(--rt-text-muted);
 }
 
@@ -484,6 +516,13 @@ label {
   padding: 1.25rem clamp(0.75rem, 2vw, 1.5rem);
 }
 
+/* Wiki pages (Bibliothek, chapters, search) grow with the window instead of
+   stopping at the 72rem shell cap; the gutter stays, so the sticky chapter
+   nav keeps bleeding out by exactly --rt-content-gutter. */
+.page-wiki .content {
+  max-width: none;
+}
+
 /* ---------------------------------------------------------------------
    Auth / bare pages (login, forced password change)
    --------------------------------------------------------------------- */
@@ -499,6 +538,63 @@ label {
 .auth-card h1 {
   margin-top: 0;
   font-size: 1.4rem;
+}
+
+/* Login: the card sits a little above the optical centre of the window,
+   with the portal name over the title and labels stacked over the fields. */
+.login-page .content-bare {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80vh;
+  margin-block: 0;
+}
+
+.login-card {
+  margin-top: 0;
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem;
+  font-family: var(--rt-font-display);
+  font-size: 1.1rem;
+  color: var(--rt-gold-bright);
+}
+
+.login-card h1 {
+  margin-bottom: 1.5rem;
+}
+
+.login-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.login-field {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.login-field label {
+  margin: 0;
+}
+
+.login-field input {
+  width: 100%;
+  min-width: 0;
+}
+
+.login-field .errorlist {
+  margin: 0;
+}
+
+.login-form button[type="submit"] {
+  justify-self: start;
+  margin-top: 0.5rem;
 }
 
 /* Password setup: a quiet, single-column form within the existing auth shell. */
@@ -532,11 +628,9 @@ label {
 
 .password-eyebrow {
   margin: 0 0 0.65rem;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--rt-gold-bright);
+  color: var(--rt-text-muted);
 }
 
 .password-card h1 {
@@ -661,8 +755,6 @@ mark {
   color: var(--rt-text-muted);
   font-weight: 600;
   font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
 .data-table tbody tr:last-child td {
@@ -935,8 +1027,6 @@ mark {
 .wiki-chapter-nav-label {
   color: var(--rt-text-muted);
   font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
 /* Compact while stuck: the stacked two-line cards would hold 116px of the
@@ -1013,8 +1103,6 @@ mark {
   margin-bottom: 0.4rem;
   color: var(--rt-text-muted);
   font-family: var(--rt-font-display);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   font-size: 0.78rem;
 }
 
@@ -1131,9 +1219,7 @@ mark {
   margin: 0.6rem 0 0.15rem 0.35rem;
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 .primary-nav .primary-nav-band:first-child {
@@ -1399,11 +1485,9 @@ mark {
 .search-hit-eyebrow {
   display: block;
   margin-bottom: 0.25rem;
-  color: var(--rt-gold);
-  font-size: 0.72rem;
+  color: var(--rt-text-muted);
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
 }
 
 .search-hit-title {
@@ -1423,8 +1507,6 @@ mark {
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .search-hit-snippet {
@@ -1450,7 +1532,7 @@ mark {
   border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius-pill);
   background: var(--rt-panel-raised);
-  color: var(--rt-gold-bright);
+  color: var(--rt-text);
   font-size: 0.9rem;
   text-decoration: none;
   transition: border-color var(--rt-transition-fast);
@@ -1458,6 +1540,7 @@ mark {
 
 .quick-link:hover {
   border-color: var(--rt-gold);
+  color: var(--rt-gold-bright);
 }
 
 /* ---------------------------------------------------------------------
@@ -1472,16 +1555,14 @@ mark {
 .library-eyebrow {
   display: block;
   margin-bottom: 0.35rem;
-  color: var(--rt-gold);
+  color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
   font-size: 0.8rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
 }
 
 .library-hero h1 {
   margin: 0;
-  color: var(--rt-gold-bright);
+  color: var(--rt-text);
   font-size: clamp(2.4rem, 4vw, 3.4rem);
   line-height: 1.05;
   letter-spacing: 0.02em;
@@ -1533,8 +1614,6 @@ mark {
   font-family: var(--rt-font-mono);
   font-size: 0.8rem;
   font-weight: 400;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .library-quick .quick-links {
@@ -1562,22 +1641,20 @@ mark {
   border-radius: var(--rt-radius);
   color: var(--rt-text);
   text-decoration: none;
-  transition: border-color var(--rt-transition), transform var(--rt-transition);
+  transition: border-color var(--rt-transition-fast), background var(--rt-transition-fast);
 }
 
 .library-recent-card:hover {
   border-color: var(--rt-gold-dim);
   border-left-color: var(--rt-gold-bright);
+  background: var(--rt-panel-raised);
   color: var(--rt-text);
-  transform: translateY(-2px);
 }
 
 .library-recent-chapter {
-  color: var(--rt-gold);
+  color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .library-recent-title {
@@ -1597,8 +1674,6 @@ mark {
   font-family: var(--rt-font-mono);
   font-size: 0.85rem;
   font-weight: 400;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .library-grid {
@@ -1618,15 +1693,13 @@ mark {
   background: var(--rt-panel);
   border: 1px solid var(--rt-border);
   border-radius: var(--rt-radius-lg);
-  transition: border-color var(--rt-transition), transform var(--rt-transition),
-    box-shadow var(--rt-transition);
+  transition: border-color var(--rt-transition-fast), background var(--rt-transition-fast);
 }
 
 .library-card:hover,
 .library-card:focus-within {
   border-color: var(--rt-gold-dim);
-  transform: translateY(-2px);
-  box-shadow: var(--rt-shadow-lift);
+  background: var(--rt-panel-raised);
 }
 
 .library-card-numeral {
@@ -1665,11 +1738,9 @@ mark {
 
 .library-card-contents summary {
   cursor: pointer;
-  color: var(--rt-gold);
+  color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
   font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
 .library-card-contents summary:hover {
@@ -1758,16 +1829,14 @@ mark {
   border: 1px solid var(--rt-border);
   border-top: 2px solid var(--rt-gold-dim);
   border-radius: var(--rt-radius-lg);
-  transition: border-color var(--rt-transition), transform var(--rt-transition),
-    box-shadow var(--rt-transition);
+  transition: border-color var(--rt-transition-fast), background var(--rt-transition-fast);
 }
 
 .crew-card:not(.crew-card-create):hover,
 .crew-card:not(.crew-card-create):focus-within {
   border-color: var(--rt-gold-dim);
   border-top-color: var(--rt-gold);
-  transform: translateY(-2px);
-  box-shadow: var(--rt-shadow-lift);
+  background: var(--rt-panel-raised);
 }
 
 .crew-card-head {
@@ -1845,11 +1914,17 @@ mark {
 .crew-characteristic dt {
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
+  font-size: 0.75rem;
 }
 
+/* A value longer than its cell is cut with an ellipsis instead of running
+   into the neighbouring characteristic. */
 .crew-characteristic dd {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
   margin: 0.1rem 0 0;
   color: var(--rt-gold-bright);
   font-family: var(--rt-font-display);
@@ -1895,9 +1970,7 @@ mark {
 .crew-stat-label {
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 .crew-stat-value {
@@ -1960,7 +2033,7 @@ mark {
 
 .crew-card-create h2 {
   margin: 0;
-  color: var(--rt-gold-bright);
+  color: var(--rt-text);
   font-size: 1.3rem;
 }
 
@@ -2040,12 +2113,10 @@ mark {
 
 .bridge-band-link {
   padding-bottom: 0.5rem;
-  color: var(--rt-gold);
+  color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.14em;
   text-decoration: none;
-  text-transform: uppercase;
   white-space: nowrap;
 }
 
@@ -2075,16 +2146,14 @@ mark {
   border: 1px solid var(--rt-border);
   border-top: 2px solid var(--rt-gold-dim);
   border-radius: var(--rt-radius-lg);
-  transition: border-color var(--rt-transition), transform var(--rt-transition),
-    box-shadow var(--rt-transition);
+  transition: border-color var(--rt-transition-fast), background var(--rt-transition-fast);
 }
 
 .bridge-crew-tile:hover,
 .bridge-crew-tile:focus-within {
   border-color: var(--rt-gold-dim);
   border-top-color: var(--rt-gold);
-  transform: translateY(-2px);
-  box-shadow: var(--rt-shadow-lift);
+  background: var(--rt-panel-raised);
 }
 
 .bridge-crew-tile.is-latest {
@@ -2102,11 +2171,9 @@ mark {
   border-radius: var(--rt-radius);
   color: var(--rt-text-on-gold);
   font-family: var(--rt-font-mono);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
   line-height: 1.3;
-  text-transform: uppercase;
 }
 
 .bridge-crew-head {
@@ -2172,8 +2239,7 @@ mark {
 }
 
 .bridge-crew-values .crew-characteristic dt {
-  font-size: 0.6rem;
-  letter-spacing: 0;
+  font-size: 0.7rem;
 }
 
 .bridge-crew-values .crew-characteristic dd {
@@ -2261,7 +2327,7 @@ mark {
 }
 
 .bridge-crew-new-title {
-  color: var(--rt-gold-bright);
+  color: var(--rt-text);
   font-family: var(--rt-font-display);
   font-size: 1.12rem;
 }
@@ -2330,11 +2396,9 @@ mark {
 
 .bridge-ship-eyebrow {
   display: block;
-  color: var(--rt-gold);
+  color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 .bridge-ship-name {
@@ -2642,9 +2706,7 @@ dialog.auspex input.auspex-input::-webkit-search-cancel-button {
   padding: 0.6rem 1rem 0.3rem;
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 .auspex-group::after {
@@ -2685,9 +2747,7 @@ dialog.auspex input.auspex-input::-webkit-search-cancel-button {
 .auspex-option-path {
   color: var(--rt-text-muted);
   font-family: var(--rt-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 .auspex-option-snippet {

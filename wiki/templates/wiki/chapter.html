@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block html_lang %}de{% endblock %}
+{% block body_class %}page-wiki{% endblock %}
 {% block title %}{{ chapter.title }} &ndash; Rogue Trader Portal{% endblock %}
 
 {% block content %}
@@ -31,7 +32,7 @@
         {% comment %}Filters the outline below as you type (wiki-reader.js);
            without JavaScript there is nothing to filter with, so it is hidden.
            First in the menu so it can stay pinned while the outline scrolls.{% endcomment %}
-        <input type="search" class="wiki-toc-filter js-only" placeholder="Abschnitt filtern…" aria-label="Abschnitte filtern" autocomplete="off">
+        <input type="search" class="wiki-toc-filter js-only" placeholder="Abschnitt filtern" aria-label="Abschnitte filtern" autocomplete="off">
         <strong>Abschnitte</strong>
         {% include "wiki/_toc.html" with sections=chapter.outline depth=1 max_depth=toc_max_depth %}
       </nav>

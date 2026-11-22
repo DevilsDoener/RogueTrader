@@ -9,6 +9,11 @@ from .models import CharacterSheet
 class CharacterCreateForm(forms.ModelForm):
     """Creates a new character sheet. ``owner`` is set server-side by the view."""
 
+    def __init__(self, *args, **kwargs):
+        # Labels sit above their field, so no "Name:" colon.
+        kwargs.setdefault("label_suffix", "")
+        super().__init__(*args, **kwargs)
+
     class Meta:
         model = CharacterSheet
         fields = ("display_name",)

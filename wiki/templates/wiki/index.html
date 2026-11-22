@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block html_lang %}de{% endblock %}
+{% block body_class %}page-wiki{% endblock %}
 {% block title %}Bibliothek &ndash; Rogue Trader Portal{% endblock %}
 
 {% block content %}
@@ -11,7 +12,7 @@
     <p class="library-intro">Alle Kapitel des Regelwerks auf einen Blick &ndash; filtere nach Kapiteln und Abschnitten oder springe direkt zu den Regeln, die am Tisch gebraucht werden.</p>
     <form class="library-search" method="get" action="{% url 'wiki:search' %}" role="search">
       <label for="library-filter" class="sr-only">Kapitel und Abschnitte filtern</label>
-      <input id="library-filter" type="search" name="q" placeholder="Kapitel, Abschnitte oder Regeln suchen&hellip;" autocomplete="off">
+      <input id="library-filter" type="search" name="q" placeholder="Kapitel und Regeln suchen" autocomplete="off">
       <button type="submit" class="button-primary">Volltextsuche</button>
     </form>
   </header>
