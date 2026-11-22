@@ -59,7 +59,12 @@ reflowed. A finding that is intentional gets a targeted
 - The test packages live in `requirements-dev.txt` (the Docker image only
   installs `requirements.txt`); install both into the venv before testing.
 - Shared fixtures (users, characters, ship, wiki-repository restore, fast
-  test password hasher) live in the root `conftest.py`.
+  test password hasher) live in the root `conftest.py`; plain helpers
+  (`DEFAULT_PASSWORD`, `count_queries`, `post_login`, `request_from`) in
+  `tests/support.py`.
+- Check rendered pages with `tests/html.py` (`select`, `select_one`, `texts`,
+  `attr`, `has_link`, ...) instead of exact markup strings, so markup or class
+  changes don't break unrelated tests. Escaping checks stay plain strings.
 - Playwright needs its browser once per checkout:
   `.venv/Scripts/python.exe -m playwright install chromium`.
 - After a layout change also run
