@@ -9,6 +9,7 @@ import pytest
 from django.db import IntegrityError, transaction
 
 from sheets.models import CharacterSheet
+from tests.html import attr, has_link, select, select_one, texts
 
 LIST_ALL = "/characters/?alle=1"
 
@@ -162,12 +163,12 @@ def test_list_all_shows_the_list_with_the_favorite_first(client, owner, characte
 
     response = client.get(LIST_ALL)
 
-    html = response.content.decode()
     assert response.status_code == 200
-    assert html.index("Zelda") < html.index("Aaron")
-    assert f'action="/characters/{favorite.id}/favorite/"' in html
-    assert 'aria-pressed="true"' in html
-    assert 'aria-pressed="false"' in html
+    assert texts(response, "h2.crew-card-title") == ["Zelda", "Aaron"]
+    stars = select(response, "form.favorite-form")
+    assert attr(stars[0], "action") == f"/characters/{favorite.id}/favorite/"
+    pressed = [attr(select_one(form, "button"), "aria-pressed") for form in stars]
+    assert pressed == ["true", "false"]
 
 
 @pytest.mark.django_db
@@ -177,8 +178,9 @@ def test_sheet_header_has_the_star_and_a_link_to_the_full_list(client, owner, ch
 
     html = client.get(f"/characters/{character.id}/").content.decode()
 
-    assert f'action="/characters/{character.id}/favorite/"' in html
-    assert f'href="{LIST_ALL}"' in html
+    star = select_one(html, ".sheet-page-title form.favorite-form")
+    assert attr(star, "action") == f"/characters/{character.id}/favorite/"
+    assert has_link(html, LIST_ALL)
 
 
 @pytest.mark.django_db

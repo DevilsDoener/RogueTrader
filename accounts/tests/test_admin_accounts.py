@@ -10,6 +10,7 @@ from accounts.services import (
     set_user_active,
     update_managed_user,
 )
+from tests.html import attr, select, select_one, text, texts
 
 ADMIN_ROUTES = [
     ("accounts:admin_user_list", {}),
@@ -508,12 +509,16 @@ def test_overview_shows_role_last_login_and_password_status(
 
     html = client.get(reverse("accounts:admin_user_list")).content.decode()
 
-    assert '<table class="data-table account-table" id="account-table">' in html
-    assert '<span class="account-badge is-admin">Admin</span>' in html
-    assert '<span class="account-badge">Spieler</span>' in html
-    assert 'datetime="2026-11-20T' in html  # shown in the portal's time zone
-    assert ">20.11.2026 " in html
-    assert "noch nie" in html
-    assert "Startpasswort &ndash; muss ge&auml;ndert werden" in html
-    assert "eigenes Passwort" in html
-    assert "(du)" in html
+    rows = {
+        texts(row, "th[scope=row]")[0]: row
+        for row in select(select_one(html, "table#account-table"), "tbody tr")
+    }
+    assert set(rows) == {"gesehen", "neuling", "portal-admin (du)"}
+    assert texts(rows["portal-admin (du)"], ".account-badge.is-admin") == ["Admin"]
+    assert texts(rows["neuling"], ".account-badge") == ["Spieler"]
+    seen_at = select_one(rows["gesehen"], "time")
+    assert attr(seen_at, "datetime").startswith("2026-11-20T")  # portal time zone
+    assert text(seen_at).startswith("20.11.2026 ")
+    assert "noch nie" in text(rows["neuling"])
+    assert "Startpasswort – muss geändert werden" in text(rows["neuling"])
+    assert "eigenes Passwort" in text(rows["gesehen"])

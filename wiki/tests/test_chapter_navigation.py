@@ -8,6 +8,8 @@ import json
 import pytest
 from django.urls import reverse
 
+from tests.html import attr, has_attr, has_link, select, select_one, texts
+
 
 def _get(client, user_factory, slug):
     client.force_login(user_factory())
@@ -210,11 +212,12 @@ def test_sub_sections_are_collapsed_until_asked_for(
     content = _get(client, user_factory, "two")
     toc = _toc(content)
 
-    assert '<details class="wiki-toc-branch">' in toc
-    # Collapsed: no `open` attribute on the branch.
-    assert "<details class=\"wiki-toc-branch\" open" not in toc
+    branches = select(toc, "details.wiki-toc-branch")
+    assert branches
+    # Collapsed: no `open` attribute on any branch.
+    assert not any(has_attr(branch, "open") for branch in branches)
     # The parent's own link stays reachable from the summary.
-    assert '<summary><a href="#sec-beta"' in toc
+    assert has_link(select_one(toc, "details.wiki-toc-branch summary"), "#sec-beta")
     assert "#sec-beta-detail" in toc
 
 
@@ -246,7 +249,12 @@ def test_a_glossary_index_lives_inside_its_disclosure(
 
 
 def _primary_nav(content):
-    return content.split('id="primary-nav"', 1)[1].split("</nav>", 1)[0]
+    return select_one(content, "nav#primary-nav")
+
+
+def _current(nav):
+    """The ``href`` of every link marked as the current page."""
+    return [attr(link, "href") for link in select(nav, "a[aria-current=page]")]
 
 
 @pytest.mark.django_db
@@ -255,19 +263,20 @@ def test_the_primary_nav_lists_every_chapter_under_wiki(
 ):
     """Switching chapters no longer needs prev/next or a list at the bottom."""
     nav = _primary_nav(_get(client, user_factory, "two"))
-    tree = nav.split('<ul class="primary-nav-sub" aria-label="Kapitel">', 1)[1].split("</ul>", 1)[0]
+    tree = select_one(nav, "ul.primary-nav-sub[aria-label=Kapitel]")
 
     for slug in ("one", "two", "three"):
-        assert f'href="{reverse("wiki:chapter", kwargs={"chapter_slug": slug})}"' in tree
-    assert 'class="primary-nav-numeral"' in tree
+        assert has_link(tree, reverse("wiki:chapter", kwargs={"chapter_slug": slug}))
+    assert select(tree, ".primary-nav-numeral")
 
 
 @pytest.mark.django_db
 def test_the_chapter_tree_is_folded_by_default(client, user_factory, three_chapters):
     nav = _primary_nav(_get(client, user_factory, "two"))
 
-    assert '<details class="primary-nav-chapters" id="primary-nav-chapters">' in nav
-    assert 'class="primary-nav-toggle"' in nav
+    chapters = select_one(nav, "details#primary-nav-chapters")
+    assert not has_attr(chapters, "open")
+    assert select(chapters, "summary.primary-nav-toggle")
 
 
 @pytest.mark.django_db
@@ -276,9 +285,7 @@ def test_only_the_current_chapter_is_the_current_page(
 ):
     nav = _primary_nav(_get(client, user_factory, "two"))
 
-    assert nav.count('aria-current="page"') == 1
-    current = nav.split('aria-current="page"', 1)[0].rsplit("<a ", 1)[1]
-    assert reverse("wiki:chapter", kwargs={"chapter_slug": "two"}) in current
+    assert _current(nav) == [reverse("wiki:chapter", kwargs={"chapter_slug": "two"})]
 
 
 @pytest.mark.django_db
@@ -289,10 +296,8 @@ def test_the_wiki_index_keeps_the_wiki_link_current(
     content = client.get(reverse("wiki:index")).content.decode()
     nav = _primary_nav(content)
 
-    assert 'class="primary-nav-sub"' in nav
-    assert nav.count('aria-current="page"') == 1
-    current = nav.split('aria-current="page"', 1)[0].rsplit("<a ", 1)[1]
-    assert f'href="{reverse("wiki:index")}"' in current
+    assert select(nav, "ul.primary-nav-sub")
+    assert _current(nav) == [reverse("wiki:index")]
 
 
 @pytest.mark.django_db
@@ -393,8 +398,7 @@ def test_the_primary_nav_groups_chapters_under_band_headings(
     """The chapter tree carries the Bibliothek's band names, once per band."""
     nav = _primary_nav(_get(client, user_factory, "two"))
 
-    assert nav.count("primary-nav-band") == 1
-    assert 'class="primary-nav-band" role="presentation">Chapters</li>' in nav
+    assert texts(nav, "li.primary-nav-band") == ["Chapters"]
 
 
 @pytest.mark.django_db
@@ -425,8 +429,8 @@ def test_the_primary_nav_shows_bands_in_book_order_and_numerals_once(
     )
     nav = _primary_nav(_get(client, user_factory, "traits"))
 
-    positions = [nav.index(f">{label}</li>") for label in ("Front Matter", "Chapters", "Appendix")]
-    assert positions == sorted(positions)
-    assert nav.count(">XIV</span>") == 1
-    assert nav.count("&middot;") == 1
-    assert nav.count("&sect;") == 2
+    assert texts(nav, "li.primary-nav-band") == ["Front Matter", "Chapters", "Appendix"]
+    numerals = texts(nav, ".primary-nav-numeral")
+    assert numerals.count("XIV") == 1
+    assert numerals.count("·") == 1
+    assert numerals.count("§") == 2

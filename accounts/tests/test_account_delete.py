@@ -13,6 +13,7 @@ from django.urls import reverse
 
 from accounts.services import AccountRuleViolation, delete_managed_user
 from sheets.models import CharacterSheet, SheetChange
+from tests.html import has_link
 
 
 def _delete_url(user):
@@ -142,5 +143,5 @@ def test_list_offers_delete_for_others_but_not_for_yourself(
 
     html = client.get(reverse("accounts:admin_user_list")).content.decode()
 
-    assert f'href="{_delete_url(player)}"' in html
-    assert f'href="{_delete_url(portal_admin)}"' not in html
+    assert has_link(html, _delete_url(player))
+    assert not has_link(html, _delete_url(portal_admin))

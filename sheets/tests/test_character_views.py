@@ -14,6 +14,7 @@ import pytest
 from sheets.forms import CharacterCreateForm
 from sheets.models import CharacterSheet
 from sheets.tests.helpers import assert_contains, assert_not_contains
+from tests.html import attr, has_link, select, select_one, texts
 from tests.support import count_queries
 
 
@@ -177,18 +178,21 @@ def test_character_list_card_shows_name_career_characteristics_and_stats(
     html = response.content.decode()
 
     assert response.status_code == 200
-    assert f'href="/characters/{character.id}/"' in html
-    assert "Lucian Voss" in html
-    assert "Rogue Trader · Rank 3 · Void Born" in html
-    assert "<dt>Fel</dt>" in html
-    assert "<dd>47</dd>" in html
-    assert '<span class="crew-stat-label">Wounds</span>' in html
-    assert '<span class="crew-stat-value">11 / 13</span>' in html
-    assert '<span class="crew-stat-value">2 / 3</span>' in html
-    assert '<span class="crew-stat-label">Profit Factor</span>' in html
-    assert "Bogen &ouml;ffnen" in html or "Bogen öffnen" in html
-    assert f'href="/characters/{character.id}/delete/"' in html
-    assert 'class="button button-danger crew-card-delete"' in html
+    card = select_one(html, "article.crew-card")
+    assert has_link(card, f"/characters/{character.id}/", "Lucian Voss")
+    assert texts(card, ".crew-card-meta") == ["Rogue Trader · Rank 3 · Void Born"]
+    assert "Fel" in texts(card, "dt")
+    assert "47" in texts(card, "dd")
+    stat_labels = texts(card, ".crew-stat-label")
+    assert "Wounds" in stat_labels
+    assert "Profit Factor" in stat_labels
+    stat_values = texts(card, ".crew-stat-value")
+    assert "11 / 13" in stat_values
+    assert "2 / 3" in stat_values
+    assert has_link(card, f"/characters/{character.id}/", "Bogen öffnen")
+    delete = select_one(card, "a.crew-card-delete")
+    assert attr(delete, "href") == f"/characters/{character.id}/delete/"
+    assert "button-danger" in attr(delete, "class")
 
 
 @pytest.mark.django_db
@@ -229,9 +233,9 @@ def test_character_list_card_partial_values_skip_missing_parts(
     client.force_login(owner)
     html = client.get("/characters/").content.decode()
 
-    assert '<p class="crew-card-meta">Seneschal</p>' in html
-    assert "<dd>30</dd>" in html
-    assert '<span class="crew-stat-value">– / 12</span>' in html
+    assert texts(html, ".crew-card-meta") == ["Seneschal"]
+    assert "30" in texts(html, "dd")
+    assert "– / 12" in texts(html, ".crew-stat-value")
     assert "Fate" not in html
     assert "None" not in html
 
@@ -278,10 +282,9 @@ def test_character_list_empty_state_points_at_create_form(client, user_factory):
     html = client.get("/characters/").content.decode()
 
     assert "Noch keine Charaktere vorhanden." in html
-    assert 'href="#create-character"' in html
-    assert 'id="create-character"' in html
-    assert 'name="display_name"' in html
-    assert 'id="id_display_name"' in html
+    assert has_link(html, "#create-character")
+    create = select_one(html, "#create-character")
+    assert select(create, "input#id_display_name[name=display_name]")
 
 
 @pytest.mark.django_db

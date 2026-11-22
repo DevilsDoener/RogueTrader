@@ -3,11 +3,10 @@
 A reader reaches every chapter *and* its sections from here, grouped into the
 manifest's bands.
 """
-import re
-
 import pytest
 from django.urls import reverse
 
+from tests.html import attr, has_link, select, select_one, texts
 from wiki.content import WikiRepository, set_repository_for_tests
 from wiki.manifest import ALLOWLIST
 
@@ -42,8 +41,8 @@ def test_sections_are_linkable_straight_from_the_overview(
     content = _get(client, user_factory)
     chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "charaktererschaffung"})
 
-    assert f'href="{chapter_url}#sec-alpha"' in content
-    assert f'href="{chapter_url}#sec-beta"' in content
+    assert has_link(content, f"{chapter_url}#sec-alpha", "Alpha")
+    assert has_link(content, f"{chapter_url}#sec-beta", "Beta")
 
 
 @pytest.mark.django_db
@@ -57,7 +56,7 @@ def test_all_top_level_sections_are_listed_in_the_collapsible_contents(
 
     assert content.count("#sec-section-") == 10
     assert "10 Abschnitte" in content
-    assert '<details class="library-card-contents">' in content
+    assert len(select(content, "details.library-card-contents")) == 1
 
 
 @pytest.mark.django_db
@@ -76,15 +75,16 @@ def test_level_two_sections_are_nested_under_their_parent_for_the_filter(
     content = _get(client, user_factory)
     chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "charaktererschaffung"})
 
-    nested = re.search(
-        r'<a href="[^"]*#sec-injury">Injury</a>\s*<ul class="library-card-subsections">(.*?)</ul>',
-        content,
-        re.S,
+    # The level-2 list sits inside its level-1 entry ...
+    injury = next(
+        item
+        for item in select(content, ".library-card-contents li")
+        if select(item, "a") and texts(item, "a")[0] == "Injury"
     )
-    assert nested, "the level-2 list sits inside its level-1 entry"
-    assert f'href="{chapter_url}#sec-critical-damage">Critical Damage</a>' in nested.group(1)
-    # A level-1 entry without children gets no empty sub-list.
-    assert content.count('class="library-card-subsections"') == 1
+    sublist = select_one(injury, "ul.library-card-subsections")
+    assert has_link(sublist, f"{chapter_url}#sec-critical-damage", "Critical Damage")
+    # ... and a level-1 entry without children gets no empty sub-list.
+    assert len(select(content, "ul.library-card-subsections")) == 1
     # The card still counts level-1 sections only.
     assert "2 Abschnitte" in content
 
@@ -97,8 +97,8 @@ def test_the_page_is_the_bibliothek_with_a_filter_and_fulltext_form(
 
     content = _get(client, user_factory)
 
-    assert "<h1>Bibliothek</h1>" in content
-    assert 'id="library-filter"' in content
+    assert texts(content, "h1") == ["Bibliothek"]
+    assert select(content, "input#library-filter")
     assert reverse("wiki:search") in content
     assert "Weiterlesen" in content
     assert "js/wiki-library.js" in content
@@ -118,8 +118,8 @@ def test_cards_show_the_roman_numeral_and_the_short_title(
 
     content = _get(client, user_factory)
 
-    assert '<span class="library-card-numeral" aria-hidden="true">IV</span>' in content
-    assert ">Talents</a>" in content
+    assert "IV" in texts(content, ".library-card-numeral")
+    assert "Talents" in texts(content, ".library-card a")
     assert "Chapter IV:" not in content
     assert "library-card-numeral--word" not in content
 
@@ -137,8 +137,8 @@ def test_quick_links_are_rendered_when_their_targets_exist(
     chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "talents"})
 
     assert "Quick Links" in content
-    assert f'href="{chapter_url}#sec-detailed-talent-descriptions"' in content
-    assert ">Talents</a>" in content
+    assert has_link(content, f"{chapter_url}#sec-detailed-talent-descriptions")
+    assert "Talents" in texts(content, "a")
 
 
 @pytest.mark.django_db
@@ -184,19 +184,16 @@ def test_chapters_are_grouped_into_three_bands_with_one_chapters_grid(
 
     content = _get(client, user_factory)
 
-    headings = re.findall(r'<h2 class="library-band-heading"[^>]*>([^<]+)</h2>', content)
-    assert headings == ["Front Matter", "Chapters", "Appendix"]
-    assert content.count('<section class="library-band"') == 3
-    assert content.count('<ul class="library-grid">') == 3
+    assert texts(content, "h2.library-band-heading") == ["Front Matter", "Chapters", "Appendix"]
+    bands = select(content, "section.library-band")
+    assert len(bands) == 3
+    assert [len(select(band, "ul.library-grid")) for band in bands] == [1, 1, 1]
     # No per-part headings any more, in particular none for chapter XIV.
     assert "Chapter XIV" not in content
-    sections = re.split(r'<section class="library-band"', content)[1:]
-    kapitel = sections[1]
-    for title in ("One", "Mutations", "Traits"):
-        assert f">{title}</a>" in kapitel
-    assert kapitel.count('class="library-card"') == 3
-    assert "Foreword" not in kapitel
-    assert "Index" not in kapitel
+    kapitel = bands[1]
+    card_titles = texts(kapitel, ".library-card .library-card-title")
+    assert card_titles == ["One", "Mutations", "Traits"]
+    assert len(select(kapitel, ".library-card")) == 3
 
 
 @pytest.mark.django_db
@@ -207,7 +204,7 @@ def test_unnumbered_cards_show_the_section_glyph_in_the_numeral_slot(
 
     content = _get(client, user_factory)
 
-    assert '<span class="library-card-numeral" aria-hidden="true">&sect;</span>' in content
+    assert texts(content, ".library-card-numeral") == ["§"]
 
 
 @pytest.mark.django_db
@@ -218,7 +215,9 @@ def test_the_search_placeholder_does_not_promise_a_live_filter_without_js(
 
     content = _get(client, user_factory)
 
-    assert 'placeholder="Kapitel und Regeln suchen"' in content
+    assert attr(select_one(content, "input#library-filter"), "placeholder") == (
+        "Kapitel und Regeln suchen"
+    )
 
 
 @pytest.mark.django_db
@@ -249,14 +248,14 @@ def test_chapters_keep_the_manifest_order(client, user_factory, make_repository)
 
 #: What the real book renders, band by band: each card's numeral in book order.
 REAL_BOOK_BANDS = [
-    ("Front Matter", ["&sect;", "&sect;"]),
+    ("Front Matter", ["§", "§"]),
     (
         "Chapters",
         ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII"]
         + ["XIV"] * 4
         + ["XV"],
     ),
-    ("Appendix", ["&sect;"]),
+    ("Appendix", ["§"]),
 ]
 
 
@@ -268,10 +267,8 @@ def test_the_real_book_renders_its_numerals_in_their_bands(client, user_factory,
 
     content = _get(client, user_factory)
 
-    heading = re.compile(r'<h2 class="library-band-heading"[^>]*>([^<]+)</h2>')
-    numeral = re.compile(r'<span class="library-card-numeral" aria-hidden="true">([^<]+)</span>')
     rendered = [
-        (heading.search(band).group(1), numeral.findall(band))
-        for band in re.split(r'<section class="library-band"', content)[1:]
+        (texts(band, "h2.library-band-heading")[0], texts(band, ".library-card-numeral"))
+        for band in select(content, "section.library-band")
     ]
     assert rendered == REAL_BOOK_BANDS

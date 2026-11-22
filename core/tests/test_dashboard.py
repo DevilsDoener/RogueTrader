@@ -7,7 +7,6 @@ the nav, the palette and the search). It must never leak another user's
 characters, must gate the portal-admin navigation on ``is_portal_admin``, and
 must never fabricate statistics for an empty state.
 """
-import re
 from datetime import timedelta
 
 import pytest
@@ -15,6 +14,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 
+from tests.html import attr, has_link, select, select_one, text, texts
 from tests.support import count_queries
 from wiki.content import WikiRepository, set_repository_for_tests
 from wiki.manifest import DASHBOARD_SHORTCUTS
@@ -107,8 +107,8 @@ def test_dashboard_shows_the_shared_ship_for_any_authenticated_user(client, owne
 
     assert response.context["ship"] == ship
     assert ship.display_name in content
-    assert f'href="{reverse("sheets:ship_detail", args=[ship.pk])}"' in content
-    assert f'href="{reverse("sheets:ship_history", args=[ship.pk])}"' in content
+    assert has_link(content, reverse("sheets:ship_detail", args=[ship.pk]))
+    assert has_link(content, reverse("sheets:ship_history", args=[ship.pk]))
 
 
 def test_dashboard_portal_admin_sees_admin_navigation(client, portal_admin):
@@ -157,11 +157,11 @@ def test_dashboard_has_no_wiki_chapter_list(client, owner, settings, tmp_path):
 
     assert "First Chapter" not in content
     assert "Second Chapter" not in content
-    assert 'id="wiki-panel-heading"' not in content
+    assert select(content, "#wiki-panel-heading") == []
     assert "chapters" not in response.context
     assert "wiki_parts" not in response.context
     # The wiki itself stays one click away (nav, palette, hero search).
-    assert f'href="{reverse("wiki:index")}"' in content
+    assert has_link(content, reverse("wiki:index"))
 
 
 def test_dashboard_search_form_posts_to_search_route(client, owner):
@@ -170,9 +170,9 @@ def test_dashboard_search_form_posts_to_search_route(client, owner):
     response = client.get(reverse("dashboard"))
     content = response.content.decode()
 
-    assert f'action="{reverse("wiki:search")}"' in content
-    assert 'id="dashboard-search-input"' in content
-    assert 'class="library-search dashboard-search"' in content
+    form = select_one(content, "form.dashboard-search")
+    assert attr(form, "action") == reverse("wiki:search")
+    assert select(form, "input#dashboard-search-input")
 
 
 # -- Charakterauswahl --------------------------------------------------------
@@ -180,13 +180,7 @@ def test_dashboard_search_form_posts_to_search_route(client, owner):
 
 def _tile_names(content):
     """Character names in the order their tiles appear."""
-    return re.findall(r'class="bridge-crew-link"[^>]*>([^<]+)</a>', content)
-
-
-def _latest_tile(content):
-    """The newest tile's markup, up to the next tile (or the "new" slot)."""
-    after = content.split('<li class="bridge-crew-tile is-latest"', 1)[1]
-    return after.split('<li class="bridge-crew-', 1)[0]
+    return texts(content, "a.bridge-crew-link")
 
 
 def test_character_tiles_are_most_recent_first_with_values(
@@ -222,23 +216,23 @@ def test_character_tiles_are_most_recent_first_with_values(
 
     assert _tile_names(content) == ["Lucian Voss", "Older Rogue"]
     detail_url = reverse("sheets:character_detail", args=[newer.pk])
-    assert f'class="bridge-crew-link" href="{detail_url}"' in content
+    assert attr(select(content, "a.bridge-crew-link")[0], "href") == detail_url
     # Only the newest tile carries the marker, and it sits inside that tile.
     assert content.count("Zuletzt bearbeitet") == 1
-    first_tile = _latest_tile(content)
-    assert "Lucian Voss" in first_tile
-    assert "Zuletzt bearbeitet" in first_tile
+    first_tile = select_one(content, "li.bridge-crew-tile.is-latest")
+    tile_text = text(first_tile)
+    assert "Lucian Voss" in tile_text
+    assert "Zuletzt bearbeitet" in tile_text
     # Career and rank, but no home world on the compact tile.
-    assert '<p class="bridge-crew-meta">Rogue Trader · Rank 2</p>' in first_tile
-    assert "Void Born" not in first_tile
+    assert texts(first_tile, ".bridge-crew-meta") == ["Rogue Trader · Rank 2"]
+    assert "Void Born" not in tile_text
     # The nine characteristics, Wounds and Fate -- not the roster-only XP chip.
-    for label in ("WS", "BS", "S", "T", "Ag", "Int", "Per", "WP", "Fel"):
-        assert f"<dt>{label}</dt>" in first_tile
-    assert "<dd>42</dd>" in first_tile
-    assert "<dd>47</dd>" in first_tile
-    assert '<span class="crew-stat-value">11 / 14</span>' in first_tile
-    assert '<span class="crew-stat-value">2 / 3</span>' in first_tile
-    assert "XP to Spend" not in first_tile
+    assert texts(first_tile, "dt") == ["WS", "BS", "S", "T", "Ag", "Int", "Per", "WP", "Fel"]
+    values = texts(first_tile, "dd")
+    assert "42" in values
+    assert "47" in values
+    assert texts(first_tile, ".crew-stat-value") == ["11 / 14", "2 / 3"]
+    assert "XP to Spend" not in tile_text
 
 
 def test_character_tiles_never_include_another_users_characters(
@@ -257,7 +251,7 @@ def test_character_tiles_never_include_another_users_characters(
     assert [tile["name"] for tile in response.context["character_tiles"]] == ["Lucian Voss"]
     assert "Foreign Rogue" not in content
     assert reverse("sheets:character_detail", args=[foreign.pk]) not in content
-    assert "<dd>99</dd>" not in content
+    assert "99" not in texts(content, "dd")
 
 
 def test_character_selection_offers_a_new_character_tile(client, owner, character_factory):
@@ -267,7 +261,7 @@ def test_character_selection_offers_a_new_character_tile(client, owner, characte
     content = client.get(reverse("dashboard")).content.decode()
 
     create_url = f'{reverse("sheets:character_list")}?alle=1#create-character'
-    assert f'class="bridge-crew-new" href="{create_url}"' in content
+    assert attr(select_one(content, "a.bridge-crew-new"), "href") == create_url
     assert "Neuer Charakter" in content
     assert "Ersten Charakter erstellen" not in content
 
@@ -280,7 +274,7 @@ def test_character_selection_empty_state(client, owner, other_user, character_fa
 
     assert "Noch keine Charaktere vorhanden." in content
     create_url = f'{reverse("sheets:character_list")}?alle=1#create-character'
-    assert f'href="{create_url}">Ersten Charakter erstellen</a>' in content
+    assert has_link(content, create_url, "Ersten Charakter erstellen")
     assert "bridge-crew-tile" not in content
     assert "Not Mine" not in content
 
@@ -310,12 +304,9 @@ def test_rule_shortcuts_render_grouped_with_section_hrefs(
     chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "playing-the-game"})
 
     assert "Regel-Shortcuts" in content
-    assert '<h3 class="bridge-rule-title" id="bridge-rule-group-1">Combat</h3>' in content
-    assert (
-        f'<a class="quick-link" href="{chapter_url}#sec-table-9-4-combat-actions">'
-        "Combat Actions</a>"
-    ) in content
-    assert f'href="{chapter_url}#sec-fatigue">Fatigue</a>' in content
+    assert texts(content, "h3.bridge-rule-title#bridge-rule-group-1") == ["Combat"]
+    assert has_link(content, f"{chapter_url}#sec-table-9-4-combat-actions", "Combat Actions")
+    assert has_link(content, f"{chapter_url}#sec-fatigue", "Fatigue")
     # Links whose target is not in this corpus -- and groups left empty by
     # that -- are dropped, never rendered as dead links.
     assert "Hit Locations" not in content

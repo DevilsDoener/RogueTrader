@@ -12,6 +12,7 @@ import pytest
 
 from network.models import NetworkChange, NetworkFigure, NetworkLink
 from network.nodes import character_key, figure_key
+from tests.html import attr, has_attr, select, select_one, text, texts
 
 
 @pytest.fixture
@@ -60,7 +61,8 @@ def test_every_page_requires_login(client, url):
 def test_primary_nav_links_the_network(client, owner):
     client.force_login(owner)
     html = client.get("/network/").content.decode()
-    assert 'href="/network/" aria-current="page"' in html
+    current = select(html, "nav#primary-nav a[aria-current=page]")
+    assert [attr(link, "href") for link in current] == ["/network/"]
 
 
 # -- creating figures --------------------------------------------------------
@@ -158,18 +160,24 @@ def test_connection_dropdown_lists_none_then_main_characters_then_figures(
 ):
     client.force_login(owner)
     html = client.get("/network/figures/new/").content.decode()
-    none = html.index('<option value="" selected>keine</option>')
-    mains = html.index('<optgroup label="Hauptcharaktere">')
-    figures = html.index('<optgroup label="Nebenfiguren">')
-    assert none < mains < figures
-    assert f"Lucian ({main_character.owner.username})" in html
+    dropdown = select_one(html, "select[name=connect_to]")
+    first = select(dropdown, "option")[0]
+    assert (attr(first, "value"), text(first), has_attr(first, "selected")) == ("", "keine", True)
+    assert [attr(group, "label") for group in select(dropdown, "optgroup")] == [
+        "Hauptcharaktere",
+        "Nebenfiguren",
+    ]
+    assert f"Lucian ({main_character.owner.username})" in texts(
+        dropdown, "optgroup[label=Hauptcharaktere] option"
+    )
 
 
 @pytest.mark.django_db
 def test_create_form_preselects_the_node_from_the_graph(client, owner, figure):
     client.force_login(owner)
     html = client.get(f"/network/figures/new/?zu={figure_key(figure)}").content.decode()
-    assert f'<option value="{figure_key(figure)}" selected>' in html
+    chosen = select(html, "select[name=connect_to] option[selected]")
+    assert [attr(option, "value") for option in chosen] == [figure_key(figure)]
 
 
 # -- editing and deleting ----------------------------------------------------

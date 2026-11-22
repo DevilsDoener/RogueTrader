@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from accounts.services import AccountRuleViolation, create_managed_user, update_managed_user
+from tests.html import has_attr, select_one
 
 TEMP = "Temp-Password-42!"
 
@@ -70,8 +71,7 @@ def test_edit_form_shows_the_current_role(client, portal_admin, user_factory):
         reverse("accounts:admin_user_edit", kwargs={"pk": other_admin.pk})
     ).content.decode()
 
-    checkbox = html.split('name="is_portal_admin"', 1)[1].split(">", 1)[0]
-    assert "checked" in checkbox
+    assert has_attr(select_one(html, "input[name=is_portal_admin]"), "checked")
 
 
 @pytest.mark.django_db

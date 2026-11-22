@@ -3,11 +3,10 @@
 "Nothing typed yet", "too short to search" and "searched, found nothing" each
 get their own message rather than one indistinguishable empty list.
 """
-import re
-
 import pytest
 from django.urls import reverse
 
+from tests.html import attr, has_link, select, select_one
 from wiki.manifest import QuickLink
 from wiki.search import MIN_QUERY_LENGTH
 
@@ -68,7 +67,7 @@ def test_a_result_link_carries_the_query_and_the_anchor(client, user_factory, co
     content = _search(client, user_factory, "cover")
     chapter_url = reverse("wiki:chapter", kwargs={"chapter_slug": "chapter"})
 
-    assert f'href="{chapter_url}?q=cover#sec-combat"' in content
+    assert has_link(content, f"{chapter_url}?q=cover#sec-combat")
 
 
 @pytest.mark.django_db
@@ -144,8 +143,9 @@ def test_facets_count_hits_per_chapter_in_book_order(client, user_factory, book)
     assert response.context["total_count"] == 4
     assert response.context["active_chapter"] is None
     content = response.content.decode()
-    assert 'class="search-facets"' in content
-    assert 'aria-label="Nach Kapitel eingrenzen"' in content
+    assert attr(select_one(content, ".search-facets"), "aria-label") == (
+        "Nach Kapitel eingrenzen"
+    )
     assert "Alle Kapitel" in content
     assert "I &middot; Character Creation" in content
 
@@ -163,7 +163,7 @@ def test_kapitel_filters_to_that_chapter(client, user_factory, book):
     }
     assert "2 Treffer" in content
     assert "in Character Creation" in content
-    assert content.count('aria-current="true"') == 1
+    assert len(select(content, "[aria-current=true]")) == 1
     assert "search-hit-card--best" not in content
     assert "Bester Treffer" not in content
     # Facets still list every chapter so the reader can switch.
@@ -218,11 +218,9 @@ def test_a_hit_card_leads_with_its_link_then_path_and_snippet(
         "wiki:chapter", kwargs={"chapter_slug": "charaktererschaffung"}
     )
 
-    assert '<ol class="wiki-results">' in content
-    assert (
-        f'<a class="search-hit-title" href="{chapter_url}?q=wanderer#sec-homeworld">'
-        in content
-    )
+    results = select_one(content, "ol.wiki-results")
+    titles = select(results, "a.search-hit-title")
+    assert f"{chapter_url}?q=wanderer#sec-homeworld" in [attr(a, "href") for a in titles]
     assert content.index("search-hit-title") < content.index("search-hit-path")
     assert content.index("search-hit-path") < content.index("search-hit-snippet")
     path = _path_line(content)
@@ -237,11 +235,11 @@ def test_the_first_link_of_every_card_points_into_the_chapter(
     client, user_factory, book
 ):
     content = _get(client, user_factory, q="shelter").content.decode()
-    cards = re.findall(r'<li class="search-hit-card[^>]*>(.*?)</li>', content, re.S)
+    cards = select(content, "li.search-hit-card")
 
     assert len(cards) == 4
     for card in cards:
-        href = re.search(r'<a [^>]*href="([^"]+)"', card).group(1)
+        href = attr(select(card, "a")[0], "href")
         assert href.startswith("/wiki/")
         assert "?q=shelter#sec-" in href
 
@@ -272,10 +270,7 @@ def test_no_hits_offers_the_quick_links(client, user_factory, book, monkeypatch)
     content = _get(client, user_factory, q="zzzznothing").content.decode()
     url = reverse("wiki:chapter", kwargs={"chapter_slug": "karrierewege"})
 
-    assert '<ul class="quick-links">' in content
-    assert (
-        f'<a class="quick-link" href="{url}#sec-explorator">Candidates</a>' in content
-    )
+    assert has_link(select_one(content, "ul.quick-links"), f"{url}#sec-explorator", "Candidates")
     assert "search-facets" not in content
 
 
