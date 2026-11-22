@@ -48,7 +48,8 @@ Hinweis am Dateianfang. Dazu gehören:
   und Umgestalten ja, Umbenennen nur mit gesonderter Datenmigration.
 - **Layout nur an der Quelle ändern:** `sheets/layouts/*.json` bearbeiten, dann
   `.venv/Scripts/python.exe -m sheets.layout` ausführen. Direkt geänderte
-  `sheets/data/*.json` werden beim nächsten Generieren überschrieben.
+  `sheets/data/*.json` werden beim nächsten Generieren überschrieben (ein
+  `PreToolUse`-Hook verweigert Agenten-Edits dort).
 - **Berechtigungsgrenzen sind die folgenreichste Fehlerklasse.** Änderungen an
   `services.py` und `permissions.py` (`accounts/`, `sheets/`), an den Views und
   Mixins (`core/mixins.py`), an `accounts/middleware.py` und am Login-Schutz
@@ -60,7 +61,7 @@ Hinweis am Dateianfang. Dazu gehören:
   Checkbox-Zahlen stehen in den Schemas, im Kalibrier-Manifest und in den Tests;
   nur datierte Prüfberichte halten ihre historischen Zahlen fest.
 - **Fremde Dateien nicht anfassen und nicht einchecken:** `Notizbuch öffnen.onetoc2`
-  (OneNote) und `graphify-out/`.
+  (OneNote) und `graphify-out/` (derselbe Hook verweigert Edits).
 - **Agenten-Werkzeuge doppelt gepflegt:** `.claude/` (Claude Code) und
   `.agents/` + `.codex/` (Codex) enthalten dieselben Skills
   (`.claude/skills/*/SKILL.md` ↔ `.agents/skills/*/SKILL.md`, bis auf den

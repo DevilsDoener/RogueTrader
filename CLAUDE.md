@@ -7,9 +7,8 @@
   Volume `portal-data`. Echte Spieldaten dort ändern:
   `docker compose exec -T portal python manage.py shell ...`, vorher
   `scripts/backup.ps1 -Destination <Ordner>`.
-- **Deployen:** `docker compose build` → `scripts/backup.ps1` →
-  `docker compose run --rm -T portal python manage.py migrate` →
-  `docker compose up -d` → `/healthz/` muss 200 liefern.
+- **Deployen:** mit `/deploy` (Skill `.claude/skills/deploy`): build → backup →
+  migrate mit dem neuen Image → `up -d` → `/healthz/` muss 200 liefern.
 - **CSP:** Keine Fremdbibliothek, die `<style>` einfügt oder `eval` nutzt.
   Vendored-Code liegt in `static/vendor/` und ist per SHA-256 in
   `core/tests/test_security_headers.py` fixiert.

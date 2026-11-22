@@ -10,6 +10,13 @@
             "command": "$input_json = [Console]::In.ReadToEnd() | ConvertFrom-Json\n$path = $input_json.tool_input.file_path\nif ($path -and ($path -match '(^|[\\\\/])\\.env$') -and ($path -notmatch '\\.env\\.example$')) {\n  $output = @{ hookSpecificOutput = @{ hookEventName = 'PreToolUse'; permissionDecision = 'deny'; permissionDecisionReason = '.env manuell bearbeiten -- nicht ueber Claude.' } }\n  $output | ConvertTo-Json -Depth 5 -Compress\n}",
             "timeout": 15,
             "statusMessage": "Checking for .env edit..."
+          },
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$input_json = [Console]::In.ReadToEnd() | ConvertFrom-Json\n$path = $input_json.tool_input.file_path\nif (-not $path) { exit 0 }\n$norm = $path -replace '\\\\', '/'\n$reason = $null\nif ($norm -match '/sheets/data/[^/]+\\.json$') {\n  $reason = 'sheets/data/*.json wird generiert -- sheets/layouts/*.json bearbeiten und .venv/Scripts/python.exe -m sheets.layout ausfuehren (AGENTS.md).'\n} elseif ($norm -match '\\.onetoc2$') {\n  $reason = 'OneNote-Datei: fremdes Artefakt, nicht anfassen (AGENTS.md).'\n} elseif ($norm -match '/graphify-out/') {\n  $reason = 'graphify-out/ ist ein fremdes Artefakt, nicht anfassen (AGENTS.md).'\n}\nif ($reason) {\n  $output = @{ hookSpecificOutput = @{ hookEventName = 'PreToolUse'; permissionDecision = 'deny'; permissionDecisionReason = $reason } }\n  $output | ConvertTo-Json -Depth 5 -Compress\n}",
+            "timeout": 15,
+            "statusMessage": "Checking for generated or foreign files..."
           }
         ]
       }
