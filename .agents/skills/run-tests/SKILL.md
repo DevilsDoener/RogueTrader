@@ -70,8 +70,8 @@ reflowed. A finding that is intentional gets a targeted
 - After a layout change also run
   `.venv/Scripts/python.exe -m sheets.layout --check` -- it writes nothing
   and exits 1 on stale generated files, 2 on an invalid source.
-- A `PostToolUse` hook already runs the affected app's tests after any
-  Python edit under `accounts/`, `core/`, `sheets/`, `wiki/` or `network/`.
+- No hook runs tests automatically: after a Python edit under `accounts/`,
+  `core/`, `sheets/`, `wiki/` or `network/`, run that app's tests by hand.
 - CI runs the same checks plus `manage.py check` and
   `manage.py makemigrations --check --dry-run` (README, section "CI").
 - Run from Git Bash or plain PowerShell, not WSL -- WSL cannot resolve this

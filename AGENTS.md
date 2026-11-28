@@ -61,7 +61,7 @@ Hinweis am Dateianfang. Dazu gehören:
   Checkbox-Zahlen stehen in den Schemas, im Kalibrier-Manifest und in den Tests;
   nur datierte Prüfberichte halten ihre historischen Zahlen fest.
 - **Fremde Dateien nicht anfassen und nicht einchecken:** `Notizbuch öffnen.onetoc2`
-  (OneNote) und `graphify-out/` (derselbe Hook verweigert Edits).
+  (OneNote) und `graphify-out/` (Regel, nicht durch einen Hook erzwungen).
 - **Agenten-Werkzeuge doppelt gepflegt:** `.claude/` (Claude Code) und
   `.agents/` + `.codex/` (Codex) enthalten dieselben Skills
   (`.claude/skills/*/SKILL.md` ↔ `.agents/skills/*/SKILL.md`, bis auf den
@@ -102,10 +102,9 @@ Bei Layoutänderungen zusätzlich:
 .venv/Scripts/python.exe -m sheets.layout --check
 ```
 
-Ein `PostToolUse`-Hook startet nach jeder Python-Änderung unter `accounts/`,
-`core/`, `sheets/`, `wiki/` oder `network/` automatisch die Tests der betroffenen App.
-Migrationen, `.venv/`, `.worktrees/`, `tmp/`, `staticfiles/` und `graphify-out/`
-lösen ihn nicht aus.
+Es gibt keinen Hook, der die Tests automatisch startet: nach Änderungen an
+`accounts/`, `core/`, `sheets/`, `wiki/` oder `network/` die Tests der
+betroffenen App von Hand ausführen.
 
 Behauptungen wie „fertig“, „grün“ oder „behoben“ erst nach einem tatsächlich
 gelaufenen Kommando mit sichtbarer Ausgabe.

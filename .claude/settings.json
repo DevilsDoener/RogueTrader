@@ -14,23 +14,9 @@
           {
             "type": "command",
             "shell": "powershell",
-            "command": "$input_json = [Console]::In.ReadToEnd() | ConvertFrom-Json\n$path = $input_json.tool_input.file_path\nif (-not $path) { exit 0 }\n$norm = $path -replace '\\\\', '/'\n$reason = $null\nif ($norm -match '/sheets/data/[^/]+\\.json$') {\n  $reason = 'sheets/data/*.json wird generiert -- sheets/layouts/*.json bearbeiten und .venv/Scripts/python.exe -m sheets.layout ausfuehren (AGENTS.md).'\n} elseif ($norm -match '\\.onetoc2$') {\n  $reason = 'OneNote-Datei: fremdes Artefakt, nicht anfassen (AGENTS.md).'\n} elseif ($norm -match '/graphify-out/') {\n  $reason = 'graphify-out/ ist ein fremdes Artefakt, nicht anfassen (AGENTS.md).'\n}\nif ($reason) {\n  $output = @{ hookSpecificOutput = @{ hookEventName = 'PreToolUse'; permissionDecision = 'deny'; permissionDecisionReason = $reason } }\n  $output | ConvertTo-Json -Depth 5 -Compress\n}",
+            "command": "$input_json = [Console]::In.ReadToEnd() | ConvertFrom-Json\n$path = $input_json.tool_input.file_path\nif (-not $path) { exit 0 }\n$norm = $path -replace '\\\\', '/'\n$reason = $null\nif ($norm -match '/sheets/data/[^/]+\\.json$') {\n  $reason = 'sheets/data/*.json wird generiert -- sheets/layouts/*.json bearbeiten und .venv/Scripts/python.exe -m sheets.layout ausfuehren (AGENTS.md).'\n}\nif ($reason) {\n  $output = @{ hookSpecificOutput = @{ hookEventName = 'PreToolUse'; permissionDecision = 'deny'; permissionDecisionReason = $reason } }\n  $output | ConvertTo-Json -Depth 5 -Compress\n}",
             "timeout": 15,
-            "statusMessage": "Checking for generated or foreign files..."
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "shell": "powershell",
-            "command": "$input_json = [Console]::In.ReadToEnd() | ConvertFrom-Json\n$path = $input_json.tool_input.file_path\nif (-not $path) { exit 0 }\n$norm = $path -replace '/', '\\'\nif ($norm -notmatch '\\.py$') { exit 0 }\nif ($norm -match '\\\\(tmp|\\.venv|\\.worktrees|graphify-out|staticfiles|__pycache__|migrations)\\\\') { exit 0 }\nif ($norm -match '\\\\(accounts|core|sheets|wiki|network)\\\\') { $app = $Matches[1] } else { exit 0 }\nSet-Location 'C:\\Prv\\pnp\\RogueTraider\\Character sheet\\Wissensdatenbank'\n& '.venv\\Scripts\\python.exe' -m pytest -q \"$app/tests\" 2>&1 | Out-String",
-            "timeout": 120,
-            "statusMessage": "Running affected app tests..."
+            "statusMessage": "Checking for generated files..."
           }
         ]
       }
